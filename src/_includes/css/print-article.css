@@ -1,0 +1,27 @@
+body { 
+  margin: 0; 
+  padding:0; 
+  margin: 2em auto; 
+  text-align: justify;
+} 
+
+#main {
+  columns: 2           
+}
+.spanner { 
+  column-span: all; 
+}
+
+#main > section > h1 {
+  font-size: 13pt;
+}
+#main > section > section > h1 {
+  font-size: 11pt;
+}
+
+code {
+  font-size: 9pt; 
+}
+pre {
+  font-size: 8pt; 
+}

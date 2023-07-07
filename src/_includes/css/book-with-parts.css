@@ -1,0 +1,40 @@
+/* =============================================
+   Part/Chapter/Section Counters 
+   For books with parts where div.part>section elements denote chapters
+   ============================================= */
+
+body { 
+  counter-reset: parts;
+}
+div.part { 
+  counter-reset: chapters;
+}
+div.part > section { 
+  counter-reset: sections figures tables;
+}  
+div.part > section > section { 
+  counter-reset: sub-sections;
+}
+div.part > section > section > section { 
+}
+
+div.part > h1:before {
+  counter-increment: parts;
+  content: "Part " counter(parts) ": "
+}
+div.part > section > h1:before {
+  counter-increment: chapters;
+  content: "Chapter " counter(chapters) ": "
+}
+div.part#examples > section > h1:before {
+  counter-increment: chapters;
+  content: "Example " counter(chapters) ": "
+}
+div.part > section > section > h1:before {
+  counter-increment: sections;
+  content: counter(chapters) "." counter(sections) " "
+}
+div.part > section > section > section > h1:before {
+  counter-increment: sub-sections;
+  content: counter(chapters) "." counter(sections) "." counter(sub-sections) " ";
+}
