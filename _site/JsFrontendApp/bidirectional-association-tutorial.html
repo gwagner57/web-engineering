@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" vocab="http://schema.org/" typeof="TechArticle WebPage">
+<head>
+  <meta charset="UTF-8" />
+  <title>Plain JavaScript App with Bidirectional Associations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content="A tutorial about developing front-end web applications with bidirectional associations using plain JavaScript" />  
+  <meta property="learningResourceType" content="Tutorial"/>
+  <meta property="proficiencyLevel" content="Advanced"/>
+  <meta property="keywords" content="JavaScript web app, JS web app, front-end web app, MVC web app, web app development tutorial, reference property, association, UML association, bidirectional association"/>
+  <meta property="isPartOf" content="http://web-engineering.info"/>
+  <meta property="specialty" content="http://web-engineering.info/WebAppEngineering.html"/>
+  <link rel="stylesheet" type="text/css" href="../css/docbook.css" />
+</head>
+<body property="articleBody">
+ <aside>
+  <nav>
+   <ul>
+    <li><a href="5-BidirectionalAssociationApp/index.html"><button type="button">Run the app</button></a></li>
+    <li><a href="5-BidirectionalAssociationApp.zip"><button type="button">Get the code</button></a></li>
+   </ul>
+  </nav>
+  <div id="supportUs">
+   <p>Please support <em>web-engineering.info</em> and buy our e-book <a href="https://gumroad.com/l/YyWka">Building Front-End Web Apps with Plain JavaScript</a>.</p>
+   <a href="https://gumroad.com/l/YyWka"><img src="../assets/images/book-cover-new_169x270.jpg" width="169" height="270" /></a>
+  </div>
+ </aside>
+
+ <div lang="en" class="book"><div class="titlepage"><div><div>
+   <h3 class="kicker" style="color:grey"><em>Understanding</em> and <code>Implementing</code> Information Management Concepts and Techniques</h3>
+   <h1 class="title"><a name="d5e1"></a>JavaScript Front-End Web App Tutorial Part 5: Managing Bidirectional Associations</h1></div><div>
+   <h2 class="subtitle"><img style="float:right" property="thumbnailUrl" src="../assets/images/favicon.svg" width="120" 
+   title="Icon made by Lorc under CC BY 3.0. Available on http://game-icons.net">Learn how to manage bidirectional associations between object types, such as the association assigning authors to their books as well as books to their authors</h2></div>
+	
+	<div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Gerd</span> <span class="surname">Wagner</span></h3><code class="email">&lt;<a class="email" href="mailto:G.Wagner@b-tu.de">G.Wagner@b-tu.de</a>&gt;</code></div></div></div><div><p class="releaseinfo">Warning: This tutorial manuscript may still contain errors
+    and may still be incomplete in certain respects. Please report any issue
+    to Gerd Wagner at G.Wagner@b-tu.de.</p></div><div><p class="releaseinfo">This tutorial is also available in the following formats:
+    <a class="link" href="bidirectional-association-tutorial.pdf" target="_top">PDF</a>.  You may <a class="link" href="5-BidirectionalAssociationApp/index.html" target="_top">run
+    the example app</a> from our server, or <a class="link" href="5-BidirectionalAssociationApp.zip" target="_top">download it as a ZIP
+    archive file</a>. See also our <a class="link" href="http://web-engineering.info/" target="_top">Web Engineering project
+    page</a>.</p></div><div><p class="copyright">Copyright &copy; 2014-2021 Gerd Wagner</p></div><div><div class="legalnotice"><a name="d5e28"></a><p>This tutorial article, along with any associated source code, is
+      licensed under <a class="link" href="http://www.codeproject.com/info/cpol10.aspx" target="_top">The Code
+      Project Open License (CPOL)</a>, implying that the associated code is
+      provided "as-is", can be modified to create derivative works, can be
+      redistributed, and can be used in commercial applications, but the
+      article must not be distributed or republished without the author's
+      consent.</p></div></div><div><p class="pubdate">2021-05-31</p></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="preface"><a href="#d5e31">Foreword</a></span></dt><dt><span class="chapter"><a href="#chapBidirAssoc">1. Bidirectional Associations</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e86">1. Inverse Reference Properties</a></span></dt><dt><span class="section"><a href="#d5e294">2. Making an OO Class Model</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e297">2.1. The basic procedure</a></span></dt><dt><span class="section"><a href="#secElimNAE">2.2. How to eliminate unidirectional associations</a></span></dt><dt><span class="section"><a href="#d5e323">2.3. How to eliminate bidirectional associations</a></span></dt><dt><span class="section"><a href="#d5e379">2.4. The resulting OO class model</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e474">3. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e476">3.1. Question 1: Table populations of bidirectional
+      associations</a></span></dt><dt><span class="section"><a href="#d5e655">3.2. Question 2: Implications of bidirectionality</a></span></dt><dt><span class="section"><a href="#d5e673">3.3. Question 3: Elimination of bidirectional associations</a></span></dt><dt><span class="section"><a href="#d5e701">3.4. Question 4: Meaning of bidirectional association</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d5e733">2. Bidirectional Associations in Plain JS</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e746">1. Make a JavaScript Class Model</a></span></dt><dt><span class="section"><a href="#d5e770">2. Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e774">2.1. New issues</a></span></dt><dt><span class="section"><a href="#d5e857">2.2. Coding Summary</a></span></dt><dt><span class="section"><a href="#d5e895">2.3. Code each class of the JS class model</a></span></dt><dt><span class="section"><a href="#d5e905">2.4. Code the set methods of single-valued properties</a></span></dt><dt><span class="section"><a href="#d5e914">2.5. Code the add and remove operations</a></span></dt><dt><span class="section"><a href="#d5e936">2.6. Suppress the storage of the values of derived properties</a></span></dt><dt><span class="section"><a href="#d5e953">2.7. Take care of deletion dependencies</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e971">3. Exploit Inverse Reference Properties in the User Interface</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e978">3.1. Show published books in <span class="italic">Retrieve/List
+      All</span> publishers</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e985">4. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e991">4.1. Question 1: Adding references</a></span></dt><dt><span class="section"><a href="#d5e1006">4.2. Question 2: Maintaining a pair of mutually inverse reference
+      properties</a></span></dt><dt><span class="section"><a href="#d5e1056">4.3. Question 3: Making a JS class model</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1076">5. Practice Project</a></span></dt></dl></dd></dl></div><div class="list-of-figures"><p><b>List of Figures</b></p><dl><dt>1.1. <a href="#figPublisherBookPersonIDM">The Publisher-Book-Author information design model with two
+    bidirectional associations</a></dt><dt>1.2. <a href="#figBidirAFM">The OO class model with two pairs of mutually inverse reference
+        properties</a></dt><dt>2.1. <a href="#figMovieVidirAssApp">Two bidirectional associations between <code class="code">Movie</code> and
+      <code class="code">Person</code>.</a></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>2.1. <a href="#d5e1105">Movies</a></dt><dt>2.2. <a href="#d5e1139">People</a></dt></dl></div><div class="preface"><div class="titlepage"><div><div><h1 class="title"><a name="d5e31"></a>Foreword</h1></div></div></div><p>This tutorial is Part 5 of our series of <a class="link" href="http://web-engineering.info/JsFrontendApp" target="_top">six
+    tutorials</a> about model-based development of front-end web
+    applications with plain JavaScript. It shows how to build a web app that
+    takes care of the object types <code class="code">Author</code>, <code class="code">Publisher</code>
+    and <code class="code">Book</code> as well as the bidirectional associations between
+    <code class="code">Book</code> and <code class="code">Author</code> and between <code class="code">Book</code>
+    and <code class="code">Publisher</code>.</p><p>The app supports the four standard data management operations
+    (<span class="bold"><strong>C</strong></span>reate/<span class="bold"><strong>R</strong></span>etrieve/<span class="bold"><strong>U</strong></span>pdate/<span class="bold"><strong>D</strong></span>elete). It
+    extends the example app of part 3 by adding code for handling <span class="italic"><span class="bold"><strong>derived inverse reference
+    properties</strong></span></span>. The other parts of the tutorial
+    are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><a class="link" href="http://web-engineering.info/tech/JsFrontendApp/minimal-tutorial.html" target="_top">Part
+        1</a>: Building a <span class="bold"><strong>minimal</strong></span>
+        app.</p></li><li class="listitem"><p><a class="link" href="http://web-engineering.info/tech/JsFrontendApp/validation-tutorial.html" target="_top">Part
+        2</a>: Handling <span class="bold"><strong>constraint
+        validation</strong></span>.</p></li><li class="listitem"><p><a class="link" href="http://web-engineering.info/tech/JsFrontendApp/enumeration-tutorial.html" target="_top">Part
+        3</a>: Dealing with <span class="bold"><strong>enumerations</strong></span>.</p></li><li class="listitem"><p><a class="link" href="http://web-engineering.info/tech/JsFrontendApp/unidirectional-association-tutorial.html" target="_top">Part
+        4</a>: Managing <span class="bold"><strong>unidirectional
+        associations</strong></span>, such as the associations between books and
+        publishers, assigning a publisher to a book, and between books and
+        authors, assigning authors to a book.</p></li><li class="listitem"><p><a class="link" href="http://web-engineering.info/tech/JsFrontendApp/subtyping-tutorial.html" target="_top">Part
+        6</a>: Handling <span class="bold"><strong>subtype</strong></span>
+        (inheritance) relationships between object types.</p></li></ul></div><p>You may also want to take a look at our open access book <a class="link" href="http://web-engineering.info/JsFrontendApp-Book" target="_top">Building
+    Front-End Web Apps with Plain JavaScript</a>, which includes all parts
+    of the tutorial in one document, dealing with multiple object types
+    ("books", "publishers" and "authors") and taking care of constraint
+    validation, enumeration attributes, associations and
+    subtypes/inheritance.</p></div><div lang="" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="chapBidirAssoc"></a>Chapter&nbsp;1.&nbsp;Bidirectional Associations</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#d5e86">1. Inverse Reference Properties</a></span></dt><dt><span class="section"><a href="#d5e294">2. Making an OO Class Model</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e297">2.1. The basic procedure</a></span></dt><dt><span class="section"><a href="#secElimNAE">2.2. How to eliminate unidirectional associations</a></span></dt><dt><span class="section"><a href="#d5e323">2.3. How to eliminate bidirectional associations</a></span></dt><dt><span class="section"><a href="#d5e379">2.4. The resulting OO class model</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e474">3. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e476">3.1. Question 1: Table populations of bidirectional
+      associations</a></span></dt><dt><span class="section"><a href="#d5e655">3.2. Question 2: Implications of bidirectionality</a></span></dt><dt><span class="section"><a href="#d5e673">3.3. Question 3: Elimination of bidirectional associations</a></span></dt><dt><span class="section"><a href="#d5e701">3.4. Question 4: Meaning of bidirectional association</a></span></dt></dl></dd></dl></div><p>In OO modeling and programming, a <span class="italic">bidirectional</span> association<a class="indexterm" name="d5e76"></a> is an association that is represented as a pair of mutually
+  inverse reference properties, which allow `navigation&acute; (object access) in
+  both directions.</p><p>The model shown in Figure <a class="xref" href="#figPublisherBookPersonIDM" title="Figure&nbsp;1.1.&nbsp;The Publisher-Book-Author information design model with two bidirectional associations">1.1</a> below (about publishers, books and their
+  authors) serves as our running example. Notice that it contains two
+  bidirectional associations, as indicated by the ownership dots at both
+  association ends.</p><div class="figure"><a name="figPublisherBookPersonIDM"></a><p class="title"><b>Figure&nbsp;1.1.&nbsp;The Publisher-Book-Author information design model with two
+    bidirectional associations</b></p><div class="figure-contents"><div class="mediaobject"><img src="../assets/images/Publisher-Book-Author_Bidir_DesM.svg" alt="The Publisher-Book-Author information design model with two bidirectional associations"></div></div></div><br class="figure-break"><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e86"></a>1.&nbsp;Inverse Reference Properties</h2></div></div></div><p>For being able to easily retrieve the committees that are chaired or
+    co-chaired by a club member, we add two reference properties to our
+    <span class="italic">Committee-ClubMember</span> example model: the
+    property of a club member to be the chair of a committee
+    (<code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>) and the property
+    of a club member to be the co-chair of a committee
+    (<code class="code">ClubMember</code>::<code class="code">coChairedCommittee</code>). We assume that
+    any club member may chair or co-chair at most one committee (where the
+    disjunction is non-exclusive). So, we get the following model:</p><div class="mediaobject"><img src="../assets/images/CommitteeChairAndCochair_AFM1.svg"></div><p>Notice that there is a close correspondence between the two
+    reference properties <code class="code">Committee</code>::<code class="code">chair</code> and
+    <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>. They are the
+    <span class="bold"><strong><span class="italic">inverse</span></strong></span><a class="indexterm" name="d5e104"></a> of each other: when the club member Tom is the chair of the
+    budget committee, expressed by the tuple <span class="italic">("budget
+    committee", "Tom")</span>, then the budget committee is the committee
+    chaired by the club member Tom, expressed by the inverse tuple <span class="italic">("Tom", "budget committee")</span>. For expressing this
+    inverse correspondence in the diagram, we append an inverse property
+    constraint, <code class="code">inverse of chair</code>, in curly braces to the
+    declaration of the property
+    <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>, and a similar one
+    to the property <code class="code">Committee</code>::<code class="code">chair</code>, as shown in
+    the following diagram:</p><div class="mediaobject"><img src="../assets/images/CommitteeChairAndCochair_AFM2.svg"></div><p>Using the reference path notation of OOP languages, with <span class="italic">c</span> referencing a <code class="code">Committee</code> object, we
+    obtain the equation:</p><div class="equation"><a name="d5e120"></a><p class="title"><b>Equation&nbsp;1.1.&nbsp;</b></p><div class="equation-contents"><span class="mathphrase">c.chair.chairedCommittee = c</span></div></div><br class="equation-break"><p>Or, the other way around, with <span class="italic">m</span>
+    referencing a <code class="code">ClubMember</code> object, we obtain the
+    equation:</p><div class="equation"><a name="d5e125"></a><p class="title"><b>Equation&nbsp;1.2.&nbsp;</b></p><div class="equation-contents"><span class="mathphrase">m.chairedCommittee.chair = m</span></div></div><br class="equation-break"><p>Notice that when a property <span class="italic">p<sub>2</sub></span> is the inverse of a
+    property <span class="italic">p<sub>1</sub></span>,
+    this implies that, the other way around, <span class="italic">p<sub>1</sub></span> is the inverse of
+    <span class="italic">p<sub>2</sub></span>. Therefore,
+    when we declare the property
+    <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> to be the inverse
+    of <code class="code">Committee</code>::<code class="code">chair</code>, then, implicitly,
+    <code class="code">Committee</code>::<code class="code">chair</code> is the inverse of
+    <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>. We therefore call
+    <code class="code">Committee</code>::<code class="code">chair</code> and
+    <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> a <span class="bold"><strong><span class="italic">pair of mutually inverse reference
+    properties</span></strong></span>. Having such a pair in a model implies
+    <span class="bold"><strong><span class="italic">redundancy</span></strong></span><a class="indexterm" name="d5e152"></a> because each of the two involved reference properties can
+    be derived from the other by inversion. This type of redundancy implies
+    <span class="italic">data storage overhead</span> and <span class="italic">update overhead</span>, which is the price to pay for
+    the bidirectional navigability<a class="indexterm" name="d5e156"></a> that supports efficient object access in both
+    directions.</p><p>In general, a bidirectional association between the classes
+    <code class="code">A</code> and <code class="code">B</code> is represented by two reference
+    properties <code class="code">A</code>::<code class="code">bbb</code> and
+    <code class="code">B</code>::<code class="code">aaa</code> such that for any object <code class="code">a1</code>
+    instantiating <code class="code">A</code>, it holds that</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><code class="code">a1.bbb.aaa</code> = <code class="code">a1</code> if both
+        <code class="code">A</code>::<code class="code">bbb</code> and <code class="code">B</code>::<code class="code">aaa</code>
+        are single-valued,</p></li><li class="listitem"><p><code class="code">a1.bbb.aaa</code> contains <code class="code">a1</code> if
+        <code class="code">A</code>::<code class="code">bbb</code> is single-valued and
+        <code class="code">B</code>::<code class="code">aaa</code> is multi-valued,</p></li><li class="listitem"><p>for any <code class="code">b1</code> from <code class="code">a1.bbb</code>,
+        <code class="code">b1.aaa</code>&nbsp;= <code class="code">a1</code> if
+        <code class="code">A</code>::<code class="code">bbb</code> is multi-valued and
+        <code class="code">B</code>::<code class="code">aaa</code> is single-valued,</p></li><li class="listitem"><p>for any <code class="code">b1</code> from <code class="code">a1.bbb</code>,
+        <code class="code">b1.aaa</code> contains <code class="code">a1</code> if both
+        <code class="code">A</code>::<code class="code">bbb</code> and <code class="code">B</code>::<code class="code">aaa</code>
+        are multi-valued.</p></li></ol></div><p>For maintaining the duplicate information of a mutually inverse
+    reference property pair, it is common to treat one of the two involved
+    properties as the <span class="italic">master</span>, and the other
+    one as the <span class="italic">slave</span>, and take this
+    distinction into consideration in the code of the change methods (such as
+    the property setters) of the affected model classes. We indicate the slave
+    of an inverse reference property pair in a model diagram by declaring the
+    slave property to be a <span class="bold"><strong><span class="italic">derived</span></strong></span><a class="indexterm" name="d5e210"></a> property using the UML notation of a slash (<code class="code">/</code>)
+    as a prefix of the property name as shown in the following diagram:</p><div class="mediaobject"><img src="../assets/images/CommitteeChairAndCochair_AFM3.svg"></div><p>The property <code class="code">chairedCommittee</code> in
+    <code class="code">ClubMember</code> is now <span class="italic">derived</span>
+    (as indicated by its slash prefix). Its annotation <code class="code">{inverse of
+    chair}</code> defines a <span class="italic">derivation rule</span>
+    according to which it is derived by inverting the property
+    <code class="code">Committee</code>::<code class="code">chair</code>.</p><p>There are two ways how to realize the derivation of a property: it
+    may be <span class="italic">derived on read</span> via a read-time
+    computation of its value, or it may be <span class="italic">derived on
+    update</span> via an update-time computation performed whenever one of
+    the variables in the derivation expression (typically, another property)
+    changes its value. The latter case corresponds to a <span class="italic">materialized view</span> in a database. While a
+    reference property that is derived on read may not guarantee efficient
+    navigation, because the on-read computation may create unacceptable
+    latencies, a reference property that is derived on update does provide
+    efficient navigation.</p><p>When we designate an inverse reference property as derived by
+    prefixing its name with a slash (<code class="code">/</code>), we indicate that it is
+    derived on update. For instance, the property
+    <code class="code">/chairedCommittee</code> in the example above is derived on update
+    from the property <code class="code">chair</code>.</p><p>In the case of a derived reference property, we have to deal with
+    <span class="bold"><strong><span class="italic">life-cycle
+    dependencies</span></strong></span><a class="indexterm" name="d5e236"></a> between the affected model classes requiring special change
+    management mechanisms based on the functionality type of the represented
+    association (either <span class="italic">one-to-one</span>,
+    <span class="italic">many-to-one</span> or <span class="italic">many-to-many</span>).</p><p>In our example of the derived inverse reference property
+    <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>, which is
+    single-valued and optional, this means that</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>whenever a new committee object is created (with a mandatory
+        <code class="code">chair</code> assignment), the corresponding
+        <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> property has to
+        be assigned accordingly;</p></li><li class="listitem"><p>whenever the <code class="code">chair</code> property is updated (that is, a
+        new chair is assigned to a committee), the corresponding
+        <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> property has to
+        be unset for the club member who was the previous chair and set for
+        the one being the new chair;</p></li><li class="listitem"><p>whenever a committee object is destroyed, the corresponding
+        <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> property has to
+        be unset.</p></li></ol></div><p>In the case of a derived inverse reference property that is
+    multi-valued while its inverse base property is single-valued (like
+    <code class="code">Publisher</code>::<code class="code">publishedBooks</code> in Figure <a class="xref" href="#figBidirAFM" title="Figure&nbsp;1.2.&nbsp;The OO class model with two pairs of mutually inverse reference properties">1.2</a> below being
+    derived from <code class="code">Book</code>::<code class="code">publisher</code>), the life cycle
+    dependencies imply that</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>whenever a new 'base object' (such as a book) is created, the
+        corresponding inverse property has to be updated by adding a reference
+        to the new base object to its value set (like adding a reference to
+        the new book object to
+        <code class="code">Publisher</code>::<code class="code">publishedBooks</code>);</p></li><li class="listitem"><p>whenever the base property is updated (e.g., a new publisher is
+        assigned to a book), the corresponding inverse property (in our
+        example, <code class="code">Publisher</code>::<code class="code">publishedBooks</code>) has to
+        be updated as well by removing the old object reference from its value
+        set and adding the new one;</p></li><li class="listitem"><p>whenever a base object (such as a book) is destroyed, the
+        corresponding inverse property has to be updated by removing the
+        reference to the base object from its value set (like removing a
+        reference to the book object to be destroyed from
+        <code class="code">Publisher</code>::<code class="code">publishedBooks</code> ).</p></li></ol></div><p>Notice that from a purely computational point of view, we are free
+    to choose either of the two mutually inverse reference properties (like
+    <code class="code">Book</code>::<code class="code">authors</code> and
+    <code class="code">Author</code>::<code class="code">authoredBooks</code>) to be the master.
+    However, in many cases, associations represent asymmetrical ontological
+    existence dependencies that dictate which of the two mutually inverse
+    reference properties is the master. For instance, the authorship
+    association between the classes <code class="code">Book</code> and <code class="code">Author</code>
+    represents an existential dependency of books on their authors. A book
+    existentially depends on its author(s), while an author does not
+    existentially depend on any of her books. Consequently, the corresponding
+    object lifecycle dependency between <code class="code">Book</code> and
+    <code class="code">Author</code> implies that their bidirectional association is
+    maintained by maintaining <code class="code">Author</code> references in
+    <code class="code">Book</code>::<code class="code">authors</code> as the natural choice of master
+    property, while <code class="code">Author</code>::<code class="code">authoredBooks</code> is the
+    slave property, which is derived from
+    <code class="code">Book</code>::<code class="code">authors</code>.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e294"></a>2.&nbsp;Making an OO Class Model</h2></div></div></div><p>Since classical OO programming languages do not support explicit
+    associations as first class citizens, but only classes with reference
+    properties representing implicit associations, we have to eliminate all
+    explicit associations for obtaining an OO class model.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e297"></a>2.1.&nbsp;The basic procedure</h3></div></div></div><p>The starting point of our <span class="bold"><strong><span class="italic">association elimination</span></strong></span> procedure is
+      an information design model with various kinds of unidirectional and
+      bidirectional associations, such as the model shown in <a class="xref" href="#figPublisherBookPersonIDM" title="Figure&nbsp;1.1.&nbsp;The Publisher-Book-Author information design model with two bidirectional associations">Figure&nbsp;1.1</a> above.
+      If the model still contains any non-directed associations, we first have
+      to turn them into directed ones by making a decision on the ownership of
+      their ends, which is typically based on navigability
+      requirements.</p><p>Notice that both associations in the <span class="italic">Publisher-Book-Author</span> information design model,
+      <span class="italic">publisher-publishedBooks</span> and
+      <span class="italic">authoredBooks-authors</span> (or <span class="italic">Authorship</span>), are bidirectional as indicated by
+      the ownership dots at both association ends. For eliminating all
+      explicit associations from an information design model, we have to
+      perform the following steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong><span class="italic">Eliminate
+          unidirectional associations</span></strong></span>, connecting a
+          source with a target class, by replacing them with a reference
+          property in the source class such that the target class is its
+          range.</p></li><li class="listitem"><p><span class="bold"><strong><span class="italic">Eliminate
+          bidirectional associations</span></strong></span> by replacing them
+          with a pair of mutually inverse reference properties.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="secElimNAE"></a>2.2.&nbsp;How to eliminate unidirectional associations</h3></div></div></div><p>A unidirectional association<a class="indexterm" name="d5e320"></a> connecting a source with a target class is replaced with
+      a corresponding reference property in its source class having the target
+      class as its range. Its multiplicity is the same as the multiplicity of
+      the target association end. Its name is the name of the association end,
+      if there is any, otherwise it is set to the name of the target class
+      (possibly pluralized, if the reference property is multi-valued).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e323"></a>2.3.&nbsp;How to eliminate bidirectional associations</h3></div></div></div><p>A bidirectional association<a class="indexterm" name="d5e326"></a>, such as the authorship association between the classes
+      <code class="code">Book</code> and <code class="code">Author</code> in the model shown in Figure
+      <a class="xref" href="#figPublisherBookPersonIDM" title="Figure&nbsp;1.1.&nbsp;The Publisher-Book-Author information design model with two bidirectional associations">1.1</a> above, is replaced with a pair of
+      mutually inverse reference properties, such as
+      <code class="code">Book</code>::<code class="code">authors</code> and
+      <code class="code">Author</code>::<code class="code">authoredBooks</code>. Since both reference
+      properties represent the same information (the same set of binary
+      relationships), it's an option to consider one of them being the
+      "master" and the other one the "slave", which is derived from the
+      master. We discuss the two cases of a one-to-one and a many-to-many
+      association</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the case of a bidirectional one-to-one association, this
+          leads to a pair of mutually inverse single-valued reference
+          properties, one in each of the two associated classes. Since both of
+          them represent essentially the same information (the same collection
+          of links/relationships), one has to choose which of them is
+          considered the master property, such that the other one is the slave
+          property, which is derived from the master property by inversion. In
+          the class diagram, the slave property is designated as a <span class="italic">derived property</span> that is automatically
+          updated whenever 1) a new master object is created, 2) the master
+          reference property is updated, or 3) a master object is destroyed.
+          This transformation is illustrated with the following
+          example:</p><div class="informalfigure"><a name="figDesM2AFM1"></a><div class="informaltable"><table frame="void"><tbody><tr>
+                  <td><div class="mediaobject"><img src="../assets/images/CommitteeChair_DesM3.svg"></div></td>
+                </tr><tr>
+                  <td align="center"><div class="mediaobject"><img src="../assets/images/Downarrow.svg"></div></td>
+                </tr><tr>
+                  <td><div class="mediaobject"><img src="../assets/images/Committee-ClubMember-Bidir_OoDesM.svg"></div></td>
+                </tr></tbody></table></div></div></li><li class="listitem"><p>A bidirectional many-to-many association is mapped to a pair
+          of mutually inverse multi-valued reference properties, one in each
+          of the two classes participating in the association. Again, in one
+          of the two classes, the multi-valued reference property representing
+          the (inverse) association is designated as a <span class="italic">derived property</span> that is automatically
+          updated whenever the corresponding property in the other class
+          (where the association is maintained) is updated. This
+          transformation is illustrated with the following example:</p><div class="informalfigure"><a name="figDesM2AFM2"></a><div class="informaltable"><table frame="void"><tbody><tr>
+                  <td><div class="mediaobject"><img src="../assets/images/Book-Author_DesM.svg"></div></td>
+                </tr><tr>
+                  <td align="center"><div class="mediaobject"><img src="../assets/images/Downarrow.svg"></div></td>
+                </tr><tr>
+                  <td><div class="mediaobject"><img src="../assets/images/Book-Author_AFM.svg"></div></td>
+                </tr></tbody></table></div></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e379"></a>2.4.&nbsp;The resulting OO class model</h3></div></div></div><p>After replacing both bidirectional associations with reference
+      properties, we obtain the OO class model<a class="indexterm" name="d5e382"></a> shown in <a class="xref" href="#figBidirAFM" title="Figure&nbsp;1.2.&nbsp;The OO class model with two pairs of mutually inverse reference properties">1.2</a>.</p><div class="figure"><a name="figBidirAFM"></a><p class="title"><b>Figure&nbsp;1.2.&nbsp;The OO class model with two pairs of mutually inverse reference
+        properties</b></p><div class="figure-contents"><div class="mediaobject"><img src="../assets/images/Publisher-Book-Author_Bidir_AFM.svg" alt="The OO class model with two pairs of mutually inverse reference properties"></div></div></div><br class="figure-break"><p>Since books are entities that existentially depend on authors and
+      possibly on publishers, and not the other way around, it's natural to
+      maintain the master references in book objects, and consider the inverse
+      references in publisher and author objects as derived (or 'slave') data.
+      Therefore, we define <code class="code">publishedBooks</code> and
+      <code class="code">authoredBooks</code> as derived inverse reference properties,
+      which is indicated by their slash prefix in the OO class model.</p><p>The meaning of this OO class model can be illustrated by a sample
+      data population for the three model classes involved:</p><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+            <th colspan="3">Publisher</th>
+          </tr><tr>
+            <th>Name</th>
+
+            <th>Address</th>
+
+            <th>Published books</th>
+          </tr></thead><tbody><tr>
+            <td>Bantam Books</td>
+
+            <td>New York, USA</td>
+
+            <td>0553345842</td>
+          </tr><tr>
+            <td>Basic Books</td>
+
+            <td>New York, USA</td>
+
+            <td>0465030793</td>
+          </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+            <th colspan="5">Book</th>
+          </tr><tr>
+            <th>ISBN</th>
+
+            <th>Title</th>
+
+            <th>Year</th>
+
+            <th>Authors</th>
+
+            <th>Publisher</th>
+          </tr></thead><tbody><tr>
+            <td>0553345842</td>
+
+            <td>The Mind's I</td>
+
+            <td>1982</td>
+
+            <td>1, 2</td>
+
+            <td>Bantam Books</td>
+          </tr><tr>
+            <td>1463794762</td>
+
+            <td>The Critique of Pure Reason</td>
+
+            <td>2011</td>
+
+            <td>3</td>
+
+            <td></td>
+          </tr><tr>
+            <td>1928565379</td>
+
+            <td>The Critique of Practical Reason</td>
+
+            <td>2009</td>
+
+            <td>3</td>
+
+            <td></td>
+          </tr><tr>
+            <td>0465030793</td>
+
+            <td>I Am A Strange Loop</td>
+
+            <td>2000</td>
+
+            <td>2</td>
+
+            <td>Basic Books</td>
+          </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+            <th colspan="3">Author</th>
+          </tr><tr>
+            <th>Author ID</th>
+
+            <th>Name</th>
+
+            <th>Authored books</th>
+          </tr></thead><tbody><tr>
+            <td>1</td>
+
+            <td>Daniel Dennett</td>
+
+            <td>0553345842</td>
+          </tr><tr>
+            <td>2</td>
+
+            <td>Douglas Hofstadter</td>
+
+            <td>0553345842, 0465030793</td>
+          </tr><tr>
+            <td>3</td>
+
+            <td>Immanuel Kant</td>
+
+            <td>1463794762, 1928565379</td>
+          </tr></tbody></table></div><p>Notice how <code class="code">Book</code> records reference
+      <code class="code">Publisher</code> and <code class="code">Author</code> records, and, vice versa,
+      <code class="code">Publisher</code> and <code class="code">Author</code> records reference
+      <code class="code">Book</code> records.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e474"></a>3.&nbsp;Quiz Questions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e476"></a>3.1.&nbsp;Question 1: Table populations of bidirectional
+      associations</h3></div></div></div><p>Consider the following table pairs representing the populations of
+      the classes <code class="code">A</code> and <code class="code">B</code> where the columns
+      <code class="code">A::id</code> and <code class="code">B::id</code> are primary keys and
+      <code class="code">A::b_id</code> and <code class="code">B::a_id</code> are foreign keys
+      referencing <code class="code">B</code>, respectively <code class="code">A</code>.</p><p>In which of the following cases does the property pair
+      <code class="code">A::b_id</code> and <code class="code">B::a_id</code> implement a bidirectional
+      association? Select one or more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; </p><div class="informaltable"><table><thead><tr>
+                  <th>A</th>
+
+                  <th>B</th>
+                </tr></thead><tbody><tr>
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block;"><thead><tr>
+                          <th>id</th>
+
+                          <th>b_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>2</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>3</td>
+                        </tr></tbody></table></div></td>
+
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block; margin-left: 2em;"><thead><tr>
+                          <th>id</th>
+
+                          <th>a_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>2</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>3</td>
+                        </tr></tbody></table></div></td>
+                </tr></tbody></table></div></li><li class="listitem"><p>&#9744; </p><div class="informaltable"><table><thead><tr>
+                  <th>A</th>
+
+                  <th>B</th>
+                </tr></thead><tbody><tr>
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block;"><thead><tr>
+                          <th>id</th>
+
+                          <th>b_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>2</td>
+                        </tr></tbody></table></div></td>
+
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block; margin-left: 2em;"><thead><tr>
+                          <th>id</th>
+
+                          <th>a_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>2</td>
+                        </tr></tbody></table></div></td>
+                </tr></tbody></table></div></li><li class="listitem"><p>&#9744; </p><div class="informaltable"><table><thead><tr>
+                  <th>A</th>
+
+                  <th>B</th>
+                </tr></thead><tbody><tr>
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block;"><thead><tr>
+                          <th>id</th>
+
+                          <th>b_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>2</td>
+                        </tr></tbody></table></div></td>
+
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block; margin-left: 2em;"><thead><tr>
+                          <th>id</th>
+
+                          <th>a_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>2</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>1</td>
+                        </tr></tbody></table></div></td>
+                </tr></tbody></table></div></li><li class="listitem"><p>&#9744; </p><div class="informaltable"><table><thead><tr>
+                  <th>A</th>
+
+                  <th>B</th>
+                </tr></thead><tbody><tr>
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block;"><thead><tr>
+                          <th>id</th>
+
+                          <th>b_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>2</td>
+                        </tr></tbody></table></div></td>
+
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block; margin-left: 2em;"><thead><tr>
+                          <th>id</th>
+
+                          <th>a_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>2</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>1</td>
+                        </tr></tbody></table></div></td>
+                </tr></tbody></table></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e655"></a>3.2.&nbsp;Question 2: Implications of bidirectionality</h3></div></div></div><p>Representing a bidirectional association with a pair of mutually
+      inverse reference properties implies (select one or many):</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; information redundancy</p></li><li class="listitem"><p>&#9744; slower read access</p></li><li class="listitem"><p>&#9744; data storage overhead</p></li><li class="listitem"><p>&#9744; update overhead</p></li><li class="listitem"><p>&#9744; faster updates</p></li><li class="listitem"><p>&#9744; more efficient data storage requiring less memory</p></li><li class="listitem"><p>&#9744; efficient object access in both directions</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e673"></a>3.3.&nbsp;Question 3: Elimination of bidirectional associations</h3></div></div></div><p>Consider the following information design model with a
+      bidirectional association between the classes Aa and Bb.</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../assets/images/quiz/BidirAssoc/ElimBidirAssoc/q.svg" width="300"></td></tr></table></div><p>Which of the following OO class models are correct representations
+      of this model? Select one or more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../assets/images/quiz/BidirAssoc/ElimBidirAssoc/c1.svg" width="300"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../assets/images/quiz/BidirAssoc/ElimBidirAssoc/f1.svg" width="400"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../assets/images/quiz/BidirAssoc/ElimBidirAssoc/c2.svg" width="300"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../assets/images/quiz/BidirAssoc/ElimBidirAssoc/f2.svg" width="300"></td></tr></table></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e701"></a>3.4.&nbsp;Question 4: Meaning of bidirectional association</h3></div></div></div><p>A bidirectional association <span class="italic">Committee</span>-isChairedBy-<span class="italic">ClubMember</span> between the classes
+      <code class="code">Committee</code> and <code class="code">ClubMember</code> corresponds to ...
+      (select one or more):</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; A pair of reference properties <code class="code">Committee::chair
+          </code>and <code class="code">ClubMember::chairedCommittee</code> such that
+          <code class="code">Committee::chair</code> is the inverse of
+          <code class="code">ClubMember::chairedCommittee</code> and
+          <code class="code">ClubMember::chairedCommittee</code> is the inverse of
+          <code class="code">Committee::chair</code>.</p></li><li class="listitem"><p>&#9744; A pair of reference properties <code class="code">Committee::chair</code>
+          and <code class="code">ClubMember::chairedCommittee</code>.</p></li><li class="listitem"><p>&#9744; A pair of reference properties <code class="code">Committee::chair</code>
+          and <code class="code">ClubMember::chairedCommittee</code> such that
+          <code class="code">Committee::chair</code> is the inverse of
+          <code class="code">ClubMember::chairedCommittee</code>.</p></li><li class="listitem"><p>&#9744; A pair of reference properties <code class="code">Committee::chair
+          </code>and <code class="code">ClubMember::chairedCommittee</code> such that
+          <code class="code">ClubMember::chairedCommittee</code> is the inverse of
+          <code class="code">Committee::chair</code>.</p></li></ol></div></div></div></div><div lang="" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="d5e733"></a>Chapter&nbsp;2.&nbsp;Implementing Bidirectional Associations with Plain JS</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#d5e746">1. Make a JavaScript Class Model</a></span></dt><dt><span class="section"><a href="#d5e770">2. Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e774">2.1. New issues</a></span></dt><dt><span class="section"><a href="#d5e857">2.2. Coding Summary</a></span></dt><dt><span class="section"><a href="#d5e895">2.3. Code each class of the JS class model</a></span></dt><dt><span class="section"><a href="#d5e905">2.4. Code the set methods of single-valued properties</a></span></dt><dt><span class="section"><a href="#d5e914">2.5. Code the add and remove operations</a></span></dt><dt><span class="section"><a href="#d5e936">2.6. Suppress the storage of the values of derived properties</a></span></dt><dt><span class="section"><a href="#d5e953">2.7. Take care of deletion dependencies</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e971">3. Exploit Inverse Reference Properties in the User Interface</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e978">3.1. Show published books in <span class="italic">Retrieve/List
+      All</span> publishers</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e985">4. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e991">4.1. Question 1: Adding references</a></span></dt><dt><span class="section"><a href="#d5e1006">4.2. Question 2: Maintaining a pair of mutually inverse reference
+      properties</a></span></dt><dt><span class="section"><a href="#d5e1056">4.3. Question 3: Making a JS class model</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1076">5. Practice Project</a></span></dt></dl></div><p>In this chapter, we show</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>how to derive a JS class model from an OO class model with
+      <span class="bold"><strong><span class="italic">derived inverse reference
+      properties</span></strong></span>,</p></li><li class="listitem"><p>how to code the JS class model in the form of JS model
+      classes,</p></li><li class="listitem"><p>how to write the view and controller code based on the model
+      code.</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e746"></a>1.&nbsp;Make a JavaScript Class Model</h2></div></div></div><p>The starting point for making our JS class model is an OO class
+    model with derived inverse reference properties like the one discussed
+    above, which we present here again, for convenience:</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="550"><tr><td><img src="../assets/images/Publisher-Book-Author_Bidir_AFM.svg" width="550"></td></tr></table></div><p>Notice that the model contains two derived inverse reference
+    properties: <code class="code">Publisher</code>::<code class="code">/publishedBooks</code> and
+    <code class="code">Author</code>::<code class="code">/authoredBooks</code>. Each of them is linked
+    to a master property, from which it is derived. Consequently, each of them
+    represents a pair of mutually inverse reference properties corresponding
+    to a bidirectional association.</p><p>Compared to making JS class models with unidirectional associations,
+    the only new issue is:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Add a &laquo;get&raquo; stereotype to all derived inverse reference
+        properties, implying that they have an implicit getter, but no setter.
+        They are programatically set whenever their inverse master reference
+        property is updated.</p></li></ol></div><p>This concerns the two derived inverse reference properties
+    <code class="code">Publisher</code>::<code class="code">/publishedBooks</code> and
+    <code class="code">Author</code>::<code class="code">/authoredBooks</code>. Thus, we get the
+    following JavaScript class model:</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="800"><tr><td><img src="../assets/images/Publisher-Book-Author_Bidir_JsM.svg" width="800"></td></tr></table></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e770"></a>2.&nbsp;Write the Model Code</h2></div></div></div><p>The JS class model can be directly coded for getting the code of the
+    model layer of our <span class="italic">bidirectional association
+    app</span>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e774"></a>2.1.&nbsp;New issues</h3></div></div></div><p>Compared to the <span class="italic">unidirectional association
+      app</span>, we have to deal with a number of new technical
+      issues:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>We define the derived inverse reference properties, like
+          <code class="code">Publisher</code>::<code class="code">/publishedBooks</code>, without a
+          <span class="italic">check</span> operation and without a
+          <span class="italic">set</span> operation.</p></li><li class="listitem"><p>We also have to take care of maintaining the derived inverse
+          reference properties by maintaining the derived (sets of) inverse
+          references that form the (collection) value of a derived inverse
+          reference property. This requires in particular that</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>whenever the value of a <span class="italic"><span class="bold"><strong>single-valued</strong></span></span> master reference
+              property is <span class="bold"><strong><span class="italic">initialized or updated</span></strong></span> with
+              the help of a setter (such as assigning a reference to a
+              <code class="code">Publisher</code> instance <code class="code">p</code> to
+              <code class="code">b.publisher</code> for a <code class="code">Book</code> instance
+              <code class="code">b</code>), an inverse reference has to be assigned (or
+              added) to the corresponding value (set) of the derived inverse
+              reference property (such as adding <code class="code">b</code> to
+              <code class="code">p.publishedBooks</code>); when the value of the master
+              reference property is <span class="italic">updated</span>
+              and the derived inverse reference property is <span class="italic">multi-valued</span>, then the obsolete inverse
+              reference to the previous value of the single-valued master
+              reference property has to be deleted;</p></li><li class="listitem"><p>whenever the value of an optional <span class="italic"><span class="bold"><strong>single-valued</strong></span></span> master reference
+              property is <span class="italic"><span class="bold"><strong>unset</strong></span></span> (e.g. by assigning
+              <code class="code">null</code> to <code class="code">b.publisher</code> for a
+              <code class="code">Book</code> instance <code class="code">b</code>), the inverse
+              reference has to be removed from the corresponding value of the
+              derived inverse reference property (such as removing
+              <code class="code">b</code> from <code class="code">p.publishedBooks</code>), if the
+              derived inverse reference property is multi-valued, otherwise
+              the corresponding value of the derived inverse reference
+              property has to be unset or updated;</p></li><li class="listitem"><p>whenever a reference is <span class="bold"><strong><span class="italic">added</span></strong></span> to the value of a
+              <span class="bold"><strong><span class="italic">multi-valued</span></strong></span> master
+              reference property with the help of an add method (such as
+              adding an <code class="code">Author</code> reference <code class="code">a</code> to
+              <code class="code">b.authors</code> for a <code class="code">Book</code> instance
+              <code class="code">b</code>), an inverse reference has to be assigned or
+              added to the corresponding value of the derived inverse
+              reference property (such as adding <code class="code">b</code> to
+              <code class="code">a.authoredBooks</code>);</p></li><li class="listitem"><p>whenever a reference is <span class="bold"><strong><span class="italic">removed</span></strong></span> from the value of a
+              <span class="bold"><strong><span class="italic">multi-valued</span></strong></span> master
+              reference property with the help of a <code class="code">remove</code> method
+              (such as removing a reference to an <code class="code">Author</code> instance
+              <code class="code">a</code> from <code class="code">b.authors</code> for a
+              <code class="code">Book</code> instance <code class="code">b</code>), the inverse
+              reference has to be removed from the corresponding value of the
+              derived inverse reference property (such as removing
+              <code class="code">b</code> from <code class="code">a.authoredBooks</code>), if the
+              derived inverse reference property is multi-valued, otherwise
+              the corresponding value of the derived inverse reference
+              property has to be unset or updated;</p></li><li class="listitem"><p>whenever an object with a single reference or with
+              multiple references as the value of a master reference property
+              is <span class="bold"><strong><span class="italic">destroyed</span></strong></span> (e.g., when a
+              <code class="code">Book</code> instance <code class="code">b</code> with a single
+              reference <code class="code">b.publisher</code> to a <code class="code">Publisher</code>
+              instance <code class="code">p</code> is destroyed), the derived inverse
+              references have to be removed first (e.g., by removing
+              <code class="code">b</code> from <code class="code">p.publishedBooks</code>).</p></li></ol></div><p>Notice that when a new object is created with a single
+          reference or with multiple references as the value of a master
+          reference property (e.g., a new <code class="code">Book</code> instance
+          <code class="code">b</code> with a single reference <code class="code">b.publisher</code>),
+          its setter or add method will be invoked and will take care of
+          creating the derived inverse references.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e857"></a>2.2.&nbsp;Coding Summary</h3></div></div></div><p>Code each class of the JS class model as an ES6 class with
+      implicit getters and setters:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Code the property checks in the form of class-level ('static')
+          methods. Take care that all constraints of a property as specified
+          in the JS class model are properly coded in the property
+          checks.</p></li><li class="listitem"><p>For each single-valued property, code the specified getter and
+          setter:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>In each setter, the corresponding property check is
+              invoked and the property is only set/unset, if the check does
+              not detect any constraint violation.</p></li><li class="listitem"><p><span class="bold"><strong>If the concerned property is the
+              inverse of a derived reference property (representing a
+              bidirectional association), make sure that the setter also
+              assigns/unsets (or adds/removes) the corresponding inverse
+              reference to/from (the collection value of) the inverse
+              property.</strong></span></p></li></ol></div></li><li class="listitem"><p>For each multi-valued property, code its add and remove
+          operations, as well as the specified get/set operations:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Code the add/remove operations as (instance-level) methods
+              that invoke the corresponding property checks.</p></li><li class="listitem"><p>Code the setter such that it invokes the add operation for
+              each item of the collection to be assigned.</p></li><li class="listitem"><p><span class="bold"><strong>If the concerned property is the
+              inverse of a derived reference property (representing a
+              bidirectional association), make sure that the add/remove
+              methods also assign/unset (or add/remove) the corresponding
+              inverse reference to/from (the collection value of) the inverse
+              property.</strong></span></p></li></ol></div></li><li class="listitem"><p>Write the code of the serialization functions
+          <code class="code">toString()</code> and <code class="code">toJSON()</code>. In the
+          object-to-storage conversion of a publisher or author object with
+          <code class="code">toJSON()</code>, the derived properties
+          <code class="code">publishedBooks</code> and <code class="code">authoredBooks</code> are not
+          included since their information is redundant (they are derived from
+          the <code class="code">publisher</code> and <code class="code">authors</code> properties of
+          books).</p></li><li class="listitem"><p>Take care of deletion dependencies in the <code class="code">destroy</code>
+          method. <span class="bold"><strong>Make sure that when an object with a
+          single reference (or with multiple references) as the value of a
+          master reference property is destroyed, all referenced objects are
+          destroyed as well or their (derived) inverse references are unset
+          (or removed) first.</strong></span></p></li></ol></div><p>These steps are discussed in more detail in the following
+      sections.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e895"></a>2.3.&nbsp;Code each class of the JS class model</h3></div></div></div><p>For instance, the <code class="code">Publisher</code> class from the JS class
+      model is coded in the following way:</p><pre class="programlisting">class <span class="bold"><strong>Publisher</strong></span> {
+  constructor ({name, address}) {
+    this.name = name;
+    this.address = address;
+    // derived inverse reference property (inverse of Book::publisher)
+    this._publishedBooks = {};  // initialize as an empty map
+  }
+  get name() {...}
+  static checkName( n) {...}
+  static checkNameAsId( n) {...}
+  static checkNameAsIdRef( n) {...}
+  set name( n) {...}
+  get address() {...}
+  static checkAddress( a) {...}
+  set address( a) {...}
+  <span class="bold"><strong>get publishedBooks</strong></span>() {...}
+  toString() {...}
+  toJSON() {...}
+}</pre><p>Notice that the (derived) multi-valued reference property
+      <code class="code">publishedBooks</code> has no setter method and is not assigned in
+      the constructor function because it is a read-only property that is
+      assigned implicitly when its inverse master reference property
+      <code class="code">Book::publisher</code> is assigned.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e905"></a>2.4.&nbsp;Code the set methods of single-valued properties</h3></div></div></div><p>Any setter for a reference property that is coupled to a derived
+      inverse reference property (implementing a bidirectional association),
+      now also needs to assign (or add/remove) inverse references to (or from)
+      the corresponding (collection) value of the inverse reference property.
+      An example of such a setter is <code class="code">publisher</code> in the
+      <code class="code">Book</code> class:</p><pre class="programlisting">set <span class="bold"><strong>publisher</strong></span>( p) {
+  if (!p) {  // the publisher reference is to be deleted/unset
+    // delete the inverse reference in Publisher::publishedBooks
+    delete this._publisher.publishedBooks[ this._isbn];
+    // unset the publisher property
+    delete this._publisher;
+  } else {
+    // p can be an ID reference or an object reference
+    const publisher_id = (typeof p !== "object") ? p : p.name;
+    const constraintViolation = Book.checkPublisher( publisher_id);
+    if (constraintViolation instanceof NoConstraintViolation) {
+      if (this._publisher) {
+        // delete the inverse reference in Publisher::publishedBooks
+        <span class="bold"><strong>delete this._publisher.publishedBooks[this._isbn]</strong></span>;
+      }
+      // create the new publisher reference
+      this._publisher = Publisher.instances[ publisher_id];
+      // add the new inverse reference to Publisher::publishedBooks
+      <span class="bold"><strong>this._publisher.publishedBooks[this._isbn] = this</strong></span>;
+    } else {
+      throw constraintViolation;
+    }
+  }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e914"></a>2.5.&nbsp;Code the add and remove operations</h3></div></div></div><p>For any multi-valued reference property that is coupled to a
+      derived inverse reference property, both the <span class="italic">add</span> and the <span class="italic">remove</span> method also have to assign/add/remove
+      corresponding references to/from (the value set of) the inverse
+      property.</p><p>For instance, for the multi-valued reference property
+      <code class="code">Book</code>::<code class="code">authors</code> that is coupled to the derived
+      inverse reference property
+      <code class="code">Author</code>::<code class="code">authoredBooks</code> for implementing the
+      bidirectional authorship association between <code class="code">Book</code> and
+      <code class="code">Author</code>, the <code class="code">Book</code>::<code class="code">addAuthor</code>
+      method is coded in the following way:</p><pre class="programlisting"><span class="bold"><strong>addAuthor</strong></span>( a) {
+  // a can be an ID reference or an object reference
+  const author_id = (typeof a !== "object") ? parseInt(a) : a.authorId;
+  const validationResult = Book.checkAuthor( author_id);
+  if (author_id &amp;&amp; validationResult instanceof NoConstraintViolation) {
+    // add the new author reference
+    this._authors[author_id] = Author.instances[author_id];
+    // automatically add the derived inverse reference
+    <span class="bold"><strong>this._authors[author_id].authoredBooks[this._isbn] = this</strong></span>;
+  } else {
+    throw validationResult;
+  }
+}</pre><p>For the remove operation <code class="code">removeAuthor</code> we obtain the
+      following code:</p><pre class="programlisting"><span class="bold"><strong>removeAuthor</strong></span>( a) {
+  // a can be an ID reference or an object reference
+  const author_id = (typeof a !== "object") ? parseInt(a) : a.authorId;
+  const validationResult = Book.checkAuthor( author_id);
+  if (validationResult instanceof NoConstraintViolation) {
+    // automatically delete the derived inverse reference
+    <span class="bold"><strong>delete this._authors[author_id].authoredBooks[this._isbn]</strong></span>;
+    // delete the author reference
+    delete this._authors[author_id];
+  } else {
+    throw validationResult;
+  }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e936"></a>2.6.&nbsp;Suppress the storage of the values of derived properties</h3></div></div></div><p>In the object-to-storage conversion of a publisher or author
+      object with <code class="code">toJSON()</code>, the derived properties
+      <code class="code">Publisher</code>::<code class="code">publishedBooks</code> and
+      <code class="code">Author</code>::<code class="code">authoredBooks</code> are not included since
+      their information is redundant (derived from the
+      <code class="code">Book</code>::<code class="code">publisher</code> and
+      <code class="code">Book</code>::<code class="code">authors</code> properties). For instance, the
+      <code class="code">Author</code>::<code class="code">toJSON</code> function is coded in the
+      following way:</p><pre class="programlisting"><span class="bold"><strong>toJSON</strong></span>() {
+  var rec = {};
+  // loop over all Author properties
+  for (const p of Object.keys( this)) {
+    // keep underscore-prefixed properties except "_authoredBooks"
+    if (p.charAt(0) === "_" &amp;&amp; <span class="bold"><strong>p !== "_authoredBooks"</strong></span>) {
+      // remove underscore prefix
+      rec[p.substr(1)] = this[p];
+    }
+  };
+  return rec;
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e953"></a>2.7.&nbsp;Take care of deletion dependencies</h3></div></div></div><p>When a <code class="code">Book</code> instance <code class="code">b</code>, with a single
+      reference <code class="code">b.publisher</code> to a <code class="code">Publisher</code> instance
+      <code class="code">p</code> and multiple references <code class="code">b.authors</code> to
+      <code class="code">Author</code> instances, is destroyed, depending on the chosen
+      deletion policy (1) CASCADE or (2) DROP-REFERENCES, (1) the dependent
+      <code class="code">Publisher</code> instance and <code class="code">Author</code> instances have
+      to be deleted first or (2) the derived inverse references have to be
+      removed first (e.g., by removing <code class="code">b</code> from
+      <code class="code">p.publishedBooks)</code>. We assume Existential Independence for
+      both associated object types and, consequently, implement the
+      DROP-REFERENCES policy:</p><pre class="programlisting">Book.<span class="bold"><strong>destroy</strong></span> = function (isbn) {
+  const book = Book.instances[isbn];
+  if (book) {
+    console.log( book.toString() + " deleted!");
+    if (book.publisher) {
+      // remove inverse reference from book.publisher
+      <span class="bold"><strong>delete book.publisher.publishedBooks[isbn]</strong></span>;
+    }
+    // remove inverse references from all book.authors
+    for (const authorID of Object.keys( book.authors)) {
+      <span class="bold"><strong>delete book.authors[authorID].authoredBooks[isbn]</strong></span>;
+    }
+    // finally, delete book from Book.instances
+    delete Book.instances[isbn];
+  } else {
+    console.log(`There is no book with ISBN ${isbn} in the database!`);
+  }
+};</pre></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e971"></a>3.&nbsp;Exploit Inverse Reference Properties in the User Interface</h2></div></div></div><p>In the <span class="italic">UI code</span> we can now exploit
+    the inverse reference properties for more efficiently creating a list of
+    inversely associated objects in the <span class="italic">Retrieve/List
+    All</span> use case. For instance, we can more efficiently create a
+    list of all published books for each publisher. However, we do not allow
+    updating the set of inversely associated objects in the <span class="italic">update object</span> use case (e.g., updating the set of
+    published books in the <span class="italic">update publisher</span>
+    use case). Rather, such an update has to be done via updating the master
+    objects (in our example, the books) concerned.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e978"></a>3.1.&nbsp;Show published books in <span class="italic">Retrieve/List
+      All</span> publishers</h3></div></div></div><p>For showing information about published books in the <span class="italic">Retrieve/List All publishers</span> use case, we can
+      now exploit the derived inverse reference property
+      <code class="code">publishedBooks</code>:</p><pre class="programlisting">const tableBodyEl = document.querySelector("section#Publisher-R &gt; table &gt; tbody");
+tableBodyEl.innerHTML = "";
+for (const key of Object.keys( Publisher.instances)) {
+  const publisher = Publisher.instances[key];
+  const row = tableBodyEl.insertRow();
+  // create list of books published by this publisher
+  const publBooksListEl = createListFromMap( publisher.publishedBooks, "title");
+  row.insertCell().textContent = publisher.name;
+  row.insertCell().textContent = publisher.address;
+  row.insertCell().appendChild( publBooksListEl);
+}</pre></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e985"></a>4.&nbsp;Quiz Questions</h2></div></div></div><p>Questions 1-3 are based on the following OO class model:</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="520"><tr><td><img src="../assets/images/quiz/BidirAssoc/JsM/question.svg" width="520"></td></tr></table></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e991"></a>4.1.&nbsp;Question 1: Adding references</h3></div></div></div><p>The following <code class="code">addMember</code> methods are supposed to be
+      part of the JS class that implements the <code class="code">Committee</code> class
+      from the above class model. Which of the following methods is correct?
+      Select one:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>O </p><pre class="programlisting">class Committee {
+  ...
+  addMember( m) {
+    this._members[m.memberNo] = m;
+    m.committes[this._name] = this;
+  }
+  ...
+}</pre></li><li class="listitem"><p>O</p><pre class="programlisting">class Committee {
+  ...
+  addMember( m) {
+    this._members[m.name] = m;
+    m.committes[this._name] = this;
+  }
+  ...
+}</pre></li><li class="listitem"><p>O</p><pre class="programlisting">class Committee {
+  ...
+  addMember( m) {
+    this._members[m.memberNo] = m;
+    m.committes[this._name] = m.chairedCommittee;
+  }
+  ...
+}</pre></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1006"></a>4.2.&nbsp;Question 2: Maintaining a pair of mutually inverse reference
+      properties</h3></div></div></div><p>Maintaining the derived set of inverse references that form the
+      collection value of the derived inverse reference property
+      <code class="code">ClubMember</code>::<code class="code">committees</code> requires that ...
+      (select one or more):</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; Whenever a <code class="code">ClubMember</code> object reference
+          <code class="code">m</code> is added to the collection value
+          <code class="code">c.members</code> of a <code class="code">Committee</code> object
+          <code class="code">c</code> (with the help of the <code class="code">addMember</code> method),
+          also the inverse object reference <code class="code">c</code> has to be added to
+          <code class="code">m.committees</code>.</p></li><li class="listitem"><p>&#9744; Whenever a <code class="code">ClubMember</code> object reference
+          <code class="code">m</code> is removed from the collection value
+          <code class="code">c.members</code> of a <code class="code">Committee</code> object
+          <code class="code">c</code> (with the help of the <code class="code">removeMember</code>
+          method), also the inverse object reference <code class="code">c</code> has to be
+          removed from <code class="code">m.committees</code>.</p></li><li class="listitem"><p>&#9744; Whenever a <code class="code">Committee</code> object <code class="code">c</code>
+          (with multiple <code class="code">ClubMember</code> object references
+          <code class="code">c.members</code>) is destroyed, all <code class="code">ClubMember</code>
+          objects <code class="code">m</code> where the collection value
+          <code class="code">m.committees</code> contains m have to be destroyed as well,
+          or, alternatively, c has to be removed from the collection values
+          <code class="code">m.committees</code> for all <code class="code">ClubMember</code> objects
+          <code class="code">m</code>.</p></li><li class="listitem"><p>&#9744; Whenever a new <code class="code">Committee</code> object <code class="code">c</code>
+          is created with a set of <code class="code">ClubMember</code> object references
+          <code class="code">members</code> as the value to be assigned to
+          <code class="code">c.members</code>, <code class="code">c</code> has to be added to
+          <code class="code">m.committees</code> for all <code class="code">ClubMember</code> objects
+          <code class="code">m</code> from <code class="code">members</code>.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1056"></a>4.3.&nbsp;Question 3: Making a JS class model</h3></div></div></div><p>Which is the correct JS class model for the
+      <code class="code">ClubMember</code> class derived from the above model? Select
+      one:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>O</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../assets/images/quiz/BidirAssoc/JsM/correct.svg" width="400"></td></tr></table></div></li><li class="listitem"><p>O</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../assets/images/quiz/BidirAssoc/JsM/false1.svg" width="400"></td></tr></table></div></li><li class="listitem"><p>O</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../assets/images/quiz/BidirAssoc/JsM/false2.svg" width="400"></td></tr></table></div></li></ol></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1076"></a>5.&nbsp;Practice Project</h2></div></div></div><p>This project is based on the information design model below. The app
+    from the previous assignment is to be extended by adding <span class="bold"><strong><span class="italic">derived inverse reference
+    properties</span></strong></span> for implementing the bidirectional
+    associations. This is achieved by adding the multi-valued reference
+    properties <code class="code">directedMovies</code> and <code class="code">playedMovies</code> to
+    the model class <code class="code">Person</code>, both with range
+    <code class="code">Movie</code>.</p><div class="figure"><a name="figMovieVidirAssApp"></a><p class="title"><b>Figure&nbsp;2.1.&nbsp;Two bidirectional associations between <code class="code">Movie</code> and
+      <code class="code">Person</code>.</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../assets/images/Movie-Person-bidirAssoc_DesM.svg" width="400" alt="Two bidirectional associations between Movie and Person."></td></tr></table></div></div></div><br class="figure-break"><p>This project includes the following tasks:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Make an <span class="italic"><span class="bold"><strong>OO design
+        model</strong></span></span> derived from the given information design
+        model.</p></li><li class="listitem"><p>Make a <span class="italic"><span class="bold"><strong>JavaScript
+        class model</strong></span></span> derived from the OO class
+        model.</p></li><li class="listitem"><p>Code your JS class model, following the guidelines of the
+        tutorial.</p></li></ol></div><p>You can use the following sample data for testing your app:</p><div class="table"><a name="d5e1105"></a><p class="title"><b>Table&nbsp;2.1.&nbsp;Movies</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+          <th>Movie ID</th>
+
+          <th>Title</th>
+
+          <th>Release date</th>
+
+          <th>Director</th>
+
+          <th>Actors</th>
+        </tr></thead><tbody><tr>
+          <td>1</td>
+
+          <td>Pulp Fiction</td>
+
+          <td>1994-05-12</td>
+
+          <td>1</td>
+
+          <td>5, 6</td>
+        </tr><tr>
+          <td>2</td>
+
+          <td>Star Wars</td>
+
+          <td>1977-05-25</td>
+
+          <td>2</td>
+
+          <td>7, 8</td>
+        </tr><tr>
+          <td>3</td>
+
+          <td>Inglourious Basterds</td>
+
+          <td>2009-05-20</td>
+
+          <td>1</td>
+
+          <td>9, 1</td>
+        </tr><tr>
+          <td>4</td>
+
+          <td>The Godfather</td>
+
+          <td>1972-03-15</td>
+
+          <td>4</td>
+
+          <td>11, 12</td>
+        </tr></tbody></table></div></div><br class="table-break"><div class="table"><a name="d5e1139"></a><p class="title"><b>Table&nbsp;2.2.&nbsp;People</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+          <th>Person ID</th>
+
+          <th>Name</th>
+
+          <th>Directed movies</th>
+
+          <th>Played movies</th>
+        </tr></thead><tbody><tr>
+          <td>1</td>
+
+          <td>Quentin Tarantino</td>
+
+          <td>1, 3</td>
+
+          <td>3</td>
+        </tr><tr>
+          <td>2</td>
+
+          <td>George Lucas</td>
+
+          <td>2</td>
+
+          <td></td>
+        </tr><tr>
+          <td>4</td>
+
+          <td>Francis Ford Coppola</td>
+
+          <td>4</td>
+
+          <td></td>
+        </tr><tr>
+          <td>5</td>
+
+          <td>Uma Thurman</td>
+
+          <td></td>
+
+          <td>1</td>
+        </tr><tr>
+          <td>6</td>
+
+          <td>John Travolta</td>
+
+          <td></td>
+
+          <td>1</td>
+        </tr><tr>
+          <td>7</td>
+
+          <td>Ewan McGregor</td>
+
+          <td></td>
+
+          <td>2</td>
+        </tr><tr>
+          <td>8</td>
+
+          <td>Natalie Portman</td>
+
+          <td></td>
+
+          <td>2</td>
+        </tr><tr>
+          <td>9</td>
+
+          <td>Brad Pitt</td>
+
+          <td></td>
+
+          <td>3</td>
+        </tr><tr>
+          <td>11</td>
+
+          <td>Marlon Brando</td>
+
+          <td></td>
+
+          <td>4</td>
+        </tr><tr>
+          <td>12</td>
+
+          <td>Al Pacino</td>
+
+          <td></td>
+
+          <td>4</td>
+        </tr></tbody></table></div></div><br class="table-break"><p>Make sure that your pages comply with the XML syntax of HTML5, and
+    that your JavaScript code complies with our <a class="link" href="http://oxygen.informatik.tu-cottbus.de/webeng/Coding-Guidelines.html" target="_top">Coding
+    Guidelines</a> and is checked with <a class="link" href="http://www.jshint.com/" target="_top">JSHint</a>.</p></div></div></div></body></html>
