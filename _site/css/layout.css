@@ -1,0 +1,412 @@
+/* ==========================================
+             set up Content Page 
+   ========================================== */
+
+@page {
+  size: A4 portrait;
+  margin: 2.5cm 2.5cm 2cm 2.5cm;
+
+  @bottom-center {
+    content: counter(page);
+    vertical-align: top;
+    padding-top: 1em;
+  }
+  @top-center {
+    content: string( header, first); 
+    font-style: italic;
+    vertical-align: bottom;
+    padding-bottom: 1.5em;
+  }
+  @footnotes {
+    border-top: thin solid black;
+    padding-top: 0.3em;
+    margin-top: 0.6em;
+    margin-left: 30%;
+  }
+}
+
+/* ===============================================
+     generic settings for common HTML elements  
+   =============================================== */
+
+html, p, figure { 
+  margin: 0; 
+  padding: 0 
+}
+body {
+  color: black;
+  background: white;
+  margin: 2em auto; 
+  hyphens: auto;
+  max-width: 768px;
+}
+@media screen {
+  body { 
+    font: 1rem 'Arial', sans-serif;
+    line-height: 1.2;  /* HTML5 Boilerplate */
+    max-width: 768px; 
+  }
+  a { 
+    font-weight: 700;
+    border-bottom: thin solid;  /* instead of underline */
+  }
+  a:visited {
+    color: rgb(128,0,128);
+  }
+  a:active {
+    color: rgb(192,0,0);
+  }
+  a:active, a:focus, a:hover {
+    border-bottom-width: medium;
+  }
+  aside {
+    width: 20em;
+    float: right;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    padding: 5px;
+    border: thin solid; 
+    background: lightgreen;
+  }
+}
+
+@media print { 
+  body { 
+    font: 9pt, serif;
+    color: #000000; 
+    background-color: #ffffff; 
+  } 
+  aside {
+    margin-bottom: 1em;
+    padding: 5px;
+    border: thin solid; 
+    background-color: GhostWhite; 
+  }
+}
+/* ===========================================
+                    Links 
+   =========================================== */
+a { 
+  text-decoration: none;
+  color: rgb(0,0,192);
+}
+
+a.term {
+  font-weight: bold;
+}
+/* =========================================================
+                     Headers & Footers 
+   ========================================================= */
+body { string-set: header "" }
+title { string-set: header content() }
+h1 { string-set: header content() }
+
+#logo { 
+  float: right; 
+  width: 30%; 
+  margin-right: 10%
+}
+
+#pubDate {
+  font-size: 0.8em;
+  text-align: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+div#teaser {
+  font-style: italic;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+div#author {
+  text-align: center;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-size: 1.5em;
+}
+div#affiliation {
+  text-align: center;
+  margin-bottom: 1em;
+  font-size: 1.2em;
+}
+div#abstract > h1 {
+  line-height: 1;
+  font-size: 1.5em;
+}
+div#abstract > p {
+  font-style: italic
+}
+
+/* =============================================
+           Table of Contents 
+   ============================================= */
+
+#toc > h1 {
+  margin-top: 1.5em
+}
+#toc, #toc li  {
+  font-weight: normal;
+  margin-left: 0
+}
+#toc ul {
+  font-weight: normal;
+  margin-left: 2em
+}
+#toc a::after {
+  content: leader('.') target-counter(attr(href), page)
+}
+/* ==============================================
+   Headings and document structure
+   ============================================== */
+
+h1, h2, h3, h4, h5 { 
+  margin: 0.8em 0 0.25em;
+  text-align: left;
+  font-weight: bold;
+  /* line-height: 2; */
+  font-family: 'Verdana', sans-serif
+}
+
+header h1, header h2 {
+  text-align: center;
+  margin: 0;
+  margin-bottom: 0.8em;
+}
+header > hgroup > h1, header > hgroup > h2 {
+  margin-bottom: 0.3em;
+  line-height: 1; 
+}
+header > hgroup > h1 {
+  font-size: 300%;
+}
+
+/* =============================================================
+    paragraphs and text markup using pre, sub, sup, blockquote 
+   ============================================================= */
+p { 
+  text-align: justify; 
+  text-replace: "`" "\2019" "'" "\2019";
+}
+p + p { 
+  text-indent: 1.6em 
+}
+p.caption + p, p + p.noindent, p.noindent, p.codearea, p.codearea + p { 
+  text-indent: 0 !important 
+}
+p.Reference, p.Reference + p.Reference { 
+  text-align: left; 
+  margin-left: 1.6em; 
+  text-indent: -1.6em; 
+  margin-bottom: 0.7em 
+}
+p#signature {
+  white-space: pre-wrap;
+  text-indent: 0;
+}
+  
+sub { 
+  font-size: 0.7em; 
+  line-height: 0.4em; 
+  vertical-align: sub 
+}
+sup { 
+  font-size: 0.7em; 
+  line-height: 0.4em; 
+  vertical-align: super
+}  
+
+pre {
+  margin: 0.2em 0;
+  padding: 0.4em;
+  font-family: courier, monospace;
+  font-size: 0.85em;
+  background: #EEE;
+  page-break-inside: avoid
+}
+
+blockquote, blockquote pre {
+  font-style: italic;
+  margin: 0.2em 0;
+  padding: 0.8em;
+  background: #EEE
+}
+
+blockquote em {
+  font-style: normal
+}
+
+blockquote cite {
+  display: block
+}
+
+/* inline elements */
+
+abbr { 
+  text-decoration: none 
+}
+
+q {
+  font-style: italic;
+  background: #FFA
+}
+
+/* ==============================================
+                    Lists 
+   ============================================== */
+
+ul, ol { margin: 0.7em 0 0.7em 1.6em; padding: 0 }
+dl { margin: 0; padding: 0 }
+dt { margin: 0.4em 0 0; padding: 0; }
+dd { margin: 0 0 0.4em 1.6em; padding: 0;  }
+
+
+div.bottom { 
+  clear: both 
+}
+
+div.imprint p { 
+  line-height: 1.3; 
+  text-indent: 0; 
+  margin: 0 0 1.3em
+}
+
+/* ===========================================
+    special treatment for Author Information ???
+  ============================================ */
+
+#headline, #headline h1 { text-align: center }
+#headline ul { margin: 1em 0 0.6em 0 }
+#headline li { display: block }
+
+#headline { margin: 0 0 3em }
+
+/* minor styling */
+
+.author_contact { font-style: italic }
+.author {
+  margin-top: 2em;
+  text-indent: 0;
+  text-align: right
+}
+
+/* ============================================
+                     Figures 
+   ============================================ */
+figure { 
+  /*float: top; */
+  margin: 1.2em 0 1.2em; 
+  page-break-inside: avoid;
+  counter-increment: figures  
+}
+figure > figcaption:before {
+  content: "Figure " counter(figures) ": ";
+}
+
+figure > figcaption {
+  text-align: center; 
+  /* text-indent: 1.6em; */
+  margin-top: 0.5em;
+  margin-bottom: 1em
+}
+
+figure > img { 
+  display: block; 
+  max-width: 100%; 
+  height: auto; 
+  border: none;
+  margin: auto !important; 
+  prince-image-resolution: 180dpi 
+}
+
+/* ============================================
+                     Tables 
+   ============================================ */
+table {
+  border: thin solid black;
+  margin: 1em auto;
+  table-collapse: collapse;  /* ??? */
+  border-collapse: collapse;
+  empty-cells: show;
+  counter-increment: tables;
+}
+table td, table th {
+  border: thin solid black;
+  padding: 0.2em;
+}
+table  > caption { 
+  page-break-before: avoid; 
+  font-style: italic; 
+  text-align: center; 
+  text-indent: 1.6em;
+  margin-bottom: 1em;
+}
+table > caption:before {
+  content: "Table " counter(tables) ": ";
+}
+table#abbreviations {
+  border: 0;
+  margin-left: 2em;
+}
+table#abbreviations td, table#abbreviations tr {
+  border: 0;
+}
+table#abbreviations td:first-child {
+  padding-right: 5em;
+}
+
+/* ==========================================
+               Footnotes 
+   ========================================== */
+
+.footnote {
+  display: none;                  
+  position: footnote;
+  footnote-style-position: inside;
+  counter-increment: footnote;
+  margin-left: 1.4em;
+  font-size: 90%;
+  line-height: 1.4
+}
+
+.footnote::footnote-call {
+  vertical-align: super;
+  font-size: 80%
+}
+
+.footnote::footnote-marker {
+  vertical-align: super;
+  color: blue;
+  padding-right: 0.4em
+}
+
+/* ==========================================
+               Code 
+   ========================================== */
+   
+   
+code {
+  hyphens: none; 
+}
+
+p.codearea {
+  padding: 0.5em;
+  background-color: #e5e5e5;
+  margin: 1em 2em 1em 2em;
+  white-space: pre-wrap;
+}
+
+ol.codearea {
+  margin: 1em 2em 1em 2em;
+  padding: 0.5em;
+  background-color: #e5e5e5;
+  height: 100%;
+}
+
+ol.codearea li {
+  list-style-type: decimal-leading-zero;
+  white-space: pre-wrap;
+}
+
+/*ol.codearea li:nth-child(odd) {
+  background-color: #fff;
+}*/
