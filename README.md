@@ -1,4 +1,4 @@
 # web-engineering
 
-The (preliminary) index.html file can be found at: /src/index.html
-The tutorial files can be found at: _includes/tutorials
+The (preliminary) index.html files and tutorials can be found at: [_site/JavaJpaJsfAPP] and [ _site/JsFrontendApp]
+
