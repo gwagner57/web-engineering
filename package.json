@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "eleventy"
+    "build": "npx eleventy"
   },
   "keywords": [],
   "author": "",
