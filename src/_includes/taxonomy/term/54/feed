@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xml:base="https://web-engineering.info"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+ <title>web-engineering.info - Semantic Web</title>
+ <link>https://web-engineering.info/taxonomy/term/54</link>
+ <description></description>
+ <language>en</language>
+<item>
+ <title>Representing Information Models as RDF and OWL Vocabularies</title>
+ <link>https://web-engineering.info/node/72</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;&lt;small&gt;This blog article has been extracted from the book &lt;a href=&quot;http://web-engineering.info/WebAppBook&quot;&gt;Web Applications with JavaScript or Java&lt;/a&gt;.&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;Resource Description Framework (RDF)&lt;/em&gt;, together with its extension &lt;em&gt;RDF Schema&lt;/em&gt;, is a logical formalism that allows&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;formalizing information models in the form of &lt;em&gt;RDF vocabularies&lt;/em&gt; consisting of class definitions and property definitions, where both class names and property names are URIs (representing globally unique identifiers);&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;representing propositional information (in the form of statements about individuals) on the Web, embedded in web pages or in the form of special web data sources.&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;RDF is the basis of the &lt;em&gt;Semantic Web&lt;/em&gt;. It has several syntaxes, including the textual XML-based syntax of &lt;em&gt;RDF/XML&lt;/em&gt; and the visual syntax of &lt;em&gt;RDF Graphs&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2&gt;RDF Vocabularies&lt;/h2&gt;
+
+&lt;p&gt;Consider the &lt;code&gt;Book&lt;/code&gt; class defined in the following class diagram&lt;/p&gt;
+
+&lt;div&gt;
+&lt;div&gt;&lt;img src=&quot;http://web-engineering.info/book/fig/Class-Book-with-2-compartments.svg&quot; /&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The corresponding RDF vocabulary, with one class definition and three property definitions, is defined in the following RDF graph:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;div&gt;&lt;img src=&quot;http://web-engineering.info/book/fig/Book-RDFS.svg&quot; /&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In an RDF graph, nodes with an elliptic shape represent &quot;resources&quot; (like properties and classes), and arrows represent relationships defined by a property. Each arrow between two nodes represents a statement (also called &quot;triple&quot;). For instance the &lt;code&gt;rdfs:range&lt;/code&gt; arrow between &lt;code&gt;year&lt;/code&gt; and &lt;code&gt;xs:int&lt;/code&gt; represents the statement that the range of the property &lt;code&gt;year&lt;/code&gt; is the XML Schema datatype &lt;code&gt;xs:int&lt;/code&gt;, where &lt;code&gt;xs&lt;/code&gt; is a namespace prefix for the XML Schema namespace.&lt;/p&gt;
+
+&lt;p&gt;Notice that RDF has the predefined meta-classes &lt;code&gt;rdfs:Class&lt;/code&gt; and &lt;code&gt;rdf:Property&lt;/code&gt;, used to define classes and their properties with the help of the predefined property &lt;code&gt;rdf:type&lt;/code&gt;. For instance the &lt;code&gt;rdfs:type&lt;/code&gt; arrow between &lt;code&gt;year&lt;/code&gt; and &lt;code&gt;rdf:Property&lt;/code&gt; represents the statement that &lt;code&gt;year&lt;/code&gt; is of type &lt;code&gt;rdf:Property&lt;/code&gt;, that is, it is defined to be an RDF property.&lt;/p&gt;
+
+&lt;p&gt;RDF graphs are a formalism for theoretical purposes. They can be used for illustrating simple examples. As opposed to UML class diagrams, they are not useful for visually expressing realistic vocabularies, due to their convolution and unnecessary visual complexity.&lt;/p&gt;
+
+&lt;p&gt;The domain of a property has to be defined explicitly in an RDF vocabulary (with an &lt;code&gt;rdfs:domain&lt;/code&gt; property statement), as opposed to a UML class diagram where it is defined implicitly. While it is natural to define properties in the context of a class, as in UML, RDF allows defining properties independently of any class.&lt;/p&gt;
+
+&lt;p&gt;The RDF/XML syntax allows publishing an RDF vocabulary on the Web. For instance, the simple &lt;code&gt;Book&lt;/code&gt; vocabulary defined in the RDF graph above, can be represented by the following RDF/XML document:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;?xml version=&quot;1.0&quot;?&amp;gt;
+&amp;lt;rdf:RDF xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         xmlns:ex=&quot;http://example.org/ex1&quot;&amp;gt;
+ &amp;lt;rdfs:Class rdf:ID=&quot;#Book&quot;/&amp;gt;
+ &amp;lt;rdf:Property rdf:ID=&quot;#isbn&quot;&amp;gt;
+  &amp;lt;rdfs:domain rdf:resource=&quot;#Book&quot;/&amp;gt;
+  &amp;lt;rdfs:range rdf:resource=&quot;http://www.w3.org/2001/XMLSchema#string&quot;/&amp;gt;
+ &amp;lt;/rdf:Property&amp;gt;
+ &amp;lt;rdf:Property rdf:ID=&quot;#title&quot;&amp;gt;
+  &amp;lt;rdfs:domain rdf:resource=&quot;#Book&quot;/&amp;gt;
+  &amp;lt;rdfs:range rdf:resource=&quot;http://www.w3.org/2001/XMLSchema#string&quot;/&amp;gt;
+ &amp;lt;/rdf:Property&amp;gt;
+ &amp;lt;rdf:Property rdf:ID=&quot;#year&quot;&amp;gt;
+  &amp;lt;rdfs:domain rdf:resource=&quot;#Book&quot;/&amp;gt;
+  &amp;lt;rdfs:range rdf:resource=&quot;http://www.w3.org/2001/XMLSchema#int&quot;/&amp;gt;
+ &amp;lt;/rdf:Property&amp;gt;
+&amp;lt;/rdf:RDF&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Notice that the values of the &lt;code&gt;rdf:resource&lt;/code&gt; attribute must be URIs. If an attribute value is a fragment identifier like &lt;code&gt;#Book&lt;/code&gt;, it represents a relative URI and is resolved into a full URI by appending the fragment identifier to the in-scope base URI, which may defined with the &lt;code&gt;xml:base&lt;/code&gt; attribute.&lt;/p&gt;
+
+&lt;p&gt;If an attribute value is an absolute URI like &quot;&lt;a href=&quot;http://www.w3.org/2001/XMLSchema#string&quot;&gt;http://www.w3.org/2001/XMLSchema#string&lt;/a&gt;&quot;, it contains a full namespace URI (like &quot;&lt;a href=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;http://www.w3.org/2001/XMLSchema&lt;/a&gt;&quot;), even if a namespace prefix (like &quot;xsd&quot; or &quot;xs&quot;) is defined for it. This is because namespace prefixes can only be used for XML element and attribute names, but not for attribute values, which unfortunately makes RDF/XML hard to read for human users.&lt;/p&gt;
+
+&lt;p&gt;Notice that the RDF formalization of our simple UML class model above has several shortcomings:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;It does not express the constraints that all three properties are mandatory and single-valued, which they are by default in UML.&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;It does not express the constraints that the ISBN property, as a standard identifier (or primary key) attribute, is mandatory and unique.&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We show how to solve these two issues with the greater expressivity of OWL below.&lt;/p&gt;
+
+&lt;div&gt;
+&lt;div&gt;
+&lt;div&gt;
+&lt;div&gt;
+&lt;h2&gt;RDF Fact Statements&lt;/h2&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The propositional information items, or fact statements, expressible with RDF are&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;classification statements like &quot;&lt;code&gt;ex:Book&lt;/code&gt; is a &lt;code&gt;rdfs:Class&lt;/code&gt;&quot; or &quot;&lt;code&gt;urn:isbn:006251587X&lt;/code&gt; is a &lt;code&gt;ex:Book&lt;/code&gt;&quot;, and&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;property statements of the sort &quot;the &lt;code&gt;ex:isbn&lt;/code&gt; property value of &lt;code&gt;urn:isbn:006251587X&lt;/code&gt; is &#039;006251587X&#039;&quot;.&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Consequently, for a UML object definition like&lt;/p&gt;
+
+&lt;div&gt;
+&lt;div&gt;&lt;img src=&quot;http://web-engineering.info/book/fig/Book-object-UML.svg&quot; /&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;we obtain several RDF fact statements:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;the classification statement&lt;/p&gt;
+
+	&lt;pre&gt;
+&amp;lt;rdf:Description rdf:about=“urn:isbn:006251587X”&amp;gt;
+ &amp;lt;rdf:type rdf:resource=&quot;http://example.org/ex1#Book&quot;/&amp;gt;
+&amp;lt;/rdf:Description&amp;gt;&lt;/pre&gt;
+
+	&lt;p&gt;which can alternatively be expressed in a more concise way as&lt;/p&gt;
+
+	&lt;pre&gt;
+&amp;lt;ex:Book rdf:ID=&quot;urn:isbn:006251587X&quot;/&amp;gt;&lt;/pre&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;the three property statements&lt;/p&gt;
+
+	&lt;pre&gt;
+&amp;lt;rdf:Description rdf:about=“urn:isbn:006251587X”&amp;gt;
+ &amp;lt;ex:isbn&amp;gt;006251587X&amp;lt;/ex:isbn&amp;gt;
+ &amp;lt;ex:title&amp;gt;Weaving the Web&amp;lt;/ex:title&amp;gt;
+ &amp;lt;ex:year&amp;gt;2000&amp;lt;/ex:year&amp;gt;
+&amp;lt;/rdf:Description&amp;gt;&lt;/pre&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;which can also be merged into one &lt;code&gt;rdf:Description&lt;/code&gt; element:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;rdf:Description rdf:about=“urn:isbn:006251587X”&amp;gt;
+ &amp;lt;rdf:type rdf:resource=&quot;http://example.org/ex1#Book&quot;/&amp;gt;
+ &amp;lt;ex:isbn&amp;gt;006251587X&amp;lt;/ex:isbn&amp;gt;
+ &amp;lt;ex:title&amp;gt;Weaving the Web&amp;lt;/ex:title&amp;gt;
+ &amp;lt;ex:year&amp;gt;2000&amp;lt;/ex:year&amp;gt;
+&amp;lt;/rdf:Description&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;div&gt;
+&lt;div&gt;
+&lt;div&gt;
+&lt;h2&gt;Expressing Structured Data in Web Documents&lt;/h2&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There are many use cases for machine-readable data (e.g., about people, events, products, etc.) embedded in web documents. For instance, search engines like Google can use such &lt;a class=&quot;link&quot; href=&quot;https://developers.google.com/search/docs/guides/intro-structured-data&quot; target=&quot;_top&quot;&gt;structured data&lt;/a&gt; for providing more meaningful search results.&lt;/p&gt;
+
+&lt;p&gt;Structured data, or meta-data, can be embedded in a web document by either adding a &lt;a class=&quot;link&quot; href=&quot;http://json-ld.org/&quot; target=&quot;_top&quot;&gt;JSON-LD&lt;/a&gt; &lt;code&gt;script&lt;/code&gt; element containing it, or by annotating the document&#039;s content, e.g., the HTML elements of a web page, with &lt;a class=&quot;link&quot; href=&quot;http://www.w3.org/TR/rdfa-primer/&quot; target=&quot;_top&quot;&gt;RDFa&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Very limited annotation approaches, called &quot;microformats&quot; (proposed around 2005), are the historic predecessors of the general annotation language RDFa, which is derived from RDF. Some microfomats, like vCard and vEvent, are still being used today, but they are increasingly replaced with one of the two general formats RDFa and JSON-LD.&lt;/p&gt;
+
+&lt;p&gt;The main author of HTML5, Ian Hickson, has proposed an alternative general annotation language, called &lt;a class=&quot;link&quot; href=&quot;https://html.spec.whatwg.org/multipage/microdata.html&quot; target=&quot;_top&quot;&gt;microdata&lt;/a&gt;, with the goal to simplify RDFa and remedy its usability issues (in particular, by dropping its use of XML namespaces). Despite the (rather unfortunate) choice of using different names for the same annotation concepts (like &quot;itemprop&quot; instead of &quot;property&quot;), Hickson&#039;s microdata proposal succeeded to show&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;how to get essentially the same annotation functionality at lower usability costs, and&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;how to integrate annotations with the DOM.&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Since Hickson ended his collaboration with the W3C, the microdata proposal did not succeed to get an official W3C status, and web browsers have discontinued their support for it. However, it triggered a W3C proposal to use the RDFa Lite subset of RDFa, which &quot;can be applied to most simple to moderate structured data markup tasks, without burdening the authors with additional complexities&quot;.&lt;/p&gt;
+
+&lt;p&gt;We present a simple example for using structured data in a web page. Consider the following HTML fragment:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;p&amp;gt;
+ My name is Carly Rae Jepsen. 
+ Call me maybe at 1-800-2437715.
+&amp;lt;/p&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;For this content, we may want to code the information that&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;the available information is about an entity of type &lt;code&gt;Person&lt;/code&gt;, which has been defined as a class by the search engine standard vocabulary &lt;a class=&quot;link&quot; href=&quot;http://schema.org/&quot; target=&quot;_top&quot;&gt;&lt;code&gt;schema.org&lt;/code&gt;&lt;/a&gt;;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;the name of the person is &quot;Carly Rae Jepsen&quot;;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;the telephone number of the person is &quot;1-800-2437715&quot;.&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Using the RDFa attributes &lt;code&gt;typeof&lt;/code&gt;, &lt;code&gt;vocab&lt;/code&gt; and &lt;code&gt;property&lt;/code&gt;, we can code this information by adding the following annotations to the HTML content:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;p &lt;strong&gt;typeof&lt;/strong&gt;=&quot;Person&quot; &lt;strong&gt;vocab&lt;/strong&gt;=&quot;http://schema.org/&quot;&amp;gt;
+ My name is &amp;lt;span &lt;strong&gt;property&lt;/strong&gt;=&quot;name&quot;&amp;gt;Carly Rae Jepsen&amp;lt;/span&amp;gt;. 
+ Call me maybe at &amp;lt;span &lt;strong&gt;property&lt;/strong&gt;=&quot;telephone&quot;&amp;gt;1-800-2437715&amp;lt;/span&amp;gt;.
+&amp;lt;p&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Using JSON-LD, as recommended by Google, we need to add a &lt;code&gt;script&lt;/code&gt; element of type &quot;application/ld+json&quot; containing the meta-data:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;script type=&quot;application/ld+json&quot;&amp;gt;
+{
+  &quot;@context&quot;: &quot;http://schema.org&quot;,
+  &quot;@type&quot;: &quot;Person&quot;,
+  &quot;name&quot;: &quot;Carly Rae Jepsen&quot;,
+  &quot;telephone&quot;: &quot;1-800-2437715&quot;
+}
+&amp;lt;/script&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;The propositional information expressed with RDFa annotations and JSON-LD corresponds to the following RDF/XML code:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;rdf:Description xmlns:schema=&quot;http://schema.org/&quot;&amp;gt;
+  &amp;lt;rdf:&lt;strong&gt;type&lt;/strong&gt; rdf:resource=&quot;http://schema.org/&lt;strong&gt;Person&lt;/strong&gt;&quot;/&amp;gt;
+  &amp;lt;schema:&lt;strong&gt;name&lt;/strong&gt;&amp;gt; Carly Rae Jepsen &amp;lt;/schema:name&amp;gt;
+  &amp;lt;schema:&lt;strong&gt;telephone&lt;/strong&gt;&amp;gt; 1-800-2437715 &amp;lt;/schema:url&amp;gt;
+&amp;lt;/rdf:Description&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;div&gt;
+&lt;div&gt;
+&lt;div&gt;
+&lt;h2&gt;OWL Vocabularies and Constraints&lt;/h2&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;OWL extends RDF by adding many additional language elements for expressing constraints, equalities and derived classes and properties in the context of defining vocabularies. Facts are expressed as in RDF (e.g., with &lt;code&gt;rdf:Description&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;OWL provides its own predefined language elements for defining classes and properties:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;The predefined class &lt;code&gt;owl:Class&lt;/code&gt; is a subclass of &lt;code&gt;rdfs:Class&lt;/code&gt;.&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;The predefined class &lt;code&gt;owl:DatatypeProperty&lt;/code&gt; is a subclass of &lt;code&gt;rdf:Property&lt;/code&gt;. It classifies attributes. Therefore, the values of an &lt;code&gt;owl:DatatypeProperty&lt;/code&gt; are data literals.&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;The predefined class &lt;code&gt;owl:ObjectProperty&lt;/code&gt; is a subclass of &lt;code&gt;rdf:Property&lt;/code&gt;. It classifies reference properties corresponding to unidirectional binary associations. Since the values of a reference property are object references, the values of an &lt;code&gt;owl:ObjectProperty&lt;/code&gt; are object references in the form of resource URIs.&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We only show with the help of an example that an OWL vocabulary can represent a class diagram more faithfully than the corresponding RDF vocabulary by allowing to express certain constraints.&lt;/p&gt;
+
+&lt;p&gt;Consider the standard identifier attribute &lt;code&gt;isbn&lt;/code&gt; defined in the &lt;code&gt;Book&lt;/code&gt; class. In an RDF vocabulary, this attribute is defined in the following way:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;rdf:Property rdf:ID=&quot;#isbn&quot;&amp;gt;
+ &amp;lt;rdfs:domain rdf:resource=&quot;#Book&quot;/&amp;gt;
+ &amp;lt;rdfs:range rdf:resource=&quot;http://www.w3.org/2001/XMLSchema#string&quot;/&amp;gt;
+&amp;lt;/rdf:Property&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;There are two issues with this RDF definition of an attribute:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;It doesn&#039;t make it explicit that the property defined is an attribute, and not a reference property. This can only be inferred by finding out that the range class is a datatype, and not an object type.&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;It does not constrain the attribute to have exactly one value, as implied by the defaults of UML class diagram semantics.&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Using OWL, we can remedy these shortcomings of RDF. The following OWL property definition makes it explicit that the property &lt;code&gt;http://example.org/ex1#isbn&lt;/code&gt; is an attribute, while the added OWL restriction defines an &quot;exactly one&quot; cardinality constraint for it:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;owl:&lt;strong&gt;DatatypeProperty&lt;/strong&gt; rdf:ID=&quot;#isbn&quot;&amp;gt;
+ &amp;lt;rdfs:domain rdf:resource=&quot;#Book&quot;/&amp;gt;
+ &amp;lt;rdfs:range rdf:resource=&quot;http://www.w3.org/2001/XMLSchema#string&quot;/&amp;gt;
+&amp;lt;/owl:DatatypeProperty&amp;gt;
+&amp;lt;owl:&lt;strong&gt;Restriction&lt;/strong&gt;&amp;gt;
+  &amp;lt;owl:onProperty rdf:resource=&quot;#isbn&quot; /&amp;gt;
+  &amp;lt;owl:&lt;strong&gt;cardinality&lt;/strong&gt;&amp;gt;1&amp;lt;/owl:cardinality&amp;gt;
+&amp;lt;/owl:Restriction&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Since the ISBN attribute of the &lt;code&gt;Book&lt;/code&gt; class has been designated as the standard identifier attribute in the UML class diagram above, we should define a uniqueness constraint for it. We can do this by including an &lt;code&gt;owl:hasKey&lt;/code&gt; element within the class definition:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;owl:Class rdf:ID=&quot;#Book&quot;&amp;gt;
+ &amp;lt;owl:&lt;strong&gt;hasKey&lt;/strong&gt; rdf:parseType=&quot;Collection&quot;&amp;gt;
+  &amp;lt;owl:ObjectProperty rdf:about=&quot;hasSSN&quot;&amp;gt;
+ &amp;lt;/owl:hasKey&amp;gt;
+&amp;lt;/owl:Class&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;div&gt;
+&lt;div&gt;
+&lt;div&gt;
+&lt;h2&gt;Usability Issues of RDF and OWL&lt;/h2&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Both RDF and OWL have many usability issues. Especially OWL is so difficult to use that most potential users will be discouraged by it.&lt;/p&gt;
+
+&lt;p&gt;Because OWL was created by a community that is more concerned with formal logic than with information modeling and is not familiar with the concepts and terminology established in information modeling, they have introduced many new unfamiliar terms for concepts that had already been established and named in information modeling. They have even introduced duplicate names within OWL: an attribute is in most places called &quot;data property&quot;, but in some places it is called &quot;datatype property&quot; (specifically in OWL/RDF).&lt;/p&gt;
+
+&lt;p&gt;Usability issues of RDF are:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;For historical reasons, RDF comes with a strange jargon. Especially, its &quot;subject&quot;-&quot;predicate&quot;-&quot;object&quot; terminology sucks.&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;For historical reasons, RDF comes with two different XML namespaces, typically in the from of the two namespace prefixes &quot;rdf&quot; and &quot;rdfs&quot;. The history of a language should not be imposed on its syntax. Users shouldn&#039;t have to bother about which prefix to use.&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;RDF is using the uncommon term &quot;IRI&quot; (as an abbreviation of &quot;International Resource Identifier&quot;), following the unfortunate naming history from &quot;URL&quot; via &quot;URI&quot; to &quot;IRI&quot;, while the What Working Group&#039;s &lt;a class=&quot;link&quot; href=&quot;https://url.spec.whatwg.org/&quot; target=&quot;_top&quot;&gt;URL Living Standard&lt;/a&gt; has reverted this naming history.&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;For practical purposes, RDF is incomplete:&lt;/p&gt;
+
+	&lt;div&gt;
+	&lt;ol&gt;
+		&lt;li&gt;
+		&lt;p&gt;it does not make an explicit syntactic distinction between attributes (having a datatype as range) and reference properties (having an object type as range);&lt;/p&gt;
+		&lt;/li&gt;
+		&lt;li&gt;
+		&lt;p&gt;it does not allow expressing simple class definitions, which include mandatory value and single-value constraints, in an RDF vocabulary.&lt;/p&gt;
+		&lt;/li&gt;
+	&lt;/ol&gt;
+	&lt;/div&gt;
+
+	&lt;p&gt;OWL is needed for getting these fundamental features.&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Usability issues of OWL are:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;ol&gt;
+	&lt;li&gt;
+	&lt;p&gt;it uses an uncommon terminology: e.g., &quot;data property&quot; instead of attribute, &quot;restriction&quot; instead of constraint;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;some of its elements have confusing names: e.g., &quot;ObjectIntersectionOf&quot; does not denote an intersection of objects, but of object types, and &quot;DataSomeValuesFrom&quot; actually refers to &quot;some data values from&quot;;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+	&lt;p&gt;many of its language elements are kind of unnatural and hard to grasp (much less to remember): e.g., an exactly-one-value property constraint cannot be expressed in the definition of a class along with the property declaration, but requires a separate Restriction element (as shown above).&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/54&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;Semantic Web&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/72&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;Representing Information Models as RDF and OWL Vocabularies&quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/72&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/72&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/72&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Wed, 16 Aug 2017 21:29:12 +0000</pubDate>
+ <dc:creator>gwagner</dc:creator>
+ <guid isPermaLink="false">72 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/72#comments</comments>
+</item>
+</channel>
+</rss>

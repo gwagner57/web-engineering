@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Mirrored from web-engineering.info/book/InformationManagement/CodingTableModels.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:02:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head><meta charset="UTF-8" /><title>9.3. Coding Table Models</title><link href="_res/pageNavigation.css" rel="stylesheet" type="text/css" /><link href="_res/ebook.css" rel="stylesheet" type="text/css" /><link href="_res/icons/index.html" type="inode/directory" /></head><body><header class="page-navigation"><table><tr><td class="page-navigation-to-first"><a href="InformationManagement.html"><span class="page-navigation-to-first-icon" title="First page
+Information Management"></span></a></td><td class="page-navigation-to-previous"><a href="MakingTableModels.html"><span class="page-navigation-to-previous-icon" title="Previous page
+9.2. Deriving a Table Model from an Information Design Model"></span></a></td><td class="page-navigation-previous"><span>9.2. Deriving a Table Model from an Information Design Model</span></td><td class="page-navigation-current"><span>9.3. Coding Table Models</span> <span class="page-navigation-current-page">(41 / 42)</span></td><td class="page-navigation-next"><span>Index</span></td><td class="page-navigation-to-next"><a href="_index.html"><span class="page-navigation-to-next-icon" title="Next page
+Index"></span></a></td><td class="page-navigation-to-last"><a href="_index.html"><span class="page-navigation-to-last-icon" title="Last page
+Index"></span></a></td></tr></table></header><main><section class="role-section1" id="CodingTableModels"><h2 class="role-section1-title"><span class="role-label"><span class="role-number">9.3</span>. </span>Coding Table Models</h2><p>Unfortunately, the degree to which standard SQL-92 is supported differs from DBMS to DBMS. Check, e.g., the <a class="link" href="http://dev.mysql.com/doc/refman/5.5/en/create-table.html" target="_top">MySQL reference manual</a> or the <a class="link" href="http://www.sqlite.org/lang.html" target="_top">SQLite reference manual</a>.</p><section id="CodingTableModels__d0e331"><h4 class="title">Summary in 3 Steps</h4><ol type="1"><li><p>For each table class of the SQL-92 table model, write a corresponding CREATE TABLE statement, including column and table constraints. For a single-attribute primary key, append the SQL keyword PRIMARY KEY to the range declaration in the column definition clause. For a mandatory attribute, append the NOT NULL constraint keyword (recall that attributes are mandatory by default in a UML class diagram). For a unique (or <em>key</em>) attribute, append the UNIQUE constraint keyword. For an attribute with an interval constraint (attached to the class), append a corresponding CHECK clause to the column definition clause.</p><table><colgroup><col style="width:50%" /><col style="width:5%" /><col style="width:45%" /></colgroup><tbody><tr><td><figure id="CodingTableModels__lof__43"> <figcaption><span class="role-label">Figure <span class="role-number">9-8</span>. </span>The table class <code>Person</code></figcaption> <img alt="The table class Person" src="_res/People_SqlM.svg" width="350" /> </figure></td><td><div class="mediaobject"> <img src="_res/RightArrow.svg" /> </div></td><td><pre>CREATE TABLE <b>people</b>(
+  person_id    INTEGER <b>PRIMARY KEY</b>,
+  name         VARCHAR(250) <b>NOT NULL</b>,
+  gender       VARCHAR(6) <b>NOT NULL</b>,
+  birth_date   DATE <b>NOT NULL</b>,
+  death_date   DATE,
+  <strong>CHECK (death_date IS NULL OR 
+      death_date &gt;= birth_date)</strong>
+)</pre></td></tr></tbody></table></li><li><p>For any foreign key dependency arrow, specify a corresponding referential integrity constraint either in the column definition clause with the help of the REFERENCES keyword (this does not work with MySQL/InnoDB), or in the form of a FOREIGN KEY clause after the column definition. Notice that for SQLite and other DBMSs, specifying a column name after the name of the target table is optional; if it is not specified, the foreign key refers to the primary key of the target table. For MySQL, specifying a column name after the name of the target table is mandatory.</p> <table><colgroup><col style="width:50%" /><col style="width:5%" /><col style="width:45%" /></colgroup><tbody><tr><td><img alt="The gender foreign key dependency" src="_res/People-gender_el_SqlM.svg" width="400" /></td><td><img src="_res/RightArrow.svg" /></td><td><pre>CREATE TABLE <b>gender_el</b>(
+  gender_el   VARCHAR(6) PRIMARY KEY
+)
+CREATE TABLE <b>people</b>(
+  person_id   INTEGER PRIMARY KEY,
+  name        VARCHAR(250) NOT NULL,
+
+  <b>gender</b>      VARCHAR(6) NOT NULL 
+              <b>REFERENCES gender_el</b>,
+  birth_date  DATE NOT NULL,
+  death_date  DATE,
+  CHECK (death_date IS NULL OR 
+      death_date &gt;= birth_date)
+)</pre> <p>Alternatively, a foreign key can be defined with a FOREIGN KEY clause after the column definitions:</p> <pre>CREATE TABLE <b>people</b>(
+  person_id    INTEGER PRIMARY KEY,
+  name         VARCHAR(250) NOT NULL,
+  gender       VARCHAR(6) NOT NULL,
+  birth_date   DATE NOT NULL,
+  death_date  DATE,
+  CHECK (death_date IS NULL OR 
+      death_date &gt;= birth_date)
+  <b>FOREIGN KEY (gender) 
+      REFERENCES gender_el (gender_el)</b>
+)</pre></td></tr></tbody></table></li><li><p>If there are any constraints involving several tables, they may be implemented in the form of corresponding CREATE ASSERTION or CREATE TRIGGER statements, if the target DBMS supports these SQL constructs.</p></li></ol></section></section></main><footer class="page-navigation"><table><tr><td class="page-navigation-to-first"><a href="InformationManagement.html"><span class="page-navigation-to-first-icon" title="First page
+Information Management"></span></a></td><td class="page-navigation-to-previous"><a href="MakingTableModels.html"><span class="page-navigation-to-previous-icon" title="Previous page
+9.2. Deriving a Table Model from an Information Design Model"></span></a></td><td class="page-navigation-previous"><span>9.2. Deriving a Table Model from an Information Design Model</span></td><td class="page-navigation-current"><span>9.3. Coding Table Models</span> <span class="page-navigation-current-page">(41 / 42)</span></td><td class="page-navigation-next"><span>Index</span></td><td class="page-navigation-to-next"><a href="_index.html"><span class="page-navigation-to-next-icon" title="Next page
+Index"></span></a></td><td class="page-navigation-to-last"><a href="_index.html"><span class="page-navigation-to-last-icon" title="Last page
+Index"></span></a></td></tr></table></footer></body>
+<!-- Mirrored from web-engineering.info/book/InformationManagement/CodingTableModels.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:02:31 GMT -->
+</html>

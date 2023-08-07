@@ -1,0 +1,942 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xml:base="https://web-engineering.info"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+ <title>web-engineering.info - Arduino</title>
+ <link>https://web-engineering.info/Arduino</link>
+ <description></description>
+ <language>en</language>
+<item>
+ <title>Seeeduino XIAO - A Tiny Arduino Zero Variation</title>
+ <link>https://web-engineering.info/node/82</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;You may like to check &lt;a href=&quot;http://web-engineering.info/WoTProjects&quot;&gt;our other WoT/IoT related articles&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Another Arduino Compatible Board?&lt;/h2&gt;
+
+&lt;p&gt;You probably asked yourself a few times: &lt;em&gt;what, another Arduino compatible board? Why shall I choose this one over the other one? Is this &quot;the one&quot; for my project?&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If you are not familiar with Arduino, you shall have a look at the &lt;a href=&quot;https://www.arduino.cc/&quot;&gt;Arduino official website&lt;/a&gt;. You may also be interested in reading our &lt;a href=&quot;https://web-engineering.info/WoTProjects&quot;&gt;WoT with Arduino for Beginners&lt;/a&gt; tutorials.&lt;/p&gt;
+
+&lt;p&gt;A simple answer for all or each of these questions does not really exist. A few other questions must be answered first: &lt;em&gt;which features do I really need for my project? Is it battery powered? How much $$$ do I want to spend (or do I have available) for the project? Where do I buy the board? Does it have a &quot;real&quot; community?&lt;/em&gt; ... and so on.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The expectations:&lt;/strong&gt; a new Arduino &quot;compatible&quot; board is also a progress step, so at least in theory it must have &quot;something&quot; that makes it &quot;better&quot; or at least &quot;different&quot;. Many of these boards have just (some) minor hardware changes when comparing them with the equivalent Arduino brother, but their price is the one of a coffee cup, thus making them attractive for the very beginner or for low cost projects - this is also the case of many &quot;Arduino clone&quot; boards. Other boards have relevant hardware improvements, but usually (at least at the release time) have a higher price. Such boards have for example a better MCU (higher speed, amount of RAM and FLASH) and usually a larger features pack, like I2C, SPI, UART, CAN, touch sensor interface, ADC, DAC, etc. Finally, a few of them combine most of the goodies in a (very) tiny board and have the price of two beers or coffee cups. In the former category, we also find the &lt;a href=&quot;https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html&quot;&gt;Seeeduino XIAO&lt;/a&gt; board.&lt;/p&gt;
+
+&lt;p&gt;While XIAO is not necessarily &quot;the perfect Arduino compatible board&quot;, it is among the few ones that for around five bucks, comes in a very low size, has a MCU capable of coping with demanding tasks, requires just a little amount of power, has 11 GPIOs that can be either used for digital or analog operations and supports a lot of the standard protocols. The compatibility with the Arduino IDE and many of the existing libraries is also very good, and in practice this means that it can be a replacement for the &lt;a href=&quot;https://store.arduino.cc/arduino-mkr-zero-i2s-bus-sd-for-sound-music-digital-audio-data&quot;&gt;Arduino Zero&lt;/a&gt; (or its smaller brothers) board in many projects.&lt;/p&gt;
+
+&lt;h2&gt;Technical Description and Features&lt;/h2&gt;
+
+&lt;p&gt;A brief description of the most important features and technical characteristics of the XIAO board are provided in &lt;a href=&quot;#table1&quot;&gt;Table 1&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div style=&quot;display: inline-block&quot;&gt;
+&lt;div style=&quot;display: inline-block; float: left; min-width: 50%; max-width: 50%&quot;&gt;
+&lt;table cellpadding=&quot;5&quot; id=&quot;table1&quot; style=&quot;border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%&quot;&gt;
+	&lt;caption&gt;Table 1: XIAO Technical Specs.&lt;/caption&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th style=&quot;width: 40%;&quot;&gt;Feature&lt;/th&gt;
+			&lt;th style=&quot;width: 60%;&quot;&gt;Description&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;MCU&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;32 Bit ARM Cortex-M0+ @48MHz&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;RAM&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;32KB SRAM&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;FLASH&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;256KB&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;GPIOs&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;11 analog/digital pins&lt;br /&gt;
+			A0-A10 analog (-0.3 - 3.3V)&lt;br /&gt;
+			D0-D10 digital (max. 7mA / pin)&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;DAC&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;pin D0/A0&lt;br /&gt;
+			10 Bit, 350ksps&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;ADC&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;pin A0-A10&lt;br /&gt;
+			12 Bit, 350ksps&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;UART&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;TX: pin A6/D6&lt;br /&gt;
+			RX: pin A7/D7&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;I2C&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;SDA: pin A4/D4&lt;br /&gt;
+			SCL: pin A5/D5&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;SPI&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;MOSI: pin A10/D10&lt;br /&gt;
+			MISO: pin A9/D9&lt;br /&gt;
+			SCK/SCLK: pin A8/D8&lt;br /&gt;
+			CS/SS: any GPIO but D8, D9, D10&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;IRQ&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;all GPIOs support interrupts, but GPIO A5/D5 and GPIO A7/D7 cannot be used at the same time&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;PWM&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;available on pins D1-D10&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;SWD&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;Serial Wire Debug (SWD) is available as exposed pads on the back of the board&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;RTC&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;32-bit Real Time Counter (RTC) with clock/calendar function but requires the board to be powered&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Builtin LEDs&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;one green power led&lt;br /&gt;
+			one yellow user led&lt;br /&gt;
+			two blue serial port LEDs&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Power Supply&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;Option 1: 5V via USB-C port&lt;br /&gt;
+			Option 2: 4-6V via power pads&lt;br /&gt;
+			&lt;br /&gt;
+			&lt;strong&gt;Note:&lt;/strong&gt; The power pads are on the back of the board (see &lt;a href=&quot;#fig3&quot;&gt;Figure 3&lt;/a&gt;).&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Reset&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;exposed reset pads on the front (&lt;a href=&quot;#fig2&quot;&gt;See Figure 2&lt;/a&gt;) and on the back (&lt;a href=&quot;#fig3&quot;&gt;See Figure 3&lt;/a&gt;) of the board&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Size&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;20x17.5x3.5mm (&lt;a href=&quot;#fig1&quot;&gt;See Figure 1&lt;/a&gt;)&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;display: inline-block; float: left; max-width: 50%;&quot;&gt;
+&lt;figure id=&quot;fig1&quot; style=&quot; margin: 0! important; padding: 0 !important;&quot;&gt;&lt;a href=&quot;https://web-engineering.info/sites/default/files/seeeduino-xiao-size.jpg&quot;&gt;&lt;img alt=&quot;XIAO Board Pinout&quot; src=&quot;https://web-engineering.info/sites/default/files/seeeduino-xiao-size.jpg&quot; title=&quot;Click the image to enlarge it.&quot; /&gt;&lt;/a&gt;
+
+&lt;figcaption&gt;Figure 1: XIAO Board Size.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig2&quot; style=&quot;margin: 0! important; padding: 0 !important;&quot;&gt;&lt;a href=&quot;https://web-engineering.info/sites/default/files/seeeduino-xiao-pinout.jpg&quot;&gt;&lt;img alt=&quot;XIAO Board Pinout&quot; src=&quot;https://web-engineering.info/sites/default/files/seeeduino-xiao-pinout.jpg&quot; title=&quot;Click the image to enlarge it.&quot; /&gt;&lt;/a&gt;
+
+&lt;figcaption&gt;Figure 2: XIAO Board Pinout.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig2&quot; style=&quot;margin: 0! important; padding: 0 !important;&quot;&gt;&lt;a href=&quot;https://web-engineering.info/sites/default/files/seeeduino-xiao-pinout-back.png&quot;&gt;&lt;img alt=&quot;XIAO Board Pinout&quot; src=&quot;https://web-engineering.info/sites/default/files/seeeduino-xiao-pinout-back.png&quot; title=&quot;Click the image to enlarge it.&quot; /&gt;&lt;/a&gt;
+
+&lt;figcaption&gt;Figure 3: the Back of the XIAO Board.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2&gt;Benchmark Test&lt;/h2&gt;
+
+&lt;p&gt;We performed a benchmark test on the XIAO Board, by using the Paul Stoffregen&#039;s &lt;a href=&quot;https://github.com/PaulStoffregen/CoreMark&quot;&gt;CoreMark GitHub&lt;/a&gt; project. The &lt;a href=&quot;#table2&quot;&gt;Table 2&lt;/a&gt; shows a comparison with a few other Arduino or Arduino compatible boards which we have available on our toolbox. The results were rounded up to the closest integer value.&lt;/p&gt;
+
+&lt;table cellpadding=&quot;5&quot; id=&quot;table2&quot; style=&quot;border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%&quot;&gt;
+	&lt;caption&gt;Table 2: CoreMark Benchmark&lt;/caption&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th style=&quot;width: 60%;&quot;&gt;Board&lt;/th&gt;
+			&lt;th style=&quot;width: 40%;&quot;&gt;Result&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;Teensy 4.0 (ARM Cortex-M7 @600MHz)&lt;/td&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;2309&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;Teensy 3.2 (ARM Cortex-M4 @72MHz)&lt;/td&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;167&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;Arduino Due (AT91SAM3X8E @84MHz)&lt;/td&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;91&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;Arduino Zero (ATSAMD21G18 @48MHz)&lt;/td&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;53&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;Seeeduino XIAO (ATSAMD21G18 @48MhZ)&lt;/td&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;52&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Arduino Mega (ATmega2560 @16MHz)&lt;/td&gt;
+			&lt;td style=&quot;width: 60%;&quot;&gt;8&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;As expected, in terms of the CoreMark benchmark, the little XIAO board behaves very similar with Arduino Zero, which also uses the &lt;a href=&quot;https://www.microchip.com/wwwproducts/en/ATsamd21g18&quot;&gt;ATSAMD21G18&lt;/a&gt;, 32-Bit ARM Cortex M0+ chip familly.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: A CoreMark test with an &lt;a href=&quot;https://store.arduino.cc/arduino-uno-rev3&quot;&gt;Arduino UNO Rev 3&lt;/a&gt; was not possible, due to its low amount RAM that causes instability problems, and as a result the board keeps restarting itself every a few seonds.&lt;/p&gt;
+
+&lt;h2&gt;The Power Consumption&lt;/h2&gt;
+
+&lt;p&gt;Not necessarily each WoT/IoT project is battery powered, nor require a very low power consumption. However, we still need to think on our &quot;little and &lt;strong&gt;still &lt;/strong&gt;green planet&quot; and use the limited resources responsible. Believe it or not, but a few extra mW does really matter - &lt;a href=&quot;https://www.statista.com/statistics/471264/iot-number-of-connected-devices-worldwide/&quot;&gt;as of 2020 over 30 billion IoT devices are estimated as being used all over the world and connected to the Internet&lt;/a&gt;. In addition, there are many other such devices not (yet) connected to the internet. Elementary math show us that even 1mW (milli watts!) extra power consumption, actually means 30MW (mega watts!), and this just for the IoT devices connected to the Internet. So, yes, it does really matter to keep the power consumption reduced at the minimum, at least when that is possible.&lt;/p&gt;
+
+&lt;p&gt;In our opinion, this little XIAO guy, was well designed, and the power consumption is quite low for what this board can do. The MCU plays a key role, since it takes most of the power juice, but the hardware design is also an important factor. Many other Arduino compatible boards, use additional components or modules (sometimes justified, sometimes not really), thus increasing the power consumption of the board. For example, various sensors or wireless communication modules (WiFi, Bluetooth, RF, etc) are incorporated in some boards. While this is not every time the case, and by this we mean &quot;&lt;em&gt;having the board filled up with as many goodies as possible&lt;/em&gt;&quot; in terms of hardware features, such features are in fact underused. As a result, they don&#039;t only take additional space on the board and increase&amp;nbsp;the price but also produce a bit more CO&lt;sub&gt;2&lt;/sub&gt; using additional power when the board is powered, and of course&amp;nbsp;at the time of being produced by the factory.&lt;/p&gt;
+
+&lt;p&gt;While we&amp;nbsp;are&amp;nbsp;really fans of the ESP8266, ESP32 and alike boards, they do not represent the answer to all our problem. Sure, it makes a lot of sense to use the powerful MCU and the included WiFi or Bluetooth features when needed, but for example these are a very bad replacement for a simple IoT temperature monitoring node, where an &lt;a href=&quot;https://en.wikipedia.org/wiki/ATmega328&quot;&gt;ATMega 328&lt;/a&gt; MCU (e.g., Arduino Nano), a temperature / humidity sensor (e.g., DHT11 / DHT22) and a nRF24-based transmitter/receiver (e.g., nRF24L01+) make much more sense. Using the Arduino Nano, a nRF24L01+ module and a DHT11 / DHT22 sensor the power consumption will go around 30mA@5V (so, about 150mW). This can be reduced even more by using 3.3V instead of 5V and an efficient LDO, thus going down to about 40mA@3.3V (so about 132mW). The Arduino Nano can be successfully replaced with the XIAO board, and the power requirements do not increase, actually it can go down if your project is well designed. An ESP32 or ESP8266 will be less efficient by a few factors of magnitude, even with the WiFi and/or BT deactivated.&lt;/p&gt;
+
+&lt;p&gt;The XIAO Board uses the &lt;a href=&quot;https://www.torexsemi.com/file/xc6206/XC6206.pdf&quot;&gt;XC6206&lt;/a&gt;. According to the datasheet of this voltage regulator, the maximum input voltage is 6V, so this will also be the maximum voltage that it can be supplied to the board either via the contact pads located on the back of the board (see &lt;a href=&quot;#fig3&quot;&gt;Figure 3&lt;/a&gt;) or via the USB-C connector (which normally shall provide about 5V). It can output a maximum of 200mA of current, but we do not recommend more than 150mA to avoid overheating it. Moreover, keep in mind that up to about 25mA may&amp;nbsp;be used by the MCU and the other components (LEDs, voltage regulator, etc), so the conservative current available for the user, to power sensors and any other devices is about 120mA. Moreover, keep in mind that the GPIO pins can only supply a little amount of current. According with the specs, this can go up to 7mA (source) or 10mA (sink) per pin, but for this a special bit/flag shall be enabled, and this also comes with some other disadvantages. The real &quot;by default&quot; current for each GPIO pin is 2.5mA (sink) or 2mA (source) per pin.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Keep this in mind:&lt;/strong&gt; you can easily burn up a GPIO or even destroy the MCU completely if the source or sink current is larger than 2.5mA (sink) or 2mA (source) even if this happens for very short amount of time. Something like half of a second is more than enough to destroy your MCU or GPIO if the current is exceeded. By setting the &lt;em&gt;Output Driver Strength bit (DRVSTR)&lt;/em&gt; to 1 for a specific pin, a maximum of 10mA (sink) and 7mA (source) can be obtained. More details about this are available on the section &lt;a href=&quot;http://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf&quot;&gt;37.9 I/O Pin Characteristics&lt;/a&gt; of the SAMD21D datasheet document.&lt;/p&gt;
+
+&lt;p&gt;Using our digital multimeter UNI-T model &lt;a href=&quot;https://www.uni-trend.com/html/product/General_Meters/Digital_Multimeters/UT71_Series/UT71C.html&quot;&gt;UT71C&lt;/a&gt; we made some measurements to see how this board performs in terms of power requirements. In &lt;a href=&quot;#table3&quot;&gt;Table 3&lt;/a&gt; we provide the obtained results.&lt;/p&gt;
+
+&lt;table cellpadding=&quot;5&quot; id=&quot;table3&quot; style=&quot;border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%&quot;&gt;
+	&lt;caption&gt;Table 3: Power Consumption Measurements&lt;/caption&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th style=&quot;width: 40%;&quot;&gt;Conditions&lt;/th&gt;
+			&lt;th style=&quot;width: 20%;&quot;&gt;Results&lt;/th&gt;
+			&lt;th style=&quot;width: 40%;&quot;&gt;Details&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Input voltage via USB-C port: 4.95V&lt;br /&gt;
+			Sketch: LED Blink every second Sketch&lt;/td&gt;
+			&lt;td style=&quot;width: 20%;&quot;&gt;12.4mA@4.95V (61.38mW)&lt;/td&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Measured when the blinking LED is ON.&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Input voltage via USB-C port: 4.95V&lt;br /&gt;
+			Sketch: the CoreMark benchmark&lt;/td&gt;
+			&lt;td style=&quot;width: 20%;&quot;&gt;13.5mA@4.95V (66.82mW)&lt;/td&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Measured during the benchmark runtime.&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;Input voltage via USB-C port: 4.95V&lt;br /&gt;
+			Sketch: Sleep Mode with RTCZero Library&lt;/td&gt;
+			&lt;td style=&quot;width: 20%;&quot;&gt;2.2mA@4.95V (10.89mW)&lt;/td&gt;
+			&lt;td style=&quot;width: 40%;&quot;&gt;The MCU itself uses less than 1mA (the RTC and some other services are active). The rest is used by the power LED and the voltage regulator.&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2&gt;Get Started with the XIAO board and the Arduino IDE&lt;/h2&gt;
+
+&lt;p&gt;The XIAO board can be programmed by using the Arduino IDE and the &quot;Arduino Programming Language&quot;. Well, to be clear here, there is no such thing as &quot;Arduino Programming Language&quot;, it is really just C/C++, but there is a trend to use this metaphor whenever the Arduino core and custom libraries are used. There following steps will guide you to get started with your first Arduino sketch and having the XIAO user controlled LED blinking.&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;Download the official &lt;a href=&quot;https://www.arduino.cc/en/Main/Software&quot;&gt;Arduino IDE&lt;/a&gt; software if you didn&#039;t already. We also recommend to use the latest version available to avoid various issues caused by old bugs and to get access to the newest features.&lt;/li&gt;
+	&lt;li&gt;Add Seeeduino to your Arduino IDE. For this, use the &quot;&lt;em&gt;&lt;strong&gt;File &amp;gt; Preference&lt;/strong&gt;&lt;/em&gt;&quot; menu item and copy/paste the following URL &lt;a href=&quot;https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json&quot;&gt;https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json&lt;/a&gt; into the &quot;&lt;em&gt;Additional Boards Manager URLs&lt;/em&gt;&quot; input field.&lt;/li&gt;
+	&lt;li&gt;Use the &quot;&lt;em&gt;&lt;strong&gt;Tools &amp;gt; Board &amp;gt; Boards Manager...&lt;/strong&gt;&lt;/em&gt;&quot; menu item, and in the new open window, search and install the &quot;&lt;em&gt;Seeed SAMD Boards&lt;/em&gt;&quot;. After this step we recommend to restart your Arduino IDE.&lt;/li&gt;
+	&lt;li&gt;Open the Blink sketch by using the &quot;&lt;em&gt;&lt;strong&gt;File &amp;gt; Examples &amp;gt; 01.Basics &amp;gt; Blink&lt;/strong&gt;&lt;/em&gt;&quot; menu item.&lt;/li&gt;
+	&lt;li&gt;Select the &quot;&lt;em&gt;&lt;strong&gt;Tools &amp;gt; Board &amp;gt; Seeed SAMD (32-bits ARM Cortex-M0+ and Cortex-M4) Boards &amp;gt; Seeeduino XIAO&lt;/strong&gt;&lt;/em&gt;&quot; menu item. This will instruct Arduino IDE what to do when you like to compile and upload a sketch.&lt;/li&gt;
+	&lt;li&gt;Select the &quot;&lt;em&gt;&lt;strong&gt;Tools &amp;gt; Port &amp;gt; COMxx (Seeeduino XIAO)&lt;/strong&gt;&lt;/em&gt;&quot; menu item. COMxx represents the COM port to which the XIAO board connects too.&lt;/li&gt;
+	&lt;li&gt;Now use the &quot;&lt;em&gt;&lt;strong&gt;Sketch &amp;gt; Upload&lt;/strong&gt;&lt;/em&gt;&quot; menu item to have the sketch compiled and uploaded to your board. It may take a up to one minute to complete this task, in particular when the sketch was not yet compiled and your PC is not the fastest one in the world.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If all went well, when the upload is completed your XIAO shall have the yellow user LED blinking once every second.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; in our experience, most of the time this board can&#039;t be switched to programming mode automatically. What you shall do is to use some tweezers or a conductive tool (e.g., a small flat head screwdriver) and to touch the two reset pins from the front of the board - these are located near the A0/D and A1/D2 GPIO pins (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;). Notice that you have to repeat this twice, in a short time (i.e., twice in about one second). After that, the board enters boot-loading mode (the green and yellow LEDs must be on at this point) and the uploading of your sketch will work as expected. Notice that this will also switch the used COM port, thus you have to select the new one by using the &quot;&lt;em&gt;&lt;strong&gt;Tools &amp;gt; Port &amp;gt; COMxx (Seeeduino XIAO)&lt;/strong&gt;&lt;/em&gt;&quot; menu item.&lt;/p&gt;
+
+&lt;h2&gt;Some Final toughts&lt;/h2&gt;
+
+&lt;p&gt;We played with the little XIAO for a few months by now and we have used it in a few of our projects already. It is for sure not perfect, and there are a few issues with it, like the need to manually enter boot-loading mode every time when it needs to be reprogrammed, the low amount of current available to each GPIO or the incompatibility with a few Arduino libraries. The 11 GPIO pins are also not enough for projects that requires more than just one or two sensors, a switch and eventually an I2C or SPI display. In many of our projects however, the board filled up the requirements and being so tiny, it fitted with ease in almost any case of the IoT/WoT nodes. Therefore, whenever we do not need WiFi / BT, a faster MCU or more GPIO pins, we do consider using XIAO before jumping further with our searches. The low price is also a big plus, in particular when you need a lot of such boards and the total price can rise up very fast.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Do we recommend the XIAO board?&lt;/strong&gt; Yes, it is a very good candidate for many low power projects. It is also very small and very cheap, so you don&#039;t need to break the bank when you need a few of them for your project.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Is is perfect candidate for any project?&lt;/strong&gt; No, unfortunately it is not. Among the reasons, an important one is the reduced number of GPIO pins. In this case, you either have to look further for another board, but then expect a larger sized board and very likely a higher price too, or you think on using a &quot;GPIO multiplier&quot;, such as the MCP23017 IC, which will give you 8 I/O pins with 25mA per pin at the expense of the I2C pins of your board.&lt;/p&gt;
+
+&lt;h2&gt;What&#039;s next?&lt;/h2&gt;
+
+&lt;p&gt;The the &quot;Green Balcony&quot; project is work in progress. Among others, it makes use of a few &lt;a href=&quot;https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html&quot;&gt;Seeeduino XIAO&lt;/a&gt; boards, used to control the watering of the plants as well to monitor various aspects, such as the water tank level, temperature and to keep an eye on the light intensity variation. Since the balcony is populated with very different species of plants (blackberry, raspberry, a small fig tree and various flowers), it is important and interessant as well to observe the light variation. This will help to decide the optimal position for the plants, to have them as &quot;happy&quot; as possible, and get their smile when drinking the morning coffee in the green seven square meter mini-garden. Since only solar power is used for this project, keeping an eye on the light intensity provides also indications about the optimal positioning of the 10W solar panel used to collect the &quot;free&quot; energy from the sun.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: yes, we know that&amp;nbsp;there is no such thing as &lt;em&gt;free energy&lt;/em&gt;. We use here the term of &lt;em&gt;free energy&lt;/em&gt;&amp;nbsp;only as a metaphor, with the meaning of &lt;em&gt;energy that is not taken from the grid&lt;/em&gt;. In term of costs, this actually means, the costs of the equipment used to collect it (solar panel, charge controller, battery, wires, etc) - theoretically no other costs are involved, practically, we&#039;ll see...&lt;/p&gt;
+
+&lt;p&gt;Stay tuned, a set of tutorials providing step-by-step implementation instructions of the &quot;Green Balcony&quot; project will be published soon!&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/Arduino&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;Arduino&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;/taxonomy/term/50&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;IoT&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/40&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;WoT&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/82&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;Seeeduino XIAO - A Tiny Arduino Zero Variation&quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/82&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/82&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/82&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Mon, 17 Aug 2020 10:02:49 +0000</pubDate>
+ <dc:creator>mdiaconescu</dc:creator>
+ <guid isPermaLink="false">82 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/82#comments</comments>
+</item>
+<item>
+ <title>PRODINo: Home Automation with ESP8266 based WiFi Control </title>
+ <link>https://web-engineering.info/node/68</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;You may like to check &lt;a href=&quot;http://web-engineering.info/WoTProjects&quot;&gt;our other WoT/IoT related articles&lt;/a&gt;, in particular, &lt;a href=&quot;http://web-engineering.info/node/52&quot;&gt;Building a WiFi-connected weather station with an Android user interface for less than 30 Euro&lt;/a&gt; and &lt;a href=&quot;http://web-engineering.info/node/65&quot;&gt;JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;What is PRODINo WiFi-ESP?&lt;/h2&gt;
+
+&lt;p&gt;PRODINo is an industrial grade, ESP8266 based WiFi module (uses the WROOM-2 official ESP8266 module) that is designed and produced by &lt;a href=&quot;http://www.kmpelectronics.eu/&quot;&gt;KMP Electronics LTD&lt;/a&gt;, based in Bulgaria. The module contains four high power relays, allowing to control all kind of appliances, including some that require mains power. It opens the door for DIY (but not only) projects that otherwise would have been required careful design and good electronics knowledge, normally possible only for specialists or requiring a lot of time for design and implementation. Moreover, using ESP8266 allows not only for WiFi network connection, but also provides space for hacking and tweaking, using custom firmware if Arduino is not what you want to use, and even giving you access to your project from the Internet, which however comes with security risks and requires additional care.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; working with electricity is very dangerous! The module we are going to discuss uses 3.3-5VDC, as well as mains voltage (110 - 250V). Working with electricity can cause bad injuries and even death if not used with care. We cannot be held responsible for any caused damage or any harm brought to yourself! Do it at your own risk and/or ask help from an electronics engineer.&lt;/p&gt;
+
+&lt;h3&gt;Hardware Specifications&lt;/h3&gt;
+
+&lt;p&gt;The used relay specification (15A@125VAC, 15A@24VDC, 10A@250VAC) allows for up to 2500W for each output. In addition, it provides four optically isolated inputs (using the Toshiba TLP185 opto-coupler), meaning that it does not only allow to read data, e.g., from sensors, but also makes this operation (relatively) safe, allowing to connect 3-30V sources without killing the ESP8266 module or its GPIOs, since they are only up 3.3V tolerant. In &lt;a href=&quot;#table1&quot;&gt;Table 1&lt;/a&gt; we show the complete electrical specs for this module:&lt;/p&gt;
+
+&lt;table cellpadding=&quot;5&quot; id=&quot;table1&quot; style=&quot;border: 2px solid black; text-align: center; font-size: large; border-collapse: collapse; width: 100%&quot;&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th style=&quot;width: 40%;&quot;&gt;Name&lt;/th&gt;
+			&lt;th style=&quot;width: 10%;&quot;&gt;Min&lt;/th&gt;
+			&lt;th style=&quot;width: 25%;&quot;&gt;Max&lt;/th&gt;
+			&lt;th style=&quot;width: 25%;&quot;&gt;Unit&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Size&lt;/td&gt;
+			&lt;td&gt;-&lt;/td&gt;
+			&lt;td&gt;70 x 32 x 92&lt;/td&gt;
+			&lt;td&gt;mm&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Module power supply&lt;/td&gt;
+			&lt;td&gt;5&lt;/td&gt;
+			&lt;td&gt;30&lt;/td&gt;
+			&lt;td&gt;V&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Module power supply @5V&lt;/td&gt;
+			&lt;td&gt;150&lt;/td&gt;
+			&lt;td&gt;400&lt;/td&gt;
+			&lt;td&gt;mA&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;DC Input (opto-couplers)&lt;/td&gt;
+			&lt;td&gt;3&lt;/td&gt;
+			&lt;td&gt;30&lt;/td&gt;
+			&lt;td&gt;V&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Output AC (relay)&lt;/td&gt;
+			&lt;td&gt;-&lt;/td&gt;
+			&lt;td&gt;2500 (10A@250VAC)&lt;br /&gt;
+			1800 (15A@120VAC)&lt;/td&gt;
+			&lt;td&gt;W&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Output DC (relay)&lt;/td&gt;
+			&lt;td&gt;-&lt;/td&gt;
+			&lt;td&gt;360 (15A@24VDC)&lt;/td&gt;
+			&lt;td&gt;W&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The relays are not driven directly by using the ESP8266 GPIOs but with the help of an MCP23S08 IC (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;), that is an 8-bit, general purpose, parallel bidirectional I/O expansion for SPI (an I2C version of it, i.e., MCP23008, is also available). The optically isolated inputs use the same MCP23S08 IC (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;), which means that most of the ESP8266 GPIOs remains practically unused, and most of those I/O pins (including the analog one) are brought out via connectors (which unfortunately are not standard 2.54 male or female headers). To drive the relay coils (requires ~5V@72mA for each), the MCP23S08 is connected to an ULN2003A IC (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;), which is a 7 port Darlington Transistor Array, allowing an output of up to 50V@300mA per port. This may be a bit of an overkill for this design, but allows for some error margins and also some higher powered relays on future module releases, or...to be replaced by the DIY project author (we love hacking!).&lt;/p&gt;
+
+&lt;figure id=&quot;fig1&quot; style=&quot;display: block !important; margin: auto&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Cover.png&quot;&gt;&lt;img alt=&quot;PRODINo WROOM-02 Module Specs&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Cover.png&quot; width=&quot;320&quot; /&gt; &lt;/a&gt;
+
+&lt;figcaption&gt;Figure 1: PRODINo WROOM-02 Module Specs.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;As visible on the product label, shown in &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;, the specified output per relay is only 5A, which at the highest voltage (250VAC) means 1250W. We are not sure if this is just a very conservative specification, with respect to the usage of this module, thus allowing for a large safety margin or simply because of some other design considerations that we are not aware of. From our perspective, both the relays (specified for 10A@250V) and the ULN2003A IC that drives the relay coil can easily handle a much higher output (lets say about 2000W, keeping some safety margins).&lt;/p&gt;
+
+&lt;figure id=&quot;fig2&quot; style=&quot;display: block !important; margin: auto&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Board_Front.png&quot;&gt;&lt;img alt=&quot;PRODINo WROOM-02 Module Board (Front)&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Board_Front.png&quot; width=&quot;480&quot; /&gt; &lt;/a&gt;
+
+&lt;figcaption&gt;Figure 2: PRODINo WROOM-02 Module Board (Front).&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Programming the PRODINo&lt;/h2&gt;
+
+&lt;p&gt;Programming the module requires to use the included FTDI module. However, it is also possible to use a cheap (under 2 EUR) USB-TTL converter module, as long as it supports 3.3V output on its TX (UART transmit) line. Make sure that the FTDI module, that comes on the packet, has the voltage selection jumper set to 3.3V position, as shown in &lt;a href=&quot;fig3&quot;&gt;Figure 3&lt;/a&gt;. Make sure that you connect the FTDI module in the correct position (see &lt;a href=&quot;fig3&quot;&gt;Figure 3&lt;/a&gt;), otherwise you may kill the PRODUINo module.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; the &quot;Auto-Flash&quot; jumper located just on the right site if the UART connector (see &lt;a href=&quot;fig2&quot;&gt;Figure 2&lt;/a&gt;), below the &quot;Flash&quot; button, can be set, thus allowing to program the ESP8266 module (the brain of the PRODINo module) without your direct intervention: there is no need to ground the GPIO 0 or to push some sort of &quot;Set to Flash Mode&quot; button. The alternative is to use the &quot;Flash&quot; button, located above the &quot;Auto-Flash&quot; jumper, (see &lt;a href=&quot;fig2&quot;&gt;Figure 2&lt;/a&gt;). This makes sense when using an USB-TTL module that does not allow to ground the GPIO 0 pin of the ESP8266 module, for all the other cases, just enable the &quot;Auto-Flash&quot; jumper.&lt;/p&gt;
+
+&lt;figure id=&quot;fig3&quot; style=&quot;display: block !important; margin: auto&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer.png&quot;&gt;&lt;img alt=&quot;FTDI Programmer Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer.png&quot; width=&quot;260&quot; /&gt; &lt;/a&gt; &lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer-Connected.png&quot;&gt; &lt;img alt=&quot; FTDI Programmer Connected to PRODINo WROOM-02&quot; height=&quot;520&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer-Connected.png&quot; /&gt; &lt;/a&gt;
+
+&lt;figcaption&gt;Figure 3: FTDI Programmer Connected to PRODINo WROOM-02 Module Board.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;Use Arduino IDE to Program a PRODINo Module&lt;/h3&gt;
+
+&lt;p&gt;It is fairly easy to program the PRODINo module, by simply using the Arduino IDE and Arduino code. Thus, if you ever used the Arduino IDE and wrote some code for one or more of the Arduino boards, you are ready to go with the PRODINo module.&lt;/p&gt;
+
+&lt;p&gt;First, you&#039;ll need to download the Arduino IDE from the &lt;a href=&quot;https://www.arduino.cc/en/Main/Software&quot;&gt;official download page&lt;/a&gt;. Make sure that you download the correct version corresponding to your operating system. Also, specially when using UNIX/Linux systems, make sure that your user has the rights to use &quot;COM&quot; ports, that are required by the FTDI module when programming the PRODINo board.&lt;/p&gt;
+
+&lt;p&gt;Next, start the Arduino IDE and navigate to &lt;code&gt;File &amp;gt; Preferences&lt;/code&gt; menu. In the section &quot;Additional Boards Manager URLs&quot;, copy and paste the following URL: &lt;a href=&quot;https://raw.githubusercontent.com/kmpelectronics/Arduino/master/ProDinoEsp8266/package_prodino-esp8266_index.json&quot;&gt; https://raw.githubusercontent.com/kmpelectronics/Arduino/master/ProDinoEsp8266/package_prodino-esp8266_index.json&lt;/a&gt;, used to indicate the location of the JSON which describes the PRODINo module and the additional Arduino libraries that it requires. Further, use the &lt;code&gt;Tools &amp;gt; Board Manager&lt;/code&gt; menu, and from the list of the additional (custom) boards, select the &quot;PRODINo WiFi board by KMP Electronics LTD&quot; one, then click &quot;Install&quot;. In a short amount of time the installation process is completed and we are ready to go with the programming of the PRODINo WiFi-ESP module.&lt;/p&gt;
+
+&lt;p&gt;Later, when you&#039;ll like to write your custom program to the PRODINo module, use the small arrow icon from the left-top of the Arduino IDE user interface or use the &lt;code&gt;Sketch &amp;gt; upload&lt;/code&gt; menu (its keyboard shortcut is CTRL + U). Remember, you&#039;ll need to use the &lt;code&gt;Tools&lt;/code&gt; menu to select the corresponding board (use: PRODINo WiFi-ESP WROOM-2) and COM port (this can be different from case to case, but usually is something like COM4, COM5, etc).&lt;/p&gt;
+
+&lt;h3&gt;Controlling the Relays&lt;/h3&gt;
+
+&lt;p&gt;The first feature we like to test is the control of the four relays. We&#039;ll write the most basic Arduino program that allows to switch ON or OFF any of the four relays, by simply using a HTML form. At first, lets write the HTML form, which sends a POST request to the PRODINo module. The full content of the &lt;code&gt;index.html&lt;/code&gt; HTML file is shown below:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt;PRODINo Relay Controller&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+   &amp;lt;form &lt;strong&gt;method=&quot;POST&quot; action=&quot;http://192.168.4.1/relay&quot;&lt;/strong&gt;&amp;gt;
+    &amp;lt;label&amp;gt;Select relay:&lt;strong&gt;
+      &amp;lt;select name=&quot;relayId&quot;&amp;gt;
+        &amp;lt;option value=&quot;0&quot;&amp;gt;Relay 1&amp;lt;/option&amp;gt;
+        &amp;lt;option value=&quot;1&quot;&amp;gt;Relay 2&amp;lt;/option&amp;gt;
+        &amp;lt;option value=&quot;2&quot;&amp;gt;Relay 3&amp;lt;/option&amp;gt;
+        &amp;lt;option value=&quot;3&quot;&amp;gt;Relay 4&amp;lt;/option&amp;gt;
+      &amp;lt;/select&amp;gt;&lt;/strong&gt;
+    &amp;lt;/label&amp;gt;
+    &amp;lt;label&amp;gt;Select relay state:&lt;strong&gt;
+      &amp;lt;select name=&quot;relayState&quot;&amp;gt;
+        &amp;lt;option value=&quot;1&quot;&amp;gt;On&amp;lt;/option&amp;gt;
+        &amp;lt;option value=&quot;0&quot;&amp;gt;Off&amp;lt;/option&amp;gt;
+      &amp;lt;/select&amp;gt;&lt;/strong&gt;
+    &amp;lt;/label&amp;gt;&lt;strong&gt;
+    &amp;lt;input type=&quot;submit&quot; value=&quot;Save relay state&quot; /&amp;gt;&lt;/strong&gt;
+   &amp;lt;/form&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;Pushing the &quot;Save relay state&quot; form submit button, a standard HTML &lt;code&gt;POST&lt;/code&gt; request is made to &lt;a href=&quot;http://192.168.4.1/relay&quot;&gt;http://192.168.4.1/relay&lt;/a&gt;. The request URL consists of: 1) the IP address of our PRODINo module (defaults to 192.168.4.1, but it can be changed if needed or wanted); 2) a custom path that handles the requests (we chose to use &lt;code&gt;/relay&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Two HTML &lt;code&gt;select&lt;/code&gt; elements are used for our form. The first one uses the name &lt;code&gt;relayId&lt;/code&gt; (this is the parameter name received on the POST request) and allows to select the relay we&#039;ll like to control. Allowed values are from 0 (first relay from left to right when watching the relay connectors on the module) to 3 (the most right relay). The second HTML &lt;code&gt;select&lt;/code&gt; uses the name, &lt;code&gt;relayState&lt;/code&gt;, and allows to specify the state of the selected relay. We&#039;ll use 1 for enable (turn ON) and 0 for disable (turn OFF).&lt;/p&gt;
+
+&lt;p&gt;Let&#039;s now write the Arduino code that intercepts the HTTP post request and turn the corresponding relay ON or OFF based on our selection in the HTML form:&lt;/p&gt;
+
+&lt;pre&gt;
+#include &amp;lt;KMPDinoWiFiESP.h&amp;gt;
+#include &amp;lt;KMPCommon.h&amp;gt;
+#include &amp;lt;ESP8266WebServer.h&amp;gt;
+
+const char WIFI_PSK[] = &quot;1a2b3c4d&quot;;
+const char SSID[] = &quot;Charlie&#039;s Home&quot;;
+const uint8_t PORT = 80;
+ESP8266WebServer webServer(PORT);
+
+void setup(void) {
+  // initialize the PRODINo board
+  KMPDinoWiFiESP.init();
+  // setup the WiFi module as AccesPoint (AP Mode).
+  WiFi.mode(WIFI_AP);
+  // set the SSID and Password for the AP
+  WiFi.softAP(SSID, WIFI_PSK);
+  // set the HTTP route for the relay control&lt;strong&gt;
+  webServer.on(&quot;/relay&quot;, handleRelayRoute);&lt;/strong&gt;
+  // start the web server&lt;strong&gt;
+  webServer.begin();&lt;/strong&gt;
+}
+
+void loop(void) {&lt;strong&gt;
+  webServer.handleClient();&lt;/strong&gt;
+}
+
+void handleRelayRoute() {
+  int8_t relayId = -1;
+  bool relayState = 0;
+  // incomming POST request (two expected params: relayId and relayState).&lt;strong&gt;
+  if (webServer.method() == HTTP_POST &amp;amp;&amp;amp; webServer.args() == 2) {
+    for (uint8_t i = 0; i &amp;lt; webServer.args(); i++) {
+      if (webServer.argName(i) == &quot;relayId&quot;) {
+        relayId = CharToInt(webServer.arg(i)[0]);
+      } else if (webServer.argName(i) == &quot;relayState&quot;) {
+        relayState = CharToInt(webServer.arg(i)[0]);
+      }
+    }
+    KMPDinoWiFiESP.SetRelayState(relayId, relayState);&lt;/strong&gt;
+    webServer.send(200, TEXT_HTML, &quot;OK&quot;);
+  } else {
+    webServer.send(400, TEXT_HTML, &quot;Bad request&quot;);
+  }  
+}
+&lt;/pre&gt;
+
+&lt;p&gt;The set of &lt;code&gt;#include&lt;/code&gt; directives allows to load the required libraries, which were automatically added when installing the new PRODINo board manager module. Further, for the WiFi name, the WiFi shared password and the server port, the corresponding &lt;code&gt;SSID&lt;/code&gt;, &lt;code&gt;WIFI_PSK&lt;/code&gt; and &lt;code&gt;PORT&lt;/code&gt; constants are defined. Feel free to alter the &lt;code&gt;SSID&lt;/code&gt; and &lt;code&gt;WIFI_PSK&lt;/code&gt; values, but let the &lt;code&gt;PORT&lt;/code&gt; value unchanged (port 80 is the HTTP port).&lt;/p&gt;
+
+&lt;p&gt;As part of the Arduino &lt;code&gt;setup&lt;/code&gt; method, we initialize the module and set the WiFi in AP (access point) mode. Then, we register the &lt;code&gt;/relay&lt;/code&gt; route (as used for the &lt;code&gt;@action&lt;/code&gt; attribute of the HTML form element) and the corresponding handler method, i.e., &lt;code&gt;handleRelayRoute&lt;/code&gt;. Last, we start the web server by calling its &lt;code&gt;begin&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;handleRelayRoute&lt;/code&gt; method, the handler for the &lt;code&gt;/relay&lt;/code&gt; HTTP route, checks if the used HTTP request is of type &lt;code&gt;POST&lt;/code&gt; and if there are exactly two parameters provided (recall, we expect the &lt;code&gt;relayId&lt;/code&gt; and &lt;code&gt;relayState&lt;/code&gt; parameters to be sent). If that is the case, then we extract the relay identifier and the desired relay state, then we change the relay to that state by using the &lt;code&gt;KMPDinoWiFiESP.SetRelayState&lt;/code&gt; method and we respond with HTTP code 200, having the meaning &quot;all went fine for the request&quot;. If the request type is not of type &lt;code&gt;POST&lt;/code&gt; or there are more or less than two parameters, then a HTTP error code 400 is sent, which means &quot;bad request - wrong parameters or request type!&quot;&lt;/p&gt;
+
+&lt;p&gt;The Arduino &lt;code&gt;loop&lt;/code&gt; method simply waits for requests, by using the &lt;code&gt;ESP8266WebServer.handleClient&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;To test, upload the following code to the PRODINo board (as shown before in this tutorial), then connect to the WiFi network with the name set by the SSID variable. Open the &lt;code&gt;index.html&lt;/code&gt; HTML page, and use the form to turn ON or OFF the relays you&#039;ll like to test.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo-Relay-AP-src.zip&quot; style=&quot;padding: 
+2px 3px; margin: 1em; border: 1px solid black;&quot;&gt;Download the code&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;Reading the Inputs&lt;/h3&gt;
+
+&lt;p&gt;The second important feature we like to test is the optically isolated inputs. For this, we&#039;ll write a simple Arduino program that is able to read the states of all four optically isolated inputs and return the result. A HTML &lt;code&gt;GET&lt;/code&gt; request for the path &lt;code&gt;/opto&lt;/code&gt; is used, i.e., &lt;a href=&quot;http://192.168.4.1/opto&quot;&gt;http://192.168.4.1/opto&lt;/a&gt;. The response is plain text with the format &lt;code&gt;I_x is HIGH | LOW;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;
+#include &amp;lt;KMPDinoWiFiESP.h&amp;gt;
+#include &amp;lt;KMPCommon.h&amp;gt;
+#include &amp;lt;ESP8266WebServer.h&amp;gt;
+
+const char WIFI_PSK[] = &quot;1a2b3c4d&quot;;
+const char SSID[] = &quot;Charlie&#039;s Home&quot;;
+const uint8_t PORT = 80;
+ESP8266WebServer webServer(PORT);
+
+void setup(void) {
+  // initialize the PRODINo board
+  KMPDinoWiFiESP.init();
+  // setup the WiFi module as AccesPoint (AP Mode).
+  WiFi.mode(WIFI_AP);
+  // set the SSID and Password for the AP
+  WiFi.softAP(SSID, WIFI_PSK);
+  // set the HTTP route for the DHT22 sensor readings&lt;strong&gt;
+  webServer.on(&quot;/opto&quot;, handleOptoRoute);&lt;/strong&gt;
+  // start the web server
+  webServer.begin();
+}
+
+void loop(void) {
+  webServer.handleClient();
+}
+
+void handleOptoRoute() {
+  bool optoState;
+  String result = &quot;&quot;;
+  // incomming GET request (get the state of all opto-inputs)
+  if (&lt;strong&gt;webServer.method() == HTTP_GET&lt;/strong&gt;) {
+    for (uint8_t i = 0; i &amp;lt; 4; i++) {
+      optoState = &lt;strong&gt;KMPDinoWiFiESP.GetOptoInState(i)&lt;/strong&gt;;
+      result.concat(&quot;I_&quot;);
+      result.concat(i);
+      result.concat(&quot; is &quot;);
+      result.concat(optoState == true ? &quot;HIGH&quot; : &quot;LOW&quot;);
+      result.concat(&quot;; &quot;);
+    }
+    webServer.send(200, TEXT_HTML, result);
+  } else {
+    webServer.send(400, TEXT_HTML, &quot;Bad request&quot;);
+  }  
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Compared with the relays example, we have a few relevant differences. The first one is in the &lt;code&gt;setup&lt;/code&gt; method, for which we register the new route, &lt;code&gt;/opto&lt;/code&gt; and the new handler, &lt;code&gt;handleOptoRoute&lt;/code&gt;. The second change is in the &lt;code&gt;handleOptoRoute&lt;/code&gt; method, as part of the request method detection, where now we expect a HTTP &lt;code&gt;GET&lt;/code&gt; type instead of &lt;code&gt;POST&lt;/code&gt;. The last one is the reading of the optically isolated inputs, made with the help of the &lt;code&gt;KMPDinoWiFiESP.GetOptoInState(inputId)&lt;/code&gt; method, which as as parameter the input number (0 to 3). A less significant change regards the creation of the GET response body, which consists of chain of &quot;I_x is HIGH | LOW;&quot; strings, one for each of the four inputs (response example: &lt;code&gt;I_0 is LOW; I_1 is HIGH; I_2 is HIGH; I_3 is LOW;&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;To test this example, write the Arduino program to your PRODINo board (as shown above in this tutorial), then connect to the WiFi network with the name set by the &lt;code&gt;SSID&lt;/code&gt; constant. Open a Web Browser and navigate to &lt;a href=&quot;http://192.168.4.1/opto&quot;&gt;http://192.168.4.1/opto&lt;/a&gt;. For this case we don&#039;t need a HTML form, since GET is the default request type you get by simply using the URL in the URL bar of a web browser.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: &lt;/strong&gt; normally, you&#039;ll only see only &quot;LOW&quot; states for all the input pins. Also, notice that those inputs are actually in pair of two for each input, since they are practically diodes. You&#039;ll need to provide HIGH (more than 0.5VDC) or LOW (less than 0.5VDC) voltages at the corresponding diode end to achieve the expected results. The product cover has labels clearly showing which pin represents which end of the corresponding diode (see also &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Homework:&lt;/strong&gt; modify the above Arduino program so that the number (0 to 3) of the optically isolated input is provided as part of the HTML &lt;code&gt;GET&lt;/code&gt; request, and the response is either &quot;HIGH&quot; or &quot;LOW&quot; depending on the state.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo-Opto-AP-src.zip&quot; style=&quot;padding: 
+2px 3px; margin: 1em; border: 1px solid black;&quot;&gt;Download the code&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;More Examples for PRODINo&lt;/h3&gt;
+
+&lt;p&gt;It looks that the PRODINo team had a busy time, so an impressive number of usage scenarios and examples are available and ready to use. You&#039;ll certainly want to check the Arduino IDE &lt;code&gt;File &amp;gt; Examples &amp;gt; Examples for PRODINo WiFi-ESP&lt;/code&gt; menu and chose the one you&#039;ll like to test. The example set includes the use of PRODINo as server, access point and client, with the help of the WiFi module and also shows how to provide a HTML interface that allows to control the relays or to show the state of the optically isolated inputs by simply using a web browser, available on any PC or smart device, such as a smartphone, smartwatch or table.&lt;/p&gt;
+
+&lt;h2&gt;Conclusions&lt;/h2&gt;
+
+&lt;p&gt;After having quite some fun with the PRODINo WiFi-ESP WROOM-2 v1.0 module and taking a closer look at its hardware components and design, we found it to be user friendly and easy to use for DIY IoT projects, even for beginners. The quality of the board, its electrical design (also check the &lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESPv1.0_Schematics.pdf&quot;&gt;schematics&lt;/a&gt;) and the selection of the electronic components, sets the PRODINo device into the semi-professional category. The price range makes possible its usage for most of the DIY or professional projects / products. Below are the most relevant pros and cons we have found for this module:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Pros:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;em&gt;low-to-medium price&lt;/em&gt;: 40-47 EUR, exclusive shipping costs, but including the FTDI programmer;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;DIY ready and user friendly&lt;/em&gt;: if you ever played with Arduino IDE and some Arduino boards, you are ready to go with PRODINo;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;(almost) ready to use out of the box&lt;/em&gt;: it comes together with the FTDI FTD232R based programmer/debugger module, but notice that you&#039;ll need a 5-30V@400mA+ power supply (or an USB breakup cable) and a mini USB cable (for programming only).&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;allows to control four appliances with up to 2500W each&lt;/em&gt;: unfortunately, with the current design, it is not possible to directly parallel the outputs for even higher power;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;isolated inputs&lt;/em&gt;: four optically isolated inputs are available, thus the ESP8266 module is safe, even when inputs are misused;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;uses the official WROOM-02 ESP8266 module&lt;/em&gt;: ensures a good WiFi experience and allows for lots of hacks and software tweaks, including the use of JavaScript as the programming language, when the appropriate firmware is uploaded;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;(almost) open source&lt;/em&gt;: its electrical schematics are made public and a module (and corresponding libs) is available for the Arduino IDE board manager, but it is unclear if you are allowed to improve the schematics and release them for public usage;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;lots of usage examples&lt;/em&gt;: after installing the corresponding Arduino IDE module (via the board manager), more than sufficient examples are available (check the &lt;code&gt;File &amp;gt; Examples &amp;gt; Examples for PRODINo&lt;/code&gt; menu in Arduino IDE).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Cons:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;em&gt;(somehow) limited number of inputs&lt;/em&gt;: only four (optically isolated) inputs are available, keeping in account that the MCP23S08 (8-bit, general purpose, parallel I/O expansion for I2C bus or SPI) is used, and the WROOM-2 module provides itself 9 GPIOs (including SPI and I2C ones);&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;hazard safety&lt;/em&gt;, while in general we found this module safe to be used, a better electrical isolation of the (possible mains connected) outputs would have helped to avoid electrical shocks, that can possibly cause injuries or even death (!). This is even more relevant, when the module is used for DIY projects implemented by amateurs. The plastic cover could have been extended over the output connections, thus making the (accidental) touching less probable.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Project Ideas&lt;/h3&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;automatic home/garage door locker (and un-locker), based on the the location of your smartphone, and home monitoring by reading various available sensors, such as temperature, humidity, light intensity or air quality;&lt;/li&gt;
+	&lt;li&gt;control the watering of your home plants or your backyard garden, by reading soil moisture sensors and enabling/disabling water pumps or water pipe connected electro-valves;&lt;/li&gt;
+	&lt;li&gt;an alarm system that detects intrusion into a home (or perimeter) when we are in holidays, using PIR and capacitive touch sensors, allowing to trigger a high level alarm bugler and sending an e-mail to you whenever something suspicious is detected.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In further tutorials we&#039;ll show how to use JavaScript (Mongoose-IoT based firmware) code to program the PRODINo module. We&#039;ll also discuss how to write an Android App to control common used appliances from your house, such as unlocking the door and turning on the light when dark and you just reached the house after a hard work day.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/50&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;IoT&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;/taxonomy/term/40&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;WoT&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/52&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;WiFi&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;/Arduino&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;Arduino&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/51&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;ESP8266&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/68&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;PRODINo: Home Automation with ESP8266 based WiFi Control &quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/68&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/68&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/68&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Sun, 27 Nov 2016 14:30:39 +0000</pubDate>
+ <dc:creator>mdiaconescu</dc:creator>
+ <guid isPermaLink="false">68 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/68#comments</comments>
+</item>
+<item>
+ <title>WoT with Arduino for Beginners: Part 3 - Connecting to the Internet via WiFi</title>
+ <link>https://web-engineering.info/node/62</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;In this multi-part tutorial we show how to develop Arduino-based apps for the Web of Things (WoT). This third part shows how to set up a connection between an Arduino and the Internet via a WiFi network and use HTTP(S) to send data to a free cloud service like &lt;a href=&quot;https://thingspeak.com&quot;&gt;ThingSpeak&lt;/a&gt;. In the following parts of this tutorial, which will appear every 1-3 weeks, we discuss how to control actuators and connect them all together in a Web of Things (WoT) app. Using standard Web technologies, such as HTTP and Web Sockets, we can then access the data or provide commands to the WoT nodes. As a newbie, it is helpful if you already have some familiarity with C/C++ programming and Web technologies, such as HTML and JavaScript.&lt;/p&gt;
+
+&lt;p&gt;You may first want tor read the previous parts of this tutorial series:&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;a href=&quot;http://web-engineering.info/node/60&quot;&gt;Part 1: Mastering the RGB LED&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;http://web-engineering.info/node/61&quot;&gt;Part 2: Connecting to the Real World via Sensors&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This tutorial is part of our &lt;a href=&quot;http://web-engineering.info/WoTProjects&quot;&gt;learning materials&lt;/a&gt; on the Web of Things published on &lt;a href=&quot;http://web-engineering.info/&quot;&gt;web-engineeering.info&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;small&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; working with electricity is dangerous. For this project we&#039;ll use 5V, which is safe for the human body under any environment conditions. However, the low voltage may be obtained from a mains connected power brick, and therefore we highly recommend you to take safety precautions and to use a trustful brand for the power supply. We cannot be held responsible for any caused damage! Do it at your own risk and/or ask help from an electronics engineer. In case you are using the USB connector from your PC to power the Arduino board, be aware that short-circuits which may occur on the Arduino board may also have a negative impact on your PC!&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;small&gt;&lt;strong&gt;Credits:&lt;/strong&gt; some of the images from this tutorial are created by using &lt;a href=&quot;http://fritzing.org/home/&quot;&gt;Fritzing&lt;/a&gt;, a nice electronics modeling tool for beginners.&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;button&gt;Download the Source Code for this project&lt;/button&gt;&lt;/p&gt;
+
+&lt;h2&gt;Arduino + ESP8266 = &quot;I&#039;m online, Mum!&quot;&lt;/h2&gt;
+
+&lt;p&gt;After we&#039;ve managed to read data from the environment using sensors, we want to store the data for later use, such as statistical analysis or visualization. It would also be nice to if we could watch what&#039;s going on at the monitored site even when we are not around, by going to a website that provides access to the (current and historical) sensor data.&lt;/p&gt;
+
+&lt;p&gt;An Arduino can be connected to a network, and thus to the Internet, by using various networking modules, e.g., standard WiFi, wired Ethernet or Bluetooth, see &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;. Other custom solutions are also available, such as for example RF modules that communicate in the 315MHz-2.4GHz frequency range. However, such modules do not use the standard WiFi protocols, therefore you can&#039;t use them for directly connecting your Arduino to the Internet by simply using your WiFi router or repeater.&lt;/p&gt;
+
+&lt;figure id=&quot;fig1&quot;&gt;&lt;img alt=&quot;Network Connection Modules for Arduino&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/network-modules.png&quot; /&gt;
+&lt;figcaption&gt;Figure 1: Network Connection Modules for Arduino.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;A simple solution for having an Arduino connected to a WiFi network, and thus to the Internet, is to use an ESP8266 module. These modules are now widely available, with prices in the range of 2-8 EUR, including postage to the EU. Such a module is what we are going to use in this tutorial, and we intend to provide you with a guide on how to chose one, since multiple variants are available, how to update its firmware, since new versions are available almost every month, and how to use it to transmit and receive data by using standard Web technologies, such as HTTP(S).&lt;/p&gt;
+
+&lt;h3&gt;Choosing an ESP8266 Module Version&lt;/h3&gt;
+
+&lt;p&gt;Multiple versions of the ESP8266 WiFi module are available, we are aware about 12 of them, as shown in &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure id=&quot;fig2&quot;&gt;&lt;img alt=&quot;Variants of the ESP8266 WiFi Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-variants.png&quot; /&gt;
+&lt;figcaption&gt;Figure 2: Variants of the ESP8266 WiFi Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;These modules use the 802.11b/g/n standard, operating at 2.4 GHz. This means, we can connect to a standard WiFi network, such as the one most of us have at home, provided by an WiFi router or access point (AP).&lt;/p&gt;
+
+&lt;p&gt;Having multiple variants of ESP8266 module, comes the question: &quot;which one should I use ?&quot;. There is no perfect answer for this question, and it highly depends on what you are using the WiFi module for. These modules are not only a &quot;blind&quot; WiFi communication module, but are based on a MCU, which can be programmed and which have I/O pins, therefore it can do tasks similar with the ones available for the Arduino boards. Even more, the Arduino IDE supports ESP8266 programming, but details about this topic we&#039;ll discus in another tutorial. Regarding our question, there are three main reasons to consider when choosing an ESP8266 module:&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;usability on a breadboard:&lt;/strong&gt; most of the times we prototype on a breadboard, therefore we should be able to connect these modules to such a board. Some of the modules, such as ESP02, ESP03 and ESP05 (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;) are breadboard friendly, having a pitch of 2.54mm (the distance between two pins). Other modules, such as ESP07 or ESP08 have a pitch of 1.27mm, thus you&#039;ll only be able to use them with a breadboard when using an adapter. Last, other modules, such as ESP01 have a pitch of 2.54mm, but they have a two-row header, which makes it impossible to use it with a breadboard, because the implied short-circuit between the pins. Notice that some of the breadboard friendly modules have only a half-way pin connections, see ESP02 module from &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;. Such connections are somehow harder to solder, specially for a beginner. Our tip: plug the pin headers into a breadboard, align the module on top of them, then solder.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;flash memory size:&lt;/strong&gt; this is very important to consider when choosing an ESP8266 module, because they come with permanent flash memory, which is usually in the range of 4MBit (512KB) up to 16MBit (2MB), but can go up to 128MBit (16MB). &lt;em&gt;&lt;strong&gt;Starting with the firmware version 1.1.0 (released on June 2015), you&#039;ll need a module with at least 8MBit (1MB) flash size to burn the new firmware&lt;/strong&gt;&lt;/em&gt;. Thus, pay attention when buy the module and be sure that you get one that has at least 8Mbit (1MB) flash size. In term of RAM and MCU frequency, they are mostly the same, so no need to worry about it. There are ways to improve the flash capacity, but for this you&#039;ll need good soldering skills to remove the old flash IC and solder the new one, and usually the price of the flash IC bought in small quantities is more than half of the ESP8266 module price, thus defeating the purpose. Excepting for the ESP06, ESP07, ESP08 and ESP12 modules, which have a metallic (hard to remove) cover over the CPU and flash IC, you can simply detect the flash size by reading the text on the 8 pin black IC soldered near the MCU (which is the square black IC with pins on all four sides). If the number on the flash IC starts with 25Q80 then you have a 8MBit sized one, while if it starts with 25Q40 then you have a 4MBit sized one.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;MCU features:&lt;/strong&gt; these modules are driven by a low power 32-bit RISC CPU (Tensilica Xtensa LX106) running at 80 MHz. It has 64 KB of instruction RAM, 96 KB of data RAM and supports external QSPI flash - 512 KB to 4 MB (up to 16MB is supported). I has 16 I/O pins, from which one has 10Bit ADC capabilities, and supports I2C, I2S, SPI and UART communication protocols. All these features are quite important if you are using the ESP8266 module as standalone controller board. However, if the ESP8266 module is used as WiFi interface only, then you&#039;ll not need these features, and you can chose the cheapest and board with suits your needs.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Based on the above considerations, we chose to use ESP02 module, because it is small, breadboard friendly (even if is not very easy to solder the pin header) and it has a connector for a 2.4GHz WiFi antenna, thus allowing for a good WiFi range, even when used indoors.&lt;/p&gt;
+
+&lt;h3&gt;Update the ESP8266 Firmware&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; perform the tasks shown on this section on your own risk. If something goes wrong, it may be possible to have a &quot;bricked&quot; module, which can&#039;t be used anymore or requires special tools to repair.&lt;/p&gt;
+
+&lt;p&gt;Normally, after buying an ESP8266 module, the first task is to ensure that it has the latest firmware, thus being able to use the latest features and having fixed various software related problems. But how do we know if the last firmware is burned into our ESP8266 module? To answer this question we need to connect the module to a computer by using a TTL module and a software, which allows us to communicate with the module and perform queries or provide commands. A TTL module (e.g. see &lt;a href=&quot;#fig3&quot;&gt;Figure 3&lt;/a&gt;), see is a communication device that connects to an USB port of the computer and allows to map Serial protocol via the USB port. Its TX and RX pins connects to the RX and respective TX pins of the ESP8266 module (pay attention, the pins connection is twisted!). Such modules are quite cheap, having an approximate cost of about 2-3 EUR postage included in EU.&lt;/p&gt;
+
+&lt;figure id=&quot;fig3&quot;&gt;&lt;img alt=&quot;USB-TTL UART Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/usb-ttl-module.png&quot; /&gt;
+&lt;figcaption&gt;Figure 3: USB-TTL UART Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In &lt;a href=&quot;#fig4&quot;&gt;Figure 4&lt;/a&gt; and &lt;a href=&quot;#fig5&quot;&gt;Figure 5&lt;/a&gt; are shown the breadboard connection and the schematics of the circuit which allows us to have the ESP02 module communicating with a computer by using the serial port (UART communcation). A breadboard friendly power supply is used to provide the required 3.3V for the ESP8266 module. This specific one allows inputs in the range 5-12V and produce a steady 3.3V or 5V (a switch allows the selection) output, with a maximum current of 0.5A.&lt;/p&gt;
+
+&lt;p&gt;In addition, we need a software which allows us to have a user interface so we can send commands (or queries) to the module and see the module answer. While there are multiple software available for this purpose, we found &lt;a href=&quot;http://realterm.sourceforge.net/&quot;&gt;Realterm&lt;/a&gt; as being very stable, free of charge and easy to use. Further in this tutorial we refer to Realterm when providing examples or screen shots related to this topic, but you are free to use others if you like, such as for example &lt;a href=&quot;http://www.putty.org/&quot;&gt; Putty&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure id=&quot;fig4&quot;&gt;&lt;img alt=&quot;ESP8266 PC USB Connection via TTL Module on a Breadboard&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/usb-ttl-esp8266-breadboard.png&quot; /&gt;
+&lt;figcaption&gt;Figure 4: ESP8266 PC USB Connection via TTL Module on a Breadboard.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig5&quot;&gt;&lt;img alt=&quot;Schematics of ESP8266 PC USB Connection via TTL Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/usb-ttl-esp8266-schematics.png&quot; /&gt;
+&lt;figcaption&gt;Figure 5: Schematics of ESP8266 PC USB Connection via TTL Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;It may be observed that two of the ESP8266 module pins are connected to VCC (3.3V) via 3.3kΩ resistors. This is required, because the RST (reset) and CH_PD (power down) pins must stay high during the normal operation of this module. One can use Arduino I/O pins to control the state of these pins, thus having reset and power down features for a project that implies to use the ESP8266 module, and allowing for lower energy consumption when WiFi transmission is not required. The ESP8266 module is able to recover very fast from a &quot;power down&quot; state, the wake-up time being in the order of milliseconds. However, after resetting the module, may take up to two seconds to have the module booted and a few other seconds until WiFi line is ready to be used.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Important:&lt;/strong&gt; the connection between the GPIO0 of the ESP8266 module and GND (see the blue wire in &lt;a href=&quot;#fig4&quot;&gt;Figure 4&lt;/a&gt;) is required when the firmware needs to be updated. In all the other case, you should remove this connection, otherwise your module will not communicate via the UART port (RX/TX lines). Removing or connecting GPIO0 pin to GND should be done ONLY when the module receives no power, so first turn OFF the power supply connected to module, then connect or disconnect the wire (or jumper) between the GPIO0 to GND.&lt;/p&gt;
+
+&lt;p&gt;The USB-TTL module we use has a 3.3V UART interface, therefore is no need to have an additional voltage LC (level converter) module. Before doing the connections, check if your module has already this feature, by measuring (using a voltmeter) the voltage between the GND and TX pins of the USB-TTL module. If you read a voltage value under 3.5V, then it is safe to connect the RX and TX pins of the USB-TTL module directly to the ESP8266 TX and RX pins. If you read more than 3.5V then you need to use a LC module to convert the 5V to 3.3V and back between the RX and TX lines of the ESP8266 module and the USB-TTL module. Ignoring this advice may result in a broken ESP8266 module, so do it at your own risk!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; it is strongly recommended to use a stable 3.3V power supply, which  is able to provide current in excess of 500mA (0.5A). The ESP8266 module is in general power efficient, but during the data transmission, it may have peaks of up to 500mA. Powering it from the 3.3V rail of the Aruino board or from the 3.3V rail available for some USB-TTL module is NOT recommended and will very likely result in destroying the 3.3V voltage regulator of your Arduino board or of the USB-TTL board. We use a breadboard friendly power supply, able to provide 3.3V and 5V (a switch allow the selection) at up to 500mA (see &lt;a href=&quot;#fig4&quot;&gt;Figure 4&lt;/a&gt;). This specific power supply cab be found very cheap, having prices of about 1-3 EUR postage in EU included.&lt;/p&gt;
+
+&lt;p&gt;After you have downloaded and installed &lt;a href=&quot;http://realterm.sourceforge.net/&quot;&gt;Realterm&lt;/a&gt;, start it and select the baud rate (normally this defaults to 115200 for most of the ESP8266 modules we bought over the last 6 months) and the COM port (which in our case is 38, but may be different for you, so better check). Last, push the &quot;Open&quot; button, to create a Serial (UART) connection. If the &quot;Open&quot; button was already pushed, then push it again to its OFF state it and push it back to its ON state. Also, check &lt;a href=&quot;#fig6&quot;&gt;Figure 6&lt;/a&gt; for additional information.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Realterm is highly configurable via command line parameters. Check the &lt;a href=&quot;http://realterm.sourceforge.net/index.html#Command_Line_Parameters&quot;&gt;command line configuration parameters&lt;/a&gt; documentation for making your settings permanent (e.g., to have the program started with the COM port and baud-rate already set to whatever you like) or for having various other configurations.&lt;/p&gt;
+
+&lt;figure id=&quot;fig6&quot;&gt;&lt;img alt=&quot;Realterm Port and Baud-rate configuation&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-FU-connect.png&quot; /&gt;
+&lt;figcaption&gt;Figure 6: Realterm Port and Baud-rate configuation.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;At this moment we are ready to communicate with the ESP8266 module. First operation we like to perform is a reset, so we are able to see that the module reacts to our commands. For this, go to &quot;Send&quot; tab in Realterm UI and write &quot;AT+RST&quot; on the first text input box. Please check the &quot;+CR&quot; and &quot;+LF&quot; boxes located on the right of the first text input box, thus allowing to send a CR and LF chars at the end of the command, allowing the ESP8266 module to detect a &quot;command end&quot; limiter. You should see a result similar with the one shown in &lt;a href=&quot;#fig7&quot;&gt;Figure 7&lt;/a&gt;, but some of the response text may differ in your case because of different firmware versions.&lt;/p&gt;
+
+&lt;figure id=&quot;fig7&quot;&gt;&lt;img alt=&quot;Sending Reset Command to ESP8266 Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-AT+RST-before.png&quot; /&gt;
+&lt;figcaption&gt;Figure 7: Sending Reset Command to ESP8266 Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Our initial purpose was to check if we have (or not) the latest firmware burned int our ESP8266 module. For this, following the same procedure as for &quot;AT+RST&quot; command, we send the &quot;AT+GMR&quot; command. Tee result we obtain is shown in &lt;a href=&quot;#fig8&quot;&gt;Figure 8&lt;/a&gt; but you may have a different one, because of a different firmware version burned into your module.&lt;/p&gt;
+
+&lt;figure id=&quot;fig8&quot;&gt;&lt;img alt=&quot;Sending &#039;Get Version&#039; Command to ESP8266 Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-AT+GMR-before.png&quot; /&gt;
+&lt;figcaption&gt;Figure 8: Sending &#039;Get Version&#039; Command to ESP8266 Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;As shown in &lt;a href=&quot;#fig8&quot;&gt;Figure 8&lt;/a&gt;, the SDK firmware version of our module 1.3.0 and the AT version is 0.40.0, which are quite old (see also the date, is 8 August 2015!). Check if there is any available firmware update by navigating to &lt;a href=&quot;http://bbs.espressif.com/&quot;&gt;http://bbs.espressif.com/&lt;/a&gt; and look at the &quot;SDK&quot; section. We found that the current available firmware update is SDK version 1.5.3 and the current AT version is 1.1.0 (dated 16 April 2016).&lt;/p&gt;
+
+&lt;p&gt;Download the firmware following the links provided in the SDK download page, then unzip the archive somewhere on your PC hard drive. Open the ESP8266Flasher tool, available as download in the archive attached to this tutorial. Now follow the instructions shown in &lt;a href=&quot;#fig9&quot;&gt;Figure 9&lt;/a&gt;, &lt;a href=&quot;#fig10&quot;&gt;Figure 10&lt;/a&gt; and &lt;a href=&quot;#fig11&quot;&gt;Figure 11&lt;/a&gt; to configure the tool for firmware update. Notice that in &lt;a href=&quot;#fig10&quot;&gt;Figure 10&lt;/a&gt;, we have selected 1MB because our ESP02 module has a 8MBit (1MB) flash IC, but you should do the appropriate selection for your module if the flash IC is different. However, a flash IC with a size smaller than 1MB &lt;strong&gt;will not work&lt;/strong&gt;, since the current firmware version is to big to fit. Such a module cannot be upgraded to a firmware version greater than 1.1.0 (which is quite old and misses a lot of features, so go and break your piggy bank and buy an appropriate ESP8266 module!).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; the ESP8266 firmware update tool, as well as the current version of the ESP8266 firmware is part of the download archive we provide with this article. However, new firmware versions may be released at anytime, so better check the &lt;a href=&quot;http://bbs.espressif.com/&quot;&gt;http://bbs.espressif.com/&lt;/a&gt; for being sure that you get the latest version.&lt;/p&gt;
+
+&lt;figure id=&quot;fig9&quot;&gt;&lt;img alt=&quot;Select Firmware Update Binaries&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-FU-config.png&quot; /&gt;
+&lt;figcaption&gt;Figure 9: Select Firmware Update Binaries.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig10&quot;&gt;&lt;img alt=&quot;Select Flash Size and Baudrate for Firmware Update&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-FU-advanced.png&quot; /&gt;
+&lt;figcaption&gt;Figure 10: Select Flash Size and Baudrate for Firmware Update.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig11&quot;&gt;&lt;img alt=&quot;Select COM Port for Firmware Update&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-FU-operation.png&quot; /&gt;
+&lt;figcaption&gt;Figure 11: Select COM Port for Firmware Update.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Last, start the firmware update by pushing the &quot;Flash&quot; button, shown in &lt;a href=&quot;#fig11&quot;&gt;Figure 11&lt;/a&gt;. If all was correctly configure, you should see now the &quot;AP MAC&quot; and &quot;STA MAC&quot; fields (shown in &lt;a href=&quot;#fig11&quot;&gt;Figure 11&lt;/a&gt;) filled in with values (as shown in &lt;a href=&quot;#fig12&quot;&gt;Figure 12&lt;/a&gt;), and the blue bar starts to fill in, showing the progress (see &lt;a href=&quot;#fig12&quot;&gt;Figure 12&lt;/a&gt;).&lt;/p&gt;
+
+&lt;figure id=&quot;fig12&quot;&gt;&lt;img alt=&quot;Firmware Update in Progress&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-FU-updating.png&quot; /&gt;
+&lt;figcaption&gt;Figure 12: Firmware Update in Progress.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The update may take about a minute or two, and at the end, the ESP8266Flasher UI should look similar with &lt;a href=&quot;#fig13&quot;&gt;Figure 13&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure id=&quot;fig13&quot;&gt;&lt;img alt=&quot;Firmware Update Completed&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-FU-updated.png&quot; /&gt;
+&lt;figcaption&gt;Figure 13: Firmware Update Completed.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;At this point, you&#039;ll need to power down the ESP8266 module (disconnect the power supply), and remove the connection between the GPIO0 pin and GND, so the module does not enter firmware upgrade mode when powered up. Missing this step results in a non communicative module, therefore not responding to commands and looking as a broken one, software wise.&lt;/p&gt;
+
+&lt;p&gt;Start the Realterm, make the port configurations (discussed earlier in this section) and run the &quot;AT+RST&quot; command and then the &quot;AT+GMR&quot; command and check the results. If all went well, you should see results similar with the ones shown in &lt;a href=&quot;#fig14&quot;&gt;Figure 14&lt;/a&gt; and &lt;a href=&quot;#fig15&quot;&gt;Figure 15&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure id=&quot;fig14&quot;&gt;&lt;img alt=&quot;Sending Reset Command to ESP8266 Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-AT+RST-after.png&quot; /&gt;
+&lt;figcaption&gt;Figure 14: Sending Reset Command to ESP8266 Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig15&quot;&gt;&lt;img alt=&quot;Sending &#039;Get Version&#039; Command to ESP8266 Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/esp8266-AT+GMR-before.png&quot; /&gt;
+&lt;figcaption&gt;Figure 15: Sending &#039;Get Version&#039; Command to ESP8266 Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; the &quot;Display&quot; tab of the Realterm UI provides useful settings for selecting how the data is displayed. Normally, you&#039;ll want to select &quot;Ascii&quot; or &quot;Ansi&quot; as the value of the &quot;Display As&quot; parameter. In addition to normal characters, from the ASCII table, the &quot;Ascii&quot; mode shows also the special chars, such as CR and LF, which are important when using Realterm to debug or control ESP8266 module.&lt;/p&gt;
+
+&lt;h2&gt;Use Arduino and HTTP(S) to Access Online Services via an WiFi Network&lt;/h2&gt;
+
+&lt;p&gt;In this section we are going to use Arduino UNO, ESP02 WiFi module (remember, we chose to use this specific one out of all existing variations) and the DHT22 temperature and humidity sensor. With the ESP02 module we are going to connect to a WiFi network, thus gaining access to internet. Using a free &lt;a href=&quot;http://thingspeak.com&quot;&gt;thingspeak.com&lt;/a&gt; account, we store the temperature and humidity values, with the purpose of having charts that shows the evolution over time. We send a sample every 15 seconds, since it is highly improbable to have changes of temperature and humidity values faster than this, which also provides a lower power consumption, since the ESP8266 modules are quite power efficient in &quot;stand-by&quot; mode, but this changes a lot when data is transmitted over WiFi.&lt;/p&gt;
+
+&lt;p&gt;It may be useful to have also a USB-TTL module near you, so in case of the case that your ESP8266 module seems irresponsible, you can try to provide commands directly via Realterm software, as discussed earlier in this tutorial.&lt;/p&gt;
+
+&lt;h3&gt;Hardware Configuration&lt;/h3&gt;
+
+&lt;p&gt;As shown in &lt;a href=&quot;#fig16&quot;&gt;Figure 16&lt;/a&gt; and &lt;a href=&quot;#fig17&quot;&gt;Figure 17&lt;/a&gt;, for this project we need the following components:&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;An Arduino UNO board, but you can use almost any Arduino board, with minimal or no modifications.&lt;/li&gt;
+	&lt;li&gt;An ESP02 WiFi module, but you can also use any of the 12 available versions, just remember to update the firmware.&lt;/li&gt;
+	&lt;li&gt;A DHT22 temperature and humidity sensor, but if you like, DHT11/21 or LM35 are as good, you&#039;ll just need to adapt your code related to sensor reading.&lt;/li&gt;
+	&lt;li&gt;A voltage LC module, that allows the communication between Arduino and ESP02 module, but you can skip this in case you are using a 3.3V Arduino board (e.g., Arduino DUE).&lt;/li&gt;
+	&lt;li&gt;A voltage regulator module, that uses USB or a power brick to provide the 3.3V@500mA required by the ESP02, and most of the other ESP modules.&lt;/li&gt;
+	&lt;li&gt;Three 10k resistors, used to PULL UP the DHT22 data pin and the RST and CH_PD pins of the ESP02 module.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In addition, an USB-TTL module may be useful for debugging, but this is not required for the functionality of the circuit. Notice that the connection between GPIO0 pin of the ESP8266 module and GND is dropped, that being only required for the firmware update. If you still have that connection, now is the case to disable it, because your module needs to boot up, and that is not the case as long as GPIO0 is connected to GND. You should let GPIO0 pin floating (not connected).&lt;/p&gt;
+
+&lt;figure id=&quot;fig16&quot;&gt;&lt;img alt=&quot;ESP8266 WiFi Module Connected to an Arduino UNO Board&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/arduino-esp8266-breadboard.png&quot; /&gt;
+&lt;figcaption&gt;Figure 16: ESP8266 WiFi Module Connected to an Arduino UNO Board.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig17&quot;&gt;&lt;img alt=&quot;Circuit Diagram of an ESP8266 WiFi Module Connected to an Arduino UNO Board&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/arduino-esp8266-schematics.png&quot; /&gt;
+&lt;figcaption&gt;Figure 17: Circuit Diagram of an ESP8266 WiFi Module Connected to an Arduino UNO Board.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;SoftwareConfiguration&lt;/h3&gt;
+
+&lt;p&gt;In this section we&#039;ll learn how to use the AT commands set for being able to connect to a WiFi network, then using TCP connect to a live server, and last, send the temperature and humidity values to &lt;a href=&quot;http://thingspeak.com&quot;&gt;thingspeak.com&lt;/a&gt; for being stored and having displayed them as a chart.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; all the source code, including the required libraries are included in the zip archive available for download as part of this article (check the article head), but we encourage you to visit our &lt;a href=&quot;https://github.com/dimircea/Arduino&quot;&gt;github.com project page&lt;/a&gt; where you can download the latest changes, updates and fixes for this code and much more.&lt;/p&gt;
+
+&lt;p&gt;First, you&#039;ll need to setup a free account at &lt;a href=&quot;https://thingspeak.com&quot;&gt;thingspeak.com&lt;/a&gt;. Then, in the &quot;Channel Settings&quot; menu enable &quot;Field 1&quot; and &quot;Field 2&quot;, and give them some human readable names, such as &quot;DHT-Temperature&quot; and &quot;DHT-Humidity&quot;. Then, navigate to &quot;Api Keys&quot; menu and copy the &quot;Write API Key&quot; value and paste it on the ESP8266_DHT22.ino as the value of &lt;code&gt;DATA_SERVER_API_KEY&lt;/code&gt; constant. The file ESP8266_DHT22.ino is located under under examples/ESP8266/ESP8266_DHT22 folder. Remember to replace also &lt;code&gt;WIFI_SSID&lt;/code&gt; and &lt;code&gt;WIFI_PASSWORD&lt;/code&gt; constants values with your own WiFi network credentials.&lt;/p&gt;
+
+&lt;p&gt;Second, you&#039;ll need to copy the DHTxx and ESP8266 folders, located under libraries sub-folder, into your libraries sub-folder of the Arduino IDE software. This is required because we&#039;ll use these two libraries with our example code.&lt;/p&gt;
+
+&lt;p&gt;Lets have now a look at the example code, part of the &lt;em&gt;examples/ESP8266/ESP8266_DHT22/ESP8266_DHT22.ino&lt;/em&gt; Arduino sketch. Like with any Arduino porgram, we&#039;ll need to include the library headers, in our case these are DHTxx.h and ESP8266.h. We also define a constant for the I/O pin used to communicate with the DHT22 sensor, and a set of constants that stores the WiFi credentials (SSID and password), thingspeak.com server address (api.thingspeak.com), the TCP port used for connection, the request path and the thingspeak.com &quot;Write API Key&quot; (required for being able to write data).&lt;/p&gt;
+
+&lt;pre&gt;
+#include &amp;lt;dhtxx.h&amp;gt;
+#include &amp;lt;esp8266.h&amp;gt;
+#define DHT_PIN 7
+
+// WiFi authentication data
+const char* WIFI_SSID = &quot;your-wifi-ssid&quot;;
+const char* WIFI_PASSWORD = &quot;your-wifi-password&quot;;
+
+// data server address and port
+const char* DATA_SERVER_ADDRESS = &quot;api.thingspeak.com&quot;
+const uint8_t DATA_SERVER_PORT = 80;
+
+// data to be sent to the server
+const char* DATA_SERVER_API_KEY = &quot;your-thingspeak-write-api-key&quot;;
+char* DATA_SERVER_PATH = &quot;/update&quot;;
+&lt;/pre&gt;
+
+&lt;p&gt;Further, we have to create the Dht and ESP8266 objects, responsible for the communication with the DHT22 sensor and ESP8266 WiFi module.&lt;/p&gt;
+
+&lt;pre&gt;
+Dht dht(DHT_PIN, Dht::TypeEL::DHT22);
+ESP8266 esp(Serial);
+&lt;/pre&gt;
+
+&lt;p&gt;The Arduino board and the ESP8266 module communicates via the serial port, thus we use the &lt;code&gt;Serial&lt;/code&gt; object as the middle-ware. The &lt;code&gt;Serial&lt;/code&gt; global object, which is Arduino specific, is provided as parameter to the ESP8266 object and used internally to read and write data, as well as to deal with the incoming data streams and extract the relevant information.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;setup&lt;/code&gt; method takes care of the Serial port initialization (communication is made at 115200bps). In addition, it creates a loop while trying to connect the ESP8266 module to the specified WiFi network (credentials are provided by the &lt;code&gt;WIFI_SSID&lt;/code&gt; and &lt;code&gt;WIFI_PASSWORD&lt;/code&gt; constants).&lt;/p&gt;
+
+&lt;pre&gt;
+void setup() {  
+  Serial.begin(115200);
+  esp.atCwmode(ESP8266::WiFiMode::STA);
+  while (esp.atCwjap(WIFI_SSID, WIFI_PASSWORD) != ESP8266::Error::NONE);
+};
+&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;atCwjap&lt;/code&gt; method, part of the &lt;code&gt;ESP8266&lt;/code&gt; library, is responsible with the WiFi connection for the specified WiFi network. This method is the equivalent of &lt;code&gt;AT+CWJAP=&quot;wifi-ssid&quot;,&quot;wifi-password&quot;&lt;/code&gt; command, which we can send to the ESP8266 module, e.g., by using Realterm. The library we are using, contains a set of methods, most of them being a one-to-one mapping of a specific AT command, and the method name is the AT command name (e.g., &lt;code&gt;AT+CWJAP&lt;/code&gt; has the equivalent method &lt;code&gt;atCwjap&lt;/code&gt;). However, notice that this library does not covers the complete set of available AT commands.&lt;/p&gt;
+
+&lt;p&gt;It is important to know that the ESP8266 module may work in three different modes: client (STA), access point (AP) and both combined (AP+STA). The &lt;code&gt;AT+CWMODE&lt;/code&gt; command allows to set one of these modes, and the used values are: 1 for &lt;code&gt;STA&lt;/code&gt;, 2 for &lt;code&gt;AP&lt;/code&gt; and 3 for &lt;code&gt;AP+STA&lt;/code&gt;. E.g., &lt;code&gt;AT+CWMODE=1&lt;/code&gt; sets the module in client (station) mode. Our ESP8266 library has an equivalent method, &lt;code&gt;atCwmode&lt;/code&gt; for this command. It takes as parameter an enumeration literal value, &lt;code&gt;ESP8266::WiFiMode::xxx&lt;/code&gt;, where &lt;code&gt;xxx = {STA, AP, AP_STA}&lt;/code&gt;. Since we use the WiFi module to connect to a network, she STA mode is the most appropriate, and we set this in the &lt;code&gt;setup&lt;/code&gt; method. It will also work if AP+STA mode is used, but this have some security implications, because the WiFi module becomes also an WiFi access point that has internet access, and unless you know exactly what you are doing, it may open serious security back-doors in your network.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;code&gt;loop&lt;/code&gt; method (remember, this method executes again, and again as long as the Arduino receives power) we check if we have a WiFi connection, and if that is true, we perform a DHT22 sensor reading and sent it to thingspeak.com by using the &lt;code&gt;sendDataToServer&lt;/code&gt; method, that we&#039;ll discuss further. We do this with a periodicity of 15 seconds, thus the &lt;code&gt;delay(15000)&lt;/code&gt; call. Notice that the real time between sending data is larger, since various other delays occurs in the code, such as for the TCP connection, data sending, and so on.&lt;/p&gt;
+
+&lt;pre&gt;
+void loop() {
+  if (!checkWiFi()) return;
+  Dht::Result result = dht.read();
+  if (result.status == Dht::StatusEL::OK) 
+    sendDataToServer(result.temperature, result.humidity);
+  delay(5000);
+};
+&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;checkWifi&lt;/code&gt; method simply sends an &lt;code&gt;AT&lt;/code&gt; command and waits for an &lt;code&gt;OK&lt;/code&gt;, which the ESP8266 module normally sends as response. This command is not really supposed to do something, but just to have a simple way to detect if a serial communication with the module exists or not.&lt;/p&gt;
+
+&lt;pre&gt;
+boolean checkWiFi() {
+  if( esp.at() == ESP8266::Error::NONE) return true; 
+  return false;
+};
+&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;sendDataToServer&lt;/code&gt; method is responsible with four operations:&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;creates the HTTP request, by using a template, discussed later in this tutorial;&lt;/li&gt;
+	&lt;li&gt;opens a TCP connection on port 80, with the specified server (see the &lt;code&gt;DATA_SERVER_ADDRESS&lt;/code&gt; constant);&lt;/li&gt;
+	&lt;li&gt;sends a GET request to the data server;&lt;/li&gt;
+	&lt;li&gt;finally, closes the TCP connection.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;
+void sendDataToServer(float temperature, float humidity) {
+  char data[64] = {0};
+  char *pData = data;
+  createDataFromTemplate(pData, temperature, humidity);
+  esp.atCipstartTcp(DATA_SERVER_ADDRESS, 80);
+  esp.atCipsendHttpGet(DATA_SERVER_PATH, data);
+  esp.atCipclose();
+};
+&lt;/pre&gt;
+
+&lt;p&gt;An example of a HTTP GET request that we like to submit looks as follows:&lt;/p&gt;
+
+&lt;pre&gt;
+GET /update?api_key=22.7&amp;amp;field1=%s&amp;amp;field2=35.5 HTTP/1.0
+&lt;/pre&gt;
+
+&lt;p&gt;We see that some static parts are used (the HTTP method name, the request path &lt;code&gt;/update&lt;/code&gt; and the HTTP version specification), but also some parts that are changing, such as the values of &lt;code&gt;field1&lt;/code&gt; and &lt;code&gt;field2&lt;/code&gt; parameters, corresponding to temperature and humidity values. We&#039;ll turn the parameter part of the request into a template, where the dynamic values are replaced at the request time with specific temperature and humidity quantities. For this, we define a template char pointer (you can thing on it like being a string).&lt;/p&gt;
+
+&lt;pre&gt;
+const char DATA_TEMPLATE[] PROGMEM = &quot;?api_key=%s&amp;amp;field1=%s&amp;amp;field2=%s&quot;;
+&lt;/pre&gt;
+
+&lt;p&gt;Some magic happens here, because of the keyword PROGMEM. That is not really related to the template, but to the way on which the &quot;template string&quot; is stored by the Arduino MCU. Normally, all strings are stored in the RAM, thus keeping the RAM occupied with data that is only rarely used. The PROGMEM variable modifier informs the compiler that we like to store this value in FLASH (remember, we have FLASH sizes with an order of magnitude greater than RAM!). The problem is now, that we can&#039;t just simply read the variable and expect to have the value there, because what it really stores is the start address of the FLASH memory where the data was stored. For this reason, we created the &lt;code&gt;getPMData&lt;/code&gt; (get program memory data) method to extract the real data from FLASH. Notice that this method comes with the ESP8266 library and is used intensively to deal with the static strings involved by the communication with the ESP8266 module. This method takes three parameters: 1) the defined PROGMEM variable; 2) a char pointer with sufficient allocated memory to store the data you need to read; and 3) a reference to an &lt;code&gt;uint8_t&lt;/code&gt; variable that will be set to a value representing the length of the data that was read from FLASH.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;code&gt;createDataFromTemplate&lt;/code&gt; method, we take care to replace the parameters, represented by &lt;code&gt;%s&lt;/code&gt; (denoting a string parameter), into real values.&lt;/p&gt;
+
+&lt;pre&gt;
+void createDataFromTemplate( char *&amp;amp;data, float temperature, float humidity) {
+  char buffTemp[6] = {0}, buffHum[5] = {0}, tmpl[32] = {0};
+  char *pTmpl = tmpl;
+  uint8_t templateLen = -1;
+  // read template from PROGMEM
+  getPMData( DATA_TEMPLATE, pTmpl, templateLen);
+  // create data string from template by replacing
+  // parameters with their actual values from sensors
+  sprintf( data, pTmpl, DATA_SERVER_API_KEY,
+    dtostrf( temperature, 0, 1, buffTemp),
+    dtostrf( humidity, 0, 1, buffHum));
+};
+&lt;/pre&gt;
+
+&lt;p&gt;Using the &lt;code&gt;getPMData&lt;/code&gt; method we read the template from FLASH. Further, using &lt;code&gt;sprintf&lt;/code&gt; we replace the specified parameters (i.e., which starts with the % symbol) with concrete values. The &lt;code&gt;dtostrf&lt;/code&gt; method allows to transform the float values that we have for temperature and humidity into strings, used then to fill the template variables. Notice, that &lt;code&gt;sprintf&lt;/code&gt; is able to deal directly with numeric variables, but unfortunately its version available for the Arduino sketches lacks this functionality, thus we also need to use &lt;code&gt;dtostrf&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Replace the constant values (i.e., WIFI_SSID, WIFI_PASSWORD, DATA_SERVER_API_KEY and so on) with your own values, then write the sketch into your Arduino. If all went fine, you should now check your account and access the &quot;Private View&quot; tab of your thingspeak.com account. In our case, for a small set of values, we obtain the charts shown in &lt;a href=&quot;#fig18&quot;&gt;Figure 18&lt;/a&gt;. Remember, that we only set data once every 15 seconds, meaning that it can take a while until you&#039;ll see something on your thingspeak.com chart.&lt;/p&gt;
+
+&lt;figure id=&quot;fig18&quot;&gt;&lt;img alt=&quot;Temperature and Humidity Value Charts at thingspeak.com&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/networking/thingspeak-charts.png&quot; /&gt;
+&lt;figcaption&gt;Figure 18: Temperature and Humidity Value Charts at thingspeak.com.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Some Points of Attention&lt;/h2&gt;
+
+&lt;p&gt;It is important to use a good quality power supply, both for your Arduino board (if not powered via USB) and the ESP8266 module. A low quality power supply may have unknown effects, and may produce behaviors like unwanted resets of the devices. If your ESP8266 module seems to be unstable, i.e., often resets by itself, then it is very likely that you have an issue with the 3.3V rail provided to the module. You can try to add a 1000µF electrolytic capacitor in parallel with an 0.1µF ceramic capacitor to the 3.3V rail. If this does not improve the module behavior, then try to replace your power supply. If an oscilloscope is available, you can observe the behavior of the 3.3V rail.&lt;/p&gt;
+
+&lt;p&gt;When using the ESP8266 module with a device that runs the UART communication on 5V rail (e.g., Arduino UNO and most of the other Arduino boards), then you &lt;strong&gt; need&lt;/strong&gt; to use a voltage LC (level converter) between the RX and TX lines of the ESP8266 modules and the TX and RX lines of the paired device. Also, remember, the RX and TX lines are twisted between the two devices implied in the UART communication.&lt;/p&gt;
+
+&lt;p&gt;While the ESP8266 is a really nice and cheap module, the current version is not rock solid in terms of stability, thus you may observe strange behaviors sometimes. It may help to reset the software configuration to its default state, by using the &quot;AT+RESTORE&quot; command. After that, you should configure the module again, with respect to all parameters you&#039;ve been set before the reset (e.g., WiFi connection, client or AP mode, etc). If your module still misbehaves, then a better power supply may help. Also, be sure that you didn&#039;t wrote a firmware with a version over 1.1.0 on a module that only has 4Mbit (or less) flash size, because you may completely brick your module.&lt;/p&gt;
+
+&lt;p&gt;Sometimes, TCP or UDP connections made via this module are not stable or you may even get connection refused errors. In this case, you should try a few more times to be sure that it is really a problem, since in multiple cases this is just a temporarily problem and can be solved by retrying, resetting or power cycling the module.&lt;/p&gt;
+
+&lt;p&gt;Periodically check the temperature of your ESP8266 module, simply by putting your finger on the CPU IC. If it feels hot when touched, then something may be wrong. Usually a hot CPU on the ESP8266 module means that the module receives more than the 3.3V required on the power line or on the RX and/or TX lines. Check the voltage, and make sure that this is not the case. If this is not the case, the high temperature may be due to high WiFi activity. While this is not unusual for these modules, make sure that the module is on a place with environment temperature under 30°C to avoid overheating and damaging the CPU.&lt;/p&gt;
+
+&lt;p&gt;When using the module in AP (access point) or STA+AP (station and access point) modes (that is, AT+CWMODE=2 or AT+CWMODE=3), make sure that you set a good password, otherwise you may have &quot;spy eyes&quot; on your network and may even result in security breach of your entire enterprise network! To check if you are in either AP or STA+AP mode, run the &quot;AT+CWMODE?&quot; command and check which value it returns (+CWMODE:1 means STA mode, +CWMODE:2 means AP mode and +CWMODE:3 means STA+AP mode).&lt;/p&gt;
+
+&lt;h2&gt;Next Tutorial: Part 4 - Control the Environment by Using Actuators&lt;/h2&gt;
+
+&lt;p&gt;In this tutorial we&#039;ll learn how to use Arduino to produce environment changes. Specifically, we&#039;ll use relays to turn ON/OF lights, miniature water pumps to ensure the correct soil moisture for our beloved room plants and a DIY PWM actuator to adjust the intensity of a dimmable LED strip, used to produce ambient light on a room.&lt;/p&gt;
+
+&lt;p&gt;The release date of the 4th part is: before 24 May 2016.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/40&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;WoT&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;/taxonomy/term/45&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;Sensor&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/Arduino&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;Arduino&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/62&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;WoT with Arduino for Beginners: Part 3 - Connecting to the Internet via WiFi&quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/62&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/62&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/62&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Wed, 20 Apr 2016 14:46:57 +0000</pubDate>
+ <dc:creator>mdiaconescu</dc:creator>
+ <guid isPermaLink="false">62 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/62#comments</comments>
+</item>
+</channel>
+</rss>

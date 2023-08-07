@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xml:base="https://web-engineering.info"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+ <title>web-engineering.info - IndexedDB</title>
+ <link>https://web-engineering.info/taxonomy/term/55</link>
+ <description></description>
+ <language>en</language>
+<item>
+ <title>CRUD Operations with IndexedDB - Part 1: Creating and Clearing a Database</title>
+ <link>https://web-engineering.info/node/74</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;In this article, we show how to create and clear an IndexedDB database keeping all code in a single HTML file. Creating an&amp;nbsp;IndexedDB database means first creating an empty database, and then adding records to its empty tables (or &quot;object stores&quot;). In Part 2, we will explain how to retrieve, update and delete IndexedDB records, such that we get the full collection of CRUD operations: Create, Update, Retrieve and Delete.&lt;/p&gt;
+
+&lt;p&gt;This is not an introduction to IndexedDB, but rather a guide how to use it for CRUD operations in a front-end app. We assume that the reader has already done an introductory tutorial such as &lt;a href=&quot;https://developers.google.com/web/ilt/pwa/working-with-indexeddb&quot;&gt;Working with IndexedDB&lt;/a&gt;. Recall that an IndexedDB database is a set of object tables (or &quot;object stores&quot;) where each table row, or record, has a standard ID (or &quot;primary key&quot;) property defined with &lt;code&gt;keyPath&lt;/code&gt; when creating the database.&lt;/p&gt;
+
+&lt;p&gt;As recommended in &lt;a href=&quot;https://developers.google.com/web/ilt/pwa/working-with-indexeddb&quot;&gt;Working with IndexedDB&lt;/a&gt;, we use the &lt;a href=&quot;https://github.com/jakearchibald/idb&quot;&gt;IndexedDB Promised&lt;/a&gt; library, which wraps the &lt;code&gt;indexedDB&lt;/code&gt; API with ES6-Promise/await-based methods for obtaining more readable and maintainable code in our IndexedDB access methods. Download it into your project folder such that it can be included with &lt;code&gt;&amp;lt;script src=&quot;idb.js&quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt; or load it from the CDN &lt;a href=&quot;https://unpkg.com/idb/build/iife/index-min.js&quot;&gt;https://unpkg.com/idb/build/iife/index-min.js&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;We extend the &quot;idb&quot; namespace variable by adding three database management methods:&lt;/p&gt;
+
+&lt;dl&gt;
+	&lt;dt&gt;idb.&lt;strong&gt;createEmptyDB&lt;/strong&gt;( &lt;em&gt;tableNames&lt;/em&gt;)&lt;/dt&gt;
+	&lt;dd&gt;Checks if there is already a database with the given name, and, if not, creates one with an empty table (or &quot;object store&quot;) for each of the table names provided.&lt;/dd&gt;
+	&lt;dt&gt;idb.&lt;strong&gt;addRecords&lt;/strong&gt;( &lt;em&gt;tableName&lt;/em&gt;, &lt;em&gt;records&lt;/em&gt;)&lt;/dt&gt;
+	&lt;dd&gt;Adds a list of records to the given table.&lt;/dd&gt;
+	&lt;dt&gt;idb.&lt;strong&gt;clearDB&lt;/strong&gt;()&lt;/dt&gt;
+	&lt;dd&gt;Clears the contents of all tables.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;We start with looking at the code of the &lt;code&gt;createEmptyDB&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&amp;gt;
+&amp;lt;head&amp;gt;
+ &amp;lt;meta charset=&quot;UTF-8&quot; /&amp;gt;
+ &amp;lt;title&amp;gt;CRUD Operations with IndexedDB - Part 1&amp;lt;/title&amp;gt;
+ &amp;lt;!-- Load the IndexedDB Promised library --&amp;gt;
+ &amp;lt;script src=&quot;idb.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+ &amp;lt;script&amp;gt;
+  const dbName = &quot;test&quot;;
+  /*******************************************************************
+   * Create an empty IndexedDB
+   *******************************************************************/
+  idb.&lt;strong&gt;createEmptyDB &lt;/strong&gt;= async function (dbName, tableNames) {
+   idb.db = await idb.openDB( dbName, 1, {
+    upgrade(db) {
+     for (const tn of tableNames) {
+      if (!db.objectStoreNames.contains( tn)) {
+       db.createObjectStore( tn, {keyPath:&quot;id&quot;});
+      }
+     }
+    }
+   });
+  };
+&lt;/pre&gt;
+
+&lt;p&gt;We define a global variable &lt;code&gt;dbName&lt;/code&gt; as the name of our IndexedDB database. The &lt;code&gt;idb.createEmptyDB&lt;/code&gt; method takes a list of table names and tries to open the database (with version number 1). If this fails, that is, if the database does not yet exist, the function with the paramter &lt;code&gt;upgradeDb&lt;/code&gt; will be called, taking care of creating an empty object store with a standard ID property &quot;id&quot; for each of the table names provided.&lt;/p&gt;
+
+&lt;p&gt;For adding a list of records to a&amp;nbsp;table (= object store) in one (transactional) step, we invoke the IndexedDB &lt;code&gt;add&lt;/code&gt; method on the corresponding object store for each of them in parallel. Since each &lt;code&gt;add&lt;/code&gt; invocation returns a promise object, we create a list of promise objects by mapping the &lt;code&gt;records&lt;/code&gt; array to an array of &lt;code&gt;add&lt;/code&gt; invocation expressions and use the &lt;code&gt;Promise.all&lt;/code&gt; method for resolving this list&amp;nbsp;of promises only when all of them have resolved:&lt;/p&gt;
+
+&lt;pre&gt;
+  idb.&lt;strong&gt;addRecords &lt;/strong&gt;= async function (tableName, records) {
+    // create a transaction involving only the table with the provided name
+    const tx = idb.db.transaction( tableName, &quot;readwrite&quot;);
+    // create a list of add invocation expressions
+    const addInvocationExpressions = records.map( r =&amp;gt; tx.store.add( r));
+    // invoke all of them in parallel and wait for their completion
+    await Promise.all( addInvocationExpressions);
+    // wait for the completion of the transaction tx
+    await tx.done;
+  };
+&lt;/pre&gt;
+
+&lt;p&gt;For clearing the entire database contents, we need to clear all object tables/stores by invoking the IndexedDB &lt;code&gt;clear&lt;/code&gt; method on them. Again, we create a list of promises by mapping the &lt;code&gt;idbCx.objectStoreNames&lt;/code&gt; collection to an array of &lt;code&gt;clear&lt;/code&gt; invocation return values and use the &lt;code&gt;Promise.all&lt;/code&gt; method for resolving this list only when all of them have resolved:&lt;/p&gt;
+
+&lt;pre&gt;
+  idb.&lt;strong&gt;clearDB &lt;/strong&gt;= async function (dbName) {
+    // only open DB and store a connection reference if not yet done
+    idb.db ??= await idb.openDB( dbName);
+    // create a transaction involving all tables of the database
+    const tx = idb.db.transaction( idb.db.objectStoreNames, &quot;readwrite&quot;);
+    // create a list of clear invocation expressions
+    const clearInvocationExpressions =
+        Array.from( idb.db.objectStoreNames, osName =&amp;gt; tx.objectStore( osName).clear());
+    // invoke all of them in parallel and wait for their completion
+    await Promise.all( clearInvocationExpressions);
+    // wait for the completion of the transaction tx
+    await tx.done;
+  };&lt;/pre&gt;
+
+&lt;p&gt;We also define a &lt;code&gt;createTestData&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;
+  async function &lt;strong&gt;createTestData&lt;/strong&gt; () {
+   await idb.&lt;strong&gt;addRecords&lt;/strong&gt;( &quot;books&quot;, [
+     {id: &quot;006251587X&quot;, title: &quot;Weaving the Web&quot;, year: 2000, edition: 2},
+     {id: &quot;0465026567&quot;, title: &quot;Gödel, Escher, Bach&quot;, year: 1999},
+     {id: &quot;0465030793&quot;, title: &quot;I Am a Strange Loop&quot;, year: 2008}
+   ]);
+  }&lt;/pre&gt;
+
+&lt;p&gt;Finally, we define an immediately invoked function expression (IIFE) for creating an empty database with name &quot;test&quot; having an empty table &quot;books&quot; and HTML buttons for invoking the&amp;nbsp;&lt;code&gt;createTestData&lt;/code&gt; method and for invoking the &lt;code&gt;clearDB&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;
+  (async function () {
+   await idb.createEmptyDB(&quot;test&quot;,[&quot;books&quot;]);
+  })();
+  &amp;lt;/script&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+ &amp;lt;h1&amp;gt;Working with IndexedDB&amp;lt;/h1&amp;gt;
+ &amp;lt;h2&amp;gt;Creating and Clearing a Database&amp;lt;/h2&amp;gt;
+  &amp;lt;ul&amp;gt;
+    &amp;lt;li&amp;gt;&amp;lt;button type=&quot;button&quot; onclick=&quot;createTestData()&quot;&amp;gt;Generate&amp;lt;/button&amp;gt; test data&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;&amp;lt;button type=&quot;button&quot; onclick=&quot;idb.clearDB()&quot;&amp;gt;Clear&amp;lt;/button&amp;gt; database tables&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Now it&#039;s time to try this out. Copy and paste all 5 HTML/JS code fragments from this article to a text editor and save it as an HTML file. Then, open it in a browser that allows accessing IndexedDB databases via &lt;code&gt;file&lt;/code&gt; URLs (see the note below). Otherwise, open it via a (possibly local) web server. You can inspect the existence and contents of IndexedDB databases with the help your browser&#039;s developer tools (e.g. F12 or with Shift-Ctrl-I). Try out the following steps:&lt;/p&gt;
+
+&lt;ol&gt;
+	&lt;li&gt;Check if an IndexedDB database with name &quot;testDB&quot; and an empty &quot;books&quot; table has been created.&lt;/li&gt;
+	&lt;li&gt;Press the button&lt;button type=&quot;button&quot;&gt;Generate&lt;/button&gt;.&lt;/li&gt;
+	&lt;li&gt;Then check if the &quot;books&quot; table has been populated with 3 book records.&lt;/li&gt;
+	&lt;li&gt;Press the button&lt;button type=&quot;button&quot;&gt;Generate&lt;/button&gt; again and observe a constraint validation error (in the console) due to an attempt to create another record with the same ID as an already stored one.&lt;/li&gt;
+	&lt;li&gt;Press the button&lt;button type=&quot;button&quot;&gt;Clear&lt;/button&gt;.&lt;/li&gt;
+	&lt;li&gt;Then check if the &quot;books&quot; table has been cleared.&lt;/li&gt;
+	&lt;li&gt;Now you could create the test data again.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote style=&quot;font-size:smaller&quot;&gt;
+&lt;p&gt;&lt;strong&gt;Attention&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;While you can directly run IndexedDB JS code from a (local or remote) website (e.g., from a GitHub Pages website), you can only run it from your local file system after changing your browser&#039;s default configuration.&lt;/p&gt;
+
+&lt;p&gt;For FireFox, you have to set the configuration property &lt;code&gt;security.fileuri.strict_origin_policy&lt;/code&gt; to &lt;i&gt;false&lt;/i&gt; by first entering &lt;code&gt;about:config&lt;/code&gt; in the browser&#039;s web address bar and then entering this property name.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/55&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;IndexedDB&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/74&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;CRUD Operations with IndexedDB - Part 1: Creating and Clearing a Database&quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/74&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/74&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/74&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Mon, 12 Jul 2021 15:02:47 +0000</pubDate>
+ <dc:creator>gwagner</dc:creator>
+ <guid isPermaLink="false">74 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/74#comments</comments>
+</item>
+</channel>
+</rss>

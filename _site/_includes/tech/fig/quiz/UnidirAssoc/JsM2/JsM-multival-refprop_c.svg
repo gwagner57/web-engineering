@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="st6" width="2.606in" height="1.3332in" color-interpolation-filters="sRGB" version="1.1" viewBox="0 0 187.63 95.988" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata>
+	<v:documentProperties v:langID="1033" v:viewMarkup="false"/>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st2 {fill:#000000;font-family:Calibri;font-size:0.666664em}
+		.st3 {font-size:1em;text-decoration:underline}
+		.st4 {font-size:1em}
+		.st5 {fill:#000000;font-family:Calibri;font-size:0.666664em;font-weight:bold}
+		.st6 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g transform="translate(-.36074 -11.543)" v:groupContext="foregroundPage" v:index="1" v:mID="0">
+		<title>Page-1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:drawingUnits="24" v:pageScale="0.0393701" v:shadowOffsetX="8.50394" v:shadowOffsetY="-8.50394"/>
+		<g transform="translate(.72 -.72)" v:groupContext="group" v:mID="2">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(16):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({FA498B4D-A8B3-4CE1-AE6D-6A1255438C0F})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(179):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(2.5959964189145):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(2.5959964189145):1"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Represents a descriptor for a set of objects with similar structure, behavior and relationships.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Class</title>
+			<g transform="rotate(180 46.728 84.076)" v:groupContext="shape" v:mID="3">
+				<title>Sheet.3</title>
+			</g>
+			<g transform="rotate(180 46.728 84.076)" v:groupContext="shape" v:mID="4">
+				<title>Sheet.4</title>
+			</g>
+			<g transform="rotate(180 46.728 84.076)" v:groupContext="shape" v:mID="5">
+				<title>Sheet.5</title>
+			</g>
+			<g transform="rotate(161.56 50.593 91.659)" v:groupContext="shape" v:mID="6">
+				<title>Sheet.6</title>
+			</g>
+			<g v:groupContext="shape" v:mID="7">
+				<title>Operations</title>
+				<desc>checkName(in n : String) : ConstraintViolation checkNameAsId(...</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect width="186.92" height="59.6034" cx="93.4559" cy="78.0899"/>
+				<rect class="st1" y="48.288" width="186.91" height="59.603"/>
+				<text class="st2" x="1" y="56.490002" v:langID="1031"><v:paragraph/><v:tabList/><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">checkName</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">(</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">in n </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">: </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">String</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">) : </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">ConstraintViolation<v:newlineChar/></tspan><tspan class="st3" x="1" dy="1.2em" text-decoration="underline" style="text-decoration-line:underline">checkNameAsId</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">(</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">in n </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">: </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">String</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">) : </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">ConstraintViolation<v:newlineChar/></tspan><tspan class="st3" x="1" dy="1.2em" text-decoration="underline" style="text-decoration-line:underline">checkNameAsIdRef</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">(</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">in n </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">: </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">String</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">) : </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">ConstraintViolation<v:newlineChar/></tspan><tspan class="st3" x="1" dy="1.2em" text-decoration="underline" style="text-decoration-line:underline">checkMember</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">(</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">in m </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">: </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">ClubMember</tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">) : </tspan><tspan class="st3" text-decoration="underline" style="text-decoration-line:underline">ConstraintViolation<v:newlineChar/></tspan><tspan class="st4" x="1" dy="1.2em">addMember</tspan>(in m : ClubMember)<v:newlineChar/><tspan class="st4" x="1" dy="1.2em">removeMember</tspan>(in m : ClubMember)</text>			</g>
+			<g transform="translate(0 -59.603)" v:groupContext="shape" v:mID="8">
+				<title>Attributes</title>
+				<desc>«get/set» name[1] : String {id} «get/set» members[*] : ClubMe...</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect width="186.92" height="21.2035" cx="93.4559" cy="97.2898"/>
+				<rect class="st1" y="86.688" width="186.91" height="21.204"/>
+				<text class="st2" x="1" y="94.889999" v:langID="1031"><v:paragraph/><v:tabList/>«get/set» name[1] : String {id}<v:newlineChar/><tspan class="st4" x="1" dy="1.2em">«get</tspan>/set» members[*] : ClubMember</text>			</g>
+			<g transform="translate(0 -80.807)" v:groupContext="shape" v:mID="9">
+				<title>Name</title>
+				<desc>Committee</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect width="186.92" height="14.4567" cx="93.4559" cy="100.663"/>
+				<path class="st1" d="m0 107.89h186.91v-14.46h-186.91z"/>
+				<text class="st5" x="74.900002" y="103.06" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Committee</text>			</g>
+			<g transform="translate(150.91 -83.356)" v:groupContext="shape" v:mID="10">
+				<title>Parameters</title>
+			</g>
+		</g>
+	</g>
+</svg>

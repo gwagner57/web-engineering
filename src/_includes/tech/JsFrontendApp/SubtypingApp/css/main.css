@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Custom styles
+   ========================================================================== */
+
+div#listAuthors, div#createAuthor, div#updateAuthor, div#deleteAuthor {
+    display: none;
+}
+div#listEmployees, div#createEmployee, div#updateEmployee, div#deleteEmployee {
+  display: none;
+}
+div#listBooks, div#createBook, div#updateBook, div#deleteBook {
+    display: none;
+}
+
+body {
+  padding: 8px;
+}
+table { 
+  border-collapse: collapse;
+  margin: 1em 0;
+}  
+table, td, th { 
+  border: 1px solid black;
+  padding: 5px;
+}  
+table th {
+  background: aliceblue;
+}
+
+menu {
+  width: 13em;
+  text-align: center;
+  border: 1px solid black;
+  padding: 8px;
+  border-radius: 5px;
+}
+menu li {
+  list-style: none;
+  height: 1.5em;
+  margin: 2px auto;
+}
+menu li button {
+  width: 12.8em;
+}
+footer {
+  margin: 2em auto;
+}
+
+form div.authorsSelWidget {
+  outline: solid grey 1px;
+  padding: 5px;
+  margin-top: 1em;
+  max-width: 30em;
+}
+form div.authorsSelWidget > ul {
+  padding-left: 12px;
+  margin-top: 0;
+}
+form div.authorsSelWidget > ul > li {
+  width: 100%;
+  clear: right;
+}
+form div.authorsSelWidget > ul > li > button {
+  float: right;
+  font-size: 80%;
+  vertical-align: middle;
+}
+form div.authorsSelWidget > ul > li.removed {
+  color: red;
+  text-decoration: line-through;
+}
+
+/*
+form {
+  width: 30em;
+  margin: 2em 0;
+  padding: 8px;
+  background: aliceblue;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+select, input {
+  width: 20em;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+button[type="submit"] {
+  margin: 0.5em;
+  padding: 3px;
+}
+*/

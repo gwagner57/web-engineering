@@ -1,0 +1,35 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04s12.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>12.&nbsp;Points of Attention</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps"><link rel="prev" href="ch04s11.html" title="11.&nbsp;Possible Variations and Extensions"><link rel="next" href="ch04s13.html" title="13.&nbsp;Practice Projects"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.&nbsp;Points of Attention</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s11.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s13.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e3446"></a>12.&nbsp;Points of Attention</h2></div></div></div><p>The code of this app should be extended by adding <span class="bold"><strong><span class="italic">constraint
+    validation</span></strong></span>. We show how to do this in <a class="xref" href="ch09.html" title="Chapter&nbsp;9.&nbsp;Implementing Constraint Validation in a Java EE Web App">Chapter&nbsp;9</a>.</p><p>We briefly discuss three further issues.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e3453"></a>12.1.&nbsp;Boilerplate code</h3></div></div></div><p>Another issue with the code of this Java example app is the
+      repetitious <span class="italic">boilerplate
+      code</span><a class="indexterm" name="d5e3457"></a> needed per entity class for the storage management
+      methods <code class="code">create</code>, <code class="code">retrieve</code>, <code class="code">update</code>
+      and <code class="code">delete</code>, and their wrappers in the corresponding
+      controller classes. While it may be instructive to write this code a few
+      times for learning app development, you don't want to write it again and
+      again later when you work on real projects.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e3464"></a>12.2.&nbsp;Offline availability</h3></div></div></div><p>It is desirable that a web app can still be used when the user is
+      offline. However, this is not possible with a back-end web application
+      architecture as implied by Java EE. Offline availability can only be
+      obtained with a truly distributed architecture where essential
+      application components can be executed both on the back-end and on the
+      front-end.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e3467"></a>12.3.&nbsp;Architectural separation of concerns</h3></div></div></div><p>From an architectural point of view, it is important to keep the
+      app's model classes independent of </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the user interface (UI) code because it should be possible
+            to re-use the same model classes with different UI
+            technologies;</p></li><li class="listitem"><p>the storage management code because it should be possible to
+            re-use the same model classes with different storage
+            technologies.</p></li></ol></div><p>We have kept the model class <code class="code">Book</code> independent of the
+      UI code, since it does not contain any references to UI elements, nor
+      does it invoke any view method. However, for simplicity, we didn't keep
+      it independent of storage management code. First, due to using JPA
+      annotations, the model class is bound to the JPA object-to-storage
+      mapping technology. Second, we have included the method definitions for
+      <code class="code">create</code>, <code class="code">update</code>, <code class="code">delete</code>, etc.,
+      which invoke the storage management methods of a JPA environment's
+      entity manager, in the model class. Therefore, the separation of
+      concerns is incomplete in our minimal app.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s11.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s13.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">11.&nbsp;Possible Variations and Extensions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;13.&nbsp;Practice Projects</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04s12.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+</html>

@@ -1,0 +1,55 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch05s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;New Issues</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Implementing Constraint Validation in a Plain JS Web App"><link rel="prev" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Implementing Constraint Validation in a Plain JS Web App"><link rel="next" href="ch05s03.html" title="3.&nbsp;Using ES6 Modules"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;New Issues</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;5.&nbsp;Implementing Constraint Validation in a Plain JS Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e3275"></a>2.&nbsp;New Issues</h2></div></div></div><p>Compared to the <a class="link" href="../MinimalApp/index.html" target="_top">Minimal
+    App</a> discussed in <a class="xref" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Plain JS in Seven Steps">Chapter&nbsp;3</a>  we have to deal with a number of new
+    issues:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the <span class="italic">model</span> code we have to
+        add for every property of a class </p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>a <span class="italic"><span class="bold"><strong>check</strong></span></span> function that can be
+              invoked for validating the constraints defined for the property,
+              and</p></li><li class="listitem"><p>a <span class="italic"><span class="bold"><strong>setter</strong></span></span> method that invokes the
+              check function and is to be used for setting the value of the
+              property.</p></li></ol></div></li><li class="listitem"><p>In the <span class="italic">user interface
+        ("view")</span> code we have to take care of </p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p><span class="italic"><span class="bold"><strong>responsive
+              validation</strong></span></span> on user input for providing
+              immediate feedback to the user, by invoking
+              <code class="code">setCustomValidity</code> together with the corresponding
+              check function for each input field, and by marking fields with
+              invalid data with the help of a new CSS style rule <code class="code">
+              form:invalid {outline: red;</code>},</p></li><li class="listitem"><p>validation on form submission for preventing the
+              submission of flawed data to the model layer by invoking
+              <code class="code">checkValidity</code>.</p></li></ol></div><p>For improving the break-down of the view code, we introduce a
+        utility method (in <code class="filename">lib/util.mjs</code>) that fills a
+        <code class="code">select</code> form control with <code class="code">option</code> elements the
+        contents of which is retrieved from an entity table such as
+        <code class="code">Book.instances</code>. This method is used both in the
+        <code class="code">updateBook</code> and the <code class="code">deleteBook</code> use
+        cases.</p></li><li class="listitem"><p>As a namespace approach (for avoiding name conflicts), we will
+        now use ES6 <span class="bold"><strong>modules</strong></span>, instead of a
+        global namespace object with subnamespace objects, like <code class="code">pl =
+        {m:{}, v:{}, c:{}}</code>.</p></li></ol></div><p>Checking the constraints in the user interface (UI) on user input is
+    important for providing immediate feedback to the user. But it is not safe
+    enough to perform constraint validation only in the UI, because this could
+    be circumvented in a distributed web application where the UI runs in the
+    web browser of a front-end device while the application's data is managed
+    by a back-end component on a remote web server. Consequently, we need
+    multiple constraint validation, first in the UI <span class="italic">on
+    input</span> (or <span class="italic">on change</span>) and
+    <span class="italic">on form submission</span>, and subsequently in
+    the model layer before saving/sending data to the persistent data store.
+    And in an application based on a DBMS we may also use a third round of
+    validation before persistent storage by using the validation mechanisms of
+    the DBMS. This is a must, when the application's database is shared with
+    other apps.</p><p>Our proposed solution to this <span class="emphasis"><em>multiple validation
+    problem<a class="indexterm" name="d5e3323"></a></em></span> is to keep the constraint validation code in
+    special <span class="italic">check</span> functions in the model
+    classes and invoke these functions both in the UI on user input and on
+    form submission, as well as in the <span class="italic">create</span> and <span class="italic">update</span> data management methods of the model class
+    via invoking the setters. Notice that <span class="italic">referential
+    integrity</span> constraints (and other relationship constraints) may
+    also be violated through a <span class="italic">delete</span>
+    operation, but in our single-class example we don't have to consider
+    this.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;5.&nbsp;Implementing Constraint Validation in a Plain JS Web App&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Using ES6 Modules</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch05s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+</html>

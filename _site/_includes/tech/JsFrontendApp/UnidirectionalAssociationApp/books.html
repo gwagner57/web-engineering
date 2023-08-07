@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/UnidirectionalAssociationApp/books.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Plain JS Unidirectional Association App: Manage Books</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <link rel="stylesheet" href="css/normalize.min.css"/>
+  <link rel="stylesheet" href="css/main.css"/>
+
+  <script src="lib/browserShims.js"></script>
+  <script src="lib/util.js"></script>
+  <script src="lib/errorTypes.js"></script>
+  <script src="src/c/app.js"></script>
+  <script src="src/m/Author.js"></script>
+  <script src="src/m/Publisher.js"></script>
+  <script src="src/m/Book.js"></script>
+  <script src="src/c/books.js"></script>
+  <script src="src/v/books.js"></script>
+  <script>
+    window.addEventListener("load", pl.c.books.manage.initialize);
+  </script>
+</head>
+<body>
+<header>
+  <div class="wrapper clearfix">
+    <div class="title">
+      <figure><a href="../../../index.html">
+        <img property="thumbnailUrl" title="Icon made by Lorc under CC BY 3.0. Available on http://game-icons.net"
+             src="safari-pinned-tab.svg" /></a></figure>
+      <h1>Public Library</h1>
+      <h2>Unidirectional Association App</h2>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="authors.html">Authors</a></li>
+        <li><a href="publishers.html">Publishers</a></li>
+        <li><a href="books.html">Books</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="wrapper clearfix">
+<!-- ======================================================= -->
+  <section id="Book-M" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Manage book data</h1>
+    <ul class="menu">
+      <li><button type="button" onclick="pl.v.books.retrieveAndListAll.setupUserInterface()">Retrieve and list all book records</button></li>
+      <li><button type="button" onclick="pl.v.books.create.setupUserInterface()">Create a new book record</button></li>
+      <li><button type="button" onclick="pl.v.books.update.setupUserInterface()">Update a book record</button></li>
+      <li><button type="button" onclick="pl.v.books.destroy.setupUserInterface()">Delete a book record</button></li>
+    </ul>
+    <div class="button"><a href="index.html">Back to Main menu</a></div>
+  </section>
+<!-- ======================================================= -->
+  <section id="Book-R" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Retrieve and list all books</h1>
+    <table>
+      <thead><tr><th>ISBN</th><th>Title</th><th>Year</th><th>Authors</th><th>Publisher</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="button">
+      <button type="button" onclick="pl.v.books.manage.refreshUI()">Back to menu</button>
+    </div>
+  </section>
+<!-- ======================================================= -->
+  <section id="Book-C" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Create a new book record</h1>
+    <form>
+      <div class="field">
+        <label>ISBN: <input type="text" name="isbn" /></label>
+      </div>
+      <div class="field">
+        <label>Title: <input type="text" name="title" /></label>
+      </div>
+      <div class="field">
+        <label>Year: <input type="text" name="year" /></label>
+      </div>
+      <div class="select-one">
+        <label>Publisher: <select name="selectPublisher"></select></label>
+      </div>
+      <div class="select-many">
+        <label>Authors: 
+          <select name="selectAuthors" multiple="multiple"></select>
+        </label>
+      </div>
+      <div class="button-group">
+        <button type="submit" name="commit">Save</button>
+        <button type="button" onclick="pl.v.books.manage.refreshUI()">Back to menu</button>
+      </div>
+    </form>
+  </section>
+<!-- ======================================================= -->
+  <section id="Book-U" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Update a book record</h1>
+    <form autocomplete="off">
+      <div class="select-one">
+        <label>Select book: <select name="selectBook"></select></label>
+      </div>
+      <div class="field">
+        <label>ISBN: <output name="isbn"></output></label>
+      </div>
+      <div class="field">
+        <label>Title: <input type="text" name="title" /></label>
+      </div>
+      <div class="field">
+        <label>Year: <input type="text" name="year" /></label>
+      </div>
+      <div class="select-one">
+        <label>Publisher: <select name="selectPublisher"></select></label>
+      </div>
+      <div class="widget">
+        <label>Authors: <div class="MultiChoiceWidget"></div></label>
+      </div>
+      <div class="button-group">
+        <button type="submit" name="commit" disabled="disabled">Save</button>
+        <button type="button" onclick="pl.v.books.manage.refreshUI()">Back to menu</button>
+      </div>
+    </form>
+  </section>
+<!-- ======================================================= -->
+  <section id="Book-D" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Delete a book record</h1>
+    <form id="deleteBookForm">
+      <div class="select-one">
+        <label>Select book: <select name="selectBook"></select></label>
+      </div>
+      <div class="button-group">
+        <button type="submit" name="commit">Delete</button>
+        <button type="button" onclick="pl.v.books.manage.refreshUI()">Back to menu</button>
+      </div>
+    </form>
+  </section>
+  </div>
+</main>
+<footer>
+  <div class="foot-content wrapper">
+    Copyright © 2015-2017 Gerd Wagner,
+    <a rel="license" href="http://www.codeproject.com/info/cpol10.aspx">The Code Project Open License (CPOL)</a>.
+  </div>
+</footer>
+</body>
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/UnidirectionalAssociationApp/books.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:17 GMT -->
+</html>

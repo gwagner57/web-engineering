@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/SubtypingApp/books.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8" />
+  <title>Plain JS App with Class Hierarchies: Manage Books</title>
+  <link rel="stylesheet" href="../../../../yui.yahooapis.com/combo2766.html?pure/0.3.0/base-min.css&amp;pure/0.3.0/forms-min.css" />
+  <link rel="stylesheet" href="css/main.css"/> 
+  <script src="lib/browserShims.html"></script>
+  <script src="lib/util.js"></script>
+  <script src="lib/errorTypes.js"></script>
+  <script src="lib/Enumeration.js"></script>
+  <script src="src/m/Book.js"></script>
+  <script src="src/c/app.js"></script>
+  <script src="src/v/app.js"></script>
+  <script src="src/v/books.js"></script>
+  <script src="src/c/books.js"></script>
+  <script>
+    window.addEventListener("load", pl.c.books.manage.initialize);
+  </script>
+</head>
+<body>
+<!-- ======================================================= -->
+  <div id="manageBooks">
+<!-- ======================================================= -->
+    <h1>Public Library: Manage books, including textbooks and biographies</h1>
+    <menu>
+      <li><button type="button" onclick="pl.v.books.list.setupUserInterface()">List all books</button></li>
+      <li><button type="button" onclick="pl.v.books.create.setupUserInterface()">Add a new book</button></li>
+      <li><button type="button" onclick="pl.v.books.update.setupUserInterface()">Update a book record</button></li>
+      <li><button type="button" onclick="pl.v.books.destroy.setupUserInterface()">Delete a book record</button></li>
+    </menu>
+    <footer><a href="index.html">Back to Main menu</a></footer>
+  </div>
+<!-- ======================================================= -->
+  <div id="retrieveBooks">
+<!-- ======================================================= -->
+    <h1>Public Library: List all books</h1>
+    <table id="books">
+      <thead><tr><th>ISBN</th><th>Title</th><th>Year</th><th>Category</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <footer><button type="button" onclick="pl.v.books.manage.refreshUI()">Back to "Manage books" menu</button></footer>
+  </div>
+<!-- ======================================================= -->
+  <div id="createBook">
+<!-- ======================================================= -->
+    <h1>Public Library: Create a new book record</h1>
+    <form id="createBookForm" class="pure-form pure-form-aligned">
+      <p class="pure-control-group">
+        <label for="creISBN">ISBN: </label><input id="creISBN" name="isbn" /></p>
+      <p class="pure-control-group">
+        <label for="creTitle">Title: </label><input id="creTitle" name="title" /></p>
+      <p class="pure-control-group">
+        <label for="creYear">Year: </label><input id="creYear" name="year" /></p>
+      <p class="pure-control-group">
+        <label for="creBookCategory">Category: </label>
+        <select id="creBookCategory" name="category"></select>
+      </p>
+      <p class="pure-control-group Textbook">
+        <label for="creSubjectArea">Subject area: </label><input id="creSubjectArea" name="subjectArea" />
+      </p>
+      <p class="pure-control-group Biography">
+        <label for="creAbout">About: </label><input id="creAbout" name="about" />
+      </p>
+      <p class="pure-controls">
+        <button type="submit" name="commit">Save</button>
+        <button type="button" onclick="pl.v.books.manage.refreshUI()">Back to menu</button>
+      </p>
+    </form>
+  </div>
+<!-- ======================================================= -->
+  <div id="updateBook">
+<!-- ======================================================= -->
+    <h1>Public Library: Update a book record</h1>
+    <form id="updateBookForm" class="pure-form pure-form-aligned">
+      <p class="pure-control-group">
+        <label for="updBookSelectBook">Select book: </label>
+        <select id="updBookSelectBook" name="selectBook"></select>
+      </p>
+      <p class="pure-control-group">
+        <label for="updISBN">ISBN: </label><input id="updISBN" name="isbn" disabled="disabled"/></p>
+      <p class="pure-control-group">
+        <label for="updTitle">Title: </label><input id="updTitle" name="title" /></p>
+      <p class="pure-control-group">
+        <label for="updYear">Year: </label><input id="updYear" name="year" /></p>
+      <p class="pure-control-group">
+        <label for="updBookCategory">Category: </label>
+        <select id="updBookCategory" name="category"></select>
+      </p>
+      <p class="pure-control-group Textbook">
+        <label for="updTitle">Subject area: </label><input id="updSubjectArea" name="subjectArea" />
+      </p>
+      <p class="pure-control-group Biography">
+        <label for="updTitle">About: </label><input id="updAbout" name="about" />
+      </p>
+      <p class="pure-controls">
+        <button type="submit" name="commit">Save changes</button>
+        <button type="button" onclick="pl.v.books.manage.refreshUI()">Back to menu</button>
+      </p>
+    </form>
+  </div>
+<!-- ======================================================= -->
+  <div id="deleteBook">
+<!-- ======================================================= -->
+    <h1>Public Library: Delete a book record</h1>
+    <form id="deleteBookForm" class="pure-form pure-form-aligned">
+      <p class="pure-control-group">
+        <label for="delBookSelectBook">Select book: </label>
+        <select id="delBookSelectBook" name="selectBook"></select>
+      </p>
+      <p class="pure-controls">
+        <button type="button" name="commit">Delete</button>
+        <button type="button" onclick="pl.v.books.manage.refreshUI()">Back to menu</button>
+      </p>
+    </form>
+  </div>
+</body>
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/SubtypingApp/books.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:27 GMT -->
+</html>

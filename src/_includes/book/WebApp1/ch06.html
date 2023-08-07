@@ -1,0 +1,118 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;6.&nbsp;Application Architecture</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="pt01.html" title="Part&nbsp;I.&nbsp;Getting Started"><link rel="prev" href="ch05s06.html" title="6.&nbsp;Exercises"><link rel="next" href="ch06s02.html" title="2.&nbsp;The Onion Architecture Metaphor"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;6.&nbsp;Application Architecture</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s06.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;I.&nbsp;Getting Started</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s02.html">Next</a></td></tr></table><hr></div><div lang="en" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="d5e4096"></a>Chapter&nbsp;6.&nbsp;Application Architecture</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch06.html#d5e4159">1. The Model-View-Controller (MVC) Architecture Metaphor</a></span></dt><dt><span class="section"><a href="ch06s02.html">2. The Onion Architecture Metaphor</a></span></dt><dt><span class="section"><a href="ch06s03.html">3. "Logical" versus "Physical" User Interface</a></span></dt><dt><span class="section"><a href="ch06s04.html">4. MVC Web Applications</a></span></dt><dt><span class="section"><a href="ch06s05.html">5. Deployment Architectures</a></span></dt></dl></div><p>Web application systems, like any other complex engineering artifacts,
+  need an architecture that helps master their complexity by breaking them
+  down into smaller parts with manageable inter-dependencies. Software
+  application architecture is concerned with the following issues:
+  </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>The state structure of the application system to be designed is
+        defined in the form of <span class="italic">information
+        models</span> describing its <span class="bold"><strong><span class="italic">information architecture</span></strong></span>.
+        <a class="indexterm" name="d5e4105"></a></p></li><li class="listitem"><p>The goal of a <span class="bold"><strong><span class="italic">code base
+       architecture</span></strong></span><a class="indexterm" name="d5e4111"></a> is to structure and partition the overall program code of an application in such a
+     way that the fundamental software quality goal of <span class="italic">maintainability</span> is achieved.</p></li><li class="listitem"><p>The distribution of the application system's runtime components
+        within a computer network is defined by a <span class="bold"><strong><span class="italic">deployment
+        architecture</span></strong></span><a class="indexterm" name="d5e4118"></a>. A web app is distributed on the Web, which is a
+        world-wide client-server network system with HTTP-based
+        communication.</p></li></ol></div><p>As in all cases of designing a complex system, no matter if a new
+  building, a new space shuttle, a new computer or a new software application
+  is to be designed, an architecture provides a kind of master plan for
+  defining the structure of the system. Any good architecture is based on the
+  following three principles:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong><span class="italic">separation of
+     concerns</span></strong></span>, which helps managing complexity by breaking a system down into
+    smaller, functionally defined parts such that their</p></li><li class="listitem"><p><span class="bold"><strong><span class="italic">interdependencies
+      are minimized</span></strong></span>,</p></li><li class="listitem"><p>keeping the more fundamental parts independent of the less
+      fundamental parts (the <span class="bold"><strong><span class="italic">onion principle</span></strong></span>).<a class="indexterm" name="d5e4134"></a></p></li></ol></div><p>Complying with these principles makes it easier to develop, or source,
+  and update certain system parts independently of others.</p><p>The three most important parts of the code base of an app are:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the <span class="bold"><strong><span class="italic">model</span></strong></span>, which implements the app's
+      data model in the form of <span class="italic">model
+      classes</span>, defining suitable data structures and
+      constraints;</p></li><li class="listitem"><p>the data <span class="bold"><strong><span class="italic">storage</span></strong></span> management procedures, which
+      set up a connection to a storage management system (typically, but not
+      necessarily, an SQL database system) and use it for storing and
+      retrieving persistent data;</p></li><li class="listitem"><p>the <span class="bold"><strong><span class="italic">user
+      interface</span></strong></span> (UI) code, taking care of both
+      information provision (or output) to the user, e.g., on the computer
+      screen, and user input provided by user actions in the form of UI
+      events, e.g., keyboard or mouse events, such that all required user
+      interactions are supported.</p></li></ol></div><p>The onion principle requires to keep the app's model classes
+  independent of</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>the UI code because it should be possible to re-use the same model
+      classes with different UI technologies;</p></li><li class="listitem"><p>the storage management code because it should be possible to
+      re-use the same model classes with different storage
+      technologies.</p></li></ul></div><p>However, in many web application frameworks (e.g., in Java EE) the
+  onion principle is violated.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4159"></a>1.&nbsp;The Model-View-Controller (MVC) Architecture Metaphor</h2></div></div></div><p>The most popular and most widely used approach in software application architecture is the
+    <span class="bold"><strong>M</strong></span>odel-<span class="bold"><strong>V</strong></span>iew-<span class="bold"><strong>C</strong></span>ontroller<a class="indexterm" name="d5e4165"></a> code partitioning pattern. Although it has not been precisely defined, and has been
+   implemented in many different ways, especially in web application frameworks, it is based on the
+   principle of <span class="italic">separation of concerns</span> and on the fundamental
+   insight that the <span class="italic">model</span> is the foundation for all other parts
+   of an application, in particular for the user interface. Consequently, even if the MVC<a class="indexterm" name="d5e4169"></a> approach doesn't provide a precise definition of what a 'model' is, we can consider
+   it to be a <span class="italic">model-based</span> approach.</p><div class="figure"><a name="d5e4173"></a><p class="title"><b>Figure&nbsp;6.1.&nbsp;The MVC code base architecture with the model as the
+      foundation.</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="150"><tr><td><img src="../fig/Architecture-MVC-Blocks.svg" width="150" alt="The MVC code base architecture with the model as the foundation."></td></tr></table></div></div></div><br class="figure-break"><p>According to Wikipedia, the first MVC architecture was introduced to
+    application programming with <span class="italic">Smalltalk-76</span> by <a class="link" href="https://en.wikipedia.org/wiki/Trygve_Reenskaug" target="_top">Trygve
+    Reenskaug</a> in the 1970s. In a later <a class="link" href="https://web.archive.org/web/20100921030808/http://www.itu.dk/courses/VOP/E2005/VOP2005E/8_mvc_krasner_and_pope.pdf" target="_top">article
+    about Smalltalk-80</a>, MVC is explained as a "three-way division of an
+    application" that entails "separating (1) the parts that represent the
+    model of the underlying application domain from (2) the way the model is
+    presented to the user and from (3) the way the user interacts with it".
+    The authors, who also use the term "MVC metaphor", point out that their
+    approach would allow programmers to "write an application model by first
+    defining new classes that would embody the special application
+    domain-specific information".</p><p>Notice that the <span class="italic">model</span> is defined
+    to consist of classes that capture the required domain information. We
+    call them <span class="bold"><strong><span class="italic">model
+    classes</span></strong></span>.</p><p>In this original MVC approach, there is no well-defined concept of a
+    user interface (UI). The 'view' is defined as comprising the output side
+    of a UI, only, while the user input side is separated from it and subsumed
+    under the term 'controller'. This does not reflect how a UI is really
+    organized: by combining certain forms of application output with certain
+    forms of user input like two sides of the same coin. A general UI concept
+    includes both the output (the information output provided to the user, as
+    well as system actions) and the input (including information input
+    provided, as well as actions performed, by the user).</p><p>The Smalltalk MVC metaphor was developed for (monochromatic)
+    text-screen-based user interfaces with no general notion of UI events.
+    This may explain why they did not consider an integral concept of a UI.
+    While they distinguished between the state of objects in the model and
+    their state in the UI, which are both in the scope of a user session, they
+    did not consider the distinction between the model state and the database
+    state.</p><p>In his web essay <a class="link" href="http://martinfowler.com/eaaDev/uiArchs.html" target="_top">GUI
+    Architectures</a> (2006), Martin Fowler summarizes the main principles
+    of the original MVC approach in the following way:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Separation between UI and model.</p></li><li class="listitem"><p>Divide UI into a 'controller' and 'view'.</p></li><li class="listitem"><p>Views are synchronized with the model (by means of a data
+          binding mechanism).</p></li></ol></div><p>While the first and third principles are fundamental for
+    the architecture of software applications, the second principle has just a
+    historic meaning and was soon abandoned by the developers of
+    Smalltalk.</p><p>Compared to the 1980s, computers, human-computer interaction and
+    software application architecture have evolved. In particular, the
+    establishment of the Web as the predominant computing platform has made
+    web browsers to be the most important infrastructure for user
+    interfaces.</p><p>The MVC terminology is still widely used today, especially by web
+    application frameworks, but with different meanings ascribed to "M", "V"
+    and "C". Typically, the "view" denotes the app's code for the
+    HTML-forms-based user interface, and the "controller" denotes the code
+    that is in charge of mediating between the "view" and the "model".</p><p>In many MVC approaches, the "model" is tightly coupled with the
+    underlying database technology, often via an <span class="italic">object-relational mapping</span><a class="indexterm" name="d5e4201"></a> (ORM<a class="indexterm" name="d5e4203"></a>) approach mapping classes to tables and objects to table
+    rows. This tight coupling between model classes and database tables
+    violates both the fundamental principle of minimizing interdependencies
+    (because there is no need that model classes depend on database tables)
+    and the onion principle discussed below.</p><p>For instance, in the <span class="italic"><a class="link" href="http://martinfowler.com/eaaCatalog/activeRecord.html" target="_top">Active
+    Record</a></span><a class="indexterm" name="d5e4209"></a> paradigm of the influential <span class="italic">Ruby-on-Rails</span> framework, which has been adopted
+    by many other web application frameworks (such as by <span class="italic">CakePHP</span>), the "model" is a direct representation
+    of the schema of the underlying database system, where each entity table
+    of the database is represented by a "model" class that inherits data
+    manipulation methods for performing Create/Retrieve/Update/Delete (CRUD)
+    operations. In this table-to-model-class mapping approach, the "model"
+    depends on the schema of the underlying database and is therefore tightly
+    coupled with the underlying ORM technology. While this may be a suitable approach for a 
+    <span class="italic">database-first</span> development methodology, where an
+    SQL database is the foundation of an application, it is certainly not a
+    general approach and it turns the <span class="italic">model</span>
+    into a secondary asset.</p><p>Also in frameworks based on ORM annotations, such as <span class="italic">Java EE</span> with <span class="italic">JPA</span> annotations, the C# framework <span class="italic">ASP.NET MVC</span> with <span class="italic">Entity
+    Framework</span> and <span class="italic">Data
+    Annotations</span>, or the PHP framework <span class="italic">Symfony</span> with <span class="italic">Doctrine</span> annotations, the "model" is coupled with
+    the underlying ORM technology through the ORM annotations woven into the
+    model code, thus making the model dependent on the ORM technology used.
+    All these frameworks use the <span class="italic"><a class="link" href="http://martinfowler.com/eaaCatalog/dataMapper.html" target="_top">Data
+    Mapper</a></span> approach for performing CRUD operations based on
+    ORM annotations.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s06.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt01.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.&nbsp;Exercises&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;The Onion Architecture Metaphor</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:50 GMT -->
+</html>

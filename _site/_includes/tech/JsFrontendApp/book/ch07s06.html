@@ -1,0 +1,150 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch07s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>6.&nbsp;Write the View Code</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web App"><link rel="prev" href="ch07s05.html" title="5.&nbsp;Write the Model Code"><link rel="next" href="ch07s07.html" title="7.&nbsp;Quiz Questions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.&nbsp;Write the View Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web
+  App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s07.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4862"></a>6.&nbsp;Write the View Code</h2></div></div></div><p>The example app's user interface (UI) for creating a new book record
+    looks as in <a class="xref" href="ch07s06.html#figEnumAppCreateUI" title="Figure&nbsp;7.2.&nbsp;The UI for creating a new book record with enumeration attributes">Figure&nbsp;7.2</a>
+    below.</p><div class="figure"><a name="figEnumAppCreateUI"></a><p class="title"><b>Figure&nbsp;7.2.&nbsp;The UI for creating a new book record with enumeration
+      attributes</b></p><div class="figure-contents"><div class="mediaobject"><img src="../../fig/EnumApp-CreateUI.png" alt="The UI for creating a new book record with enumeration attributes"></div></div></div><br class="figure-break"><p>Notice that the UI contains four choice widgets:<a class="indexterm" name="d5e4872"></a></p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>a <span class="italic">single selection list</span> for
+          the attribute <code class="code">originalLanguage</code>,</p></li><li class="listitem"><p>a <span class="italic">multiple selection list</span>
+          for the attribute <code class="code">otherAvailableLanguages</code>,</p></li><li class="listitem"><p>a <span class="italic">radio button group</span> for
+          the attribute <code class="code">category</code>, and</p></li><li class="listitem"><p>a <span class="italic">checkbox group</span> for the
+          attribute <code class="code">publicationForms</code>.</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e4892"></a>6.1.&nbsp;Selection lists</h3></div></div></div><p>We use HTML selection lists for rendering the enumeration
+      attributes <code class="code">originalLanguage</code> and
+      <code class="code">otherAvailableLanguages</code> in the HTML forms in
+      <code class="filename">createBook.html</code> and
+      <code class="filename">upateBook.html</code>. Since the attribute
+      <code class="code">otherAvailableLanguages</code> is multi-valued, we need a
+      <span class="bold"><strong><span class="italic">multiple</span></strong></span> selection list for it, as
+      shown in the following HTML code:</p><pre class="programlisting">&lt;form id="Book"&gt;
+ &lt;div&gt;&lt;label&gt;ISBN: 
+   &lt;input name="isbn" type="text" /&gt;&lt;/label&gt;&lt;/div&gt;
+ &lt;div&gt;&lt;label&gt;Title: 
+   &lt;input name="title" type="text" /&gt;&lt;/label&gt;&lt;/div&gt;
+ &lt;div&gt;&lt;label&gt;Original language:
+   &lt;<span class="bold"><strong>select</strong></span> name="originalLanguage"&gt;&lt;/select&gt;
+ &lt;/label&gt;&lt;/div&gt;
+ &lt;div class="multi-sel"&gt;&lt;label&gt;Also available in:
+   &lt;<span class="bold"><strong>select</strong></span> name="otherAvailableLanguages" 
+    <span class="bold"><strong>multiple</strong></span>="multiple" rows="4"&gt;&lt;/select&gt;
+ &lt;/label&gt;&lt;/div&gt;
+  ...
+ &lt;div&gt;&lt;button type="submit" name="commit"&gt;Save
+   &lt;/button&gt;&lt;/div&gt;
+&lt;/form&gt;</pre><p>While we define the <code class="code">select</code> container elements for
+      these selection lists in the HTML code of
+      <code class="filename">createBook.html</code> and
+      <code class="filename">upateBook.html</code>, we fill in their
+      <code class="code">option</code> child elements dynamically in
+      <code class="filename">v/createBook.mjs</code> and
+      <code class="filename">v/updateBook.mjs</code> with the help of the utility
+      method <code class="code">fillSelectWithOptions</code>.</p><p>In the case of a single <code class="code">select</code> element, the user's
+      single-valued selection can be retrieved from the <code class="code">value</code>
+      attribute of the <code class="code">select</code> element, while in the case of a
+      multiple <code class="code">select</code> element, the user's multi-valued selection
+      can be retrieved from the <code class="code">selectedOptions</code> attribute of the
+      <code class="code">select</code> element.</p><p>Notice that the <code class="code">div</code> element containing the multiple
+      selection list for <code class="code">otherAvailableLanguages</code> has the
+      <code class="code">class</code> value "multi-sel", which is used for defining
+      specific CSS rules that adjust the element's size.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e4925"></a>6.2.&nbsp;Radio button and checkbox groups</h3></div></div></div><p>Since the enumeration attributes <code class="code">category</code> and
+      <code class="code">publicationForms</code> do not have more than seven possible
+      values, we can use a <span class="italic">radio button
+      group</span> and a <span class="italic">checkbox group</span>
+      for rendering them in an HTML-form-based UI. These choice widgets are
+      formed with the help of the container element <code class="code">fieldset</code> and
+      its child element <code class="code">legend</code> as shown in the following HTML
+      fragment:</p><pre class="programlisting">&lt;form id="Book"&gt;
+ ...
+ &lt;<span class="bold"><strong>fieldset</strong></span> <span class="bold"><strong>data-bind</strong></span>="<span class="bold"><strong>category</strong></span>"&gt;
+   &lt;<span class="bold"><strong>legend</strong></span>&gt;Category&lt;/legend&gt;&lt;/fieldset&gt;
+ &lt;fieldset <span class="bold"><strong>data-bind</strong></span>="<span class="bold"><strong>publicationForms</strong></span>"&gt;
+   &lt;legend&gt;Publication forms&lt;/legend&gt;&lt;/fieldset&gt;
+ &lt;div&gt;&lt;button type="submit" name="commit"&gt;Save
+   &lt;/button&gt;&lt;/div&gt;
+&lt;/form&gt;</pre><p>Notice that we use a custom attribute <code class="code">data-bind</code> for
+      indicating to which attribute of the underlying model class the choice
+      widget is bound.</p><p>In the same way as the <code class="code">option</code> child elements of a
+      selection list, also the <code class="code">label</code>ed <code class="code">input</code> child
+      elements of a choice widget are created dynamically with the help of the
+      utility method <code class="code">createChoiceWidget</code> in
+      <code class="filename">v/createBook.js</code> and
+      <code class="filename">v/updateBook.js</code>.</p><pre class="programlisting">const formEl = document.forms["Book"],
+    origLangSelEl = formEl["originalLanguage"],
+    otherAvailLangSelEl = formEl["otherAvailableLanguages"],
+    categoryFieldsetEl = formEl.querySelector(
+        "fieldset[data-bind='category']"),
+    pubFormsFieldsetEl = formEl.querySelector(
+        "fieldset[data-bind='publicationForms']"),
+    saveButton = formEl["commit"];
+// load all book records
+Book.retrieveAll();
+// set up the originalLanguage selection list
+fillSelectWithOptions( origLangSelEl, LanguageEL.labels);
+// set up the otherAvailableLanguages selection list
+fillSelectWithOptions( otherAvailLangSelEl, LanguageEL.labels);
+// set up the category radio button group
+<span class="bold"><strong>createChoiceWidget</strong></span>( categoryFieldsetEl, "category", [],
+    "radio", BookCategoryEL.labels, true);
+// set up the publicationForms checkbox group
+<span class="bold"><strong>createChoiceWidget</strong></span>( pubFormsFieldsetEl, "publicationForms", [],
+    "checkbox", PublicationFormEL.labels);</pre><p>Notice that like a selection list implemented with the HTML
+      <code class="code">select</code> element that provides the user's selection in the
+      <code class="code">value</code> or <code class="code">selectedOptions</code> attribute, our choice
+      widgets also need a DOM attribute that holds the user's single- or
+      multi-valued choice. We dynamically add a custom attribute
+      <code class="code">data-value</code> to the choice widget's <code class="code">fieldset</code>
+      element for this purpose in <code class="code">createChoiceWidget</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e4960"></a>6.3.&nbsp;Responsive validation for choice widgets</h3></div></div></div><p>Since choice widgets do not allow arbitrary user input, we do not
+      have to check constraints such as range constraints or pattern
+      constraints on user input, but only mandatory value constraints. This
+      allows simplifying responsive validation<a class="indexterm" name="d5e4963"></a> in the UI.</p><p>In our example app, the enumeration attributes
+      <code class="code">originalLanguage</code>, <code class="code">category</code> and
+      <code class="code">publicationForms</code> are mandatory, while
+      <code class="code">otherAvailableLanguages</code> is optional.</p><p>In the case of a <span class="italic">mandatory
+      single-valued</span> enumeration attribute like
+      <code class="code">originalLanguage</code> rendered as a single selection list, we
+      can enforce a choice, and thus the mandatory value constraint, by not
+      offering an empty or void option among the <code class="code">option</code>
+      sub-elements of the <code class="code">select</code> element. If the attribute is
+      rendered as a radio button group, we can enforce a choice, and thus the
+      mandatory value constraint, in the <span class="italic">create</span> use case by initially setting the
+      <code class="code">checked</code> attribute of the first radio button to
+      <code class="code">true</code> and not allowing the user to directly uncheck a
+      button. In this way, if the user doesn't check any button, the first one
+      is the default choice.</p><p>In the case of an <span class="italic">optional
+      single-valued</span> enumeration attribute rendered as a
+      single-selection list, we need to include an empty or void option (e.g.,
+      in the form of a string like "---"). If the attribute is rendered as a
+      radio button group, we do not check any button initially and we need to
+      allow the user to directly uncheck a button with a mouse click in a
+      <code class="code">click</code> event listener.</p><p>In the case of a <span class="italic">mandatory
+      multi-valued</span> enumeration attribute like
+      <code class="code">publicationForms</code> rendered as a multiple-selection list or
+      checkbox group, we need to check if the user has chosen at least one
+      option. Whenever the user selects or unselects an option in a
+      <code class="code">select</code> element, a <code class="code">change</code> event is raised by
+      the browser, so we can implement the responsive mandatory value
+      constraint validation as an event listener for <code class="code">change</code>
+      events on the <code class="code">select</code> element, by testing if the list of
+      <code class="code">selectedOptions</code> is empty. If the attribute is rendered as a
+      checkbox group, we need an event listener for <code class="code">click</code> events
+      added on the <code class="code">fieldset</code> element and testing if the widget's
+      value set is non-empty, as shown in the following example code fragment:
+      </p><pre class="programlisting">pubFormsFieldsetEl.addEventListener("click", function () {
+  const val = pubFormsFieldsetEl.getAttribute("data-value");
+  formEl.publicationForms[0].setCustomValidity(
+    (!val || Array.isArray(val) &amp;&amp; val.length === 0) ?
+      "At least one publication form must be selected!":"" );
+});</pre><p>Notice that the HTML5 constraint validation API does not allow to
+      indicate a constraint violation on a <code class="code">fieldset</code> element (as
+      the container element of a choice widget). As a workaround, we use the
+      first checkbox element of the <code class="code">publicationForms</code> choice
+      widget, which can be accessed with
+      <code class="code">formEl.publicationForms[0]</code>, for invoking the
+      <code class="code">setCustomValidity</code> method that indicates a constraint
+      violation if its argument is a non-empty (message) string.</p><p>You can <a class="link" href="3-EnumerationApp/index.html" target="_top">run the
+      enumeration app</a> from our server or <a class="link" href="3-EnumerationApp.html" target="_top">download the code</a> as a ZIP
+      archive file.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.&nbsp;Write the Model Code&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;7.&nbsp;Quiz Questions</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch07s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+</html>

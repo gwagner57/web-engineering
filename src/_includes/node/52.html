@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
+<!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+
+<!-- Mirrored from web-engineering.info/node/52 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8" />
+<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="MobileOptimized" content="width" />
+<meta name="description" content="Building a WiFi-Connected Weather Station Download Code and Documentation In this tutorial we show how to build a WiFi-connected weather station with the help of an Arduino Pro Mini (or, alternatively, a Nano, UNO, or MEGA2560), an ESP8266 WiFi module, a DHT22 temperature and humidity sensor and an Android device (smartphone, tablet, watch, etc) for configuring the weather" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="canonical" href="52.html" />
+<link rel="shortlink" href="52.html" />
+<title>Building a WiFi-connected weather station with an Android user interface for less than 30 Euro | web-engineering.info</title>
+<style type="text/css" media="all">
+@import url("../modules/system/system.base5056.css?ry1opl");
+@import url("../modules/system/system.menus5056.css?ry1opl");
+@import url("../modules/system/system.messages5056.css?ry1opl");
+@import url("../modules/system/system.theme5056.css?ry1opl");
+</style>
+<style type="text/css" media="all">
+@import url("../modules/comment/comment5056.css?ry1opl");
+@import url("../modules/field/theme/field5056.css?ry1opl");
+@import url("../modules/node/node5056.css?ry1opl");
+@import url("../modules/search/search5056.css?ry1opl");
+@import url("../modules/user/user5056.css?ry1opl");
+@import url("../modules/forum/forum5056.css?ry1opl");
+@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
+@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
+</style>
+<style type="text/css" media="all">
+@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
+@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
+</style>
+<style type="text/css" media="screen">
+@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
+@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
+@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
+</style>
+<style type="text/css" media="all">
+@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
+</style>
+<style type="text/css" media="print">
+@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
+</style>
+<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
+<style type="text/css" media="screen">
+@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
+</style>
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+
+<!--[if lt IE 9]>
+<style type="text/css" media="screen">
+@import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
+</style>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<style type="text/css" media="screen">
+@import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
+</style>
+<![endif]-->
+<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
+<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
+<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
+<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+//--><!]]>
+</script>
+<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
+<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+//--><!]]>
+</script>
+<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"Cu6iA-YY1QpFkDcASUJRw64KYqQpR_IFOehZnCF5VvY","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"\/\/platform.twitter.com\/widgets.js":1,"0":1,"\/\/apis.google.com\/js\/plusone.js":1,"\/\/platform.linkedin.com\/in.js":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/52?destination=node\/52":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/52","title":"Building a WiFi-connected weather station with an Android user interface for less than 30 Euro","identifier":"node\/52"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
+//--><!]]>
+</script>
+<!--[if lt IE 9]>
+<script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
+<![endif]-->
+</head>
+<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-52 node-type-article atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+  <div id="skip-link" class="nocontent">
+    <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+  </div>
+    <div id="page-wrapper">
+  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+
+    
+    <div id="header-wrapper">
+      <div class="container clearfix">
+
+        <header class="clearfix with-logo" role="banner">
+
+                      <div id="branding" class="branding-elements clearfix">
+
+                              <div id="logo">
+                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
+              
+                              <div class="h-group" id="name-and-slogan">
+
+                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+                  
+                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+                  
+                </div>
+              
+            </div>
+          
+          
+        </header>
+
+      </div>
+    </div>
+
+    
+    
+    
+    <div id="content-wrapper">
+      <div class="container">
+
+        <div id="columns">
+          <div class="columns-inner clearfix">
+
+            <div id="content-column">
+              <div class="content-inner">
+
+                
+                <section id="main-content" role="main">
+
+                  
+                  <div class="content-margin">
+                    <div class="content-style">
+
+                      
+                      
+                      
+                                              <header class="clearfix">
+                          <h1 id="page-title">
+                            Building a WiFi-connected weather station with an Android user interface for less than 30 Euro                          </h1>
+                        </header>
+                      
+                      
+                      
+                      <div id="content">
+                        <div class="region region-content"><div id="block-system-main" class="block block-system no-title odd first last block-count-1 block-region-content block-main" >  
+  
+  <article id="node-52" class="node node-article node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/52" typeof="sioc:Item foaf:Document" role="article">
+  <div class="node-inner">
+
+    
+              <header class="node-header">
+
+        
+                  <p class="submitted"><span property="dc:date dc:created" content="2015-12-17T01:48:18+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/24.html" title="View user profile." class="username" xml:lang="" about="/user/24" typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on <time datetime="2015-12-17T01:48:18+0100">Thu, 12/17/2015 - 01:48</time></span></p>
+        
+      </header>
+        <span property="dc:title" content="Building a WiFi-connected weather station with an Android user interface for less than 30 Euro" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+    <div class="node-content">
+      <div class="user-picture">
+    <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc" alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>  </div>
+    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><article>
+<header>
+<h1>Building a WiFi-Connected Weather Station</h1>
+</header>
+
+<h4><a href="../sites/default/files/weather_station/WeatherStationComplete.zip">Download Code and Documentation</a></h4>
+
+<section>
+<p>In this tutorial we show how to build a WiFi-connected weather station with the help of an Arduino Pro Mini (or, alternatively, a Nano, UNO, or MEGA2560), an ESP8266 WiFi module, a DHT22 temperature and humidity sensor and an Android device (smartphone, tablet, watch, etc) for configuring the weather station and for observing the sensor data. The total cost of this project, excluding the Android device, is less than 30 €.</p>
+
+<p>The design goals of our project are:</p>
+
+<ul>
+	<li><em>simplicity</em>: the solution must be simple and easy to build even for a beginner;</li>
+	<li><em>usability</em>: the temperature (in the range [-30, 50]°C) and humidity (in the range [10 - 100]%) values can be read over WiFi and visualized by using an Android device (smartphone, tablet, watch, etc);</li>
+	<li><em>low cost</em>: the target is 30€ or less, excluding the Android device;</li>
+	<li><em>maintainability</em>: must be possible to add new sensors and functionality when needed, and we should be able to repair it if something goes wrong.</li>
+</ul>
+
+<p>One can buy devices with similar features, but the price range starts at about 75 EUR and more. Also, these devices cannot be easily modified, most of them using SMD (surface mount devices) and integrated ICs, thus a possible improvement or repair when needed is either hard or impossible.</p>
+
+<p>In addition, because it is easy to do and it costs nothing (except a few MCU cycles and a few minutes of programming), we can easily add a few other features:</p>
+
+<ul>
+	<li>a voltmeter for the 5V power supply - it is fairly easy because the ATmega 328 (but also ATmega 168 and some other) MCU comes with a builtin voltmeter (voltage sensor), which has a relatively low accurracy if not calibrated, but provides valuable information with no additional costs;</li>
+	<li>the amount of free RAM for the Arduino MCU - mainly used for debugging reasons, it provides useful information for later improvements. Same as for the voltmeter, no additional hardware is required, and it only costs a few MCU cycles with respect to MCU usage;</li>
+	<li>compute the average temperature and humidity - this is done in the software, and provides useful information for the weather station user.</li>
+</ul>
+
+<p><strong>Disclaimer:</strong> working with electricity is dangerous. For this project we use 5V and 3.3V voltage levels, which is safe for the human body under any environment conditions. However, the low voltage is obtained from a mains connected power brick, and therefore we highly recommend you to take safety precautions and to use a trustful brand for the power supply. We cannot be held responsible for any caused damage! Do it at your own risk and/or ask help from an electronics engineer.</p>
+</section>
+
+<section>
+<header>
+<h2>Hardware configuration</h2>
+</header>
+
+<p>The hardware components required for this project are presented below. These components were mostly bought from eBay and Amazon, and the listed prices include postage costs within Germany (for some also in the EU). If you are willing to wait between two and five weeks to receive the items, you can also buy them from China online shops (Aliexpress, eBay, and so on), for less than half of the prices we show further.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="min-width: 150px;">Hardware Component</th>
+			<th style="min-width: 120px;">Estimative Price</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="https://www.arduino.cc/en/Main/ArduinoBoardProMini">Arduino Pro Mini</a></td>
+			<td>3 - 5 EUR</td>
+			<td>We use a clone, but it has the same functionality as the original device. While the quality of the original Arduino Pro Mini is higher, so it is the price (two to four times higher).</td>
+		</tr>
+		<tr>
+			<td><a href="http://www.esp8266.com/wiki/doku.php?id=esp8266-module-family#esp-02">ESP8266-02</a> WiFi module</td>
+			<td>6 - 8 EUR</td>
+			<td>Most of these modules have a 4Mb (512KB) flash memory, allowing to use AT firmware version below 1.1.0 ( released on June 2015). New modules are now available, and the SPI flash IC was updated to an 8Mb (1MB) one, allowing them to use the latest AT firmware, which provides more and improved AT commands. We strongly recommend to use an ESP8266 module with 1MB flash and latest AT firmware.</td>
+		</tr>
+		<tr>
+			<td><a href="https://learn.sparkfun.com/tutorials/using-the-logic-level-converter">Logic Converter</a> module</td>
+			<td>1 - 3 EUR</td>
+			<td>It is used to convert 5V to 3.3V required for the UART communication between the Arduino board and the ESP8266 WiFi module. Some of these devices support also 2.5V and 1.8V levels.</td>
+		</tr>
+		<tr>
+			<td><a href="https://learn.adafruit.com/dht/overview">DHT22 </a> temperature and humidity sensor</td>
+			<td>4 - 6 EUR</td>
+			<td>May be replaced with DHT11 sensor module if negative temperatures are not required and its lower accuracy is ok for you. It contains a temperature and relative air humidity sensor in one package, and uses a 1-Wire digital custom interface for data communication.</td>
+		</tr>
+		<tr>
+			<td><a href="http://www.ti.com/lit/ds/symlink/lm317.pdf">LM317</a> Step-Down Linear Voltage regulator</td>
+			<td>approx. 0.5 EUR per piece, 2 - 3 EUR for a set of 10</td>
+			<td>It requires two additional resistors (or one resistor and one potentiometer) and two additional capacitors, with a total cost of about 1 EUR. We use it to lower the voltage down to 3.3V but it can be adjusted for values between 1.25 and 37V. This device is capable to supply maximum 1.5A current with proper cooling (not required for our case).</td>
+		</tr>
+		<tr>
+			<td>One red/green Duo LED, or two separate red and green LEDs</td>
+			<td>approx. 0.5 EUR per piece of 2 EUR for a set of 10</td>
+			<td>A common cathode (GND in our case) LED is a good choice for the DUO LED. Two separate LEDs of any size and color may be used as long as they require less than 20-25mA and have a forward voltage less than 5V (supplied by the Arduino I/O pins).</td>
+		</tr>
+		<tr>
+			<td><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="784d2e384939">[email&#160;protected]</a> regulated power brick</td>
+			<td>3-5 EUR</td>
+			<td>A ±5% variation is allowed for the regulated power brick. Notice that cheap and low quality power supplies are not recommended since often they have a bad regulation and usually out of the ±5% error range, so it may produce damage to the other components or even put your live in danger. A power brick with a higher Ampere value can be used, but usually these are more expensive. In addition, one can use an USB port as power supply for our device, that is able to supply 500mA or more current (USB ports of some laptops are not appropriate).</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Weather Station Hardware Design</h3>
+
+<p>There are applications one can use to design electronic schematics, but most of the time, these are not easy to understand for beginners. We choose to use <a href="http://fritzing.org/">Fritzing</a>, which allows to draw nice looking breadboard oriented designs, but also schematics and PCB layouts. It also provides a builtin environment which integrates with the Arduino Software and allows to write the Arduino code, compile it and deploy it on the Arduino board. The hardware prototype on a breadboard is shown in <a href="#completeBreadboardFig">Figure 1</a>:</p>
+
+<figure id="completeBreadboardFig"><img src="../sites/default/files/weather_station/full_schematic_breadboard.svg" />
+<figcaption>Figure 1: The Complete Breadboard Design for the Weather Station Hardware.</figcaption>
+</figure>
+
+<p>The hardware is divided in a few blocks:</p>
+
+<ul>
+	<li><em>the power supply</em>: Arduino Pro Mini board needs 5-12V (obtained from a <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="370261770676">[email&#160;protected]</a> power brick), but the ESP8266 WiFi module requires 3.3V regulated voltage which we obtain by using a step-down linear regulator.</li>
+	<li><em>the sensor node controller</em>: the Arduino Pro Mini board represents the controller board, which runs all the logic for this project;</li>
+	<li><em>an WiFi communication module</em>: we have used the cheap and easy to use ESP8266 module for the WiFi communication between the sensor node and the Android device;</li>
+	<li><em>the sensor(s)</em>: temperature and humidity values are obtained from a DHT22 sensor;</li>
+	<li><em>logic level voltage converter</em>: allows a voltage safe Serial/UART communication between the Arduino board which uses 5V signals and the ESP8266 module which requires 3.3V signals;</li>
+	<li><em>WiFi status LEDs</em>: a DUO, common cathode green/red LED, is used to visually indicate the WiFi state.</li>
+</ul>
+
+<p><strong>Note:</strong> many of the breadboards we are aware of, does not have a default connection between the GND lines for the two power grids, therefore you need to add a connection wire between the two GND lines, as shown in <a href="#completeBreadboardFig">Figure 1</a>. Also, some breadboards have every power grid splited in two halfs, so you have to use a jumper wire if this is the case.</p>
+
+<p>For the breadboard schematic, red wires were used for +5V, orange for 3.3V and black for GND connections. For communication lines, we use green and blue for RX/TX lines, and yellow for data pin of DHT22 sensor. In <a href="#fig2">Figure 2</a>, we show the full electronics schematic, of our weather station sensor node.</p>
+
+<figure id="fig2"><img src="../sites/default/files/weather_station/full_schematic.png" />
+<figcaption>Figure 2: The Complete Schematic Design for Weather Station Hardware.</figcaption>
+</figure>
+
+<section>
+<header>
+<h3>The ESP8266 3.3V Power Supply</h3>
+</header>
+
+<p>Our sensor node is powered by a regulated <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="9faac9dfaede">[email&#160;protected]</a> power brick. The Arduino Pro Mini board and most of components can directly use the 5V rail comming from the power brick. The regulation down to 3.3V, required by the ESP8266 WiFi module, is obtained by using the LM317T IC, an adjustable step-down linear voltage regulator. It only requires a few additional components: two resistors and two capacitors. It is able to provide up to 1.5A current, with appropriate cooling. However, for our example cooling is not needed, the average current being under 250mA (going up to 500mA but only for very short amounts of time, when the ESP8266 module transmits data). <a href="#fig2">Figure 3</a> shows the 3.3V power supply built on a breadboard, and <a href="#fig4">Figure 4</a> shows the corresponding electronics schematic..</p>
+
+<figure id="fig3"><img src="../sites/default/files/weather_station/power_supply_breadboard.svg" />
+<figcaption>Figure 3: The 3.3V Power Supply on a Breadboard.</figcaption>
+</figure>
+
+<figure id="fig4"><img src="../sites/default/files/weather_station/power_supply_schematic.svg" />
+<figcaption>Figure 4: The Schematics for the 3.3V Power Supply.</figcaption>
+</figure>
+
+<p>The values of the R1 and R2 resistors are chosen according with the following rules:</p>
+
+<ul>
+	<li>the value of R1 must be in the range 100 - 1000Ω, as specified in the LM317 IC datasheet;</li>
+	<li>both, R1 and R2 are standard resistor values, so easily available in any electronics shop;</li>
+	<li>the equation, provided by the LM317 IC datasheet, <code>Vout = 1.25 ( 1 + R2 / R1)</code> is verified, when <code>Vout ~= 3.3</code>.</li>
+</ul>
+
+<p>The real output voltage, for <code>R1 = 330Ω</code> and <code>R2 = 560Ω</code> is <code>Vout ~= 3.37V</code>, so the maximum ±5% error is within specifications. <code>C1</code> is a ceramic capacitor with a value of <code>0.1µF</code> ( <code>100nF</code>), being used to filter high frequency spikes and to prevent internal oscillation for the <code>LM317T</code> IC. <code>C2</code> is an electrolytic capacitor with a value of <code>1µF</code> (higher values, up to about <code>1000µF</code> can be used), and its purpose is to smooth the output voltage (3.3V line). The designed voltage of <code>C2</code> must be higher than <code>3.3V</code>, and it is very important to mount the capacitor with the correct polarity. Electrolytic capacitors are very prone to small explosions if missused, such as mounting them in reverse polarity or use them with voltages over their specification.</p>
+
+<p><strong>Note:</strong> instead of the fixed value R2 resistor, a 1KΩ potentiometer can be used. In this case, a more precise output voltage is obtained if (and when) really needed. This way you can also use a lower value for R1, and a good choice is 240Ω, as recommended in the LM317 datasheet.</p>
+</section>
+
+<section>
+<header>
+<h3>Serial Communication via Voltage Lever Converter</h3>
+</header>
+
+<p>Arduino Pro Mini board is powered by a 5V power supply, so it allows to use 5V on the UART RX and TX communication lines. ESP8266 Wifi module on the other hand uses 3.3V power supply, and it is not 5V tolerant for the VCC, RX, TX or any of its other available I/O lines. Therefore a direct connection between the RX/TX lines of the Arduino board and the RX/TX lines of the ESP8266 module is not possible, and ignoring this warning may very likely result in damaging the ESP8266 module. A simple solution for this case is to use a readily available logic converter module. Its provides 3.3V lines (some also allows 1.8V, 2.5V and 2.8V) as well as 5V communication lines. Notice that such a module can provide very low current (in the range of a few mA) on each of the lines, therefore it must be used only for data communication and not as a voltage regulator. We use a four channel module, so it provides four low voltage (3.3V) lines with four corresponding high voltage (5V) lines. Two lines are used for UART communication and the other two are used for connecting the CH_PD and RESET lines of the ESP8266 module with the pin 2 and respectively 3 of the Arduino board.</p>
+
+<p>It is important to notice that the RX/TX line of the Arduino Pro Mini board have to be cross-connected with the RX/TX lines of the ESP8266 module. This means: the RX line of the Arduino board connects to the TX line of the ESP8266 module and the TX line of the Arduino board connects to the RX line of the ESP8266 module. These connection is made via the logic level converter module as already explained above and also shown in <a href="#completeBreadboardFig">Figure 1</a> and <a href="#fig2">Figure 2</a>.</p>
+
+<p>The <em>CH_PD</em> (channel power down) and <em>RESET</em> pins of the ESP8266 module needs to be connected to VCC (+3.3V) line via 3.3KΩ resistors. Normally, a 10KΩ resistor can be used, but we observed periodical resets of our WiFi module (we tested a few of them). Using test and trial method, we found that the 3.3KΩ resistor works the best for all our ESP8266 modules.</p>
+
+<p><strong>Note:</strong> the ESP8266-01 module is shown in the schematic, since this was available as Fritzing component, but actually in the real board we use an ESP8266-02 module. This should make no difference, and in general we should be able to use any version of these modules. There are about thirteen versions of ESP8266 modules, which differes in form, size and available I/O, but all have the same WiFi functionality.</p>
+</section>
+
+<section>
+<header>
+<h3>DHT22 Sensor</h3>
+</header>
+
+<p>The DHT22 sensor allows to obtain temperature readings in the range <code>[-40, 80]°C</code> with a typical accuracy of <code>±0.5°C</code> and a resolutin of <code>0.1 units (°C)</code>. However, in real tests, the accuracy we could observe is closer to <code>±1°C</code>. The sensor can also read humidity values in the range <code>[0, 100]%</code>, with a typical accuracy of <code>±2 units (%)</code> and a resolution of <code>0.1 units</code>. In our real tests, the accuracy was about ±5%.</p>
+
+<p>The DHT22 sensor can be connected to either 3.3V line or to 5V line, and we decided to use the 5V line. The data pin of the sensor (check the <a href="https://www.adafruit.com/datasheets/Digital humidity and temperature sensor AM2302.pdf"> datasheet </a> for more details) is connected to 5V rail via one 10KΩ resistor, to avoid communication errors (this line must stay HIGH when the sensor does not communicate via the data pin). The sensor data pin is connected to digital pin 9 of the Arduino board.</p>
+</section>
+
+<section>
+<header>
+<h3>WiFi Status LEDs</h3>
+</header>
+
+<p>During the tests, we found that it is good to know the actual state of the ESP8266 module, specially because the module becomes unresponsive sometimes. We have used a DUO red/green LED, which is actually composed of one green and one red LEDs in a single physical package, and which share a common cathode (GND) connection. The green LED anode was connected to pin 8 of the Arduino Pro Mini board via a 560Ω resistor, thus allowing about 5mA current passing through the LED. The red LED anode was connected to pin 7 of the Arduino Pro Mini board via a 560Ω resistor, thus allowing about 6mA current passing through the LED.</p>
+
+<p>A LED should never be directly connected between the VCC and GND lines (or directly to I/O pins of an MCU) with the exception of special LEDs which are designed for this, on which case they have a builtin resistor or use other current limiting design. Instead one must use a series resistor to limit the current passing through the LED. Using <a href="https://en.wikipedia.org/wiki/Ohm%27s_law">Ohm's Law</a> we can compute the value of the resistor by knowing the LED forward voltage (the voltage to which the LED starts conducting and emmiting light), the used supply voltage and the current we want to allow passing through the LED (which controls the LED brightness). A standard red LED has about 1.7V forward voltage, a green or orange LED has about 2V forward voltage, a white or blue led has about 2.7V forward voltage. Since we only need the LEDs to provide visual indication, they don't have to lighting very bright. After testing our DUO LED, we decided that a value of 6mA is desired for the red LED and a value of 5mA for the green LED (green light is more visible for human eye than other colors). Applying Ohm's Law, we have <code>V = IR</code>, so <code>R = V / I</code>. For our case, V is the difference between the power supply voltage (+5V) and the LED forward voltage. Solving the equation for the red LED we have <code>R = (5 - 1.7) / 0.006</code>, which give us <code>R = 550Ω</code>. Since 550Ω is not a standard value, the next available standard resistor value can be used, that being 560Ω. As homework, you can do the computations for the green LED.</p>
+
+<p><strong>Note:</strong> if you don't have a DUO LED, just use two normal LEDs. Also, you can use other LED colors if you like, and even different resistor values to obtain different brightness levels (use Ohm's Law to find the appropriate resistor value). A standard 3mm or 5mm LED usually stands up to 20mA of current, after this point it gets too warm and it is very likely that it gets burned. However some LEDs can stand much more current, but they need special drivers. Also, notice that you should not draw more than 20mA from each of the Arduino pins, or you may damage the board.</p>
+</section>
+
+<section>
+<header>
+<h3>Hardware Summary Overview</h3>
+</header>
+In the tables below, a summary of the hardware components connection is shown:
+
+<table>
+	<thead>
+		<tr>
+			<th>Arduino Pro Mini Pin</th>
+			<th>Connects to</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>RX</td>
+			<td>Logic Level Converter first RX HV pin</td>
+		</tr>
+		<tr>
+			<td>TX</td>
+			<td>Logic Level Converter first TX HV pin</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>Logic Level Converter second RX HV pin</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>Logic Level Converter second TX HV pin</td>
+		</tr>
+		<tr>
+			<td>7</td>
+			<td>Red anode of the DUO LED via R4 (560Ω) resistor</td>
+		</tr>
+		<tr>
+			<td>8</td>
+			<td>Green anode of the DUO LED via R4 (560Ω) resistor</td>
+		</tr>
+		<tr>
+			<td>9</td>
+			<td>Data pin of the DHT22 sensor</td>
+		</tr>
+		<tr>
+			<td>VCC</td>
+			<td>VCC (+5V) rail of the power supply</td>
+		</tr>
+		<tr>
+			<td>GND</td>
+			<td>GND rail of the power supply</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<thead>
+		<tr>
+			<th>Logic Level Converter PIN</th>
+			<th>Connects to</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>First TX LV</td>
+			<td>RX pin of the ESP8266 module</td>
+		</tr>
+		<tr>
+			<td>First RX LV</td>
+			<td>TX pin of the ESP8266 module</td>
+		</tr>
+		<tr>
+			<td>First TX HV</td>
+			<td>TX pin of the Arduino Pro Mini board</td>
+		</tr>
+		<tr>
+			<td>First RX HV</td>
+			<td>RX pin of the Arduino Pro Mini board</td>
+		</tr>
+		<tr>
+			<td>Second TX LV</td>
+			<td>RESET pin of the ESP8266 module</td>
+		</tr>
+		<tr>
+			<td>Second RX LV</td>
+			<td>CH_PD pin of the ESP8266 module</td>
+		</tr>
+		<tr>
+			<td>Second TX HV</td>
+			<td>Pin 3 of the Arduino Pro Mini board</td>
+		</tr>
+		<tr>
+			<td>Second RX HV</td>
+			<td>Pin 2 of the Arduino Pro Mini board</td>
+		</tr>
+		<tr>
+			<td>LV GND</td>
+			<td>GND rail of the power supply</td>
+		</tr>
+		<tr>
+			<td>HV GND</td>
+			<td>GND rail of the power supply</td>
+		</tr>
+		<tr>
+			<td>LV</td>
+			<td>3.3V rail, obtained from the LM317 IC output pin</td>
+		</tr>
+		<tr>
+			<td>HV</td>
+			<td>5V rail of the power supply</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<thead>
+		<tr>
+			<th>ESP8266 Module Pin</th>
+			<th>Connects to</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>RX</td>
+			<td>First LV TX pin of the Logic Converter Module</td>
+		</tr>
+		<tr>
+			<td>TX</td>
+			<td>First LV RX pin of the Logic Converter Module</td>
+		</tr>
+		<tr>
+			<td>RESET</td>
+			<td>Second LV TX pin of the Logic Converter Module</td>
+		</tr>
+		<tr>
+			<td>CH_PD</td>
+			<td>Second LV RX pin of the Logic Converter Module</td>
+		</tr>
+		<tr>
+			<td>GND</td>
+			<td>GND rail of the power supply</td>
+		</tr>
+		<tr>
+			<td>VCC</td>
+			<td>3.3V rail, obtained from LM317 output pin</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<thead>
+		<tr>
+			<th>LM317 IC Pin</th>
+			<th>Connects to</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Input</td>
+			<td>5V rail of the power supply</td>
+		</tr>
+		<tr>
+			<td>Output</td>
+			<td>3.3V rail</td>
+		</tr>
+		<tr>
+			<td>Adj</td>
+			<td>Output 3.3V rail via R1 and to GND rail via R2</td>
+		</tr>
+	</tbody>
+</table>
+</section>
+</section>
+
+<section>
+<header>
+<h2>Software Configuration</h2>
+</header>
+
+<section>
+<header>
+<h3>The Arduino Code</h3>
+</header>
+
+<p>The Arduino code can be written, compiled and deployed to the Arduino board by either using <a href="http://fritzing.org/">Fritzing</a> or the <a href="https://www.arduino.cc/">Arduino IDE</a> (this may be preferred in some cases, because it usually works out of the box). For our project, the following Arduino libraries are needed:</p>
+
+<ul>
+	<li><a href="https://github.com/dimircea/Arduino-ESP8266">Arduino-ESP8266</a>, used for the UART communication between the ESP8266 module and the Arduino board. Clone the library repository, rename the folder to <em>ESP8266</em> and copy it to <em>libraries</em> subfolder, part of the Arduino Software installation folder.</li>
+	<li><a href="https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTlib">DHTLib</a>, used for the communication with the DHT22 sensor. This library supports DHT11 sensors as well, in case you use it as a replacement for DHT22. Clone the library repository, rename it to <em>DHT</em> and copy it to <em>libraries</em> subfolder, part of the Arduino Software installation folder.</li>
+</ul>
+
+<p>An Arduino program (also known as sketch) has the following minimal structure:</p>
+
+<pre>
+// 1. constants definition (optional if no constant is needed)
+// 2. include headers for used libraries ( optional if no library is used)
+// 3. define the global variables (optional if no global variable is required)
+
+// program initialization
+void setup() { 
+  // write here the setup code.
+}
+
+// infinite loop cycle
+void loop() { 
+  // the code from this method loops as long as the Arduino board is powered.
+}              </pre>
+
+<p>In the <code>setup</code> method we write initialization code, which is executed only once, when the Arduino is powered or after a software or hardware reset. The <code>loop</code> method contains the code which loops in the Arduino MCU as long as the board receives power.</p>
+
+<section>
+<header>
+<h4>Constants Definition for Arduino Pins Configuration</h4>
+</header>
+
+<p>First we define the constants representing the used Arduino board pins. It is highly recommended to use constants instead of using the pin numbers all over the code. This way, one can easily change the constant value instead of trying to find all the places where the pin number was used, if you decide that another pin has to be used.</p>
+
+<pre>
+// Arduino pin number used for the communication with DHT22 sensor.
+#define DHT22_PIN 9
+// pins number for WiFi disabled LED
+#define WIFI_DISABLED_LED_PIN 7
+// pins number for WiFi enabled/active LED
+#define WIFI_ACTIVE_LED_PIN 8
+// arduino pin used to connect to the CH_PD (Power Down) WiFi module pin
+#define WIFI_CH_PD_PIN 2
+// arduino pin used to connect to the RESET WiFi module pin
+#define WIFI_RESET_PIN 3</pre>
+
+<p>Pin 9 is used for data communication with the DHT22 sensor, pins 7 and 8 are used for the red and green LEDs (WiFi status LEDs), pin 2 allows to put the WiFi into a sleep mode (and to wake it up) and pin 3 allows us perform a hardware reset of the WiFi module, which requires to pull it down (set pin to LOW) for at least 200ms.</p>
+</section>
+
+<section>
+<header>
+<h4>Import Required Libraries for DHT22 and ESP8266 Modules</h4>
+</header>
+
+<p>We need to specify the libraries used by our program. This is done in the standard C/C++ style by using the <code>#include</code> directive:</p>
+
+<pre>
+#include &lt;dht.h&gt;
+#include &lt;ESP8266.h&gt;                        </pre>
+
+<p>When using this directive, <code>&lt;&gt;</code> tells to the compiler and linker to look in the <em>libraries</em> subfolder of the Arduino IDE installation, while using double quotes means the library files are in the your arduino skecth folder.</p>
+</section>
+
+<section>
+<header>
+<h4>Define Program Global Variables</h4>
+</header>
+
+<p>As in many (if not all) Arduino programs, we use some global variables:</p>
+
+<pre>
+// DHT22 sensor controller class
+dht DHT;
+
+// ESP8266 WiFi module controller
+ESP8266 esp( Serial);
+
+// store the average temperature and humidity 
+// values, starting with last system reset
+float avgTemperature = 0;
+float avgHumidity = 0;
+
+// utility variable used to compute the averate temperature value
+unsigned long avgDhtStep = 1;
+
+// data template for sensors
+const char SENSORS_DATA_TEMPLATE[] PROGMEM = 
+    "{\"temperature\": %s, \"avgTemperature\": %s, \"humidity\": %s, \"avgHumidity\": %s, \"voltage\": %s, \"freeRam\": %d}";</pre>
+
+<p>The <code>dht22</code> variable represents an instance of the library which controls the communication with the DHT22 sensor. The <code>esp</code> variable represents an instance of the ESP8266 library used to communicate with the WiFi module. As parameter for the constructor we provide the <code>Serial</code> object, so the communication is made on the UART0 port of the Arduino board. When using Arduino Pro Mini (also Nano or UNO) board, this is the only serial port available. However, the library is designed to work with all the Arduino boards, and some of them have up to four UART ports, accessed via <code>Serial</code>, <code>Serial1</code>, <code>Serial2</code> and <code>Serial3</code> global objects.</p>
+
+<p>Since we like to know the average temperature and humidity values measured by our Weather Station, we define the <code>avgTemperature</code>, <code>avgHumidity</code> and <code>avgDhtStep</code> variables. The first two are used to store the average temperature and humidity values, while the latter is used to count how many time the temperature value was read, so the correct average value can be computed according with the formula: <code>avg = (avg * (n - 1) + newValue) / n</code>;</p>
+
+<p>The <code>SENSORS_DATA_TEMPLATE</code> variable stores the template (JSON structure) used to communicate with the Android application. The special <code>PROGMEM</code> variable modifier enforces the storage of the value in the flash memory instead of RAM, thus freeing up about 120Bytes of RAM (about 6% of the total RAM of the ATmega328P MCU, used by the Arduino Pro Mini, Nano and UNO boards).</p>
+</section>
+
+<section>
+<header>
+<h4>Initializing the ESP8266 WiFi Module</h4>
+</header>
+
+<p>The ESP8266 module communicates with the Arduino MCU via the UART protocol. A hardware reset for the WiFi module is recommended to ensure a correct module state before starting the UART communication.</p>
+
+<pre>
+void setupWiFi() {
+  // STEP 1:
+  // Set pins used for WiFi status LEDs as OUTPUT.
+  pinMode( WIFI_ACTIVE_LED_PIN, OUTPUT);
+  pinMode( WIFI_DISABLED_LED_PIN, OUTPUT);
+
+  // STEP 2:
+  // Arduino pin connected to ESP8266 CH_PD pin is set to OUTPUT.
+  // To keep the module active, this pin must be kept HIGH.
+  pinMode( WIFI_CH_PD_PIN, OUTPUT);
+  digitalWrite( WIFI_CH_PD_PIN, HIGH);
+  // Arduino pin connected to ESP8266 RESET pin is set to OUTPUT.
+  // To avoid random resents, we keep this HIGH.
+  pinMode( WIFI_RESET_PIN, OUTPUT);
+  digitalWrite( WIFI_RESET_PIN, HIGH);
+
+  // STEP 3:
+  // perform a hardware reset (ESP8266 RESET pin goes LOW)
+  digitalWrite( WIFI_RESET_PIN, LOW);
+  delay( 200);
+  // allow ESP8266 module to boot
+  digitalWrite( WIFI_RESET_PIN, HIGH);
+
+  // STEP 4:
+  // baud 115200, communication with ESP8266 module
+  Serial.begin( 115200);
+
+  // STEP 5:
+  // wait for the ESP8266 module to start, after the forced hardware reset.
+  // We check the wifi state once a second, until the ESP8266 WiFi module responds.
+  while( !checkWiFi()) {
+    delay( 1000);
+  };
+
+  // STEP 6:
+  // start UDP connection - wait on all ports
+  esp.atCipstartUdp();
+} </pre>
+
+<p>The WiFi module related initialization requires the following steps:</p>
+
+<ol>
+	<li>The Arduino pins used for the WiFi status LEDs (i.e., defined by the <code>WIFI_ACTIVE_LED_PIN</code> and <code>WIFI_DISABLED_LED_PIN</code> constants) are set to output.</li>
+	<li>The Arduino pins used to control the CH_PD and RESET lines of the ESP8266 module (i.e., defined by the <code>WIFI_CH_PD_PIN</code> and <code>WIFI_RESET_PIN constants</code>) are set to OUTPUT, so we can set them LOW or HIGH depending on the case. These two pins needs to stay HIGH during the normal operation.</li>
+	<li>Perform a hardware reset by pulling down the WiFi module RESET pin (set it LOW for about 200ms).</li>
+	<li>Start UART/Serial communication with the module at 115200 baud rate.</li>
+	<li>Wait for the WiFi module to boot, which takes two seconds or more.</li>
+	<li>Start UDP communications, and wait for incomming data on all the ports. We could have used only one specific port, but we like to be flexible.</li>
+</ol>
+
+<p>UDP communication is used for the WiFi data transmission between the Android device and our Weather Station sensor node. The <code>checkWiFi</code> method used to check if the WiFi module is in active state (communicates via UART lines) is shown below:</p>
+
+<pre>
+boolean checkWiFi() {
+  if( esp.at() == ESP8266::Error::NONE) {
+    digitalWrite( WIFI_DISABLED_LED_PIN, LOW);
+    digitalWrite( WIFI_ACTIVE_LED_PIN, HIGH);
+    return true;
+  } else { 
+    digitalWrite( WIFI_ACTIVE_LED_PIN, LOW);
+    digitalWrite( WIFI_DISABLED_LED_PIN, HIGH);
+    return false;
+  }
+}</pre>
+
+<p>This method returns <code>true</code> if the ESP8266 module responds to <code>AT</code> command, and <code>false</code> otherwise. The <code>AT</code> command is used to check if the module is active, and it does not represents a real command for the module. In addition, the <code>checkWiFi</code> method enables (or disables) the red/green LED, providing visual indication of the current WiFi state.</p>
+
+<p>Since the WiFi setup must run only once, when the hardware powers up, we call the <code>setupWiFi</code> module inside the Arduino specific <code>setup</code> method:</p>
+
+<pre>
+void setup() {
+  // setup WiFi - ESP8266 module
+  setupWiFi();
+  // add other code here...
+}</pre>
+</section>
+
+<section>
+<header>
+<h4>Reading Data from the DHT22 Temperature and Humidity Sensor</h4>
+</header>
+
+<p>The DHT22 sensor provides temperature and humidity values for our sensor node. It has a refresh rate of 0.5Hz, meaning that we can't read data from this sensor faster than once every two seconds. Reading data is fairly easy, because of all the hard code is hidden by the DHTLib library. We write a method to obtain these values and compute the temperature and humidity averaged values.</p>
+
+<pre>
+void updateDHTData() {
+  if ( dht22.read22( DHT22_PIN) == DHTLIB_OK) {
+    avgTemperature = ( avgTemperature * (avgDhtStep - 1) + dht22.temperature) / (float)avgDhtStep;
+    avgHumidity = ( avgHumidity * (avgDhtStep - 1) + dht22.humidity) / (float)avgDhtStep;
+  }
+}</pre>
+
+<p>The latest temperature and humidity values are available by reading the <code>temperature</code> and <code>humidity</code> properties of the <code>dht22</code> object. The <code>read22</code> method is used to perform a reading when DHT22 sensor is used, but instead, one can use <code>read11</code> to get the same effect when the DHT11 sensor is used. The method returns <code>DHTLIB_OK</code> when the reading was successful, and various error codes if problems were encountered. For simplicity reasons, we ignore the possible errors, but in a further tutorial we discuss also how to solve such possible problems.</p>
+</section>
+
+<section>
+<header>
+<h4>Reading 5V Supply Voltage Value by Using the Secret Builtin Arduino Voltmeter</h4>
+</header>
+
+<p>Some ATmega MCUs, such as ATmega328/168(p) have a builtin voltage sensor, which can be accessed by the code. This sensor is not very accurate (accuracy is within ±10% range). It uses the builtin 1.1V voltage reference available for these MCUs (some other ATmega MCUs also have a 2.56V internal voltage reference). The following code allows to read the AVcc line voltage, which by default is connected to VCC line of the Arduino board:</p>
+
+<pre>
+float getVcc() {
+  long result;
+  // read 1.1V reference against AVcc
+  ADMUX = _BV(REFS0) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1);
+  // wait for Vref to settle
+  delay(2); 
+  // convert
+  ADCSRA |= _BV(ADSC); 
+  while (bit_is_set(ADCSRA,ADSC));
+  result = ADCL;
+  result |= ADCH&lt;&lt;8;
+  // Back-calculate AVcc in mV
+  result = 1103700L / result; 
+  // return response in volts
+  return result / 1000.0;
+}</pre>
+
+<p>While this looks complicated, it actually uses a few MCU registers and some bits operations to read the VCC value agains the builtin 1.1V voltage reference, which has a pretty good stability once calibrated. By using a good quality multimeter and a stable voltage source, it is possible to "software calibrate" the internal voltage reference for individual MCUs when needed.</p>
+</section>
+
+<section>
+<header>
+<h4>Computing the Free Amounf of RAM</h4>
+</header>
+
+<p><strong>Note:</strong> a complete guide related to RAM usage optimization for Arduino MCUs as well as details on how to get the free amount of RAM are described on our blog article <a href="30.html">Optimize Arduino Memory Usage</a></p>
+
+<p>One last piece of data we like to collect is the amount of free RAM available on our Arduino MCU. This can be achieved by calling the <code>getFreeMCUMemory</code> method, available as part of the ESP8266 library. It returns an integer representing the number of RAM bytes which are not used by the MCU at the moment of calling the method.</p>
+</section>
+
+<section>
+<header>
+<h4>WiFi Communication with the Android Device</h4>
+</header>
+
+<p>All the sensor data we collect needs to be sent to the Android device. The first step in this direction is to listen for data requests from the Android device (periodical data requests are initiated). For this we use the loop method and wait for incomming data:</p>
+
+<pre>
+void loop() {
+  char data[10] = {0}, *ipdData = data;
+  // Incomming data from ESP8266 module
+  // Lengt must be greater than 7 bytes ("+IPD,n:")
+  if ( Serial.available() &gt; 7 &amp;&amp; esp.ipd( ipdData) == ESP8266::Error::NONE) {
+    // process the request
+    processRequest( ipdData);
+  }
+  // a small delay before checking againd for WiFi incomming data
+  delay( 25);
+}</pre>
+
+<p>The <code>ipd</code> method, part of the ESP8266 library is used to split the received data over WiFi, and retain only the important parts. The WiFi module sends data in the following format: <code>+IPD,n,id:ipdData</code>, where <code>n</code> is the <code>length</code> of the <code>ipdData</code>, <code>id</code> is the communication link ID (an integer between 0 and 4), and <code>ipdData</code> represents the relevant data bytes. The first parameter of the <code>ipd</code> method is a reference parameter, a pointer to the received databytes. This method has additional optional parameters, providing information about the number of databytes and the connection id. Further, a method named <code>processRequest</code> is used to decode the data and perform required actions.</p>
+
+<p>Since we expect data in the <code>+IPD,n:</code> format, (the link id is not used), it makes sense to process data only after receiving at least 7 bytes. In addition, for this simple project, we expect only a single databyte, representing the data update request. In a further version of this project we like to support much more commands, therefore we use this generic form. Also, for the same reasons, we define an enumeration which defines the list of the available commands:</p>
+
+<pre>
+enum class Command {
+  GET_ALL_SENSORS_DATA = 97
+};</pre>
+
+<p>The data we receive via TX line of the ESP8266 module (so RX line of our Arduino board) is: <code>+IPD,1:a</code>. The ascii representation for 97 (the <code>Command::GET_ALL_SENSORS_DATA</code> enumeration literal) is the char <code>a</code>.</p>
+
+<p>The <code>processRequest</code> method code is shown below:</p>
+
+<pre>
+void processRequest( char *data) {
+  char progmemData[150] = {0};
+  char *pData = progmemData;
+  // first char represents the command
+  char cmd = *(data); 
+  switch ( (Command)cmd) {
+    <strong>case Command::GET_ALL_SENSORS_DATA:
+      createSensorsDataFromTemplate( pData);
+      esp.atCipsend( pData);
+    break;</strong>
+    default:
+      // nothing to do ...
+    break;
+  }
+}</pre>
+</section>
+
+<p>Its main purpose is to decode the received command and to respond with the required data. As discussed earlier, we only have one command, so also only one action case, but this will be extended, so we use the general structure even for this simplest case. The relevant code regards the call to <code>createSensorsDataFromTemplate</code> method. It uses the JSON based data template, replaces the placeholders with real data and send the response to the Android device by calling <code>atCipsend</code> method, part of the ESP8266 library.</p>
+
+<pre>
+void createSensorsDataFromTemplate( char *&amp;data) {
+  char buffTemp[7] = {0}, buffAvgTemp[7] = {0}, buffAvgHum[7] = {0},
+    buffHum[7] = {0}, buffVcc[5] = {0}, tmpl[140] = {0};
+  char *pTmpl = tmpl;
+  uint8_t templateLen = -1;
+  // read template from PROGMEM
+  getPMData( SENSORS_DATA_TEMPLATE, pTmpl, templateLen);
+  // create data string from template by replacing
+  // parameters with their actual values from sensors
+  sprintf( data, pTmpl, 
+    dtostrf( dht22.temperature, 6, 1, buffTemp),
+    dtostrf( avgTemperature, 6, 1, buffAvgTemp),
+    dtostrf( dht22.humidity, 6, 1, buffHum), 
+    dtostrf( avgHumidity, 6, 1, buffAvgHum),
+    dtostrf( getVcc(), 4, 2, buffVcc),
+    getFreeMCUMemory());
+}</pre>
+
+<p>Using the <code>getPMData</code> utility method (also part of the ESP8266 library), the data template string is read from the flash memory. Replacing the parameters with real values is made by using the standard <code>sprintf</code> method. While for a fully fledged C/C++ environment one will use <code>%x.yf</code> syntax with <code>sprintf</code> for floating points numbers, this will not work with Arduino code. Instead we use <code>dtostrf</code> to format the temperature and humidity values (we like values with just one digit after the decimal point).</p>
+
+<section>
+<header>
+<h4>Program the Arduino Board</h4>
+</header>
+
+<p><strong>Important:</strong> the latest version of the Android software (v1.6.6+) is required for being able to compile and build the code for this project. One reason is that it uses C++11 specific constructs, such as <code>enum class</code>, and the older Arduino Software versions does not support C++11. While it can be done also with older Arduino Software version, this requires to alter some configuration files, so it may create additional issues.</p>
+
+<p>We need to chose the right Arduino board by using the <em>Tools &gt; Board</em> selection list (within the Arduino IDE). If Arduino Pro Mini board was used, as discussed in this tutorial, we have to choose <em>Arduino Pro or Pro Mini</em>. In addition, one needs to select the communication port (COM port) used for programming the Arduino board, available under <em>Tools &gt; Port</em> menu. Last, click on the arrow button located in the top-left corner to start the compile-and-deploy process.</p>
+
+<p><strong>Note:</strong> The Arduino Pro Mini board does not have a builtin auto-reset feature, as found in Arduino Nano, UNO, MEGA2560, and other boards. This means we need to manually push the <em>reset</em> button on the board as soon as the Arduion IDE says <em>uploading</em>. It may take a few trials to get used with the right moment to push the button, but it must be shortly after the IDE says <em>uploading</em>. In addition, you have to disconnect the ESP8266 TX line during the Arduino programming time, otherwise this operation fails. Since we have to do this on every code update, a jumper or a switch can be used to make task easier.</p>
+</section>
+</section>
+
+<section>
+<header>
+<h3>The Android Code</h3>
+</header>
+
+<p>An Android application is used to observe the Weather Station sensor node data. For the development of our Android application, <a href="https://www.jetbrains.com/idea/">IntelliJ IDEA Ultimate</a> was used. A free community version of this IDE is also available and can be used for our project. As an alternative, one cau use <a href="https://developer.android.com/sdk/index.html">Android Studion</a>.</p>
+</section>
+
+<section>
+<header>
+<h4>Android Security Configuration</h4>
+</header>
+
+<p>The first thing you need to do after creating an empty Android application by using your preferred IDE, is to edit the application security settings. These can be found in the <code>AndroidManifest.xml</code> file Since we need to use WiFi communication, the following two parameters need to be added:</p>
+
+<pre>
+&lt;uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /&gt;
+&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</pre>
+
+<p>In addition, we like to disable the auto-lock feature of the Android device, as long as this application is active, which requires to set the following permission:</p>
+
+<pre>
+&lt;uses-permission android:name="android.permission.WAKE_LOCK" /&gt;</pre>
+
+<p>The same <code>AndroidManifest.xml</code> file defines the Android OS version required to run this application. We have tested this application with Android 4.3.1 (API 18) and 4.4.2 (API 19) and 5.0.1 (API 21). Therefore it is safe to set the miminum require version to API 18 by using the following parameter:</p>
+
+<pre>
+&lt;uses-sdk android:minSdkVersion="18" android:targetSdkVersion="21"/&gt;</pre>
+
+<p>While this application may run on Android OS older than 4.3.1 (API 18), our tests with Android 2.3.3 (API 10) failed.</p>
+</section>
+
+<section>
+<header>
+<h4>Create the Android User Interface</h4>
+</header>
+
+<p>Creating the Android application user interface can be done by using the UI editor, or, if you are already familiar with Android, directly editing the layout file. In our case this file is named <code>main.xml</code> and it is located under <code>res/layout</code> folder.</p>
+
+<p>We use a <code>ScrollView</code> container as the user interface parent, to support also small screen devices, with lower physical resolutions. As layout template, we use <code>TableLayout</code>, with two columns: label and value plus measurement unit.</p>
+
+<pre>
+&lt;<strong>ScrollView</strong> xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true"&gt;
+  &lt;<strong>TableLayout</strong> xmlns:android="http://schemas.android.com/apk/res/android"
+               android:layout_width="fill_parent"
+               android:layout_height="fill_parent"
+               android:id="@+id/main"&gt;
+    &lt;<strong>TableRow</strong> android:layout_width="fill_parent"
+              android:layout_height="wrap_content"&gt;
+      &lt;!-- table row content --&gt;
+    &lt;/TableRow&gt;
+    &lt;!-- more table rows... --&gt;
+  &lt;/TableLayout&gt;
+&lt;/ScrollView&gt;</pre>
+
+<p>For example, the row used to show the current temperature value is shown below:</p>
+
+<pre>
+&lt;TableRow android:layout_width="fill_parent"
+          android:layout_height="wrap_content"&gt;
+  &lt;TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            <strong>android:text="  Temperature:   "</strong>
+            android:id="@+id/temperatureLabel"/&gt;
+  &lt;TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="N/A°C"
+            <strong>android:id="@+id/temperatureValueTextView"</strong>/&gt;
+&lt;/TableRow&gt;</pre>
+
+<p>Each UI element has an <code>android:id</code> attribute, with an unique value, used to access the UI element from the Android Java code. The result user interface is shown in <a href="#androidFullScreen">Figure 5</a>.</p>
+
+<figure id="androidFullScreen"><img src="../sites/default/files/weather_station/android_full_screen.png" />
+<figcaption>Figure 5: Android Application User Interface.</figcaption>
+</figure>
+</section>
+
+<section>
+<header>
+<h4>Write the Android Java Code</h4>
+</header>
+
+<p>We use an Android activity to implement our class. This is the simplest way to create an Android application, specially this is your first Android application.</p>
+
+<pre>
+public class MainActivity extends Activity {
+  // ...here come all the properties and methods...
+}</pre>
+
+<p>For the UDP communication with the Weather Station sensor node we use Java <code>DatagramSocket</code>, and initialize it for port 1024 (other ports, starting with 1025, can be used as well). This code should execute before trying to send any UDP packet over the network. In this scenario, we request sensor data from the Weather Station node, once every 10 seconds. Feel free to modify it to another value if you like:</p>
+
+<pre>
+public class MainActivity extends Activity {
+  <strong>int udpPort = 1025;
+  DatagramSocket socket;</strong>
+  
+  // other properties....  
+  
+  @Override
+  public void <strong>onCreate</strong>( Bundle savedInstanceState) {
+    // here are some other initializations
+    (<strong>new Thread(new Runnable()</strong> {
+      @Override
+      public void run() {
+        try {
+          socket = new DatagramSocket(udpPort);
+          while (true) {
+            if (appInBackground) continue;
+            try {
+              <strong>sendUdpData( Commands.GET_ALL_SENSORS_DATA, null);
+              Thread.sleep( 10000);</strong>
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    })).<strong>start()</strong>;
+  }
+}</pre>
+</section>
+</section>
+
+<section>
+<p>An anonymous Java thread is used to request periodical data updates. The 10 seconds delay is obtained by using the <code>Thread.sleep</code> static method, and the data update request is performed by the <code>sendUdpData</code> method.</p>
+
+<pre>
+void sendUdpData( Commands cmd, byte[] params) {
+  try {
+    final DatagramPacket packet;
+    int paramsLength = ( params != null ? params.length : 0);
+    byte data[] = new byte[paramsLength + 1];
+    byte command[] = new byte[1];
+    command[0] = cmd.getValue();
+    System.arraycopy( command, 0, data, 0, command.length);
+    if ( params != null) System.arraycopy(params, 0, data, 1, params.length);
+    <strong>packet = new DatagramPacket( data, data.length, getBroadcastAddress(), udpPort);
+    socket.send( packet);</strong>
+  } catch( IOException e){
+    e.printStackTrace();
+  }
+}</pre>
+
+<p>The <code>sendUdpData</code> method takes two parameters: the command to send and its optional parameters. Remember, for the Arduino code, an enumeration was used to define all the available commands (well, just one command for now, but this will change later). Now, the same applies for the Android application: using a Java enumeration, we define the <code>GET_ALL_SENSORS_DATA</code> command with the same command code, <code>97</code> (this is what the Arduino application expects).</p>
+
+<pre>
+<strong>enum Commands</strong> {
+  <strong>GET_ALL_SENSORS_DATA ( (byte)97);</strong>
+  private final byte id;
+  Commands( byte id) { this.id = id; }
+  public byte getValue() { return id; }
+}</pre>
+</section>
+
+<p>Further, a <code>DatagramPacket</code> is created, and the command (and when is the case, the command parameters too) is provided as an array of bytes (as required by the <code>DatagramPacket</code> constructor). The UDP packet is then sent to the Weather Station sensor node. In response, the sensor node provides a JSON object containing the sensor data required to update the user interface. Since the UDP communication is asynchronous (we don't know how long it takes for the request to reach the sensor node and how long it takes until a response is received), a thread is used to continuously listen for incoming UDP packets.</p>
+
+<pre>
+public void onCreate( Bundle savedInstanceState) {
+  (new Thread(new Runnable() {
+    @Override
+    public void run() {
+      while (true) {
+        <strong>DatagramPacket udpPacket = receiveUdpData( udpPort);</strong>
+        if (udpPacket == null) continue;
+        String udpPacketData =  new String( udpPacket.getData());
+        try {
+          <strong>JSONObject jsonObj = new JSONObject(udpPacketData);
+          updateUserInterface( jsonObj);</strong>
+        } catch ( JSONException e) {
+          e.printStackTrace();
+        } 
+      }
+    }
+  })).start();
+}
+DatagramPacket <strong>receiveUdpData</strong>( int port) {
+  try {
+    byte[] data  = new byte[1024];
+    <strong>DatagramPacket packet = new DatagramPacket( data, data.length);</strong>
+    if ( socket == null) return null;
+    <strong>socket.receive(packet);</strong>
+    return packet;
+  } catch( IOException e){
+    e.printStackTrace();
+    return null;
+  }
+}                </pre>
+
+<p>The received UDP data (stream of bytes) is converted to a JSON object and passed to <code>updateUserInterface</code> method which is responsible to extract the sensor values and show them in the user interface. We show only the code which deals with the temperature value, but the same applies also for humidity, voltage, and the other values (see the full source code).</p>
+
+<pre>
+void updateUserInterface( final JSONObject jsonObj) {
+  try {
+    <strong>final double temperature = jsonObj.getDouble("temperature");</strong>
+    <strong>temperatureValueTextView.post</strong>(new Runnable() {
+      public void run() {
+        <strong>temperatureValueTextView.setText(String.valueOf(temperature) + "°C");</strong>
+      }
+    });
+  } catch (JSONException e) {
+    e.printStackTrace();
+  }
+}</pre>
+
+<p>Due to Android API restrictions, a UI component object can be modified only by the thread who created it. In our case, main application thread is the one which creates the GUI component objects, while the <code>updateUserInterface</code> is invoked by the thread which listen for UDP data. In such case, the <code>post</code> method can be used, thus being able to update the sensor values in the user interface components. Getting reference to the user interface components is made by using the corresponding implementation class (e.g. <code>TextView</code>) and invoking the <code>findViewById</code> method, as shown below.</p>
+
+<pre>
+public class MainActivity extends Activity {
+  // some other properties...
+
+  <strong>TextView sensorsDataReceivedTimeTextView;</strong>
+            
+  public void onCreate( Bundle savedInstanceState) {
+    <strong>sensorsDataReceivedTimeTextView = (TextView) findViewById(R.id.sensorsDataReceivedTimeTextView);</strong>
+  }
+  // some other methods...
+}</pre>
+
+<p>One special requirement in our application is to provide a "disable auto-sleep feature" for the Android device, as long as the application runs. This means, the device screen stays on as long as the application is active. To obtain this behavior, we use the <code>addFlags</code> method of the <code>window</code> object (inherited from the <code>Activity</code> super class), and provide the corresponding parameter. In our case, these parameters are defined as literalos of the <code>WindowManager.LayoutParams</code> enumeration.</p>
+
+<pre>
+window.addFlags( WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON); 
+window.addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); </pre>
+
+<p>Remember, this requires to enable the <code>android.permission.WAKE_LOCK</code> permission, by editing the <code>AndroidManifest.xml</code> file as shows earlier on this tutorial.</p>
+
+<section>
+<header>
+<h2>Download the Full Application Code</h2>
+</header>
+
+<p>The Arduino and Android code, as well as the documentation (including the fritzing project and diagrams) are available as open source on <a href="https://github.com/dimircea/WeatherStation/tree/master/Minimal (v0.1)">github</a>. Feel free to copy or modify them as you like. Please provide a link to our tutorial page if you like to support us.</p>
+</section>
+
+<section>
+<header>
+<h2>Further improvements</h2>
+</header>
+
+<p>We can extend our project by considering the following improvements:</p>
+
+<ul>
+	<li>SMS alerts by using a GSM module (costs about 15€). We can receiveSMS alerts on a mobile phone if some measured parameters are not in the predefined limits. For example, if the temperature goes below 0°C, we like to receive an SMS, because this may indicate an issue with the home heating system.</li>
+	<li>Improve the code by considering various problematic cases:
+	<ul>
+		<li>WiFi module does not respond - check the module periodically and perform a hardware reset when needed.</li>
+		<li>DHT22 sensor errors - provide a robust code which alert us if the temperature and humidity sensor becomes unstable or is damaged.</li>
+		<li>Use the Arduino EEPROM memory to store configuration parameters.</li>
+	</ul>
+	</li>
+	<li>Improve the hardware design so it allows to be battery powered. This includes to replace our linear voltage regulator for the 3.3V line with a more power consumption efficient one ( a switch mode based one).</li>
+	<li>Allow to use solar energy to charge the batteries for Weather Station nodes (specially for the ones used outside, under direct sunlight).</li>
+	<li>Add soil moisture sensors, providing indication about the right moment to water our plants.</li>
+	<li>Add a light intensity sensor, providing a better way to create statistics related to temperature values with respect to day and night. Altough this can be done in the Android software, it requires to have your phone connected with the node for most of the time, which is general is not the case.</li>
+	<li>Add a real time clock (RTC) for our node, further improving the various statistics about measured environment characteristics.</li>
+</ul>
+
+<p>Stay tuned! All these improvements are discussed in our further tutorials.</p>
+</section>
+</article>
+</div></div></div><section class="field field-name-field-tags field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Tags:&nbsp;</h2><ul class="field-items"><li class="field-item even" rel="dc:subject"><a href="../taxonomy/term/40.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WoT</a></li><li class="field-item odd" rel="dc:subject"><a href="../taxonomy/term/39.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Android</a></li><li class="field-item even" rel="dc:subject"><a href="../Arduino.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li><li class="field-item odd" rel="dc:subject"><a href="../Java.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Java</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
+            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/52" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="Building a WiFi-connected weather station with an Android user interface for less than 30 Euro">Tweet</a></div>
+          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="52.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
+          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="52.html"></div></div>
+          <div class="easy_social-widget easy_social-widget-linkedin last"><script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="in/share" data-url="https://web-engineering.info/node/52" data-counter="right"></script></div>
+  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F52">View the discussion thread.</a></p></noscript></div>    </div>
+
+    
+    
+  </div>
+</article>
+
+  </div></div>                      </div>
+
+                      
+                    </div>
+                  </div>
+
+                </section>
+
+                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-2 block-region-content-aside block-2" ><div class="block-inner clearfix">  
+  
+  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
+</div>
+  </div></div></div></div>
+              </div>
+            </div>
+
+            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
+      <h2 class="block-title">Main menu</h2>
+  
+  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
+  </div></nav><section id="block-user-login" class="block block-user even last block-count-4 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
+      <h2 class="block-title">User login</h2>
+  
+  <div class="block-content content"><form action="https://web-engineering.info/node/52?destination=node/52" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
+  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
+</div>
+<div class="form-item form-type-password form-item-pass">
+  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
+ <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
+</div>
+<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-x1jwczLlSBAlcZs5Wl2Oy_FIsk9VD5knsB5IV1aMRwk" />
+<input type="hidden" name="form_id" value="user_login_block" />
+<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
+  </div></section></div></div>            
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    
+    
+    
+  </div>
+</div>
+  </body>
+
+<!-- Mirrored from web-engineering.info/node/52 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:24 GMT -->
+</html>

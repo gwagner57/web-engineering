@@ -1,0 +1,95 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch15s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;Exploiting Derived Inverse Reference Properties in the User Interface</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="ch15.html" title="Chapter&nbsp;15.&nbsp;Implementing Bidirectional Associations with Java, JPA and JSF"><link rel="prev" href="ch15s02.html" title="2.&nbsp;Write the Model Code"><link rel="next" href="ch15s04.html" title="4.&nbsp;Run the App and Get the Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;Exploiting Derived Inverse Reference Properties in the User Interface</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;15.&nbsp;Implementing Bidirectional Associations with Java, JPA and JSF</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch15s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e5893"></a>3.&nbsp;Exploiting Derived Inverse Reference Properties in the User Interface</h2></div></div></div><p>We can now exploit the derived inverse reference properties
+				<code class="code">Publisher::publishedBooks</code> and <code class="code">Author::authoredBooks</code> for more
+			efficiently creating a list of associated books in the <span class="italic">list
+				publishers</span> and <span class="italic">list authors</span> use cases. </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5900"></a>3.1.&nbsp;Show information about published books in the <span class="italic">List
+					Publishers</span> use case</h3></div></div></div><p>For showing information about published books in the <span class="italic">list
+					publishers</span> use case, we can now exploit the derived inverse reference property
+					<code class="code">publishedBooks</code>:</p><pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="content"&gt;
+    &lt;h:dataTable value="#{publisherController.publishers}" var="p"&gt;
+      ...
+      <span class="bold"><strong>&lt;h:column&gt;
+        &lt;f:facet name="header"&gt;Published books&lt;/f:facet&gt;
+        &lt;h:outputText value="#{p.publishedBooks}" escape="false" converter="pl.model.converter.BookListConverter"/&gt;
+      &lt;/h:column&gt;</strong></span>
+    &lt;/h:dataTable&gt;
+    &lt;h:button value="Back" outcome="index" /&gt;
+  &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre><p>In the case of unidirectional associations, for the case of <span class="italic">list
+					books</span> use case, we have used a method in the <code class="code">Book</code> model
+				class, i.e., <code class="code">getAuthorNames()</code>, which returns a text containing the
+				comma separed author names of the
+				book:</p><pre class="programlisting">public class Book {
+  ...
+  public String getAuthorNames() {
+    String result = "";
+    int i = 0, n = 0;
+    if ( this.authors != null) {
+      n = this.authors.size();
+      for ( Author author : this.authors) {
+        result += author.getName();
+        if ( i &lt; n - 1) {
+          result += ", ";
+        }
+        i++;
+      }
+    }
+    return result;
+  } 
+}</pre><p>This
+				makes sense in the case of a book, since the number of authors is in general limited
+				to a small number. However, a <code class="code">Publisher</code> may have a large number of
+				published books. As a better alternative to our string serialization, we can use a
+				JSF converter class which allows us to present the list of authors in a custom way.
+				In our case, we choose to present it as list of names, where every name is presented
+				on a separat line. For this, we implement the
+					<code class="code">pl.model.converter.BookListConverter</code> class and we annotate it with
+					<span class="bold"><strong>@FacesConverter</strong></span> as
+				follows:</p><pre class="programlisting"><span class="bold"><strong>@FacesConverter( value = "pl.model.converter.BookListConverter")</strong></span>
+public class BookListConverter implements Converter {
+  @Override
+  public Object getAsObject( FacesContext context, UIComponent component, String value) {
+    // no need for mapping to object...
+    return null;
+  }
+  @Override
+  <span class="bold"><strong>public String getAsString( FacesContext context, UIComponent component, Object value) </strong></span>{
+    String result = "";
+    int i = 0, n = 0;
+    if ( value == null) {
+      return null;
+    } else if ( value instanceof Set&lt;?&gt;) {
+      n = ((Set&lt;Book&gt;) value).size();
+      for ( Book b : (Set&lt;Book&gt;) value) {
+        result += b.getTitle();
+        if ( i &lt; n - 1) {
+          result += "&lt;br /&gt;";
+        }
+        i++;
+      }
+      return result;
+    }
+    return null;
+  }
+}
+</pre><p>Then, we use the <code class="code">converter</code> attribute in the JSF view to specify that our
+				converter class, e.g., <code class="code">pl.model.converter.BookListConverter</code>,  has to be
+				used when the respective view component needs to be
+				rendered:</p><pre class="programlisting">&lt;h:column&gt;
+  &lt;f:facet name="header"&gt;Published books&lt;/f:facet&gt;
+  <span class="bold"><strong>&lt;h:outputText value="#{p.publishedBooks}" escape="false" converter="pl.model.converter.BookListConverter"/&gt;</strong></span>
+&lt;/h:column&gt;</pre><p>Since the serialization text contains HTML elements, i.e., <code class="code">&lt;br /&gt;</code> to produce
+				HTML new lines, we have to specify the <span class="bold"><strong>@escape =
+					"false"</strong></span> attribute, otherwise <code class="code">&lt;</code> and <code class="code">&gt;</code>
+				will be replaced with the corresponding <code class="code">&amp;lt;</code> and
+					<code class="code">&amp;gt;</code> entities.</p><p>The main advantage of using JSF converters is that we do not mix model code with
+				view specific code, so our model classes remains clean and later, if we like to
+				replace JSF with other framework, then our model class reamins unchanged, and we
+				just need to take care of a corresponding converter for the new framework. </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch15.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch15s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Write the Model Code &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;Run the App and Get the Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch15s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:43 GMT -->
+</html>

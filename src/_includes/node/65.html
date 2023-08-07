@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
+<!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+
+<!-- Mirrored from web-engineering.info/node/65 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:43:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8" />
+<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="MobileOptimized" content="width" />
+<meta name="description" content="As opposed to the less powerful Arduino, the competitively priced and WiFi-enabled ESP8266 supports the Web-of-Things (WoT) since it can be programmed in JavaScript." />
+<meta name="HandheldFriendly" content="true" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="canonical" href="65.html" />
+<link rel="shortlink" href="65.html" />
+<title>JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi | web-engineering.info</title>
+<style type="text/css" media="all">
+@import url("../modules/system/system.base5056.css?ry1opl");
+@import url("../modules/system/system.menus5056.css?ry1opl");
+@import url("../modules/system/system.messages5056.css?ry1opl");
+@import url("../modules/system/system.theme5056.css?ry1opl");
+</style>
+<style type="text/css" media="all">
+@import url("../modules/comment/comment5056.css?ry1opl");
+@import url("../modules/field/theme/field5056.css?ry1opl");
+@import url("../modules/node/node5056.css?ry1opl");
+@import url("../modules/search/search5056.css?ry1opl");
+@import url("../modules/user/user5056.css?ry1opl");
+@import url("../modules/forum/forum5056.css?ry1opl");
+@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
+@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
+</style>
+<style type="text/css" media="all">
+@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
+@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
+</style>
+<style type="text/css" media="screen">
+@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
+@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
+@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
+</style>
+<style type="text/css" media="all">
+@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
+@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
+</style>
+<style type="text/css" media="print">
+@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
+</style>
+<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
+<style type="text/css" media="screen">
+@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
+</style>
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
+<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+
+<!--[if lt IE 9]>
+<style type="text/css" media="screen">
+@import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
+</style>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<style type="text/css" media="screen">
+@import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
+</style>
+<![endif]-->
+<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
+<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
+<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
+<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+//--><!]]>
+</script>
+<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
+<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
+<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
+<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+//--><!]]>
+</script>
+<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"fz-igfMDw3d9DdPVQFmBB-F79xjlVpIqpTvLlNPvLAA","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/65?destination=node\/65":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/65","title":"JavaScript-Based IoT\/WoT Development with the ESP8266 and the Raspberry Pi","identifier":"node\/65"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
+//--><!]]>
+</script>
+<!--[if lt IE 9]>
+<script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
+<![endif]-->
+</head>
+<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-65 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+  <div id="skip-link" class="nocontent">
+    <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+  </div>
+    <div id="page-wrapper">
+  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+
+    
+    <div id="header-wrapper">
+      <div class="container clearfix">
+
+        <header class="clearfix with-logo" role="banner">
+
+                      <div id="branding" class="branding-elements clearfix">
+
+                              <div id="logo">
+                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
+              
+                              <div class="h-group" id="name-and-slogan">
+
+                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+                  
+                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+                  
+                </div>
+              
+            </div>
+          
+          
+        </header>
+
+      </div>
+    </div>
+
+    
+    
+    
+    <div id="content-wrapper">
+      <div class="container">
+
+        <div id="columns">
+          <div class="columns-inner clearfix">
+
+            <div id="content-column">
+              <div class="content-inner">
+
+                
+                <section id="main-content" role="main">
+
+                  
+                  <div class="content-margin">
+                    <div class="content-style">
+
+                      
+                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li></ol></nav></div>
+                      
+                                              <header class="clearfix">
+                          <h1 id="page-title">
+                            JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi                          </h1>
+                        </header>
+                      
+                      
+                      
+                      <div id="content">
+                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
+  
+  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
+            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/65" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
+          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="65.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
+          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/65"></div></div>
+          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/65" data-counter="right"></script></div>
+  </div> <!-- /.easy_social_box -->
+  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
+  
+  <article id="node-65" class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/65" typeof="sioc:Post sioct:BlogPost" role="article">
+  <div class="node-inner">
+
+    
+              <header class="node-header">
+
+        
+                  <p class="submitted"><span property="dc:date dc:created" content="2016-09-21T11:52:01+02:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/24.html" title="View user profile." class="username" xml:lang="" about="/user/24" typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on <time datetime="2016-09-21T11:52:01+0200">Wed, 09/21/2016 - 11:52</time></span></p>
+        
+      </header>
+        <span property="dc:title" content="JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+    <div class="node-content">
+      <div class="user-picture">
+    <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc" alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>  </div>
+    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>The ESP8266 micro-controller&nbsp;module gained huge popularity over the last few years, being a small module with a powerful MCU, SPI Flash, 2.4GHz 802.11 b/g/n WiFi capabilities and relatively small power consumption, all for just a few dollars. This article focuses on discussing how to use JavaScript to program an ESP8266. Currently, two firmware versions allow JavaScript code execution on an ESP8266: <a href="https://github.com/cesanta/mongoose-iot">Mongoose-IoT</a> (that we'll discuss about in this tutorial) and <a href="http://www.espruino.com/EspruinoESP8266">Espruino for ESP8266</a>.</p>
+
+<p>With a single small and cheap board, it is possible to have a JavaScript interpreter, WiFi client, WiFi router, HTTP client and server and GPIOs control, therefore allowing to read sensors, control actuators and use human interface devices, such as displays, buttons or joysticks.</p>
+
+<h2>Meet the ESP8266</h2>
+
+<p>Various modules built around the ESP8266 IC are available, and the most common 12 standard modules are shown in <a href="#fig1">Figure 1</a>.</p>
+
+<figure id="fig1"><a href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/esp8266-variants.png"><img alt="ESP8266 Module Variants" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/esp8266-variants.png" /></a>
+
+<figcaption>Figure 1: Variants of the ESP8266 Module.</figcaption>
+</figure>
+
+<p>These modules use the 802.11b/g/n WiFi standard, operating at 2.4 GHz. It means they can connect to a standard WiFi network, such as the ones provided by an WiFi router, WiFi repeater or access point (AP). No need for special communication channels or frequencies, such as the 433MHz band required by some wireless modules.</p>
+
+<h3>Choosing the Appropriate ESP8266 Module for a Project</h3>
+
+<p>Having multiple variants of ESP8266 module, comes the question: "which one should I use ?". There is no perfect answer for this question, and it highly depends on what you are using the WiFi module for. These are not just "blind" WiFi communication modules, but small development boards, containing a programmable MCU and builtin GPIO pins, thus it can do tasks similar with the ones possible with the Arduino boards, but being much faster and in some sense more capable. We see three main points to be considered when choosing an ESP8266 module for a specific project:</p>
+
+<ul>
+	<li><strong>usability on a breadboard:</strong> most of the times we prototype on a breadboard, therefore we should be able to easily connect (or plug) these modules to such a board. Some of the modules, such as ESP02, ESP03 and ESP05 (see <a href="#fig1">Figure 1</a>) are breadboard friendly, having a pitch of 2.54mm (the distance between two pins). Other modules, such as ESP07 or ESP08 have a pitch of 1.27mm, thus you'll only be able to use them with a breadboard when using an adapter. Last, other modules, such as ESP01 have a pitch of 2.54mm, but they have a two rows header, which makes it impossible to be used with a breadboard, because of the implied short-circuit between the pins. Notice that some of the breadboard friendly modules have only a "half-way" pin connections, e.g., ESP02 module. Such connections are somehow harder to solder, specially for a beginner. Our tip for the ESP02 module: plug the pin headers into a breadboard, align the module on top of them, then solder.</li>
+	<li><strong>flash memory size:</strong> the ESP8266 modules come with permanent flash memory ranging from 4MBit (512KB) up to 16MBit (2MB), but some may even go up to 128MBit (16MB). In many cases, it is also possible to increase the flash capacity of such a module, but for this, one needs good soldering skills to remove the old flash IC and solder the new one, and usually the price of the flash IC bought in small quantities is about the same as for the price of the complete ESP8266 module (or even more!), thus defeating the purpose. Excepting the case of ESP06, ESP07, ESP08 and ESP12E/F modules, where a hard to remove metallic shield covers the CPU and flash ICs, one can simply check the flash size by reading the text on the 8 pin black IC soldered near the MCU (which is the square black IC with pins on all four sides). For example, if the number on the flash IC starts with 25Q80 then it is a 8MBit Flash, while if it starts with 25Q40 then it is a 4MBit one. For our purpose, a minimum of 1MB (8MBit) Flas is required, but we recommend 4MB+ (16MBit+).</li>
+	<li><strong>MCU features:</strong> these modules are driven by a low power 32-bit RISC CPU (Tensilica Xtensa LX106) running at 80 MHz. It has 64 KB instructions RAM, 96 KB data RAM, it and supports external QSPI flash - 512 KB to 4 MB (but also up to 16MB is supported). Up to 16 GPIO pins are available, from which one has 10Bit ADC capabilities, and supports I2C, I2S, SPI and UART communication protocols. All these features are quite important if you are using the ESP8266 module as standalone controller board. However, if the ESP8266 module is used as an UART WiFi interface only, then you'll not really use the GPIO pins, so you may ignore this when selecting the board that suits your needs.</li>
+</ul>
+
+<p><strong>Note:</strong> for being able to write a new firmware or to communicate with an ESP module by using a computer, you'll need a USB-TTL module, such as the CP2102 IC based one, shown in <a href="fig4.html">Figure 4</a>. You'll need to connect the TX pin of the USB-TTL module to the RX pin of the ESP module, and the RX pin of the USB-TTL module to the TX pin of the ESP module. For being able to flash a new firmware, but NOT when using the ESP module in normal mode, you'll also need to connect the GPIO0 pin of the ESP module to ground then perform a power cycle.</p>
+
+<figure id="fig4"><img alt="USB-TTP Module based on CP2102 IC" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/usb_ttl_module.png" />
+<figcaption>Figure 4: USB-TTP Module based on CP2102 IC.</figcaption>
+</figure>
+
+<h3>Standalone User Friendly ESP8266 based Modules</h3>
+
+<p>Other ESP8266 based modules are designed with "make it simple, for anyone" in mind. Usually these provide a two rows breadboard friendly PCB, with USB (usually via a micro USB cable) connection, both for providing power (also by using a standard micro USB charger) and if needed, also for the communication with a PC. <a href="#fig2">Figure 2</a> shows the NodeMCU V2 board, designed by Amica, providing an on-board CP2102 USB-TTL IC, allowing to communicate with the PC via the same micro USB cable that also used to power it. <a href="#fig3">Figure 3</a> shows a <a href="https://www.wemos.cc/product/d1-mini.html">WeMOS D1 Mini</a> module, designed to use <a href="https://www.wemos.cc/D1-mini-Shields">stackable expansions boards</a> (similar with the <a href="https://www.arduino.cc/en/Main/arduinoShields">Arduino Shields</a>), thus being able to attach various sensors, actuators or even OLED LCDs.</p>
+
+<figure id="fig2"><img alt="Amica NodeMCU v2" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/amica_nodemcu_v2.png" />
+<figcaption>Figure 2: Amica NodeMCU v2 Module.</figcaption>
+</figure>
+
+<figure id="fig3"><img alt="WeMOS D1 Mini" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/wemos_d1_mini.png" />
+<figcaption>Figure 3: WeMOS D1 Mini Module.</figcaption>
+</figure>
+
+<h2>Some Words Before Getting Started...</h2>
+
+<p>Before going further with the reading and following the tutorial instructions, is good to know that:</p>
+
+<ol>
+	<li><strong>we are going to use an ESP8266 NodeMCU V2 board</strong>, produced by Amica (see <a href="#fig2">Figure 2</a>), which means: a) there is no need to put it to "flashing mode", since this happens automatically, the bundled USB-TTL CP2102 IC takes care of this task; b) is powered via the micro USB cable directly from an USB port, the same port being also used for the communication with the module, if this is needed (e.g., for programming the module)</li>
+	<li>the further provided instructions presumes that <strong>a Raspberry Pi 2/3 board running Raspbian is used</strong>, but other Linux distribution, on either a RPi 2/3 board or a PC works too, however some differences may occur with respect to some commands and Linux repositories used to obtain the required components</li>
+	<li><strong>the ESP8266 12E/F modules</strong> (see <a href="#fig1">Figure 1</a>) should work well, as an alternative to NodeMCU board, but its GPIO0 pin must be pulled LOW to set the module to "flashing mode", task required ONLY when the firmware needs an upgrade, and then a power cycle between the "flashing mode" and "normal operational mode" is also required - other ESP8266 modules may also work, but usually they either have less exposed GPIO pins or they are not breadboard friendly</li>
+	<li><strong>the SPI Flash IC of the ESP8266 module must be 1MB+</strong>, otherwise the module will not work properly or may not work at all</li>
+	<li><strong>a Windows PC can also be used, and this makes the process of writing the firmware to ESP8266 module easier</strong>, but various other changes are needed for being able to build the Mongoose-IoT firmware from source code, when you need custom functionality which requires firmware code changes - unfortunatelly, compiling the Mongoose-IoT firmware on a Windows machine is a real pain</li>
+	<li>further on, we'll use <strong>MFT as a short name for the "Mongoose-IoT Flashing Tool" software, ESP as a short name for the ESP8266 module</strong> (full name is used if needed to make distinction in some cases, when just ESP is confusing) and <strong>RPi as a short name for "Raspberry Pi 3 Model B"</strong>.</li>
+</ol>
+
+<h2>Flashing the Standard Mongoose-IoT Firmware by Using an Raspberry Pi</h2>
+
+<p>For being able to execute JavaScript code on your ESP module requires to upload the <a href="https://github.com/cesanta/mongoose-iot">Mongoose-IoT firmware</a>. It uses the <a href="https://github.com/cesanta/v7">V7</a> JavaScript engine and allows to execute standard JavaScript code. Notice that only a subset of the standard JavaScript is supported, and some of the features are stripped down, so the V7 engine "fits" on the ESP module. For example, some <code>String</code> related check/manipulation methods (e.g., <code>startsWith</code> and <code>endsWith</code>) and the new ECMA5 features may not be (at all or fully) supported. However, it comes with additional features, which are not available as part of the standard JavaScript core, but a being available on NodeJS (i.e., stripped down modules or core functionality), such as the HTTP client (allowing for HTTP requests) and HTTP server capabilities.</p>
+
+<h3>Build the Mongoose Flashing Tool Application</h3>
+
+<p>The latest standard Mongoose-IoT firmware version can be obtained by using the MFT software. Compiling and building it from source code requires quite some time (about 2+ hours) to complete, and lots of space on your RPi storage (3GB+, but most of it can be recovered at the end), because it needs to download and compile the <a href="https://www.qt.io/">Qt Framework</a>. The following steps guides you through the process of installing MFT on your RPi:</p>
+
+<ol>
+	<li>make sure that your RPi has internet connection (either WiFi or wired connection)</li>
+	<li>install dependencies required further in the build and compile processes:<br />
+	<code class="consoleCode"># sudo apt-get install build-essential git python-git wget libglib2.0-dev libudev-dev libftdi-dev libfontconfig1-dev libjpeg-dev libssl-dev libicu-dev libjpeg-dev libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-render-util0-dev libxcb-shm0-dev libxi-dev libxrender-dev x11proto-render-dev qt5-qmake libqt5serialport5-dev libxcb-util0 libffi-dev </code></li>
+	<li>configure, build and install the Qt static libraries by executing: <code class="consoleCode"> # wget -c http://download.qt.io/official_releases/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.gz<br />
+	<br />
+	# tar xzf qt-everywhere-opensource-src-5.7.0.tar.gz<br />
+	<br />
+	# cd qt-everywhere-opensource-src-5.7.0<br />
+	<br />
+	# ./configure -make 'libs tools' -static -prefix /opt/qt5 -opensource -confirm-license -skip qt3d -skip qtcanvas3d -skip qtdoc -skip qtlocation -skip qtscript -skip qtmultimedia -skip qtsensors -skip qtwebengine<br />
+	<br />
+	# sudo nice make -j4<br />
+	<br />
+	# sudo nice make -j4 install<br />
+	<br />
+	# sudo /opt/qt5/bin/qmake &amp;&amp; nice make -j 4</code><br />
+	...now take a cafe and watch some YouTube videos, this task takes quite some time to complete (approx. 80 minutes on our RPi 3B board). Some Qt5 extensions were excluded since we don't really need them for our purpose and thus the compilation time is cut down.<br />
+	<strong>Note:</strong> each line starting with a dash (#) is a new command, and you should not write the # when executing this. You can execute the commands one by one or as a batch, on your RPi console of via SSH.</li>
+	<li>ensure that your beloved RPi does not overheat during the above tasks (specially when building Qt), so from time to time check the CPU temperature by using<br />
+	<code class="consoleCode">sudo /opt/vc/bin/vcgencmd measure_temp</code><br />
+	and make sure that the temperature stays below 80°C / 176°F. Blow some air by using a cooler or place your RPi somewhere in a good ventilated area. In our case the temperature did not exceeded 60°C, on a room with temperature of about 24°C, but a cooler was used to move the air around, because our RPi is a bare board with no heatsinks or any other cooling method.<br />
+	<strong>Note:</strong> for single core RPi boards (RPi 1 Model B), do not use the "-j" parameter, e.g., <code>sudo nice make -j 4</code> (or any other task), since this parameter is being used to specify the number of CPU cores to be used during that task, so it fails with a value of "4" (or any other) when used with single core CPUs (e.g., <a href="https://www.raspberrypi.org/products/pi-zero/">Raspberry Pi Zero</a> or <a href="https://www.raspberrypi.org/products/model-b/">Raspberry Pi 1 Model B</a>).</li>
+	<li>clone the <a href="https://github.com/cesanta/mongoose-flashing-tool">Mongoose Flashing Tool Repository</a> - thus getting the latest available source code:<br />
+	<code class="consoleCode"># git clone https://github.com/cesanta/mongoose-flashing-tool.git</code><br />
+	in a folder at your choice</li>
+	<li>enter the newly source code folder, by using:<br />
+	<code class="consoleCode"># cd mongoose-flashing-tool</code></li>
+	<li>execute:<br />
+	<code class="consoleCode"># QT_SELECT=5 /opt/qt5/bin/qmake &amp;&amp; make -j 3</code><br />
+	to build MFT from source. This step may take some time to complete (about 2 minutes on our RPi 3B)</li>
+	<li>in case that the above step results in one or all of the build errors:<br />
+	<code>/usr/bin/ld: cannot find -lEGL<br />
+	/usr/bin/ld: cannot find -lGLESv2</code><br />
+	then your OpenGL static libraries cannot be linked, probably because are not found, because normally their shared versions are available on Raspbian. To solve this you need to edit the <code>mongoose-flashing-tool/src/Makefile</code> file, by using whatever editor you like. Notice that this file DO NOT existst before trying to compile MFT, you can only find it afterwards (even if you get the error, the file must be there). In this file, find the following <code>-lEGL</code> and <code>-lGLESv2</code> and delete them. Then at the end of the line where you found these two, add the following: <code>-Wl,-Ddynamic -L/opt/vc/lib -l:libEGL.so -l:libGLESv2.so</code>, then save the file and execute the <code>QT_SELECT=5 /opt/qt5/bin/qmake &amp;&amp; make -j 3</code> command again (make sure that you are in the <code>mongoose-flashing-tool</code> folder and NOT in its <code>src</code> sub-folder when doing this).</li>
+	<li>at this point you must connect the ESP module (e.g., NodeMCU, WeMOS or a standard one with an attached USB-TTL bridge) to an USB port of your RPi board,by using a corresponding USB cable and any of the USB ports of your RPi board</li>
+	<li>start the MFT application by executing:<br />
+	<code class="consoleCode"># cd src<br />
+	# ./MFT</code><br />
+	and the application must start in GUI mode and should detect the module type (ESP8266). Make sure that you select the correct port (e.g., <code>ttyUSB0</code> in our case), then follow the instructions, as also shown in <a href="fig5.html">Figure 5</a>, <a href="fig6.html">Figure 6</a>, <a href="fig7.html">Figure 7</a>, and <a href="fig8.html">Figure 8</a>.</li>
+	<li>if your ESP module refuses connection for firmware update (it happens normally only with the basic ESP modules, see <a href="#fig1">Figure 1</a>, but should not be the case for NodeMCU and WeMOS D1 Mini boards), it usually means that the module did not entered "flashing mode", so you may want to check if the GPIO0 pin is pulled LOW (do this task without supplying power to the board!), i.e., connected to GND rail, and make sure to power cycle the module after pulling LOW the GPIO0 pin</li>
+	<li>now you can remove the source folders for the Qt5 library, this freeing up 3GB+ on the RPi SD/MicroSD card, by executing:<br />
+	<code># rm -rf qt-everywhere-opensource-src-5.7.0</code><br />
+	from the parent folder of <code>qt-everywhere-opensource-src-5.7.0</code> folder. If permission denied errors occurs, then execute the command with <code>sudo</code>.</li>
+</ol>
+
+<p>If you find the build process too complicated, but still want to try the ESP8266 firmware, then download the compiled MFT application for Raspbian (tested on 20 October 2016) from the link below. Unzip the archive by executing <code>unzip mongoose-flashing-tool.zip</code>, and give execution rights to the <code>src/MFT</code> application, by using <code>sudo u+x src/MFT</code> from the <code>mongoose-flashing-tool</code> folder. Finally, install the <code>libxcb</code> dependency library, by using <code>sudo apt-get install libxcb-util0</code>. Now you can run the application by using <code>src/MFT</code> from the <code>mongoose-flashing-tool</code> folder or simply <code>./MFT</code> from the <code>mongoose-flashing-tool/src</code> folder.</p>
+
+<p><a href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/mongoose-flashing-tool.zip" style="padding: 
+2px 3px; margin: 1em; border: 1px solid black;">Download Mongoose Flashing Tool (MFT) Build for Raspbian</a></p>
+
+<figure id="fig5"><img alt="MFT - Select ESP8266 Module and Communication Port" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_module_and_port.png" />
+<figcaption>Figure 5: Mongoose-IoT Flashing Tool - Select Module and Communication Port.</figcaption>
+</figure>
+
+<figure id="fig6"><img alt="MFT - Select Firmware" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_select_firmware.png" />
+<figcaption>Figure 6: Mongoose-IoT Flashing Tool - Select Firmware.</figcaption>
+</figure>
+
+<figure id="fig7"><img alt="MFT - Flashing the Firmware" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_flashing_firmware.png" />
+<figcaption>Figure 7: Mongoose-IoT Flashing Tool - Flashing the Firmware.</figcaption>
+</figure>
+
+<figure id="fig8"><img alt="MFT - Connect to WiFi Network" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_connect_to_wifi.png" />
+<figcaption>Figure 8: Mongoose-IoT Flashing Tool - Connect to WiFi Network.</figcaption>
+</figure>
+
+<p>Connecting the ESP8266 module to a WiFi network (see <a href="fig7.html">Figure 8</a>), is optional, and you can do this later when the module needs access to Internet or Intranet. Therefore, after the step shown in <a href="#fig7">Figure 7</a> you can already close the MFT application.</p>
+
+<h3>First JavaScript Tests on ESP8266</h3>
+
+<p>Lets test now our new JavaScript toy! For this, from the folder <code>mongoose-flashing-tool/src</code>, execute:<br />
+<code class="consoleCode">./MFT --advanced</code><br />
+which opens the same MFT application, this time in an advanced mode where you can interact with the ESP module, using some kind of console like style (see <a href="fig9.html">Figure 9</a>). Then, select the communication port (should be the same as the one used when writing the firmware), and click the <code>Connect</code> button. If all went fine, you must be connected to your ESP module.</p>
+
+<p>As a simple test, lets check the current configuration of your ESP module, currently running on the Mongoose-IoT firmware. For this, in the MFT Console, write <code>Sys.conf</code> then press <code>Enter</code>. As result, the serialized JavaScript configuration object is shown (see <a href="fig10.html">Figure 10</a>).</p>
+
+<figure id="fig9"><img alt="MFT - Connect ESP8266 Module" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_connect_to_esp8266.png" />
+<figcaption>Figure 9: Mongoose-IoT Flashing Tool - Connect to ESP8266 Module.</figcaption>
+</figure>
+
+<figure id="fig10"><a href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_javascript_test_esp8266.png"><img alt="MFT - AFirst JavaScript Test Code on ESP8266" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_javascript_test_esp8266.png" /></a>
+
+<figcaption>Figure 10: Mongoose-IoT Flashing Tool - A First JavaScript Test Code on ESP8266.</figcaption>
+</figure>
+
+<p>One more test we like to do, is to upload a JavaScript file, containing some code that we like to execute on ESP8266. For this, create a file named <code>app.js</code> on a folder at your choice, then using a text editor, open it and copy/paste the following simple test code:</p>
+
+<pre>
+function sum(a, b) {return a+b;};
+console.log( "The sum of 123 and 456 is: " + sum( 123, 456));
+</pre>
+
+<p>Use the <code>Upload File</code> button, and and select the <code>app.js</code> JavaScript file to be uploaded to your ESP8266 module. Reboot the module, using the <code>Reboot</code> button, then in a few seconds, after some initialization messages, you should see:<br />
+<code>The sum of 123 and 456 is: 579</code><br />
+as the result of executing the JavaScript code from <code>app.js</code> file.</p>
+
+<p><strong>Note: </strong> the JavaScript code MUST be in a file named <code>app.js</code>, and you can't just use any filename you like, because after booting, the firmware runtime looks for this specific file, and if is found, the JavaScript code is executed. Note that if you have JavaScript errors in your code, the module may behave strange, like continuously resetting itself, and in some cases, the only way to have it back working is to upload the firmware again!</p>
+
+<p>You may also want to check this <a href="https://www.youtube.com/watch?v=kThcRN8VF0Q">YouTube</a> video showing the basics steps in using the <a href="https://mongoose-iot.com/">Mongoose-IoT Cloud Service</a>.</p>
+
+<h2 id="buildFirmwareRPi">Build and Flash Mongoose-IoT ESP8266 Firmware by Using a Raspberry Pi Board</h2>
+
+<p>Since we like to add more functionality into the existing Mongoose-IoT firmware, discussed later in this article, we need to compile the firmware and flash it to the ESP module. For this, we need to prepare our system by following the steps below:</p>
+
+<ol>
+	<li>install docker, if not already existing in your system:<br />
+	<code class="consoleCode"># sudo curl -sSL https://get.docker.com | sh</code></li>
+	<li>allow user to use docker (add user to docker group):<br />
+	<code class="consoleCode">sudo usermod -aG docker pi</code><br />
+	Notice that we have used the user with name <code>pi</code> in the example above, if is the case, replace this accordingl</li>
+	<li>start the docker service:<br />
+	<code class="consoleCode"># sudo systemctl daemon-reload<br />
+	<br />
+	# sudo service docker start </code></li>
+	<li>clone the git repository of the <a href="https://github.com/cesanta/mongoose-iot">Mongoose-IoT Firmware</a> project:<br />
+	<code class="consoleCode"># git clone https://github.com/cesanta/mongoose-iot</code></li>
+	<li>enter the ESP8266 firmware project folder:<br />
+	<code class="consoleCode"># cd mongoose-iot/fw/platforms/esp8266</code></li>
+	<li>edit the Makefile.build and make sure that the following parameters are set:
+	<pre>
+APP_FS_PATH ?= $(REPO_PATH)/fw/platforms/esp8266/fs
+MG_ENABLE_JS ?= 0
+CREATE_RAW_FS ?= 1</pre>
+	</li>
+	<li>build the firmware:<br />
+	<code class="consoleCode"># sudo make</code><br />
+	Notice that this task may take some time to complete, for the first time, since various <code>docker</code> image packages needs to be downloaded and extracted on your machine</li>
+	<li>when the build process is complete, the resulting firmware zip archive file is: <code>mongoose-iot/fw/platforms/esp8266/firmware/mongoose-iot-esp8266-last.zip</code></li>
+	<li>open the MFT application in advanced mode, by executing:<br />
+	<code class="consoleCode">./MFT --advanced </code><br />
+	from the <code>mongoose-flashing-tool/src</code> folder</li>
+	<li>connect to the ESP module by using the <code>connect</code> button, after selecting the correct communication port (e.g., <code>ttyUSB0</code>), then use the <code>Firmwware</code> section to select the firmware zip file created above, and press the <code>Flash</code> button</li>
+	<li>in a few seconds, the flash process must be completed, now reboot the ESP module by clicking the <code>Reboot</code> button</li>
+	<li>test if the module works as expected: execute <code>Sys.conf</code> in the MFT console, and you should see current configuration settings.</li>
+</ol>
+
+<p>You can also download the "ready to flash" Mongoose-IoT Firmware for ESP8266 with DHT11/21/22 JavaScript support by using the download button below:</p>
+
+<p><a href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/mongoose-iot-esp8266-firmware.zip" style="padding: 
+2px 3px; margin: 1em; border: 1px solid black;">Download Mongoose-IoT Firmware for ESP8266 with DHT11/21/22 JavaScript Support</a></p>
+
+<h2>Expose Custom JavaScript Global Methods and Objects</h2>
+
+<p><strong>Note: </strong>the complete source code for all the examples discussed in this section is available on our <a href="https://github.com/dimircea/MongooseIoT-Extensions/tree/master/DHTxx">GitHub</a> project page. You can also download the code using the links from this article, however, it may be outdated after some time, so we strongly recommend our <a href="https://github.com/dimircea/MongooseIoT-Extensions/tree/master/DHTxx">GitHub</a> project page instead.</p>
+
+<p>Some components, such as <a href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/DHT22_AM2302.pdf">DHT22 / AM2302</a>, temperature and humidity sensor, but not only, are harder to be read directly from the JavaScript code with the Mongoose-IoT firmware. This happens because the MCU is simply not fast enough for the JavaScript interpreter, so we can't deal with the very small pulses (under 20μs) we need to measure on the code, for being able to communicate with such components. The alternative and better approach is to write custom C/C++ code as part of the Mongoose-IoT firmware, and expose some objects and methods to JavaScript, thus being executed by the native firmware code, which is so much faster.</p>
+
+<p>First we define a flag which allows to enable of disable the DHTxx library, so in case that for a project you don't need such a sensor, is possible to exclude this code from the firmware simply by using a flag. Notice that the firmware needs to be compiled/rebuild after adding or dropping the parameter. The following C/C++ code is part of the <code>fw/platforms/esp8266/user/v7_esp_features.h</code> file:</p>
+
+<pre>
+#ifndef CS_FW_PLATFORMS_ESP8266_USER_V7_ESP_FEATURES_H_
+  #define CS_FW_PLATFORMS_ESP8266_USER_V7_ESP_FEATURES_H_
+  <strong>#define V7_ESP_ENABLE__DHT</strong>
+#endif 
+</pre>
+
+<p><strong>Note: </strong> only the marked code line is new (added by us), the rest of the code already exists as part of the <code>fw/platforms/esp8266/user/v7_esp_features.h</code> file.</p>
+
+<p>The next step is to modify the file <code>fw/platforms/esp8266/user/v7_esp.c</code> by considering the code shown below:</p>
+
+<pre>
+<strong>#include "fw/platforms/esp8266/user/dht.h"</strong>
+
+<strong>#ifdef V7_ESP_ENABLE__DHT</strong>
+  static enum v7_err DHT_read(struct v7 *v7, v7_val_t *result) {
+    v7_val_t sensorTypeArg = v7_arg(v7, 0);
+    v7_val_t pinArg = v7_arg(v7, 1);
+  
+    // validate the first parameter - the DHT sensor type (11, 21, or 22)
+    if (!v7_is_number(sensorTypeArg) || 
+        (v7_get_double(v7, sensorTypeArg) != 1 
+        &amp;&amp; v7_get_double(v7, sensorTypeArg) != 2 
+        &amp;&amp; v7_get_double(v7, sensorTypeArg) != 3)) 
+      return v7_throwf(v7, "Error", "Parameter 1, must be one of Dht.TypeEL.DHTxx.");
+
+    // validate the second parameter - the GPIO pin number
+    <strong>if (!v7_is_number(pinArg)) 
+      return v7_throwf(v7, "Error", "Parameter 2, must be a GPIO pin number.");</strong>
+
+    uint8_t pin = v7_get_int(v7, pinArg);
+    uint8_t sType = v7_get_int(v7, sensorTypeArg);
+    double temperature = 0.0;
+    double humidity = 0.0;
+    const char* sTypeName = (sType == 1 ? "DHT11" : (sType == 2 ? "DHT21" : "DHT22"));
+
+    // read the DHT sensor and check if the read was a successful
+    if (<strong>!dhtRead(sType, pin, &amp;temperature, &amp;humidity)</strong>) {
+      // error reading DHT sensor...normally this is a check sum error
+      return v7_throwf(v7, "Error", "Failed to read the DHT sensor!");
+    }
+    
+    // create the result JavaScript object and append the 
+    // "type", "temperature" and "humidity" properties, as well as their values
+    <strong>*result = v7_mk_object(v7);
+    v7_set(v7, *result, "type", 4, v7_mk_string(v7, sTypeName, 5, 1));
+    v7_set(v7, *result, "temperature", 11, v7_mk_number(v7, temperature));
+    v7_set(v7, *result, "humidity", 8, v7_mk_number(v7, humidity));
+    return V7_OK;</strong>
+  };
+#endif /* V7_ESP_ENABLE__DHT */
+</pre>
+
+<p>The <code>DHT_read</code> method is responsible to check the parameters provided to the JavaScript <code>Dht.read</code> method. Internally, the <code>dhtRead</code> method will be called - it is responsible for the communication with the sensor, as discussed further in this section. Finally, a JavaScript anonymous object representing the JavaScript <code>Dht.read</code> method response is created. It is stored in a pointer, the last parameter of the <code>DHT_read</code> method. Notice that the <code>DHT_read</code> method returns <code>V7_OK</code> or throws exceptions, depending on the case. Also notice that <code>DHT_read</code> is a name that we choose, so you are free to change it with whatever you find appropriate, but remember to change every reference in the code.</p>
+
+<p>Further, in the same <code>fw/platforms/esp8266/user/v7_esp.c</code> file, we modify the <code>init_v7</code> method code as shown below:</p>
+
+<pre>
+<strong>void init_v7( void *stack_base)</strong> {
+  // this code is compiled and becomes part of the firmware, only if the 
+  // V7_ESP_ENABLE__DHT flag is used
+  <strong>#ifdef V7_ESP_ENABLE__DHT</strong>
+    v7_val_t dht = v7_mk_object(v7);
+    v7_val_t typeEL = v7_mk_object(v7);
+    // create the Dht global object, accessible in JS code
+    <strong>v7_set(v7, v7_get_global(v7), "Dht", 3, dht);</strong>
+    // add the read method to the DHT JS object
+    <strong>v7_set_method(v7, dht, "read", DHT_read);</strong>
+    // define the Dht.TypeEL enumeration property
+    <strong>v7_def(v7, dht, "TypeEL", 6, 
+      (V7_DESC_WRITABLE(0) | V7_DESC_ENUMERABLE(1)), typeEL);</strong>
+    // create the Dht.TypeEL.DHT11 enumeration literal 
+    // {enumerable: true, writable: false}
+    <strong>v7_def(v7, typeEL, "DHT11", 5, 
+      (V7_DESC_WRITABLE(0) | V7_DESC_ENUMERABLE(1)), v7_mk_number(v7, 1));</strong>
+    // create the Dht.TypeEL.DHT21 enumeration literal 
+    // {enumerable: true, writable: false}
+    v7_def(v7, typeEL, "DHT21", 5, 
+      (V7_DESC_WRITABLE(0) | V7_DESC_ENUMERABLE(1)), v7_mk_number(v7, 2));
+    // create the Dht.TypeEL.DHT22 enumeration literal 
+    // {enumerable: true, writable: false}
+    v7_def(v7, typeEL, "DHT22", 5, 
+      (V7_DESC_WRITABLE(0) | V7_DESC_ENUMERABLE(1)), v7_mk_number(v7, 3));
+  #endif /* V7_ESP_ENABLE__DHT */
+}
+</pre>
+
+<p>The purpose of this code is to create the <code>Dht</code> JavaScript object (accessible from the JavaScript code running on the ESP module), create the <code>Dht.TypeEL</code> JavaScript "enumeration" (well, emulating an enumeration) and to expose the <code>Dht.read</code> method, so we are able to read the DHT sensor from a JavaScript program.</p>
+
+<p>Notice that we can create objects and object properties for the exposed JavaScript interface, in a similar manner as we do in standard JavaScript code with the help of <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty">Object.defineProperty</a></code> and <code><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties">Object.defineProperties</a></code>, thus we can make a property read-only, enumerable and provide an initial value to it if required. Datatypes values are obtained by calling the corresponding <code>v7_mk_xxx</code> method, where <code>xxx</code> can be <code>null</code>, <code>object</code>, <code>number</code> or <code>string</code> depending on the case.</p>
+
+<p>It is also important to know that when we use the <code>v7_def</code> and <code>v7_set</code> methods, their 4th parameter is a positive integer, representing the number of characters of the name of the property or method that is created. Failing to set this value correctly, results in the property or method not being recognized in the JavaScript code!</p>
+
+<p><strong>Note: </strong> the init_v7 method contains additional code, which should be kept unchanged. In this tutorial only show the new code, required for our custom functionality, but the existing code must not be changed, otherwise the resulting firmware may not work as expected.</p>
+
+<p>Now, we need to write the a C/C++ header file that exposes the method(s) meant to be used by the Mongoose-IoT firmware for the communication with the DHTxx sensor. We create the file <code>fw/platforms/esp8266/user/dht.h</code> that defines the signature of the <code>dhtRead</code> method:</p>
+
+<pre>
+#ifndef DHT_LIBRARY
+  #define DHT_LIBRARY
+  #include "v7_esp_features.h"
+
+  #ifdef V7_ESP_ENABLE__DHT
+   <strong>bool dhtRead(uint8_t sensorType, uint8_t pin, double* temperature, double* humidity);</strong>
+  #endif
+#endif</pre>
+
+<p>Notice that this header file was already used in the <code>fw/platforms/esp8266/user/v7_esp.c</code> code. Finally, we need to add the <code>fw/platforms/esp8266/user/dht.c</code> file, where we put the code that allows us to communicate with any of the the DHT11/21/22 sensors, for getting temperature and humidity readings:</p>
+
+<pre>
+#include &lt;osapi.h&gt;
+#include "v7/v7.h"
+#include "common/platforms/esp8266/esp_missing_includes.h"
+#include "fw/platforms/esp8266/user/v7_esp_features.h"
+<strong>#include "fw/platforms/esp8266/user/util.h"
+#include "fw/platforms/esp8266/user/esp_gpio.h"</strong>
+
+#ifdef V7_ESP_ENABLE__DHT
+  <strong>static uint16_t waitLHCycle(uint8_t pin, uint32_t* maxCycles)</strong> {
+    // wait until the pin goes from a digital LOW state 
+    // to a digital HIGH state, or until the timeout occurs
+    // NOTE: this is a helper method for dhtReadByte, to avoid repetitive code
+  };
+  <strong>static uint8_t dhtReadByte(uint8_t pin, uint32_t* maxCycles)</strong> {
+    // read one byte (8 bits) of data from the DHTxx sensor
+    // by using the sensor datasheet which explains what means a bit 1 and a bit 0
+  };
+  <strong>bool dhtRead(uint8_t sensorType, uint8_t pin, double* temperature, double* humidity)</strong> {
+    // 1) read the 5 bytes of data from the DHTxx sensor;
+    // 2) perform a check sum test for data integrity (the 5th byte is the check sum one);
+    // 3) decode the 4 bytes of data and transform them to temperature and humidity values
+  };
+#endif</pre>
+
+<p>See the <a href="https://github.com/dimircea/MongooseIoT-Extensions/blob/master/DHTxx/src/dht.c">fw/platforms/esp8266/user/dht.c</a> full source code on GitHub or download the full source code archive using the link at the top of this tutorial page.</p>
+
+<p>Lets have a look at the interesting parts only, mainly how to control GPIO pins. Before being able to interact with a GPIO pin, we need to set the pin either for read of write mode, with the help of <code>mg_gpio_set_mode</code> method. It accepts three parameters: 1) the GPIO pin number; (e.g., 5 for GPIO5) 2) the mode, which is one of <code>{GPIO_MODE_INOUT = 0, GPIO_MODE_INPUT = 1, GPIO_MODE_OUTPUT = 2}</code>; 3) GPIO pull type, one of <code>{GPIO_PULL_FLOAT = 0, GPIO_PULL_PULLUP = 1, GPIO_PULL_PULLDOWN = 2}</code>, specifying if the GPIO pin is internally pulled up, down or let floating. The following example makes sets the GPIO5 pin as a digital output and GPIO4 as pulled down digital input:</p>
+
+<pre>
+mg_gpio_set_mode( 5, GPIO_MODE_OUTPUT, GPIO_PULL_FLOAT);
+mg_gpio_set_mode( 4, GPIO_MODE_INPUT, GPIO_PULL_DOWN);</pre>
+
+<p>Reading the state of a digital pin that was set as digital input is made by using <code>read_gpio_pin</code> method, which returns <code>GPIO_LEVEL_ERR</code> (<code>GPIO_LEVEL_ERR = -1</code>) in case of error, <code>GPIO_LEVEL_LOW</code> (<code>GPIO_LEVEL_LOW = 0</code>) if a LOW status was read and <code>GPIO_LEVEL_HIGH</code> (<code>GPIO_LEVEL_HIGH = 1</code>) if a HIGH state was read. To set the status of a GPIO that was set as output implies to use the <code>set_gpio method</code>, which takes two parameters: 1) the GPIO pin number (e.g., 5 for GPIO5); 2) the state to set the pin to, one of <code>{GPIO_LEVEL_LOW = 0, GPIO_LEVEL_HIGH = 1}</code>. For example, if we like to wait for a HIGH signal on GPIO4 pin (set as digital input in the above example) and write a HIGH state on GPIO5 (set as digital output in the above example) afterwards, we'll use:</p>
+
+<pre>
+<code>
+while( read_gpio_pin( 5) == GPIO_LEVEL_LOW);
+set_gpio( 4, GPIO_LEVEL_HIGH);</code></pre>
+
+<p><strong>Note: </strong> the following two header files are required for getting the above described GPIO operations: <code>fw/platforms/esp8266/user/util.h</code> and <code>fw/platforms/esp8266/user/esp_gpio.h</code>.</p>
+
+<p>To make this new feature available on your ESP module, you'll need to compile and build the source code, then flash the firmware, as shown in <a href="#buildFirmwareRPi">Section: Build the Mongoose-IoT Firmware on a Raspberry Pi</a>.</p>
+
+<p>After uploading the new firmware, test the DHT functionality by using the following JavaScript code in the MFT Console, or as part of the <code>app.js</code> file:</p>
+
+<pre>
+Dht.read( Dht.TypeEL.DHT11, 5);
+</pre>
+
+<p><strong>Note: </strong>if is the case, replace <code>Dht.TypeEL.DHT11</code> with <code>Dht.TypeEL.DHT21</code> or <code>Dht.TypeEL.DHT22</code>, depending on the used DHT sensor type, and also replace 5 (the second parameter) with the corresponding GPIO number, to which you have connected the data pin of the DHT sensor.</p>
+
+<p><a href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/DHTxx_src.zip" style="padding: 
+2px 3px; margin-removed 1em; border: 1px solid black;">Download the code</a></p>
+
+<h2>The ESP8266's Big Brother: ESP32</h2>
+
+<p>The ESP8266 module got lately a big brother: the new ESP32 module. It is more powerful, but also comes with new features, such as builtin Bluetooth 4.2. In <a href="#fig13">Figure 13</a> we can see the official ESP32 modules, also named <a href="http://www.pighixxx.com/test/2016/08/wroom32/">WROOM-32</a>. The following table provides the main differences of ESP32 by comparison with ESP8266.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Feature / Component</th>
+			<th>ESP8266</th>
+			<th>ESP32</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>MCU</td>
+			<td>Xtensa Single-Core 32-bit L106, 80MHz</td>
+			<td>&gt;Xtensa Dual-Core 32-bit LX6, 160MHz</td>
+		</tr>
+		<tr>
+			<td>RAM</td>
+			<td>160KB</td>
+			<td>512KB</td>
+		</tr>
+		<tr>
+			<td>FLASH</td>
+			<td>up to 16MB SPI Flash</td>
+			<td>up to 16MB SPI Flash</td>
+		</tr>
+		<tr>
+			<td>GPIOs</td>
+			<td>17</td>
+			<td>36</td>
+		</tr>
+		<tr>
+			<td>SPI/I2C/I2S/UART/CAN</td>
+			<td>2/1/2/2/0</td>
+			<td>4/2/2/2/1</td>
+		</tr>
+		<tr>
+			<td>ADC</td>
+			<td>1 x 10bits</td>
+			<td>1 x 12bits</td>
+		</tr>
+		<tr>
+			<td>WiFi</td>
+			<td>b/g/n, HT20</td>
+			<td>b/g/n, HT40</td>
+		</tr>
+		<tr>
+			<td>Bluetooth</td>
+			<td>-</td>
+			<td>v4.2</td>
+		</tr>
+		<tr>
+			<td>Builtin sensors</td>
+			<td>-</td>
+			<td>temperature, touch</td>
+		</tr>
+		<tr>
+			<td>Working conditions</td>
+			<td>-40°C - 125°C</td>
+			<td>-40°C - 125°C</td>
+		</tr>
+		<tr>
+			<td>Approximate price</td>
+			<td>3-10 EUR, including shipping to EU</td>
+			<td>10-22 EUR, including shipping to EU</td>
+		</tr>
+	</tbody>
+</table>
+
+<figure id="fig13"><a href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/esp32_wroom.png"><img alt="WROOM-32, the Official ESP32 Module" src="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/esp32_wroom.png" /></a>
+
+<figcaption>Figure 13: WROOM-32, the Official ESP32 Module.</figcaption>
+</figure>
+
+<p>Unfortunately, at the moment of writing this tutorial, it is not easy to buy the ESP32 module, since most of the online sources (the vast majority from Asia) report the module as "out of stock". However, we strongly believe that the situation will change soon, and the ESP32 may take the place of ESP8266 modules in new projects, or as improvements of the old projects that requires WiFi or Bluetooth connection and MCU on a single small and cheap module.</p>
+
+<h2>Some Points of Attention</h2>
+
+<p>The ESP8266 module represents the brain of your projects, but it requires that you take some precautions to keep it safe and be sure that it runs as supposed:</p>
+
+<ul>
+	<li>Most of the ESP8266 modules are powered by 3.3V, thus using 5V or anything more than 3.6V may and will damage your module! Some of the ESP8266 modules, such as the NodeMCU or WeMOS, discussed in this article, allows to power the module board (but not directly the ESP8266 MCU!) by using a USB connector (mini or micro USB ones), thus using 5V (or up to 10V for WeMOS D1 Mini), while a builtin voltage regulator is responsible for converting this down to 3.3V as required by the MCU.</li>
+	<li>No matter the input voltage accepted by an ESP8266 module (usually a direct 3.3V input or 5V via USB connector), in most cases the GPIOs pins are tolerant to ONL 3.3V or less positive voltage, meaning that you should never ever provide more than 3.3V nor a negative voltage to any of the GPIO pins.</li>
+	<li>The ESP8266 module exposes one ADC pin (expandable by using multiplexing or specialized ICs), allowing to measure analog voltages in the range 0-1V. Do NOT provide more than 1V or a negative voltage to this pin. If more than 1V must be measured, then use a <a href="https://en.wikipedia.org/wiki/Voltage_divider">voltage divider circuit</a> or an external ADC IC or module (e.g., <a href="https://www.adafruit.com/product/1083">ADS1015 12-Bit ADC - 4 Channel</a>) capable to communicate via I2C, SPI or UART. However, some modules, such as WeMOS D1 Mini allows 0-3.3V as input for the ADC pin, since it uses a builtin voltage divider circuit.</li>
+</ul>
+</div></div></div><section class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Category:&nbsp;</h2><ul class="field-items"><li class="field-item even"><a href="../taxonomy/term/40.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WoT</a></li><li class="field-item odd"><a href="../taxonomy/term/50.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">IoT</a></li><li class="field-item even"><a href="../JavaScript.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">JavaScript</a></li><li class="field-item odd"><a href="../taxonomy/term/51.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">ESP8266</a></li><li class="field-item even"><a href="../taxonomy/term/52.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WiFi</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
+            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/65" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi">Tweet</a></div>
+          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="65.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
+          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="65.html"></div></div>
+          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/65" data-counter="right"></script></div>
+  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F65">View the discussion thread.</a></p></noscript></div>    </div>
+
+          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/24.html" title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s blog</a></li></ul></nav>
+    
+    
+  </div>
+</article>
+
+  </div></div>                      </div>
+
+                      
+                    </div>
+                  </div>
+
+                </section>
+
+                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
+  
+  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
+</div>
+  </div></div></div></div>
+              </div>
+            </div>
+
+            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
+      <h2 class="block-title">Main menu</h2>
+  
+  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
+  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
+      <h2 class="block-title">User login</h2>
+  
+  <div class="block-content content"><form action="https://web-engineering.info/node/65?destination=node/65" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
+  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
+</div>
+<div class="form-item form-type-password form-item-pass">
+  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
+ <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
+</div>
+<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-IeGgbLWBeOwxzdEh_D6Hw599R5cfCdiPj1fl_Mwvvqw" />
+<input type="hidden" name="form_id" value="user_login_block" />
+<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
+  </div></section></div></div>            
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    
+    
+    
+  </div>
+</div>
+  </body>
+
+<!-- Mirrored from web-engineering.info/node/65 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:43:53 GMT -->
+</html>

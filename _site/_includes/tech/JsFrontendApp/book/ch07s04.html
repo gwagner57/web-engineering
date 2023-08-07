@@ -1,0 +1,71 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch07s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.&nbsp;The Meta-Class Enumeration</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web App"><link rel="prev" href="ch07s03.html" title="3.&nbsp;Add Two Library Files"><link rel="next" href="ch07s05.html" title="5.&nbsp;Write the Model Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.&nbsp;The Meta-Class <code class="code">Enumeration</code></th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web
+  App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s05.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4742"></a>4.&nbsp;The Meta-Class <code class="code">Enumeration</code></h2></div></div></div><p>We define an <code class="code">Enumeration</code> meta-class, which supports
+    both simple enumerations and code lists (but not record enumerations).
+    While a simple enumeration is defined by a list of labels in the form of a
+    JS array as the constructor argument such that the labels are used for the
+    names of the enumeration literals, a code list is defined as a special
+    kind of key-value map in the form of a JS object as the constructor
+    argument such that the codes are used for the names of the enumeration
+    literals. Consequently, the constructor needs to test if the invocation
+    argument is a JS array or not. The following first part of the code shows
+    how simple enumerations are created:</p><pre class="programlisting">function <span class="bold"><strong>Enumeration</strong></span>( enumArg) {
+  if (<span class="bold"><strong>Array.isArray( enumArg)</strong></span>) {
+    // a simple enumeration defined by a list of labels
+    if (!enumArg.every( function (l) {
+            return (typeof l === "string"); })) {
+      throw new ConstraintViolation(
+        "A list of enumeration labels must be an array of strings!");          
+    }
+    this.labels = enumArg;
+    this.enumLitNames = this.labels;
+    this.codeList = null;
+  } else if (...) {
+    ... // a code list defined by a code/label map
+  }
+  this.MAX = this.enumLitNames.length;
+  // generate the enumeration literals by capitalizing/normalizing
+  for (let i=1; i &lt;= this.enumLitNames.length; i++) {
+    // replace " " and "-" with "_"
+    const lbl = this.enumLitNames[i-1].replace(/( |-)/g, "_");
+    // convert to array of words, capitalize them, and re-convert
+    const LBL = lbl.split("_").map( lblPart =&gt; lblPart.toUpperCase()).join("_");
+    // assign enumeration index
+    this[LBL] = i;
+  }
+  Object.freeze( this);
+};</pre><p>After setting the <code class="code">MAX</code> property of the newly created
+    enumeration, the enumeration literals are created in a loop as further
+    properties of the newly created enumeration such that the property name is
+    the normalized label string and the value is the index, or sequence
+    number, starting with 1. Notice that a label string like "text book" or
+    "text-book" is normalized to the enumeration literal name "TEXT_BOOK",
+    following a widely used convention for constant names. Finally, by
+    invoking <code class="code">Object.freeze</code> on the newly created enumeration, all
+    its properties become 'unwritable' (or read-only).</p><p>The following second part of the code shows how code list
+    enumerations are created:</p><pre class="programlisting">function <span class="bold"><strong>Enumeration</strong></span>( enumArg) {
+  if (Array.isArray( enumArg)) {  // a simple enumeration
+    ...
+  } else if (typeof enumArg === "object" &amp;&amp; 
+             Object.keys( enumArg).length &gt; 0) {
+    // a <span class="bold"><strong>code list</strong></span> defined by a code/label map
+    if (!Object.keys( enumArg).every( function (code) {
+            return (typeof enumArg[code] === "string"); })) {
+      throw new OtherConstraintViolation(
+          "All values of a code/label map must be strings!");          
+    }
+    this.codeList = enumArg;
+    // use the codes as the names of enumeration literals
+    this.enumLitNames = Object.keys( this.codeList);
+    this.labels = this.enumLitNames.map( 
+        c =&gt; `${enumArg[c]} (${c})`);
+  }
+  ...  
+};</pre><p>Notice that the code list labels in <code class="code">this.labels</code> are
+    extended by appending their codes in parenthesis.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;Add Two Library Files&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;5.&nbsp;Write the Model Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch07s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:30 GMT -->
+</html>

@@ -1,0 +1,263 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch18s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Case Study 1: Eliminating a Class Hierarchy with Single Table Inheritance</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="ch18.html" title="Chapter&nbsp;18.&nbsp;Subtyping in a Java Back-End App"><link rel="prev" href="ch18.html" title="Chapter&nbsp;18.&nbsp;Subtyping in a Java Back-End App"><link rel="next" href="ch18s03.html" title="3.&nbsp;Case Study 2: Implementing a Class Hierarchy with Joined Table Inheritance"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Case Study 1: Eliminating a Class Hierarchy with <span class="italic">Single Table
+    Inheritance</span></th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;18.&nbsp;Subtyping in a Java Back-End App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch18s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e6564"></a>2.&nbsp;Case Study 1: Eliminating a Class Hierarchy with <span class="italic">Single Table
+    Inheritance</span></h2></div></div></div><p>In this example we implement the Book hierarchy shown in <a class="xref" href="ch18.html#figJavaSubtypingBookClassHierarchy" title="Figure&nbsp;18.1.&nbsp;The object type Book as the root of a disjoint segmentation">Figure&nbsp;18.1</a>. The
+					<span class="italic">Java data model</span> is derived from this design
+				model. </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6570"></a>2.1.&nbsp;Make the Java data model</h3></div></div></div><p>We make the <span class="italic">Java data model</span> in 3 steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>For every class in the model, we create a Java class with the
+								corresponding properties and add the <span class="bold"><strong>set</strong></span> and <span class="bold"><strong>get</strong></span> methods
+								corresponding to each property.</p></li><li class="listitem"><p>Turn the plaform-independent datatypes (defined as the ranges of
+								attributes) into Java datatypes. </p></li><li class="listitem"><p>Add the <span class="bold"><strong>set</strong></span> and <span class="bold"><strong>get</strong></span> methods corresponding to each direct
+								property of every class in the hierarchy (subclasses must not define
+								set and get method for properties in superclasses, but only for
+								their direct properties). </p></li></ol></div><p>This leads to the Java data model shown in <a class="xref" href="ch18s02.html#figBookClassHierarchyJavaM" title="Figure&nbsp;18.4.&nbsp;The Java data model">Figure&nbsp;18.4</a>:</p><div class="figure"><a name="figBookClassHierarchyJavaM"></a><p class="title"><b>Figure&nbsp;18.4.&nbsp;The Java data model</b></p><div class="figure-contents"><div class="mediaobject"><img src="../../fig/BookClassHierarchy_JavaM.html"></div></div></div><br class="figure-break"></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6593"></a>2.2.&nbsp;New issues</h3></div></div></div><p>Compared to the <a class="link" href="ValidationApp/index.html" target="_top">validation
+						app</a> discussed in Part 2 of this tutorial, we have to deal with a
+					number of new issues: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the <span class="italic">model code</span> we have to
+								take care of:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Encoding the enumeration type (<code class="code">BookTypeEL</code>
+											in our example) used in the views rendering to create a
+											select list for the special case of book. Notice that
+											this enumeration is not really used in the model classes
+											(we discuss further the reasons), but only with the
+											purpose to have the book category (i.e., special type)
+											rendered in the JSF views. Read Part 3 <a class="link" href="EnumerationApp/index.html" target="_top">enumeration
+												app</a> for detailed instructions on how to
+											implement enumerations in Java.</p></li><li class="listitem"><p>Encode each class from the <code class="code">Book</code> hierarchy
+											and use the JPA specific annotations required to persist
+											the JavaBeans in a single database table, i.e.,
+												<code class="code">books</code>. </p></li></ol></div></li><li class="listitem"><p>In the <span class="italic">UI code</span> we have to take
+								care of:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Adding a "Special type" column to the display table of
+											the "List all books" use case in
+												<code class="code">WebContent/views/books/listAll.xhtml</code>. A
+											book without a special category will have an empty table
+											cell, while for all other books their category will be
+											shown in this cell, along with other segment-specific
+											attribute values. </p></li><li class="listitem"><p>Adding a "Special type" select control, and
+											corresponding form fields for all segment properties, in
+											the forms of the "Create book" and "Update book" use
+											cases in
+												<code class="code">WebContent/views/books/create.xhtml</code> and
+												<code class="code">WebContent/views/books/update.xhtml</code>.
+											Segment property form fields are only displayed, and
+											their validation is performed, when a corresponding book
+											category has been selected. Such an approach of
+											rendering specific form fields only on certain
+											conditions is sometimes called "dynamic forms". </p></li></ol></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6621"></a>2.3.&nbsp;Encode the model classes of the Java data model </h3></div></div></div><p>The Java data model can be directly encoded for getting the code of the model
+					classes of our Java backend app.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e6624"></a>2.3.1.&nbsp;Summary</h4></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Encode the enumeration type (to be used in the JSF views) .</p></li><li class="listitem"><p>Encode the model classes and add the corresponding JPA annotations
+								for class hierarchy. </p></li></ol></div><p>These steps are discussed in more detail in the following sections.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e6632"></a>2.3.2.&nbsp;Encode the enumeration type <code class="code">BookTypeEL</code></h4></div></div></div><p>The enumeration type <code class="code">BookTypeEL</code> is encoded as a Java enum,
+						and we probide enumeration literals as well as assign label (human readable)
+						to each enumeration literal:</p><pre class="programlisting">public enum BookTypeEL {
+  TEXTBOOK( "TextBook"), BIOGRAPHY( "Biography");
+
+  // associated label for an enumeration literal
+  private final String label;
+
+  private BookTypeEL( String label) {
+    this.label = label;
+  }
+
+  public String getLabel() {
+    return this.label;
+  }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e6638"></a>2.3.3.&nbsp;Encode the model classes for the <code class="code">Book</code> hierarchy</h4></div></div></div><p>We encode the model class <code class="code">Book</code> in the form of a Java class
+						and we use the appropriate JPA annotations to be used with the
+							<code class="code">Book</code> class hierarchy:
+						</p><pre class="programlisting">@Entity
+<span class="bold"><strong>@Inheritance( strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn( name = "category", discriminatorType = DiscriminatorType.STRING, length = 16)
+@DiscriminatorValue( value = "BOOK")</strong></span>
+@Table( name = "books")
+...
+public class Book {
+  @Id
+  @Column( length = 10)
+  @NotNull( message = "An ISBN is required!")
+  @Pattern( regexp = "\\b\\d{9}(\\d|X)\\b", message = "The ISBN must be a 10-digit string or a 9-digit string followed by 'X'!")
+  private String isbn;
+  @Column( nullable = false)
+  @NotNull( message = "A title is required!")
+  private String title;
+  @Column( nullable = false)
+  @NotNull( message = "A year is required!")
+  @UpToNextYear
+  @Min( value = 1459, message = "The year must not be before 1459!")
+  private Integer year;
+
+  // constructors, set, get and other methods
+}</pre><p>When using the JPA single table storage for a class hierarchy, the
+							<code class="code">@Inheritance</code> annotations must be set for the superclass
+						(e.g, <code class="code">Book</code> in our example). It provide the
+							<code class="code">strategy</code> parameter which for single table storage must have
+						the value <code class="code">InheritanceType.SINGLE_TABLE</code>. The
+							<code class="code">@DiscriminatorColumn</code> specifies the table column name, i.e.,
+							<code class="code">name = "category"</code>, which stores the value that makes the
+						difference between different types of subclasses (e.g., <code class="code">Book</code>,
+							<code class="code">TextBook</code> and <code class="code">Biography</code> in our example). We
+						expect to use <code class="code">BookTypeEL</code> for the values of <code class="code">name</code>
+						parameter, but this is not possible because the <code class="code">name</code> parameter
+						requires a constant expression, while
+							<code class="code">BookCategoryEL.TEXTBOOK.name()</code> is not considered to be a
+						constant (being a function cally), so a compiler exception is thrown. Last,
+						the <code class="code">@DiscriminatorValue</code> specifies an unique value to be stored
+						in the discriminator table column used to identify the class type (e.g., for
+						the <code class="code">Book</code> we want to have <code class="code">BOOK</code> as discriminator
+						value, so we use <code class="code">value = "BOOK"</code>).</p><p>Further, we define the TextBook and Biography
+						subtypes:</p><pre class="programlisting">@Entity
+<span class="bold"><strong>@DiscriminatorValue( value = "TEXTBOOK")</strong></span>
+...
+public class <span class="bold"><strong>TextBook extends Book</strong></span> {
+  @NotNull( message = "A subject area value is required")
+  String subjectArea;
+  
+  // constructors, set, get and other methods
+}</pre><p>The <code class="code">TextBook</code> and <code class="code">Biography</code> are subclasses of
+							<code class="code">Book</code>, so we define them by using <code class="code">extends Book</code>.
+						For each of the subclass, we add the <code class="code">@DiscriminatorValue</code> JPA
+						annotation with an unique value to identify the type.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6674"></a>2.4.&nbsp;Database schema for single table class hierarchy</h3></div></div></div><p>As a result of the <code class="code">@Inheritance( strategy =
+						InheritanceType.SINGLE_TABLE)</code> annotation, only one database table is
+					used for each class hierarchy. This table contains the columns corresponding to
+					all the properties of all the classes from the hierarchy plus the discriminator
+					column. In our example, the <code class="code">books</code> table contains the following
+					columns: <code class="code">isbn</code>, <code class="code">title</code>, <code class="code">year</code>,
+						<code class="code">subjectArea</code>, <code class="code">about</code> and <code class="code">category</code>. The
+					simplified corresponding SQL-DDL code internally used to generate the
+						<code class="code">books</code> table for our application is shown
+					below:</p><pre class="programlisting">CREATE TABLE IF NOT EXISTS `books` (
+  `ISBN` varchar(10) NOT NULL,
+  `TITLE` varchar(255) NOT NULL,
+  `YEAR` int(11) NOT NULL,
+  `SUBJECTAREA` varchar(255) DEFAULT NULL,
+  `ABOUT` varchar(255) DEFAULT NULL,
+  `category` varchar(16) DEFAULT NULL,
+) </pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6687"></a>2.5.&nbsp;Write the View and Controller Code</h3></div></div></div><p>The user interface (UI) consists of a start page that allows navigating to the
+					data management pages (in our example, to
+						<code class="code">WebContent/views/books/index.xhtml</code>). Such a data management
+					page contains 4 sections: <span class="italic">list books</span>,
+						<span class="italic">create book</span>, <span class="italic">update book</span> and <span class="italic">delete
+					book</span>.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e6695"></a>2.5.1.&nbsp;Summary</h4></div></div></div><p>We have to take care of handling the category discriminator and the
+							<code class="code">subjectArea</code> and <code class="code">about</code> segment properties both
+						in the "List all books" use case as well as in the "Create book" and "Update
+						book" use cases by</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Adding a segment information column ("Special type") to the
+									display table of the "List all books" use case in
+										<code class="code">WebContent/views/books/listAll.xhtml</code>. </p></li><li class="listitem"><p>Adding a "Special type" select control, and corresponding form
+									fields for all segment properties, in the forms of the "Create
+									book" and "Update book" use cases in
+										<code class="code">WebContent/views/books/create.xhtml</code> and
+										<code class="code">WebContent/views/books/create.xhtml</code>. Segment
+									property form fields are only displayed, and their validation
+									occurs only when a corresponding book category has been
+									selected. </p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e6708"></a>2.5.2.&nbsp;Adding a segment information column in "List all books"</h4></div></div></div><p>We add a "Special type" column to the display table of the "List all
+						books" use case in <code class="code">books.html</code>:</p><pre class="programlisting">&lt;h:dataTable value="#{bookController.books}" var="b"&gt;
+  ...
+  &lt;h:column&gt;
+    &lt;f:facet name="header"&gt;Special type&lt;/f:facet&gt;
+    #{b.getClass().getSimpleName() != 'Book' ? b.getClass().getSimpleName() : ''}
+  &lt;/h:column&gt;
+&lt;/h:dataTable&gt;</pre><p>A conditional expression (using the Java <code class="code">?</code> ternary operator)
+						is used to check if the JavaBean class name is <code class="code">Book</code>, on which
+						case we don't show it, or it is something else (e.g. <code class="code">TextBook</code>
+						or <code class="code">Biography</code>), and then it is shown. This expression also shows
+						how you can call/use various methods from the JavaBeans, not only the
+						methods custom defined by the programmer of the application.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e6718"></a>2.5.3.&nbsp;Adding a "Special type" select control in "Create book" and "Update
+						book"</h4></div></div></div><p>In both use cases, we need to allow selecting a special category of book
+						('textbook' or 'biography') with the help of a select control, as shown in
+						the following HTML fragment:</p><pre class="programlisting">&lt;h:panelGrid id="bookPanel" columns="3"&gt;
+  ...
+  &lt;h:outputText value="Special type: " /&gt;
+  <span class="bold"><strong>&lt;h:selectOneMenu id="bookType" value="#{viewScope.bookTypeVal}"&gt;</strong></span>
+    &lt;f:selectItem itemLabel="---"/&gt;
+    &lt;f:selectItems value="#{book.typeItems}" /&gt;
+    <span class="bold"><strong>&lt;f:ajax event="change" execute="@this" 
+            render="textBookPanel biographyBookPanel standardBookPanel" /&gt;</strong></span>
+  &lt;/h:selectOneMenu&gt;
+  &lt;h:message for="bookType" errorClass="error" /&gt;
+&lt;/h:panelGrid&gt;
+
+&lt;h:panelGroup id="standardBookPanel"&gt;  
+  &lt;h:commandButton value="Create" <span class="bold"><strong>rendered="#{viewScope.bookTypeVal == null}"</strong></span>
+                   action="#{bookController.add( book.isbn, book.title, book.year)}" /&gt;
+&lt;/h:panelGroup&gt;
+    
+&lt;h:panelGroup id="textBookPanel"&gt;  
+  &lt;h:panelGrid <span class="bold"><strong>rendered="#{viewScope.bookTypeVal == 'TEXTBOOK'}"</strong></span> columns="3"&gt;
+    &lt;h:outputText value="Subject area: " /&gt;
+    &lt;h:inputText id="subjectArea" value="#{textBook.subjectArea}"/&gt;
+    &lt;h:message for="subjectArea" errorClass="error" /&gt;
+  &lt;/h:panelGrid&gt;
+  &lt;h:commandButton value="Create" <span class="bold"><strong>rendered="#{viewScope.bookTypeVal == 'TEXTBOOK'}"</strong></span>
+                   <span class="bold"><strong>action="#{textBookController.add( book.isbn, book.title, book.year, textBook.subjectArea)}"</strong></span> /&gt;
+&lt;/h:panelGroup&gt;
+
+&lt;h:panelGroup id="biographyBookPanel"&gt;  
+  &lt;h:panelGrid <span class="bold"><strong>rendered="#{viewScope.bookTypeVal == 'BIOGRAPHY'}"</strong></span> columns="3"&gt;
+    &lt;h:outputText value="About: " /&gt;
+    &lt;h:inputText id="about" value="#{biographyBook.about}"/&gt;
+    &lt;h:message for="about" errorClass="error" /&gt;
+  &lt;/h:panelGrid&gt;
+  &lt;h:commandButton <span class="bold"><strong>value="Create" rendered="#{viewScope.bookTypeVal == 'BIOGRAPHY'}"</strong></span>
+                   <span class="bold"><strong>action="#{biographyBookController.add( book.isbn, book.title, book.year, biographyBook.about)}"</strong></span> /&gt;
+&lt;/h:panelGroup&gt;</pre><p>There are a few important remarks on the above view code:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>the <code class="code">h:selectOneMenu</code> is used to create a single
+									selection list which is populated with book tiutles by using the
+										<code class="code">getTypeItems</code> method of the <code class="code">Book</code>
+									class. A more detailed explanation is presented in Part 3 <a class="link" href="EnumerationApp/index.html" target="_top">enumeration
+										app</a>.</p></li><li class="listitem"><p>it is possible to conditionally render JSF view components by
+									using the <code class="code">rendered</code> attribute. The JSF EL expression
+									must return <code class="code">true</code> or <code class="code">false</code>, this making
+									the HTML resulting elements to be part of the HTML DOM or not.
+									Notice that the conditional expressions are evaluated in the
+									server side. This is the method we use to hide or show the input
+									form elements corresponding to various book types (e.g.,
+										<code class="code">TextBook</code> has a <code class="code">subjectArea</code>
+									property while Biography has an <code class="code">about</code>
+									property).</p></li><li class="listitem"><p>the <code class="code">render</code> attribute used with
+										<code class="code">f:ajax</code> specifies which of the JSF components
+									are to be updated . This is needed because of the live DOM
+									changes (client side, not server side) which applies after the
+									AJAX call.</p></li><li class="listitem"><p>AJAX is used to submit form for reevaluation when the special
+									type select list is changed (something is selected). As a
+									result, it enforces the rendering of the three panels
+									corresponding to three book cases: simple book, text book and
+									biography. Using <code class="code">execute="@this"</code> we enforce the
+									re-evaluation of the form at server side, so the resulting HTML
+									DOM structure contains the changes accordiong with the
+									conditions specified by the <code class="code">rendered</code> attributes of
+									the various JSF elements. Notice that an JSF element which has a
+									conditional <code class="code">rendered</code> expression must be child of
+									another JSF element which is always part of the DOM.</p></li><li class="listitem"><p><code class="code">h:panelGroup</code> is used to define a set of elements
+									which are shown or hidden. </p></li><li class="listitem"><p>the <code class="code">action</code> attribute of the
+										<code class="code">h:commandButton</code> can't be used with conditional
+									expressions, therefore we have to create three command buttons,
+									one for each case: create/update a <code class="code">Book</code>, a
+										<code class="code">TextBook</code> or a <code class="code">Biography</code>. The
+										<code class="code">add</code> method of the corresponding controller
+									class (i.e., <code class="code">BookController</code>,
+										<code class="code">TextBookController</code> or
+										<code class="code">BiographyController</code> is called).</p></li><li class="listitem"><p>since we do not have a corresponding property in the JavaBean
+									class(es) for the special type (category), we can use JSF
+									variables to store the value of the single select list, and then
+									use the variable in <code class="code">rendered</code> conditions for various
+									elements. Therefore, for the <code class="code">h:selectOneMenu</code>, the
+										<code class="code">value="#{viewScope.bookTypeVal}"</code> specifies that
+									we use a "on the fly" defined property named
+										<code class="code">bookTypeVal</code>, which is part of the view scope
+									internal JSF object(s). We can also define such variable outside
+									the view scope, e.g.,<code class="code"> value="#{bookTypeVal}"</code>, but
+									in this case they are request scoped, so their value is lost
+									after submitting the form, and the <code class="code">rendered</code>
+									conditions can't be correctly evaluated.</p></li></ul></div><p>For a class in the class hierarchy, one corresponding controller class is
+						defined. It contains the specific <code class="code">add</code>, <code class="code">update</code> and
+							<code class="code">destroy</code> methods (see . The shared methods, such as
+							<code class="code">getAllObjects</code> are defined by the controller of the top
+						level class (e.g., for our example, this is <code class="code">BookController</code>).
+						See <a class="link" href="MinimalApp/index.html" target="_top">minimal app</a> for more
+						details on how to implement the controller class and the corresponding CRUD
+						methods.</p><p>The <span class="italic">Update Book</span> test case is very
+						similar with the <span class="italic">Create Book</span> test case.
+						The <span class="italic">Delete Book</span> test case remains
+						unchanged, see See <a class="link" href="MinimalApp/index.html" target="_top">minimal
+							app</a> for more details.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch18.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch18s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;18.&nbsp;Subtyping in a Java Back-End App&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Case Study 2: Implementing a Class Hierarchy with <span class="italic">Joined Table
+    Inheritance</span></td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch18s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:45 GMT -->
+</html>

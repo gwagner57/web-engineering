@@ -1,0 +1,196 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp2/ch03s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>5.&nbsp;Code the View</title><link rel="stylesheet" type="text/css" href="html.css"><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Implementing Unidirectional Non-Functional Associations with Plain JS"><link rel="prev" href="ch03s04.html" title="4.&nbsp;Code the Model"><link rel="next" href="ch03s06.html" title="6.&nbsp;How to Run the App and Get the Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.&nbsp;Code the View</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s04.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;3.&nbsp;Implementing Unidirectional Non-Functional Associations with Plain JS</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s06.html"><img src="images/next.svg" alt="Next"></a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1669"></a>5.&nbsp;Code the View</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1671"></a>5.1.&nbsp;Showing information about associated objects in <span class="italic">Retrieve/List All</span></h3></div></div></div><p>For showing information about the authors of a book in the <span class="italic">Retrieve/List All</span> use case, the corresponding cell in the HTML table is filled with a list of the names of all authors with the help of the utility function <code class="code">util.createListFromMap</code>:</p><pre class="programlisting">pl.v.books.<span class="bold"><strong>retrieveAndListAll</strong></span> = {
+  setupUserInterface: function () {
+    const tableBodyEl = document.querySelector(
+	                  "section#Book-R&gt;table&gt;tbody");
+    tableBodyEl.innerHTML = "";  // drop old contents
+    for (let key of Object.keys( Book.instances)) {
+      const book = Book.instances[key];
+      // create list of authors for this book
+      const listEl = util.<span class="bold"><strong>createListFromMap</strong></span>( book.authors, "name");
+      const row = tableBodyEl.insertRow(-1);
+      row.insertCell(-1).textContent = book.isbn;
+      row.insertCell(-1).textContent = book.title;
+      row.insertCell(-1).textContent = book.year;
+      row.insertCell(-1).appendChild( listEl);
+      // if the book has a publisher, show its name
+      row.insertCell(-1).textContent = 
+	      book.publisher ? book.publisher.name : "";
+    }
+    document.getElementById("Book-M").style.display = "none";
+    document.getElementById("Book-R").style.display = "block";
+  }
+};</pre><p>The utility function <code class="code">util.createListFromMap</code> has the following code:</p><pre class="programlisting"><span class="bold"><strong>createListFromMap</strong></span>: function (m, displayProp) {
+  var listEl = document.createElement("ul");
+  util.<span class="bold"><strong>fillListFromMap</strong></span>( listEl, m, displayProp);
+  return listEl;
+},
+<span class="bold"><strong>fillListFromMap</strong></span>: function (listEl, m, displayProp) {
+    const keys = Object.keys( et);
+    // delete old contents
+    listEl.innerHTML = "";
+    // create list items from object property values
+    for (let key of keys) {
+      let listItemEl = document.createElement("li");
+      listItemEl.textContent = et[key][displayProp];
+      listEl.appendChild( listItemEl);
+    }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1686"></a>5.2.&nbsp;Selecting associated objects in the <span class="italic">Create</span> use case</h3></div></div></div><p>For allowing to select multiple authors to be associated with the currently edited book in the <span class="italic">Create</span> use case, a multiple selection list (a <code class="code">select</code> element with <code class="code">multiple="multiple"</code>), as shown in the HTML code below, is populated with the instances of the associated object type. </p><pre class="programlisting">&lt;section id="Book-C" class="UI-Page"&gt;
+ &lt;h1&gt;Public Library: Create a new book record&lt;/h1&gt;
+ &lt;form&gt;
+  ... 
+  &lt;div class="select-one"&gt;
+   &lt;label&gt;Publisher: &lt;select name="selectPublisher"&gt;&lt;/select&gt;&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div class="select-many"&gt;
+   &lt;label&gt;<span class="bold"><strong>Authors</strong></span>: 
+    &lt;<span class="bold"><strong>select</strong></span> name="selectAuthors" <span class="bold"><strong>multiple="multiple"</strong></span>&gt;&lt;/select&gt;
+   &lt;/label&gt;
+  &lt;/div&gt;
+  ...
+ &lt;/form&gt;
+&lt;/section&gt;</pre><p>The <span class="italic">Create</span> UI is set up by populating selection lists for selecting the authors and the publisher with the help of a utility method <code class="code">fillSelectWithOptions</code> as shown in the following program listing:</p><pre class="programlisting">pl.v.books.<span class="bold"><strong>create</strong></span> = {
+  <span class="bold"><strong>setupUserInterface</strong></span>: function () {
+    const formEl = document.querySelector("section#Book-C &gt; form"),
+        selectAuthorsEl = formEl.selectAuthors,
+        selectPublisherEl = formEl.selectPublisher,
+        saveButton = formEl.commit;
+    // add event listeners for responsive validation 
+    ...
+    // set up a multiple selection list for selecting authors
+    util.fillSelectWithOptions( selectAuthorsEl, Author.instances,
+	      "authorId", {displayProp:"name"});
+    // set up a single selection list for selecting a publisher
+    util.fillSelectWithOptions( selectPublisherEl,
+	      Publisher.instances, "name");
+    ...
+  },
+  <span class="bold"><strong>handleSaveButtonClickEvent</strong></span>: function () {...}
+};</pre><p>When the user clicks the save button, all form control values, including the value of any single-<code class="code">select</code> control, are copied to a corresponding field of the <code class="code">slots</code> record, which is used as the argument for invoking the <code class="code">add</code> method after all form fields have been checked for validity. Before invoking <code class="code">add</code>, we first have to create (in the <code class="code">authorIdRefs</code> slot) a list of author ID references from the selected options of the multiple authors selection list, as shown in the following program listing:</p><pre class="programlisting"><span class="bold"><strong>handleSaveButtonClickEvent</strong></span>: function () {
+  const formEl = document.querySelector("section#Book-C &gt; form"),
+      <span class="bold"><strong>selAuthOptions</strong></span> = formEl.selectAuthors.selectedOptions;
+  const slots = {
+      isbn: formEl.isbn.value, 
+      title: formEl.title.value,
+      year: formEl.year.value,
+      <span class="bold"><strong>authorIdRefs</strong></span>: [],
+      publisher_id: formEl.selectPublisher.value
+  };
+  // validate all form controls and show error messages 
+  ...
+  // check the mandatory value constraint for authors
+  formEl.selectAuthors.setCustomValidity(
+    (selAuthOptions.length &gt; 0) ? "" : "No author selected!"
+  );
+  // save the input data only if all form fields are valid
+  if (formEl.checkValidity()) {
+    // construct a list of author ID references
+    for (let opt of <span class="bold"><strong>selAuthOptions</strong></span>) {
+      slots.authorIdRefs.push( opt.value);
+    }
+    Book.add( slots);
+  }
+}</pre><p>The <span class="italic">Update</span> use case is discussed in the next section.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1717"></a>5.3.&nbsp;Selecting associated objects in the <span class="italic">Update</span> use case</h3></div></div></div><p>Unfortunately, the multiple-<code class="code">select</code> control is not really usable for displaying and allowing to maintain the set of associated authors in realistic use cases where we have several hundreds or thousands of authors, because the way it renders the choice is visually too scattered. So we have to use a special <span class="italic"><span class="bold"><strong>multiple-choice widget</strong></span></span> that allows to add (and remove) objects to (and from) a list of associated objects, as discussed in <a class="xref" href="ch01s08.html" title="8.&nbsp;Rendering Reference Properties in the User Interface">Section&nbsp;8</a>. In order to show how this widget can replace the multiple-selection list discussed in the previous section, we use it now in the <span class="italic">Update</span> use case.</p><p>For allowing to maintain the set of authors associated with the currently edited book in the <span class="italic">Update</span> use case, a <span class="italic">multiple-choice widget</span> as shown in the HTML code below, is populated with the instances of the <code class="code">Author</code> class. </p><pre class="programlisting">&lt;section id="Book-U" class="UI-Page"&gt;
+  &lt;h1&gt;Public Library: Update a book record&lt;/h1&gt;
+  &lt;form&gt;
+    ...
+    &lt;div class="select-one"&gt;
+      &lt;label&gt;Publisher: &lt;select name="selectPublisher"&gt;&lt;/select&gt;&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="<span class="bold"><strong>widget</strong></span>"&gt;
+      &lt;label for="updBookSelectAuthors"&gt;Authors: &lt;/label&gt;
+      &lt;div class="<span class="bold"><strong>MultiSelectionWidget</strong></span>" id="updBookSelectAuthors"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    ...
+  &lt;/form&gt;
+&lt;/section&gt;</pre><p>The <span class="italic">Update</span> user interface is set up (in the <code class="code">setupUserInterface</code> procedure shown below) by populating the selection list for selecting the book to be updated with the help of the utility method <code class="code">fillSelectWithOptions</code>. The selection list for assigning a publisher and the multiple-choice widget for assigning the authors of a book are only populated (in <code class="code">handleSubmitButtonClickEvent</code>) when a book to be updated has been chosen.</p><pre class="programlisting">pl.v.books.update = {
+  <span class="bold"><strong>setupUserInterface</strong></span>: function () {
+    const formEl = document.querySelector("section#Book-U &gt; form"),
+        selectBookEl = formEl.selectBook,
+        saveButton = formEl.commit;
+    // set up the book selection list
+    util.<span class="bold"><strong>fillSelectWithOptions</strong></span>( selectBookEl, Book.instances,
+        "isbn", {displayProp:"title"});
+    selectBookEl.addEventListener("change", this.<span class="bold"><strong>handleBookSelectChangeEvent</strong></span>);
+    // add event listeners for responsive validation
+    ...
+    // define event handler for submit button click events    
+    saveButton.addEventListener("click", this.<span class="bold"><strong>handleSaveButtonClickEvent</strong></span>);
+    // handle neutralizing the submit event and resetting the form
+    formEl.addEventListener( 'submit', function (e) {
+      var authorsSelWidget = document.querySelector(
+              "section#Book-U &gt; form .MultiSelectionWidget");
+      e.preventDefault();
+      authorsSelWidget.innerHTML = "";
+      formEl.reset();
+    });
+    document.getElementById("Book-M").style.display = "none";
+    document.getElementById("Book-U").style.display = "block";
+    formEl.reset();
+  },</pre><p>When a book to be updated has been chosen, the form input fields <code class="code">isbn</code>, <code class="code">title</code> and <code class="code">year</code>, and the <code class="code">select</code> control for updating the publisher, are assigned corresponding values from the chosen book, and the associated authors selection widget is set up:</p><pre class="programlisting"><span class="bold"><strong>handleBookSelectChangeEvent</strong></span>: function () {
+  const formEl = document.querySelector("section#Book-U &gt; form"),
+      saveButton = formEl.commit,
+      selectAuthorsWidget = formEl.querySelector(".MultiChoiceWidget"),
+      selectPublisherEl = formEl.selectPublisher,
+      isbn = formEl.selectBook.value;
+  if (isbn !== "") {
+    let book = Book.instances[isbn];
+    formEl.isbn.value = book.isbn;
+    formEl.title.value = book.title;
+    formEl.year.value = book.year;
+    // set up the associated authors selection widget
+    util.<span class="bold"><strong>createMultipleChoiceWidget</strong></span>( selectAuthorsWidget, book.authors,
+        Author.instances, "authorId", "name", 1);  // minCard=1
+    // set up the associated publisher selection list
+    util.fillSelectWithOptions( selectPublisherEl, Publisher.instances, "name");
+    // assign associated publisher as the selected option to select element
+    if (book.publisher) formEl.selectPublisher.value = book.publisher.name;
+    saveButton.disabled = false;
+  } else {
+    formEl.reset();
+    formEl.selectPublisher.selectedIndex = 0;
+    selectAuthorsWidget.innerHTML = "";
+    saveButton.disabled = true;
+  }
+},</pre><p>When the user, after updating some values, finally clicks the save button, all form control values, including the value of the single-<code class="code">select</code> control for assigning a publisher, are copied to corresponding slots in a <code class="code">slots</code> record variable, which is used as the argument for invoking the <code class="code">update</code> method after all values have been checked for validity. Before invoking <code class="code">update</code>, a list of ID references to authors to be added, and another list of ID references to authors to be removed, is created (in the <code class="code">authorIdRefsToAdd</code> and <code class="code">authorIdRefsToRemove</code> slots) from the updates that have been recorded in the associated authors selection widget with the help of <code class="code">classList</code> values, as shown in the following program listing:</p><pre class="programlisting">handleSaveButtonClickEvent: function () {
+  const formEl = document.querySelector("section#Book-U &gt; form"),
+      selectBookEl = formEl.selectBook,
+      selectAuthorsWidget = formEl.querySelector(".MultiChoiceWidget"),
+      multiChoiceListEl = selectAuthorsWidget.firstElementChild;
+  const slots = { isbn: formEl.isbn.value, 
+        title: formEl.title.value,
+        year: formEl.year.value,
+        publisher_id: formEl.selectPublisher.value
+      };
+  // add event listeners for responsive validation
+  ...
+  // commit the update only if all form field values are valid
+  if (formEl.checkValidity()) {
+    // construct authorIdRefs-ToAdd/ToRemove lists from the association list
+    let authorIdRefsToAdd=[], authorIdRefsToRemove=[];
+    for (let mcListItemEl of multiChoiceListEl.children) {
+      if (mcListItemEl.classList.contains("removed")) {
+        authorIdRefsToRemove.push( mcListItemEl.getAttribute("data-value"));
+      }
+      if (mcListItemEl.classList.contains("added")) {
+        authorIdRefsToAdd.push( mcListItemEl.getAttribute("data-value"));
+      }
+    } 
+    // if the add/remove list is non-empty create a corresponding slot
+    if (authorIdRefsToRemove.length &gt; 0) {
+      slots.authorIdRefsToRemove = authorIdRefsToRemove;
+    }
+    if (authorIdRefsToAdd.length &gt; 0) {
+      slots.authorIdRefsToAdd = authorIdRefsToAdd;
+    }
+    Book.update( slots);
+    // update the book selection list's option element
+    selectBookEl.options[selectBookEl.selectedIndex].text = slots.title;
+  }
+}</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s04.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html"><img src="images/up.svg" alt="Up"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s06.html"><img src="images/next.svg" alt="Next"></a></td></tr><tr><td width="40%" align="left" valign="top">4.&nbsp;Code the Model&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html"><img src="images/home.svg" alt="Home"></a></td><td width="40%" align="right" valign="top">&nbsp;6.&nbsp;How to Run the App and Get the Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp2/ch03s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:11 GMT -->
+</html>

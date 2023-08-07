@@ -1,0 +1,45 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch14.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;14.&nbsp;Derived Properties</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="pt04.html" title="Part&nbsp;IV.&nbsp;Special Datatypes and Derived Attributes"><link rel="prev" href="ch13s06.html" title="6.&nbsp;Complex Data Types"><link rel="next" href="ch14s02.html" title="2.&nbsp;Materialized Derived Properties"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;14.&nbsp;Derived Properties</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13s06.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;IV.&nbsp;Special Datatypes and Derived Attributes</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="d5e8391"></a>Chapter&nbsp;14.&nbsp;Derived Properties</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch14.html#d5e8404">1. Virtual Derived Properties</a></span></dt><dt><span class="section"><a href="ch14s02.html">2. Materialized Derived Properties</a></span></dt><dt><span class="section"><a href="ch14s03.html">3. Dealing with Derived Properties in the User Interface</a></span></dt></dl></div><p>In certain cases, a property may have the only purpose to provide some
+  information that is computed from other information items. For such a
+  <span class="italic">derived property</span>, there is no point to
+  allow the user entering a value for it. Examples of derived properties of a
+  class <code class="code">Person</code> are the attributes <code class="code">age</code> and
+  <code class="code">initials</code>. The value of <code class="code">age</code> is computed on demand
+  from the value of the attribute <code class="code">dateOfBirth</code> and the current
+  year. The value of <code class="code">initials</code> is computed from the values of the
+  attributes <code class="code">firstName</code> and <code class="code">lastName</code>.</p><p>Unlike in the case of standard properties, the value of a derived
+  property cannot be set by the user. Rather, it is computed from the values
+  of other properties. Consequently, it does not have a setter, but only a
+  getter method.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8404"></a>1.&nbsp;Virtual Derived Properties</h2></div></div></div><div class="figure-float" style="float: right;"><div class="figure"><a name="figPersonWithVirtualAttr"></a><p class="title"><b>Figure&nbsp;14.1.&nbsp;An example of a <span class="italic">virtual</span>
+      derived attribute in a class diagram.</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../fig/Person-withVirtualAttr.html" width="300" alt="An example of a virtual derived attribute in a class diagram."></td></tr></table></div></div></div><br class="figure-break"></div><p>When the value of a derived property is computed on demand, only, by its getter method
+   performing its computation, the derived property is called <span class="italic">virtual</span>. The value of such a virtual derived property is not stored. When using
+   JavaScript's get/set methods in an ES6 <code class="code">class</code><a class="indexterm" name="d5e8415"></a> definition, this means that we only define a <code class="code">get</code><a class="indexterm" name="d5e8420"></a> method for <code class="code">age</code>, but no internal property like <code class="code">_age</code>, and no
+    <code class="code">set</code>
+   method:</p><pre class="programlisting">var <span class="bold"><strong>Person</strong></span> = class {
+  constructor (slots) {
+    // assign default values to mandatory properties
+    this._name = "";  // string (non-empty)
+    this._dateOfBirth = 0;  // Date
+    // is constructor invoked with a non-empty slots argument?
+    if (typeof slots === "object" &amp;&amp; 
+        Object.keys( slots).length &gt; 0) {
+      // assign properties by invoking implicit setters
+      this.name = slots.name;
+      <span class="bold"><strong>this.dateOfBirth = slots.dateOfBirth</strong></span>;
+    }
+  }
+  get name () {return this._name;}
+  set name (n) {this._name = n;}
+  get dateOfBirth () {return this._dateOfBirth;}
+  set dateOfBirth (d) {this._dateOfBirth = d;}
+  <span class="bold"><strong>get age</strong></span> () {
+    var today = new Date();
+    return today.getFullYear() - this.dateOfBirth.getFullYear();
+  }
+}</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13s06.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.&nbsp;Complex Data Types&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Materialized Derived Properties</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch14.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+</html>

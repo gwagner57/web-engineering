@@ -1,0 +1,31 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch07s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;Add Two Library Files</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web App"><link rel="prev" href="ch07s02.html" title="2.&nbsp;Make a JavaScript Class Model"><link rel="next" href="ch07s04.html" title="4.&nbsp;The Meta-Class Enumeration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;Add Two Library Files</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web
+  App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4720"></a>3.&nbsp;Add Two Library Files</h2></div></div></div><p>The folder structure of our enumeration app extends the structure of
+    the validation app by adding the library files
+    <code class="filename">browserShims.js</code> and
+    <code class="filename">Enumeration.mjs</code> in the <code class="filename">lib</code>
+    folder. Thus, we get the following folder structure with four files in the
+    <code class="filename">lib</code> folder: </p><pre class="programlisting">publicLibrary
+  css
+  lib
+    <span class="bold"><strong>browserShims.js</strong></span>
+    errorTypes.mjs
+    util.mjs
+    <span class="bold"><strong>Enumeration.mjs</strong></span>
+  src
+  index.html</pre><p>In the <code class="filename">browserShims.js</code> file, we define a few
+    extensions of the built-in JS object <code class="code">Array</code>, representing a
+    class, by adding two class-level functions (<code class="code">max</code> and
+    <code class="code">min</code>), and two instance-level functions (<code class="code">clone</code>
+    and <code class="code">isEqualTo</code>). These helper functions are used, e.g., in
+    <code class="filename">v/updateBook.mjs</code>.</p><p>In the <code class="filename">Enumeration.js</code> file, discussed in the
+    next section, we define a meta-class <code class="code">Enumeration</code> for creating
+    enumerations as instances of this meta-class with the help of statements
+    like <code class="code">GenderEL = new Enumeration(["male", "female",
+    "other"])</code>.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Make a JavaScript Class Model&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;The Meta-Class <code class="code">Enumeration</code></td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch07s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:30 GMT -->
+</html>

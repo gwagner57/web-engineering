@@ -1,0 +1,39 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04s11.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>11.&nbsp;Possible Variations and Extensions</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps"><link rel="prev" href="ch04s10.html" title="10.&nbsp;Run the App and Get the Code"><link rel="next" href="ch04s12.html" title="12.&nbsp;Points of Attention"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.&nbsp;Possible Variations and Extensions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s10.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s12.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e3421"></a>11.&nbsp;Possible Variations and Extensions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e3423"></a>11.1.&nbsp;Using resource URLs</h3></div></div></div><p>Whenever an app provides public information about entities, such
+      as the books available in a public library, it is desirable to publish
+      this information with the help of self-descriptive resource URLs, such
+      as <code class="code">http://publiclibrary.norfolk.city/books/006251587X</code>,
+      which would be the resource URL for retrieving information about the
+      book "Weaving the Web" available in the public library of Norfolk.
+      However, resource URLs are not supported by JSF. In the Java world, we
+      would have to use JAX-RS, instead of JSF, for programming a web API with
+      resource URLs. But this would imply that we need to take care of the
+      front-end UI in a different way, since JAX-RS is a pure back-end API,
+      not providing any support for building user interfaces. A natural option
+      would be to use a JavaScript front-end framework, such as BackboneJS or
+      ReactJS, for rendering the UI.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e3427"></a>11.2.&nbsp;Using an alternative DBMS</h3></div></div></div><p>Instead of <span class="italic">MySQL</span>, one can use
+      various other database management systems for persistent storage. The
+      following four steps are required to specify the used DBMS (only one
+      DBMS at a time is possible):</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Configure TomEE so it uses the corresponding resource for
+            your application. For a list of resource configuration examples
+            used for common DBMS's, check <a class="link" href="http://tomee.apache.org/common-datasource-configurations.html" target="_top">Common
+            DataSource Configurations</a>. For example, if <span class="italic">PostgreSQL</span> was chosen as DBMS, then edit
+            the <code class="filename">conf/tomee.xml</code> file and add the following
+            code:</p><pre class="programlisting">&lt;Resource id="application-persistence-unit-name" type="DataSource"&gt;
+  JdbcDriver   org.postgresql.Driver
+  JdbcUrl  jdbc:postgresql://host/database-name
+  UserName     dbms-username
+  Password     user-password
+&lt;/Resource&gt;</pre></li><li class="listitem"><p>Copy the <span class="italic">jar</span> file
+            corresponding to the DBMS driver implementation to the
+            <code class="filename">lib</code> folder. After this, the TomEE server
+            needs to be restarted.</p></li><li class="listitem"><p>Install the DBMS, if not already installed. Installation
+            instructions are usually available on the corresponding DBMS web
+            page.</p></li><li class="listitem"><p>Create the corresponding DBMS user and database to be used
+            for your application.</p></li></ul></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s10.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s12.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">10.&nbsp;Run the App and Get the Code&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;12.&nbsp;Points of Attention</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04s11.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+</html>

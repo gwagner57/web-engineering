@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xml:base="https://web-engineering.info"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+ <title>gwagner&#039;s blog</title>
+ <link>https://web-engineering.info/blog/2</link>
+ <description>This is just test content of &quot;Feed description&quot;</description>
+ <language>en</language>
+<item>
+ <title>CRUD Operations with IndexedDB - Part 1: Creating and Clearing a Database</title>
+ <link>https://web-engineering.info/node/74</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;In this article, we show how to create and clear an IndexedDB database keeping all code in a single HTML file. Creating an&amp;nbsp;IndexedDB database means first creating an empty database, and then adding records to its empty tables (or &quot;object stores&quot;). In Part 2, we will explain how to retrieve, update and delete IndexedDB records, such that we get the full collection of CRUD operations: Create, Update, Retrieve and Delete.&lt;/p&gt;
+
+&lt;p&gt;This is not an introduction to IndexedDB, but rather a guide how to use it for CRUD operations in a front-end app. We assume that the reader has already done an introductory tutorial such as &lt;a href=&quot;https://developers.google.com/web/ilt/pwa/working-with-indexeddb&quot;&gt;Working with IndexedDB&lt;/a&gt;. Recall that an IndexedDB database is a set of object tables (or &quot;object stores&quot;) where each table row, or record, has a standard ID (or &quot;primary key&quot;) property defined with &lt;code&gt;keyPath&lt;/code&gt; when creating the database.&lt;/p&gt;
+
+&lt;p&gt;As recommended in &lt;a href=&quot;https://developers.google.com/web/ilt/pwa/working-with-indexeddb&quot;&gt;Working with IndexedDB&lt;/a&gt;, we use the &lt;a href=&quot;https://github.com/jakearchibald/idb&quot;&gt;IndexedDB Promised&lt;/a&gt; library, which wraps the &lt;code&gt;indexedDB&lt;/code&gt; API with ES6-Promise/await-based methods for obtaining more readable and maintainable code in our IndexedDB access methods. Download it into your project folder such that it can be included with &lt;code&gt;&amp;lt;script src=&quot;idb.js&quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt; or load it from the CDN &lt;a href=&quot;https://unpkg.com/idb/build/iife/index-min.js&quot;&gt;https://unpkg.com/idb/build/iife/index-min.js&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;We extend the &quot;idb&quot; namespace variable by adding three database management methods:&lt;/p&gt;
+
+&lt;dl&gt;
+	&lt;dt&gt;idb.&lt;strong&gt;createEmptyDB&lt;/strong&gt;( &lt;em&gt;tableNames&lt;/em&gt;)&lt;/dt&gt;
+	&lt;dd&gt;Checks if there is already a database with the given name, and, if not, creates one with an empty table (or &quot;object store&quot;) for each of the table names provided.&lt;/dd&gt;
+	&lt;dt&gt;idb.&lt;strong&gt;addRecords&lt;/strong&gt;( &lt;em&gt;tableName&lt;/em&gt;, &lt;em&gt;records&lt;/em&gt;)&lt;/dt&gt;
+	&lt;dd&gt;Adds a list of records to the given table.&lt;/dd&gt;
+	&lt;dt&gt;idb.&lt;strong&gt;clearDB&lt;/strong&gt;()&lt;/dt&gt;
+	&lt;dd&gt;Clears the contents of all tables.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;We start with looking at the code of the &lt;code&gt;createEmptyDB&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&amp;gt;
+&amp;lt;head&amp;gt;
+ &amp;lt;meta charset=&quot;UTF-8&quot; /&amp;gt;
+ &amp;lt;title&amp;gt;CRUD Operations with IndexedDB - Part 1&amp;lt;/title&amp;gt;
+ &amp;lt;!-- Load the IndexedDB Promised library --&amp;gt;
+ &amp;lt;script src=&quot;idb.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+ &amp;lt;script&amp;gt;
+  const dbName = &quot;test&quot;;
+  /*******************************************************************
+   * Create an empty IndexedDB
+   *******************************************************************/
+  idb.&lt;strong&gt;createEmptyDB &lt;/strong&gt;= async function (dbName, tableNames) {
+   idb.db = await idb.openDB( dbName, 1, {
+    upgrade(db) {
+     for (const tn of tableNames) {
+      if (!db.objectStoreNames.contains( tn)) {
+       db.createObjectStore( tn, {keyPath:&quot;id&quot;});
+      }
+     }
+    }
+   });
+  };
+&lt;/pre&gt;
+
+&lt;p&gt;We define a global variable &lt;code&gt;dbName&lt;/code&gt; as the name of our IndexedDB database. The &lt;code&gt;idb.createEmptyDB&lt;/code&gt; method takes a list of table names and tries to open the database (with version number 1). If this fails, that is, if the database does not yet exist, the function with the paramter &lt;code&gt;upgradeDb&lt;/code&gt; will be called, taking care of creating an empty object store with a standard ID property &quot;id&quot; for each of the table names provided.&lt;/p&gt;
+
+&lt;p&gt;For adding a list of records to a&amp;nbsp;table (= object store) in one (transactional) step, we invoke the IndexedDB &lt;code&gt;add&lt;/code&gt; method on the corresponding object store for each of them in parallel. Since each &lt;code&gt;add&lt;/code&gt; invocation returns a promise object, we create a list of promise objects by mapping the &lt;code&gt;records&lt;/code&gt; array to an array of &lt;code&gt;add&lt;/code&gt; invocation expressions and use the &lt;code&gt;Promise.all&lt;/code&gt; method for resolving this list&amp;nbsp;of promises only when all of them have resolved:&lt;/p&gt;
+
+&lt;pre&gt;
+  idb.&lt;strong&gt;addRecords &lt;/strong&gt;= async function (tableName, records) {
+    // create a transaction involving only the table with the provided name
+    const tx = idb.db.transaction( tableName, &quot;readwrite&quot;);
+    // create a list of add invocation expressions
+    const addInvocationExpressions = records.map( r =&amp;gt; tx.store.add( r));
+    // invoke all of them in parallel and wait for their completion
+    await Promise.all( addInvocationExpressions);
+    // wait for the completion of the transaction tx
+    await tx.done;
+  };
+&lt;/pre&gt;
+
+&lt;p&gt;For clearing the entire database contents, we need to clear all object tables/stores by invoking the IndexedDB &lt;code&gt;clear&lt;/code&gt; method on them. Again, we create a list of promises by mapping the &lt;code&gt;idbCx.objectStoreNames&lt;/code&gt; collection to an array of &lt;code&gt;clear&lt;/code&gt; invocation return values and use the &lt;code&gt;Promise.all&lt;/code&gt; method for resolving this list only when all of them have resolved:&lt;/p&gt;
+
+&lt;pre&gt;
+  idb.&lt;strong&gt;clearDB &lt;/strong&gt;= async function (dbName) {
+    // only open DB and store a connection reference if not yet done
+    idb.db ??= await idb.openDB( dbName);
+    // create a transaction involving all tables of the database
+    const tx = idb.db.transaction( idb.db.objectStoreNames, &quot;readwrite&quot;);
+    // create a list of clear invocation expressions
+    const clearInvocationExpressions =
+        Array.from( idb.db.objectStoreNames, osName =&amp;gt; tx.objectStore( osName).clear());
+    // invoke all of them in parallel and wait for their completion
+    await Promise.all( clearInvocationExpressions);
+    // wait for the completion of the transaction tx
+    await tx.done;
+  };&lt;/pre&gt;
+
+&lt;p&gt;We also define a &lt;code&gt;createTestData&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;
+  async function &lt;strong&gt;createTestData&lt;/strong&gt; () {
+   await idb.&lt;strong&gt;addRecords&lt;/strong&gt;( &quot;books&quot;, [
+     {id: &quot;006251587X&quot;, title: &quot;Weaving the Web&quot;, year: 2000, edition: 2},
+     {id: &quot;0465026567&quot;, title: &quot;Gödel, Escher, Bach&quot;, year: 1999},
+     {id: &quot;0465030793&quot;, title: &quot;I Am a Strange Loop&quot;, year: 2008}
+   ]);
+  }&lt;/pre&gt;
+
+&lt;p&gt;Finally, we define an immediately invoked function expression (IIFE) for creating an empty database with name &quot;test&quot; having an empty table &quot;books&quot; and HTML buttons for invoking the&amp;nbsp;&lt;code&gt;createTestData&lt;/code&gt; method and for invoking the &lt;code&gt;clearDB&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;
+  (async function () {
+   await idb.createEmptyDB(&quot;test&quot;,[&quot;books&quot;]);
+  })();
+  &amp;lt;/script&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+ &amp;lt;h1&amp;gt;Working with IndexedDB&amp;lt;/h1&amp;gt;
+ &amp;lt;h2&amp;gt;Creating and Clearing a Database&amp;lt;/h2&amp;gt;
+  &amp;lt;ul&amp;gt;
+    &amp;lt;li&amp;gt;&amp;lt;button type=&quot;button&quot; onclick=&quot;createTestData()&quot;&amp;gt;Generate&amp;lt;/button&amp;gt; test data&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;&amp;lt;button type=&quot;button&quot; onclick=&quot;idb.clearDB()&quot;&amp;gt;Clear&amp;lt;/button&amp;gt; database tables&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Now it&#039;s time to try this out. Copy and paste all 5 HTML/JS code fragments from this article to a text editor and save it as an HTML file. Then, open it in a browser that allows accessing IndexedDB databases via &lt;code&gt;file&lt;/code&gt; URLs (see the note below). Otherwise, open it via a (possibly local) web server. You can inspect the existence and contents of IndexedDB databases with the help your browser&#039;s developer tools (e.g. F12 or with Shift-Ctrl-I). Try out the following steps:&lt;/p&gt;
+
+&lt;ol&gt;
+	&lt;li&gt;Check if an IndexedDB database with name &quot;testDB&quot; and an empty &quot;books&quot; table has been created.&lt;/li&gt;
+	&lt;li&gt;Press the button&lt;button type=&quot;button&quot;&gt;Generate&lt;/button&gt;.&lt;/li&gt;
+	&lt;li&gt;Then check if the &quot;books&quot; table has been populated with 3 book records.&lt;/li&gt;
+	&lt;li&gt;Press the button&lt;button type=&quot;button&quot;&gt;Generate&lt;/button&gt; again and observe a constraint validation error (in the console) due to an attempt to create another record with the same ID as an already stored one.&lt;/li&gt;
+	&lt;li&gt;Press the button&lt;button type=&quot;button&quot;&gt;Clear&lt;/button&gt;.&lt;/li&gt;
+	&lt;li&gt;Then check if the &quot;books&quot; table has been cleared.&lt;/li&gt;
+	&lt;li&gt;Now you could create the test data again.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote style=&quot;font-size:smaller&quot;&gt;
+&lt;p&gt;&lt;strong&gt;Attention&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;While you can directly run IndexedDB JS code from a (local or remote) website (e.g., from a GitHub Pages website), you can only run it from your local file system after changing your browser&#039;s default configuration.&lt;/p&gt;
+
+&lt;p&gt;For FireFox, you have to set the configuration property &lt;code&gt;security.fileuri.strict_origin_policy&lt;/code&gt; to &lt;i&gt;false&lt;/i&gt; by first entering &lt;code&gt;about:config&lt;/code&gt; in the browser&#039;s web address bar and then entering this property name.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/55&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;IndexedDB&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/74&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;CRUD Operations with IndexedDB - Part 1: Creating and Clearing a Database&quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/74&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/74&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/74&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Mon, 12 Jul 2021 15:02:47 +0000</pubDate>
+ <dc:creator>gwagner</dc:creator>
+ <guid isPermaLink="false">74 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/74#comments</comments>
+</item>
+<item>
+ <title>Asynchronous Programming in JavaScript</title>
+ <link>https://web-engineering.info/node/83</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;In programming, we often have the situation that, when calling a possibly time-consuming input/output (I/O) operation (or any long-running operation, e.g., for performing a complex computation), the program execution has to wait for its result being returned before it can go on. Calling such an operation and waiting for its result, while the main program&#039;s further execution (and its entire thread) is blocked, represents a &lt;em&gt;synchronous&lt;/em&gt; operation call. The implied waiting/blocking poses a problem for a JS program that is being executed in a browser thread since during the waiting time the user interface (in a browser tab) would be frozen, which is not acceptable from a usability point of view and therefore not accepted by browsers.&lt;/p&gt;
+
+&lt;p&gt;Consequently, in JavaScript, it is not possible to call an I/O operation, e.g., for fetching data from a webpage (with the built-in &lt;code&gt;XMLHttpRequest&lt;/code&gt; or &lt;code&gt;fetch&lt;/code&gt; API) or for accessing a remote database (via HTTP request-response messaging) synchronously. These types of operations have to be performed in an &lt;em&gt;&lt;b&gt;asynchronous&lt;/b&gt;&lt;/em&gt; (non-blocking) manner, instead.&lt;/p&gt;
+
+&lt;p&gt;Asynchronous programming concepts in JavaScript have undergone an evolution from &lt;em&gt;callbacks&lt;/em&gt; to &lt;em&gt;promises&lt;/em&gt; to &lt;em&gt;generators&lt;/em&gt; (coroutines) and, most recently, to &lt;em&gt;asynchronous procedure calls&lt;/em&gt; with &lt;code&gt;await&lt;/code&gt; procedure invocation expressions and asynchronous procedure definitions with &lt;code&gt;async&lt;/code&gt;. Each evolution step has made asynchronous programming a little bit easier for those who have taken the effort to get familiar with it.&lt;/p&gt;
+
+&lt;p&gt;Due to this evolution, operations of older JS input/output APIs available in the form of built-in objects, like &lt;code&gt;XMLHttpRequest&lt;/code&gt; for HTTP messaging or &lt;code&gt;indexedDB&lt;/code&gt; for object database management, work with callbacks, while newer APIs, like &lt;code&gt;fetch&lt;/code&gt; for HTTP messaging, work with promises and can also be invoked with &lt;code&gt;await&lt;/code&gt;.&lt;/p&gt;
+
+&lt;section&gt;
+&lt;h2&gt;Callbacks&lt;/h2&gt;
+
+&lt;p&gt;A simple asynchronous programming approach consists of defining a procedure that is to be executed as soon as the asynchronous operation completes. This allows to continue the program execution after the invocation of the asynchronous operation, however, without assuming that the operation result is available. But how does the execution environment know, which procedure to call after completing the asynchronous operation?&lt;/p&gt;
+
+&lt;p&gt;In JS, we can pass a JS function as an argument in the invocation of the asynchronous operation. A &lt;em&gt;callback&lt;/em&gt; is such a JS function.&lt;/p&gt;
+
+&lt;p&gt;Consider the following example. An external JS file can be dynamically loaded (in the context of an already loaded webpage with associated JS code) by (1) programmatically creating an HTML &lt;code&gt;script&lt;/code&gt; element DOM object with the file&#039;s URL as the value of the script&#039;s &lt;code&gt;src&lt;/code&gt; attribute, and (2) inserting the newly created &lt;code&gt;script&lt;/code&gt; element after the last child node of the document&#039;s &lt;code&gt;head&lt;/code&gt; element:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; &lt;b&gt;loadJsFile&lt;/b&gt;( fileURL) {
+  &lt;span class=&quot;hl-keyword&quot;&gt;const&lt;/span&gt; scriptEl = document.createElement(&lt;span class=&quot;hl-string&quot;&gt;&quot;script&quot;&lt;/span&gt;);
+  script.src = fileURL;
+  document.head.&lt;b&gt;append&lt;/b&gt;( scriptEl);
+}&lt;/pre&gt;
+
+&lt;p&gt;When the new script element is inserted into the document&#039;s DOM, e.g., with the help of the asynchronous DOM operation &lt;code&gt;append&lt;/code&gt; (at the end of the &lt;code&gt;loadJsFile&lt;/code&gt; procedure), the browser will load the JS file and then parse and execute it, which will take some time. Let&#039;s assume that we have a JS code file containing the definition of a function &lt;code&gt;addTwoNumbers&lt;/code&gt; that does what its name says and we first load the file and then invoke the function in the following way:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;);
+console.log( addTwoNumbers( &lt;span class=&quot;hl-number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;));&lt;/pre&gt;
+
+&lt;p&gt;This wouldn&#039;t work. We would get an error message instead of the sum of 1 and 2, since the intended result of the first statement, the availability of the &lt;code&gt;addTwoNumbers&lt;/code&gt; function, is not (yet) obtained when the second statement is executed.&lt;/p&gt;
+
+&lt;p&gt;We can fix this by adding a callback procedure as a second parameter to the &lt;code&gt;loadJsFile&lt;/code&gt; procedure and assign it as an event handler of the JS file &lt;code&gt;load&lt;/code&gt; event :&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; loadJsFile( fileURL, &lt;b&gt;callback&lt;/b&gt;) {
+  &lt;span class=&quot;hl-keyword&quot;&gt;const&lt;/span&gt; scriptEl = document.createElement(&lt;span class=&quot;hl-string&quot;&gt;&quot;script&quot;&lt;/span&gt;);
+  script.src = fileURL;
+  script.&lt;b&gt;onload&lt;/b&gt; = &lt;b&gt;callback&lt;/b&gt;;
+  document.head.append( scriptEl);
+}&lt;/pre&gt;
+
+&lt;p&gt;Now when calling &lt;code&gt;loadJsFile&lt;/code&gt; we can provide the code to be executed after loading the &quot;addTwoNumbers.js&quot; file in an anonymous callback function:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;, &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {
+  console.log( addTwoNumbers( &lt;span class=&quot;hl-number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;));  &lt;span class=&quot;hl-comment&quot;&gt;// results in 3&lt;/span&gt;
+]);&lt;/pre&gt;
+
+&lt;p&gt;Since the loading of the JS file can fail, we should better add some error handling for this case by defining an event handler for the &lt;code&gt;error&lt;/code&gt; event. We can handle possible errors within the &lt;i&gt;callback&lt;/i&gt; procedure by calling it with an error argument:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; loadJsFile( fileURL, &lt;b&gt;callback&lt;/b&gt;) {
+  &lt;span class=&quot;hl-keyword&quot;&gt;const&lt;/span&gt; scriptEl = document.createElement(&lt;span class=&quot;hl-string&quot;&gt;&quot;script&quot;&lt;/span&gt;);
+  script.src = fileURL;
+  script.&lt;b&gt;onload&lt;/b&gt; = &lt;b&gt;callback&lt;/b&gt;;
+  script.&lt;b&gt;onerror&lt;/b&gt; = &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {
+      &lt;b&gt;callback&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;hl-keyword&quot;&gt;Error&lt;/span&gt;(`Script load error &lt;span class=&quot;hl-keyword&quot;&gt;for&lt;/span&gt; ${fileURL}`));
+  };
+  document.head.append( scriptEl);
+}&lt;/pre&gt;
+
+&lt;p&gt;Now we call &lt;code&gt;loadJsFile&lt;/code&gt; with an anonymous callback function having an &lt;code&gt;error&lt;/code&gt; parameter:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;, &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; (error) {
+  &lt;span class=&quot;hl-keyword&quot;&gt;if&lt;/span&gt; (!error) console.log( addTwoNumbers(&lt;span class=&quot;hl-number&quot;&gt;1&lt;/span&gt;,&lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;));  &lt;span class=&quot;hl-comment&quot;&gt;// results in 3&lt;/span&gt;
+  &lt;span class=&quot;hl-keyword&quot;&gt;else&lt;/span&gt; console.log( error);
+]);&lt;/pre&gt;
+
+&lt;p&gt;Callbacks work well as an asynchronous programming approach in simple cases. But when it is necessary to perform several asynchronous operations in a sequence, one quickly ends up in a &quot;callback hell&quot;, a term that refers to the resulting deeply nested code structures that are hard to read and maintain.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section&gt;
+&lt;h2&gt;Promises&lt;/h2&gt;
+
+&lt;p&gt;A &lt;em&gt;promise&lt;/em&gt; (also called &lt;em&gt;future&lt;/em&gt; in some programming languages, like in Python) is a special object that provides the deferred result of an asynchronous operation to the code that waits for this result. A promise object is initially in the state &lt;em&gt;pending&lt;/em&gt;. If the asynchronous operation succeeds (in the case when the &lt;code&gt;resolve&lt;/code&gt; function is called with an argument providing the result value), the promise state is changed from &lt;em&gt;pending&lt;/em&gt; to &lt;em&gt;fulfilled&lt;/em&gt;. If it fails (in the case when the &lt;code&gt;reject&lt;/code&gt; function is called with an argument providing the error), the promise state is changed from &lt;em&gt;pending&lt;/em&gt; to &lt;em&gt;rejected&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;An example of a built-in asynchronous operation that returns a promise is &lt;code&gt;import&lt;/code&gt; for dynamically loading JS code files (and ES6 modules). We can use it instead of the user-defined &lt;code&gt;loadJsFile&lt;/code&gt; procedure discussed in the previous section for loading the &lt;kbd&gt;addTwoNumbers.js&lt;/kbd&gt; file and subsequently executing code that uses the &lt;code&gt;addTwoNumbers&lt;/code&gt; function (or reporting an error if the loading failed):&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;span class=&quot;hl-keyword&quot;&gt;import&lt;/span&gt;(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;)
+.&lt;b&gt;then&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {
+  console.log( addTwoNumbers( &lt;span class=&quot;hl-number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;));
+})
+.&lt;b&gt;catch&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; (error) {
+  console.log( error);
+});&lt;/pre&gt;
+
+&lt;p&gt;This example code shows that on the promise object returned by &lt;code&gt;import&lt;/code&gt; we can call the predefined functions &lt;code&gt;then&lt;/code&gt; and &lt;code&gt;catch&lt;/code&gt;:&lt;/p&gt;
+
+&lt;dl&gt;
+	&lt;dt&gt;&lt;code&gt;then&lt;/code&gt;&lt;/dt&gt;
+	&lt;dd&gt;for continuing the execution only when the &lt;code&gt;import&lt;/code&gt; operation is completed with a &lt;em&gt;fulfilled&lt;/em&gt; promise, and&lt;/dd&gt;
+	&lt;dt&gt;&lt;code&gt;catch&lt;/code&gt;&lt;/dt&gt;
+	&lt;dd&gt;for processing the error result of a &lt;em&gt;rejected&lt;/em&gt; promise.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;The general approach of &lt;em&gt;asynchronous programming with promises&lt;/em&gt; requires each asynchronous operation to return a promise object that typically provides either a result value, when the promise is fulfilled, or an error value, when the promise is rejected. For user-defined asynchronous procedures, this means that they have to create a promise as their return value, as shown in the promise-valued &lt;code&gt;loadJsFile&lt;/code&gt; function presented below.&lt;/p&gt;
+
+&lt;p&gt;A promise object can be created with the help of the &lt;code&gt;Promise&lt;/code&gt; constructor by providing an anonymous function expression as the argument of the &lt;code&gt;Promise&lt;/code&gt; constructor invocation (with two parameters &lt;code&gt;resolve&lt;/code&gt; and &lt;code&gt;reject&lt;/code&gt; representing JS functions). We do this in the following example of a promise-valued &lt;code&gt;loadJsFile&lt;/code&gt; function, which is a variant of the previously discussed callback-based &lt;code&gt;loadJsFile&lt;/code&gt; procedure:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; &lt;b&gt;loadJsFile&lt;/b&gt;( fileURL) {
+  &lt;span class=&quot;hl-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hl-keyword&quot;&gt;new&lt;/span&gt; &lt;b&gt;Promise&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; (&lt;b&gt;resolve&lt;/b&gt;, &lt;b&gt;reject&lt;/b&gt;) {
+    &lt;span class=&quot;hl-keyword&quot;&gt;const&lt;/span&gt; scriptEl = document.createElement(&lt;span class=&quot;hl-string&quot;&gt;&quot;script&quot;&lt;/span&gt;);
+    scriptEl.src = fileURL;
+    scriptEl.on&lt;b&gt;load&lt;/b&gt; = &lt;b&gt;resolve&lt;/b&gt;;
+    scriptEl.on&lt;b&gt;error&lt;/b&gt; = &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {&lt;b&gt;
+        reject&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;hl-keyword&quot;&gt;Error&lt;/span&gt;(`Script load error &lt;span class=&quot;hl-keyword&quot;&gt;for&lt;/span&gt; ${fileURL}`));
+    };
+    document.head.append( scriptEl);
+  });
+}&lt;/pre&gt;
+
+&lt;p&gt;This new version of the asynchronous &lt;code&gt;loadJsFile&lt;/code&gt; operation is used in the following way:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;)
+.&lt;b&gt;then&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {
+  console.log( addTwoNumbers( &lt;span class=&quot;hl-number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;));
+})
+.&lt;b&gt;catch&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; (error) {
+  console.log( error);
+});&lt;/pre&gt;
+
+&lt;p&gt;We can see that even the syntax of a simple promise-valued function call with &lt;code&gt;then&lt;/code&gt; and &lt;code&gt;catch&lt;/code&gt; is more clear than the syntax of a callback-based asynchronous procedure call. This advantage is even more significant when it comes to chaining asynchronous procedure calls, as in the following example where we first sequentially load three JS files and then invoke their functions:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;)
+.&lt;b&gt;then&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {
+  &lt;span class=&quot;hl-keyword&quot;&gt;return&lt;/span&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;multiplyBy3.js&quot;&lt;/span&gt;);})
+.&lt;b&gt;then&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {
+  &lt;span class=&quot;hl-keyword&quot;&gt;return&lt;/span&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;decrementBy2.js&quot;&lt;/span&gt;);})
+.&lt;b&gt;then&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {
+  console.log( decrementBy2( multiplyBy3( addTwoNumbers(&lt;span class=&quot;hl-number&quot;&gt;1&lt;/span&gt;,&lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;))));})
+.&lt;b&gt;catch&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; (error) {
+  console.log( error);
+});&lt;/pre&gt;
+
+&lt;p&gt;Notice that for executing a sequence of asynchronous operations with &lt;code&gt;then&lt;/code&gt;, we need to make sure that each &lt;code&gt;then&lt;/code&gt;-function returns a promise.&lt;/p&gt;
+
+&lt;p&gt;As an alternative to the sequential execution of asynchronous operations, we may also execute them &lt;strong&gt;in parallel&lt;/strong&gt; with &lt;code&gt;Promise.all&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;b&gt;Promise.all&lt;/b&gt;([ loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;),
+  loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;multiplyBy3.js&quot;&lt;/span&gt;),
+  loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;decrementBy2.js&quot;&lt;/span&gt;)
+])
+.&lt;b&gt;then&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; () {
+  console.log( decrementBy2( multiplyBy3( addTwoNumbers(&lt;span class=&quot;hl-number&quot;&gt;1&lt;/span&gt;,&lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;))));
+})
+.&lt;b&gt;catch&lt;/b&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; (error) {console.log( error);});&lt;/pre&gt;
+
+&lt;p&gt;Unlike &lt;code&gt;loadJsFile&lt;/code&gt;, which simply completes with a side effect (the loading of JS code), but without a result value being returned, a typical asynchronous operation returns a promise object that provides either a result value, when the promise is fulfilled, or an error value, when the promise is rejected.&lt;/p&gt;
+
+&lt;p&gt;Let&#039;s consider another example, where we have asynchronous operations with result values. The JS built-in &lt;code&gt;fetch&lt;/code&gt; operation allows retrieving the contents of a remote resource file via sending HTTP request messages in two steps:&lt;/p&gt;
+
+&lt;ol&gt;
+	&lt;li&gt;In the first step, it returns a promise that resolves with a &lt;code&gt;response&lt;/code&gt; object as its result value containing the HTTP header information retrieved.&lt;/li&gt;
+	&lt;li&gt;Then, invoking the &lt;code&gt;text()&lt;/code&gt; or the &lt;code&gt;json()&lt;/code&gt; function on the previously retrieved &lt;code&gt;response&lt;/code&gt; object returns a promise that resolves to the HTTP response message&#039;s body (in the form of a string or a JSON object) when it is retrieved from the remote server.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In such a case, when we chain two or more asynchronous operation calls with result values, each successor call can be expressed as a transformation from the previous result to a new result using arrow functions as shown in line 2 of the following example:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;b&gt;fetch&lt;/b&gt;(&lt;span class=&quot;hl-string&quot;&gt;&quot;user1.json&quot;&lt;/span&gt;)
+.then( response =&amp;gt; response.&lt;b&gt;json&lt;/b&gt;())
+.then( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; (user1) {alert( user1.name);})
+.&lt;span class=&quot;hl-keyword&quot;&gt;catch&lt;/span&gt;( &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; (error) {console.log( error);});&lt;/pre&gt;
+
+&lt;p&gt;Notice that the text file &quot;user1.json&quot; is assumed to contain a JSON object describing a particular user with a &lt;i&gt;name&lt;/i&gt; field. This JSON object is retrieved with the arrow function expression in line 2.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section&gt;
+&lt;h2&gt;Calling asynchronous operations with &lt;code&gt;await&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;When a program with a statement containing an asynchronous procedure call (with &lt;code&gt;await&lt;/code&gt;) is executed, the program will run up to that statement, call the procedure, and suspend execution until the asynchronous procedure execution completes, which means that if it returns a Promise, it is &lt;em&gt;settled&lt;/em&gt;. That suspension of execution means that control is returned to the event loop, such that other asynchronous procedures also get a chance to run. If the Promise of the asynchronous procedure execution is fulfilled, the execution of the program is resumed and the value of the &lt;code&gt;await&lt;/code&gt; expression is that of the fulfilled Promise. If it is rejected, the &lt;code&gt;await&lt;/code&gt; expression throws the value of the rejected Promise (its error).&lt;/p&gt;
+
+&lt;p&gt;When we use &lt;code&gt;await&lt;/code&gt; for invoking a Promise-valued JS function, we typically do not use Promise chaining with &lt;code&gt;.then&lt;/code&gt;, because &lt;code&gt;await&lt;/code&gt; handles the waiting for us. And we can use a regular &lt;code&gt;try-catch&lt;/code&gt; block instead of a Promise chaining &lt;code&gt;.catch&lt;/code&gt; clause, as shown in the following example code:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;span class=&quot;hl-keyword&quot;&gt;try&lt;/span&gt; {
+  &lt;b&gt;await&lt;/b&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;);
+  console.log( addTwoNumbers(&lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;,&lt;span class=&quot;hl-number&quot;&gt;3&lt;/span&gt;));
+} &lt;span class=&quot;hl-keyword&quot;&gt;catch&lt;/span&gt; (error) {
+  console.log( error);
+}&lt;/pre&gt;
+
+&lt;p&gt;Notice that this is the code of an ES6 module. In a normal JS file, &lt;code&gt;await&lt;/code&gt; can only be used within &lt;code&gt;async&lt;/code&gt; functions.&lt;/p&gt;
+
+&lt;p&gt;When we call several asynchronous procedures in succession with &lt;code&gt;await&lt;/code&gt;, the code reads in a natural way, similar to the code for calling synchronous procedures:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;span class=&quot;hl-keyword&quot;&gt;try&lt;/span&gt; {
+  &lt;b&gt;await&lt;/b&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;);
+  &lt;b&gt;await&lt;/b&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;multiplyBy3.js&quot;&lt;/span&gt;);
+  &lt;b&gt;await&lt;/b&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;decrementBy2.js&quot;&lt;/span&gt;);
+  console.log( decrementBy2( multiplyBy3( addTwoNumbers(&lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;,&lt;span class=&quot;hl-number&quot;&gt;3&lt;/span&gt;))));
+} &lt;span class=&quot;hl-keyword&quot;&gt;catch&lt;/span&gt; (error) {
+  console.log( error);
+}&lt;/pre&gt;
+
+&lt;p&gt;In an &lt;code&gt;async&lt;/code&gt; function, we can invoke Promise-valued functions in &lt;code&gt;await&lt;/code&gt; expressions. Since an &lt;code&gt;async&lt;/code&gt; function returns a Promise, it can itself be invoked with &lt;code&gt;await&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;b&gt;async&lt;/b&gt; &lt;span class=&quot;hl-keyword&quot;&gt;function&lt;/span&gt; load3JsFiles() {
+  &lt;b&gt;await&lt;/b&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;addTwoNumbers.js&quot;&lt;/span&gt;);
+  &lt;b&gt;await&lt;/b&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;multiplyBy3.js&quot;&lt;/span&gt;);
+  &lt;b&gt;await&lt;/b&gt; loadJsFile(&lt;span class=&quot;hl-string&quot;&gt;&quot;decrementBy2.js&quot;&lt;/span&gt;);
+}
+&lt;span class=&quot;hl-keyword&quot;&gt;try&lt;/span&gt; {
+  &lt;b&gt;await&lt;/b&gt; load3JsFiles();
+  console.log( decrementBy2( multiplyBy3( addTwoNumbers(&lt;span class=&quot;hl-number&quot;&gt;2&lt;/span&gt;,&lt;span class=&quot;hl-number&quot;&gt;3&lt;/span&gt;))));
+} &lt;span class=&quot;hl-keyword&quot;&gt;catch&lt;/span&gt; (error) {
+  console.log( error);
+}&lt;/pre&gt;
+
+&lt;p&gt;In the more typical case of asynchronous operation calls with result values, we obtain code like the following await-based version of the above promise-based example of using &lt;code&gt;fetch&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre class=&quot;role-listing&quot;&gt;
+&lt;span class=&quot;hl-keyword&quot;&gt;try&lt;/span&gt; {
+  &lt;span class=&quot;hl-keyword&quot;&gt;const&lt;/span&gt; response = &lt;b&gt;await&lt;/b&gt; fetch(&lt;span class=&quot;hl-string&quot;&gt;&quot;user1.json&quot;&lt;/span&gt;);
+  &lt;span class=&quot;hl-keyword&quot;&gt;const&lt;/span&gt; user1 = &lt;b&gt;await&lt;/b&gt; response.json();
+  alert( user1.name);
+} &lt;span class=&quot;hl-keyword&quot;&gt;catch&lt;/span&gt; (error) {
+  console.log( error);
+}&lt;/pre&gt;
+
+&lt;p&gt;For more about asynchronous programming techniques, see &lt;a href=&quot;https://javascript.info/async&quot;&gt;Promises, async/await&lt;/a&gt; and &lt;a href=&quot;https://yunchi.dev/posts/demystifying-async/&quot;&gt;Demystifying Async Programming in Javascript&lt;/a&gt;.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/JavaScript&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;JavaScript&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/83&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;Asynchronous Programming in JavaScript&quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/83&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/83&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/83&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Thu, 01 Jul 2021 12:36:44 +0000</pubDate>
+ <dc:creator>gwagner</dc:creator>
+ <guid isPermaLink="false">83 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/83#comments</comments>
+</item>
+<item>
+ <title>The Most Important New JavaScript Elements for Basic Programming</title>
+ <link>https://web-engineering.info/node/81</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;There have been many articles about the new language elements introduced to JavaScript by ECMAScript 2015+ (that is, 2015+16+17+18+19+20+...). Typically, in these articles, a great number of new features are presented without taking their relevance into consideration, often with artificial programming examples that do not help to exhibit the potential use of a new feature.&lt;/p&gt;
+
+&lt;p&gt;In this post, we only present the most important new language elements, which are generally useful for all kinds of basic programming tasks, in a summarized way.&lt;/p&gt;
+
+&lt;h2&gt;Block-Scope Variable Declarations with &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;const&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;ES5 did not allow declaring variables the scope of which is a block delimited by a pair of curly braces, &lt;code&gt;{&lt;/code&gt; and &lt;code&gt;}&lt;/code&gt;, or defined by a &lt;code&gt;for&lt;/code&gt; loop. Rather, all variables declared with &lt;code&gt;var&lt;/code&gt;, even if declared within a block, have either a function scope or the global scope. The new feature of &lt;em&gt;block-scope variable declarations&lt;/em&gt; with &lt;strong&gt; &lt;code&gt;let&lt;/code&gt; &lt;/strong&gt; and &lt;strong&gt; &lt;code&gt;const&lt;/code&gt; &lt;/strong&gt; allows declaring local variables with a finer-grained scope, which helps avoiding unintended variable duplications and leads to more modular code.&lt;/p&gt;
+
+&lt;p&gt;There is only one meaning difference between &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;const&lt;/code&gt;. Variables declared with &lt;code&gt;const&lt;/code&gt; are &lt;em&gt;frozen&lt;/em&gt; or &lt;em&gt;immutable&lt;/em&gt;, and in this sense &lt;em&gt;constant&lt;/em&gt;, while &lt;code&gt;let&lt;/code&gt; variables are not. It is preferable to use &lt;code&gt;const&lt;/code&gt; for all variables that are not supposed to change their values. Otherwise, or if this is not clear, one should declare the variable with &lt;code&gt;let&lt;/code&gt; if it is a block-scoped variable, or with &lt;code&gt;var&lt;/code&gt; if it is a global or function-scoped variable.&lt;/p&gt;
+
+&lt;h2&gt;Arrow Functions with &lt;code&gt;=&amp;gt;&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Arrow functions provide a more concise function expression syntax, see Ex. 1, and allow using JavaScript&#039;s &lt;code&gt;this&lt;/code&gt; variable from the function’s outer environment (its &lt;em&gt;closure&lt;/em&gt;) in their function body, see Ex. 2.&lt;/p&gt;
+
+&lt;p&gt;Example 1:&lt;/p&gt;
+
+&lt;pre&gt;
+let evens = [0,2,4,6,8];
+// instead of evens.map( function (v) {return v+1;})
+let odds = evens.map( v =&amp;gt; v+1);  // [1,3,5,7,9]&lt;/pre&gt;
+
+&lt;p&gt;Example 2:&lt;/p&gt;
+
+&lt;pre&gt;
+this.nums = [1,3,5,8,10,12,15,17];
+this.fives = [];
+// instead of this.nums.forEach( function (v) {if (v % 5 === 0) this.fives.push(v);}, this)
+this.nums.forEach( v =&amp;gt; {if (v % 5 === 0) this.fives.push(v);});
+&lt;/pre&gt;
+
+&lt;h2&gt;For-Of Loops over Iterable Objects&lt;/h2&gt;
+
+&lt;p&gt;Iterable objects include strings, arrays, array-like objects (e.g., the built-in &lt;code&gt;arguments&lt;/code&gt; object or instances of &lt;code&gt;HTMLCollections&lt;/code&gt; and &lt;code&gt;NodeList&lt;/code&gt;), and instances of the datatype objects &lt;code&gt;TypedArray&lt;/code&gt;, &lt;code&gt;Map&lt;/code&gt;, and &lt;code&gt;Set&lt;/code&gt;, as well as user-defined iterables. For instance,&lt;/p&gt;
+
+&lt;pre&gt;
+const divElems = document.getElementsByTagName(&quot;div&quot;);  // an HTMLCollection
+for (let dEl of divElems) {
+  console.log( dEl.id);
+}&lt;/pre&gt;
+
+&lt;p&gt;A &lt;em&gt;for-of&lt;/em&gt; loop is often more handy than a &lt;em&gt;for&lt;/em&gt; loop whenever a counter variable is not needed. As opposed to a &lt;code&gt;forEach&lt;/code&gt; loop, a &lt;em&gt;for-of&lt;/em&gt; loop allows iterating over &lt;code&gt;HTMLCollections&lt;/code&gt; and can be abandoned with &lt;code&gt;break&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Template Literals&lt;/h2&gt;
+
+&lt;p&gt;... are enclosed by backtick characters (like `... `) instead of double or single quotes and allow a concise syntax for (possibly multi-line) string values resulting from a combination of fixed text parts and variables/expressions. For instance,&lt;/p&gt;
+
+&lt;pre&gt;
+const classValues = &quot;card important&quot;;
+const name = &quot;Joker&quot;;
+const htmlTemplate = `&amp;lt;div class=&quot;${classValues}&quot;&amp;gt;
+  &amp;lt;p&amp;gt;Hello ${name}!&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;`&lt;/pre&gt;
+
+&lt;h2&gt;The Spread Operator &lt;code&gt;...&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;allows spreading (1) the elements of an iterable collection in places where arguments for function calls or array elements are expected, or (2) the slots of a JS object in places where name-value pairs are expected. For instance,&lt;/p&gt;
+
+&lt;pre&gt;
+let nums = [3,4,5], otherNums = [1, 2, ...nums];  // [1,2,3,4,5]
+// cloning an array
+let numsClone = [...nums];
+// cloning an object
+let book = {title:&quot;JavaScript: The Good Parts&quot;};
+let bookClone = {...book};&lt;/pre&gt;
+
+&lt;h2&gt;Destructuring Assignments&lt;/h2&gt;
+
+&lt;p&gt;Allow a concise syntax for assigning the property values of a JS object or the elements of a JS array to corresponding variables. For instance,&lt;/p&gt;
+
+&lt;pre&gt;
+var point1 = [10,5];
+var [x,y] = point1;
+console.log(`x = ${x} | y = ${y}`);  // x = 10 | y = 5
+
+var person1 = {firstName:&quot;James&quot;, lastName:&quot;Bond&quot;};
+var {first, last} = person1;
+console.log(`first:${first} | last:${last}`);  // first:&quot;James&quot; | last:&quot;Bond&quot;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Use Case 1&lt;/strong&gt;: Dealing with &lt;em&gt;&lt;strong&gt;multiple return values&lt;/strong&gt;&lt;/em&gt; of a function.&lt;/p&gt;
+
+&lt;pre&gt;
+function getRectangle () {
+  return {width: 50, height: 20};
+}
+const {a, b} = getRectangle();
+drawRectangle( a, b);&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Use Case 2&lt;/strong&gt;: &lt;strong&gt;&lt;em&gt;Swapping two variables&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;pre&gt;
+var a = 1, b = 2;
+[a,b] = [b,a];
+console.log(`a = ${a} | b = ${b}`);  // a = 2 | b = 1&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Use Case 3&lt;/strong&gt;: &lt;strong&gt;&lt;em&gt;Cloning arrays&lt;/em&gt;&lt;/strong&gt; with the help of the spread operator.&lt;/p&gt;
+
+&lt;pre&gt;
+const list = [&#039;red&#039;, &#039;orange&#039;, &#039;yellow&#039;];
+const [...listClone] = list;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Use Case 4&lt;/strong&gt;: &lt;strong&gt;&lt;em&gt;Simplifying functions with parameter records&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;A function parameter record allows using named arguments in faction calls instead of argument lists like so:&lt;/p&gt;
+
+&lt;pre&gt;
+function displayName( paramRec) {
+  alert( paramRec.first + &quot; &quot; + paramRec.last);
+};
+displayName({first:&quot;James&quot;, last:&quot;Bond&quot;});&lt;/pre&gt;
+
+&lt;p&gt;Using Destructuring, the parameter record fields are assigned to ordinary function parameters, simplifying the function&#039;s code:&lt;/p&gt;
+
+&lt;pre&gt;
+function displayName({first, last}) {
+  alert( first + &quot; &quot; + last);
+}
+displayName({first:&quot;James&quot;, last:&quot;Bond&quot;});&lt;/pre&gt;
+
+&lt;h2&gt;Modules&lt;/h2&gt;
+
+&lt;p&gt;... are (namespace-protected) libraries that explicitly export those (variable, function and class) names that other modules and web pages can use (as implicitly frozen/const). Modules need to explicitly import names from other modules, while web pages can load modules with a special script element.&lt;/p&gt;
+
+&lt;p&gt;For instance, suppose the following code is in a module file lib/math.js.&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;strong&gt;export&lt;/strong&gt; function sum( x, y) {return x + y;};
+&lt;strong&gt;export&lt;/strong&gt; var pi = 3.141593;
+&lt;/pre&gt;
+
+&lt;p&gt;Then, in another JS file, we can import all elements of lib/math.js and use them with&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;strong&gt;import&lt;/strong&gt; * as math from &quot;./lib/math.js&quot;;
+console.log(&quot;2π = &quot; + math.sum(math.pi, math.pi));&lt;/pre&gt;
+
+&lt;p&gt;Or we can import specific elements of lib/math.js:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;strong&gt;import&lt;/strong&gt; {sum, pi} from &quot;./lib/math.js&quot;;
+console.log(&quot;2π = &quot; + sum(pi, pi));&lt;/pre&gt;
+
+&lt;p&gt;We can load modules in an HTML file in the following way:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;script type=&quot;module&quot; async=&quot;async&quot; src=&quot;module1.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script type=&quot;module&quot; async=&quot;async&quot; src=&quot;module2.js&quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Notice that there is no guarantee which will execute first due to asynchronous loading..&lt;/p&gt;
+
+&lt;h2&gt;Important New JavaScript Elements for Advanced Programming&lt;/h2&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Promises&lt;/strong&gt; for asynchronous method invocation&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;async-await&lt;/strong&gt; for asynchronous method invocation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/81&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;The Most Important New JavaScript Elements for Basic Programming&quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/81&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/81&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/81&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Tue, 21 Apr 2020 21:16:48 +0000</pubDate>
+ <dc:creator>gwagner</dc:creator>
+ <guid isPermaLink="false">81 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/81#comments</comments>
+</item>
+</channel>
+</rss>

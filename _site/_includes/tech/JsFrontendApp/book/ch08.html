@@ -1,0 +1,176 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch08.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;8.&nbsp;Reference Properties and Unidirectional Associations</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="pt04.html" title="Part&nbsp;IV.&nbsp;Associations"><link rel="prev" href="pt04.html" title="Part&nbsp;IV.&nbsp;Associations"><link rel="next" href="ch08s02.html" title="2.&nbsp;Referential Integrity"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;8.&nbsp;Reference Properties and Unidirectional Associations</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="pt04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;IV.&nbsp;Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="chapUnidirAssoc"></a>Chapter&nbsp;8.&nbsp;Reference Properties and Unidirectional Associations</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch08.html#d5e5352">1. References and Reference Properties</a></span></dt><dt><span class="section"><a href="ch08s02.html">2. Referential Integrity</a></span></dt><dt><span class="section"><a href="ch08s03.html">3. Modeling Reference Properties as Unidirectional
+    Associations</a></span></dt><dt><span class="section"><a href="ch08s04.html">4. Representing Unidirectional Associations as Reference
+    Properties</a></span></dt><dt><span class="section"><a href="ch08s05.html">5. Adding Directionality to a Non-Directed Association</a></span></dt><dt><span class="section"><a href="ch08s06.html">6. Our Running Example</a></span></dt><dt><span class="section"><a href="ch08s07.html">7. Eliminating Unidirectional Associations</a></span></dt><dd><dl><dt><span class="section"><a href="ch08s07.html#d5e5682">7.1. The basic elimination procedure</a></span></dt><dt><span class="section"><a href="ch08s07.html#d5e5752">7.2. Eliminating associations from the design model</a></span></dt></dl></dd><dt><span class="section"><a href="ch08s08.html">8. Rendering Reference Properties in the User Interface</a></span></dt><dt><span class="section"><a href="ch08s09.html">9. Collection Types for Multi-Valued Reference Properties</a></span></dt><dt><span class="section"><a href="ch08s10.html">10. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch08s10.html#d5e6005">10.1. Question 1: Meaning of "one-to-one"</a></span></dt><dt><span class="section"><a href="ch08s10.html#d5e6017">10.2. Question 2: When to Check Referential Integrity</a></span></dt><dt><span class="section"><a href="ch08s10.html#d5e6031">10.3. Question 3: Meaning of "Functional"</a></span></dt><dt><span class="section"><a href="ch08s10.html#d5e6043">10.4. Question 4: Object Destruction Dependency</a></span></dt><dt><span class="section"><a href="ch08s10.html#d5e6082">10.5. Question 5: Rendering a Single-Valued Reference Property</a></span></dt><dt><span class="section"><a href="ch08s10.html#d5e6104">10.6. Question 6: Expressing a Functionality Type</a></span></dt></dl></dd></dl></div><p>A property defined for an object type, or class, is called a <span class="bold"><strong><span class="italic">reference
+  property</span></strong></span><a class="indexterm" name="d5e5220"></a> if its values are <span class="italic">references</span> that reference an object of another, or
+  of the same, type. For instance, the class <code class="code">Committee</code> shown in
+  <a class="xref" href="ch08.html#figCommitteChairRefProp" title="Figure&nbsp;8.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;8.1</a> below
+  has a reference property <code class="code">chair</code>, the values of which are
+  references to objects of type <code class="code">ClubMember</code>.</p><p>An <span class="bold"><strong><span class="italic">association</span></strong></span><a class="indexterm" name="d5e5230"></a> between object types classifies relationships between objects
+  of those types. For instance, the association <span class="italic">Committee</span>-<span class="bold"><strong>has</strong></span>-<span class="italic">ClubMember</span>-<span class="bold"><strong>as-chair</strong></span>, which is visualized as a connection line in
+  the class diagram shown in <a class="xref" href="ch08s03.html#figCommitteChairAssEnd" title="Figure&nbsp;8.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;8.2</a> below, classifies the relationships <span class="underline">FinanceCommittee</span>-<span class="underline"><span class="bold"><strong>has</strong></span></span>-<span class="underline">PeterMiller</span>-<span class="underline"><span class="bold"><strong>as-chair</strong></span></span>, <span class="underline">RecruitmentCommittee</span>-<span class="underline"><span class="bold"><strong>has</strong></span></span>-<span class="underline">SusanSmith</span>-<span class="underline"><span class="bold"><strong>as-chair</strong></span></span> and <span class="underline">AdvisoryCommittee</span>-<span class="underline"><span class="bold"><strong>has</strong></span></span>-<span class="underline">SarahAnderson</span>-<span class="underline"><span class="bold"><strong>as-chair</strong></span></span>, where
+  the objects <span class="underline">PeterMiller</span>, <span class="underline">SusanSmith</span> and <span class="underline">SarahAnderson</span> are of type
+  <code class="code">ClubMember</code>, and the objects <span class="underline">FinanceCommittee</span>, <span class="underline">RecruitmentCommittee</span> and <span class="underline">AdvisoryCommittee</span> are of type
+  <code class="code">Committee</code>. An association as a set of relationships can be
+  represented as a table like so:</p><div class="informaltable"><table frame="border" rules="all"><thead><tr>
+        <th colspan="2"><span class="italic">Committee</span>-<span class="bold"><strong>has</strong></span>-<span class="italic">ClubMember</span>-<span class="bold"><strong>as-chair</strong></span></th>
+      </tr></thead><tbody><tr>
+        <td>Finance Committee</td>
+
+        <td>Peter Miller</td>
+      </tr><tr>
+        <td>Recruitment Committee</td>
+
+        <td>Susan Smith</td>
+      </tr><tr>
+        <td>Advisory Committee</td>
+
+        <td>Sarah Anderson</td>
+      </tr></tbody></table></div><p>Reference properties correspond to a special form of associations,
+  namely to <span class="italic"><span class="bold"><strong>unidirectional</strong></span> binary
+  associations</span><a class="indexterm" name="d5e5284"></a>. While a binary association does, in general, not need to be
+  directional, a reference property represents a binary association that is
+  directed from the property's domain class (where it is defined) to its range
+  class.</p><p>In general, associations are <span class="bold"><strong><span class="italic">relationship types</span></strong></span> with two or more
+  <span class="bold"><strong><span class="italic">object
+  types</span></strong></span> participating in them. An association between
+  two object types is called <span class="bold"><strong><span class="italic">binary</span></strong></span>. In this <span class="phrase">book</span> we only discuss binary associations.
+  For simplicity, we just say 'association' when we actually mean 'binary
+  association'.</p><p>While individual relationships (such as <span class="underline">FinanceCommittee</span>-<span class="underline"><span class="bold"><strong>has</strong></span></span>-<span class="underline">PeterMiller</span>-<span class="underline"><span class="bold"><strong>as-chair</strong></span></span>) are important information items
+  in business communication and in information systems, associations (such as
+  <span class="italic">Committee</span>-<span class="bold"><strong>has</strong></span>-<span class="italic">ClubMember</span>-<span class="bold"><strong>as-chair</strong></span>) are important elements of <span class="italic">information models</span>. Consequently, software
+  applications have to implement them in a proper way, typically as part of
+  their <span class="italic">model</span> layer within a <span class="italic">model-view-controller</span> (MVC) architecture.
+  Unfortunately, many application development frameworks lack the required
+  support for dealing with associations.</p><p>In mathematics, associations have been formalized in an abstract way
+  as sets of uniform tuples, called <span class="italic">relations</span>. In <span class="italic">Entity-Relationship (ER)</span> modeling, which is the
+  classical information modeling approach in information systems and software
+  engineering, objects are called <span class="italic">entities</span>,
+  and associations are called <span class="italic">relationship
+  types</span>. The <span class="italic">Unified Modeling Language
+  (UML)</span> includes the <span class="italic">UML Class
+  Diagram</span> language for information modeling. In UML, object types
+  are called <span class="italic">classes</span>, relationship types
+  are called <span class="italic">associations</span>, and individual
+  relationships are called "links". These three terminologies are summarized
+  in the following table:</p><div class="informaltable"><table frame="border" rules="all"><thead><tr>
+        <th>Our preferred term(s)</th>
+
+        <th>UML</th>
+
+        <th>ER Diagrams</th>
+
+        <th>Mathematics</th>
+      </tr></thead><tbody><tr>
+        <td>object</td>
+
+        <td>object</td>
+
+        <td>entity</td>
+
+        <td>individual</td>
+      </tr><tr>
+        <td>object type (class)</td>
+
+        <td>class</td>
+
+        <td>entity type</td>
+
+        <td>unary relation</td>
+      </tr><tr>
+        <td>relationship</td>
+
+        <td>link</td>
+
+        <td>relationship</td>
+
+        <td>tuple</td>
+      </tr><tr>
+        <td>association (relationship type)</td>
+
+        <td>association</td>
+
+        <td>relationship type</td>
+
+        <td>relation</td>
+      </tr><tr>
+        <td>functional association</td>
+
+        <td></td>
+
+        <td>one-to-one, many-to-one or one-to-many relationship type</td>
+
+        <td>function</td>
+      </tr></tbody></table></div><p>We first discuss reference properties, which implicitly represent
+  unidirectional binary associations in an "association-free" class model (a
+  model without any explicit association element).</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e5352"></a>1.&nbsp;References and Reference Properties</h2></div></div></div><p>A reference<a class="indexterm" name="d5e5355"></a> can be either <span class="italic">human-readable</span> or an <span class="italic">internal object reference</span>. Human-readable
+    references refer to identifiers that are used in human communication, such
+    as the unique names of astronomical bodies, the ISBN of books and the
+    employee numbers of the employees of a company. Internal object references
+    refer to the computer memory addresses of OOP objects, thus providing an
+    efficient mechanism for accessing objects in the main memory of a
+    computer.</p><p>Some languages, like SQL and XML, only support human-readable, but
+    not internal references. In SQL, human-readable references are called
+    <span class="italic">foreign keys</span>, and the identifiers they
+    refer to are called <span class="italic">primary keys</span>. In
+    XML, human-readable references are called <span class="italic">ID
+    references</span> and the corresponding attribute type is
+    <code class="code">IDREF</code>.</p><p>Objects in an OO program can be referenced either with the help of
+    human-readable references (such as integer codes) or with internal object
+    references, which are preferable for accessing objects efficiently in main
+    memory. Following the XML terminology, we call human-readable references
+    <span class="italic">ID references</span>. We follow the standard
+    naming convention for ID reference properties where an ID reference
+    property defined in a class <code class="code">A</code> and referencing objects of
+    class <code class="code">B</code> has the name <code class="code">b_id</code> using the suffix
+    <code class="code">_id</code>. When we store persistent objects in the form of records
+    or table rows, we need to convert internal object references, stored in
+    properties like <code class="code">publisher</code>, to ID references, stored in
+    properties like <code class="code">publisher_id</code>. This conversion is performed as
+    part of the serialization of the object by assigning the standard
+    identifier value of the referenced object to the ID reference property of
+    the referencing object.</p><p>In OO languages, a property is defined for an object type, or class,
+    which is its <span class="italic">domain</span>. The values of a
+    property are either <span class="italic">data values</span> from
+    some datatype, in which case the property is called an <span class="bold"><strong><span class="italic">attribute</span></strong></span><a class="indexterm" name="d5e5377"></a>, or they are <span class="italic">object
+    references</span> referencing an object from some class, in which case
+    the property is called a <span class="bold"><strong><span class="italic">reference property</span></strong></span><a class="indexterm" name="d5e5382"></a>. For instance, the class <code class="code">Committee</code> shown in
+    <a class="xref" href="ch08.html#figCommitteChairRefProp" title="Figure&nbsp;8.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;8.1</a> below
+    has an attribute <code class="code">name</code> with range <code class="code">String</code>, and a
+    reference property <code class="code">chair</code> with range
+    <code class="code">ClubMember</code>.</p><div class="figure"><a name="figCommitteChairRefProp"></a><p class="title"><b>Figure&nbsp;8.1.&nbsp;A committee has a club member as chair expressed by the reference
+      property <code class="code">chair</code></b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../../fig/CommitteeChair_AFM.svg" width="400" alt="A committee has a club member as chair expressed by the reference property chair"></td></tr></table></div></div></div><br class="figure-break"><p>Object-oriented programming languages, such as JavaScript, PHP, Java
+    and C#, directly support the concept of <span class="italic">reference
+    properties</span>, which are properties whose range is not a <span class="italic">datatype</span> but a <span class="italic">reference
+    type</span>, or <span class="italic">class</span>, and whose
+    values are object references to instances of that class.</p><p>By default, the multiplicity of a property is <code class="code">1</code>, which
+    means that the property is <span class="bold"><strong><span class="italic">mandatory</span></strong></span> and <span class="bold"><strong><span class="italic">functional</span></strong></span> (or,
+    in other words, <span class="italic">single-valued</span>), having
+    <span class="bold"><strong><span class="italic">exactly
+    one</span></strong></span> value, like the property <code class="code">chair</code> in
+    class <code class="code">Committee</code> shown in <a class="xref" href="ch08.html#figCommitteChairRefProp" title="Figure&nbsp;8.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;8.1</a>. When a
+    functional property is <span class="bold"><strong><span class="italic">optional</span></strong></span> (not mandatory), it has the
+    multiplicity <code class="code">0..1</code>, which means that the property's minimum
+    cardinality is 0 and its maximum cardinality is 1.</p><p>A reference property can be either <span class="bold"><strong><span class="italic">single-valued</span></strong></span><a class="indexterm" name="d5e5419"></a> (<span class="italic">functional</span>) or
+    <span class="bold"><strong><span class="italic">multi-valued</span></strong></span><a class="indexterm" name="d5e5425"></a> (<span class="italic">non-functional</span>). For
+    instance, the reference property <code class="code">Committee::chair</code> shown in
+    <a class="xref" href="ch08.html#figCommitteChairRefProp" title="Figure&nbsp;8.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;8.1</a> is
+    single-valued, since it assigns a unique club member as chair to a club.
+    An example of a <span class="italic">multi-valued</span> reference
+    property is provided by the property <code class="code">Book::authors</code> shown in
+    <a class="xref" href="ch08s07.html#figPublBookAuthAFM" title="Figure&nbsp;8.11.&nbsp;An OO class model for the classes Book, Publisher and Author">Figure&nbsp;8.11</a>
+    below.</p><p>Normally, the collection value of a multi-valued reference property
+    is a <span class="emphasis"><em>set</em></span> of references, implying that the order of
+    the references does not matter. In certain cases, however, the order
+    matters and, consequently, the collection value of such a multi-valued
+    reference property is an <span class="emphasis"><em>ordered set</em></span> of references,
+    typically implemented as a list. Only rarely, the collection value of a
+    multi-valued reference property may be a, possibly ordered,
+    <span class="emphasis"><em>multi-set</em></span> (also called
+    <span class="emphasis"><em>bag</em></span>).</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="pt04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Part&nbsp;IV.&nbsp;Associations&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Referential Integrity</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch08.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+</html>

@@ -1,0 +1,92 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>6.&nbsp;Step 5 - Implement the Retrieve/List All Use Case</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps"><link rel="prev" href="ch04s05.html" title="5.&nbsp;Step 4 - Implement the Create Use Case"><link rel="next" href="ch04s07.html" title="7.&nbsp;Step 6 - Implement the Update Use Case"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.&nbsp;Step 5 - Implement the <span class="italic">Retrieve/List
+    All</span> Use Case</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s07.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e3207"></a>6.&nbsp;Step 5 - Implement the <span class="italic">Retrieve/List
+    All</span> Use Case</h2></div></div></div><p>For the <span class="italic">Retrieve</span> use case we have
+    to add a method in the controller class
+    (<code class="filename">src/pl/c/BookController.java</code> file), which reads all
+    <code class="code">Book</code> records from the <code class="code">books</code> database table and
+    then delivers this information to the view. The controller action method
+    code is shown below:</p><pre class="programlisting">public class <span class="bold"><strong>BookController</strong></span> {
+  ...
+  public List&lt;Book&gt; <span class="bold"><strong>getBooks</strong></span>() {
+    return Book.retrieveAll( em);
+  }
+  ...
+}</pre><p>The <code class="code">getBooks</code> method returns a list of <code class="code">Book</code>
+    instances which are obtained by calling the static
+    <code class="code">retrieveAll</code> method of the <code class="code">Book</code> model class. The
+    code of the <code class="code">Book.retrieveAll</code> method is:</p><pre class="programlisting">public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  public static List&lt;Book&gt; <span class="bold"><strong>retrieveAll</strong></span>( EntityManager em) {
+    Query query = em.createQuery( "SELECT b FROM Book b");
+    List&lt;Book&gt; books = query.getResultList();
+    return books;
+  }
+  ...
+}</pre><p>The code is simple, and as already discussed in <a class="xref" href="ch04s03.html#sectionLoadAllInstances" title="3.3.&nbsp;Retrieving all Book instances">Section&nbsp;3.3</a>, it uses a
+    JPQL<a class="indexterm" name="d5e3229"></a> statement to retrieve the <code class="code">Book</code> records from
+    the <code class="code">books</code> table and create the corresponding
+    <code class="code">Book</code> instances. The <code class="code">EntityManager</code> object
+    required for being able to perform the JPQL query is passed to
+    <code class="code">Book.retrieveAll</code> from the <code class="code">BookController</code> object
+    as discussed in <a class="xref" href="ch04s04.html#sectionJPAEmAndUtObjects" title="4.1.&nbsp;Create the EntityManager and UserTransaction objects">Section&nbsp;4.1</a> section.</p><p>Now it is the time to define the facelet template for displaying a
+    table with all book records found in the database. The view template files
+    corresponding to the model classes of our app are located in model class
+    subfolders of the <code class="code">WebContent/views/</code> folder. For the <span class="italic">Retrieve/list all books</span> use case, we create a
+    file named <code class="filename">retrieveAndListAll.xhtml</code> in
+    <code class="filename">WebContent/views/books/</code> with the following
+    content:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="..." xmlns:h="..." xmlns:f="..."&gt;
+ &lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="headerTitle"&gt;
+   &lt;h1&gt;Retrieve and list all book records&lt;/h1&gt;
+  &lt;/ui:define&gt;
+  &lt;ui:define name="main"&gt;
+   <span class="bold"><strong>&lt;h:dataTable value="#{bookCtrl.books}" var="b"&gt;</strong></span>
+    &lt;h:column&gt;
+     <span class="bold"><strong>&lt;f:facet name="header"&gt;ISBN&lt;/f:facet&gt;
+      #{b.isbn}</strong></span>
+    &lt;/h:column&gt;
+    &lt;h:column&gt;
+     &lt;f:facet name="header"&gt;Title&lt;/f:facet&gt;
+      #{b.title}
+    &lt;/h:column&gt;
+    &lt;h:column&gt;
+     &lt;f:facet name="header"&gt;Year&lt;/f:facet&gt;
+      #{b.year}
+    &lt;/h:column&gt;
+   &lt;/h:dataTable&gt;
+  &lt;/ui:define&gt;
+ &lt;/ui:composition&gt;
+&lt;/html&gt;</pre><p>The <code class="code">ui:composition</code> element specifies which template is
+    applied (i.e. <code class="code">template="/WEB-INF/templates/page.xhtml"</code>) and
+    which view block (<code class="code">&lt;ui:define name="main"&gt;</code>) is replaced
+    by this facelet at render time.</p><p>The <code class="code">h:dataTable</code> element defines a table view for a set
+    of records, which is then rendered as an HTML table. Its
+    <code class="code">value</code> attribute defines a data binding to a record
+    collection, while the <code class="code">var</code> attribute defines a variable name
+    for iteratively accessing records from this collection. The expression
+    provided in the <code class="code">value</code> attribute normally specifies a
+    collection-valued property (here: <code class="code">books</code>) which is accessed
+    via a corresponding getter (here: <code class="code">getBooks</code>) as defined in the
+    controller class <code class="code">BookController</code>. In this particular case it
+    is just sufficient to define the <code class="code">getBooks</code> method since there
+    is no need of a <code class="code">books</code> property in the controller class. In
+    any case, <code class="code">value</code> does not allow to invoke a method, so we
+    cannot call <code class="code">getBooks</code> directly. Instead we have to use the
+    (possibly virtual) property <code class="code">books</code>, which internally evaluates
+    to a call of <code class="code">getBooks</code> without checking if a
+    <code class="code">books</code> property really exists.</p><p>The <code class="code">h:button</code> element allows to create redirect buttons.
+    The value of the <code class="code">outcome</code> attribute specifies a name of a
+    facelet file (omitting the <code class="filename">.xhtml</code> extension, such
+    that, in the example, the file name is
+    <code class="filename">index.xhtml</code>).</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.&nbsp;Step 4 - Implement the <span class="italic">Create</span>
+    Use Case&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;7.&nbsp;Step 6 - Implement the <span class="italic">Update</span>
+    Use Case</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+</html>

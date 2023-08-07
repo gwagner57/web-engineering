@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/BidirectionalAssociationApp/publishers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Plain JS Bidirectional Association App: Manage Publishers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" href="css/normalize.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+
+    <script src="lib/browserShims.js"></script>
+    <script src="lib/util.js"></script>
+    <script src="lib/errorTypes.js"></script>
+    <script src="src/c/app.js"></script>
+    <script src="src/m/Author.js"></script>
+    <script src="src/m/Publisher.js"></script>
+    <script src="src/m/Book.js"></script>
+    <script src="src/v/publishers.js"></script>
+    <script src="src/c/publishers.js"></script>
+    <script>
+      window.addEventListener("load", pl.c.publishers.manage.initialize);
+    </script>
+  </head>
+  <body>
+   <header>
+      <div class="wrapper clearfix">
+          <div class="title">
+              <figure><a href="../../../index.html">
+                  <img property="thumbnailUrl" title="Icon made by Lorc under CC BY 3.0. Available on http://game-icons.net"
+                       src="safari-pinned-tab.svg" /></a></figure>
+              <h1>Public Library</h1>
+              <h2>Plain JS Bidirectional Association App</h2>
+          </div>
+          <nav>
+              <ul>
+                  <li><a href="authors.html">Authors</a></li>
+                  <li><a href="publishers.html">Publishers</a></li>
+                  <li><a href="books.html">Books</a></li>
+              </ul>
+          </nav>
+      </div>
+   </header>
+   <main>
+    <div class="wrapper clearfix">
+<!-- ======================================================= -->
+   <section id="Publisher-M" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Manage publisher data</h1>
+    <ul class="menu">
+      <li><button type="button" onclick="pl.v.publishers.retrieveAndListAll.setupUserInterface()">List all publishers</button></li>
+      <li><button type="button" onclick="pl.v.publishers.create.setupUserInterface()">Add a new publisher</button></li>
+      <li><button type="button" onclick="pl.v.publishers.update.setupUserInterface()">Update a publisher record</button></li>
+      <li><button type="button" onclick="pl.v.publishers.destroy.setupUserInterface()">Delete a publisher record</button></li>
+    </ul>
+    <div class="button"><a href="index.html">Back to Main menu</a></div>
+   </section>
+<!-- ======================================================= -->
+  <section id="Publisher-R" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>List all publishers</h1>
+    <table>
+      <thead><tr><th>Name</th><th>Address</th><th>Published books</th></thead>
+      <tbody></tbody>
+    </table>
+    <div class="button">
+      <button type="button" onclick="pl.v.publishers.manage.refreshUI()">Back to menu</button>
+    </div>
+  </section>
+<!-- ======================================================= -->
+  <section id="Publisher-C" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Create a new publisher record</h1>
+    <form>
+      <div class="field">
+        <label>Name: <input type="text" name="name" /></label>
+      </div>
+      <div class="field">
+        <label>Address: <input type="text" name="address" /></label>
+      </div>
+      <div class="button-group">
+        <button type="submit" name="commit">Save</button>
+        <button type="button" onclick="pl.v.publishers.manage.refreshUI()">Back to menu</button>
+      </div>
+    </form>
+  </section>
+<!-- ======================================================= -->
+  <section id="Publisher-U" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Update a publisher record</h1>
+    <form>
+     <div class="select-one">
+        <label>Select publisher: <select name="selectPublisher"></select></label>
+     </div>
+     <div class="field">
+        <label>Name: <output name="name"></output></label>
+     </div>
+     <div class="field">
+        <label>Address: <input type="text" name="address" /></label>
+     </div>
+     <div class="button-group">
+        <button type="submit" name="commit">Save changes</button>
+        <button type="button" onclick="pl.v.publishers.manage.refreshUI()">Back to menu</button>
+     </div>
+    </form>
+  </section>
+<!-- ======================================================= -->
+  <section id="Publisher-D" class="UI-Page">
+<!-- ======================================================= -->
+    <h1>Delete a publisher record</h1>
+    <form>
+      <div class="select-one">
+        <label>Select publisher: <select name="selectPublisher"></select></label>
+      </div>
+      <div class="button-group">
+        <button type="submit" name="commit">Delete</button>
+        <button type="button" onclick="pl.v.publishers.manage.refreshUI()">Back to menu</button>
+      </div>
+    </form>
+  </section>
+</body>
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/BidirectionalAssociationApp/publishers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:20 GMT -->
+</html>

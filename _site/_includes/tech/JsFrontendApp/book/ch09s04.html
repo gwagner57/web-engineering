@@ -1,0 +1,217 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch09s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.&nbsp;Code the Model</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch09.html" title="Chapter&nbsp;9.&nbsp;Implementing Unidirectional Functional Associations with Plain JS"><link rel="prev" href="ch09s03.html" title="3.&nbsp;New Issues"><link rel="next" href="ch09s05.html" title="5.&nbsp;Code the View"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.&nbsp;Code the Model</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;9.&nbsp;Implementing Unidirectional Functional Associations with Plain
+  JS</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s05.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e6257"></a>4.&nbsp;Code the Model</h2></div></div></div><p>The JS class model can be directly coded for getting the JS model
+    classes of our app.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6260"></a>4.1.&nbsp;Summary</h3></div></div></div><p>Code each class of the JS class model as a JS class with implicit
+      getters and setters:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Code the property check functions in the form of class-level
+          ('static') methods. Take care that all constraints of a property as
+          specified in the JS class model are properly coded in the property
+          checks.</p></li><li class="listitem"><p>For each single-valued property, code the specified get and
+          set methods such that in each setter, the corresponding property
+          check is invoked and the property is only set/unset, if the check
+          does not detect any constraint violation.</p></li><li class="listitem"><p>Write the code of the serialization functions
+          <code class="code">toString()</code> and <code class="code">toJSON()</code>.</p></li><li class="listitem"><p>Take care of deletion dependencies in the <code class="code">destroy</code>
+          method.</p></li></ol></div><p>These steps are discussed in more detail in the following
+      sections.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6276"></a>4.2.&nbsp;Code each model class as a JS class</h3></div></div></div><p>Each class <code class="code">C</code> of the JS class model is coded as a JS
+      class with the same name <code class="code">C</code> and a constructor having a
+      single record parameter, which specifies a field for each (non-derived)
+      property of the class. The range of these properties can be indicated in
+      a comment. In the case of a reference property the range is another
+      model class.</p><p>In the constructor body, we assign the fields of the record
+      parameter to corresponding properties. These property assignments invoke
+      the corresponding <span class="italic">setter</span>
+      methods.</p><p>For instance, the <code class="code">Publisher</code> class from the JS class
+      model is coded in the following way:</p><pre class="programlisting">class <span class="bold"><strong>Publisher</strong></span> {
+  constructor ({name, address}) {
+    this.name = name;  // string
+    this.address = address;  // string
+  }
+  ...
+};</pre><p>Since the setters may throw constraint violation exceptions, the
+      constructor function, and any setter, should be called in a try-catch
+      block where the catch clause takes care of logging suitable error
+      messages.</p><p>For each model class <code class="code">C</code>, we define a class-level
+      property <code class="code">C.instances</code> representing the collection of all
+      <code class="code">C</code> instances managed by the application in the form of an
+      entity table (a map of records). This property is initially set to an
+      empty map <code class="code">{}</code>. For instance, in the case of the model class
+      <code class="code">Publisher</code>, we define:</p><pre class="programlisting">Publisher.<span class="bold"><strong>instances</strong></span> = {};</pre><p>The <code class="code">Book</code> class from the JS class model is coded in a
+      similar way:</p><pre class="programlisting">class <span class="bold"><strong>Book</strong></span> {
+  constructor ({isbn, title, year, authors, authorIdRefs, 
+      publisher, publisher_id}) {
+    this.isbn = isbn;  // string
+    this.title = title;  // string
+    this.year = year;  // integer
+    this.authors = authors || authorIdRefs;  // Array
+    if (publisher || publisher_id) {
+      this.publisher = publisher || publisher_id;  // ref|string
+    }
+  }
+  ...
+}</pre><p>Notice that the <code class="code">Book</code> constructor can be invoked
+      either with object references <code class="code">authors</code> and
+      <code class="code">publisher</code> or with ID references <code class="code">authorIdRefs</code>
+      and <code class="code">publisher_id</code> (the type hint "ref|string" means that the
+      property's range is either an object reference or a string). This
+      approach makes using the <code class="code">Book</code> constructor more flexible and
+      more robust.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6307"></a>4.3.&nbsp;Code the property checks</h3></div></div></div><p>Take care that all constraints of a property as specified in the
+      JS class model are properly coded in its check function, as explained in
+       <span class="phrase"><a class="xref" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Implementing Constraint Validation in a Plain JS Web App">Chapter&nbsp;5</a></span> . Recall that
+      constraint violation (or validation error) classes are defined in the
+      module file <code class="filename">lib/errorTypes.mjs</code>.</p><p>For instance, for the <code class="code">Publisher.checkName</code> function we
+      obtain the following code:</p><pre class="programlisting">class <span class="bold"><strong>Publisher</strong></span> {
+  ...
+  static <span class="bold"><strong>checkName</strong></span>(n) {
+    if (n === undefined) {
+      return new NoConstraintViolation();  // not mandatory
+    } else {
+      if (typeof n !== "string" || n.trim() === "") {
+        return new RangeConstraintViolation(
+		    "The name must be a non-empty string!");
+      } else {
+        return new NoConstraintViolation();
+      }
+    }
+  }
+  static <span class="bold"><strong>checkNameAsId</strong></span>(n) {...}
+  ...
+}</pre><p>Notice that, since the <code class="code">name</code> attribute is the standard
+      ID attribute of <code class="code">Publisher</code>, we only check syntactic
+      constraints in <code class="code">checkName</code>, and check the mandatory value and
+      uniqueness constraints in <code class="code">checkNameAsId</code>, which invokes
+      <code class="code">checkName</code>:</p><pre class="programlisting">static <span class="bold"><strong>checkNameAsId</strong></span>( n) {
+  var validationResult = Publisher.checkName(n);
+  if ((validationResult instanceof NoConstraintViolation)) {
+    if (!n) {
+      return new MandatoryValueConstraintViolation(
+          "A publisher name is required!");
+    } else if (Publisher.instances[n]) {
+      return UniquenessConstraintViolation(
+          "There is already a publisher record with this name!");
+    }
+  } 
+  return validationResult;
+}</pre><p>If we have to deal with ID references (foreign keys) in other
+      classes, we need to provide a further check function, called
+      <code class="code">checkNameAsIdRef</code>, for checking the referential integrity
+      constraint:</p><pre class="programlisting">static <span class="bold"><strong>checkNameAsIdRef</strong></span>(n) {
+  var validationResult = Publisher.checkName(n);
+  if ((validationResult instanceof NoConstraintViolation) &amp;&amp;
+      n !== undefined) {
+    if (!Publisher.instances[n]) {
+      validationResult = new ReferentialIntegrityConstraintViolation(
+          "There is no publisher record with this name!");
+    }
+  }
+  return validationResult;
+}</pre><p>The condition <code class="code">!Publisher.instances[n]</code> checks if there
+      is no publisher object with the given name <code class="code">n</code>, and then
+      creates a <code class="code">validationResult</code> object as an instance of the
+      exception class <span class="italic">ReferentialIntegrityConstraintViolation</span>. The
+      <code class="code">Publisher.checkNameAsIdRef</code> function is called by the
+      <code class="code">Book.checkPublisher</code> function:</p><pre class="programlisting">class <span class="bold"><strong>Book</strong></span> {
+  ...
+  static <span class="bold"><strong>checkPublisher</strong></span>( publisher_id) {
+    var validationResult = null;
+    if (publisher_id === undefined || publisher_id === "") {
+      validationResult = new NoConstraintViolation();  // optional
+    } else {
+      // invoke foreign key constraint check
+      validationResult = <span class="bold"><strong>Publisher.checkNameAsIdRef</strong></span>( publisher_id);
+    }
+    return validationResult;
+  }
+  ...
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6342"></a>4.4.&nbsp;Code the property setters</h3></div></div></div><p>In the setters, the corresponding check function is called and the
+      property is only set, if the check does not detect any constraint
+      violation. In the case of a reference property, we allow invoking the
+      setter either with an object reference or with an ID reference. The
+      resulting ambiguity is resolved by testing if the argument provided in
+      the invocation of the setter is an object or not. For instance, the
+      <code class="code">publisher</code> setter is coded in the following way:</p><pre class="programlisting">class <span class="bold"><strong>Book</strong></span> {
+  ...
+  set <span class="bold"><strong>publisher</strong></span>( p) {
+    if (!p) {  // unset publisher
+      delete this._publisher;
+    } else {
+      // p can be an ID reference or an object reference
+      const publisher_id = (typeof p !== "object") ? p : p.name;
+      const validationResult = Book.checkPublisher( publisher_id);
+      if (validationResult instanceof NoConstraintViolation) {
+        // create the new publisher reference
+        this._publisher = Publisher.instances[ publisher_id];
+      } else {
+        throw validationResult;
+      }
+    }
+  }
+  ...
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6349"></a>4.5.&nbsp;Choose and implement a deletion policy</h3></div></div></div><p>For any reference property, we have to choose and implement one of
+      the two possible deletion policies discussed in <a class="xref" href="ch08s02.html" title="2.&nbsp;Referential Integrity">Section&nbsp;2</a>
+      for managing the corresponding object destruction dependency in the
+      <code class="code">destroy</code> method of the property's range class. In our case,
+      when deleting a record of a publisher <span class="emphasis"><em>p</em></span>, we have to
+      choose between </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>deleting all records of books published by
+            <span class="emphasis"><em>p</em></span> (<span class="italic">Existential
+            Dependency</span>);</p></li><li class="listitem"><p>dropping the reference to <span class="emphasis"><em>p</em></span> from all
+            books published by <span class="emphasis"><em>p</em></span> (<span class="italic">Existential Independence</span>).</p></li></ol></div><p>Assuming that books do not existentially depend on their
+      publishers, we choose the second option. This is shown in the following
+      code of the <code class="code">Publisher.destroy</code> method where for all
+      concerned <code class="code">book</code> objects the property
+      <code class="code">book.publisher</code> is cleared (by deleting its property-value
+      slot):</p><pre class="programlisting">Publisher.<span class="bold"><strong>destroy</strong></span> = function (name) {
+  // delete all references to this publisher in book objects
+  for (const key of Object.keys( Book.instances)) {
+    const book = Book.instances[key];
+    if (book.publisher.name === name) {
+      <span class="bold"><strong>delete book._publisher</strong></span>;  // delete the proporty-value slot
+    }
+  }
+  // delete the publisher object
+  <span class="bold"><strong>delete Publisher.instances[name]</strong></span>;
+  console.log(`Publisher ${name} deleted.`);
+};</pre><p>Notice that the deletion of all references to the deleted
+      publisher is performed in a sequential scan through all book objects,
+      which may be inefficient when there are many of them. It would be much
+      more efficient when each publisher object would hold a list of
+      references to all books published by this publisher. Creating and
+      maintaining such a list would make the association between books and
+      their publisher <span class="italic">bidirectional</span>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e6375"></a>4.6.&nbsp;Serialization functions</h3></div></div></div><p>In the case of a reference property, like
+      <code class="code">Book::publisher</code>, the serialization function
+      <code class="code">Book::toString()</code> has to show a human-readable identifier of
+      the referenced object, like <code class="code">this.publisher.name</code>:</p><pre class="programlisting"><span class="bold"><strong>toString</strong></span>() {
+  var bookStr = `Book{ ISBN: ${this.isbn}, title: ${this.title},` +
+      `year: ${this.year}`;
+  if (this.publisher) bookStr += `, publisher: ${<span class="bold"><strong>this.publisher.name</strong></span>}`;
+  return `${bookStr}, authors: ${Object.keys( this.authors).join(",")} }`;
+}</pre><p>The object-to-storage conversion function
+      <code class="code">Book::toJSON()</code>, which is automatically invoked by the
+      built-in JSON.stringify function, converts typed JS objects with object
+      references to corresponding (untyped) record objects with ID references.
+      This includes deleting the underscore prefix for obtaining the
+      corresponding record field name:</p><pre class="programlisting"><span class="bold"><strong>toJSON</strong></span>() {
+  var rec = {};
+  for (const p of Object.keys( this)) {
+    // copy only property slots with underscore prefix
+    if (p.charAt(0) !== "_") continue;
+    switch (p) {
+    case "_publisher":
+      // convert object reference to ID reference
+      if (this._publisher) rec.<span class="bold"><strong>publisher_id</strong></span> = this._publisher.name;
+      break;
+    default:
+      // remove underscore prefix
+      rec[p.substr(1)] = this[p];
+    }
+  }
+  return rec;
+}</pre><p>The inverse conversion, from untyped record objects with ID
+      references to corresponding typed objects with object references, is
+      performed by the <code class="code">Book</code> constructor, which tolerates both ID
+      references and object references as arguments for setting reference
+      properties.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch09.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;New Issues&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;5.&nbsp;Code the View</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch09s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+</html>

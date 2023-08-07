@@ -1,0 +1,35 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch13.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;13.&nbsp;Implementing Unidirectional Non-Functional Associations with Java, JPA and JSF</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="pt04.html" title="Part&nbsp;IV.&nbsp;Associations"><link rel="prev" href="ch12s05.html" title="5.&nbsp;The View and Controller Layers"><link rel="next" href="ch13s02.html" title="2.&nbsp;Make a JPA Entity Class Model"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;13.&nbsp;Implementing Unidirectional Non-Functional Associations with Java, JPA and JSF</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;IV.&nbsp;Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="d5e4692"></a>Chapter&nbsp;13.&nbsp;Implementing Unidirectional Non-Functional Associations with Java, JPA and JSF</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch13.html#d5e4712">1. Implementing Multi-Valued Reference Properties in Java</a></span></dt><dt><span class="section"><a href="ch13s02.html">2. Make a JPA Entity Class Model</a></span></dt><dt><span class="section"><a href="ch13s03.html">3. New issues</a></span></dt><dt><span class="section"><a href="ch13s04.html">4. Write the Model Code </a></span></dt><dd><dl><dt><span class="section"><a href="ch13s04.html#d5e4862">4.1. Summary</a></span></dt><dt><span class="section"><a href="ch13s04.html#d5e4879">4.2. Encode the entity classes </a></span></dt><dt><span class="section"><a href="ch13s04.html#d5e4927">4.3. Implement a deletion policy</a></span></dt><dt><span class="section"><a href="ch13s04.html#d5e4952">4.4. Serialization and De-Serialization</a></span></dt></dl></dd><dt><span class="section"><a href="ch13s05.html">5. Write the User Interface Code</a></span></dt><dd><dl><dt><span class="section"><a href="ch13s05.html#d5e4959">5.1. Show information about associated objects in the <span class="italic">List
+          Objects</span> use case</a></span></dt><dt><span class="section"><a href="ch13s05.html#d5e4974">5.2. Allow selecting associated objects in the <span class="italic">create</span> use
+				case</a></span></dt></dl></dd><dt><span class="section"><a href="ch13s06.html">6. Run the App and Get the Code</a></span></dt><dt><span class="section"><a href="ch13s07.html">7. Possible Variations and Extensions</a></span></dt><dd><dl><dt><span class="section"><a href="ch13s07.html#d5e5017">7.1. Set-valued versus ordered-set-valued reference properties</a></span></dt></dl></dd></dl></div><p>A unidirectional non-functional association is either <span class="italic">one-to-many</span> or <span class="italic">many-to-many</span>. In both cases such an
+  association is represented, or implemented, with the help of a <span class="italic">multi-valued</span> reference property.</p><p>In this chapter, we show</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>how to derive a <span class="italic">data model</span> in the form of a <span class="bold"><strong><span class="italic">JPA entity class model</span></strong></span> from an
+     information design model with <span class="italic">multi-valued reference
+      properties</span> representing <span class="italic">unidirectional non-functional
+      associations</span>,</p></li><li class="listitem"><p>how to encode the JPA entity class model in the form of entity classes (representing
+      <span class="italic">model classes</span>),</p></li><li class="listitem"><p>how to write the view and controller code based on the model code.</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4712"></a>1.&nbsp;Implementing Multi-Valued Reference Properties in Java</h2></div></div></div><p>A multi-valued reference property, such as <code class="code">Book::authors</code>, allows storing a
+      collection of references to objects of some type, such as references to <code class="code">Author</code>
+      objects. When creating a new object of type <code class="code">Book</code>, it must be possible to assign
+      one or more authors to the book. to assign the constructor needs an extra parameter for the
+      multi-valued reference property. In general, we can allow this value to be a set (or list) of
+      internal object references or of ID references. However, using JPA there is no need for ID
+      references, being very easy to use object references:
+      </p><pre class="programlisting">@Entity @Table( name="books")
+@ManagedBean( name="book")
+@ViewScoped
+public class Book {
+  ...
+  <span class="bold"><strong>private Set&lt;Author&gt; authors;</strong></span>
+  
+  public Book() { // required by JPA @Entity annotation!}
+  public Book( String isbn, String title, Integer year, Publisher publisher, <span class="bold"><strong>Set&lt;Author&gt; authors</strong></span>) {...}
+
+  public Set&lt;Author&gt; <span class="bold"><strong>getAuthors</strong></span>() { return this.authors;}
+  public void <span class="bold"><strong>setAuthors</strong></span>( Set&lt;Author&gt; authors) { this.authors = authors;}
+  ...
+}</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.&nbsp;The View and Controller Layers&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Make a JPA Entity Class Model</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch13.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:41 GMT -->
+</html>

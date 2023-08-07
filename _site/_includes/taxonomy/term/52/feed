@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xml:base="https://web-engineering.info"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+ <title>web-engineering.info - WiFi</title>
+ <link>https://web-engineering.info/taxonomy/term/52</link>
+ <description></description>
+ <language>en</language>
+<item>
+ <title>PRODINo: Home Automation with ESP8266 based WiFi Control </title>
+ <link>https://web-engineering.info/node/68</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;You may like to check &lt;a href=&quot;http://web-engineering.info/WoTProjects&quot;&gt;our other WoT/IoT related articles&lt;/a&gt;, in particular, &lt;a href=&quot;http://web-engineering.info/node/52&quot;&gt;Building a WiFi-connected weather station with an Android user interface for less than 30 Euro&lt;/a&gt; and &lt;a href=&quot;http://web-engineering.info/node/65&quot;&gt;JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;What is PRODINo WiFi-ESP?&lt;/h2&gt;
+
+&lt;p&gt;PRODINo is an industrial grade, ESP8266 based WiFi module (uses the WROOM-2 official ESP8266 module) that is designed and produced by &lt;a href=&quot;http://www.kmpelectronics.eu/&quot;&gt;KMP Electronics LTD&lt;/a&gt;, based in Bulgaria. The module contains four high power relays, allowing to control all kind of appliances, including some that require mains power. It opens the door for DIY (but not only) projects that otherwise would have been required careful design and good electronics knowledge, normally possible only for specialists or requiring a lot of time for design and implementation. Moreover, using ESP8266 allows not only for WiFi network connection, but also provides space for hacking and tweaking, using custom firmware if Arduino is not what you want to use, and even giving you access to your project from the Internet, which however comes with security risks and requires additional care.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; working with electricity is very dangerous! The module we are going to discuss uses 3.3-5VDC, as well as mains voltage (110 - 250V). Working with electricity can cause bad injuries and even death if not used with care. We cannot be held responsible for any caused damage or any harm brought to yourself! Do it at your own risk and/or ask help from an electronics engineer.&lt;/p&gt;
+
+&lt;h3&gt;Hardware Specifications&lt;/h3&gt;
+
+&lt;p&gt;The used relay specification (15A@125VAC, 15A@24VDC, 10A@250VAC) allows for up to 2500W for each output. In addition, it provides four optically isolated inputs (using the Toshiba TLP185 opto-coupler), meaning that it does not only allow to read data, e.g., from sensors, but also makes this operation (relatively) safe, allowing to connect 3-30V sources without killing the ESP8266 module or its GPIOs, since they are only up 3.3V tolerant. In &lt;a href=&quot;#table1&quot;&gt;Table 1&lt;/a&gt; we show the complete electrical specs for this module:&lt;/p&gt;
+
+&lt;table cellpadding=&quot;5&quot; id=&quot;table1&quot; style=&quot;border: 2px solid black; text-align: center; font-size: large; border-collapse: collapse; width: 100%&quot;&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th style=&quot;width: 40%;&quot;&gt;Name&lt;/th&gt;
+			&lt;th style=&quot;width: 10%;&quot;&gt;Min&lt;/th&gt;
+			&lt;th style=&quot;width: 25%;&quot;&gt;Max&lt;/th&gt;
+			&lt;th style=&quot;width: 25%;&quot;&gt;Unit&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Size&lt;/td&gt;
+			&lt;td&gt;-&lt;/td&gt;
+			&lt;td&gt;70 x 32 x 92&lt;/td&gt;
+			&lt;td&gt;mm&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Module power supply&lt;/td&gt;
+			&lt;td&gt;5&lt;/td&gt;
+			&lt;td&gt;30&lt;/td&gt;
+			&lt;td&gt;V&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Module power supply @5V&lt;/td&gt;
+			&lt;td&gt;150&lt;/td&gt;
+			&lt;td&gt;400&lt;/td&gt;
+			&lt;td&gt;mA&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;DC Input (opto-couplers)&lt;/td&gt;
+			&lt;td&gt;3&lt;/td&gt;
+			&lt;td&gt;30&lt;/td&gt;
+			&lt;td&gt;V&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Output AC (relay)&lt;/td&gt;
+			&lt;td&gt;-&lt;/td&gt;
+			&lt;td&gt;2500 (10A@250VAC)&lt;br /&gt;
+			1800 (15A@120VAC)&lt;/td&gt;
+			&lt;td&gt;W&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td style=&quot;text-align: left;&quot;&gt;Output DC (relay)&lt;/td&gt;
+			&lt;td&gt;-&lt;/td&gt;
+			&lt;td&gt;360 (15A@24VDC)&lt;/td&gt;
+			&lt;td&gt;W&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The relays are not driven directly by using the ESP8266 GPIOs but with the help of an MCP23S08 IC (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;), that is an 8-bit, general purpose, parallel bidirectional I/O expansion for SPI (an I2C version of it, i.e., MCP23008, is also available). The optically isolated inputs use the same MCP23S08 IC (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;), which means that most of the ESP8266 GPIOs remains practically unused, and most of those I/O pins (including the analog one) are brought out via connectors (which unfortunately are not standard 2.54 male or female headers). To drive the relay coils (requires ~5V@72mA for each), the MCP23S08 is connected to an ULN2003A IC (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;), which is a 7 port Darlington Transistor Array, allowing an output of up to 50V@300mA per port. This may be a bit of an overkill for this design, but allows for some error margins and also some higher powered relays on future module releases, or...to be replaced by the DIY project author (we love hacking!).&lt;/p&gt;
+
+&lt;figure id=&quot;fig1&quot; style=&quot;display: block !important; margin: auto&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Cover.png&quot;&gt;&lt;img alt=&quot;PRODINo WROOM-02 Module Specs&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Cover.png&quot; width=&quot;320&quot; /&gt; &lt;/a&gt;
+
+&lt;figcaption&gt;Figure 1: PRODINo WROOM-02 Module Specs.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;As visible on the product label, shown in &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;, the specified output per relay is only 5A, which at the highest voltage (250VAC) means 1250W. We are not sure if this is just a very conservative specification, with respect to the usage of this module, thus allowing for a large safety margin or simply because of some other design considerations that we are not aware of. From our perspective, both the relays (specified for 10A@250V) and the ULN2003A IC that drives the relay coil can easily handle a much higher output (lets say about 2000W, keeping some safety margins).&lt;/p&gt;
+
+&lt;figure id=&quot;fig2&quot; style=&quot;display: block !important; margin: auto&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Board_Front.png&quot;&gt;&lt;img alt=&quot;PRODINo WROOM-02 Module Board (Front)&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Board_Front.png&quot; width=&quot;480&quot; /&gt; &lt;/a&gt;
+
+&lt;figcaption&gt;Figure 2: PRODINo WROOM-02 Module Board (Front).&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Programming the PRODINo&lt;/h2&gt;
+
+&lt;p&gt;Programming the module requires to use the included FTDI module. However, it is also possible to use a cheap (under 2 EUR) USB-TTL converter module, as long as it supports 3.3V output on its TX (UART transmit) line. Make sure that the FTDI module, that comes on the packet, has the voltage selection jumper set to 3.3V position, as shown in &lt;a href=&quot;fig3&quot;&gt;Figure 3&lt;/a&gt;. Make sure that you connect the FTDI module in the correct position (see &lt;a href=&quot;fig3&quot;&gt;Figure 3&lt;/a&gt;), otherwise you may kill the PRODUINo module.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; the &quot;Auto-Flash&quot; jumper located just on the right site if the UART connector (see &lt;a href=&quot;fig2&quot;&gt;Figure 2&lt;/a&gt;), below the &quot;Flash&quot; button, can be set, thus allowing to program the ESP8266 module (the brain of the PRODINo module) without your direct intervention: there is no need to ground the GPIO 0 or to push some sort of &quot;Set to Flash Mode&quot; button. The alternative is to use the &quot;Flash&quot; button, located above the &quot;Auto-Flash&quot; jumper, (see &lt;a href=&quot;fig2&quot;&gt;Figure 2&lt;/a&gt;). This makes sense when using an USB-TTL module that does not allow to ground the GPIO 0 pin of the ESP8266 module, for all the other cases, just enable the &quot;Auto-Flash&quot; jumper.&lt;/p&gt;
+
+&lt;figure id=&quot;fig3&quot; style=&quot;display: block !important; margin: auto&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer.png&quot;&gt;&lt;img alt=&quot;FTDI Programmer Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer.png&quot; width=&quot;260&quot; /&gt; &lt;/a&gt; &lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer-Connected.png&quot;&gt; &lt;img alt=&quot; FTDI Programmer Connected to PRODINo WROOM-02&quot; height=&quot;520&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer-Connected.png&quot; /&gt; &lt;/a&gt;
+
+&lt;figcaption&gt;Figure 3: FTDI Programmer Connected to PRODINo WROOM-02 Module Board.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;Use Arduino IDE to Program a PRODINo Module&lt;/h3&gt;
+
+&lt;p&gt;It is fairly easy to program the PRODINo module, by simply using the Arduino IDE and Arduino code. Thus, if you ever used the Arduino IDE and wrote some code for one or more of the Arduino boards, you are ready to go with the PRODINo module.&lt;/p&gt;
+
+&lt;p&gt;First, you&#039;ll need to download the Arduino IDE from the &lt;a href=&quot;https://www.arduino.cc/en/Main/Software&quot;&gt;official download page&lt;/a&gt;. Make sure that you download the correct version corresponding to your operating system. Also, specially when using UNIX/Linux systems, make sure that your user has the rights to use &quot;COM&quot; ports, that are required by the FTDI module when programming the PRODINo board.&lt;/p&gt;
+
+&lt;p&gt;Next, start the Arduino IDE and navigate to &lt;code&gt;File &amp;gt; Preferences&lt;/code&gt; menu. In the section &quot;Additional Boards Manager URLs&quot;, copy and paste the following URL: &lt;a href=&quot;https://raw.githubusercontent.com/kmpelectronics/Arduino/master/ProDinoEsp8266/package_prodino-esp8266_index.json&quot;&gt; https://raw.githubusercontent.com/kmpelectronics/Arduino/master/ProDinoEsp8266/package_prodino-esp8266_index.json&lt;/a&gt;, used to indicate the location of the JSON which describes the PRODINo module and the additional Arduino libraries that it requires. Further, use the &lt;code&gt;Tools &amp;gt; Board Manager&lt;/code&gt; menu, and from the list of the additional (custom) boards, select the &quot;PRODINo WiFi board by KMP Electronics LTD&quot; one, then click &quot;Install&quot;. In a short amount of time the installation process is completed and we are ready to go with the programming of the PRODINo WiFi-ESP module.&lt;/p&gt;
+
+&lt;p&gt;Later, when you&#039;ll like to write your custom program to the PRODINo module, use the small arrow icon from the left-top of the Arduino IDE user interface or use the &lt;code&gt;Sketch &amp;gt; upload&lt;/code&gt; menu (its keyboard shortcut is CTRL + U). Remember, you&#039;ll need to use the &lt;code&gt;Tools&lt;/code&gt; menu to select the corresponding board (use: PRODINo WiFi-ESP WROOM-2) and COM port (this can be different from case to case, but usually is something like COM4, COM5, etc).&lt;/p&gt;
+
+&lt;h3&gt;Controlling the Relays&lt;/h3&gt;
+
+&lt;p&gt;The first feature we like to test is the control of the four relays. We&#039;ll write the most basic Arduino program that allows to switch ON or OFF any of the four relays, by simply using a HTML form. At first, lets write the HTML form, which sends a POST request to the PRODINo module. The full content of the &lt;code&gt;index.html&lt;/code&gt; HTML file is shown below:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt;PRODINo Relay Controller&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+   &amp;lt;form &lt;strong&gt;method=&quot;POST&quot; action=&quot;http://192.168.4.1/relay&quot;&lt;/strong&gt;&amp;gt;
+    &amp;lt;label&amp;gt;Select relay:&lt;strong&gt;
+      &amp;lt;select name=&quot;relayId&quot;&amp;gt;
+        &amp;lt;option value=&quot;0&quot;&amp;gt;Relay 1&amp;lt;/option&amp;gt;
+        &amp;lt;option value=&quot;1&quot;&amp;gt;Relay 2&amp;lt;/option&amp;gt;
+        &amp;lt;option value=&quot;2&quot;&amp;gt;Relay 3&amp;lt;/option&amp;gt;
+        &amp;lt;option value=&quot;3&quot;&amp;gt;Relay 4&amp;lt;/option&amp;gt;
+      &amp;lt;/select&amp;gt;&lt;/strong&gt;
+    &amp;lt;/label&amp;gt;
+    &amp;lt;label&amp;gt;Select relay state:&lt;strong&gt;
+      &amp;lt;select name=&quot;relayState&quot;&amp;gt;
+        &amp;lt;option value=&quot;1&quot;&amp;gt;On&amp;lt;/option&amp;gt;
+        &amp;lt;option value=&quot;0&quot;&amp;gt;Off&amp;lt;/option&amp;gt;
+      &amp;lt;/select&amp;gt;&lt;/strong&gt;
+    &amp;lt;/label&amp;gt;&lt;strong&gt;
+    &amp;lt;input type=&quot;submit&quot; value=&quot;Save relay state&quot; /&amp;gt;&lt;/strong&gt;
+   &amp;lt;/form&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;Pushing the &quot;Save relay state&quot; form submit button, a standard HTML &lt;code&gt;POST&lt;/code&gt; request is made to &lt;a href=&quot;http://192.168.4.1/relay&quot;&gt;http://192.168.4.1/relay&lt;/a&gt;. The request URL consists of: 1) the IP address of our PRODINo module (defaults to 192.168.4.1, but it can be changed if needed or wanted); 2) a custom path that handles the requests (we chose to use &lt;code&gt;/relay&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Two HTML &lt;code&gt;select&lt;/code&gt; elements are used for our form. The first one uses the name &lt;code&gt;relayId&lt;/code&gt; (this is the parameter name received on the POST request) and allows to select the relay we&#039;ll like to control. Allowed values are from 0 (first relay from left to right when watching the relay connectors on the module) to 3 (the most right relay). The second HTML &lt;code&gt;select&lt;/code&gt; uses the name, &lt;code&gt;relayState&lt;/code&gt;, and allows to specify the state of the selected relay. We&#039;ll use 1 for enable (turn ON) and 0 for disable (turn OFF).&lt;/p&gt;
+
+&lt;p&gt;Let&#039;s now write the Arduino code that intercepts the HTTP post request and turn the corresponding relay ON or OFF based on our selection in the HTML form:&lt;/p&gt;
+
+&lt;pre&gt;
+#include &amp;lt;KMPDinoWiFiESP.h&amp;gt;
+#include &amp;lt;KMPCommon.h&amp;gt;
+#include &amp;lt;ESP8266WebServer.h&amp;gt;
+
+const char WIFI_PSK[] = &quot;1a2b3c4d&quot;;
+const char SSID[] = &quot;Charlie&#039;s Home&quot;;
+const uint8_t PORT = 80;
+ESP8266WebServer webServer(PORT);
+
+void setup(void) {
+  // initialize the PRODINo board
+  KMPDinoWiFiESP.init();
+  // setup the WiFi module as AccesPoint (AP Mode).
+  WiFi.mode(WIFI_AP);
+  // set the SSID and Password for the AP
+  WiFi.softAP(SSID, WIFI_PSK);
+  // set the HTTP route for the relay control&lt;strong&gt;
+  webServer.on(&quot;/relay&quot;, handleRelayRoute);&lt;/strong&gt;
+  // start the web server&lt;strong&gt;
+  webServer.begin();&lt;/strong&gt;
+}
+
+void loop(void) {&lt;strong&gt;
+  webServer.handleClient();&lt;/strong&gt;
+}
+
+void handleRelayRoute() {
+  int8_t relayId = -1;
+  bool relayState = 0;
+  // incomming POST request (two expected params: relayId and relayState).&lt;strong&gt;
+  if (webServer.method() == HTTP_POST &amp;amp;&amp;amp; webServer.args() == 2) {
+    for (uint8_t i = 0; i &amp;lt; webServer.args(); i++) {
+      if (webServer.argName(i) == &quot;relayId&quot;) {
+        relayId = CharToInt(webServer.arg(i)[0]);
+      } else if (webServer.argName(i) == &quot;relayState&quot;) {
+        relayState = CharToInt(webServer.arg(i)[0]);
+      }
+    }
+    KMPDinoWiFiESP.SetRelayState(relayId, relayState);&lt;/strong&gt;
+    webServer.send(200, TEXT_HTML, &quot;OK&quot;);
+  } else {
+    webServer.send(400, TEXT_HTML, &quot;Bad request&quot;);
+  }  
+}
+&lt;/pre&gt;
+
+&lt;p&gt;The set of &lt;code&gt;#include&lt;/code&gt; directives allows to load the required libraries, which were automatically added when installing the new PRODINo board manager module. Further, for the WiFi name, the WiFi shared password and the server port, the corresponding &lt;code&gt;SSID&lt;/code&gt;, &lt;code&gt;WIFI_PSK&lt;/code&gt; and &lt;code&gt;PORT&lt;/code&gt; constants are defined. Feel free to alter the &lt;code&gt;SSID&lt;/code&gt; and &lt;code&gt;WIFI_PSK&lt;/code&gt; values, but let the &lt;code&gt;PORT&lt;/code&gt; value unchanged (port 80 is the HTTP port).&lt;/p&gt;
+
+&lt;p&gt;As part of the Arduino &lt;code&gt;setup&lt;/code&gt; method, we initialize the module and set the WiFi in AP (access point) mode. Then, we register the &lt;code&gt;/relay&lt;/code&gt; route (as used for the &lt;code&gt;@action&lt;/code&gt; attribute of the HTML form element) and the corresponding handler method, i.e., &lt;code&gt;handleRelayRoute&lt;/code&gt;. Last, we start the web server by calling its &lt;code&gt;begin&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;handleRelayRoute&lt;/code&gt; method, the handler for the &lt;code&gt;/relay&lt;/code&gt; HTTP route, checks if the used HTTP request is of type &lt;code&gt;POST&lt;/code&gt; and if there are exactly two parameters provided (recall, we expect the &lt;code&gt;relayId&lt;/code&gt; and &lt;code&gt;relayState&lt;/code&gt; parameters to be sent). If that is the case, then we extract the relay identifier and the desired relay state, then we change the relay to that state by using the &lt;code&gt;KMPDinoWiFiESP.SetRelayState&lt;/code&gt; method and we respond with HTTP code 200, having the meaning &quot;all went fine for the request&quot;. If the request type is not of type &lt;code&gt;POST&lt;/code&gt; or there are more or less than two parameters, then a HTTP error code 400 is sent, which means &quot;bad request - wrong parameters or request type!&quot;&lt;/p&gt;
+
+&lt;p&gt;The Arduino &lt;code&gt;loop&lt;/code&gt; method simply waits for requests, by using the &lt;code&gt;ESP8266WebServer.handleClient&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;To test, upload the following code to the PRODINo board (as shown before in this tutorial), then connect to the WiFi network with the name set by the SSID variable. Open the &lt;code&gt;index.html&lt;/code&gt; HTML page, and use the form to turn ON or OFF the relays you&#039;ll like to test.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo-Relay-AP-src.zip&quot; style=&quot;padding: 
+2px 3px; margin: 1em; border: 1px solid black;&quot;&gt;Download the code&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;Reading the Inputs&lt;/h3&gt;
+
+&lt;p&gt;The second important feature we like to test is the optically isolated inputs. For this, we&#039;ll write a simple Arduino program that is able to read the states of all four optically isolated inputs and return the result. A HTML &lt;code&gt;GET&lt;/code&gt; request for the path &lt;code&gt;/opto&lt;/code&gt; is used, i.e., &lt;a href=&quot;http://192.168.4.1/opto&quot;&gt;http://192.168.4.1/opto&lt;/a&gt;. The response is plain text with the format &lt;code&gt;I_x is HIGH | LOW;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;
+#include &amp;lt;KMPDinoWiFiESP.h&amp;gt;
+#include &amp;lt;KMPCommon.h&amp;gt;
+#include &amp;lt;ESP8266WebServer.h&amp;gt;
+
+const char WIFI_PSK[] = &quot;1a2b3c4d&quot;;
+const char SSID[] = &quot;Charlie&#039;s Home&quot;;
+const uint8_t PORT = 80;
+ESP8266WebServer webServer(PORT);
+
+void setup(void) {
+  // initialize the PRODINo board
+  KMPDinoWiFiESP.init();
+  // setup the WiFi module as AccesPoint (AP Mode).
+  WiFi.mode(WIFI_AP);
+  // set the SSID and Password for the AP
+  WiFi.softAP(SSID, WIFI_PSK);
+  // set the HTTP route for the DHT22 sensor readings&lt;strong&gt;
+  webServer.on(&quot;/opto&quot;, handleOptoRoute);&lt;/strong&gt;
+  // start the web server
+  webServer.begin();
+}
+
+void loop(void) {
+  webServer.handleClient();
+}
+
+void handleOptoRoute() {
+  bool optoState;
+  String result = &quot;&quot;;
+  // incomming GET request (get the state of all opto-inputs)
+  if (&lt;strong&gt;webServer.method() == HTTP_GET&lt;/strong&gt;) {
+    for (uint8_t i = 0; i &amp;lt; 4; i++) {
+      optoState = &lt;strong&gt;KMPDinoWiFiESP.GetOptoInState(i)&lt;/strong&gt;;
+      result.concat(&quot;I_&quot;);
+      result.concat(i);
+      result.concat(&quot; is &quot;);
+      result.concat(optoState == true ? &quot;HIGH&quot; : &quot;LOW&quot;);
+      result.concat(&quot;; &quot;);
+    }
+    webServer.send(200, TEXT_HTML, result);
+  } else {
+    webServer.send(400, TEXT_HTML, &quot;Bad request&quot;);
+  }  
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Compared with the relays example, we have a few relevant differences. The first one is in the &lt;code&gt;setup&lt;/code&gt; method, for which we register the new route, &lt;code&gt;/opto&lt;/code&gt; and the new handler, &lt;code&gt;handleOptoRoute&lt;/code&gt;. The second change is in the &lt;code&gt;handleOptoRoute&lt;/code&gt; method, as part of the request method detection, where now we expect a HTTP &lt;code&gt;GET&lt;/code&gt; type instead of &lt;code&gt;POST&lt;/code&gt;. The last one is the reading of the optically isolated inputs, made with the help of the &lt;code&gt;KMPDinoWiFiESP.GetOptoInState(inputId)&lt;/code&gt; method, which as as parameter the input number (0 to 3). A less significant change regards the creation of the GET response body, which consists of chain of &quot;I_x is HIGH | LOW;&quot; strings, one for each of the four inputs (response example: &lt;code&gt;I_0 is LOW; I_1 is HIGH; I_2 is HIGH; I_3 is LOW;&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;To test this example, write the Arduino program to your PRODINo board (as shown above in this tutorial), then connect to the WiFi network with the name set by the &lt;code&gt;SSID&lt;/code&gt; constant. Open a Web Browser and navigate to &lt;a href=&quot;http://192.168.4.1/opto&quot;&gt;http://192.168.4.1/opto&lt;/a&gt;. For this case we don&#039;t need a HTML form, since GET is the default request type you get by simply using the URL in the URL bar of a web browser.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: &lt;/strong&gt; normally, you&#039;ll only see only &quot;LOW&quot; states for all the input pins. Also, notice that those inputs are actually in pair of two for each input, since they are practically diodes. You&#039;ll need to provide HIGH (more than 0.5VDC) or LOW (less than 0.5VDC) voltages at the corresponding diode end to achieve the expected results. The product cover has labels clearly showing which pin represents which end of the corresponding diode (see also &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Homework:&lt;/strong&gt; modify the above Arduino program so that the number (0 to 3) of the optically isolated input is provided as part of the HTML &lt;code&gt;GET&lt;/code&gt; request, and the response is either &quot;HIGH&quot; or &quot;LOW&quot; depending on the state.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo-Opto-AP-src.zip&quot; style=&quot;padding: 
+2px 3px; margin: 1em; border: 1px solid black;&quot;&gt;Download the code&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;More Examples for PRODINo&lt;/h3&gt;
+
+&lt;p&gt;It looks that the PRODINo team had a busy time, so an impressive number of usage scenarios and examples are available and ready to use. You&#039;ll certainly want to check the Arduino IDE &lt;code&gt;File &amp;gt; Examples &amp;gt; Examples for PRODINo WiFi-ESP&lt;/code&gt; menu and chose the one you&#039;ll like to test. The example set includes the use of PRODINo as server, access point and client, with the help of the WiFi module and also shows how to provide a HTML interface that allows to control the relays or to show the state of the optically isolated inputs by simply using a web browser, available on any PC or smart device, such as a smartphone, smartwatch or table.&lt;/p&gt;
+
+&lt;h2&gt;Conclusions&lt;/h2&gt;
+
+&lt;p&gt;After having quite some fun with the PRODINo WiFi-ESP WROOM-2 v1.0 module and taking a closer look at its hardware components and design, we found it to be user friendly and easy to use for DIY IoT projects, even for beginners. The quality of the board, its electrical design (also check the &lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESPv1.0_Schematics.pdf&quot;&gt;schematics&lt;/a&gt;) and the selection of the electronic components, sets the PRODINo device into the semi-professional category. The price range makes possible its usage for most of the DIY or professional projects / products. Below are the most relevant pros and cons we have found for this module:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Pros:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;em&gt;low-to-medium price&lt;/em&gt;: 40-47 EUR, exclusive shipping costs, but including the FTDI programmer;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;DIY ready and user friendly&lt;/em&gt;: if you ever played with Arduino IDE and some Arduino boards, you are ready to go with PRODINo;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;(almost) ready to use out of the box&lt;/em&gt;: it comes together with the FTDI FTD232R based programmer/debugger module, but notice that you&#039;ll need a 5-30V@400mA+ power supply (or an USB breakup cable) and a mini USB cable (for programming only).&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;allows to control four appliances with up to 2500W each&lt;/em&gt;: unfortunately, with the current design, it is not possible to directly parallel the outputs for even higher power;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;isolated inputs&lt;/em&gt;: four optically isolated inputs are available, thus the ESP8266 module is safe, even when inputs are misused;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;uses the official WROOM-02 ESP8266 module&lt;/em&gt;: ensures a good WiFi experience and allows for lots of hacks and software tweaks, including the use of JavaScript as the programming language, when the appropriate firmware is uploaded;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;(almost) open source&lt;/em&gt;: its electrical schematics are made public and a module (and corresponding libs) is available for the Arduino IDE board manager, but it is unclear if you are allowed to improve the schematics and release them for public usage;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;lots of usage examples&lt;/em&gt;: after installing the corresponding Arduino IDE module (via the board manager), more than sufficient examples are available (check the &lt;code&gt;File &amp;gt; Examples &amp;gt; Examples for PRODINo&lt;/code&gt; menu in Arduino IDE).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Cons:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;em&gt;(somehow) limited number of inputs&lt;/em&gt;: only four (optically isolated) inputs are available, keeping in account that the MCP23S08 (8-bit, general purpose, parallel I/O expansion for I2C bus or SPI) is used, and the WROOM-2 module provides itself 9 GPIOs (including SPI and I2C ones);&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;hazard safety&lt;/em&gt;, while in general we found this module safe to be used, a better electrical isolation of the (possible mains connected) outputs would have helped to avoid electrical shocks, that can possibly cause injuries or even death (!). This is even more relevant, when the module is used for DIY projects implemented by amateurs. The plastic cover could have been extended over the output connections, thus making the (accidental) touching less probable.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Project Ideas&lt;/h3&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;automatic home/garage door locker (and un-locker), based on the the location of your smartphone, and home monitoring by reading various available sensors, such as temperature, humidity, light intensity or air quality;&lt;/li&gt;
+	&lt;li&gt;control the watering of your home plants or your backyard garden, by reading soil moisture sensors and enabling/disabling water pumps or water pipe connected electro-valves;&lt;/li&gt;
+	&lt;li&gt;an alarm system that detects intrusion into a home (or perimeter) when we are in holidays, using PIR and capacitive touch sensors, allowing to trigger a high level alarm bugler and sending an e-mail to you whenever something suspicious is detected.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In further tutorials we&#039;ll show how to use JavaScript (Mongoose-IoT based firmware) code to program the PRODINo module. We&#039;ll also discuss how to write an Android App to control common used appliances from your house, such as unlocking the door and turning on the light when dark and you just reached the house after a hard work day.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/50&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;IoT&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;/taxonomy/term/40&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;WoT&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/52&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;WiFi&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;/Arduino&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;Arduino&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/51&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;ESP8266&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/68&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;PRODINo: Home Automation with ESP8266 based WiFi Control &quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/68&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/68&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/68&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Sun, 27 Nov 2016 14:30:39 +0000</pubDate>
+ <dc:creator>mdiaconescu</dc:creator>
+ <guid isPermaLink="false">68 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/68#comments</comments>
+</item>
+<item>
+ <title>JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi</title>
+ <link>https://web-engineering.info/node/65</link>
+ <description>&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden view-mode-rss&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot; property=&quot;content:encoded&quot;&gt;&lt;p&gt;The ESP8266 micro-controller&amp;nbsp;module gained huge popularity over the last few years, being a small module with a powerful MCU, SPI Flash, 2.4GHz 802.11 b/g/n WiFi capabilities and relatively small power consumption, all for just a few dollars. This article focuses on discussing how to use JavaScript to program an ESP8266. Currently, two firmware versions allow JavaScript code execution on an ESP8266: &lt;a href=&quot;https://github.com/cesanta/mongoose-iot&quot;&gt;Mongoose-IoT&lt;/a&gt; (that we&#039;ll discuss about in this tutorial) and &lt;a href=&quot;http://www.espruino.com/EspruinoESP8266&quot;&gt;Espruino for ESP8266&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;With a single small and cheap board, it is possible to have a JavaScript interpreter, WiFi client, WiFi router, HTTP client and server and GPIOs control, therefore allowing to read sensors, control actuators and use human interface devices, such as displays, buttons or joysticks.&lt;/p&gt;
+
+&lt;h2&gt;Meet the ESP8266&lt;/h2&gt;
+
+&lt;p&gt;Various modules built around the ESP8266 IC are available, and the most common 12 standard modules are shown in &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure id=&quot;fig1&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/esp8266-variants.png&quot;&gt;&lt;img alt=&quot;ESP8266 Module Variants&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/esp8266-variants.png&quot; /&gt;&lt;/a&gt;
+
+&lt;figcaption&gt;Figure 1: Variants of the ESP8266 Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;These modules use the 802.11b/g/n WiFi standard, operating at 2.4 GHz. It means they can connect to a standard WiFi network, such as the ones provided by an WiFi router, WiFi repeater or access point (AP). No need for special communication channels or frequencies, such as the 433MHz band required by some wireless modules.&lt;/p&gt;
+
+&lt;h3&gt;Choosing the Appropriate ESP8266 Module for a Project&lt;/h3&gt;
+
+&lt;p&gt;Having multiple variants of ESP8266 module, comes the question: &quot;which one should I use ?&quot;. There is no perfect answer for this question, and it highly depends on what you are using the WiFi module for. These are not just &quot;blind&quot; WiFi communication modules, but small development boards, containing a programmable MCU and builtin GPIO pins, thus it can do tasks similar with the ones possible with the Arduino boards, but being much faster and in some sense more capable. We see three main points to be considered when choosing an ESP8266 module for a specific project:&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;usability on a breadboard:&lt;/strong&gt; most of the times we prototype on a breadboard, therefore we should be able to easily connect (or plug) these modules to such a board. Some of the modules, such as ESP02, ESP03 and ESP05 (see &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;) are breadboard friendly, having a pitch of 2.54mm (the distance between two pins). Other modules, such as ESP07 or ESP08 have a pitch of 1.27mm, thus you&#039;ll only be able to use them with a breadboard when using an adapter. Last, other modules, such as ESP01 have a pitch of 2.54mm, but they have a two rows header, which makes it impossible to be used with a breadboard, because of the implied short-circuit between the pins. Notice that some of the breadboard friendly modules have only a &quot;half-way&quot; pin connections, e.g., ESP02 module. Such connections are somehow harder to solder, specially for a beginner. Our tip for the ESP02 module: plug the pin headers into a breadboard, align the module on top of them, then solder.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;flash memory size:&lt;/strong&gt; the ESP8266 modules come with permanent flash memory ranging from 4MBit (512KB) up to 16MBit (2MB), but some may even go up to 128MBit (16MB). In many cases, it is also possible to increase the flash capacity of such a module, but for this, one needs good soldering skills to remove the old flash IC and solder the new one, and usually the price of the flash IC bought in small quantities is about the same as for the price of the complete ESP8266 module (or even more!), thus defeating the purpose. Excepting the case of ESP06, ESP07, ESP08 and ESP12E/F modules, where a hard to remove metallic shield covers the CPU and flash ICs, one can simply check the flash size by reading the text on the 8 pin black IC soldered near the MCU (which is the square black IC with pins on all four sides). For example, if the number on the flash IC starts with 25Q80 then it is a 8MBit Flash, while if it starts with 25Q40 then it is a 4MBit one. For our purpose, a minimum of 1MB (8MBit) Flas is required, but we recommend 4MB+ (16MBit+).&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;MCU features:&lt;/strong&gt; these modules are driven by a low power 32-bit RISC CPU (Tensilica Xtensa LX106) running at 80 MHz. It has 64 KB instructions RAM, 96 KB data RAM, it and supports external QSPI flash - 512 KB to 4 MB (but also up to 16MB is supported). Up to 16 GPIO pins are available, from which one has 10Bit ADC capabilities, and supports I2C, I2S, SPI and UART communication protocols. All these features are quite important if you are using the ESP8266 module as standalone controller board. However, if the ESP8266 module is used as an UART WiFi interface only, then you&#039;ll not really use the GPIO pins, so you may ignore this when selecting the board that suits your needs.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; for being able to write a new firmware or to communicate with an ESP module by using a computer, you&#039;ll need a USB-TTL module, such as the CP2102 IC based one, shown in &lt;a href=&quot;fig4&quot;&gt;Figure 4&lt;/a&gt;. You&#039;ll need to connect the TX pin of the USB-TTL module to the RX pin of the ESP module, and the RX pin of the USB-TTL module to the TX pin of the ESP module. For being able to flash a new firmware, but NOT when using the ESP module in normal mode, you&#039;ll also need to connect the GPIO0 pin of the ESP module to ground then perform a power cycle.&lt;/p&gt;
+
+&lt;figure id=&quot;fig4&quot;&gt;&lt;img alt=&quot;USB-TTP Module based on CP2102 IC&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/usb_ttl_module.png&quot; /&gt;
+&lt;figcaption&gt;Figure 4: USB-TTP Module based on CP2102 IC.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;Standalone User Friendly ESP8266 based Modules&lt;/h3&gt;
+
+&lt;p&gt;Other ESP8266 based modules are designed with &quot;make it simple, for anyone&quot; in mind. Usually these provide a two rows breadboard friendly PCB, with USB (usually via a micro USB cable) connection, both for providing power (also by using a standard micro USB charger) and if needed, also for the communication with a PC. &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt; shows the NodeMCU V2 board, designed by Amica, providing an on-board CP2102 USB-TTL IC, allowing to communicate with the PC via the same micro USB cable that also used to power it. &lt;a href=&quot;#fig3&quot;&gt;Figure 3&lt;/a&gt; shows a &lt;a href=&quot;https://www.wemos.cc/product/d1-mini.html&quot;&gt;WeMOS D1 Mini&lt;/a&gt; module, designed to use &lt;a href=&quot;https://www.wemos.cc/D1-mini-Shields&quot;&gt;stackable expansions boards&lt;/a&gt; (similar with the &lt;a href=&quot;https://www.arduino.cc/en/Main/arduinoShields&quot;&gt;Arduino Shields&lt;/a&gt;), thus being able to attach various sensors, actuators or even OLED LCDs.&lt;/p&gt;
+
+&lt;figure id=&quot;fig2&quot;&gt;&lt;img alt=&quot;Amica NodeMCU v2&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/amica_nodemcu_v2.png&quot; /&gt;
+&lt;figcaption&gt;Figure 2: Amica NodeMCU v2 Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig3&quot;&gt;&lt;img alt=&quot;WeMOS D1 Mini&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/wemos_d1_mini.png&quot; /&gt;
+&lt;figcaption&gt;Figure 3: WeMOS D1 Mini Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Some Words Before Getting Started...&lt;/h2&gt;
+
+&lt;p&gt;Before going further with the reading and following the tutorial instructions, is good to know that:&lt;/p&gt;
+
+&lt;ol&gt;
+	&lt;li&gt;&lt;strong&gt;we are going to use an ESP8266 NodeMCU V2 board&lt;/strong&gt;, produced by Amica (see &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;), which means: a) there is no need to put it to &quot;flashing mode&quot;, since this happens automatically, the bundled USB-TTL CP2102 IC takes care of this task; b) is powered via the micro USB cable directly from an USB port, the same port being also used for the communication with the module, if this is needed (e.g., for programming the module)&lt;/li&gt;
+	&lt;li&gt;the further provided instructions presumes that &lt;strong&gt;a Raspberry Pi 2/3 board running Raspbian is used&lt;/strong&gt;, but other Linux distribution, on either a RPi 2/3 board or a PC works too, however some differences may occur with respect to some commands and Linux repositories used to obtain the required components&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;the ESP8266 12E/F modules&lt;/strong&gt; (see &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;) should work well, as an alternative to NodeMCU board, but its GPIO0 pin must be pulled LOW to set the module to &quot;flashing mode&quot;, task required ONLY when the firmware needs an upgrade, and then a power cycle between the &quot;flashing mode&quot; and &quot;normal operational mode&quot; is also required - other ESP8266 modules may also work, but usually they either have less exposed GPIO pins or they are not breadboard friendly&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;the SPI Flash IC of the ESP8266 module must be 1MB+&lt;/strong&gt;, otherwise the module will not work properly or may not work at all&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;a Windows PC can also be used, and this makes the process of writing the firmware to ESP8266 module easier&lt;/strong&gt;, but various other changes are needed for being able to build the Mongoose-IoT firmware from source code, when you need custom functionality which requires firmware code changes - unfortunatelly, compiling the Mongoose-IoT firmware on a Windows machine is a real pain&lt;/li&gt;
+	&lt;li&gt;further on, we&#039;ll use &lt;strong&gt;MFT as a short name for the &quot;Mongoose-IoT Flashing Tool&quot; software, ESP as a short name for the ESP8266 module&lt;/strong&gt; (full name is used if needed to make distinction in some cases, when just ESP is confusing) and &lt;strong&gt;RPi as a short name for &quot;Raspberry Pi 3 Model B&quot;&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Flashing the Standard Mongoose-IoT Firmware by Using an Raspberry Pi&lt;/h2&gt;
+
+&lt;p&gt;For being able to execute JavaScript code on your ESP module requires to upload the &lt;a href=&quot;https://github.com/cesanta/mongoose-iot&quot;&gt;Mongoose-IoT firmware&lt;/a&gt;. It uses the &lt;a href=&quot;https://github.com/cesanta/v7&quot;&gt;V7&lt;/a&gt; JavaScript engine and allows to execute standard JavaScript code. Notice that only a subset of the standard JavaScript is supported, and some of the features are stripped down, so the V7 engine &quot;fits&quot; on the ESP module. For example, some &lt;code&gt;String&lt;/code&gt; related check/manipulation methods (e.g., &lt;code&gt;startsWith&lt;/code&gt; and &lt;code&gt;endsWith&lt;/code&gt;) and the new ECMA5 features may not be (at all or fully) supported. However, it comes with additional features, which are not available as part of the standard JavaScript core, but a being available on NodeJS (i.e., stripped down modules or core functionality), such as the HTTP client (allowing for HTTP requests) and HTTP server capabilities.&lt;/p&gt;
+
+&lt;h3&gt;Build the Mongoose Flashing Tool Application&lt;/h3&gt;
+
+&lt;p&gt;The latest standard Mongoose-IoT firmware version can be obtained by using the MFT software. Compiling and building it from source code requires quite some time (about 2+ hours) to complete, and lots of space on your RPi storage (3GB+, but most of it can be recovered at the end), because it needs to download and compile the &lt;a href=&quot;https://www.qt.io&quot;&gt;Qt Framework&lt;/a&gt;. The following steps guides you through the process of installing MFT on your RPi:&lt;/p&gt;
+
+&lt;ol&gt;
+	&lt;li&gt;make sure that your RPi has internet connection (either WiFi or wired connection)&lt;/li&gt;
+	&lt;li&gt;install dependencies required further in the build and compile processes:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# sudo apt-get install build-essential git python-git wget libglib2.0-dev libudev-dev libftdi-dev libfontconfig1-dev libjpeg-dev libssl-dev libicu-dev libjpeg-dev libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-render-util0-dev libxcb-shm0-dev libxi-dev libxrender-dev x11proto-render-dev qt5-qmake libqt5serialport5-dev libxcb-util0 libffi-dev &lt;/code&gt;&lt;/li&gt;
+	&lt;li&gt;configure, build and install the Qt static libraries by executing: &lt;code class=&quot;consoleCode&quot;&gt; # wget -c http://download.qt.io/official_releases/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.gz&lt;br /&gt;
+	&lt;br /&gt;
+	# tar xzf qt-everywhere-opensource-src-5.7.0.tar.gz&lt;br /&gt;
+	&lt;br /&gt;
+	# cd qt-everywhere-opensource-src-5.7.0&lt;br /&gt;
+	&lt;br /&gt;
+	# ./configure -make &#039;libs tools&#039; -static -prefix /opt/qt5 -opensource -confirm-license -skip qt3d -skip qtcanvas3d -skip qtdoc -skip qtlocation -skip qtscript -skip qtmultimedia -skip qtsensors -skip qtwebengine&lt;br /&gt;
+	&lt;br /&gt;
+	# sudo nice make -j4&lt;br /&gt;
+	&lt;br /&gt;
+	# sudo nice make -j4 install&lt;br /&gt;
+	&lt;br /&gt;
+	# sudo /opt/qt5/bin/qmake &amp;amp;&amp;amp; nice make -j 4&lt;/code&gt;&lt;br /&gt;
+	...now take a cafe and watch some YouTube videos, this task takes quite some time to complete (approx. 80 minutes on our RPi 3B board). Some Qt5 extensions were excluded since we don&#039;t really need them for our purpose and thus the compilation time is cut down.&lt;br /&gt;
+	&lt;strong&gt;Note:&lt;/strong&gt; each line starting with a dash (#) is a new command, and you should not write the # when executing this. You can execute the commands one by one or as a batch, on your RPi console of via SSH.&lt;/li&gt;
+	&lt;li&gt;ensure that your beloved RPi does not overheat during the above tasks (specially when building Qt), so from time to time check the CPU temperature by using&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;sudo /opt/vc/bin/vcgencmd measure_temp&lt;/code&gt;&lt;br /&gt;
+	and make sure that the temperature stays below 80°C / 176°F. Blow some air by using a cooler or place your RPi somewhere in a good ventilated area. In our case the temperature did not exceeded 60°C, on a room with temperature of about 24°C, but a cooler was used to move the air around, because our RPi is a bare board with no heatsinks or any other cooling method.&lt;br /&gt;
+	&lt;strong&gt;Note:&lt;/strong&gt; for single core RPi boards (RPi 1 Model B), do not use the &quot;-j&quot; parameter, e.g., &lt;code&gt;sudo nice make -j 4&lt;/code&gt; (or any other task), since this parameter is being used to specify the number of CPU cores to be used during that task, so it fails with a value of &quot;4&quot; (or any other) when used with single core CPUs (e.g., &lt;a href=&quot;https://www.raspberrypi.org/products/pi-zero/&quot;&gt;Raspberry Pi Zero&lt;/a&gt; or &lt;a href=&quot;https://www.raspberrypi.org/products/model-b/&quot;&gt;Raspberry Pi 1 Model B&lt;/a&gt;).&lt;/li&gt;
+	&lt;li&gt;clone the &lt;a href=&quot;https://github.com/cesanta/mongoose-flashing-tool&quot;&gt;Mongoose Flashing Tool Repository&lt;/a&gt; - thus getting the latest available source code:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# git clone https://github.com/cesanta/mongoose-flashing-tool.git&lt;/code&gt;&lt;br /&gt;
+	in a folder at your choice&lt;/li&gt;
+	&lt;li&gt;enter the newly source code folder, by using:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# cd mongoose-flashing-tool&lt;/code&gt;&lt;/li&gt;
+	&lt;li&gt;execute:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# QT_SELECT=5 /opt/qt5/bin/qmake &amp;amp;&amp;amp; make -j 3&lt;/code&gt;&lt;br /&gt;
+	to build MFT from source. This step may take some time to complete (about 2 minutes on our RPi 3B)&lt;/li&gt;
+	&lt;li&gt;in case that the above step results in one or all of the build errors:&lt;br /&gt;
+	&lt;code&gt;/usr/bin/ld: cannot find -lEGL&lt;br /&gt;
+	/usr/bin/ld: cannot find -lGLESv2&lt;/code&gt;&lt;br /&gt;
+	then your OpenGL static libraries cannot be linked, probably because are not found, because normally their shared versions are available on Raspbian. To solve this you need to edit the &lt;code&gt;mongoose-flashing-tool/src/Makefile&lt;/code&gt; file, by using whatever editor you like. Notice that this file DO NOT existst before trying to compile MFT, you can only find it afterwards (even if you get the error, the file must be there). In this file, find the following &lt;code&gt;-lEGL&lt;/code&gt; and &lt;code&gt;-lGLESv2&lt;/code&gt; and delete them. Then at the end of the line where you found these two, add the following: &lt;code&gt;-Wl,-Ddynamic -L/opt/vc/lib -l:libEGL.so -l:libGLESv2.so&lt;/code&gt;, then save the file and execute the &lt;code&gt;QT_SELECT=5 /opt/qt5/bin/qmake &amp;amp;&amp;amp; make -j 3&lt;/code&gt; command again (make sure that you are in the &lt;code&gt;mongoose-flashing-tool&lt;/code&gt; folder and NOT in its &lt;code&gt;src&lt;/code&gt; sub-folder when doing this).&lt;/li&gt;
+	&lt;li&gt;at this point you must connect the ESP module (e.g., NodeMCU, WeMOS or a standard one with an attached USB-TTL bridge) to an USB port of your RPi board,by using a corresponding USB cable and any of the USB ports of your RPi board&lt;/li&gt;
+	&lt;li&gt;start the MFT application by executing:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# cd src&lt;br /&gt;
+	# ./MFT&lt;/code&gt;&lt;br /&gt;
+	and the application must start in GUI mode and should detect the module type (ESP8266). Make sure that you select the correct port (e.g., &lt;code&gt;ttyUSB0&lt;/code&gt; in our case), then follow the instructions, as also shown in &lt;a href=&quot;fig5&quot;&gt;Figure 5&lt;/a&gt;, &lt;a href=&quot;fig6&quot;&gt;Figure 6&lt;/a&gt;, &lt;a href=&quot;fig7&quot;&gt;Figure 7&lt;/a&gt;, and &lt;a href=&quot;fig8&quot;&gt;Figure 8&lt;/a&gt;.&lt;/li&gt;
+	&lt;li&gt;if your ESP module refuses connection for firmware update (it happens normally only with the basic ESP modules, see &lt;a href=&quot;#fig1&quot;&gt;Figure 1&lt;/a&gt;, but should not be the case for NodeMCU and WeMOS D1 Mini boards), it usually means that the module did not entered &quot;flashing mode&quot;, so you may want to check if the GPIO0 pin is pulled LOW (do this task without supplying power to the board!), i.e., connected to GND rail, and make sure to power cycle the module after pulling LOW the GPIO0 pin&lt;/li&gt;
+	&lt;li&gt;now you can remove the source folders for the Qt5 library, this freeing up 3GB+ on the RPi SD/MicroSD card, by executing:&lt;br /&gt;
+	&lt;code&gt;# rm -rf qt-everywhere-opensource-src-5.7.0&lt;/code&gt;&lt;br /&gt;
+	from the parent folder of &lt;code&gt;qt-everywhere-opensource-src-5.7.0&lt;/code&gt; folder. If permission denied errors occurs, then execute the command with &lt;code&gt;sudo&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If you find the build process too complicated, but still want to try the ESP8266 firmware, then download the compiled MFT application for Raspbian (tested on 20 October 2016) from the link below. Unzip the archive by executing &lt;code&gt;unzip mongoose-flashing-tool.zip&lt;/code&gt;, and give execution rights to the &lt;code&gt;src/MFT&lt;/code&gt; application, by using &lt;code&gt;sudo u+x src/MFT&lt;/code&gt; from the &lt;code&gt;mongoose-flashing-tool&lt;/code&gt; folder. Finally, install the &lt;code&gt;libxcb&lt;/code&gt; dependency library, by using &lt;code&gt;sudo apt-get install libxcb-util0&lt;/code&gt;. Now you can run the application by using &lt;code&gt;src/MFT&lt;/code&gt; from the &lt;code&gt;mongoose-flashing-tool&lt;/code&gt; folder or simply &lt;code&gt;./MFT&lt;/code&gt; from the &lt;code&gt;mongoose-flashing-tool/src&lt;/code&gt; folder.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/mongoose-flashing-tool.zip&quot; style=&quot;padding: 
+2px 3px; margin: 1em; border: 1px solid black;&quot;&gt;Download Mongoose Flashing Tool (MFT) Build for Raspbian&lt;/a&gt;&lt;/p&gt;
+
+&lt;figure id=&quot;fig5&quot;&gt;&lt;img alt=&quot;MFT - Select ESP8266 Module and Communication Port&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_module_and_port.png&quot; /&gt;
+&lt;figcaption&gt;Figure 5: Mongoose-IoT Flashing Tool - Select Module and Communication Port.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig6&quot;&gt;&lt;img alt=&quot;MFT - Select Firmware&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_select_firmware.png&quot; /&gt;
+&lt;figcaption&gt;Figure 6: Mongoose-IoT Flashing Tool - Select Firmware.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig7&quot;&gt;&lt;img alt=&quot;MFT - Flashing the Firmware&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_flashing_firmware.png&quot; /&gt;
+&lt;figcaption&gt;Figure 7: Mongoose-IoT Flashing Tool - Flashing the Firmware.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig8&quot;&gt;&lt;img alt=&quot;MFT - Connect to WiFi Network&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_connect_to_wifi.png&quot; /&gt;
+&lt;figcaption&gt;Figure 8: Mongoose-IoT Flashing Tool - Connect to WiFi Network.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Connecting the ESP8266 module to a WiFi network (see &lt;a href=&quot;fig7&quot;&gt;Figure 8&lt;/a&gt;), is optional, and you can do this later when the module needs access to Internet or Intranet. Therefore, after the step shown in &lt;a href=&quot;#fig7&quot;&gt;Figure 7&lt;/a&gt; you can already close the MFT application.&lt;/p&gt;
+
+&lt;h3&gt;First JavaScript Tests on ESP8266&lt;/h3&gt;
+
+&lt;p&gt;Lets test now our new JavaScript toy! For this, from the folder &lt;code&gt;mongoose-flashing-tool/src&lt;/code&gt;, execute:&lt;br /&gt;
+&lt;code class=&quot;consoleCode&quot;&gt;./MFT --advanced&lt;/code&gt;&lt;br /&gt;
+which opens the same MFT application, this time in an advanced mode where you can interact with the ESP module, using some kind of console like style (see &lt;a href=&quot;fig9&quot;&gt;Figure 9&lt;/a&gt;). Then, select the communication port (should be the same as the one used when writing the firmware), and click the &lt;code&gt;Connect&lt;/code&gt; button. If all went fine, you must be connected to your ESP module.&lt;/p&gt;
+
+&lt;p&gt;As a simple test, lets check the current configuration of your ESP module, currently running on the Mongoose-IoT firmware. For this, in the MFT Console, write &lt;code&gt;Sys.conf&lt;/code&gt; then press &lt;code&gt;Enter&lt;/code&gt;. As result, the serialized JavaScript configuration object is shown (see &lt;a href=&quot;fig10&quot;&gt;Figure 10&lt;/a&gt;).&lt;/p&gt;
+
+&lt;figure id=&quot;fig9&quot;&gt;&lt;img alt=&quot;MFT - Connect ESP8266 Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_connect_to_esp8266.png&quot; /&gt;
+&lt;figcaption&gt;Figure 9: Mongoose-IoT Flashing Tool - Connect to ESP8266 Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure id=&quot;fig10&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_javascript_test_esp8266.png&quot;&gt;&lt;img alt=&quot;MFT - AFirst JavaScript Test Code on ESP8266&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/MFT_screenshoot_javascript_test_esp8266.png&quot; /&gt;&lt;/a&gt;
+
+&lt;figcaption&gt;Figure 10: Mongoose-IoT Flashing Tool - A First JavaScript Test Code on ESP8266.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;One more test we like to do, is to upload a JavaScript file, containing some code that we like to execute on ESP8266. For this, create a file named &lt;code&gt;app.js&lt;/code&gt; on a folder at your choice, then using a text editor, open it and copy/paste the following simple test code:&lt;/p&gt;
+
+&lt;pre&gt;
+function sum(a, b) {return a+b;};
+console.log( &quot;The sum of 123 and 456 is: &quot; + sum( 123, 456));
+&lt;/pre&gt;
+
+&lt;p&gt;Use the &lt;code&gt;Upload File&lt;/code&gt; button, and and select the &lt;code&gt;app.js&lt;/code&gt; JavaScript file to be uploaded to your ESP8266 module. Reboot the module, using the &lt;code&gt;Reboot&lt;/code&gt; button, then in a few seconds, after some initialization messages, you should see:&lt;br /&gt;
+&lt;code&gt;The sum of 123 and 456 is: 579&lt;/code&gt;&lt;br /&gt;
+as the result of executing the JavaScript code from &lt;code&gt;app.js&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: &lt;/strong&gt; the JavaScript code MUST be in a file named &lt;code&gt;app.js&lt;/code&gt;, and you can&#039;t just use any filename you like, because after booting, the firmware runtime looks for this specific file, and if is found, the JavaScript code is executed. Note that if you have JavaScript errors in your code, the module may behave strange, like continuously resetting itself, and in some cases, the only way to have it back working is to upload the firmware again!&lt;/p&gt;
+
+&lt;p&gt;You may also want to check this &lt;a href=&quot;https://www.youtube.com/watch?v=kThcRN8VF0Q&quot;&gt;YouTube&lt;/a&gt; video showing the basics steps in using the &lt;a href=&quot;https://mongoose-iot.com/&quot;&gt;Mongoose-IoT Cloud Service&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;buildFirmwareRPi&quot;&gt;Build and Flash Mongoose-IoT ESP8266 Firmware by Using a Raspberry Pi Board&lt;/h2&gt;
+
+&lt;p&gt;Since we like to add more functionality into the existing Mongoose-IoT firmware, discussed later in this article, we need to compile the firmware and flash it to the ESP module. For this, we need to prepare our system by following the steps below:&lt;/p&gt;
+
+&lt;ol&gt;
+	&lt;li&gt;install docker, if not already existing in your system:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# sudo curl -sSL https://get.docker.com | sh&lt;/code&gt;&lt;/li&gt;
+	&lt;li&gt;allow user to use docker (add user to docker group):&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;sudo usermod -aG docker pi&lt;/code&gt;&lt;br /&gt;
+	Notice that we have used the user with name &lt;code&gt;pi&lt;/code&gt; in the example above, if is the case, replace this accordingl&lt;/li&gt;
+	&lt;li&gt;start the docker service:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# sudo systemctl daemon-reload&lt;br /&gt;
+	&lt;br /&gt;
+	# sudo service docker start &lt;/code&gt;&lt;/li&gt;
+	&lt;li&gt;clone the git repository of the &lt;a href=&quot;https://github.com/cesanta/mongoose-iot&quot;&gt;Mongoose-IoT Firmware&lt;/a&gt; project:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# git clone https://github.com/cesanta/mongoose-iot&lt;/code&gt;&lt;/li&gt;
+	&lt;li&gt;enter the ESP8266 firmware project folder:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# cd mongoose-iot/fw/platforms/esp8266&lt;/code&gt;&lt;/li&gt;
+	&lt;li&gt;edit the Makefile.build and make sure that the following parameters are set:
+	&lt;pre&gt;
+APP_FS_PATH ?= $(REPO_PATH)/fw/platforms/esp8266/fs
+MG_ENABLE_JS ?= 0
+CREATE_RAW_FS ?= 1&lt;/pre&gt;
+	&lt;/li&gt;
+	&lt;li&gt;build the firmware:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;# sudo make&lt;/code&gt;&lt;br /&gt;
+	Notice that this task may take some time to complete, for the first time, since various &lt;code&gt;docker&lt;/code&gt; image packages needs to be downloaded and extracted on your machine&lt;/li&gt;
+	&lt;li&gt;when the build process is complete, the resulting firmware zip archive file is: &lt;code&gt;mongoose-iot/fw/platforms/esp8266/firmware/mongoose-iot-esp8266-last.zip&lt;/code&gt;&lt;/li&gt;
+	&lt;li&gt;open the MFT application in advanced mode, by executing:&lt;br /&gt;
+	&lt;code class=&quot;consoleCode&quot;&gt;./MFT --advanced &lt;/code&gt;&lt;br /&gt;
+	from the &lt;code&gt;mongoose-flashing-tool/src&lt;/code&gt; folder&lt;/li&gt;
+	&lt;li&gt;connect to the ESP module by using the &lt;code&gt;connect&lt;/code&gt; button, after selecting the correct communication port (e.g., &lt;code&gt;ttyUSB0&lt;/code&gt;), then use the &lt;code&gt;Firmwware&lt;/code&gt; section to select the firmware zip file created above, and press the &lt;code&gt;Flash&lt;/code&gt; button&lt;/li&gt;
+	&lt;li&gt;in a few seconds, the flash process must be completed, now reboot the ESP module by clicking the &lt;code&gt;Reboot&lt;/code&gt; button&lt;/li&gt;
+	&lt;li&gt;test if the module works as expected: execute &lt;code&gt;Sys.conf&lt;/code&gt; in the MFT console, and you should see current configuration settings.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can also download the &quot;ready to flash&quot; Mongoose-IoT Firmware for ESP8266 with DHT11/21/22 JavaScript support by using the download button below:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/mongoose-iot-esp8266-firmware.zip&quot; style=&quot;padding: 
+2px 3px; margin: 1em; border: 1px solid black;&quot;&gt;Download Mongoose-IoT Firmware for ESP8266 with DHT11/21/22 JavaScript Support&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;Expose Custom JavaScript Global Methods and Objects&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: &lt;/strong&gt;the complete source code for all the examples discussed in this section is available on our &lt;a href=&quot;https://github.com/dimircea/MongooseIoT-Extensions/tree/master/DHTxx&quot;&gt;GitHub&lt;/a&gt; project page. You can also download the code using the links from this article, however, it may be outdated after some time, so we strongly recommend our &lt;a href=&quot;https://github.com/dimircea/MongooseIoT-Extensions/tree/master/DHTxx&quot;&gt;GitHub&lt;/a&gt; project page instead.&lt;/p&gt;
+
+&lt;p&gt;Some components, such as &lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/DHT22_AM2302.pdf&quot;&gt;DHT22 / AM2302&lt;/a&gt;, temperature and humidity sensor, but not only, are harder to be read directly from the JavaScript code with the Mongoose-IoT firmware. This happens because the MCU is simply not fast enough for the JavaScript interpreter, so we can&#039;t deal with the very small pulses (under 20μs) we need to measure on the code, for being able to communicate with such components. The alternative and better approach is to write custom C/C++ code as part of the Mongoose-IoT firmware, and expose some objects and methods to JavaScript, thus being executed by the native firmware code, which is so much faster.&lt;/p&gt;
+
+&lt;p&gt;First we define a flag which allows to enable of disable the DHTxx library, so in case that for a project you don&#039;t need such a sensor, is possible to exclude this code from the firmware simply by using a flag. Notice that the firmware needs to be compiled/rebuild after adding or dropping the parameter. The following C/C++ code is part of the &lt;code&gt;fw/platforms/esp8266/user/v7_esp_features.h&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;pre&gt;
+#ifndef CS_FW_PLATFORMS_ESP8266_USER_V7_ESP_FEATURES_H_
+  #define CS_FW_PLATFORMS_ESP8266_USER_V7_ESP_FEATURES_H_
+  &lt;strong&gt;#define V7_ESP_ENABLE__DHT&lt;/strong&gt;
+#endif 
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: &lt;/strong&gt; only the marked code line is new (added by us), the rest of the code already exists as part of the &lt;code&gt;fw/platforms/esp8266/user/v7_esp_features.h&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;The next step is to modify the file &lt;code&gt;fw/platforms/esp8266/user/v7_esp.c&lt;/code&gt; by considering the code shown below:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;strong&gt;#include &quot;fw/platforms/esp8266/user/dht.h&quot;&lt;/strong&gt;
+
+&lt;strong&gt;#ifdef V7_ESP_ENABLE__DHT&lt;/strong&gt;
+  static enum v7_err DHT_read(struct v7 *v7, v7_val_t *result) {
+    v7_val_t sensorTypeArg = v7_arg(v7, 0);
+    v7_val_t pinArg = v7_arg(v7, 1);
+  
+    // validate the first parameter - the DHT sensor type (11, 21, or 22)
+    if (!v7_is_number(sensorTypeArg) || 
+        (v7_get_double(v7, sensorTypeArg) != 1 
+        &amp;amp;&amp;amp; v7_get_double(v7, sensorTypeArg) != 2 
+        &amp;amp;&amp;amp; v7_get_double(v7, sensorTypeArg) != 3)) 
+      return v7_throwf(v7, &quot;Error&quot;, &quot;Parameter 1, must be one of Dht.TypeEL.DHTxx.&quot;);
+
+    // validate the second parameter - the GPIO pin number
+    &lt;strong&gt;if (!v7_is_number(pinArg)) 
+      return v7_throwf(v7, &quot;Error&quot;, &quot;Parameter 2, must be a GPIO pin number.&quot;);&lt;/strong&gt;
+
+    uint8_t pin = v7_get_int(v7, pinArg);
+    uint8_t sType = v7_get_int(v7, sensorTypeArg);
+    double temperature = 0.0;
+    double humidity = 0.0;
+    const char* sTypeName = (sType == 1 ? &quot;DHT11&quot; : (sType == 2 ? &quot;DHT21&quot; : &quot;DHT22&quot;));
+
+    // read the DHT sensor and check if the read was a successful
+    if (&lt;strong&gt;!dhtRead(sType, pin, &amp;amp;temperature, &amp;amp;humidity)&lt;/strong&gt;) {
+      // error reading DHT sensor...normally this is a check sum error
+      return v7_throwf(v7, &quot;Error&quot;, &quot;Failed to read the DHT sensor!&quot;);
+    }
+    
+    // create the result JavaScript object and append the 
+    // &quot;type&quot;, &quot;temperature&quot; and &quot;humidity&quot; properties, as well as their values
+    &lt;strong&gt;*result = v7_mk_object(v7);
+    v7_set(v7, *result, &quot;type&quot;, 4, v7_mk_string(v7, sTypeName, 5, 1));
+    v7_set(v7, *result, &quot;temperature&quot;, 11, v7_mk_number(v7, temperature));
+    v7_set(v7, *result, &quot;humidity&quot;, 8, v7_mk_number(v7, humidity));
+    return V7_OK;&lt;/strong&gt;
+  };
+#endif /* V7_ESP_ENABLE__DHT */
+&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;DHT_read&lt;/code&gt; method is responsible to check the parameters provided to the JavaScript &lt;code&gt;Dht.read&lt;/code&gt; method. Internally, the &lt;code&gt;dhtRead&lt;/code&gt; method will be called - it is responsible for the communication with the sensor, as discussed further in this section. Finally, a JavaScript anonymous object representing the JavaScript &lt;code&gt;Dht.read&lt;/code&gt; method response is created. It is stored in a pointer, the last parameter of the &lt;code&gt;DHT_read&lt;/code&gt; method. Notice that the &lt;code&gt;DHT_read&lt;/code&gt; method returns &lt;code&gt;V7_OK&lt;/code&gt; or throws exceptions, depending on the case. Also notice that &lt;code&gt;DHT_read&lt;/code&gt; is a name that we choose, so you are free to change it with whatever you find appropriate, but remember to change every reference in the code.&lt;/p&gt;
+
+&lt;p&gt;Further, in the same &lt;code&gt;fw/platforms/esp8266/user/v7_esp.c&lt;/code&gt; file, we modify the &lt;code&gt;init_v7&lt;/code&gt; method code as shown below:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;strong&gt;void init_v7( void *stack_base)&lt;/strong&gt; {
+  // this code is compiled and becomes part of the firmware, only if the 
+  // V7_ESP_ENABLE__DHT flag is used
+  &lt;strong&gt;#ifdef V7_ESP_ENABLE__DHT&lt;/strong&gt;
+    v7_val_t dht = v7_mk_object(v7);
+    v7_val_t typeEL = v7_mk_object(v7);
+    // create the Dht global object, accessible in JS code
+    &lt;strong&gt;v7_set(v7, v7_get_global(v7), &quot;Dht&quot;, 3, dht);&lt;/strong&gt;
+    // add the read method to the DHT JS object
+    &lt;strong&gt;v7_set_method(v7, dht, &quot;read&quot;, DHT_read);&lt;/strong&gt;
+    // define the Dht.TypeEL enumeration property
+    &lt;strong&gt;v7_def(v7, dht, &quot;TypeEL&quot;, 6, 
+      (V7_DESC_WRITABLE(0) | V7_DESC_ENUMERABLE(1)), typeEL);&lt;/strong&gt;
+    // create the Dht.TypeEL.DHT11 enumeration literal 
+    // {enumerable: true, writable: false}
+    &lt;strong&gt;v7_def(v7, typeEL, &quot;DHT11&quot;, 5, 
+      (V7_DESC_WRITABLE(0) | V7_DESC_ENUMERABLE(1)), v7_mk_number(v7, 1));&lt;/strong&gt;
+    // create the Dht.TypeEL.DHT21 enumeration literal 
+    // {enumerable: true, writable: false}
+    v7_def(v7, typeEL, &quot;DHT21&quot;, 5, 
+      (V7_DESC_WRITABLE(0) | V7_DESC_ENUMERABLE(1)), v7_mk_number(v7, 2));
+    // create the Dht.TypeEL.DHT22 enumeration literal 
+    // {enumerable: true, writable: false}
+    v7_def(v7, typeEL, &quot;DHT22&quot;, 5, 
+      (V7_DESC_WRITABLE(0) | V7_DESC_ENUMERABLE(1)), v7_mk_number(v7, 3));
+  #endif /* V7_ESP_ENABLE__DHT */
+}
+&lt;/pre&gt;
+
+&lt;p&gt;The purpose of this code is to create the &lt;code&gt;Dht&lt;/code&gt; JavaScript object (accessible from the JavaScript code running on the ESP module), create the &lt;code&gt;Dht.TypeEL&lt;/code&gt; JavaScript &quot;enumeration&quot; (well, emulating an enumeration) and to expose the &lt;code&gt;Dht.read&lt;/code&gt; method, so we are able to read the DHT sensor from a JavaScript program.&lt;/p&gt;
+
+&lt;p&gt;Notice that we can create objects and object properties for the exposed JavaScript interface, in a similar manner as we do in standard JavaScript code with the help of &lt;code&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty&quot;&gt;Object.defineProperty&lt;/a&gt;&lt;/code&gt; and &lt;code&gt;&lt;a href=&quot;https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties&quot;&gt;Object.defineProperties&lt;/a&gt;&lt;/code&gt;, thus we can make a property read-only, enumerable and provide an initial value to it if required. Datatypes values are obtained by calling the corresponding &lt;code&gt;v7_mk_xxx&lt;/code&gt; method, where &lt;code&gt;xxx&lt;/code&gt; can be &lt;code&gt;null&lt;/code&gt;, &lt;code&gt;object&lt;/code&gt;, &lt;code&gt;number&lt;/code&gt; or &lt;code&gt;string&lt;/code&gt; depending on the case.&lt;/p&gt;
+
+&lt;p&gt;It is also important to know that when we use the &lt;code&gt;v7_def&lt;/code&gt; and &lt;code&gt;v7_set&lt;/code&gt; methods, their 4th parameter is a positive integer, representing the number of characters of the name of the property or method that is created. Failing to set this value correctly, results in the property or method not being recognized in the JavaScript code!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: &lt;/strong&gt; the init_v7 method contains additional code, which should be kept unchanged. In this tutorial only show the new code, required for our custom functionality, but the existing code must not be changed, otherwise the resulting firmware may not work as expected.&lt;/p&gt;
+
+&lt;p&gt;Now, we need to write the a C/C++ header file that exposes the method(s) meant to be used by the Mongoose-IoT firmware for the communication with the DHTxx sensor. We create the file &lt;code&gt;fw/platforms/esp8266/user/dht.h&lt;/code&gt; that defines the signature of the &lt;code&gt;dhtRead&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;
+#ifndef DHT_LIBRARY
+  #define DHT_LIBRARY
+  #include &quot;v7_esp_features.h&quot;
+
+  #ifdef V7_ESP_ENABLE__DHT
+   &lt;strong&gt;bool dhtRead(uint8_t sensorType, uint8_t pin, double* temperature, double* humidity);&lt;/strong&gt;
+  #endif
+#endif&lt;/pre&gt;
+
+&lt;p&gt;Notice that this header file was already used in the &lt;code&gt;fw/platforms/esp8266/user/v7_esp.c&lt;/code&gt; code. Finally, we need to add the &lt;code&gt;fw/platforms/esp8266/user/dht.c&lt;/code&gt; file, where we put the code that allows us to communicate with any of the the DHT11/21/22 sensors, for getting temperature and humidity readings:&lt;/p&gt;
+
+&lt;pre&gt;
+#include &amp;lt;osapi.h&amp;gt;
+#include &quot;v7/v7.h&quot;
+#include &quot;common/platforms/esp8266/esp_missing_includes.h&quot;
+#include &quot;fw/platforms/esp8266/user/v7_esp_features.h&quot;
+&lt;strong&gt;#include &quot;fw/platforms/esp8266/user/util.h&quot;
+#include &quot;fw/platforms/esp8266/user/esp_gpio.h&quot;&lt;/strong&gt;
+
+#ifdef V7_ESP_ENABLE__DHT
+  &lt;strong&gt;static uint16_t waitLHCycle(uint8_t pin, uint32_t* maxCycles)&lt;/strong&gt; {
+    // wait until the pin goes from a digital LOW state 
+    // to a digital HIGH state, or until the timeout occurs
+    // NOTE: this is a helper method for dhtReadByte, to avoid repetitive code
+  };
+  &lt;strong&gt;static uint8_t dhtReadByte(uint8_t pin, uint32_t* maxCycles)&lt;/strong&gt; {
+    // read one byte (8 bits) of data from the DHTxx sensor
+    // by using the sensor datasheet which explains what means a bit 1 and a bit 0
+  };
+  &lt;strong&gt;bool dhtRead(uint8_t sensorType, uint8_t pin, double* temperature, double* humidity)&lt;/strong&gt; {
+    // 1) read the 5 bytes of data from the DHTxx sensor;
+    // 2) perform a check sum test for data integrity (the 5th byte is the check sum one);
+    // 3) decode the 4 bytes of data and transform them to temperature and humidity values
+  };
+#endif&lt;/pre&gt;
+
+&lt;p&gt;See the &lt;a href=&quot;https://github.com/dimircea/MongooseIoT-Extensions/blob/master/DHTxx/src/dht.c&quot;&gt;fw/platforms/esp8266/user/dht.c&lt;/a&gt; full source code on GitHub or download the full source code archive using the link at the top of this tutorial page.&lt;/p&gt;
+
+&lt;p&gt;Lets have a look at the interesting parts only, mainly how to control GPIO pins. Before being able to interact with a GPIO pin, we need to set the pin either for read of write mode, with the help of &lt;code&gt;mg_gpio_set_mode&lt;/code&gt; method. It accepts three parameters: 1) the GPIO pin number; (e.g., 5 for GPIO5) 2) the mode, which is one of &lt;code&gt;{GPIO_MODE_INOUT = 0, GPIO_MODE_INPUT = 1, GPIO_MODE_OUTPUT = 2}&lt;/code&gt;; 3) GPIO pull type, one of &lt;code&gt;{GPIO_PULL_FLOAT = 0, GPIO_PULL_PULLUP = 1, GPIO_PULL_PULLDOWN = 2}&lt;/code&gt;, specifying if the GPIO pin is internally pulled up, down or let floating. The following example makes sets the GPIO5 pin as a digital output and GPIO4 as pulled down digital input:&lt;/p&gt;
+
+&lt;pre&gt;
+mg_gpio_set_mode( 5, GPIO_MODE_OUTPUT, GPIO_PULL_FLOAT);
+mg_gpio_set_mode( 4, GPIO_MODE_INPUT, GPIO_PULL_DOWN);&lt;/pre&gt;
+
+&lt;p&gt;Reading the state of a digital pin that was set as digital input is made by using &lt;code&gt;read_gpio_pin&lt;/code&gt; method, which returns &lt;code&gt;GPIO_LEVEL_ERR&lt;/code&gt; (&lt;code&gt;GPIO_LEVEL_ERR = -1&lt;/code&gt;) in case of error, &lt;code&gt;GPIO_LEVEL_LOW&lt;/code&gt; (&lt;code&gt;GPIO_LEVEL_LOW = 0&lt;/code&gt;) if a LOW status was read and &lt;code&gt;GPIO_LEVEL_HIGH&lt;/code&gt; (&lt;code&gt;GPIO_LEVEL_HIGH = 1&lt;/code&gt;) if a HIGH state was read. To set the status of a GPIO that was set as output implies to use the &lt;code&gt;set_gpio method&lt;/code&gt;, which takes two parameters: 1) the GPIO pin number (e.g., 5 for GPIO5); 2) the state to set the pin to, one of &lt;code&gt;{GPIO_LEVEL_LOW = 0, GPIO_LEVEL_HIGH = 1}&lt;/code&gt;. For example, if we like to wait for a HIGH signal on GPIO4 pin (set as digital input in the above example) and write a HIGH state on GPIO5 (set as digital output in the above example) afterwards, we&#039;ll use:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;code&gt;
+while( read_gpio_pin( 5) == GPIO_LEVEL_LOW);
+set_gpio( 4, GPIO_LEVEL_HIGH);&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: &lt;/strong&gt; the following two header files are required for getting the above described GPIO operations: &lt;code&gt;fw/platforms/esp8266/user/util.h&lt;/code&gt; and &lt;code&gt;fw/platforms/esp8266/user/esp_gpio.h&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To make this new feature available on your ESP module, you&#039;ll need to compile and build the source code, then flash the firmware, as shown in &lt;a href=&quot;#buildFirmwareRPi&quot;&gt;Section: Build the Mongoose-IoT Firmware on a Raspberry Pi&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After uploading the new firmware, test the DHT functionality by using the following JavaScript code in the MFT Console, or as part of the &lt;code&gt;app.js&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;pre&gt;
+Dht.read( Dht.TypeEL.DHT11, 5);
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: &lt;/strong&gt;if is the case, replace &lt;code&gt;Dht.TypeEL.DHT11&lt;/code&gt; with &lt;code&gt;Dht.TypeEL.DHT21&lt;/code&gt; or &lt;code&gt;Dht.TypeEL.DHT22&lt;/code&gt;, depending on the used DHT sensor type, and also replace 5 (the second parameter) with the corresponding GPIO number, to which you have connected the data pin of the DHT sensor.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/DHTxx_src.zip&quot; style=&quot;padding: 
+2px 3px; margin-removed 1em; border: 1px solid black;&quot;&gt;Download the code&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;The ESP8266&#039;s Big Brother: ESP32&lt;/h2&gt;
+
+&lt;p&gt;The ESP8266 module got lately a big brother: the new ESP32 module. It is more powerful, but also comes with new features, such as builtin Bluetooth 4.2. In &lt;a href=&quot;#fig13&quot;&gt;Figure 13&lt;/a&gt; we can see the official ESP32 modules, also named &lt;a href=&quot;http://www.pighixxx.com/test/2016/08/wroom32/&quot;&gt;WROOM-32&lt;/a&gt;. The following table provides the main differences of ESP32 by comparison with ESP8266.&lt;/p&gt;
+
+&lt;table&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th&gt;Feature / Component&lt;/th&gt;
+			&lt;th&gt;ESP8266&lt;/th&gt;
+			&lt;th&gt;ESP32&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td&gt;MCU&lt;/td&gt;
+			&lt;td&gt;Xtensa Single-Core 32-bit L106, 80MHz&lt;/td&gt;
+			&lt;td&gt;&amp;gt;Xtensa Dual-Core 32-bit LX6, 160MHz&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;RAM&lt;/td&gt;
+			&lt;td&gt;160KB&lt;/td&gt;
+			&lt;td&gt;512KB&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;FLASH&lt;/td&gt;
+			&lt;td&gt;up to 16MB SPI Flash&lt;/td&gt;
+			&lt;td&gt;up to 16MB SPI Flash&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;GPIOs&lt;/td&gt;
+			&lt;td&gt;17&lt;/td&gt;
+			&lt;td&gt;36&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;SPI/I2C/I2S/UART/CAN&lt;/td&gt;
+			&lt;td&gt;2/1/2/2/0&lt;/td&gt;
+			&lt;td&gt;4/2/2/2/1&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;ADC&lt;/td&gt;
+			&lt;td&gt;1 x 10bits&lt;/td&gt;
+			&lt;td&gt;1 x 12bits&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;WiFi&lt;/td&gt;
+			&lt;td&gt;b/g/n, HT20&lt;/td&gt;
+			&lt;td&gt;b/g/n, HT40&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;Bluetooth&lt;/td&gt;
+			&lt;td&gt;-&lt;/td&gt;
+			&lt;td&gt;v4.2&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;Builtin sensors&lt;/td&gt;
+			&lt;td&gt;-&lt;/td&gt;
+			&lt;td&gt;temperature, touch&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;Working conditions&lt;/td&gt;
+			&lt;td&gt;-40°C - 125°C&lt;/td&gt;
+			&lt;td&gt;-40°C - 125°C&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;Approximate price&lt;/td&gt;
+			&lt;td&gt;3-10 EUR, including shipping to EU&lt;/td&gt;
+			&lt;td&gt;10-22 EUR, including shipping to EU&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;figure id=&quot;fig13&quot;&gt;&lt;a href=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/esp32_wroom.png&quot;&gt;&lt;img alt=&quot;WROOM-32, the Official ESP32 Module&quot; src=&quot;http://web-engineering.info/sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/esp32_wroom.png&quot; /&gt;&lt;/a&gt;
+
+&lt;figcaption&gt;Figure 13: WROOM-32, the Official ESP32 Module.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Unfortunately, at the moment of writing this tutorial, it is not easy to buy the ESP32 module, since most of the online sources (the vast majority from Asia) report the module as &quot;out of stock&quot;. However, we strongly believe that the situation will change soon, and the ESP32 may take the place of ESP8266 modules in new projects, or as improvements of the old projects that requires WiFi or Bluetooth connection and MCU on a single small and cheap module.&lt;/p&gt;
+
+&lt;h2&gt;Some Points of Attention&lt;/h2&gt;
+
+&lt;p&gt;The ESP8266 module represents the brain of your projects, but it requires that you take some precautions to keep it safe and be sure that it runs as supposed:&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;Most of the ESP8266 modules are powered by 3.3V, thus using 5V or anything more than 3.6V may and will damage your module! Some of the ESP8266 modules, such as the NodeMCU or WeMOS, discussed in this article, allows to power the module board (but not directly the ESP8266 MCU!) by using a USB connector (mini or micro USB ones), thus using 5V (or up to 10V for WeMOS D1 Mini), while a builtin voltage regulator is responsible for converting this down to 3.3V as required by the MCU.&lt;/li&gt;
+	&lt;li&gt;No matter the input voltage accepted by an ESP8266 module (usually a direct 3.3V input or 5V via USB connector), in most cases the GPIOs pins are tolerant to ONL 3.3V or less positive voltage, meaning that you should never ever provide more than 3.3V nor a negative voltage to any of the GPIO pins.&lt;/li&gt;
+	&lt;li&gt;The ESP8266 module exposes one ADC pin (expandable by using multiplexing or specialized ICs), allowing to measure analog voltages in the range 0-1V. Do NOT provide more than 1V or a negative voltage to this pin. If more than 1V must be measured, then use a &lt;a href=&quot;https://en.wikipedia.org/wiki/Voltage_divider&quot;&gt;voltage divider circuit&lt;/a&gt; or an external ADC IC or module (e.g., &lt;a href=&quot;https://www.adafruit.com/product/1083&quot;&gt;ADS1015 12-Bit ADC - 4 Channel&lt;/a&gt;) capable to communicate via I2C, SPI or UART. However, some modules, such as WeMOS D1 Mini allows 0-3.3V as input for the ADC pin, since it uses a builtin voltage divider circuit.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;section class=&quot;field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-rss&quot;&gt;&lt;h2 class=&quot;field-label&quot;&gt;Category:&amp;nbsp;&lt;/h2&gt;&lt;ul class=&quot;field-items&quot;&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/40&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;WoT&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;/taxonomy/term/50&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;IoT&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/JavaScript&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;JavaScript&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item odd&quot;&gt;&lt;a href=&quot;/taxonomy/term/51&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;ESP8266&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/taxonomy/term/52&quot; typeof=&quot;skos:Concept&quot; property=&quot;rdfs:label skos:prefLabel&quot; datatype=&quot;&quot;&gt;WiFi&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;div class=&quot;easy_social_box clearfix horizontal easy_social_lang_und&quot;&gt;
+            &lt;div class=&quot;easy_social-widget easy_social-widget-twitter first&quot;&gt;&lt;a href=&quot;http://twitter.com/share&quot; class=&quot;twitter-share-button&quot;
+data-url=&quot;https://web-engineering.info/node/65&quot;
+data-count=&quot;horizontal&quot;
+data-lang = &quot;en&quot;
+data-via=&quot;&quot;
+data-related=&quot;:Check it out!&quot;
+data-text=&quot;JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi&quot;&gt;Tweet&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-facebook&quot;&gt;&lt;fb:like href=&quot;https://web-engineering.info/node/65&quot; send=&quot;true&quot; layout=&quot;button_count&quot; width=&quot;88&quot; show_faces=&quot;true&quot; action=&quot;like&quot; colorscheme=&quot;light&quot; font=&quot;&quot;&gt;&lt;/fb:like&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-googleplus&quot;&gt;&lt;div class=&quot;g-plusone&quot; data-size=&quot;medium&quot; data-annotation=&quot;bubble&quot; data-href=&quot;https://web-engineering.info/node/65&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;easy_social-widget easy_social-widget-linkedin last&quot;&gt;&lt;script type=&quot;in/share&quot; data-url=&quot;https://web-engineering.info/node/65&quot; data-counter=&quot;right&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+  &lt;/div&gt; &lt;!-- /.easy_social_box --&gt;</description>
+ <pubDate>Wed, 21 Sep 2016 09:52:01 +0000</pubDate>
+ <dc:creator>mdiaconescu</dc:creator>
+ <guid isPermaLink="false">65 at https://web-engineering.info</guid>
+ <comments>https://web-engineering.info/node/65#comments</comments>
+</item>
+</channel>
+</rss>

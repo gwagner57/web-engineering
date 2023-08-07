@@ -1,0 +1,77 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch09.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;9.&nbsp;Implementing Unidirectional Functional Associations with Plain JS</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="pt04.html" title="Part&nbsp;IV.&nbsp;Associations"><link rel="prev" href="ch08s10.html" title="10.&nbsp;Quiz Questions"><link rel="next" href="ch09s02.html" title="2.&nbsp;Make a JS Class Model"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;9.&nbsp;Implementing Unidirectional Functional Associations with Plain
+  JS</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s10.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;IV.&nbsp;Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="chJsUnidirFunAss"></a>Chapter&nbsp;9.&nbsp;Implementing Unidirectional Functional Associations with Plain
+  JS</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch09.html#sectImplemSingleRefProp">1. Implementing Single-Valued Reference Properties</a></span></dt><dt><span class="section"><a href="ch09s02.html">2. Make a JS Class Model</a></span></dt><dt><span class="section"><a href="ch09s03.html">3. New Issues</a></span></dt><dt><span class="section"><a href="ch09s04.html">4. Code the Model</a></span></dt><dd><dl><dt><span class="section"><a href="ch09s04.html#d5e6260">4.1. Summary</a></span></dt><dt><span class="section"><a href="ch09s04.html#d5e6276">4.2. Code each model class as a JS class</a></span></dt><dt><span class="section"><a href="ch09s04.html#d5e6307">4.3. Code the property checks</a></span></dt><dt><span class="section"><a href="ch09s04.html#d5e6342">4.4. Code the property setters</a></span></dt><dt><span class="section"><a href="ch09s04.html#d5e6349">4.5. Choose and implement a deletion policy</a></span></dt><dt><span class="section"><a href="ch09s04.html#d5e6375">4.6. Serialization functions</a></span></dt></dl></dd><dt><span class="section"><a href="ch09s05.html">5. Code the View</a></span></dt><dd><dl><dt><span class="section"><a href="ch09s05.html#d5e6485">5.1. Setting up the <span class="italic">Retrieve/List
+      All</span> user interface</a></span></dt><dt><span class="section"><a href="ch09s05.html#d5e6495">5.2. Setting up the <span class="italic">Create</span> and
+      <span class="italic">Update</span> user interfaces</a></span></dt></dl></dd><dt><span class="section"><a href="ch09s06.html">6. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch09s06.html#d5e6528">6.1. Question 1: Single-valued reference property</a></span></dt><dt><span class="section"><a href="ch09s06.html#d5e6547">6.2. Question 2: Implementing the CASCADE deletion policy</a></span></dt><dt><span class="section"><a href="ch09s06.html#d5e6561">6.3. Question 3: JS class model</a></span></dt></dl></dd></dl></div><p>The three example apps that we have discussed
+  in previous parts of this tutorial, the <span class="italic">minimal
+  app</span>, the <span class="italic">validation app</span>, and
+  the <span class="italic">enumeration app</span>, have been limited to
+  managing the data of one object type only. A real app, however, has to
+  manage the data of several object types, which are typically related to each
+  other in various ways. In particular, there may be <span class="bold"><strong><span class="italic">associations</span></strong></span> and
+  <span class="bold"><strong><span class="italic">subtype</span></strong></span>
+  (inheritance) relationships between object types. Handling associations and
+  subtype relationships are advanced issues in software application
+  engineering. They are often not sufficiently discussed in text books and not
+  well supported by application development frameworks.</p><p>A unidirectional <span class="italic">functional</span>
+  association is either one-to-one or many-to-one. In both cases such an
+  association is represented, or implemented, with the help of a <span class="italic">single-valued</span> reference property.</p><p>In this chapter, we show</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>how to derive a plain JS class model from an OO class model with
+        single-valued reference properties representing <span class="italic">unidirectional functional
+        associations</span>,</p></li><li class="listitem"><p>how to code the JS class model in the form of plain JavaScript
+        model classes,</p></li><li class="listitem"><p>how to write the view and controller code based on the model
+        code.</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectImplemSingleRefProp"></a>1.&nbsp;Implementing Single-Valued Reference Properties</h2></div></div></div><p>When coding a class, the ES2015 feature of <span class="italic">function parameter destructuring</span> allows using a
+    single constructor parameter that is a record with a simplified syntax for
+    defining its fields. We make use of this new feature for obtaining a
+    simplified class definition syntax illustrated by the following
+    example:</p><pre class="programlisting">class <span class="bold"><strong>Book</strong></span> {
+  constructor ({isbn, title, year, ...}) {
+    this.isbn = isbn;
+    this.title = title;
+    this.year = year;
+    ...
+  }
+  ...
+}</pre><p>A single-valued reference property, such as the property
+    <code class="code">publisher</code> of the object type <code class="code">Book</code>, allows
+    storing internal references to objects of another type, such as
+    <code class="code">Publisher</code>. When creating a new object, the constructor
+    function needs to have a parameter for allowing to assign a suitable value
+    to the reference property. In a typed programming language, such as Java,
+    we would have to take a decision if this value is expected to be an
+    (internal) object reference or an (external) ID reference. In JavaScript,
+    however, we can take a more flexible approach and allow using either of
+    them, as shown in the following example:</p><pre class="programlisting">class <span class="bold"><strong>Book</strong></span> {
+  constructor ({isbn, title, year,
+      publisher, publisher_id}) {
+    ...
+    // assign object reference or ID reference
+    if (publisher || publisher_id)  {
+      this.publisher = publisher || publisher_id;
+    }
+    ...
+  }
+  ...
+}</pre><p>Notice that the record parameter's <code class="code">publisher</code> field
+    represents a JS object reference while its <code class="code">publisher_id</code> field
+    represents an ID reference. In JavaScript, we can use a disjunctive
+    expression like <code class="code">expr1 || expr2</code> for getting the value of the
+    first expression, if it is defined (and not 0), or else the value of the
+    second expression. We handle the resulting ambiguity in the property
+    setter by checking the type of the argument as shown in the following code
+    fragment:</p><pre class="programlisting"><span class="bold"><strong>set publisher</strong></span>(p) {
+  var publisher_id = "";
+  // p can be an ID reference or an object reference 
+  publisher_id = (typeof p !==  "object") ? p : p.name;
+  ...
+  this._publisher = Publisher.instances[ publisher_id];
+  ...
+}</pre><p>Notice that the <code class="code">name</code> of a publisher is used as an ID
+    reference, since it is the standard ID of the <code class="code">Publisher</code>
+    class.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s10.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">10.&nbsp;Quiz Questions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Make a JS Class Model</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch09.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+</html>

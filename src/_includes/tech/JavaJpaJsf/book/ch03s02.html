@@ -1,0 +1,161 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch03s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Step 2 - Write the Model Code</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Building a Minimal Java Web App in Seven Steps"><link rel="prev" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Building a Minimal Java Web App in Seven Steps"><link rel="next" href="ch03s03.html" title="3.&nbsp;Step 3 - Configure the App"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Step 2 - Write the Model Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;3.&nbsp;Building a Minimal Java Web App in Seven Steps</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectionWriteTheModelCode"></a>2.&nbsp;Step 2 - Write the Model Code</h2></div></div></div><p>In the second step, we create the model classes for our app, using a separate Java source
+   code file (with extension <code class="code">.java</code>) for each model class. In the information design
+   model shown in <a class="xref" href="ch03.html#java_figBook" title="Figure&nbsp;3.1.&nbsp;The object type Book.">Figure&nbsp;3.1</a> above, there is only one
+   class, representing the object type <code class="code">Book</code>. So, we create a file
+    <code class="code">Book.java</code> in the folder <code class="code">src/pl/model</code> with the following code:
+   </p><pre class="programlisting"><span class="bold"><strong>@Entity</strong></span> <span class="bold"><strong>@Table( name="books")</strong></span>
+public class <span class="bold"><strong>Book</strong></span> {
+  <span class="bold"><strong>@Id</strong></span> private String <span class="bold"><strong>isbn</strong></span>;
+  private String <span class="bold"><strong>title</strong></span>;
+  private int <span class="bold"><strong>year</strong></span>;
+  // default constructor, required for entity classes
+  public Book() {}
+  // constructor
+  public <span class="bold"><strong>Book</strong></span>( String isbn, String title, int year) {
+    this.setIsbn( isbn);
+    this.setTitle( title);
+    this.setYear( year);
+  }
+  // getter and setter methods
+  public String <span class="bold"><strong>getIsbn</strong></span>() {return isbn;}
+  public void setIsbn( String isbn) {this.isbn = isbn;}
+  public String <span class="bold"><strong>getTitle</strong></span>() {return title;}
+  public void setTitle( String title) {this.title = title;}
+  public int <span class="bold"><strong>getYear</strong></span>() {return year;}
+  public void setYear( int year) {this.year = year;}
+  // CRUD data management methods
+  public static void <span class="bold"><strong>add</strong></span>(...) {...}
+  public static List&lt;Book&gt; <span class="bold"><strong>retrieveAll</strong></span>(...) {...}
+  public static Book <span class="bold"><strong>retrieve</strong></span>(...) {...}
+  public static void <span class="bold"><strong>update</strong></span>(...) {...}
+  public static void <span class="bold"><strong>destroy</strong></span>(...) {...}
+  public static void clearData(...) {...}
+  public static void createTestData(...) {...}
+}</pre><p>Notice
+   that the model class <code class="code">Book</code> is encoded as a <span class="bold"><strong><span class="italic">JPA entity class</span></strong></span>, which is a JavaBean class enriched with
+   the following JPA annotations: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>The annotation <code class="code">@Entity</code> designates a class as an entity class implying that
+      the instances of this class will be stored persistently.</p></li><li class="listitem"><p>The annotation <code class="code">@Table( name="books")</code> specifies the name of the database
+      table to be used for storing the <code class="code">Book</code> entities. This annotation is optional and
+      defaults to a table name being the same as the class name but in lower case (that is, it would
+      be <code class="code">book</code> in our case).</p></li><li class="listitem"><p>The <code class="code">@Id</code> annotation marks the standard identifier attribute, implying that
+      the corresponding column of the underlying SQL database table is designated as the PRIMARY
+      KEY. In our example, <code class="code">isbn</code> is used as the standard identifier attribute, and the
+      corresponding <code class="code">isbn</code> column of the <code class="code">books</code> table stores the primary key
+      values.</p></li></ol></div><p>In the entity class <code class="code">Book</code>, we also define the following <span class="italic">static</span> (class-level) methods: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><code class="code">Book.add</code> for creating a new <code class="code">Book</code> instance.</p></li><li class="listitem"><p><code class="code">Book.retrieveAll</code> for retrieving all <code class="code">Book</code> instances from the
+      persistent data store.</p></li><li class="listitem"><p><code class="code">Book.retrieve</code> for retrieving a specific <code class="code">Book</code> instance from the
+      persistent data store by means of its standard identifier.</p></li><li class="listitem"><p><code class="code">Book.update</code> for updating an existing <code class="code">Book</code> instance.</p></li><li class="listitem"><p><code class="code">Book.destroy</code> for deleting a <code class="code">Book</code> instance.</p></li><li class="listitem"><p><code class="code">Book.createTestData</code> for creating a few example book records to be used as
+      test data.</p></li><li class="listitem"><p><code class="code">Book.clearData</code> for clearing the book database table.</p></li></ol></div><p>These methods are discussed in the following sections.</p><p>The JPA architecture for data management and object-to-storage mapping is based on the
+   concept of an <span class="bold"><strong><span class="italic">entity manager</span></strong></span>,
+   which provides the data management methods <code class="code">persist</code> for saving a newly created
+   entity, <code class="code">find</code> for retrieving an entity, and <code class="code">remove</code> for deleting an
+   entity.</p><p>Since the database access operations of an entity manager are executed in the context of a
+    <span class="bold"><strong><span class="italic">transaction</span></strong></span>, our data
+   management methods have a parameter <code class="code">ut</code> of type <code class="code">UserTransaction</code>. Before
+   the entity manager can invoke the database write method <code class="code">persist</code>, a transaction needs
+   to be started with <code class="code">ut.begin()</code>. After all write (and state change) operations have
+   been performed, the transaction is completed (and all changes are committed) with
+    <code class="code">ut.commit()</code>. </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e761"></a>2.1.&nbsp;Storing <code class="code">Book</code> objects in a database table <code class="code">books</code></h3></div></div></div><p>The instances of our entity class <code class="code">Book</code> are special Java objects representing
+    "entities" (or <span class="italic">business objects</span>), which can be <span class="italic">serialized</span>, or, in other words, turned into database <span class="italic">records</span>, or <span class="italic">rows</span> of a database
+    table. Consequently, they can be shown as a table like in <a class="xref" href="ch03s02.html#tblAssocArrayOfBooks" title="Table&nbsp;3.2.&nbsp;Book objects represented as a table">Table&nbsp;3.2</a>.</p><div class="table"><a name="tblAssocArrayOfBooks"></a><p class="title"><b>Table&nbsp;3.2.&nbsp;Book objects represented as a table</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+						<th>ISBN</th>
+						<th>Title</th>
+						<th>Year</th>
+					</tr></thead><tbody><tr>
+						<td>006251587X</td>
+						<td>Weaving the Web</td>
+						<td>2000 </td>
+					</tr><tr>
+						<td>0465026567</td>
+						<td>G&ouml;del, Escher, Bach</td>
+						<td>1999</td>
+					</tr><tr>
+						<td>0465030793</td>
+						<td>I Am A Strange Loop</td>
+						<td>2008</td>
+					</tr></tbody></table></div></div><br class="table-break"><p>The data storage technology used in our example app is <a class="link" href="http://www.mysql.com/" target="_top">MySQL</a>, and the (My)SQL code used to create the schema
+    for the database table <code class="code">books</code> is the following:</p><pre class="programlisting">CREATE TABLE IF NOT EXISTS <span class="bold"><strong>books</strong></span> (
+  <span class="bold"><strong>isbn</strong></span> VARCHAR(10) NOT NULL PRIMARY KEY,
+  <span class="bold"><strong>title</strong></span> VARCHAR(128),
+  <span class="bold"><strong>year</strong></span> SMALLINT
+);</pre><p>While it is also possible to create the database schema manually (with the help of CREATE
+    TABLE statements such as the one above), we'll show later in this tutorial how the database
+    schema can be automatically generated by JPA. In both cases, the database setup, including a
+    user account and the associated rights (create, update, etc), must be done manually before the
+    JPA application can connect to it.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionCreateAndPersistInstance"></a>2.2.&nbsp;Creating a new <code class="code">Book</code> instance and storing it</h3></div></div></div><p>The <code class="code">Book.add</code> method takes care of creating a new <code class="code">Book</code> instance
+    and saving it to a database with the help of an 'entity
+    manager':</p><pre class="programlisting">public static void <span class="bold"><strong>add</strong></span>( EntityManager em, UserTransaction ut, 
+    String <span class="bold"><strong>isbn</strong></span>, String <span class="bold"><strong>title</strong></span>, int year) throws Exception {
+  ut.begin();
+  Book book = new Book( isbn, title, year);
+  em.persist( book);
+  ut.commit();
+}</pre><p>For storing the new object, the <code class="code">persist</code> method of the given 'entity manager'
+    is invoked. It is responsible for creating the corresponding SQL INSERT statement and executing
+    it. </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionLoadAllInstances"></a>2.3.&nbsp;Retrieving all <code class="code">Book</code> instances</h3></div></div></div><p>The instances of an entity class, such as <code class="code">Book</code>, are retrieved from the
+    database with the help of a corresponding query expressed in the <span class="bold"><strong><span class="italic">Java Persistence Query Language</span></strong></span> (<a class="link" href="https://en.wikipedia.org/wiki/Java_Persistence_Query_Language" target="_top">JPQL</a>). These
+    queries are similar to SQL queries. They use class names Instead of table names, property names
+    instead of column names, and object variables instead of row variables. </p><p>In the <code class="code">Book.retrieveAll</code> method, first a <code class="code">query</code> asking for all
+     <code class="code">Book</code> instances is created, and then this query is executed with
+     <code class="code">query.getResultList()</code> assigning its answer set to the list variable
+     <code class="code">books</code>:</p><pre class="programlisting">public static List&lt;Book&gt; <span class="bold"><strong>retrieveAll</strong></span>( EntityManager em) {
+  Query query = em.createQuery( "SELECT b FROM Book b", Book.class);
+  List&lt;Book&gt; books = query.getResultList();
+  return books;
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionUpdateObjectInstance"></a>2.4.&nbsp;Updating a <code class="code">Book</code> instance</h3></div></div></div><p>For updating an existing <code class="code">Book</code> instance we first retrieve it from the database
+    with <code class="code">em.find</code>, and then set those attributes the value of which has
+    changed:</p><pre class="programlisting">public static void <span class="bold"><strong>update</strong></span>( EntityManager em, 
+    UserTransaction ut, String isbn, String title, 
+    int year) throws Exception {
+  ut.begin();
+  Book book = em.<span class="bold"><strong>find</strong></span>( Book.class, isbn);
+  if (!title.equals( book.getTitle())) book.setTitle( title);
+  if (year != book.getYear()) book.setYear( year);
+  ut.commit();
+}</pre><p>Notice that, when invoking the <code class="code">find</code> method for retrieving an entity, the first
+    argument must be a reference to the entity class concerned (here: <code class="code">Book.class</code>), so
+    the JPA runtime environment can identify the database table from which to retrieve the entity's
+    data. The second argument must be the value of the entity's primary key. </p><p>Notice that in the update case, we do not have to use <code class="code">persist</code> for saving the
+    changes. Saving is automatically managed by the JPA runtime environment when we complete the
+    transaction with <code class="code">ut.commit()</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionDeleteObjectInstance"></a>2.5.&nbsp;Deleting a <code class="code">Book</code> instance</h3></div></div></div><p>A book entity can be deleted from the database as shown in the following example
+    code:</p><pre class="programlisting">public static void <span class="bold"><strong>destroy</strong></span>( EntityManager em, 
+    UserTransaction ut, String isbn) throws Exception {
+  ut.begin();
+  Book book = em.<span class="bold"><strong>find</strong></span>( Book.class, isbn);
+  em.<span class="bold"><strong>remove</strong></span>( book);
+  ut.commit();
+}</pre><p>To delete an entity from the database, we first need to retrieve it with the help of the
+     <code class="code">find</code> method as in the update case. Then, the <code class="code">remove</code> method has to be
+    invoked by the 'entity manager', and finally the transaction is completed with
+     <code class="code">ut.commit()</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e856"></a>2.6.&nbsp;Creating test data</h3></div></div></div><p>For being able to test our code, we may create some test data and save it in our database.
+    We can use the following procedure for
+    this:</p><pre class="programlisting">public static void <span class="bold"><strong>createTestData</strong></span>( EntityManager em, 
+    UserTransaction ut) throws Exception {
+  Book book = null;
+  Book.clearData( em, ut);  // first clear the books table
+  ut.begin();
+  book = new Book("006251587X","Weaving the Web", 2000);
+  em.persist( book);
+  book = new Book("0465026567","G&ouml;del, Escher, Bach", 1999);
+  em.persist( book);
+  book = new Book("0465030793","I Am A Strange Loop", 2008);
+  em.persist( book);
+  ut.commit();
+}</pre><p>After clearing the database, we successively create 3 instances of the <code class="code">Book</code>
+    entity class and save them with the help of <code class="code">persist</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e864"></a>2.7.&nbsp;Clearing all data</h3></div></div></div><p>The following procedure clears our database by deleting all
+    rows:</p><pre class="programlisting">public static void <span class="bold"><strong>clearData</strong></span>( EntityManager em, 
+    UserTransaction ut) throws Exception {
+  ut.begin();
+  Query deleteStatement = em.createQuery( "DELETE FROM Book");
+  deleteStatement.executeUpdate();
+  ut.commit();
+}</pre><p>JPA does not provide a direct method to drop the entire population of a specific class from
+    the database. However, this can be easily obtained by using a JPQL statement as shown in the
+    above code. The JPQL code can be read as: <span class="italic">delete all rows from the
+     database table associated with the entity class <code class="code">Book</code></span>.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;3.&nbsp;Building a Minimal Java Web App in Seven Steps&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Step 3 - Configure the App</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch03s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:37 GMT -->
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/1-MinimalApp/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+ <meta charset="UTF-8" />
+ <title>Minimal Plain JS App</title>
+ <script src="src/c/initialize.js"></script>
+ <script src="src/m/Book.js"></script>
+</head>
+<body>
+ <h1>Public Library</h1>
+ <h2>Minimal App</h2>
+ <h3>An example of a minimal effort front-end web app built with plain JavaScript</h3>
+ <figure style="float:right">
+ <a href="../../../index.html">
+   <img property="thumbnailUrl" title="Icon made by Lorc under CC BY 3.0. Available on https://game-icons.net"
+    src="machine-build.svg" width="120"  alt=""/></a>
+ </figure>
+ <p>This app, which is accompanied by a <a href="../minimal-tutorial.html">tutorial</a>,
+	is the 1st example app of our incremental sequence of six examples of
+	<a href="../../../JsFrontendApp.html">Plain JS Front-End Web Apps</a>, which are also
+	discussed in the acompanying book <a href="../../../JsFrontendApp-Book.html">Building
+	Front-End Web Apps with Plain JavaScript</a>.
+	This app supports the following operations:</p>
+ <menu>
+  <li><a href="createBook.html"><button type="button">Create</button></a> a new book record</li>
+  <li><a href="retrieveAndListAllBooks.html"><button type="button">Retrieve</button></a> and list all book records</li>
+  <li><a href="updateBook.html"><button type="button">Update</button></a> a book record</li>
+  <li><a href="deleteBook.html"><button type="button">Delete</button></a> a book record</li>
+  <hr/>
+  <li><button type="button" onclick="Book.clearData()">Clear</button> database</li>
+  <li><button type="button" onclick="Book.generateTestData()">Generate</button> test data</li>
+ </menu>
+ <p>For playing with the app, you may first want to <button type="button" onclick="Book.generateTestData()">Generate test data</button> and then view it with <a href="retrieveAndListAllBooks.html"><button type="button">Retrieve and list all books</button></a>.
+  For observing the internal status and error messages, turn on the JavaScript console.</p>
+ <p>This minimal version of our JavaScript front-end data management application only includes a minimum of the overall functionality
+  required for a complete app. It takes care of only one object type ("books") and supports the four
+  standard data management operations (<strong>C</strong>reate/<strong>R</strong>etrieve/<strong>U</strong>pdate/<strong>D</strong>elete),
+  but it needs to be enhanced by styling the user interface with CSS rules and by adding further important parts
+  of the app's overall functionality, as explained in our other
+  <a href="../../../JsFrontendApp.html">Plain JS Front-End Web Apps</a> tutorials.</p>
+ <footer style="font-size: small;">
+  <hr />
+  <div>Copyright © 2013-2021 Gerd Wagner,
+   <a href="https://www.b-tu.de/fg-internet-technologie/">Chair of Internet Technology</a>,
+   Brandenburg University of Technology, Germany. The code of this tutorial web app is licensed under
+   <a rel="license" href="https://www.codeproject.com/info/cpol10.aspx">The Code Project Open License (CPOL)</a>,
+   implying that the code is provided "as-is", can be modified to create derivative works, can be redistributed,
+   and can be used in commercial applications, but the associated article or book chapter must not be
+	  distributed or republished without the copyright holder's consent.
+  </div>
+ </footer>
+</body>

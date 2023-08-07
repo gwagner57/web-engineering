@@ -1,0 +1,234 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch13s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Write the Model Code</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Implementing Bidirectional Associations with Plain JS"><link rel="prev" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Implementing Bidirectional Associations with Plain JS"><link rel="next" href="ch13s03.html" title="3.&nbsp;Exploit Inverse Reference Properties in the User Interface"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Write the Model Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;13.&nbsp;Implementing Bidirectional Associations with Plain JS</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e7905"></a>2.&nbsp;Write the Model Code</h2></div></div></div><p>The JS class model can be directly coded for getting the code of the
+    model layer of our <span class="italic">bidirectional association
+    app</span>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7909"></a>2.1.&nbsp;New issues</h3></div></div></div><p>Compared to the <span class="italic">unidirectional association
+      app</span>, we have to deal with a number of new technical
+      issues:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>We define the derived inverse reference properties, like
+          <code class="code">Publisher</code>::<code class="code">/publishedBooks</code>, without a
+          <span class="italic">check</span> operation and without a
+          <span class="italic">set</span> operation.</p></li><li class="listitem"><p>We also have to take care of maintaining the derived inverse
+          reference properties by maintaining the derived (sets of) inverse
+          references that form the (collection) value of a derived inverse
+          reference property. This requires in particular that</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>whenever the value of a <span class="italic"><span class="bold"><strong>single-valued</strong></span></span> master reference
+              property is <span class="bold"><strong><span class="italic">initialized or updated</span></strong></span> with
+              the help of a setter (such as assigning a reference to a
+              <code class="code">Publisher</code> instance <code class="code">p</code> to
+              <code class="code">b.publisher</code> for a <code class="code">Book</code> instance
+              <code class="code">b</code>), an inverse reference has to be assigned (or
+              added) to the corresponding value (set) of the derived inverse
+              reference property (such as adding <code class="code">b</code> to
+              <code class="code">p.publishedBooks</code>); when the value of the master
+              reference property is <span class="italic">updated</span>
+              and the derived inverse reference property is <span class="italic">multi-valued</span>, then the obsolete inverse
+              reference to the previous value of the single-valued master
+              reference property has to be deleted;</p></li><li class="listitem"><p>whenever the value of an optional <span class="italic"><span class="bold"><strong>single-valued</strong></span></span> master reference
+              property is <span class="italic"><span class="bold"><strong>unset</strong></span></span> (e.g. by assigning
+              <code class="code">null</code> to <code class="code">b.publisher</code> for a
+              <code class="code">Book</code> instance <code class="code">b</code>), the inverse
+              reference has to be removed from the corresponding value of the
+              derived inverse reference property (such as removing
+              <code class="code">b</code> from <code class="code">p.publishedBooks</code>), if the
+              derived inverse reference property is multi-valued, otherwise
+              the corresponding value of the derived inverse reference
+              property has to be unset or updated;</p></li><li class="listitem"><p>whenever a reference is <span class="bold"><strong><span class="italic">added</span></strong></span> to the value of a
+              <span class="bold"><strong><span class="italic">multi-valued</span></strong></span> master
+              reference property with the help of an add method (such as
+              adding an <code class="code">Author</code> reference <code class="code">a</code> to
+              <code class="code">b.authors</code> for a <code class="code">Book</code> instance
+              <code class="code">b</code>), an inverse reference has to be assigned or
+              added to the corresponding value of the derived inverse
+              reference property (such as adding <code class="code">b</code> to
+              <code class="code">a.authoredBooks</code>);</p></li><li class="listitem"><p>whenever a reference is <span class="bold"><strong><span class="italic">removed</span></strong></span> from the value of a
+              <span class="bold"><strong><span class="italic">multi-valued</span></strong></span> master
+              reference property with the help of a <code class="code">remove</code> method
+              (such as removing a reference to an <code class="code">Author</code> instance
+              <code class="code">a</code> from <code class="code">b.authors</code> for a
+              <code class="code">Book</code> instance <code class="code">b</code>), the inverse
+              reference has to be removed from the corresponding value of the
+              derived inverse reference property (such as removing
+              <code class="code">b</code> from <code class="code">a.authoredBooks</code>), if the
+              derived inverse reference property is multi-valued, otherwise
+              the corresponding value of the derived inverse reference
+              property has to be unset or updated;</p></li><li class="listitem"><p>whenever an object with a single reference or with
+              multiple references as the value of a master reference property
+              is <span class="bold"><strong><span class="italic">destroyed</span></strong></span> (e.g., when a
+              <code class="code">Book</code> instance <code class="code">b</code> with a single
+              reference <code class="code">b.publisher</code> to a <code class="code">Publisher</code>
+              instance <code class="code">p</code> is destroyed), the derived inverse
+              references have to be removed first (e.g., by removing
+              <code class="code">b</code> from <code class="code">p.publishedBooks</code>).</p></li></ol></div><p>Notice that when a new object is created with a single
+          reference or with multiple references as the value of a master
+          reference property (e.g., a new <code class="code">Book</code> instance
+          <code class="code">b</code> with a single reference <code class="code">b.publisher</code>),
+          its setter or add method will be invoked and will take care of
+          creating the derived inverse references.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7992"></a>2.2.&nbsp;Coding Summary</h3></div></div></div><p>Code each class of the JS class model as an ES6 class with
+      implicit getters and setters:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Code the property checks in the form of class-level ('static')
+          methods. Take care that all constraints of a property as specified
+          in the JS class model are properly coded in the property
+          checks.</p></li><li class="listitem"><p>For each single-valued property, code the specified getter and
+          setter:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>In each setter, the corresponding property check is
+              invoked and the property is only set/unset, if the check does
+              not detect any constraint violation.</p></li><li class="listitem"><p><span class="bold"><strong>If the concerned property is the
+              inverse of a derived reference property (representing a
+              bidirectional association), make sure that the setter also
+              assigns/unsets (or adds/removes) the corresponding inverse
+              reference to/from (the collection value of) the inverse
+              property.</strong></span></p></li></ol></div></li><li class="listitem"><p>For each multi-valued property, code its add and remove
+          operations, as well as the specified get/set operations:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Code the add/remove operations as (instance-level) methods
+              that invoke the corresponding property checks.</p></li><li class="listitem"><p>Code the setter such that it invokes the add operation for
+              each item of the collection to be assigned.</p></li><li class="listitem"><p><span class="bold"><strong>If the concerned property is the
+              inverse of a derived reference property (representing a
+              bidirectional association), make sure that the add/remove
+              methods also assign/unset (or add/remove) the corresponding
+              inverse reference to/from (the collection value of) the inverse
+              property.</strong></span></p></li></ol></div></li><li class="listitem"><p>Write the code of the serialization functions
+          <code class="code">toString()</code> and <code class="code">toJSON()</code>. In the
+          object-to-storage conversion of a publisher or author object with
+          <code class="code">toJSON()</code>, the derived properties
+          <code class="code">publishedBooks</code> and <code class="code">authoredBooks</code> are not
+          included since their information is redundant (they are derived from
+          the <code class="code">publisher</code> and <code class="code">authors</code> properties of
+          books).</p></li><li class="listitem"><p>Take care of deletion dependencies in the <code class="code">destroy</code>
+          method. <span class="bold"><strong>Make sure that when an object with a
+          single reference (or with multiple references) as the value of a
+          master reference property is destroyed, all referenced objects are
+          destroyed as well or their (derived) inverse references are unset
+          (or removed) first.</strong></span></p></li></ol></div><p>These steps are discussed in more detail in the following
+      sections.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8030"></a>2.3.&nbsp;Code each class of the JS class model</h3></div></div></div><p>For instance, the <code class="code">Publisher</code> class from the JS class
+      model is coded in the following way:</p><pre class="programlisting">class <span class="bold"><strong>Publisher</strong></span> {
+  constructor ({name, address}) {
+    this.name = name;
+    this.address = address;
+    // derived inverse reference property (inverse of Book::publisher)
+    this._publishedBooks = {};  // initialize as an empty map
+  }
+  get name() {...}
+  static checkName( n) {...}
+  static checkNameAsId( n) {...}
+  static checkNameAsIdRef( n) {...}
+  set name( n) {...}
+  get address() {...}
+  static checkAddress( a) {...}
+  set address( a) {...}
+  <span class="bold"><strong>get publishedBooks</strong></span>() {...}
+  toString() {...}
+  toJSON() {...}
+}</pre><p>Notice that the (derived) multi-valued reference property
+      <code class="code">publishedBooks</code> has no setter method and is not assigned in
+      the constructor function because it is a read-only property that is
+      assigned implicitly when its inverse master reference property
+      <code class="code">Book::publisher</code> is assigned.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8040"></a>2.4.&nbsp;Code the set methods of single-valued properties</h3></div></div></div><p>Any setter for a reference property that is coupled to a derived
+      inverse reference property (implementing a bidirectional association),
+      now also needs to assign (or add/remove) inverse references to (or from)
+      the corresponding (collection) value of the inverse reference property.
+      An example of such a setter is <code class="code">publisher</code> in the
+      <code class="code">Book</code> class:</p><pre class="programlisting">set <span class="bold"><strong>publisher</strong></span>( p) {
+  if (!p) {  // the publisher reference is to be deleted/unset
+    // delete the inverse reference in Publisher::publishedBooks
+    delete this._publisher.publishedBooks[ this._isbn];
+    // unset the publisher property
+    delete this._publisher;
+  } else {
+    // p can be an ID reference or an object reference
+    const publisher_id = (typeof p !== "object") ? p : p.name;
+    const constraintViolation = Book.checkPublisher( publisher_id);
+    if (constraintViolation instanceof NoConstraintViolation) {
+      if (this._publisher) {
+        // delete the inverse reference in Publisher::publishedBooks
+        <span class="bold"><strong>delete this._publisher.publishedBooks[this._isbn]</strong></span>;
+      }
+      // create the new publisher reference
+      this._publisher = Publisher.instances[ publisher_id];
+      // add the new inverse reference to Publisher::publishedBooks
+      <span class="bold"><strong>this._publisher.publishedBooks[this._isbn] = this</strong></span>;
+    } else {
+      throw constraintViolation;
+    }
+  }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8049"></a>2.5.&nbsp;Code the add and remove operations</h3></div></div></div><p>For any multi-valued reference property that is coupled to a
+      derived inverse reference property, both the <span class="italic">add</span> and the <span class="italic">remove</span> method also have to assign/add/remove
+      corresponding references to/from (the value set of) the inverse
+      property.</p><p>For instance, for the multi-valued reference property
+      <code class="code">Book</code>::<code class="code">authors</code> that is coupled to the derived
+      inverse reference property
+      <code class="code">Author</code>::<code class="code">authoredBooks</code> for implementing the
+      bidirectional authorship association between <code class="code">Book</code> and
+      <code class="code">Author</code>, the <code class="code">Book</code>::<code class="code">addAuthor</code>
+      method is coded in the following way:</p><pre class="programlisting"><span class="bold"><strong>addAuthor</strong></span>( a) {
+  // a can be an ID reference or an object reference
+  const author_id = (typeof a !== "object") ? parseInt(a) : a.authorId;
+  const validationResult = Book.checkAuthor( author_id);
+  if (author_id &amp;&amp; validationResult instanceof NoConstraintViolation) {
+    // add the new author reference
+    this._authors[author_id] = Author.instances[author_id];
+    // automatically add the derived inverse reference
+    <span class="bold"><strong>this._authors[author_id].authoredBooks[this._isbn] = this</strong></span>;
+  } else {
+    throw validationResult;
+  }
+}</pre><p>For the remove operation <code class="code">removeAuthor</code> we obtain the
+      following code:</p><pre class="programlisting"><span class="bold"><strong>removeAuthor</strong></span>( a) {
+  // a can be an ID reference or an object reference
+  const author_id = (typeof a !== "object") ? parseInt(a) : a.authorId;
+  const validationResult = Book.checkAuthor( author_id);
+  if (validationResult instanceof NoConstraintViolation) {
+    // automatically delete the derived inverse reference
+    <span class="bold"><strong>delete this._authors[author_id].authoredBooks[this._isbn]</strong></span>;
+    // delete the author reference
+    delete this._authors[author_id];
+  } else {
+    throw validationResult;
+  }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8071"></a>2.6.&nbsp;Suppress the storage of the values of derived properties</h3></div></div></div><p>In the object-to-storage conversion of a publisher or author
+      object with <code class="code">toJSON()</code>, the derived properties
+      <code class="code">Publisher</code>::<code class="code">publishedBooks</code> and
+      <code class="code">Author</code>::<code class="code">authoredBooks</code> are not included since
+      their information is redundant (derived from the
+      <code class="code">Book</code>::<code class="code">publisher</code> and
+      <code class="code">Book</code>::<code class="code">authors</code> properties). For instance, the
+      <code class="code">Author</code>::<code class="code">toJSON</code> function is coded in the
+      following way:</p><pre class="programlisting"><span class="bold"><strong>toJSON</strong></span>() {
+  var rec = {};
+  // loop over all Author properties
+  for (const p of Object.keys( this)) {
+    // keep underscore-prefixed properties except "_authoredBooks"
+    if (p.charAt(0) === "_" &amp;&amp; <span class="bold"><strong>p !== "_authoredBooks"</strong></span>) {
+      // remove underscore prefix
+      rec[p.substr(1)] = this[p];
+    }
+  };
+  return rec;
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8088"></a>2.7.&nbsp;Take care of deletion dependencies</h3></div></div></div><p>When a <code class="code">Book</code> instance <code class="code">b</code>, with a single
+      reference <code class="code">b.publisher</code> to a <code class="code">Publisher</code> instance
+      <code class="code">p</code> and multiple references <code class="code">b.authors</code> to
+      <code class="code">Author</code> instances, is destroyed, depending on the chosen
+      deletion policy (1) CASCADE or (2) DROP-REFERENCES, (1) the dependent
+      <code class="code">Publisher</code> instance and <code class="code">Author</code> instances have
+      to be deleted first or (2) the derived inverse references have to be
+      removed first (e.g., by removing <code class="code">b</code> from
+      <code class="code">p.publishedBooks)</code>. We assume Existential Independence for
+      both associated object types and, consequently, implement the
+      DROP-REFERENCES policy:</p><pre class="programlisting">Book.<span class="bold"><strong>destroy</strong></span> = function (isbn) {
+  const book = Book.instances[isbn];
+  if (book) {
+    console.log( book.toString() + " deleted!");
+    if (book.publisher) {
+      // remove inverse reference from book.publisher
+      <span class="bold"><strong>delete book.publisher.publishedBooks[isbn]</strong></span>;
+    }
+    // remove inverse references from all book.authors
+    for (const authorID of Object.keys( book.authors)) {
+      <span class="bold"><strong>delete book.authors[authorID].authoredBooks[isbn]</strong></span>;
+    }
+    // finally, delete book from Book.instances
+    delete Book.instances[isbn];
+  } else {
+    console.log(`There is no book with ISBN ${isbn} in the database!`);
+  }
+};</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;13.&nbsp;Implementing Bidirectional Associations with Plain JS&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Exploit Inverse Reference Properties in the User Interface</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch13s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+</html>

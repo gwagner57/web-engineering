@@ -1,0 +1,40 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch04s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;Responsive Validation</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Integrity Constraints and Data Validation"><link rel="prev" href="ch04s02.html" title="2.&nbsp;Integrity Constraints"><link rel="next" href="ch04s04.html" title="4.&nbsp;Constraint Validation in MVC Applications"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;Responsive Validation</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Integrity Constraints and Data Validation</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e3023"></a>3.&nbsp;Responsive Validation</h2></div></div></div><p>This problem is well-known from classical web applications where the
+    front-end component submits the user input data via HTML form submission
+    to a back-end component running on a remote web server. Only this back-end
+    component validates the data and returns the validation results in the
+    form of a set of error messages to the front-end. Only then, often several
+    seconds later, and in the hard-to-digest form of a bulk message, does the
+    user get the validation feedback. This approach is no longer considered
+    acceptable today. Rather, in a <span class="italic">responsive
+    validation</span> approach, the user should get immediate validation
+    feedback on each single data input. Technically, this can be achieved with
+    the help of event handlers for the user interface events
+    <code class="code">input</code> or <code class="code">change</code>.</p><p>Responsive validation requires a data validation mechanism in the
+    user interface (UI), such as the <a class="link" href="http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/" target="_top">HTML5
+    form validation API</a>. Alternatively, the <a class="link" href="http://jqueryvalidation.org/" target="_top">jQuery Validation Plugin</a>
+    can be used as a (non-HTML5-based) form validation API.</p><p>The HTML5 form validation API<a class="indexterm" name="d5e3033"></a> essentially provides new types of <code class="code">input</code> fields
+    (such as <code class="code">number</code> or <code class="code">date</code>) and a set of new
+    attributes for form control elements for the purpose of supporting
+    responsive validation performed by the browser. Since using the new
+    validation attributes (like <code class="code">required</code>, <code class="code">min</code>,
+    <code class="code">max</code> and <code class="code">pattern</code>) implies defining constraints in
+    the UI, they are not really useful in a general approach where constraints
+    are only checked, but not defined, in the UI.</p><p>Consequently, we only use two methods of the HTML5 form validation
+    API for validating constraints in the HTML-forms-based user interface of
+    our app. The first of them, <code class="code">setCustomValidity</code>, allows to mark
+    a form field as either valid or invalid by assigning either an empty
+    string or a non-empty (constraint violation) message string.</p><p>The second method, <code class="code">checkValidity</code>, is invoked on a form
+    before user input data is committed or saved (for instance with a form
+    submission). It tests, if all fields have a valid value. For having the
+    browser automatically displaying any constraint violation messages, we
+    need to have a <code class="code">submit</code> event, even if we don't really submit
+    the form, but just use a <code class="code">save</code> button.</p><p>See this <a class="link" href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation" target="_top">Mozilla
+    tutorial</a> or this <a class="link" href="http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/" target="_top">HTML5Rocks
+    tutorial</a> for more about the HTML5 form validation API.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Integrity Constraints&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;Constraint Validation in MVC Applications</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch04s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+</html>

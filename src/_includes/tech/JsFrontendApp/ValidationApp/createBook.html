@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/ValidationApp/createBook.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+ <meta charset="UTF-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+ <title>Plain JS Validation App: Create</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+ <link rel="stylesheet" href="css/normalize.min.css"/>
+ <link rel="stylesheet" href="css/main.css"/>
+ <script src="lib/browserShims.html"></script>
+ <script src="lib/util.js"></script>
+ <script src="lib/errorTypes.js"></script>
+ <script src="src/c/initialize.js"></script>
+ <script src="src/m/Book.js"></script>
+ <script src="src/v/createBook.js"></script>
+ <script>
+  window.addEventListener("load", pl.v.createBook.setupUserInterface);
+ </script>
+</head>
+<body>
+ <header>
+  <div class="wrapper clearfix">
+   <div class="title">
+    <h1>Create a new book record</h1>
+   </div>
+   <nav>
+    <ul>
+     <li><a href="createBook.html">C</a></li>
+     <li><a href="retrieveAndListAllBooks.html">R</a></li>
+     <li><a href="updateBook.html">U</a></li>
+     <li><a href="deleteBook.html">D</a></li>
+    </ul>
+   </nav>
+  </div>
+ </header>
+ <main>
+  <div class="wrapper clearfix">
+    <form id="Book">
+      <div><label>ISBN: <input name="isbn" type="text" /></label></div>
+      <div><label>Title: <input name="title" type="text" /></label></div>
+      <div><label>Year: <input name="year" type="text" /></label></div>
+      <div><label>Edition: <input name="edition" type="text" /></label></div>
+      <div><button type="submit" name="commit">Save</button></div>
+  </form>
+  </div>
+ </main>
+ <footer>
+   <div class="foot-content wrapper">
+     <a href="index.html">Back to main menu</a>
+   </div>
+ </footer>
+</body>
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/ValidationApp/createBook.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:05 GMT -->
+</html>

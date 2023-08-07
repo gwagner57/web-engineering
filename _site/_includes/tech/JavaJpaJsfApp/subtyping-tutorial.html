@@ -1,0 +1,2052 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsfApp/subtyping-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:54:49 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Java Back-End Web App Tutorial Part 6: Inheritance in Class Hierarchies</title>
+	<link rel="stylesheet" type="text/css" href="../docbook.css">
+	<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+</head>
+
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+	<div lang="en" class="book">
+		<div class="titlepage">
+			<div>
+				<div>
+					<h1 class="title"><a name="d5e1"></a>Java Back-End Web App Tutorial Part 6: Inheritance in Class
+						Hierarchies</h1>
+				</div>
+				<div>
+					<h2 class="subtitle"><img style="float:right" property="thumbnailUrl"
+							src="../fig/machine-overdrive.svg" width="120"
+							title="Icon made by Lorc under CC BY 3.0. Available on http://game-icons.net">How to deal
+						with
+						class hierarchies in a Java EE back-end web app</h2>
+				</div>
+				<div>
+					<div class="authorgroup">
+						<div class="author">
+							<h3 class="author"><span class="firstname">Gerd</span> <span class="surname">Wagner</span>
+							</h3><code
+								class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#185f364f797f767d6a587a356c6d367c7d"><span class="__cf_email__" data-cfemail="b7f099e0d6d0d9d2c5f7d59ac3c299d3d2">[email&#160;protected]</span></a>&gt;</code>
+						</div>
+						<div class="author">
+							<h3 class="author"><span class="firstname">Mircea</span> <span
+									class="surname">Diaconescu</span></h3><code
+								class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#7934573d10181a16171c0a1a0c391b540d0c571d1c"><span class="__cf_email__" data-cfemail="fdb0d3b9949c9e9293988e9e88bd9fd08988d39998">[email&#160;protected]</span></a>&gt;</code>
+						</div>
+					</div>
+				</div>
+				<div>
+					<p class="releaseinfo">Warning: This tutorial manuscript may still contain errors and may still be
+						incomplete in certain respects. Please report any issue to Gerd Wagner at
+						<a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__"
+							data-cfemail="6e2940390f09000b1c2e0c431a1b400a0b">[email&#160;protected]</a>.
+					</p>
+				</div>
+				<div>
+					<p class="releaseinfo"> This tutorial is also available in the following formats: <a class="link"
+							href="subtyping-tutorial.pdf" target="_top">PDF</a>.
+						You may <a class="link" href="http://yew.informatik.tu-cottbus.de/tutorials/java/subtypingapp"
+							target="_top">run the example app</a> from our server, or
+						<a class="link" href="SubtypingApp.zip" target="_top">download it as a ZIP archive file</a>. See
+						also our <a class="link" href="../../../index.html" target="_top">Web Engineering project
+							page</a>.
+					</p>
+				</div>
+				<div>
+					<p class="copyright">Copyright &copy; 2015-2018 Gerd Wagner</p>
+				</div>
+				<div>
+					<div class="legalnotice"><a name="d5e33"></a>
+						<p>This tutorial article, along with any associated source code, is licensed under
+							<a class="link" href="http://www.codeproject.com/info/cpol10.aspx" target="_top">The Code
+								Project
+								Open License (CPOL)</a>, implying that the associated code is provided
+							"as-is", can be modified to create derivative works, can be redistributed, and can
+							be used in commercial applications, but the article must not be distributed or
+							republished without the author's consent.
+						</p>
+					</div>
+				</div>
+				<div>
+					<p class="pubdate">2018-07-03</p>
+				</div>
+			</div>
+			<hr>
+		</div>
+		<div class="toc">
+			<p><b>Table of Contents</b></p>
+			<dl class="toc">
+				<dt><span class="preface"><a href="#d5e36">Foreword</a></span></dt>
+				<dt><span class="chapter"><a href="#chapSubtypes">1. Subtyping and Inheritance</a></span></dt>
+				<dd>
+					<dl>
+						<dt><span class="section"><a href="#d5e93">1. Introducing Subtypes by Specialization</a></span>
+						</dt>
+						<dt><span class="section"><a href="#d5e117">2. Introducing Supertypes by
+									Generalization</a></span></dt>
+						<dt><span class="section"><a href="#d5e182">3. Intension versus Extension</a></span></dt>
+						<dt><span class="section"><a href="#d5e209">4. Type Hierarchies</a></span></dt>
+						<dt><span class="section"><a href="#secClassHierarchyMerge">5. The <span class="italic">Class
+										Hierarchy Merge</span> Design Pattern</a></span></dt>
+						<dt><span class="section"><a href="#d5e325">6. Subtyping and Inheritance in Computational
+									Languages</a></span></dt>
+						<dd>
+							<dl>
+								<dt><span class="section"><a href="#d5e343">6.1. Subtyping and Inheritance with OOP
+											Classes</a></span></dt>
+								<dt><span class="section"><a href="#secInheritTbl">6.2. Subtyping and Inheritance with
+											Database Tables</a></span></dt>
+							</dl>
+						</dd>
+					</dl>
+				</dd>
+				<dt><span class="chapter"><a href="#chJavaSubtyping">2. Subtyping in a Java Back-End App</a></span></dt>
+				<dd>
+					<dl>
+						<dt><span class="section"><a href="#d5e489">1. Subtyping in Java</a></span></dt>
+						<dt><span class="section"><a href="#d5e515">2. Case Study 1: Eliminating a Class Hierarchy with
+									<span class="italic">Single Table
+										Inheritance</span></a></span></dt>
+						<dd>
+							<dl>
+								<dt><span class="section"><a href="#d5e521">2.1. Make the Java Entity class
+											model</a></span></dt>
+								<dt><span class="section"><a href="#d5e544">2.2. New issues</a></span></dt>
+								<dt><span class="section"><a href="#d5e572">2.3. Code the classes of the Java Entity
+											class model </a></span></dt>
+								<dt><span class="section"><a href="#d5e624">2.4. Database schema for single table class
+											hierarchy</a></span></dt>
+								<dt><span class="section"><a href="#d5e637">2.5. Write the View and Controller
+											Code</a></span></dt>
+							</dl>
+						</dd>
+						<dt><span class="section"><a href="#d5e739">3. Case Study 2: Implementing a Class Hierarchy with
+									<span class="italic">Joined Table
+										Inheritance</span></a></span></dt>
+						<dd>
+							<dl>
+								<dt><span class="section"><a href="#d5e748">3.1. Make the Java Entity class
+											model</a></span></dt>
+								<dt><span class="section"><a href="#d5e785">3.2. New issues</a></span></dt>
+								<dt><span class="section"><a href="#d5e809">3.3. Code the model classes of the Java
+											Entity class model</a></span></dt>
+								<dt><span class="section"><a href="#d5e878">3.4. Write the View and Controller
+											Code</a></span></dt>
+							</dl>
+						</dd>
+						<dt><span class="section"><a href="#d5e903">4. Run the App and Get the Code</a></span></dt>
+					</dl>
+				</dd>
+			</dl>
+		</div>
+		<div class="list-of-figures">
+			<p><b>List of Figures</b></p>
+			<dl>
+				<dt>1.1. <a href="#figBookClassHierarchy">The object type <code class="code">Book</code> with two
+						subtypes: <code class="code">TextBook</code> and
+						<code class="code">Biography</code></a></dt>
+				<dt>1.2. <a href="#figEmpAuthGeneralization">The object types <code class="code">Employee</code> and
+						<code class="code">Author</code> share several
+						attributes</a></dt>
+				<dt>1.3. <a href="#figSpecGen">The object types <code class="code">Employee</code> and <code
+							class="code">Author</code> have been generalized by
+						adding the common supertype <code class="code">Person</code></a></dt>
+				<dt>1.4. <a href="#figComplInhHierarchy1">The complete class model containing two inheritance
+						hierarchies</a></dt>
+				<dt>1.5. <a href="#figSingleInheritanceHierarchy">A class hierarchy having the root class <code
+							class="code">Vehicle</code></a></dt>
+				<dt>1.6. <a href="#figMultiInheritHierarchy">A multiple inheritance hierarchy</a></dt>
+				<dt>1.7. <a href="#figBookClassHierarchyMergeModel1">The design model resulting from applying the Class
+						Hierarchy Merge design pattern</a></dt>
+				<dt>1.8. <a href="#figPersonRoles1">A class model with a <code class="code">Person</code> roles
+						hierarchy</a></dt>
+				<dt>1.9. <a href="#figTextBookIsaBookSingleTableInheritSqlM">An SQL table model with a single table
+						representing the <code class="code">Book</code> class
+						hierarchy</a></dt>
+				<dt>1.10. <a href="#figPersonRolesSingleTableInheritance">An SQL table model with a single table
+						representing the <code class="code">Person</code> roles
+						hierarchy</a></dt>
+				<dt>1.11. <a href="#figPersonRolesSqlM">An SQL table model with the table <code
+							class="code">Person</code> as the root of a table
+						hierarchy</a></dt>
+				<dt>2.1. <a href="#figJavaStudent-isa-Person"><code class="code">Student</code> is a subclass of <code
+							class="code">Person</code></a></dt>
+				<dt>2.2. <a href="#figBookClassHierarchyJEE">The Java Entity class model</a></dt>
+				<dt>2.3. <a href="#figPersonRolesJavaM"> The Java Entity class model of the Person class hierarchy</a>
+				</dt>
+			</dl>
+		</div>
+		<div class="preface">
+			<div class="titlepage">
+				<div>
+					<div>
+						<h1 class="title"><a name="d5e36"></a>Foreword</h1>
+					</div>
+				</div>
+			</div>
+			<p>This tutorial is Part 6 of our series of <a class="link" href="../../JavaJpaJsfApp.html"
+					target="_top">six tutorials</a> about model-based
+				development of front-end web applications with Java by using JPA and JSF frameworks. It shows how to
+				build a
+				web app that manages subtype (inheritance) relationships between object types.</p>
+			<p>The app supports the four standard data management operations (<span
+					class="bold"><strong>C</strong></span>reate/<span class="bold"><strong>R</strong></span>ead/<span
+					class="bold"><strong>U</strong></span>pdate/<span class="bold"><strong>D</strong></span>elete). It
+				is based on the example used
+				in the other parts, with the object types <code class="code">Book</code>, <code
+					class="code">Person</code>,
+				<code class="code">Author</code>, <code class="code">Employee</code> and <code
+					class="code">Manager</code>. The other parts
+				are:
+			</p>
+			<div class="itemizedlist">
+				<ul class="itemizedlist" style="list-style-type: disc; ">
+					<li class="listitem">
+						<p><a class="link" href="minimal-tutorial.html" target="_top">Part 1</a>: Building a <span
+								class="bold"><strong>minimal</strong></span> app.</p>
+					</li>
+					<li class="listitem">
+						<p><a class="link" href="validation-tutorial.html" target="_top">Part 2</a>: Handling
+							<span class="bold"><strong>constraint validation</strong></span>.
+						</p>
+					</li>
+					<li class="listitem">
+						<p><a class="link" href="enumeration-tutorial.html" target="_top">Part 3</a>: Dealing with
+							<span class="bold"><strong>enumerations</strong></span>.
+						</p>
+					</li>
+					<li class="listitem">
+						<p><a class="link" href="unidirectional-association-tutorial.html" target="_top">Part 4</a>:
+							Managing
+							<span class="bold"><strong>unidirectional associations</strong></span> between books and
+							publishers,
+							assigning a publisher to a book, and between books and authors, assigning authors to a book.
+						</p>
+					</li>
+					<li class="listitem">
+						<p><a class="link" href="bidirectional-association-tutorial.html" target="_top">Part 5</a>:
+							Managing
+							<span class="bold"><strong>bidirectional associations</strong></span> between books and
+							publishers
+							and between books and authors, also assigning books to authors and to publishers.
+						</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div lang="" class="chapter">
+			<div class="titlepage">
+				<div>
+					<div>
+						<h1 class="title"><a name="chapSubtypes"></a>Chapter&nbsp;1.&nbsp;Subtyping and Inheritance</h1>
+					</div>
+				</div>
+			</div>
+			<div class="toc">
+				<p><b>Table of Contents</b></p>
+				<dl class="toc">
+					<dt><span class="section"><a href="#d5e93">1. Introducing Subtypes by Specialization</a></span></dt>
+					<dt><span class="section"><a href="#d5e117">2. Introducing Supertypes by Generalization</a></span>
+					</dt>
+					<dt><span class="section"><a href="#d5e182">3. Intension versus Extension</a></span></dt>
+					<dt><span class="section"><a href="#d5e209">4. Type Hierarchies</a></span></dt>
+					<dt><span class="section"><a href="#secClassHierarchyMerge">5. The <span class="italic">Class
+									Hierarchy Merge</span> Design Pattern</a></span></dt>
+					<dt><span class="section"><a href="#d5e325">6. Subtyping and Inheritance in Computational
+								Languages</a></span></dt>
+					<dd>
+						<dl>
+							<dt><span class="section"><a href="#d5e343">6.1. Subtyping and Inheritance with OOP
+										Classes</a></span></dt>
+							<dt><span class="section"><a href="#secInheritTbl">6.2. Subtyping and Inheritance with
+										Database Tables</a></span></dt>
+						</dl>
+					</dd>
+				</dl>
+			</div>
+			<p>The concept of a <span class="italic">subtype</span>, or <span class="italic">subclass</span>, is a
+				fundamental concept in natural language, mathematics, and informatics.
+				For instance, in English, we say that <span class="italic">a bird is an animal</span>, or
+				the class of all birds is a <span class="italic">subclass</span> of the class of all
+				animals. In linguistics, the noun "bird" is a <span class="italic">hyponym</span> of the
+				noun "animal". </p>
+			<p>An object type may be specialized by subtypes (for instance, <span class="italic">Bird</span> is
+				specialized by <span class="italic">Parrot</span>) or generalized
+				by supertypes (for instance, <span class="italic">Bird</span> and <span class="italic">Mammal</span> are
+				generalized by <span class="italic">Animal</span>).
+				Specialization and generalization are two sides of the same coin. </p>
+			<p>A subtype <span class="bold"><strong><span class="italic">inherits</span></strong></span> all
+				features from its supertypes. When a subtype inherits attributes, associations and constraints
+				from a supertype, this means that these features need not be explicitly rendered for the subtype
+				in the class diagram, but the reader of the diagram has to know that all features of a supertype
+				also apply to its subtypes.</p>
+			<p>When an object type has more than one direct supertype, we have a case of <span
+					class="bold"><strong><span class="italic">multiple inheritance</span></strong></span>, which is
+				common in
+				conceptual modeling, but prohibited in many object-oriented programming languages, such as Java
+				and C#, where subtyping leads to <span class="bold"><strong><span class="italic">class
+							hierarchies</span></strong></span> with a unique direct supertype for each object
+				type.</p>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e93"></a>1.&nbsp;Introducing Subtypes by
+								Specialization</h2>
+						</div>
+					</div>
+				</div>
+				<p>A new subtype may be introduced by specialization whenever new features of more specific
+					types of objects have to be captured. We illustrate this for our example model where we want to
+					capture text books and biographies as special cases of books. This means that text books and
+					biographies also have an ISBN, a title and a publishing year, but in addition they have further
+					features such as the attribute <code class="code">subjectArea</code> for text books and the
+					attribute
+					<code class="code">about</code> for biographies. Consequently, we introduce the object types
+					<code class="code">TextBook</code> and <code class="code">Biography</code> by specializing the
+					object type
+					<code class="code">Book</code>, that is, as subtypes of <code class="code">Book</code>.
+				</p>
+				<div class="figure"><a name="figBookClassHierarchy"></a>
+					<p class="title"><b>Figure&nbsp;1.1.&nbsp;The object type <code class="code">Book</code> with two
+							subtypes: <code class="code">TextBook</code> and
+							<code class="code">Biography</code></b></p>
+					<div class="figure-contents">
+						<div class="mediaobject">
+							<table border="0" summary="manufactured viewport for HTML img"
+								style="cellpadding: 0; cellspacing: 0;" width="240">
+								<tr>
+									<td><img src="../fig/BookClassHierarchy.svg" width="240"
+											alt="The object type Book with two subtypes: TextBook and Biography"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><br class="figure-break">
+				<p>When specializing an object type, we define additional features for the newly added subtype.
+					In many cases, these additional features are more specific properties. For instance, in the case
+					of <code class="code">TextBook</code> specializing <code class="code">Book</code>, we define the
+					additional attribute
+					<code class="code">subjectArea</code>. In some programming languages, such as in Java, it is
+					therefore said
+					that the subtype <span class="bold"><strong><span class="italic">extends</span></strong></span> the
+					supertype.
+				</p>
+				<p>However, we can also specialize an object type without defining additional properties (or
+					operations/methods), but by defining additional constraints.</p>
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e117"></a>2.&nbsp;Introducing Supertypes by
+								Generalization</h2>
+						</div>
+					</div>
+				</div>
+				<p>We illustrate generalization with the following example, which extends the information model
+					of Part 4 by adding the object type <code class="code">Employee</code> and associating employees
+					with
+					publishers.</p>
+				<div class="figure"><a name="figEmpAuthGeneralization"></a>
+					<p class="title"><b>Figure&nbsp;1.2.&nbsp;The object types <code class="code">Employee</code> and
+							<code class="code">Author</code> share several
+							attributes</b></p>
+					<div class="figure-contents">
+						<div class="mediaobject">
+							<table border="0" summary="manufactured viewport for HTML img"
+								style="cellpadding: 0; cellspacing: 0;" width="550">
+								<tr>
+									<td><img src="../fig/Emp-Publ-Book-Auth_DesM.svg" width="550"
+											alt="The object types Employee and Author share several attributes"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><br class="figure-break">
+				<p>After adding the object type <code class="code">Employee</code> we notice that <code
+						class="code">Employee</code> and
+					<code class="code">Author</code> share a number of attributes due to the fact that both employees
+					and
+					authors are people, and <span class="italic">being an employee</span> as well as
+					<span class="italic">being an author</span> are <span class="bold"><strong><span
+								class="italic">roles</span></strong></span> played by people. So, we may generalize
+					these
+					two object types by adding a joint supertype <code class="code">Person</code>, as shown in the
+					following
+					diagram.
+				</p>
+				<div class="figure"><a name="figSpecGen"></a>
+					<p class="title"><b>Figure&nbsp;1.3.&nbsp;The object types <code class="code">Employee</code> and
+							<code class="code">Author</code> have been generalized by
+							adding the common supertype <code class="code">Person</code></b></p>
+					<div class="figure-contents">
+						<div class="mediaobject">
+							<table border="0" summary="manufactured viewport for HTML img"
+								style="cellpadding: 0; cellspacing: 0;" width="550">
+								<tr>
+									<td><img src="../fig/Generalizing-Emp-Auth-Pers.svg" width="550"
+											alt="The object types Employee and Author have been generalized by adding the common supertype Person">
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><br class="figure-break">
+				<p>When generalizing two or more object types, we move (and centralize) a set of features
+					shared by them in the newly added supertype. In the case of <code class="code">Employee</code> and
+					<code class="code">Author</code>, this set of shared features consists of the attributes
+					<code class="code">name</code>, <code class="code">dateOfBirth</code> and <code
+						class="code">dateOfDeath</code>. In general, shared
+					features may include attributes, associations and constraints.
+				</p>
+				<p>Notice that since in an information design model, each top-level class needs to have a
+					standard identifier, in the new class <code class="code">Person</code> we have declared the standard
+					identifier attribute <code class="code">personId</code>, which is inherited by all subclasses.
+					Therefore, we
+					have to reconsider the attributes that had been declared to be standard identifiers in the
+					subclasses before the generalization. In the case of <code class="code">Employee</code>, we had
+					declared the
+					attribute <code class="code">employeeNo</code> as a standard identifier. Since the employee number
+					is an
+					important business information item, we have to keep this attribute, even if it is no longer the
+					standard identifier. Because it is still an alternative identifier (a "key"), we define a
+					<span class="italic">uniqueness</span> constraint for it with the constraint keyword
+					<code class="code">key</code>.
+				</p>
+				<p>In the case of <code class="code">Author</code>, we had declared the attribute <code
+						class="code">authorId</code> as a
+					standard identifier. Assuming that this attribute represents a purely technical, rather than
+					business, information item, we dropped it, since it's no longer needed as an identifier for
+					authors. Consequently, we end up with a model which allows to identify employees either by their
+					employee number or by their <code class="code">personId</code> value, and to identify authors by
+					their
+					<code class="code">personId</code> value.
+				</p>
+				<p>We consider the following extension of our original example model, shown in <a class="xref"
+						href="#figComplInhHierarchy1"
+						title="Figure&nbsp;1.4.&nbsp;The complete class model containing two inheritance hierarchies">Figure&nbsp;1.4</a>,
+					where we have added two
+					class hierarchies:</p>
+				<div class="orderedlist">
+					<ol class="orderedlist" type="1">
+						<li class="listitem">
+							<p>the disjoint (but incomplete) segmentation of <code class="code">Book</code> into
+								<code class="code">TextBook</code> and <code class="code">Biography</code>,
+							</p>
+						</li>
+						<li class="listitem">
+							<p>the overlapping and incomplete segmentation of <code class="code">Person</code> into
+								<code class="code">Author</code> and <code class="code">Employee</code>, which is
+								further specialized by
+								<code class="code">Manager</code>.
+							</p>
+						</li>
+					</ol>
+				</div>
+				<div class="figure"><a name="figComplInhHierarchy1"></a>
+					<p class="title"><b>Figure&nbsp;1.4.&nbsp;The complete class model containing two inheritance
+							hierarchies</b></p>
+					<div class="figure-contents">
+						<div class="mediaobject">
+							<table border="0" summary="manufactured viewport for HTML img"
+								style="cellpadding: 0; cellspacing: 0;" width="550">
+								<tr>
+									<td><img src="../fig/CompleteInheritanceHierarchy.svg" width="550"
+											alt="The complete class model containing two inheritance hierarchies"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><br class="figure-break">
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e182"></a>3.&nbsp;Intension versus
+								Extension</h2>
+						</div>
+					</div>
+				</div>
+				<p>The <span class="bold"><strong><span class="italic">intension</span></strong></span> of an
+					object type is given by the set of its features, including attributes, associations, constraints
+					and operations. </p>
+				<p>The <span class="bold"><strong><span class="italic">extension</span></strong></span> of an
+					object type is the set of all objects instantiating the object type. The extension of an
+					object type is also called its <span class="italic">population</span>.</p>
+				<p>We have the following duality: while all features of a supertype are included in the
+					intensions, or feature sets, of its subtypes (intensional inclusion), all instances of a subtype are
+					included in the
+					extensions, or instance sets, of its supertypes (extensional inclusion). This formal structure has
+					been investigated
+					in <a class="link" href="https://en.wikipedia.org/wiki/Formal_concept_analysis" target="_top">formal
+						concept
+						analysis</a>.</p>
+				<p>Due to the intension/extension duality we can specialize a given type in two different ways:</p>
+				<div class="orderedlist">
+					<ol class="orderedlist" type="1">
+						<li class="listitem">
+							<p>By <span class="bold"><strong><span class="italic">extending the type's
+											intension</span></strong></span> through adding features in the new subtype
+								(such as adding
+								the attribute <code class="code">subjectArea</code> in the subtype <code
+									class="code">TextBook</code>).</p>
+						</li>
+						<li class="listitem">
+							<p>By <span class="bold"><strong><span class="italic">restricting the type's
+											extension</span></strong></span> through adding a constraint (such as
+								defining a subtype
+								<code class="code">MathTextBook</code> as a <code class="code">TextBook</code> where the
+								attribute
+								<code class="code">subjectArea</code> has the specific value "Mathematics").
+							</p>
+						</li>
+					</ol>
+				</div>
+				<p>Typical OO programming languages, such as Java and C#, only support the first possibility
+					(specializing a given type by extending its intension), while XML Schema and SQL99 also
+					support the second possibility (specializing a given type by restricting its
+					extension).</p>
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e209"></a>4.&nbsp;Type Hierarchies</h2>
+						</div>
+					</div>
+				</div>
+				<p>A <span class="italic">type hierarchy</span> (or <span class="italic">class
+						hierarchy</span>) consists of two or more types, one of them being the root (or
+					top-level) type, and all others having at least one direct supertype. When all non-root types
+					have a unique direct supertype, the type hierarchy is a <span class="bold"><strong><span
+								class="italic">single-inheritance hierarchy</span></strong></span>, otherwise it's a
+					<span class="bold"><strong><span class="italic">multiple-inheritance
+								hierarchy</span></strong></span>. For instance, in <a class="xref"
+						href="#figSingleInheritanceHierarchy"
+						title="Figure&nbsp;1.5.&nbsp;A class hierarchy having the root class Vehicle">Figure&nbsp;1.5</a>
+					below, the class
+					<code class="code">Vehicle</code> is the root of a single-inheritance hierarchy, while <a
+						class="xref" href="#figMultiInheritHierarchy"
+						title="Figure&nbsp;1.6.&nbsp;A multiple inheritance hierarchy">Figure&nbsp;1.6</a> shows an
+					example of a
+					multiple-inheritance hierarchy, due to the fact that <code class="code">AmphibianVehicle</code> has
+					two
+					direct superclasses: <code class="code">LandVehicle</code> and <code
+						class="code">WaterVehicle</code>.
+				</p>
+				<div class="figure"><a name="figSingleInheritanceHierarchy"></a>
+					<p class="title"><b>Figure&nbsp;1.5.&nbsp;A class hierarchy having the root class <code
+								class="code">Vehicle</code></b></p>
+					<div class="figure-contents">
+						<div class="mediaobject">
+							<table border="0" summary="manufactured viewport for HTML img"
+								style="cellpadding: 0; cellspacing: 0;" width="500">
+								<tr>
+									<td><img src="../fig/SingleInheritanceHierarchy.svg" width="500"
+											alt="A class hierarchy having the root class Vehicle"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><br class="figure-break">
+				<p>The simplest case of a class hierarchy, which has only one level of subtyping, is called a
+					<span class="italic">generalization set</span> in UML, but may be more naturally
+					called <span class="bold"><strong><span class="italic">segmentation</span></strong></span>. A
+					segmentation is <span class="bold"><strong><span class="italic">complete</span></strong></span>,
+					if the union of all subclass extensions is equal to the extension of the superclass (or, in
+					other words, if all instances of the superclass instantiate some subclass). A segmentation is
+					<span class="bold"><strong><span class="italic">disjoint</span></strong></span>, if all
+					subclasses are pairwise disjoint (or, in other words, if no instance of the superclass
+					instantiates more than one subclass). Otherwise, it is called <span
+						class="italic">overlapping</span>. A complete and disjoint segmentation is a <span
+						class="bold"><strong><span class="italic">partition</span></strong></span>.
+				</p>
+				<div class="figure"><a name="figMultiInheritHierarchy"></a>
+					<p class="title"><b>Figure&nbsp;1.6.&nbsp;A multiple inheritance hierarchy</b></p>
+					<div class="figure-contents">
+						<div class="mediaobject">
+							<table border="0" summary="manufactured viewport for HTML img"
+								style="cellpadding: 0; cellspacing: 0;" width="500">
+								<tr>
+									<td><img src="../fig/MultipleInheritanceHierarchy.svg" width="500"
+											alt="A multiple inheritance hierarchy"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><br class="figure-break">
+				<p>In a class diagram, we can express these constraints by annotating the shared generalization
+					arrow with the keywords <span class="italic">complete</span> and <span
+						class="italic">disjoint</span> enclosed in braces. For instance, the annotation of a
+					segmentation with {complete, disjoint} indicates that it is a partition. By default, whenever
+					a segmentation does not have any annotation, like the segmentation of <code
+						class="code">Vehicle</code>
+					into <code class="code">LandVehicle</code> and <code class="code">WaterVehicle</code> in <a
+						class="xref" href="#figMultiInheritHierarchy"
+						title="Figure&nbsp;1.6.&nbsp;A multiple inheritance hierarchy">Figure&nbsp;1.6</a> above, it is
+					{incomplete, overlapping}.</p>
+				<p>An information model may contain any number of class hierarchies.</p>
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="secClassHierarchyMerge"></a>5.&nbsp;The <span
+									class="italic">Class Hierarchy Merge</span> Design Pattern</h2>
+						</div>
+					</div>
+				</div>
+				<p>Consider the simple class hierarchy of the design model in <a class="xref"
+						href="#figBookClassHierarchy"
+						title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a>
+					above, showing a disjoint
+					segmentation of the class <code class="code">Book</code>. In such a case, whenever there is only one
+					level (or
+					there are only a few levels) of subtyping and each subtype has only one (or a few) additional
+					properties, it's an option to re-factor the class model by merging all the additional properties
+					of all subclasses into an expanded version of the root class such that these subclasses can be
+					dropped from the model, leading to a simplified model.</p>
+				<p>This <span class="italic">Class Hierarchy Merge</span> design pattern comes in two
+					forms. In its simplest form, the segmentations of the original class hierarchy are <span
+						class="bold"><strong><span class="italic">disjoint</span></strong></span>, which allows to use a
+					single-valued <code class="code">category</code> attribute for representing the specific category of
+					each
+					instance of the root class corresponding to the unique subclass instantiated by it. When the
+					segmentations of the original class hierarchy are not disjoint, that is, when at least one of
+					them is <span class="bold"><strong><span class="italic">overlapping</span></strong></span>, we
+					need to use a multi-valued <code class="code">category</code> attribute for representing the set of
+					types
+					instantiated by an object. In this tutorial, we only discuss the simpler case of <span
+						class="italic">Class Hierarchy Merge</span> re-factoring for disjoint segmentations, where
+					we take the following re-factoring steps:</p>
+				<div class="orderedlist">
+					<ol class="orderedlist" type="1">
+						<li class="listitem">
+							<p>Add an <span class="bold"><strong><span class="italic">enumeration
+											datatype</span></strong></span> that contains a corresponding enumeration
+								literal for each
+								segment subclass. In our example, we add the enumeration datatype
+								<code class="code">BookCategoryEL</code>.
+							</p>
+						</li>
+						<li class="listitem">
+							<p>Add a <code class="code">category</code> attribute to the root class with this
+								enumeration as its
+								range. The <code class="code">category</code> attribute is mandatory [1], if the
+								segmentation is
+								complete, and optional [0..1], otherwise. In our example, we add a <code
+									class="code">category</code>
+								attribute with range <code class="code">BookCategoryEL</code> to the class <code
+									class="code">Book</code>. The
+								<code class="code">category</code> attribute is optional because the segmentation of
+								<code class="code">Book</code> into <code class="code">TextBook</code> and <code
+									class="code">Biography</code> is
+								incomplete.
+							</p>
+						</li>
+						<li class="listitem">
+							<p>Whenever the segmentation is <span class="bold"><strong><span
+											class="italic">rigid</span></strong></span> (does not allow <span
+									class="italic">dynamic
+									classification</span>), we designate the <code class="code">category</code>
+								attribute as
+								<span class="bold"><strong><span class="italic">frozen</span></strong></span>, which
+								means that it can only be assigned once by setting its value when creating a new object,
+								but it cannot be changed later.
+							</p>
+						</li>
+						<li class="listitem">
+							<p>Move the properties of the segment subclasses to the root class, and make them
+								<span class="bold"><strong><span class="italic">optional</span></strong></span>. We call
+								these properties, which are typically listed below the <code
+									class="code">category</code> attribute,
+								<span class="bold"><strong><span class="italic">segment
+											properties</span></strong></span>. In our example, we move the attribute
+								<code class="code">subjectArea</code> from <code class="code">TextBook</code> and <code
+									class="code">about</code> from
+								<code class="code">Biography</code> to <code class="code">Book</code>, making them <span
+									class="italic">optional</span>, that is [0..1].
+							</p>
+						</li>
+						<li class="listitem">
+							<p>Add a constraint (in an invariant box attached to the expanded root class rectangle)
+								enforcing that the optional subclass properties have a value if and only if the instance
+								of the root class instantiates the corresponding category. In our example, this means
+								that an instance of <code class="code">Book</code> is of category "TextBook" if and only
+								if its
+								attribute <code class="code">subjectArea</code> has a value, and it is of category
+								"Biography" if and
+								only if its attribute <code class="code">about</code> has a value.</p>
+						</li>
+						<li class="listitem">
+							<p>Drop the segment subclasses from the model.</p>
+						</li>
+					</ol>
+				</div>
+				<p>In the case of our example, the result of this design re-factoring is shown in <a class="xref"
+						href="#figBookClassHierarchyMergeModel1"
+						title="Figure&nbsp;1.7.&nbsp;The design model resulting from applying the Class Hierarchy Merge design pattern">Figure&nbsp;1.7</a>
+					below. Notice
+					that the constraint (or "invariant") represents a logical sentence where the logical operator
+					keyword "IFF" stands for the logical equivalence operator "if and only if" and the property
+					condition<code class="code"> prop=undefined </code>tests if the property <code
+						class="code">prop</code> does not have
+					a value.</p>
+				<div class="figure"><a name="figBookClassHierarchyMergeModel1"></a>
+					<p class="title"><b>Figure&nbsp;1.7.&nbsp;The design model resulting from applying the Class
+							Hierarchy Merge design pattern</b></p>
+					<div class="figure-contents">
+						<div class="mediaobject">
+							<table border="0" summary="manufactured viewport for HTML img"
+								style="cellpadding: 0; cellspacing: 0;" width="360">
+								<tr>
+									<td><img src="../fig/BookClassHierarchyMerge.svg" width="360"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><br class="figure-break">
+				<p> </p>
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e325"></a>6.&nbsp;Subtyping and Inheritance
+								in Computational Languages</h2>
+						</div>
+					</div>
+				</div>
+				<p>Subtyping and inheritance have been supported in <span class="italic">Object-Oriented
+						Programming (OOP)</span>, in database languages (such as <span class="italic">SQL99</span>), in
+					the XML schema definition language <span class="italic">XML
+						Schema</span>, and in other computational languages, in various ways and to different
+					degrees. At its core, subtyping in computational languages is about defining type hierarchies
+					and the inheritance of features: mainly properties and methods in OOP; table columns and
+					constraints in SQL99; elements, attributes and constraints in XML Schema.</p>
+				<p>In general, it is desirable to have support for <span class="bold"><strong><span
+								class="italic">multiple classification</span></strong></span> and <span
+						class="bold"><strong><span class="italic">multiple inheritance</span></strong></span> in type
+					hierarchies.
+					Both language features are closely related and are considered to be advanced features, which
+					may not be needed in many applications or can be dealt with by using workarounds. </p>
+				<p>Multiple classification means that an object has more than one direct type. This is mainly
+					the case when an object plays multiple roles at the same time, and therefore directly
+					instantiates multiple classes defining these roles. Multiple inheritance is typically also
+					related to role classes. For instance, a student assistant is a person playing both the role
+					of a student and the role of an academic staff member, so a corresponding OOP class
+					<code class="code">StudentAssistant</code> inherits from both role classes <code
+						class="code">Student</code> and
+					<code class="code">AcademicStaffMember</code>. In a similar way, in our example model above, an
+					<code class="code">AmphibianVehicle</code> inherits from both role classes <code
+						class="code">LandVehicle</code> and
+					<code class="code">WaterVehicle</code>.
+				</p>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e343"></a>6.1.&nbsp;Subtyping and Inheritance with OOP
+									Classes</h3>
+							</div>
+						</div>
+					</div>
+					<p>The minimum level of support for subtyping in OOP, as provided, for instance, by Java and
+						C#, allows defining inheritance of properties and methods in single-inheritance hierarchies,
+						which can be inspected with the help of an <span class="bold"><strong><span
+									class="italic">is-instance-of</span></strong></span> predicate that allows testing
+						if a class is the
+						direct or an indirect type of an object. In addition, it is desirable to be able to inspect
+						inheritance hierarchies with the help of</p>
+					<div class="orderedlist">
+						<ol class="orderedlist" type="1">
+							<li class="listitem">
+								<p>a predefined instance-level property for retrieving <span class="bold"><strong><span
+												class="italic">the direct type of an object</span></strong></span> (or
+									its <span class="italic">direct types</span>, if multiple classification is
+									allowed);</p>
+							</li>
+							<li class="listitem">
+								<p>a predefined type-level property for retrieving <span class="bold"><strong><span
+												class="italic">the direct supertype of a type</span></strong></span> (or
+									its
+									<span class="italic">direct supertypes</span>, if multiple inheritance is
+									allowed).
+								</p>
+							</li>
+						</ol>
+					</div>
+					<p>A special case of an OOP language is JavaScript, which does not (yet) have an explicit
+						language element for classes, but only for constructors. Due to its dynamic programming
+						features, JavaScript allows using various code patterns for implementing classes, subtyping
+						and inheritance (as we discuss in the next section on JavaScript).</p>
+				</div>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="secInheritTbl"></a>6.2.&nbsp;Subtyping and Inheritance with
+									Database Tables</h3>
+							</div>
+						</div>
+					</div>
+					<p>A standard DBMS stores information (objects) in the rows of tables, which have been
+						conceived as set-theoretic relations in classical <span class="italic">relational</span>
+						database systems. The relational database language SQL is used for
+						defining, populating, updating and querying such databases. But there are also simpler data
+						storage techniques that allow to store data in the form of table rows, but do not support
+						SQL. In particular, key-value storage systems, such as JavaScript's Local Storage API, allow
+						storing a serialization of a <span class="bold"><strong><span class="italic">JSON
+									table</span></strong></span> (a map of records) as the string value associated with
+						the
+						table name as a key.</p>
+					<p>While in the classical, and still dominating, version of SQL (SQL92) there is no support
+						for subtyping and inheritance, this has been changed in SQL99. However, the
+						subtyping-related language elements of SQL99 have only been implemented in some DBMS, for
+						instance in the open source DBMS <span class="italic">PostgreSQL</span>. As a
+						consequence, for making a design model that can be implemented with various frameworks using
+						various SQL DBMSs (including weaker technologies such as <span class="italic">MySQL</span> and
+						<span class="italic">SQLite</span>), we cannot use the SQL99
+						features for subtyping, but have to model inheritance hierarchies in database design models
+						by means of plain tables and foreign key dependencies. This mapping from class hierarchies
+						to relational tables (and back) is the business of <span class="italic"><span
+								class="bold"><strong>Object-Relational-Mapping</strong></span></span> frameworks such as
+						<a class="link" href="https://en.wikipedia.org/wiki/Hibernate_(Java)"
+							target="_top">Hibernate</a> (or any
+						other <a class="link" href="https://en.wikibooks.org/wiki/Java_Persistence/What_is_JPA%3F"
+							target="_top">JPA</a> Provider) or the <a class="link"
+							href="http://guides.rubyonrails.org/association_basics.html" target="_top">Active Record</a>
+						approach of the <a class="link" href="http://rubyonrails.org/" target="_top">Rails</a>
+						framework.</p>
+					<p>There are essentially two alternative approaches how to represent a class hierarchy with
+						relational tables:</p>
+					<div class="orderedlist">
+						<ol class="orderedlist" type="1">
+							<li class="listitem">
+								<p><a class="link"
+										href="http://www.martinfowler.com/eaaCatalog/singleTableInheritance.html"
+										target="_top"><span class="bold"><strong><span class="italic">Single Table
+													Inheritance</span></strong></span></a> is the simplest approach,
+									where the
+									entire class hierarchy is represented with a single table, containing columns for
+									all
+									attributes of the root class and of all its subclasses, and named after the name of
+									the root class.</p>
+							</li>
+							<li class="listitem">
+								<p><a class="link"
+										href="https://en.wikibooks.org/wiki/Java_Persistence/Inheritance#Joined.2C_Multiple_Table_Inheritance"
+										target="_top"><span class="bold"><strong><span class="italic">Joined Tables
+													Inheritance</span></strong></span></a> is a more logical approach,
+									where each
+									subclass is represented by a corresponding subtable connected to the supertable via
+									its primary key referencing the primary key of the supertable.</p>
+							</li>
+						</ol>
+					</div>
+					<p>Notice that the <span class="italic">Single Table Inheritance</span> approach is
+						closely related to the <span class="italic">Class Hierarchy Merge</span> design
+						pattern discussed in <a class="xref" href="#secClassHierarchyMerge"
+							title="5.&nbsp;The Class Hierarchy Merge Design Pattern">Section&nbsp;5</a> above. Whenever
+						this design pattern has already been
+						applied in the design model, or the design model has already been re-factored according to
+						this design pattern, the class hierarchies concerned (their subclasses) have been eliminated
+						in the design, and consequently also in the data model to be coded in the form of class
+						definitions in the app's model layer, so there is no need anymore to map class hierarchies
+						to database tables. Otherwise, when the <span class="italic">Class Hierarchy
+							Merge</span> design pattern does not get applied, we would get a corresponding class
+						hierarchy in the app's model layer, and we would have to map it to database tables with the
+						help of the <span class="italic">Single Table Inheritance</span> approach. </p>
+					<p>We illustrate both the <span class="italic">Single Table Inheritance</span> approach
+						and the <span class="italic">Joined Tables Inheritance</span> with the help of two
+						simple examples. The first example is the <code class="code">Book</code> class hierarchy, which
+						is shown
+						in <a class="xref" href="#figBookClassHierarchy"
+							title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a>
+						above. The
+						second example is the class hierarchy of the <code class="code">Person</code> roles
+						<code class="code">Employee</code>, <code class="code">Manager</code> and <code
+							class="code">Author</code>, shown in the class
+						diagram in <a class="xref" href="#figPersonRoles1"
+							title="Figure&nbsp;1.8.&nbsp;A class model with a Person roles hierarchy">Figure&nbsp;1.8</a>
+						below.
+					</p>
+					<div class="figure"><a name="figPersonRoles1"></a>
+						<p class="title"><b>Figure&nbsp;1.8.&nbsp;A class model with a <code class="code">Person</code>
+								roles hierarchy</b></p>
+						<div class="figure-contents">
+							<div class="mediaobject">
+								<table border="0" summary="manufactured viewport for HTML img"
+									style="cellpadding: 0; cellspacing: 0;" width="320">
+									<tr>
+										<td><img src="../fig/PersonRoleHierarchy.svg" width="320"
+												alt="A class model with a Person roles hierarchy"></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div><br class="figure-break">
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e410"></a>6.2.1.&nbsp;Single Table Inheritance</h4>
+								</div>
+							</div>
+						</div>
+						<p>Consider the single-level class hierarchy shown in <a class="xref"
+								href="#figBookClassHierarchy"
+								title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a>
+							above, which is an
+							incomplete disjoint segmentation of the class <code class="code">Book</code>, as the design
+							for the model
+							classes of an MVC app. In such a case, whenever we have a model class hierarchy with only
+							one
+							level (or only a few levels) of subtyping and each subtype has only one (or a few)
+							additional
+							properties, it's preferable to use <span class="italic">Single Table Inheritance</span>,
+							so we model a single table containing columns for all attributes such that the columns
+							representing additional attributes of subclasses are optional, as shown in the SQL table
+							model
+							in <a class="xref" href="#figTextBookIsaBookSingleTableInheritSqlM"
+								title="Figure&nbsp;1.9.&nbsp;An SQL table model with a single table representing the Book class hierarchy">Figure&nbsp;1.9</a>
+							below. </p>
+						<div class="figure"><a name="figTextBookIsaBookSingleTableInheritSqlM"></a>
+							<p class="title"><b>Figure&nbsp;1.9.&nbsp;An SQL table model with a single table
+									representing the <code class="code">Book</code> class
+									hierarchy</b></p>
+							<div class="figure-contents">
+								<div class="mediaobject">
+									<table border="0" summary="manufactured viewport for HTML img"
+										style="cellpadding: 0; cellspacing: 0;" width="360">
+										<tr>
+											<td><img src="../fig/BookClassHierarchy_SqlM.svg" width="360"
+													alt="An SQL table model with a single table representing the Book class hierarchy">
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div><br class="figure-break">
+						<p>Notice that it is good practice to add a special <span class="italic">discriminator
+								column</span> for representing the category of each row corresponding to the subclass
+							instantiated by the represented object. Such a column would normally be string-valued, but
+							constrained to one of the names of the subclasses. If the DBMS supports enumerations, it
+							could
+							also be enumeration-valued. We use the name <code class="code">category</code> for the
+							discriminator
+							column.</p>
+						<p>Based on the <code class="code">category</code> of a book, we have to enforce that if and
+							only if it is
+							"TextBook", its attribute <code class="code">subjectArea</code> has a value, and if and only
+							if it is
+							"Biography", its attribute <code class="code">about</code> has a value. This implied
+							constraint is
+							expressed in the invariant box attached to the <code class="code">Book</code> table class in
+							the class
+							diagram above, where the logical operator keyword "IFF" represents the logical equivalence
+							operator "if and only if". It needs to be implemented in the database, e.g., with an SQL
+							table CHECK clause or with SQL triggers.</p>
+						<p>Consider the class hierarchy shown in <a class="xref" href="#figPersonRoles1"
+								title="Figure&nbsp;1.8.&nbsp;A class model with a Person roles hierarchy">Figure&nbsp;1.8</a>
+							above. With only three additional attributes defined
+							in the subclasses <code class="code">Employee</code>, <code class="code">Manager</code> and
+							<code class="code">Author</code>,
+							this class hierarchy could again be implemented with the <span class="italic">Single
+								Table Inheritance</span> approach. In the SQL table model, we can express this as
+							shown in <a class="xref" href="#figPersonRolesSingleTableInheritance"
+								title="Figure&nbsp;1.10.&nbsp;An SQL table model with a single table representing the Person roles hierarchy">Figure&nbsp;1.10</a>
+							below. </p>
+						<div class="figure"><a name="figPersonRolesSingleTableInheritance"></a>
+							<p class="title"><b>Figure&nbsp;1.10.&nbsp;An SQL table model with a single table
+									representing the <code class="code">Person</code> roles
+									hierarchy</b></p>
+							<div class="figure-contents">
+								<div class="mediaobject">
+									<table border="0" summary="manufactured viewport for HTML img"
+										style="cellpadding: 0; cellspacing: 0;" width="400">
+										<tr>
+											<td><img src="../fig/PersonRoles_SingleTableInheritSqlM.svg" width="400"
+													alt="An SQL table model with a single table representing the Person roles hierarchy">
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div><br class="figure-break">
+						<p>In the case of a multi-level class hierarchy where the subclasses have little in common,
+							the <span class="italic">Single Table Inheritance</span> approach does not lead to
+							a good representation. </p>
+					</div>
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e446"></a>6.2.2.&nbsp;Joined Tables Inheritance</h4>
+								</div>
+							</div>
+						</div>
+						<p>In a more realistic model, the subclasses of <code class="code">Person</code> shown in <a
+								class="xref" href="#figPersonRoles1"
+								title="Figure&nbsp;1.8.&nbsp;A class model with a Person roles hierarchy">Figure&nbsp;1.8</a>
+							above would have many more
+							attributes, so the <span class="italic">Single Table Inheritance</span> approach
+							would be no longer feasible, and the <span class="italic">Joined Tables
+								Inheritance</span> approach would be needed. In this approach we get the SQL data
+							model shown in <a class="xref" href="#figPersonRolesSqlM"
+								title="Figure&nbsp;1.11.&nbsp;An SQL table model with the table Person as the root of a table hierarchy">Figure&nbsp;1.11</a>
+							below. This SQL table model connects subtables to their supertables by defining their
+							primary key attribute(s) to be at the same time a foreign key referencing their
+							supertable. Notice that foreign keys are visuallized in the form of UML dependency arrows
+							stereotyped with &laquo;fkey&raquo; and annotated at their source table side with the name
+							of the
+							foreign key column.</p>
+						<div class="figure"><a name="figPersonRolesSqlM"></a>
+							<p class="title"><b>Figure&nbsp;1.11.&nbsp;An SQL table model with the table <code
+										class="code">Person</code> as the root of a table
+									hierarchy</b></p>
+							<div class="figure-contents">
+								<div class="mediaobject">
+									<table border="0" summary="manufactured viewport for HTML img"
+										style="cellpadding: 0; cellspacing: 0;" width="450">
+										<tr>
+											<td><img src="../fig/PersonRoles_JoinTablesInheritSqlM.svg" width="450"
+													alt="An SQL table model with the table Person as the root of a table hierarchy">
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div><br class="figure-break">
+						<p>The main disadvantage of the <span class="italic">Joined Tables
+								Inheritance</span> approach is that for querying any subclass <span class="italic">join
+								queries</span> are required, which may create a performance
+							problem. </p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div lang="" class="chapter">
+			<div class="titlepage">
+				<div>
+					<div>
+						<h1 class="title"><a name="chJavaSubtyping"></a>Chapter&nbsp;2.&nbsp;Subtyping in a Java
+							Back-End App</h1>
+					</div>
+				</div>
+			</div>
+			<div class="toc">
+				<p><b>Table of Contents</b></p>
+				<dl class="toc">
+					<dt><span class="section"><a href="#d5e489">1. Subtyping in Java</a></span></dt>
+					<dt><span class="section"><a href="#d5e515">2. Case Study 1: Eliminating a Class Hierarchy with
+								<span class="italic">Single Table
+									Inheritance</span></a></span></dt>
+					<dd>
+						<dl>
+							<dt><span class="section"><a href="#d5e521">2.1. Make the Java Entity class model</a></span>
+							</dt>
+							<dt><span class="section"><a href="#d5e544">2.2. New issues</a></span></dt>
+							<dt><span class="section"><a href="#d5e572">2.3. Code the classes of the Java Entity class
+										model </a></span></dt>
+							<dt><span class="section"><a href="#d5e624">2.4. Database schema for single table class
+										hierarchy</a></span></dt>
+							<dt><span class="section"><a href="#d5e637">2.5. Write the View and Controller
+										Code</a></span></dt>
+						</dl>
+					</dd>
+					<dt><span class="section"><a href="#d5e739">3. Case Study 2: Implementing a Class Hierarchy with
+								<span class="italic">Joined Table
+									Inheritance</span></a></span></dt>
+					<dd>
+						<dl>
+							<dt><span class="section"><a href="#d5e748">3.1. Make the Java Entity class model</a></span>
+							</dt>
+							<dt><span class="section"><a href="#d5e785">3.2. New issues</a></span></dt>
+							<dt><span class="section"><a href="#d5e809">3.3. Code the model classes of the Java Entity
+										class model</a></span></dt>
+							<dt><span class="section"><a href="#d5e878">3.4. Write the View and Controller
+										Code</a></span></dt>
+						</dl>
+					</dd>
+					<dt><span class="section"><a href="#d5e903">4. Run the App and Get the Code</a></span></dt>
+				</dl>
+			</div>
+			<p>Whenever an app has to manage the data of a larger number of object types, there may be
+				various <span class="bold"><strong><span class="italic">subtype</span></strong></span>
+				(inheritance) relationships between some of the object types. Handling subtype relationships
+				is an advanced issue in software application engineering. It is often not well supported by
+				application development frameworks.</p>
+			<p>In this chapter of our tutorial, we explain two case studies based on fragments of the
+				information model of our running example, the <span class="italic">Public Library</span>
+				app, shown above.</p>
+			<p>In the first case study, we consider the single-level class hierarchy with root
+				<code class="code">Book</code> shown in <a class="xref" href="#figBookClassHierarchy"
+					title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a>,
+				which is an incomplete disjoint segmentation. We use the
+				<span class="italic">Single Table Inheritance</span> approach for mapping this class
+				hierarchy to a single database table.
+			</p>
+			<p>In the second case study, we consider the multi-level class hierarchy consisting of the
+				<code class="code">Person</code> roles <code class="code">Employee</code>, <code
+					class="code">Manager</code> and <code class="code">Author</code>,
+				shown in <a class="xref" href="#figPersonRoles1"
+					title="Figure&nbsp;1.8.&nbsp;A class model with a Person roles hierarchy">Figure&nbsp;1.8</a>. We
+				use the <span class="italic">Joined Table Inheritance</span> approach for mapping this
+				class hierarchy to a set of database tables that are related with each other via foreign key
+				dependencies.
+			</p>
+			<p>In both cases we show </p>
+			<div class="orderedlist">
+				<ol class="orderedlist" type="1">
+					<li class="listitem">
+						<p>how to derive a Java Entity class model,</p>
+					</li>
+					<li class="listitem">
+						<p>how to code the Java Entity class model in the form of Java Entity classes (as model
+							classes),</p>
+					</li>
+					<li class="listitem">
+						<p>how to write the view and controller code based on the model code.</p>
+					</li>
+				</ol>
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e489"></a>1.&nbsp;Subtyping in Java</h2>
+						</div>
+					</div>
+				</div>
+				<p>Java provides built-in support for subtyping with its <code class="code">extends</code> keyword, but
+					it
+					does not support <span class="italic">multiple inheritance</span>. Consider the
+					information design model shown in <a class="xref" href="#figJavaStudent-isa-Person"
+						title="Figure&nbsp;2.1.&nbsp;Student is a subclass of Person">Figure&nbsp;2.1</a> below.</p>
+				<div class="figure"><a name="figJavaStudent-isa-Person"></a>
+					<p class="title"><b>Figure&nbsp;2.1.&nbsp;<code class="code">Student</code> is a subclass of <code
+								class="code">Person</code></b></p>
+					<div class="figure-contents">
+						<div class="mediaobject">
+							<table border="0" summary="manufactured viewport for HTML img"
+								style="cellpadding: 0; cellspacing: 0;" width="180">
+								<tr>
+									<td><img src="../fig/Student-isa-Person.svg" width="180"
+											alt="Student is a subclass of Person"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><br class="figure-break">
+				<p>First we define the superclass <code class="code">Person</code>. Then, we define the subclass
+					<code class="code">Student</code> and its subtype relationship to <code class="code">Person</code>
+					by means of the
+					<code class="code">extends</code> keyword:
+				</p>
+				<pre class="programlisting">public class Person {
+  private String firstName;
+  private String lastName;
+  ...
+}
+public class Student <span class="bold"><strong>extends</strong></span> Person {
+  private int studentNo;
+
+  public Student( String first, String last, int studNo) {
+    <span class="bold"><strong>super</strong></span>( firstName, lastName);
+    this.setStudNo( studNo);
+  }
+  ...
+}</pre>
+				<p>Notice that in the <code class="code">Student</code> class, we define a constructor with all the
+					parameters required to create an instance of <code class="code">Student</code>. In this subclass
+					constructor
+					we use <code class="code">super</code> to invoke the constructor of the superclass <code
+						class="code">Person</code>. </p>
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e515"></a>2.&nbsp;Case Study 1: Eliminating
+								a Class Hierarchy with <span class="italic">Single Table
+									Inheritance</span></h2>
+						</div>
+					</div>
+				</div>
+				<p>In this example we implement the Book hierarchy shown in <a class="xref"
+						href="#figBookClassHierarchy"
+						title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a>.
+					The Java
+					<span class="italic">Entity class model</span> is derived from this design
+					model.
+				</p>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e521"></a>2.1.&nbsp;Make the Java Entity class model</h3>
+							</div>
+						</div>
+					</div>
+					<p>We make the <span class="italic">Java Entity class model</span> in 3 steps:</p>
+					<div class="orderedlist">
+						<ol class="orderedlist" type="1">
+							<li class="listitem">
+								<p>For every class in the model, we create a Java Entity class with the
+									corresponding properties and add the <span class="bold"><strong>set</strong></span>
+									and <span class="bold"><strong>get</strong></span> methods
+									corresponding to each property.</p>
+							</li>
+							<li class="listitem">
+								<p>Turn the plaform-independent datatypes (defined as the ranges of
+									attributes) into Java datatypes. </p>
+							</li>
+							<li class="listitem">
+								<p>Add the <span class="bold"><strong>set</strong></span> and <span
+										class="bold"><strong>get</strong></span> methods corresponding to each direct
+									property of every class in the hierarchy (subclasses must not define
+									set and get method for properties in superclasses, but only for
+									their direct properties). </p>
+							</li>
+						</ol>
+					</div>
+					<p>This leads to the Java Entity class model shown in <a class="xref"
+							href="#figBookClassHierarchyJEE"
+							title="Figure&nbsp;2.2.&nbsp;The Java Entity class model">Figure&nbsp;2.2</a>.</p>
+					<div class="figure"><a name="figBookClassHierarchyJEE"></a>
+						<p class="title"><b>Figure&nbsp;2.2.&nbsp;The Java Entity class model</b></p>
+						<div class="figure-contents">
+							<div class="mediaobject"><img src="../fig/BookClassHierarchy_JEE.svg"></div>
+						</div>
+					</div><br class="figure-break">
+				</div>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e544"></a>2.2.&nbsp;New issues</h3>
+							</div>
+						</div>
+					</div>
+					<p>Compared to the <a class="link" href="ValidationApp/index.html" target="_top">validation
+							app</a> discussed in Part 2 of this tutorial, we have to deal with a
+						number of new issues: </p>
+					<div class="orderedlist">
+						<ol class="orderedlist" type="1">
+							<li class="listitem">
+								<p>In the <span class="italic">model code</span> we have to
+									take care of:</p>
+								<div class="orderedlist">
+									<ol class="orderedlist" type="a">
+										<li class="listitem">
+											<p>Coding the enumeration type (<code class="code">BookTypeEL</code>
+												in our example) used in the views rendering to create a
+												select list for the special case of book. Notice that
+												this enumeration is not really used in the model classes
+												(we discuss further the reasons), but only with the
+												purpose to have the book category (i.e., special type)
+												rendered in the facelets. Read Part 3 <a class="link"
+													href="EnumerationApp/index-2.html" target="_top">enumeration
+													app</a> for detailed instructions on how to
+												implement enumerations in Java.</p>
+										</li>
+										<li class="listitem">
+											<p>Code each class from the <code class="code">Book</code> hierarchy
+												using suitable JPA annotations for persistent storage
+												in a corresponding database table, like <code class="code">books</code>.
+											</p>
+										</li>
+									</ol>
+								</div>
+							</li>
+							<li class="listitem">
+								<p>In the <span class="italic">UI code</span> we have to take
+									care of:</p>
+								<div class="orderedlist">
+									<ol class="orderedlist" type="a">
+										<li class="listitem">
+											<p>Adding a "Special type" column to the display table of
+												the "List all books" use case in
+												<code class="code">WebContent/views/books/listAll.xhtml</code>. A
+												book without a special category will have an empty table
+												cell, while for all other books their category will be
+												shown in this cell, along with other segment-specific
+												attribute values.
+											</p>
+										</li>
+										<li class="listitem">
+											<p>Adding a "Special type" select control, and
+												corresponding form fields for all segment properties, in
+												the forms of the "Create book" and "Update book" use
+												cases in
+												<code class="code">WebContent/views/books/create.xhtml</code> and
+												<code class="code">WebContent/views/books/update.xhtml</code>.
+												Segment property form fields are only displayed, and
+												their validation is performed, when a corresponding book
+												category has been selected. Such an approach of
+												rendering specific form fields only on certain
+												conditions is sometimes called "dynamic forms".
+											</p>
+										</li>
+									</ol>
+								</div>
+							</li>
+						</ol>
+					</div>
+				</div>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e572"></a>2.3.&nbsp;Code the classes of the Java Entity
+									class model </h3>
+							</div>
+						</div>
+					</div>
+					<p>The Java Entity class model can be directly coded for getting the code of the model
+						classes of our Java back-end app.</p>
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e575"></a>2.3.1.&nbsp;Summary</h4>
+								</div>
+							</div>
+						</div>
+						<div class="orderedlist">
+							<ol class="orderedlist" type="1">
+								<li class="listitem">
+									<p>Code the enumeration type (to be used in the facelets) .</p>
+								</li>
+								<li class="listitem">
+									<p>Code the model classes and add the corresponding JPA annotations
+										for class hierarchy. </p>
+								</li>
+							</ol>
+						</div>
+						<p>These steps are discussed in more detail in the following sections.</p>
+					</div>
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e583"></a>2.3.2.&nbsp;Code the enumeration type <code
+											class="code">BookTypeEL</code></h4>
+								</div>
+							</div>
+						</div>
+						<p>The enumeration type <code class="code">BookTypeEL</code> is coded as a Java enum,
+							and we probide enumeration literals as well as assign label (human readable)
+							to each enumeration literal:</p>
+						<pre class="programlisting">public enum BookTypeEL {
+  TEXTBOOK( "TextBook"), BIOGRAPHY( "Biography");
+  private final String label;
+
+  private BookTypeEL( String label) {
+    this.label = label;
+  }
+  public String getLabel() {return this.label;}
+}</pre>
+						<div class="section">
+							<div class="titlepage">
+								<div>
+									<div>
+										<h5 class="title"><a name="d5e589"></a>2.3.2.1.&nbsp;Code the model classes</h5>
+									</div>
+								</div>
+							</div>
+							<p>We code the model classes <code class="code">Book</code>, <code
+									class="code">TextBook</code> and
+								<code class="code">Biography</code> in the form of Java Entity classes using suitable
+								JPA annotations:
+							</p>
+							<pre class="programlisting">@Entity @Table( name="books")
+<span class="bold"><strong>@Inheritance</strong></span>( strategy = InheritanceType.<span class="bold"><strong>SINGLE_TABLE</strong></span>)
+<span class="bold"><strong>@DiscriminatorColumn</strong></span>( name="category", 
+    discriminatorType=DiscriminatorType.STRING, length=16)
+<span class="bold"><strong>@DiscriminatorValue</strong></span>( value = "BOOK")
+@ManagedBean( name="book") @ViewScoped
+public class Book {
+  @Id @Column( length=10)
+  @NotNull( message="An ISBN is required!")
+  @Pattern( regexp="\\b\\d{9}(\\d|X)\\b", message="The ISBN must be a ...!")
+  private String isbn;
+  @Column( nullable=false) @NotNull( message="A title is required!")
+  private String title;
+  @Column( nullable=false) @NotNull( message="A year is required!")
+  @UpToNextYear
+  @Min( value=1459, message="The year must not be before 1459!")
+  private Integer year;
+  // constructors, set, get and other methods
+  ...
+}</pre>
+							<p>When using the JPA Single Table Inheritance technique for a class hierarchy, the
+								<code class="code">@Inheritance</code> annotation must be set for the superclass (e.g,
+								<code class="code">Book</code>
+								in our example). It provides the <code class="code">strategy</code> parameter with the
+								value
+								<code class="code">InheritanceType.SINGLE_TABLE</code>. The <code
+									class="code">@DiscriminatorColumn</code> annotation
+								specifies the name of the table column storing the values that discriminate between
+								different
+								types of subclasses (<code class="code">TextBook</code> and <code
+									class="code">Biography</code>, in our example).
+								Unfortunately, we cannot use our <code class="code">BookTypeEL</code> enumeration for
+								defining the values
+								of the DiscriminatorColumn <code class="code">name</code> parameter, because expressions
+								like
+								<code class="code">BookCategoryEL.TEXTBOOK.name()</code> are not constant, so a Java
+								compiler exception is
+								thrown. The <code class="code">@DiscriminatorValue</code> annotation specifies a unique
+								value to be stored
+								in the discriminator column.
+							</p>
+							<p>Further, we define the subtypes <code class="code">TextBook</code> and
+								<code class="code">Biography</code>:
+							</p>
+							<pre class="programlisting">@Entity @Table( name="textbooks")
+@DiscriminatorValue( value="TEXTBOOK")
+@ManagedBean( name="textBook") @ViewScoped
+public class <span class="bold"><strong>TextBook extends Book</strong></span> {
+  @Column( nullable=false) @NotNull( message="A subject area value is required")
+  String subjectArea;
+  // constructors, set, get and other methods
+  ...
+}</pre>
+							<p><code class="code">TextBook</code> and <code class="code">Biography</code> are subclasses
+								of <code class="code">Book</code>, so
+								we define them with <code class="code">extends Book</code>. For each subclass, we add a
+								<code class="code">@DiscriminatorValue</code> annotation with a value from the <code
+									class="code">BookTypeEL</code>
+								enumeration.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e624"></a>2.4.&nbsp;Database schema for single table class
+									hierarchy</h3>
+							</div>
+						</div>
+					</div>
+					<p>As a result of the <code class="code">@Inheritance( strategy=InheritanceType.SINGLE_TABLE)</code>
+						annotation, only one database table is used for representing a class hierarchy. This table
+						contains the columns corresponding to all the properties of all the classes from the hierarchy
+						plus the discriminator column. In our example, the <code class="code">books</code> table
+						contains the
+						following columns: <code class="code">isbn</code>, <code class="code">title</code>, <code
+							class="code">year</code>,
+						<code class="code">subjectArea</code>, <code class="code">about</code> and <code
+							class="code">category</code>. The simplified
+						corresponding SQL-DDL code internally used to generate the <code class="code">books</code> table
+						for our
+						application is shown
+						below:
+					</p>
+					<pre class="programlisting">CREATE TABLE IF NOT EXISTS `books` (
+  `ISBN` varchar(10) NOT NULL,
+  `TITLE` varchar(255) NOT NULL,
+  `YEAR` int(11) NOT NULL,
+  `SUBJECTAREA` varchar(255) DEFAULT NULL,
+  `ABOUT` varchar(255) DEFAULT NULL,
+  `category` varchar(16) DEFAULT NULL,
+) </pre>
+				</div>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e637"></a>2.5.&nbsp;Write the View and Controller Code</h3>
+							</div>
+						</div>
+					</div>
+					<p>The user interface (UI) consists of a start page that allows navigating to the
+						data management pages (in our example, to
+						<code class="code">WebContent/views/books/index.xhtml</code>). Such a data management
+						page contains 4 sections: <span class="italic">list books</span>,
+						<span class="italic">create book</span>, <span class="italic">update book</span> and <span
+							class="italic">delete
+							book</span>.
+					</p>
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e645"></a>2.5.1.&nbsp;Summary</h4>
+								</div>
+							</div>
+						</div>
+						<p>We have to take care of handling the category discriminator and the
+							<code class="code">subjectArea</code> and <code class="code">about</code> segment properties
+							both
+							in the "List all books" use case as well as in the "Create book" and "Update
+							book" use cases by
+						</p>
+						<div class="orderedlist">
+							<ol class="orderedlist" type="1">
+								<li class="listitem">
+									<p>Adding a segment information column ("Special type") to the
+										display table of the "List all books" use case in
+										<code class="code">WebContent/views/books/listAll.xhtml</code>.
+									</p>
+								</li>
+								<li class="listitem">
+									<p>Adding a "Special type" select control, and corresponding form
+										fields for all segment properties, in the forms of the "Create
+										book" and "Update book" use cases in
+										<code class="code">WebContent/views/books/create.xhtml</code> and
+										<code class="code">WebContent/views/books/create.xhtml</code>. Segment
+										property form fields are only displayed, and their validation
+										occurs only when a corresponding book category has been
+										selected.
+									</p>
+								</li>
+							</ol>
+						</div>
+					</div>
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e658"></a>2.5.2.&nbsp;Adding a segment information
+										column in "List all books"</h4>
+								</div>
+							</div>
+						</div>
+						<p>We add a "Special type" column to the display table of the "List all
+							books" use case in <code class="code">books.html</code>:</p>
+						<pre class="programlisting">&lt;h:dataTable value="#{bookController.books}" var="b"&gt;
+  ...
+  &lt;h:column&gt;
+    &lt;f:facet name="header"&gt;Special type&lt;/f:facet&gt;
+    #{b.getClass().getSimpleName() != 'Book' ? b.getClass().getSimpleName() : ''}
+  &lt;/h:column&gt;
+&lt;/h:dataTable&gt;</pre>
+						<p>A conditional expression is used to check if the Java bean class name is <code
+								class="code">Book</code>,
+							in which case we don't show it, or if it is something else (e.g. <code
+								class="code">TextBook</code>
+							or <code class="code">Biography</code>), and then it is shown. This expression also shows
+							how you can call/use various Java bean methods, not only custom methods.</p>
+					</div>
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e667"></a>2.5.3.&nbsp;Adding a "Special type" select
+										control in "Create book" and "Update
+										book"</h4>
+								</div>
+							</div>
+						</div>
+						<p>In both use cases, we need to allow selecting a special category of book
+							('textbook' or 'biography') with the help of a select control, as shown in
+							the following HTML fragment:</p>
+						<pre class="programlisting">&lt;h:panelGrid id="bookPanel" columns="3"&gt;
+  ...
+  &lt;h:outputText value="Special type: " /&gt;
+  <span class="bold"><strong>&lt;h:selectOneMenu id="bookType" value="#{viewScope.bookTypeVal}"&gt;</strong></span>
+    &lt;f:selectItem itemLabel="---"/&gt;
+    &lt;f:selectItems value="#{book.typeItems}" /&gt;
+    <span class="bold"><strong>&lt;f:ajax event="change" execute="@this" 
+            render="textBookPanel biographyBookPanel standardBookPanel" /&gt;</strong></span>
+  &lt;/h:selectOneMenu&gt;
+  &lt;h:message for="bookType" errorClass="error" /&gt;
+&lt;/h:panelGrid&gt;
+
+&lt;h:panelGroup id="standardBookPanel"&gt;  
+  &lt;h:commandButton value="Create" <span class="bold"><strong>rendered="#{viewScope.bookTypeVal == null}"</strong></span>
+                   action="#{bookController.add( book.isbn, book.title, book.year)}" /&gt;
+&lt;/h:panelGroup&gt;
+    
+&lt;h:panelGroup id="textBookPanel"&gt;  
+  &lt;h:panelGrid <span class="bold"><strong>rendered="#{viewScope.bookTypeVal == 'TEXTBOOK'}"</strong></span> columns="3"&gt;
+    &lt;h:outputText value="Subject area: " /&gt;
+    &lt;h:inputText id="subjectArea" value="#{textBook.subjectArea}"/&gt;
+    &lt;h:message for="subjectArea" errorClass="error" /&gt;
+  &lt;/h:panelGrid&gt;
+  &lt;h:commandButton value="Create" <span class="bold"><strong>rendered="#{viewScope.bookTypeVal == 'TEXTBOOK'}"</strong></span>
+                   <span class="bold"><strong>action="#{textBookController.add( book.isbn, book.title, book.year, textBook.subjectArea)}"</strong></span> /&gt;
+&lt;/h:panelGroup&gt;
+
+&lt;h:panelGroup id="biographyBookPanel"&gt;  
+  &lt;h:panelGrid <span class="bold"><strong>rendered="#{viewScope.bookTypeVal == 'BIOGRAPHY'}"</strong></span> columns="3"&gt;
+    &lt;h:outputText value="About: " /&gt;
+    &lt;h:inputText id="about" value="#{biographyBook.about}"/&gt;
+    &lt;h:message for="about" errorClass="error" /&gt;
+  &lt;/h:panelGrid&gt;
+  &lt;h:commandButton <span class="bold"><strong>value="Create" rendered="#{viewScope.bookTypeVal == 'BIOGRAPHY'}"</strong></span>
+                   <span class="bold"><strong>action="#{biographyBookController.add( book.isbn, book.title, book.year, biographyBook.about)}"</strong></span> /&gt;
+&lt;/h:panelGroup&gt;</pre>
+						<p>There are a few important remarks on the above view code:</p>
+						<div class="itemizedlist">
+							<ul class="itemizedlist" style="list-style-type: disc; ">
+								<li class="listitem">
+									<p>the <code class="code">h:selectOneMenu</code> is used to create a single
+										selection list which is populated with book tiutles by using the
+										<code class="code">getTypeItems</code> method of the <code
+											class="code">Book</code>
+										class. A more detailed explanation is presented in Part 3 <a class="link"
+											href="EnumerationApp/index-2.html" target="_top">enumeration
+											app</a>.
+									</p>
+								</li>
+								<li class="listitem">
+									<p>it is possible to conditionally render facelet components by
+										using the <code class="code">rendered</code> attribute. The JSF EL expression
+										must return <code class="code">true</code> or <code class="code">false</code>,
+										this making
+										the HTML resulting elements to be part of the HTML DOM or not.
+										Notice that the conditional expressions are evaluated in the
+										server side. This is the method we use to hide or show the input
+										form elements corresponding to various book types (e.g.,
+										<code class="code">TextBook</code> has a <code class="code">subjectArea</code>
+										property while Biography has an <code class="code">about</code>
+										property).
+									</p>
+								</li>
+								<li class="listitem">
+									<p>the <code class="code">render</code> attribute used with
+										<code class="code">f:ajax</code> specifies which of the JSF components
+										are to be updated . This is needed because of the live DOM
+										changes (client side, not server side) which applies after the
+										AJAX call.
+									</p>
+								</li>
+								<li class="listitem">
+									<p>AJAX is used to submit form for reevaluation when the special
+										type select list is changed (something is selected). As a
+										result, it enforces the rendering of the three panels
+										corresponding to three book cases: simple book, text book and
+										biography. Using <code class="code">execute="@this"</code> we enforce the
+										re-evaluation of the form at server side, so the resulting HTML
+										DOM structure contains the changes accordiong with the
+										conditions specified by the <code class="code">rendered</code> attributes of
+										the various JSF elements. Notice that an JSF element which has a
+										conditional <code class="code">rendered</code> expression must be child of
+										another JSF element which is always part of the DOM.</p>
+								</li>
+								<li class="listitem">
+									<p><code class="code">h:panelGroup</code> is used to define a set of elements
+										which are shown or hidden. </p>
+								</li>
+								<li class="listitem">
+									<p>the <code class="code">action</code> attribute of the
+										<code class="code">h:commandButton</code> can't be used with conditional
+										expressions, therefore we have to create three command buttons,
+										one for each case: create/update a <code class="code">Book</code>, a
+										<code class="code">TextBook</code> or a <code class="code">Biography</code>. The
+										<code class="code">add</code> method of the corresponding controller
+										class (i.e., <code class="code">BookController</code>,
+										<code class="code">TextBookController</code> or
+										<code class="code">BiographyController</code> is called).
+									</p>
+								</li>
+								<li class="listitem">
+									<p>since we do not have a corresponding property in the Java bean
+										class(es) for the special type (category), we can use JSF
+										variables to store the value of the single select list, and then
+										use the variable in <code class="code">rendered</code> conditions for various
+										elements. Therefore, for the <code class="code">h:selectOneMenu</code>, the
+										<code class="code">value="#{viewScope.bookTypeVal}"</code> specifies that
+										we use a "on the fly" defined property named
+										<code class="code">bookTypeVal</code>, which is part of the view scope
+										internal JSF object(s). We can also define such variable outside
+										the view scope, e.g.,<code class="code"> value="#{bookTypeVal}"</code>, but
+										in this case they are request scoped, so their value is lost
+										after submitting the form, and the <code class="code">rendered</code>
+										conditions can't be correctly evaluated.
+									</p>
+								</li>
+							</ul>
+						</div>
+						<p>For a class in the class hierarchy, one corresponding controller class is
+							defined. It contains the specific <code class="code">add</code>, <code
+								class="code">update</code> and
+							<code class="code">destroy</code> methods (see . The shared methods, such as
+							<code class="code">getAllObjects</code> are defined by the controller of the top
+							level class (e.g., for our example, this is <code class="code">BookController</code>).
+							See <a class="link" href="MinimalApp/index.html" target="_top">minimal app</a> for more
+							details on how to implement the controller class and the corresponding CRUD
+							methods.
+						</p>
+						<p>The <span class="italic">Update Book</span> test case is very
+							similar with the <span class="italic">Create Book</span> test case.
+							The <span class="italic">Delete Book</span> test case remains
+							unchanged, see See <a class="link" href="MinimalApp/index.html" target="_top">minimal
+								app</a> for more details.</p>
+					</div>
+				</div>
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e739"></a>3.&nbsp;Case Study 2:
+								Implementing a Class Hierarchy with <span class="italic">Joined Table
+									Inheritance</span></h2>
+						</div>
+					</div>
+				</div>
+				<p>The starting point for our case study is the design model shown in <a class="xref"
+						href="#figPersonRoles1"
+						title="Figure&nbsp;1.8.&nbsp;A class model with a Person roles hierarchy">Figure&nbsp;1.8</a>
+					above.
+					In the following sections, we show how to eliminate the <code class="code">Manager</code> class by
+					using the <span class="italic">Class Hierarchy Merge</span> design pattern and
+					how to implement the <code class="code">Person</code> hierarchy and use <span class="italic">Joined,
+						Multiple Table Inheritance</span> storage with the help of JPA
+					framework.</p>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e748"></a>3.1.&nbsp;Make the Java Entity class model</h3>
+							</div>
+						</div>
+					</div>
+					<p>We design the <span class="italic">model classes</span> of our example app
+						with the help of a Java <span class="italic">Entity class model</span> that we derive
+						from the <span class="italic">design model</span> by essentially leaving the
+						generalizatiion arrows as they are and just adding <span class="italic">getters</span> and <span
+							class="italic">setters</span> to each
+						class. However, in the case of our example app, it is natural to apply the <span
+							class="italic">Class Hierarchy Merge</span> design pattern to the
+						segmentation of <code class="code">Employee</code> for simplifying the data model by eliminating
+						the <code class="code">Manager</code> subclass. This leads to the model shown in <a class="xref"
+							href="#figPersonRolesJavaM"
+							title="Figure&nbsp;2.3.&nbsp; The Java Entity class model of the Person class hierarchy">Figure&nbsp;2.3</a>
+						below. Notice
+						that we have also made two technical design decisions: </p>
+					<div class="orderedlist">
+						<ol class="orderedlist" type="1">
+							<li class="listitem">
+								<p>We have declared the segmentation of <code class="code">Person</code> into
+									<code class="code">Employee</code> and <code class="code">Author</code> to be <span
+										class="bold"><strong><span class="italic">complete</span></strong></span>,
+									that is, any person is an employee or an author (or both).
+								</p>
+							</li>
+							<li class="listitem">
+								<p>We have turned <code class="code">Person</code> into an <span
+										class="bold"><strong><span class="italic">abstract class</span></strong></span>
+									(indicated by its name written in italics in the class rectangle), which
+									means that it cannot have direct instances, but only indirect ones via
+									its subclasses <code class="code">Employee</code> and <code
+										class="code">Author</code>. This
+									technical design decision is compatible with the fact that any
+									<code class="code">Person</code> is an <code class="code">Employee</code> or an
+									<code class="code">Author</code> (or both), and consequently there is no need for
+									any object to instantiate <code class="code">Person</code> directly.
+								</p>
+							</li>
+						</ol>
+					</div>
+					<div class="figure"><a name="figPersonRolesJavaM"></a>
+						<p class="title"><b>Figure&nbsp;2.3.&nbsp; The Java Entity class model of the Person class
+								hierarchy</b></p>
+						<div class="figure-contents">
+							<div class="mediaobject"><img src="../fig/PersonRoleHierarchy_JavaM.svg"></div>
+						</div>
+					</div><br class="figure-break">
+				</div>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e785"></a>3.2.&nbsp;New issues</h3>
+							</div>
+						</div>
+					</div>
+					<p>Compared to the model of our first case study, shown in <a class="xref"
+							href="#figBookClassHierarchyJEE"
+							title="Figure&nbsp;2.2.&nbsp;The Java Entity class model">Figure&nbsp;2.2</a> above, we
+						have to define the category relationships between <code class="code">Employee</code> and
+						<code class="code">Person</code>, as well as between <code class="code">Author</code> and
+						<code class="code">Person</code>, using the JPA annotation.
+					</p>
+					<p>In the <span class="italic">UI code</span> we have to take care of:</p>
+					<div class="orderedlist">
+						<ol class="orderedlist" type="1">
+							<li class="listitem">
+								<p>Adding the views (in the folders <code class="code">WebContent/views/authors</code>
+									and <code class="code">WebContent/views/employees</code>) and controller classes
+									(<code class="code">AuthorController</code> and <code
+										class="code">EmployeeController</code>)
+									for the corresponding <code class="code">Author</code> and <code
+										class="code">Employee</code>
+									model classes.</p>
+							</li>
+							<li class="listitem">
+								<p>Deal with the <code class="code">Manager</code> case, by adding a "Special type"
+									select control, in the forms of the "Create book" and "Update book" use
+									cases in <code class="code">WebContent/views/books/create.xhtml</code> and
+									<code class="code">WebContent/views/books/update.xhtml</code>. Segment property
+									form fields (i.e., department in our example) are only displayed, and
+									their validation is performed, when a corresponding employee type has
+									been selected.
+								</p>
+							</li>
+						</ol>
+					</div>
+				</div>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e809"></a>3.3.&nbsp;Code the model classes of the Java
+									Entity class model</h3>
+							</div>
+						</div>
+					</div>
+					<p>The Java Entity class model shown in <a class="xref" href="#figPersonRolesJavaM"
+							title="Figure&nbsp;2.3.&nbsp; The Java Entity class model of the Person class hierarchy">Figure&nbsp;2.3</a>
+						above is coded by using the JavaBeans
+						<code class="code">Person</code>, <code class="code">Employee</code> and <code
+							class="code">Author</code> as well as
+						for the enmueration type <code class="code">EmployeeTypeEL</code>.
+					</p>
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e817"></a>3.3.1.&nbsp;Define the category relationships
+									</h4>
+								</div>
+							</div>
+						</div>
+						<p>We define the category relationships between <code class="code">Employee</code> and
+							<code class="code">Person</code>, as well as between <code class="code">Author</code> and
+							<code class="code">Person</code>, using the JPA annotations. At first we create the
+							<code class="code">Person</code> class as shown below:
+						</p>
+						<pre class="programlisting">@Entity
+<span class="bold"><strong>@Inheritance( strategy = InheritanceType.JOINED)</strong></span>
+@DiscriminatorColumn( name = "category", discriminatorType = DiscriminatorType.STRING, length = 16)
+@Table( name = "persons")
+public abstract class Person {
+  @Id
+  @PositiveInteger
+  @NotNull( message = "A person ID value is required!")
+  private Integer personId;
+  @Column( nullable = false)
+  @NotNull( message = "A name is required!")
+  private String name;
+
+  // constructors, set, get and other methods
+}</pre>
+						<p>Comparing with the <code class="code">Book</code> hierarchy shown in <span
+								class="italic">Test Case 1</span>, the <code class="code">@Inheritance</code>
+							annotations defines now the <code class="code">strategy = InheritanceType.JOINED</code>.
+							This
+							means, for every class in the inheritance hierarchy, a database table is used.
+							The <code class="code">@DiscriminatorColumn( name = "category")</code> specifies the column
+							in the corresponding table (i.e., <code class="code">persons</code>) of the top hierarchy
+							class (i.e., <code class="code">Person</code>) which stores the discriminator values used to
+							identify the stored type of each entry (table row). </p>
+						<p>Notice that the Java class <code class="code">Person</code> is declared as being
+							<code class="code">abstract</code>, which means it can't be initialized, instead we can
+							and we initialize subclasses derived from it (i.e., <code class="code">Employee</code> and
+							<code class="code">Author</code>). This also mean that we don't declare a
+							<code class="code">@DiscriminatorValue</code> because no direct instance of
+							<code class="code">Person</code> is stored in the database table.
+						</p>
+						<p>Further, we define the <code class="code">Author</code> class as follows:
+						</p>
+						<pre class="programlisting">@Entity
+<span class="bold"><strong>@DiscriminatorValue( value = "AUTHOR")</strong></span>
+@Table( name = "authors")
+@ManagedBean( name = "author")
+@ViewScoped
+public class Author extends Person {
+  @NotNull( message = "A biography is required!")
+  private String biography;
+
+  // constructors, set, get and other methods
+}</pre>
+						<p>The <code class="code">Author</code> class inherits <code class="code">Person</code>,
+							therefore the get
+							and set methods corresponding to <code class="code">personId</code> and <code
+								class="code">name</code>
+							properties are available. The <code class="code">@DiscriminatorValue( value =
+						"AUTHOR")</code> specifies that the column category of the
+							<code class="code">persons</code> table stores the value <code class="code">AUTHOR</code>
+							for every
+							entry which comes from persisting an <code class="code">Author</code> instance.
+						</p>
+						<p>Last we define the <code class="code">Employee</code>
+							class:</p>
+						<pre class="programlisting">@Entity
+@DiscriminatorValue( value = "EMPLOYEE")
+@Table( name = "employees")
+@ManagedBean( name = "employee")
+@ViewScoped
+public class Employee extends Person {
+  @Column( nullable = false)
+  @NotNull( message = "An employee ID is required!")
+  @Min( value = 20000, message = "Employee no. must be greater than 20000!")
+  @Max( value = 99999, message = "Employee no. must be lower than 100000!")
+  private Integer empNo;
+ <span class="bold"><strong> @Column( nullable = false, length = 32)
+  @Enumerated( EnumType.STRING)
+  private EmployeeTypeEL type;</strong></span>
+  @Column( nullable = true, length = 64)
+  private String department;
+
+  // constructors, set, get and other methods
+}</pre>
+						<p>Notice the <code class="code">type</code> property used to identify the
+							<code class="code">Employee</code> type, such as <code class="code">Manager</code>. Its
+							values are
+							defined by the <code class="code">EmployeeTypeEL</code> enumeration.
+						</p>
+					</div>
+					<div class="section">
+						<div class="titlepage">
+							<div>
+								<div>
+									<h4 class="title"><a name="d5e864"></a>3.3.2.&nbsp;Database schema for joined table
+										class hierarchy</h4>
+								</div>
+							</div>
+						</div>
+						<p>As a result of the <code class="code">@Inheritance( strategy =
+						InheritanceType.JOINED)</code> annotation, for each class in the inheritance
+							hierarchy, one database table is created. The corresponding simplified SQL-DDL
+							scripts used by JPA to create the <code class="code">persons</code>, <code
+								class="code">authors</code> and
+							<code class="code">employees</code> tables are shown below:
+						</p>
+						<pre class="programlisting">CREATE TABLE IF NOT EXISTS `persons` (
+  `PERSONID` int(11) NOT NULL,
+  `category` varchar(16) DEFAULT NULL,
+  `NAME` varchar(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `authors` (
+  `PERSONID` int(11) NOT NULL,
+  `BIOGRAPHY` varchar(255) DEFAULT NULL
+);
+ADD CONSTRAINT `FK_authors_PERSONID` FOREIGN KEY (`PERSONID`) REFERENCES `persons` (`PERSONID`);
+
+CREATE TABLE IF NOT EXISTS `employees` (
+  `PERSONID` int(11) NOT NULL,
+  `DEPARTMENT` varchar(64) DEFAULT NULL,
+  `EMPNO` int(11) NOT NULL,
+  `TYPE` varchar(32) DEFAULT NULL
+);
+ADD CONSTRAINT `FK_employees_PERSONID` FOREIGN KEY (`PERSONID`) REFERENCES `persons` (`PERSONID`);</pre>
+						<p>As we can see, every table contains the direct properties as defined by the
+							corresponding Java bean class. Additionally, the <code class="code">authors</code> and
+							<code class="code">employees</code> tables are created with a foreign key constraing for
+							the <code class="code">PERSONID</code> column refering to to the <code
+								class="code">PERSONID</code>
+							column from the <code class="code">persons</code> table.
+						</p>
+					</div>
+				</div>
+				<div class="section">
+					<div class="titlepage">
+						<div>
+							<div>
+								<h3 class="title"><a name="d5e878"></a>3.4.&nbsp;Write the View and Controller Code</h3>
+							</div>
+						</div>
+					</div>
+					<p>The user interface (UI) is very similar with the one for the Book hierarchy shown earlier
+						in this tutorial. For every Java bean class, we have a controller class which
+						contains the add, update and destroy CRUD methods. The <code
+							class="code">PersonController</code>
+						class is defined as abstract and contains the <code class="code">checkPersonIdAsId</code>
+						method,
+						which is common to all subclasses. The <code class="code">AuthorController</code> and
+						<code class="code">EmployeeController</code> inherits the <code
+							class="code">PersonController</code>.
+					</p>
+					<p>For every non-abstract entity class in the inheritance hierarchy we define a set of
+						views corresponding to CRUD operations. For example, in the case of
+						<code class="code">Author</code> we have <code class="code">WebContent/views/authors/{listAll, create,
+					update, destroy}.xhtml</code> files. In the case of <code class="code">Employee</code>, the
+						<span class="italic">List All Employees</span> test case require to
+						display the <span class="italic">Special type of employee</span>
+						column:
+					</p>
+					<pre class="programlisting">&lt;h:column&gt;
+  &lt;f:facet name="header"&gt;Special type of employee&lt;/f:facet&gt;
+  #{e.type != null ? e.type.label.concat( " of ").concat( e.department).concat( " department")  : ""}
+&lt;/h:column&gt;</pre>
+					<p>It is interesting to notice that within JSF expressions we can' use the + (plus)
+						operator to concatenate Java strings. JSF EL expression allows the <code class="code">+</code>
+						operator to be used only with number types. However, we can use the
+						<code class="code">concat</code> method available to any <code class="code">String</code>
+						object.
+					</p>
+					<p>The <span class="italic">Create</span>, <span class="italic">Update</span> and <span
+							class="italic">Delete</span> test cases for
+						both cases, <code class="code">Author</code> and <code class="code">Employee</code> are similar
+						whith what we
+						have learned in this tutorial as well as in the Part 1 to 5 tutorials.</p>
+				</div>
+			</div>
+			<div class="section">
+				<div class="titlepage">
+					<div>
+						<div>
+							<h2 class="title" style="clear: both"><a name="d5e903"></a>4.&nbsp;Run the App and Get the
+								Code</h2>
+						</div>
+					</div>
+				</div>
+				<p>Running your application is simple. First stop (if
+					already started, otherwise skip this part) your Tomcat/TomEE server by using
+					<code class="code">bin/shutdown.bat</code> for Windows OS or <code
+						class="code">bin/shutdown.sh</code> for
+					Linux. Next, download and unzip the <a class="link" href="SubtypingApp.zip" target="_top">ZIP
+						archive
+						file</a> containing all the source code of the application and also the ANT
+					script file which you have to edit and modify the <code class="code">server.folder</code> property
+					value. Now, execute the following command in your console or terminal: <code class="code">ant deploy
+				-Dappname=subtypingapp</code>. Last, start your Tomcat web server (by using
+					<code class="code">bin/startup.bat</code> for Windows OS or <code class="code">bin/startup.sh</code>
+					for
+					Linux). Please be patient, this can take some time depending on the speed of your
+					computer. It will be ready when the console display the following info: <code class="code">INFO:
+				Initializing Mojarra [some library versions and paths are shonw here] for context
+				'/subtypingapp'</code>. Finally, open a web browser and type:
+					<code class="code">http://localhost:8080/subtypingapp/faces/views/app/index.xhtml</code>
+				</p>
+				<p>You may want to download the<a class="link" href="lib.html" target="_top"> ZIP
+						archive</a> containing all the dependency libaries, or <a class="link"
+						href="http://yew.informatik.tu-cottbus.de/tutorials/java/subtypingapp/" target="_top">run the
+						subtyping app</a> directly from our server.</p>
+			</div>
+		</div>
+		<script data-cfasync="false"
+			src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+		<script>
+			(function (i, s, o, g, r, a, m) {
+				i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+					(i[r].q = i[r].q || []).push(arguments)
+				}, i[r].l = 1 * new Date(); a = s.createElement(o),
+					m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+			})(window, document, 'script', '../../../www.google-analytics.com/analytics.js', 'ga');
+
+			ga('create', 'UA-48105674-1', 'tu-cottbus.de');
+			ga('send', 'pageview');
+
+		</script>
+	</div>
+</body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsfApp/subtyping-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:54:50 GMT -->
+
+</html>

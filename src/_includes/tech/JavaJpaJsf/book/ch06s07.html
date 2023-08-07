@@ -1,0 +1,78 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06s07.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>7.&nbsp;Defining a Custom Validation Annotation</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App"><link rel="prev" href="ch06s06.html" title="6.&nbsp;Validation in the View Layer"><link rel="next" href="ch06s08.html" title="8.&nbsp;Run the App and Get the Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.&nbsp;Defining a Custom Validation Annotation</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s06.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s08.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectCustomAnnotation"></a>7.&nbsp;Defining a Custom Validation Annotation</h2></div></div></div><p>One other integrity constraint we have to consider is about the values of the
+				<code class="code">year</code> property, which should be in <code class="code">[1459. nextYear]</code> range. At first
+			we may have the intention to use <code class="code">@Min</code> and <code class="code">@Max</code> to specify the range,
+			but we discover soon that is not possible to specify an expression as value of the
+				<code class="code">@Max</code> annotation (as well as for the other annotations too), so we cannot
+			specfiy the <code class="code">nextYear</code> value expression. Sure, we are still able to specify the
+			lower range value (i.e. <code class="code">1459</code>) by using <code class="code">@Min( value = 1459)</code>. </p><p>Fortunatelly, the Bean Validation API allows to define custom validation annotations with
+			custom code performing the constraint checks. This means that we are free to express any kind
+			of validation logic in this way. Creating and using a custom validation annotation requires
+			to: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>create the annotation interface - we call this <code class="code">UpToNextYear</code> and the
+      corresponding code is shown
+      below:</p><pre class="programlisting">@Target( {ElementType.FIELD, ElementType.METHOD})
+@Retention( RetentionPolicy.RUNTIME)
+@Constraint( validatedBy = UpToNextYearImpl.class)
+public <span class="bold"><strong>@interface UpToNextYear</strong></span> {
+  <span class="bold"><strong>String message() default 
+      "The value of year must be between 1459 and next year!";
+  Class&lt;?&gt;[] groups() default {};
+  Class&lt;? extends Payload&gt;[] payload() default {};</strong></span>
+}</pre><p>It requires to define the three builtin methods, <code class="code">message</code> (returns the
+						default key or text message in case the constraint is violated), <code class="code">groups</code>
+						(allows the specification of validation groups, to which this constraint belongs) and
+							<code class="code">payload</code> (used by clients of the Validation API to asign custom payload
+						objects to a constraint - this attribute is not used by the API itself). Notice the
+							<code class="code">@Target</code> annotation, which specifies on which kind of element type we can
+						apply the annotation ( e.g. fields/properties and methods in our case). The
+							<code class="code">@Constraint</code> annotation allows to specify (using the
+							<code class="code">validatedBy</code> property) the implementation class which will perform the
+						validation, i.e. <code class="code">UpToNextYearImpl</code> in our case.</p></li><li class="listitem"><p>create an implementation class where the validation code is
+      defined:</p><pre class="programlisting">public class UpToNextYearImpl implements 
+    ConstraintValidator&lt;UpToNextYear, Integer&gt; {
+  private Calendar calendar;
+
+  @Override
+  public void <span class="bold"><strong>initialize</strong></span>( UpToNextYear arg0) {
+    this.calendar = Calendar.getInstance();
+    calendar.setTime( new Date());
+  }
+  @Override
+  public boolean <span class="bold"><strong>isValid</strong></span>( Integer year, 
+      ConstraintValidatorContext context) {
+    if (year == null || 
+        year &gt; this.calendar.get( Calendar.YEAR) + 1) {
+      return false;
+    }
+    return true;
+  }
+}</pre><p>The implementation class implements the <code class="code">ConstraintValidator</code> interface
+						which requires two Java generics parameters: first is the annotation interface defined
+						before (i.e. <code class="code">UpToNextYear</code>), the second one represents the type of elements,
+						which the validator can handle (i.e. <code class="code">Integer</code>, so implicitly also the
+						compatible primitive type <code class="code">int</code>). The <code class="code">initialize</code> method (as also
+						the name specifies) allows to create all kind of initialization are required for
+						performing the validation check. The <code class="code">isValid</code> method is responsible to
+						perform the validation check: it must returns <code class="code">true</code> if validation passed and
+						false otherwise. The first parameter of the <code class="code">isValid</code> method represents the
+						value (current property or returned method value) to be validated and its type must be
+						compatible with the type defined by the second generics parameter of the
+							<code class="code">ConstraintValidator</code> (i.e. <code class="code">Integer</code> in our case). </p></li><li class="listitem"><p>annotate the property or method - in our case we like to validate the <code class="code">year</code>
+						property so the corresponding code
+						is:</p><pre class="programlisting">@Entity
+@Table( name = "books")
+public class Book {
+  // ...
+
+  @Min( value = 1459)
+  <span class="bold"><strong>@UpToNextYear
+  private Integer year;</strong></span>
+
+  //...
+}</pre></li></ol></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s06.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s08.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.&nbsp;Validation in the View Layer &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;8.&nbsp;Run the App and Get the Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06s07.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+</html>

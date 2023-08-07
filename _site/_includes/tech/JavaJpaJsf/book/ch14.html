@@ -1,0 +1,83 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch14.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;14.&nbsp;Bidirectional Associations</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="pt04.html" title="Part&nbsp;IV.&nbsp;Associations"><link rel="prev" href="ch13s07.html" title="7.&nbsp;Possible Variations and Extensions"><link rel="next" href="ch14s02.html" title="2.&nbsp;Making an Association-Free Information Design Model"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;14.&nbsp;Bidirectional Associations</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13s07.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;IV.&nbsp;Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="chapBidirAssoc"></a>Chapter&nbsp;14.&nbsp;Bidirectional Associations</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch14.html#d5e5046">1. Inverse Reference Properties</a></span></dt><dt><span class="section"><a href="ch14s02.html">2. Making an Association-Free Information Design Model</a></span></dt><dd><dl><dt><span class="section"><a href="ch14s02.html#d5e5167">2.1. The basic procedure</a></span></dt><dt><span class="section"><a href="ch14s02.html#secElimNAE">2.2. How to eliminate unidirectional associations</a></span></dt><dt><span class="section"><a href="ch14s02.html#d5e5190">2.3. How to eliminate bidirectional associations</a></span></dt><dt><span class="section"><a href="ch14s02.html#d5e5248">2.4. The resulting association-free design model</a></span></dt></dl></dd><dt><span class="section"><a href="ch14s03.html">3. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch14s03.html#d5e5269">3.1. Question 1: Table populations of bidirectional associations</a></span></dt><dt><span class="section"><a href="ch14s03.html#d5e5449">3.2. Question 2: Implications of bi-directionality</a></span></dt><dt><span class="section"><a href="ch14s03.html#d5e5467">3.3. Question 3: Elimination of bi-directional associations</a></span></dt><dt><span class="section"><a href="ch14s03.html#d5e5495">3.4. Question 4: Meaning of bi-directional association</a></span></dt></dl></dd></dl></div><p>A bidirectional association is an association that is represented as a pair of mutually
+		inverse reference properties.</p><p>The model shown in Figure <a class="xref" href="ch14.html#figPublisherBookPersonIDM" title="Figure&nbsp;14.1.&nbsp;The Publisher-Book-Author information design model with two bidirectional associations">14.1</a> below (about publishers, books and their authors) serves
+		as our running example in all other parts of the tutorial. Notice that it contains two
+		bidirectional associations, as indicated by the ownership dots at both association
+		ends.</p><div class="figure"><a name="figPublisherBookPersonIDM"></a><p class="title"><b>Figure&nbsp;14.1.&nbsp;The Publisher-Book-Author information design model with two bidirectional
+			associations</b></p><div class="figure-contents"><div class="mediaobject"><img src="../../fig/Publisher-Book-Author_Bidir_DesM.svg" alt="The Publisher-Book-Author information design model with two bidirectional associations"></div></div></div><br class="figure-break"><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e5046"></a>1.&nbsp;Inverse Reference Properties</h2></div></div></div><p>For being able to easily retrieve the committees that are chaired or co-chaired by a club
+			member, we add two reference properties to our <code class="code">Committee</code>-<code class="code">ClubMember</code>
+			example model: the property of a club member to chair a committee
+				(<code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>) and the property of a club member
+			to co-chair a committee (<code class="code">ClubMember</code>::<code class="code">coChairedCommittee</code>). We assume
+			that any club member may chair or co-chair at most one committee (where the disjunction is
+			non-exclusive). So, we get the following model:</p><div class="mediaobject"><img src="../../fig/CommitteeChairAndCochair_AFM1.svg"></div><p>Notice that there is a close correspondence between the two reference properties
+				<code class="code">Committee</code>::<code class="code">chair</code> and
+				<code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>. They are the <span class="bold"><strong><span class="italic">inverse</span></strong></span> of each other: when the club member
+			Tom is the chair of the budget committee, expressed by the tuple <span class="italic">("budget committee", "Tom")</span>, then the budget committee is the committee chaired
+			by the club member Tom, expressed by the inverse tuple <span class="italic">("Tom", "budget
+				committee")</span>. For expressing this inverse correspondence in the diagram, we append
+			an inverse property constraint, <code class="code">inverse of chair</code>, in curly braces to the
+			declaration of the property <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>, and a
+			similar one to the property <code class="code">Committee</code>::<code class="code">chair</code>, as shown in the
+			following diagram:</p><div class="mediaobject"><img src="../../fig/CommitteeChairAndCochair_AFM2.svg"></div><p>We also call <code class="code">Committee</code>::<code class="code">chair</code> and
+    <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> a <span class="bold"><strong><span class="italic">pair of mutually inverse reference properties</span></strong></span>. Having such
+   a pair in a model means having <span class="bold"><strong><span class="italic">redundancy</span></strong></span> because each of the two involved reference properties can be
+   derived from the other by inversion. This type of redundancy implies <span class="italic">data
+    storage overhead</span> and <span class="italic">update overhead</span>, which is the
+   price to pay for the bidirectional navigability that supports efficient object access in both
+   directions.</p><p>For maintaining the duplicate information of a mutually inverse reference property pair, it
+			is good practice to treat one of the two involved properties as the <span class="italic">master</span>, and the other one as the <span class="italic">slave</span>, and
+			take this distinction into consideration in the code of the change methods (such as the
+			property setters) of the affected model classes. We indicate the slave of an inverse reference
+			property pair in a model diagram by declaring the slave property to be a <span class="bold"><strong><span class="italic">derived</span></strong></span> property using the UML notation of
+			a slash as a prefix of the property name as shown in the following diagram:</p><div class="mediaobject"><img src="../../fig/CommitteeChairAndCochair_AFM3.svg"></div><p>The property <code class="code">chairedCommittee</code> in <code class="code">ClubMember</code> now has a slash-prefix
+    (<code class="code">/</code>) indicating that it is derived. The <code class="code">{inverse of chair}</code> annotation
+   in this example defines the derivation rule: the property is derived by inversion of
+    <code class="code">Committee</code>::<code class="code">chair</code>. This implies that, the other way around,
+    <code class="code">Committee</code>::<code class="code">chair</code> is the inverse of
+    <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>.</p><p>In a UML class diagram, the derivation of a property can be specified, for instance, by an
+				<span class="italic">Object Constraint Language (OCL)</span> expression that
+			evaluates to the value of the derived property for the given object. In the case of a property
+			being the inverse of another property, specified by the constraint expression <code class="code">{inverse
+				of</code>
+			<span class="italic">anotherProperty</span><code class="code">}</code> appended to the property
+			declaration, the derivation expression is implied. In our example, it evaluates to the
+			committee object reference <code class="code">c</code> such that <code class="code">c.chair = this</code>.</p><p>There are two ways how to realize the derivation of a property: it may be <span class="italic">derived on read</span> via a read-time computation of its value, or it may be
+    <span class="italic">derived on update</span> via an update-time computation performed
+   whenever one of the variables in the derivation expression (typically, another property) changes
+   its value. The latter case corresponds to a <span class="italic">materialized view</span>
+   in an SQL database. While a reference property that is derived on read may not guarantee
+   efficient navigation, because the on-read computation may create unacceptable latencies, a
+   reference property that is derived on update does provide efficient navigation.</p><p>In the case of a derived reference property, the derivation expresses <span class="bold"><strong><span class="italic">life cycle dependencies</span></strong></span>. These dependencies
+			require special consideration in the code of the affected model classes by providing a number
+			of change management mechanisms based on the functionality type of the represented association
+			(either <span class="italic">one-to-one</span>, <span class="italic">many-to-one</span> or <span class="italic">many-to-many</span>). </p><p>In our example of the derived inverse reference property
+				<code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>, which is single-valued and optional,
+			this means that </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>whenever a new committee object is created (with a mandatory <code class="code">chair</code>
+						assignment), the corresponding <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>
+						property has to be assigned accordingly;</p></li><li class="listitem"><p>whenever the <code class="code">chair</code> property is updated (that is, a new chair is
+						assigned to a committee), the corresponding
+							<code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> property has to be updated as
+						well; </p></li><li class="listitem"><p>whenever a committee object is destroyed, the corresponding
+							<code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> property has to be
+						unassigned.</p></li></ol></div><p>In the case of a derived inverse reference property that is multi-valued while its inverse
+			base property is single-valued (like <code class="code">Publisher</code>::<code class="code">publishedBooks</code> in
+			Figure <a class="xref" href="ch14s02.html#figAFM" title="Figure&nbsp;14.4.&nbsp;The association-free design model">14.4</a> below being derived from
+				<code class="code">Book</code>::<code class="code">publisher</code>), the life cycle dependencies imply that </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>whenever a new 'base object' (such as a book) is created, the corresponding inverse
+						property has to be updated by adding a reference to the new base object to its value set
+						(like adding a reference to the new book object to
+							<code class="code">Publisher</code>::<code class="code">publishedBooks</code> );</p></li><li class="listitem"><p>whenever the base property is updated (e.g., a new publisher is assigned to a book),
+						the corresponding inverse property (in our example,
+							<code class="code">Publisher</code>::<code class="code">publishedBooks</code>) has to be updated as well by
+						removing the old object reference from its value set and adding the new one;</p></li><li class="listitem"><p>whenever a base object (such as a book) is destroyed, the corresponding inverse
+						property has to be updated by removing the reference to the base object from its value
+						set (like removing a reference to the book object to be destroyed from
+							<code class="code">Publisher</code>::<code class="code">publishedBooks</code> ).</p></li></ol></div><p>We use the slash-prefix (<code class="code">/</code>) notation in the example above for indicating that
+			the property <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code> is derived on update from
+			the corresponding committee object. </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13s07.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">7.&nbsp;Possible Variations and Extensions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Making an Association-Free Information Design Model</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch14.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:42 GMT -->
+</html>

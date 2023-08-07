@@ -1,0 +1,192 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch12s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;Quiz Questions</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Bidirectional Associations"><link rel="prev" href="ch12s02.html" title="2.&nbsp;Making an OO Class Model"><link rel="next" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Implementing Bidirectional Associations with Plain JS"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;Quiz Questions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Bidirectional Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e7609"></a>3.&nbsp;Quiz Questions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7611"></a>3.1.&nbsp;Question 1: Table populations of bidirectional
+      associations</h3></div></div></div><p>Consider the following table pairs representing the populations of
+      the classes <code class="code">A</code> and <code class="code">B</code> where the columns
+      <code class="code">A::id</code> and <code class="code">B::id</code> are primary keys and
+      <code class="code">A::b_id</code> and <code class="code">B::a_id</code> are foreign keys
+      referencing <code class="code">B</code>, respectively <code class="code">A</code>.</p><p>In which of the following cases does the property pair
+      <code class="code">A::b_id</code> and <code class="code">B::a_id</code> implement a bidirectional
+      association? Select one or more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; </p><div class="informaltable"><table><thead><tr>
+                  <th>A</th>
+
+                  <th>B</th>
+                </tr></thead><tbody><tr>
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block;"><thead><tr>
+                          <th>id</th>
+
+                          <th>b_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>2</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>3</td>
+                        </tr></tbody></table></div></td>
+
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block; margin-left: 2em;"><thead><tr>
+                          <th>id</th>
+
+                          <th>a_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>2</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>3</td>
+                        </tr></tbody></table></div></td>
+                </tr></tbody></table></div></li><li class="listitem"><p>&#9744; </p><div class="informaltable"><table><thead><tr>
+                  <th>A</th>
+
+                  <th>B</th>
+                </tr></thead><tbody><tr>
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block;"><thead><tr>
+                          <th>id</th>
+
+                          <th>b_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>2</td>
+                        </tr></tbody></table></div></td>
+
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block; margin-left: 2em;"><thead><tr>
+                          <th>id</th>
+
+                          <th>a_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>2</td>
+                        </tr></tbody></table></div></td>
+                </tr></tbody></table></div></li><li class="listitem"><p>&#9744; </p><div class="informaltable"><table><thead><tr>
+                  <th>A</th>
+
+                  <th>B</th>
+                </tr></thead><tbody><tr>
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block;"><thead><tr>
+                          <th>id</th>
+
+                          <th>b_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>1</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>2</td>
+                        </tr></tbody></table></div></td>
+
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block; margin-left: 2em;"><thead><tr>
+                          <th>id</th>
+
+                          <th>a_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>2</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>1</td>
+                        </tr></tbody></table></div></td>
+                </tr></tbody></table></div></li><li class="listitem"><p>&#9744; </p><div class="informaltable"><table><thead><tr>
+                  <th>A</th>
+
+                  <th>B</th>
+                </tr></thead><tbody><tr>
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block;"><thead><tr>
+                          <th>id</th>
+
+                          <th>b_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>2</td>
+                        </tr></tbody></table></div></td>
+
+                  <td><div class="informaltable"><table border="1" frame="border" rules="all" style="display: inline-block; margin-left: 2em;"><thead><tr>
+                          <th>id</th>
+
+                          <th>a_id</th>
+                        </tr></thead><tbody><tr>
+                          <td>1</td>
+
+                          <td>2</td>
+                        </tr><tr>
+                          <td>2</td>
+
+                          <td>3</td>
+                        </tr><tr>
+                          <td>3</td>
+
+                          <td>1</td>
+                        </tr></tbody></table></div></td>
+                </tr></tbody></table></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7790"></a>3.2.&nbsp;Question 2: Implications of bidirectionality</h3></div></div></div><p>Representing a bidirectional association with a pair of mutually
+      inverse reference properties implies (select one or many):</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; information redundancy</p></li><li class="listitem"><p>&#9744; slower read access</p></li><li class="listitem"><p>&#9744; data storage overhead</p></li><li class="listitem"><p>&#9744; update overhead</p></li><li class="listitem"><p>&#9744; faster updates</p></li><li class="listitem"><p>&#9744; more efficient data storage requiring less memory</p></li><li class="listitem"><p>&#9744; efficient object access in both directions</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7808"></a>3.3.&nbsp;Question 3: Elimination of bidirectional associations</h3></div></div></div><p>Consider the following information design model with a
+      bidirectional association between the classes Aa and Bb.</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../../fig/quiz/BidirAssoc/ElimBidirAssoc/q.svg" width="300"></td></tr></table></div><p>Which of the following OO class models are correct representations
+      of this model? Select one or more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../../fig/quiz/BidirAssoc/ElimBidirAssoc/c1.svg" width="300"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../../fig/quiz/BidirAssoc/ElimBidirAssoc/f1.svg" width="400"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../../fig/quiz/BidirAssoc/ElimBidirAssoc/c2.svg" width="300"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../../fig/quiz/BidirAssoc/ElimBidirAssoc/f2.svg" width="300"></td></tr></table></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7836"></a>3.4.&nbsp;Question 4: Meaning of bidirectional association</h3></div></div></div><p>A bidirectional association <span class="italic">Committee</span>-isChairedBy-<span class="italic">ClubMember</span> between the classes
+      <code class="code">Committee</code> and <code class="code">ClubMember</code> corresponds to ...
+      (select one or more):</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; A pair of reference properties <code class="code">Committee::chair
+          </code>and <code class="code">ClubMember::chairedCommittee</code> such that
+          <code class="code">Committee::chair</code> is the inverse of
+          <code class="code">ClubMember::chairedCommittee</code> and
+          <code class="code">ClubMember::chairedCommittee</code> is the inverse of
+          <code class="code">Committee::chair</code>.</p></li><li class="listitem"><p>&#9744; A pair of reference properties <code class="code">Committee::chair</code>
+          and <code class="code">ClubMember::chairedCommittee</code>.</p></li><li class="listitem"><p>&#9744; A pair of reference properties <code class="code">Committee::chair</code>
+          and <code class="code">ClubMember::chairedCommittee</code> such that
+          <code class="code">Committee::chair</code> is the inverse of
+          <code class="code">ClubMember::chairedCommittee</code>.</p></li><li class="listitem"><p>&#9744; A pair of reference properties <code class="code">Committee::chair
+          </code>and <code class="code">ClubMember::chairedCommittee</code> such that
+          <code class="code">ClubMember::chairedCommittee</code> is the inverse of
+          <code class="code">Committee::chair</code>.</p></li></ol></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Making an OO Class Model&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;13.&nbsp;Implementing Bidirectional Associations with Plain JS</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch12s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+</html>

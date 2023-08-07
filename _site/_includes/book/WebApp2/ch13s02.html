@@ -1,0 +1,140 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp2/ch13s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Case Study 1: Eliminating a Class Hierarchy</title><link rel="stylesheet" type="text/css" href="html.css"><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Subtyping with Plain JS"><link rel="prev" href="ch13s01.html" title="1.&nbsp;Subtyping with Constructor-Based Classes"><link rel="next" href="ch13s03.html" title="3.&nbsp;Case Study 2: Implementing a Class Hierarchy"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Case Study 1: Eliminating a Class Hierarchy</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13s01.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;13.&nbsp;Subtyping with Plain JS</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s03.html"><img src="images/next.svg" alt="Next"></a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4887"></a>2.&nbsp;Case Study 1: Eliminating a Class Hierarchy</h2></div></div></div><p>Simple class hierarchies can be eliminated by applying the <span class="italic">Class Hierarchy Merge</span> design pattern. The starting point for our case study is the simple class hierarchy shown in the information design model of <a class="xref" href="ch12s01.html#figBookClassHierarchy" title="Figure&nbsp;12.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;12.1</a> above, representing a disjoint (but incomplete) rigid segmentation of <code class="code">Book</code> into <code class="code">TextBook</code> and <code class="code">Biography</code>. This model is first simplified by applying the <span class="italic">Class Hierarchy Merge</span> design pattern, resulting in the following model:</p><div class="informalfigure"><a name="figBookClassHierarchyMergeModel2"></a><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="350"><tr><td><img src="resources/BookClassHierarchyMerge.png" width="350"></td></tr></table></div></div><p>We can now derive a <span class="italic">JS class model</span> from this design model.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e4902"></a>2.1.&nbsp;Make the JS class model</h3></div></div></div><p>We make the JS class model<a class="indexterm" name="d5e4905"></a> in 3 steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Replace the platform-independent datatypes (used as the ranges of attributes and parameters) with JS datatypes. This includes the case of enumeration-valued attributes, such as <code class="code">category</code>, which are turned into <code class="code">number</code>-valued attributes restricted to the enumeration integers of the underlying enumeration type.</p></li><li class="listitem"><p>Decorate all properties with a &laquo;get/set&raquo; stereotype for indicating that they have implicit getters and setters.</p></li><li class="listitem"><p>Add property <span class="italic">check</span> functions, as described in  <span class="phrase">Chapter 8 of Volume 1</span> . The <code class="code">checkCategory</code> function, as well as the checks of the segment properties need special consideration according to their implied semantics. In particular, a segment property's check function must ensure that the property can only be assigned if the <code class="code">category</code> attribute has a value representing the corresponding segment. We explain this implied validation semantics in more detail below when we discuss how the JS class model is coded.</p></li></ol></div><p>This leads to the JS class model shown in <a class="xref" href="ch13s02.html#figBookClassHierarchyJsM" title="Figure&nbsp;13.1.&nbsp;The JS class model of the merged Book class hierarchy">Figure&nbsp;13.1</a>, where the class-level ('static') methods are underlined:</p><div class="figure"><a name="figBookClassHierarchyJsM"></a><div class="figure-title">Figure&nbsp;13.1.&nbsp;The JS class model of the merged <code class="code">Book</code> class hierarchy</div><div class="figure-contents"><div class="mediaobject"><img src="resources/BookClassHierarchy_JsM.png"></div></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e4929"></a>2.2.&nbsp;New issues</h3></div></div></div><p>Compared to the <a class="link" href="../../tech/JsFrontendApp/EnumerationApp/index.html" target="_top">enumeration app</a> discussed in <span class="phrase">Chapter 11 of Volume 1</span>, we have to deal with a number of new issues:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the <span class="italic">model code</span> we have to take care of</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Adding the constraint violation class <span class="italic">FrozenValueConstraintViolation</span> to <code class="code">errorTypes.js</code>.</p></li><li class="listitem"><p>Coding the enumeration type to be used as the range of the <code class="code">category</code> attribute (<code class="code">BookCategoryEL</code> in our example).</p></li><li class="listitem"><p>Coding the <code class="code">checkCategory</code> function for the <code class="code">category</code> attribute. In our example this attribute is <span class="italic">optional</span>, due to the fact that the <code class="code">Book</code> segmentation is <span class="italic">incomplete</span>. If the segmentation, to which the <span class="italic">Class Hierarchy Merge</span> pattern is applied, is complete, then the <code class="code">category</code> attribute is <span class="italic">mandatory</span>.</p></li><li class="listitem"><p>Coding the <span class="italic">check</span> functions for all segment properties such that they take the category as a second parameter for being able to test if the segment property concerned applies to a given instance.</p></li><li class="listitem"><p>Refining the serialization function <code class="code">toString()</code> by adding a <code class="code">category</code> case distinction (<code class="code">switch</code>) statement for serializing only the segment properties that apply to the given category.</p></li><li class="listitem"><p>Implementing the <span class="italic">Frozen Value Constraint</span> for the <code class="code">category</code> attribute in <code class="code">Book.update</code> by updating the <code class="code">category</code> of a book only if it has not yet been defined. This means it cannot be updated anymore as soon as it has been defined.</p></li></ol></div></li><li class="listitem"><p>In the <span class="italic">UI code</span> we have to take care of</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Adding a "Special type" (or "Category") column to the display table of the "List all books" use case in <code class="code">books.html</code>. A book without a special category will have an empty table cell, while for all other books their category will be shown in this cell, along with other segment-specific attribute values. This requires a corresponding switch statement in <code class="code">pl.v.books.retrieveAndListAll.setupUserInterface</code> in the <code class="code">books.js</code> view code file.</p></li><li class="listitem"><p>Adding a "Special type" choice widget (typically, a selection list), and corresponding form fields for all segment properties, in the forms of the "Create book" and "Update book" use cases in <code class="code">books.html</code>. Segment property form fields are only displayed when a corresponding book category has been selected. Such an approach of rendering specific form fields only on certain conditions is sometimes called <span class="italic">dynamic forms</span>.</p></li></ol></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e4984"></a>2.3.&nbsp;Code the model classes of the JS class model</h3></div></div></div><p>The JS class model can be directly coded for getting the code of the model classes of our JS front-end app.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e4987"></a>2.3.1.&nbsp;Summary</h4></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Code the enumeration type <code class="code">BookCategoryEL</code> to be used as the range of the <code class="code">category</code> attribute with the help of the meta-class <code class="code">Enumeration</code>, as explained in  <span class="phrase">Chapter 11 of Volume 1</span> .</p></li><li class="listitem"><p>Code the model class <code class="code">Book</code> in the form of a JS <code class="code">class</code> definition with <code class="code">get</code> and <code class="code">set</code> methods as well as static <span class="italic">check</span> functions.</p></li></ol></div><p>These steps are discussed in more detail in the following sections.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e5004"></a>2.3.2.&nbsp;Code the enumeration type <code class="code">BookCategoryEL</code></h4></div></div></div><p>The enumeration type <code class="code">BookCategoryEL</code> is coded with the help of our library meta-class <code class="code">Enumeration</code> at the beginning of the <code class="code">Book.js</code> model class file in the following way:</p><pre class="programlisting"><span class="bold"><strong>BookCategoryEL</strong></span> = new Enumeration([ "Textbook", "Biography"]);</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e5013"></a>2.3.3.&nbsp;Code the model class <code class="code">Book</code></h4></div></div></div><p>We code the model class <code class="code">Book</code> in the form of an ES2015 class definition where the <code class="code">category</code> attribute as well as the segment attributes <code class="code">subjectArea</code> and <code class="code">about</code> are optional, with getters, setters and static check functions for all properties:</p><pre class="programlisting">class <span class="bold"><strong>Book</strong></span> {
+  constructor ({isbn, title, year, category, subjectArea, about}) {
+    this.isbn = isbn;
+    this.title = title;
+    this.year = year;
+    // optional properties
+    if (category) this.category = category;
+    if (subjectArea) this.subjectArea = subjectArea;
+    if (about) this.about = about;
+  }
+  get <span class="bold"><strong>isbn</strong></span>() {...}
+  static checkIsbn( isbn) {...}
+  static checkIsbnAsId( isbn) {...}
+  set isbn( isbn) {...}
+  get <span class="bold"><strong>title</strong></span>() {...}
+  static checkTitle( t) {...}
+  set title( t) {...}
+  get <span class="bold"><strong>year</strong></span>() {...}
+  static checkYear( y) {...}
+  set year( y) {...}
+  get <span class="bold"><strong>category</strong></span>() {...}
+  static checkCategory( c) {...}
+  set category( c) {...}
+  get <span class="bold"><strong>subjectArea</strong></span>() {...}
+  static checkSubjectArea( sA, cat) {...}
+  set subjectArea( s) {...}
+  get <span class="bold"><strong>about</strong></span>() {...}
+  static checkAbout( a, cat) {...}
+  set about( a) {...}
+}</pre><p>Notice that the constructor function is defined with a single record parameter making use of the ES2015 feature of <span class="italic">function parameter destructuring</span>.</p><p>We code the <code class="code">checkCategory</code> and <code class="code">setCategory</code> methods for the <code class="code">category</code> attribute in the following way:</p><pre class="programlisting">static <span class="bold"><strong>checkCategory</strong></span>( c) {
+  if (c === undefined || c === "") {
+    return new NoConstraintViolation();  // category is optional
+  } else if (!util.isIntegerOrIntegerString(c) || parseInt(c) &lt; 1 ||
+      parseInt(c) &gt; BookCategoryEL.MAX) {
+    return new RangeConstraintViolation(
+        "Invalid value for category: "+ c);
+  } else {
+    return new NoConstraintViolation();
+  }
+};</pre><pre class="programlisting">set <span class="bold"><strong>category</strong></span>( c) {
+  var validationResult = null;
+  if (this.category) {  // already set/assigned
+    validationResult = new FrozenValueConstraintViolation(
+        "The category cannot be changed!");
+  } else {
+    validationResult = Book.checkCategory( c);
+  }
+  if (validationResult instanceof NoConstraintViolation) {
+    this._category = parseInt( c);
+  } else {
+    throw validationResult;
+  }
+}</pre><p>While the getters for segment properties (in this example: <code class="code">subjectArea</code> and <code class="code">about</code>) follow the standard pattern, their checks and setters have to make sure that the property applies to the category of the instance being checked. This is achieved by checking a combination of a property value and a category, as in the following example:</p><pre class="programlisting">static <span class="bold"><strong>checkSubjectArea</strong></span>( sA, c) {
+  if (c === BookCategoryEL.TEXTBOOK &amp;&amp; !sA) {
+    return new MandatoryValueConstraintViolation(
+        "A subject area must be provided for a textbook!");
+  } else if (c !== BookCategoryEL.TEXTBOOK &amp;&amp; sA) {
+    return new ConstraintViolation("A subject area must not " +
+        "be provided if the book is not a textbook!");
+  } else if (sA &amp;&amp; (typeof(sA) !== "string" || sA.trim() === "")) {
+    return new RangeConstraintViolation(
+        "The subject area must be a non-empty string!");
+  } else {
+    return new NoConstraintViolation();
+  }
+} </pre><p>In the serialization function <code class="code">toString</code>, we serialize the category attribute and the segment properties in a <code class="code">switch</code> statement:</p><pre class="programlisting"><span class="bold"><strong>toString</strong></span>() {
+  var bookStr = "Book{ ISBN:"+ this.isbn +", title:"+ 
+      this.title +", year:"+ this.year;
+  switch (this.category) {
+  case BookCategoryEL.TEXTBOOK: 
+    bookStr += ", textbook subject area:"+ this.subjectArea;
+    break;
+  case BookCategoryEL.BIOGRAPHY: 
+    bookStr += ", biography about: "+ this.about;
+    break;
+  }
+  return bookStr + "}";
+};</pre><p>In the update method of a model class, we only set a property if it is to be updated, that is, if there is a corresponding argument slot with a value that is different from the old property value. In the special case of a <code class="code">category</code> attribute with a <span class="italic">Frozen Value Constraint</span>, we need to make sure that it can only be updated, along with an accompanying set of segment properties, if it has not yet been assigned. Thus, in the <code class="code">Book.update</code> method, we perform the special test if <code class="code">book.category === undefined</code> for handling the special case of an initial assignment, while we handle updates of the segment properties <code class="code">subjectArea</code> and <code class="code">about</code> in a more standard way:</p><pre class="programlisting">Book.<span class="bold"><strong>update</strong></span> = function ({isbn, title, year, 
+    category, subjectArea, about}) {
+  const book = Book.instances[isbn],
+      objectBeforeUpdate = util.cloneObject( book);
+  var noConstraintViolated=true, updatedProperties=[];
+  try {
+    ...
+    if (<span class="bold"><strong>category</strong></span> &amp;&amp; book.category !== category) {
+      book.category = category;
+      updatedProperties.push("category");
+    } else if (category === "" &amp;&amp; "category" in book) {
+      throw FrozenValueConstraintViolation(
+          "The book category cannot be unset!");
+    }
+    if (<span class="bold"><strong>subjectArea</strong></span> &amp;&amp; book.subjectArea !== subjectArea) {
+      book.subjectArea = subjectArea;
+      updatedProperties.push("subjectArea");
+    }
+    if (<span class="bold"><strong>about</strong></span> &amp;&amp; book.about !== about) {
+      book.about = about;
+      updatedProperties.push("about");
+    }
+  } catch (e) {
+    ...
+  }
+  ...
+};</pre></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5061"></a>2.4.&nbsp;Write the View and Controller Code</h3></div></div></div><p>The app's user interface (UI) consists of a start page that allows navigating to data management pages (in our example, to <code class="code">books.html</code>). Such a data management page contains 5 sections: <span class="italic">manage books</span>, <span class="italic">list and retrieve all books</span>, <span class="italic">create book</span>, <span class="italic">update book</span> and <span class="italic">delete book</span>, such that only one of them is displayed at any time (by setting the CSS property <code class="code">display:none</code> for all others).</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e5071"></a>2.4.1.&nbsp;Summary</h4></div></div></div><p>We have to take care of handling the <code class="code">category</code> attribute and the segment properties <code class="code">subjectArea</code> and <code class="code">about</code> both in the "Retrieve and list all books" use case as well as in the "Create book" and "Update book" use cases by</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Adding a segment information column (with heading "Category") to the display table of the "Retrieve and list all books" use case in <code class="code">books.html</code>.</p></li><li class="listitem"><p>Adding a "Category" selection field, and input fields for all segment properties, in the forms of the "Create book" and "Update book" use cases in <code class="code">books.html</code>. The form fields for segment properties are only displayed, when a corresponding book category has been selected.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e5084"></a>2.4.2.&nbsp;Add a segment information column in <span class="emphasis"><em>Retrieve/List All</em></span></h4></div></div></div><p>We add a "Special type" column to the display table of the "List all books" use case in <code class="code">books.html</code>:</p><pre class="programlisting">&lt;table id="books"&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;ISBN&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Year&lt;/th&gt;<span class="bold"><strong>&lt;th&gt;Category&lt;/th&gt;</strong></span>&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;&lt;/tbody&gt;
+&lt;/table&gt;</pre><p>A book without a special category will have an empty table cell in this column, while for all other books their category will be shown in this column, along with other category-specific information. This requires a corresponding switch statement in <code class="code">pl.v.books.retrieveAndListAll.setupUserInterface</code> in the <code class="code">view/books.js</code> file:</p><pre class="programlisting">if (book.category) {
+  switch (book.category) {
+  case BookCategoryEL.TEXTBOOK:
+    row.insertCell(-1).textContent = book.subjectArea + " textbook";
+    break;
+  case BookCategoryEL.BIOGRAPHY: 
+    row.insertCell(-1).textContent = "Biography about "+ book.about;
+    break;
+  }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e5095"></a>2.4.3.&nbsp;Add a <span class="emphasis"><em>category</em></span> selection field in <span class="emphasis"><em>Create</em></span> and <span class="emphasis"><em>Update</em></span></h4></div></div></div><p>In both use cases, we need to allow selecting a special category of book ('textbook' or 'biography') with the help of a selection field, as shown in the following HTML fragment:</p><pre class="programlisting">&lt;div class="field"&gt;
+ &lt;label&gt;Category: &lt;select name="category"&gt;&lt;/select&gt;&lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="field <span class="bold"><strong>Textbook</strong></span>"&gt;&lt;!-- conditional field --&gt;
+ &lt;label&gt;Subject area: &lt;input type="text" name="<span class="bold"><strong>subjectArea</strong></span>" /&gt;&lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="field <span class="bold"><strong>Biography</strong></span>"&gt;&lt;!-- conditional field --&gt;
+ &lt;label&gt;About: &lt;input type="text" name="<span class="bold"><strong>about</strong></span>" /&gt;&lt;/label&gt;
+&lt;/div&gt;</pre><p>Notice that we have added "Textbook" and "Biography" as additional values of the <code class="code">class</code> attribute of the segment field container elements. This supports the rendering and un-rendering of "Textbook" and "Biography" form fields, depending on the value of the <code class="code">category</code> attribute.</p><p>In the <code class="code">handleCategorySelectChangeEvent</code> handler, segment property form fields are only displayed, with <code class="code">pl.v.app.displaySegmentFields</code>, when a corresponding book category has been selected:</p><pre class="programlisting">pl.v.books.<span class="bold"><strong>handleCategorySelectChangeEvent</strong></span> = function (e) {
+  var formEl = e.currentTarget.form,
+      categoryIndexStr = formEl.category.value;
+  if (categoryIndexStr) {
+    pl.v.app.<span class="bold"><strong>displaySegmentFields</strong></span>( formEl, BookCategoryEL.labels,
+        parseInt( categoryIndexStr) + 1);
+  } else {
+    pl.v.app.<span class="bold"><strong>undisplayAllSegmentFields</strong></span>( formEl, BookCategoryEL.labels);
+  }
+};</pre><p>Recall that the category selection list contains a no-selection option "---" with the empty string as its return value, and a list of options formed by the enumeration labels of BookCategoryEL.labels such that their value is the corresponding array index (starting with 0) as a string. Consequently, the variable <code class="code">categoryIndexStr</code> has either the value "" (empty string) or one of "0", "1", "2", etc.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13s01.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html"><img src="images/up.svg" alt="Up"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s03.html"><img src="images/next.svg" alt="Next"></a></td></tr><tr><td width="40%" align="left" valign="top">1.&nbsp;Subtyping with Constructor-Based Classes&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html"><img src="images/home.svg" alt="Home"></a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Case Study 2: Implementing a Class Hierarchy</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp2/ch13s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:22 GMT -->
+</html>

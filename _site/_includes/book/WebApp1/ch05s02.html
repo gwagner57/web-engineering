@@ -1,0 +1,29 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch05s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Connecting Classes with Associations</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Information Modeling"><link rel="prev" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Information Modeling"><link rel="next" href="ch05s03.html" title="3.&nbsp;From a Conceptual Model via a Design Model to Class Models"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Connecting Classes with Associations</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;5.&nbsp;Information Modeling</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e3699"></a>2.&nbsp;Connecting Classes with Associations</h2></div></div></div><p>Whenever an app has to manage the data of more than one object type,
+    it is very likely that there are associations<a class="indexterm" name="d5e3702"></a> between some of them. For instance, in the following class
+    diagram, there is an association between <code class="code">publishers</code> and
+    <code class="code">books</code> and an association between <code class="code">books</code> and
+    <code class="code">people</code> as authors.</p><div class="informalfigure"><div class="mediaobject"><img src="../fig/publishers-books-authors_CIM_simplified.svg"></div></div><p>An association between two classes can be read in both directions.
+    The association between <code class="code">publishers</code> and <code class="code">books</code>
+    associates</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the books published by a publisher with this publisher, as
+        indicated by the association end name <code class="code">published
+        books</code>,</p></li><li class="listitem"><p>inversely (from right to left), the publisher of a book with
+        this book.</p></li></ol></div><p>The association between <code class="code">books</code> and <code class="code">people</code>
+    as authors associates</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the authors of a book with this book, as indicated by the
+        association end name <code class="code">authors</code>,</p></li><li class="listitem"><p>inversely (from right to left), the books authored by a person
+        with this person, as indicated by the association end name
+        <code class="code">authored books</code>.</p></li></ol></div><p>As will be discussed in Volume 2, associations are characterized by
+    multiplicity constraints, which restrict the possibilities of how many
+    objects of the associated class can be linked to an object of the given
+    class. In our example, we have a <span class="italic">one-to-many</span> association between
+    <code class="code">publishers</code> and <code class="code">books</code> and a <span class="italic">many-to-many</span> association between
+    <code class="code">books</code> and <code class="code">people</code>.</p><p>For keeping things simple, we only include one object type and no
+    association in the apps discussed in this volume of the book. In Volume 2,
+    we will discuss how to model associations and how to implement
+    them.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;5.&nbsp;Information Modeling&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;From a Conceptual Model via a Design Model to Class Models</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch05s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:49 GMT -->
+</html>

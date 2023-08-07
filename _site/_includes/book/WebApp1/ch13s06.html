@@ -1,0 +1,58 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch13s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>6.&nbsp;Complex Data Types</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Special Datatypes"><link rel="prev" href="ch13s05.html" title="5.&nbsp;Quantities"><link rel="next" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Derived Properties"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.&nbsp;Complex Data Types</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;13.&nbsp;Special Datatypes</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8337"></a>6.&nbsp;Complex Data Types</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8339"></a>6.1.&nbsp;Records</h3></div></div></div><p>Records are composite data values consisting of <span class="italic">field
+     slots</span>, which are name-value pairs, such that we can access the value of a record
+    field via its name. Record fields typically have primitive data values. </p><p>Examples of records are address records like <code class="code">{street: "37
+      Market St", city: "New York", zipCode: 10473}</code> or phone book
+      entries like <code class="code">{type:"home", areaCode:"757"
+      number:"3765295"}</code>.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e8346"></a>6.1.1.&nbsp;Color definitions</h4></div></div></div><p>Colors can be defined with three components on the basis of a
+        color model such as the <span class="italic">Red-Green-Blue
+        (RGB)</span> color model or the <span class="italic">Hue-Saturation-Lightness (HSL)</span> color model.
+        In both models a fourth component, in the form of a decimal number
+        from the unit interval [0,1] or a corresponding percentage, for
+        defining the <span class="italic">opacity</span> (technically
+        called <span class="italic">alpha channel</span>) of a color
+        can be added.</p><p>In the RGB model, each component value is an integer between 0
+        and 255. In CSS, an RGB color is specified by a ternary term like
+        <code class="code">rgb( 255, 255, 255)</code> corresponding, e.g., to a JS triple
+        record like <code class="code">{R:255, G:255, B:255}</code>.</p><p>In the HSL model, the H component is an integer between 0 and
+        360 denoting an angle degree in the rainbow color circle with red = 0
+        = 360, green = 120, and blue = 240. Saturation and lightness are
+        represented as percentages, such that S=100% is full saturation, and
+        0% is a shade of grey, L=100% is white, 0% lightness is black, and 50%
+        lightness is "normal". In CSS, an HSL color is specified by a ternary
+        term like <code class="code">hsl( 0, 0%, 100%)</code> corresponding, e.g., to a JS
+        triple record like <code class="code">{H:0, S:0, L:100}</code>.</p><p>In an HTML form-based user interface, color definitions are supported by HTML5
+      <code class="code">input</code> elements of type "color", which are supposed to be rendered in the form of
+     a <span class="italic">color picker</span> widget.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e8362"></a>6.1.2.&nbsp;Geo-coordinates</h4></div></div></div><p>Geographic coordinates (or geodetic positions) can be defined in
+        the form of records like <code class="code">{latitude: 40.6643, longitude:
+        -73.9385}</code>.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e8366"></a>6.1.3.&nbsp;Rendering record fields in a user interface</h4></div></div></div><p>A record-valued property (like <code class="code">geoCoordinates</code>)
+        should be rendered as a list of fields in a coherent region in the UI,
+        preferably with a <code class="code">fieldset</code> element with the property's
+        label as the content of the <code class="code">legend</code> element. In simple
+        cases, like in the following example, with only a few record fields,
+        using suitable CSS rules, it may be possible to render all fields
+        horizontally on the same line.</p><pre class="programlisting">&lt;form id="form1"&gt;
+ &lt;fieldset data-bind="geoCoordinates"&gt;
+  &lt;legend&gt;Geo-coordinates&lt;/legend&gt;
+  &lt;label&gt;Latitude: &lt;input type="number" name="latitude"/&gt;&lt;/label&gt;
+  &lt;label&gt;Longitude: &lt;input type="number" name="longitude"/&gt;&lt;/label&gt;
+ &lt;/fieldset&gt;
+&lt;/form&gt;</pre><p>Notice how the the property <code class="code">geoCoordinates</code> is bound to the
+      <code class="code">fieldset</code> element with the help of the custom attribute
+     <code class="code">data-bind</code>.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8377"></a>6.2.&nbsp;Data collections</h3></div></div></div><p>Data collections are ordered or unordered sets or bags
+      (multi-sets), with all members being either primitive data values,
+      records of a certain type or data collections of a certain type. Instead
+      of "unordered set", we simply say "set", and instead of "ordered bag" we
+      say "list".</p><p>Examples: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>The nick names of a person may be recorded in a set-valued
+            attribute <code class="code">nickNames</code>.</p></li><li class="listitem"><p>The favorite composers of a person may be recorded in an ordered-set-valued
+       attribute <code class="code">favoriteComposers</code> such that the order represents a ranking.</p></li><li class="listitem"><p>A train trip route may be recorded as a list of train stop
+            locations.</p></li></ol></div><p>In a user interface, a collection-valued attribute may be rendered as a text field with
+    a comma-separated list of strings if the value collections are sufficiently small. Otherwise, a
+    special UI widget is needed for displaying collection values and allowing value assignments and
+    changes.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.&nbsp;Quantities&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;14.&nbsp;Derived Properties</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch13s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+</html>

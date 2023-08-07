@@ -1,0 +1,24 @@
+<svg width="700" height="700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+ <metadata>Created by potrace 1.11, written by Peter Selinger 2001-2013</metadata>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1" fill="#000000" transform="translate(0, 700) scale(0.1, -0.1)">
+   <path id="svg_2" d="m0,3500l0,-3500l3500,0l3500,0l0,3500l0,3500l-3500,0l-3500,0l0,-3500zm3215,3193c35,-260 97,-445 204,-601c48,-70 160,-179 222,-215c295,-172 659,-41 904,328c51,76 131,229 153,294l11,30l78,-32c118,-47 365,-175 481,-247c160,-100 355,-249 344,-263c-270,-332 -378,-656 -305,-916c53,-193 208,-339 418,-396c93,-25 291,-30 410,-11c81,13 287,75 366,110c13,6 23,-7 47,-66c105,-253 198,-620 218,-857l7,-77l-94,-12c-315,-39 -590,-175 -728,-360c-268,-356 -64,-810 481,-1072c57,-27 109,-50 116,-50c17,0 12,-16 -50,-155c-112,-246 -263,-490 -455,-732c-9,-12 -26,-3 -103,55c-268,204 -580,290 -829,231c-94,-23 -173,-69 -246,-143c-79,-80 -123,-160 -157,-283c-29,-110 -29,-308 1,-450c22,-105 69,-250 102,-315l19,-37l-128,-49c-221,-86 -464,-149 -723,-187c-59,-8 -123,-15 -143,-15c-34,0 -36,2 -36,33c0,17 -7,71 -15,120c-80,456 -324,750 -648,783c-122,12 -277,-36 -404,-125c-161,-113 -328,-340 -408,-553c-10,-27 -19,-48 -20,-48c-1,0 -30,12 -65,26c-204,83 -485,237 -656,361c-126,91 -183,137 -184,149c0,6 12,21 26,35c34,31 156,214 195,291c17,33 46,108 66,166c32,94 37,122 41,232c7,199 -37,328 -152,444c-209,211 -619,244 -1011,82c-33,-13 -63,-21 -67,-18c-12,12 -97,240 -129,345c-55,185 -101,413 -123,602l-6,51l119,17c424,61 735,276 807,557c23,90 15,242 -16,325c-82,214 -264,395 -534,530c-71,36 -135,65 -142,65c-19,0 -18,12 12,83c76,182 219,439 337,606c58,81 158,211 163,211c1,0 41,-29 87,-64c209,-157 412,-241 618,-253c120,-7 212,8 304,51c97,45 164,102 219,185c148,223 154,545 15,893c-22,55 -38,102 -37,104c19,18 265,106 416,148c169,47 468,103 564,105c37,1 37,1 43,-46z"/>
+   <path id="svg_3" d="m3330,5434c-14,-2 -63,-9 -110,-15c-554,-72 -1077,-415 -1388,-911c-194,-308 -294,-660 -294,-1038c0,-535 200,-1018 576,-1395c377,-376 857,-574 1394,-575c535,0 1010,196 1388,574c310,310 484,649 561,1091c23,138 23,470 -1,610c-58,338 -173,608 -382,891c-73,100 -264,291 -370,371c-256,194 -558,324 -878,379c-86,15 -440,28 -496,18zm445,-270c377,-62 687,-222 955,-494c213,-216 358,-471 439,-770c69,-256 70,-589 0,-862c-136,-537 -550,-993 -1074,-1181c-202,-73 -364,-101 -585,-101c-285,0 -516,53 -766,177c-765,378 -1134,1265 -864,2077c121,365 356,673 674,885c362,241 800,337 1221,269z"/>
+   <path id="svg_4" d="m3375,4974c-241,-28 -445,-93 -622,-198c-355,-210 -608,-540 -709,-928c-59,-228 -59,-524 1,-758c134,-525 560,-951 1085,-1085c194,-50 434,-59 633,-25c507,86 940,430 1138,905c92,220 132,481 111,713c-35,367 -180,679 -438,936c-249,250 -556,397 -906,435c-92,10 -226,12 -293,5z"/>
+  </g>
+  <text style="cursor: move;" font-style="normal" transform="rotate(-55, 107.75, 211)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="80" id="svg_5" y="239" x="85.5" stroke-width="3" stroke="#000" fill="#000000">8</text>
+  <text font-style="normal" transform="rotate(-13, 287.75, 92)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="80" id="svg_6" y="120" x="265.5" stroke-width="3" stroke="#000" fill="#000000">1</text>
+  <text font-style="normal" transform="rotate(30, 492.75, 118)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="80" id="svg_7" y="146" x="470.5" stroke-width="3" stroke="#000" fill="#000000">2</text>
+  <text font-style="normal" transform="rotate(77, 619.75, 282)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="80" id="svg_8" y="310" x="597.5" stroke-width="3" stroke="#000" fill="#000000">3</text>
+  <text font-style="normal" transform="rotate(129, 589.75, 495)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="80" id="svg_9" y="523" x="567.5" stroke-width="3" stroke="#000" fill="#000000">4</text>
+  <text font-style="normal" transform="rotate(163, 418.75, 623)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="80" id="svg_10" y="651" x="396.5" stroke-width="3" stroke="#000" fill="#000000">5</text>
+  <text font-style="normal" transform="rotate(-146, 206.75, 596)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="80" id="svg_11" y="624" x="184.5" stroke-width="3" stroke="#000" fill="#000000">6</text>
+  <text font-style="normal" transform="rotate(-104, 78.75, 416)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="80" id="svg_12" y="444" x="56.5" stroke-width="3" stroke="#000" fill="#000000">7</text>
+ </g>
+</svg>

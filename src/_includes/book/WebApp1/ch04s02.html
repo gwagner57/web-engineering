@@ -1,0 +1,99 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Step 1 - Set up the Folder Structure</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps"><link rel="prev" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps"><link rel="next" href="ch04s03.html" title="3.&nbsp;Step 2 - Write the Model Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Step 1 - Set up the Folder Structure</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e2606"></a>2.&nbsp;Step 1 - Set up the Folder Structure</h2></div></div></div><p>In the first step, we set up our folder structure for the
+    application program code. The application name is "Public Library", so it
+    would be natural to use a corresponding name for the application folder,
+    like "PublicLibrary", but we prefer using <code class="filename">MinimalApp</code>.
+    Then we create the application structure. There are many ways to do this,
+    like for example to use the <a class="link" href="http://www.eclipse.org/eclipse/" target="_top">Eclipse</a> development
+    environment (and create and configure a <span class="italic">Dynamic
+    Web Project</span>). In this <span class="phrase">chapter</span> we show how to do it manually, so
+    there is no need to use special tools. For your convenience, we also
+    provide an ANT script (see our <a class="link" href="../../JavaJpaJsfApp/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" target="_top">guide</a>
+    for a download link), allowing to automatically create the folder
+    structure of the web application, compile it to a <span class="bold"><strong>W</strong></span>eb application <span class="bold"><strong>Ar</strong></span>chive (WAR) file and then deploy it to a TomEE
+    server for execution. The application structure (which is compatible with
+    the <span class="italic">Dynamic Web Project</span> structure of
+    Eclipse, so it can be imported in Eclipse) is the following:
+    </p><pre class="programlisting">MinimalApp
+  src
+    pl
+      m
+      c
+    META-INF
+      persistence.xml
+  WebContent
+    resources
+      media
+        img
+    views
+      books
+    WEB-INF
+      templates
+      faces-config.xml
+      web.xml</pre><p>This folder structure has the following parts:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>The <code class="filename">src</code> folder contains the app code folder
+        <code class="filename">pl</code>, defining the Java package name for the app
+        (as a shortcut of 'public library'), and the folder
+        <code class="filename">META-INF</code> with configuration files:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>the app code folder <code class="filename">pl</code> contains the
+            model and controller code in its subfolders <code class="filename">m</code>
+            and <code class="filename">c</code>, while the view/UI related code is
+            contained in the <code class="filename">WebContent</code> folder;</p></li><li class="listitem"><p>the most important configuration file is the
+            <code class="filename">persistence.xml</code> file. It contains the
+            configuration for the database connection. The content of this
+            file is discussed in <a class="xref" href="ch04s04.html#sectJpaDb" title="4.2.&nbsp;Configure the JPA database connection">Section&nbsp;4.2</a>.</p></li></ol></div></li><li class="listitem"><p>The <code class="filename">WebContent</code> folder contains various web
+        resources, including template files and custom view files:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>the <code class="filename">resources</code> folder is used for storing 
+            resources, such as downloadable documents, images or videos.</p></li><li class="listitem"><p>the <code class="filename">views</code> folder stores our custom view
+            files for the application, so it represents the View part of the
+            MVC paradigm. Please note that it is not strictly required to name
+            it "views", but it makes a lot of sense to do it so, since this is
+            what this folder represents.</p></li><li class="listitem"><p>the <code class="filename">WEB-INF</code> folder contains 
+			project libraries in the form of <code class="code">jar</code> files
+            in the <code class="filename">lib</code> subfolder (in our case we
+            don't need such libraries), the facelet files for the UI pages 
+            (in the <code class="filename">templates</code> subfolder), the
+            <code class="filename">faces-config.xml</code> file, which stores the
+            facelet configuration and the <code class="filename">web.xml</code>
+            configuration file, specific to the TomEE server used
+            to run our application.</p></li></ol></div></li></ol></div><p>We create a "Main Menu" page for our application, thus we add an
+    <code class="filename">index.xhtml</code> file to our <code class="filename">views</code>
+    folder with the following content:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"&gt;
+&lt;h:head&gt;
+ &lt;meta charset="UTF-8" /&gt;
+ &lt;title&gt;Minimal App with Java and JPA/JSF&lt;/title&gt;
+&lt;/h:head&gt;
+&lt;body&gt;
+ &lt;header&gt;
+  &lt;h1&gt;Public Library&lt;/h1&gt;
+  &lt;h2&gt;Minimal App with Java and JPA/JSF&lt;/h2&gt;
+ &lt;/header&gt;
+ &lt;main&gt;
+  &lt;menu&gt;
+   &lt;li&gt;&lt;h:button value="Create" outcome="create" /&gt; a new book&lt;/li&gt;
+   &lt;li&gt;&lt;h:button value="Retrieve" outcome="retrieveAndListAll" /&gt; 
+    and list all books&lt;/li&gt;
+   &lt;li&gt;&lt;h:button value="Update" outcome="update" /&gt; a book&lt;/li&gt;
+   &lt;li&gt;&lt;h:button value="Delete" outcome="delete" /&gt; a book&lt;/li&gt;
+  &lt;/menu&gt;
+  &lt;hr /&gt;
+  &lt;h:form&gt;
+   &lt;menu&gt;
+    &lt;li&gt;&lt;h:commandButton value="Clear" 
+         action="#{bookCtrl.clearData()}" /&gt; database&lt;/li&gt;
+    &lt;li&gt;&lt;h:commandButton value="Generate" 
+         action="#{bookCtrl.generateTestData()}" /&gt; test data&lt;/li&gt;
+   &lt;/menu&gt;
+  &lt;/h:form&gt;
+ &lt;/main&gt;
+ &lt;footer&gt;
+  &lt;!-- copyright text --&gt;
+ &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre><p>Notice that the <code class="code">&lt;html&gt;</code> element contains JSF elements, such as
+	<code class="code">&lt;h:head&gt;</code> and <code class="code">&lt;h:button&gt;</code>, which are discussed below.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Step 2 - Write the Model Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+</html>

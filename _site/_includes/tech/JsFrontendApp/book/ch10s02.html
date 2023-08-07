@@ -1,0 +1,27 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch10s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Make a JS Class Model</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Implementing Unidirectional Non-Functional Associations with Plain JS"><link rel="prev" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Implementing Unidirectional Non-Functional Associations with Plain JS"><link rel="next" href="ch10s03.html" title="3.&nbsp;New issues"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Make a JS Class Model</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch10.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;10.&nbsp;Implementing Unidirectional Non-Functional Associations with Plain
+  JS</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch10s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e6637"></a>2.&nbsp;Make a JS Class Model</h2></div></div></div><p>Our starting point for making a JS class model is the following OO
+    class model:</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="350"><tr><td><img src="../../fig/Publisher-Book-Author_Unidir_AFM.svg" width="350"></td></tr></table></div></div><p>This model contains, in addition to the single-valued reference
+    property <code class="code">Book</code>::<code class="code">publisher</code> representing the
+    unidirectional many-to-one association <span class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span class="italic">Publisher</span>,
+    the multi-valued reference property
+    <code class="code">Book</code>::<code class="code">authors</code> representing the unidirectional
+    many-to-many association <span class="italic">Book</span>s-<span class="bold"><strong>have</strong></span>-<span class="italic">Authors</span>.</p><p>For deriving a JS class model from the OO class model we have to
+    follow the same steps as in <a class="xref" href="ch09s02.html" title="2.&nbsp;Make a JS Class Model">Section&nbsp;2</a> and, in addition, we have to take care of
+    multi-valued reference properties, such as
+    <code class="code">Book</code>::<code class="code">authors</code>, for which we</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>create a class-level <span class="italic"><span class="bold"><strong>check</strong></span></span> operation, such as
+        <code class="code">checkAuthor</code>, which is responsible for checking the
+        corresponding <span class="italic">referential integrity
+        constraint</span> for the references to be added to the property's
+        collection;</p></li><li class="listitem"><p>create an <span class="bold"><strong>add</strong></span> operation, such
+        as <code class="code">addAuthor</code>, for adding a reference to the
+        collection;</p></li><li class="listitem"><p>create a <span class="bold"><strong>remove</strong></span> operation, such
+        as <code class="code">removeAuthor</code>, for removing a reference from the
+        collection.</p></li></ol></div><p>This leads to the following JS class model<a class="indexterm" name="d5e6675"></a>:</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="700"><tr><td><img src="../../fig/Publisher-Book-Author_Unidir_JsM.svg" width="700"></td></tr></table></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch10.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch10.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch10s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;10.&nbsp;Implementing Unidirectional Non-Functional Associations with Plain
+  JS&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;New issues</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch10s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+</html>

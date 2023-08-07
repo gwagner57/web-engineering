@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- Mirrored from web-engineering.info/tech/mODELcLASSjs/ValidationApp/updateBook.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8" />
+  <title>mODELcLASSjs Validation App</title>
+  
+  <link rel="stylesheet" href="../../../../yui.yahooapis.com/combod46d.html?pure/0.5.0/base-min.css&amp;pure/0.5.0/forms-min.css" />
+  <link rel="stylesheet" href="../css/main.css" /> 
+  
+  <script src="mODELcLASSjs.min.js"></script>
+
+  <script src="src/ctrl/initialize.js"></script>
+  <script src="src/model/Book.js"></script>
+  <script src="src/view/updateBook.js"></script>
+  <script src="src/ctrl/updateBook.js"></script>
+  
+  <script>
+   window.addEventListener("load", pl.ctrl.updateBook.initialize);
+  </script>
+</head>
+<body>
+  <h1>Public Library: Update a book record</h1>
+  <form id="Book" class="pure-form pure-form-aligned" >
+    <div class="pure-control-group">
+      <label for="selectBook">Select book</label>
+      <select id="selectBook" name="selectBook">
+        <option value=""> --- </option>
+      </select>        
+    </div>
+    <div class="pure-control-group">
+      <label for="isbn">ISBN</label>
+      <input id="isbn" name="isbn" readonly="readonly" />
+    </div>
+    <div class="pure-control-group">
+      <label for="title">Title</label>
+      <input id="title" name="title" />
+    </div>
+    <div class="pure-control-group">
+      <label for="year">Year</label>
+      <input id="year" name="year" />
+    </div>
+    <div class="pure-control-group">
+      <label for="edition">Edition</label>
+      <input id="edition" name="edition" />
+    </div>
+    <div class="pure-controls">
+      <p><button type="submit" name="commit">Save Changes</button></p>
+      <nav><a href="index.html">Back to main menu</a></nav>
+    </div>
+  </form>
+</body>
+
+<!-- Mirrored from web-engineering.info/tech/mODELcLASSjs/ValidationApp/updateBook.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:50 GMT -->
+</html>

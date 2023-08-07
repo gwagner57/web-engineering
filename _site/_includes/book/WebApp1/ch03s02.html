@@ -1,0 +1,165 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch03s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Step 2 - Write the Model Code</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Plain JS in Seven Steps"><link rel="prev" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Plain JS in Seven Steps"><link rel="next" href="ch03s03.html" title="3.&nbsp;Step 3 - Initialize the Application"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Step 2 - Write the Model Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Plain JS in Seven Steps</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1824"></a>2.&nbsp;Step 2 - Write the Model Code</h2></div></div></div><p>In the second step, we write the code of our model class and save it
+    in a specific model class file. In an MVC app, the model code is the most
+    important part of the app. It's also the basis for writing the view and
+    controller code. In fact, large parts of the view and controller code
+    could be automatically generated from the model code. Many MVC frameworks
+    provide this kind of code generation.</p><p>In the information design model shown in <a class="xref" href="ch03.html#figBookMinAppModel" title="Figure&nbsp;3.1.&nbsp;The object type Book.">Figure&nbsp;3.1</a> above, there is
+    only one class, representing the object type <code class="code">Book</code>. So, in the
+    folder <code class="filename">src/m</code>, we create a file
+    <code class="filename">Book.js</code> that initially contains the following code:
+    </p><pre class="programlisting">function <span class="bold"><strong>Book</strong></span>( slots) {
+  this.isbn = slots.isbn;
+  this.title = slots.title;
+  this.year = slots.year;
+};</pre><p>The model class <code class="code">Book</code> is coded as a JavaScript
+    constructor function with a single <code class="code">slots</code> parameter, which is
+    a record object with fields <code class="code">isbn</code>, <code class="code">title</code> and
+    <code class="code">year</code>, representing the constructor parameters to be assigned
+    to the <span class="italic">ISBN</span>, the <span class="italic">title</span> and the <span class="italic">year</span> attributes of the class <code class="code">Book</code>.
+    Notice that, for getting a simple name, we have put the class name
+    <code class="code">Book</code> in the global scope, which is okay for a small app with
+    only a few classes. In general, however, we should use the model namespace
+    for model classes, which requires class/constructor definitions
+    like</p><pre class="programlisting">pl.m.Book = function (slots) {...}</pre><p>In addition to defining the model class in the form of a constructor
+    function, we also define the following items in the
+    <code class="filename">Book.js</code> file: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>A class-level property <code class="code">Book.instances</code>
+          representing the collection of all <code class="code">Book</code> instances
+          managed by the application in the form of an entity table.</p></li><li class="listitem"><p>A class-level method <code class="code">Book.retrieveAll</code> for loading
+          all managed Book instances from the persistent data store.</p></li><li class="listitem"><p>A class-level method <code class="code">Book.saveAll</code> for saving all
+          managed Book instances to the persistent data store.</p></li><li class="listitem"><p>A class-level method <code class="code">Book.add</code> for creating a new
+          Book instance.</p></li><li class="listitem"><p>A class-level method <code class="code">Book.update</code> for updating an
+          existing Book instance.</p></li><li class="listitem"><p>A class-level method <code class="code">Book.destroy</code> for deleting a
+          Book instance.</p></li><li class="listitem"><p>A class-level method <code class="code">Book.createTestData</code> for
+          creating a few example book records to be used as test data.</p></li><li class="listitem"><p>A class-level method <code class="code">Book.clearData</code> for clearing
+          the book datastore.</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1874"></a>2.1.&nbsp;Representing the collection of all <code class="code">Book</code>
+      instances</h3></div></div></div><p>For representing the collection of all Book instances managed by
+      the application, we define and initialize the class-level property
+      <code class="code">Book.instances</code> in the following way:</p><pre class="programlisting">Book.instances = {};</pre><p>So, initially our collection of books is empty. In fact, it's
+      defined as an empty object literal, since we want to represent it in the
+      form of an entity table (a map of entity records) where an ISBN is a key
+      for accessing the corresponding book record (as the value associated
+      with the key). We can visualize the structure of an entity table in the
+      form of a lookup table:</p><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+            <th>Key</th>
+
+            <th>Value</th>
+          </tr></thead><tbody><tr>
+            <td>006251587X</td>
+
+            <td>{ isbn:"006251587X," title:"Weaving the Web", year:2000 }</td>
+          </tr><tr>
+            <td>0465026567</td>
+
+            <td>{ isbn:"0465026567," title:"G&ouml;del, Escher, Bach", year:1999
+            }</td>
+          </tr><tr>
+            <td>0465030793</td>
+
+            <td>{ isbn:"0465030793," title:"I Am A Strange Loop", year:2008
+            }</td>
+          </tr></tbody></table></div><p>Notice that the values of such a map are records corresponding to
+      table rows. Consequently, we could also represent them in a simple
+      table, as shown in <a class="xref" href="ch03.html#tblBooks" title="Table&nbsp;3.1.&nbsp;A collection of book objects represented as a table">Table&nbsp;3.1</a>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1898"></a>2.2.&nbsp;Creating a new <code class="code">Book</code> instance</h3></div></div></div><p>The <code class="code">Book.add</code> procedure takes care of creating a new
+      <code class="code">Book</code> instance and adding it to the
+      <code class="code">Book.instances</code> collection:</p><pre class="programlisting">Book.<span class="bold"><strong>add</strong></span> = function (slots) {
+  var book = new Book( slots);
+  // add book to the collection of Book.instances 
+  Book.instances[slots.isbn] = book;
+  console.log("Book " + slots.isbn + " created!");
+};</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1907"></a>2.3.&nbsp;Loading all <code class="code">Book</code> instances</h3></div></div></div><p>For persistent data storage, we use the <span class="italic">Local Storage</span> API supported by modern web
+      browsers. Loading the book records from Local Storage involves three
+      steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Retrieving the book table that has been stored as a large
+            string with the key "books" from Local Storage with the help of
+            the assignment</p><pre class="programlisting">booksString = localStorage["books"];</pre></li><li class="listitem"><p>Converting the book table string into a corresponding entity
+            table <code class="code">books</code> with book rows as elements, with the help
+            of the built-in procedure <code class="code">JSON.parse</code>:
+            </p><pre class="programlisting">books = JSON.parse( booksString);</pre><p>This conversion is called <span class="italic">de-serialization</span>.</p></li><li class="listitem"><p>Converting each row of <code class="code">books</code>, representing a
+            record (an untyped object), into a corresponding object of type
+            <code class="code">Book</code> stored as an element of the entity table
+            <code class="code">Book.instances</code>, with the help of the procedure
+            <code class="code">convertRec2Obj</code> defined as a "static" (class-level)
+            method in the <code class="code">Book</code> class: </p><pre class="programlisting">Book.<span class="bold"><strong>convertRec2Obj</strong></span> = function (bookRow) {
+  var book = new Book( bookRow);
+  return book;
+};</pre></li></ol></div><p>Here is the full code of the procedure:</p><pre class="programlisting">Book.<span class="bold"><strong>retrieveAll</strong></span> = function () {
+  var key="", keys=[], i=0, 
+      booksString="", books={};  
+  try {
+    if (localStorage["books"]) {
+      booksString = localStorage["books"];
+    }
+  } catch (e) {
+    alert("Error when reading from Local Storage\n" + e);
+  }
+  if (booksString) {
+    books = JSON.parse( booksString);
+    keys = Object.keys( books);
+    console.log( keys.length +" books loaded.");
+    for (i=0; i &lt; keys.length; i++) {
+      key = keys[i];
+      Book.instances[key] = Book.convertRec2Obj( books[key]);
+    }
+  }
+};</pre><p>Notice that since an input operation like
+      <code class="code">localStorage["books"]</code> may fail, we perform it in a
+      try-catch block, where we can follow up with an error message whenever
+      the input operation fails.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1937"></a>2.4.&nbsp;Updating a <code class="code">Book</code> instance</h3></div></div></div><p>For updating an existing <code class="code">Book</code> instance we first
+      retrieve it from <code class="code">Book.instances</code>, and then re-assign those
+      attributes the value of which has changed:</p><pre class="programlisting">Book.<span class="bold"><strong>update</strong></span> = function (slots) {
+  var book = Book.instances[slots.isbn];
+  var year = parseInt( slots.year);
+  if (book.title !== slots.title) { book.title = slots.title;}
+  if (book.year !== year) { book.year = year;}
+  console.log("Book " + slots.isbn + " modified!");
+};</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1945"></a>2.5.&nbsp;Deleting a <code class="code">Book</code> instance</h3></div></div></div><p>A Book instance is deleted from the entity table
+      <code class="code">Book.instances</code> by first testing if the table has a row with
+      the given key (line 2), and then applying the JavaScript built-in
+      <code class="code">delete</code> operator, which deletes a slot from an object, or an
+      entry from a map:</p><pre class="programlisting">Book.<span class="bold"><strong>destroy</strong></span> = function (isbn) {
+  if (Book.instances[isbn]) {
+    console.log("Book " + isbn + " deleted");
+    delete Book.instances[isbn];
+  } else {
+    console.log("There is no book with ISBN " + 
+        isbn + " in the database!");
+  }
+};</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1953"></a>2.6.&nbsp;Saving all <code class="code">Book</code> instances</h3></div></div></div><p>Saving all book objects from the <code class="code">Book.instances</code>
+      collection in main memory to Local Storage in secondary memory involves
+      two steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Converting the entity table <code class="code">Book.instances</code> into
+            a string with the help of the predefined JavaScript procedure
+            <code class="code">JSON.stringify</code>:</p><pre class="programlisting">booksString = JSON.stringify( Book.instances);</pre><p>
+            This conversion is called <span class="italic">serialization</span>.</p></li><li class="listitem"><p>Writing the resulting string as the value of the key "books"
+            to Local Storage:</p><pre class="programlisting">localStorage["books"] = booksString;</pre></li></ol></div><p>These two steps are performed in line 5 and in line 6 of the
+      following program listing:</p><pre class="programlisting">Book.<span class="bold"><strong>saveAll</strong></span> = function () {
+  var booksString="", error=false,
+      nmrOfBooks = Object.keys( Book.instances).length;  
+  try {
+    booksString = JSON.stringify( Book.instances);
+    localStorage["books"] = booksString;
+  } catch (e) {
+    alert("Error when writing to Local Storage\n" + e);
+    error = true;
+  }
+  if (!error) console.log( nmrOfBooks + " books saved.");
+};</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1971"></a>2.7.&nbsp;Creating test data</h3></div></div></div><p>For being able to test our code, we may create some test data and
+      save it in our Local Storage database. We can use the following
+      procedure for this:</p><pre class="programlisting">Book.<span class="bold"><strong>createTestData</strong></span> = function () {
+  Book.instances["006251587X"] = new Book(
+      {isbn:"006251587X", title:"Weaving the Web", year:2000});
+  Book.instances["0465026567"] = new Book(
+      {isbn:"0465026567", title:"G&ouml;del, Escher, Bach", year:1999});
+  Book.instances["0465030793"] = new Book(
+      {isbn:"0465030793", title:"I Am A Strange Loop", year:2008});
+  Book.saveAll();
+};</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1976"></a>2.8.&nbsp;Clearing all data</h3></div></div></div><p>The following procedure clears all data from Local Storage:</p><pre class="programlisting">Book.<span class="bold"><strong>clearData</strong></span> = function () {
+  if (confirm("Do you really want to delete all book data?")) {
+    localStorage["books"] = "{}";
+  }
+};</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Plain JS in Seven Steps&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Step 3 - Initialize the Application</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch03s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:47 GMT -->
+</html>

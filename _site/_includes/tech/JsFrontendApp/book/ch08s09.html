@@ -1,0 +1,40 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch08s09.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>9.&nbsp;Collection Types for Multi-Valued Reference Properties</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Reference Properties and Unidirectional Associations"><link rel="prev" href="ch08s08.html" title="8.&nbsp;Rendering Reference Properties in the User Interface"><link rel="next" href="ch08s10.html" title="10.&nbsp;Quiz Questions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.&nbsp;Collection Types for Multi-Valued Reference Properties</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s08.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;8.&nbsp;Reference Properties and Unidirectional Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s10.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e5967"></a>9.&nbsp;Collection Types for Multi-Valued Reference Properties</h2></div></div></div><p>By default, a non-functional association end associates a <span class="bold"><strong><span class="italic">set</span></strong></span> of instances
+    of the target class to any instance of the source class, which means that
+    the collection values of the corresponding multi-valued reference property
+    are sets. However, there are also cases, where a non-functional
+    association end is <span class="bold"><strong><span class="italic">ordered</span></strong></span> and, consequently, the
+    collection values of the corresponding multi-valued reference property
+    take the form of <span class="bold"><strong><span class="italic">ordered
+    sets</span></strong></span>.</p><p>In the following example model, the association end
+    <code class="code">publishedBooks</code> is not ordered, while the association end
+    <code class="code">authors</code> is ordered since the order of the authors of a book
+    is meaningful. Notice that in a UML class diagram, an ordered association
+    end is marked up with the annotation <code class="code">{ordered}</code>.</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="600"><tr><td><img src="../../fig/Book-ordered-Author_Unidir_DesM.svg" width="600"></td></tr></table></div><p>An ordered association end<a class="indexterm" name="d5e5984"></a> should not represent any ordering based on the properties
+    of the target class. In our example, this implies that the ordering of the
+    authors of a book should, for example, not represent their alphabetical
+    ordering, but rather it should represent information that is not available
+    via the properties of <code class="code">Author</code>. This is, indeed, the case,
+    since it represents some sort of significance, which is not expressed by
+    any property.</p><p>Notice that ordered association ends in information design models
+    are just a convenience feature, because an ordered association end can
+    always be transformed into an unordered one by adding one or more
+    attributes to the association's target class, such that these attributes'
+    values can be used for the ordering. Ordered association ends allow a more
+    concise information model, and a more efficient implementation, by not
+    requiring to make the ordering information explicit with the help of
+    auxiliary ordering attributes.</p><p>The two important types of collections<a class="indexterm" name="d5e5990"></a> for multi-valued reference properties are <span class="italic">sets</span> and <span class="italic">ordered
+    sets</span>, while use cases for <span class="italic">bags</span> (multi-sets) and <span class="italic">sequences</span> (ordered multi-sets) as the collection
+    type of a multi-valued reference property are rare. When the collection
+    type of a multi-valued reference property is bag or sequence, this can be
+    expressed in the class diagram with the help of the annotation
+    <code class="code">{nonunique}</code> or <code class="code">{ordered, nonunique}</code> in the
+    annotation of the association end or property modifier.</p><p>Notice, however, that it is quite common to use <span class="italic">lists</span> (such as JS arrays or the Java interface
+    type <code class="code">List</code>) as the range of multi-valued reference properties,
+    both for ordered and for unordered multi-valued properties.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s08.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s10.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">8.&nbsp;Rendering Reference Properties in the User Interface&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;10.&nbsp;Quiz Questions</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch08s09.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+</html>

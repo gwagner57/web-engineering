@@ -1,0 +1,1341 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/validation-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Java EE Web App Tutorial Part 2: Adding Constraint Validation</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div lang="en" class="book"><div class="titlepage"><div><div><h1 class="title"><a name="d5e1"></a>Java EE Web App Tutorial Part 2: Adding Constraint Validation</h1></div><div><h2 class="subtitle"><img style="float:right" property="thumbnailUrl" src="../fig/machine-cog.svg" width="120" title="Icon made by Lorc under CC BY 3.0. Available on http://game-icons.net">Learn how to build
+   a back-end web application with constraint validation, using Java EE with Java Server Faces (JSF)
+   as the user interface technology, the Java Persistence API (JPA) for object-to-storage mapping,
+   and a MySQL database</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Gerd</span> <span class="surname">Wagner</span></h3><code class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#f3b4dda492949d9681b391de8786dd9796"><span class="__cf_email__" data-cfemail="2e6900794f49404b5c6e4c035a5b004a4b">[email&#160;protected]</span></a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Mircea</span> <span class="surname">Diaconescu</span></h3><code class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#165b38527f777579787365756356743b6263387273"><span class="__cf_email__" data-cfemail="e9a4c7ad80888a86878c9a8a9ca98bc49d9cc78d8c">[email&#160;protected]</span></a>&gt;</code></div></div></div><div><p class="releaseinfo">Warning: This tutorial may still contain errors and may still be incomplete in
+   certain respects. Please report any issue to Gerd Wagner at G<a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="2e00794f49404b5c6e4c035a5b004a4b">[email&#160;protected]</a> or Mircea Diaconescu
+   at <a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="8ac7a4cee3ebe9e5e4eff9e9ffcae8a7feffa4eeef">[email&#160;protected]</a>.</p></div><div><p class="releaseinfo">This tutorial is also available in the following formats: <a class="link" href="validation-tutorial.pdf" target="_top">PDF</a>. See also the <a class="link" href="../../index.html" target="_top">project page</a>, or <a class="link" href="ValidationApp/index-2.html" target="_top">run the example app</a> from our server, or <a class="link" href="ValidationApp.zip" target="_top">download it as a ZIP archive file</a>.
+   
+  </p></div><div><p class="copyright">Copyright &copy; 2014-2018 Gerd Wagner, Mircea Diaconescu</p></div><div><div class="legalnotice"><a name="d5e34"></a><p>This tutorial article, along with any associated source code, is licensed under <a class="link" href="http://www.codeproject.com/info/cpol10.aspx" target="_top">The Code Project Open License
+     (CPOL)</a>, implying that the associated code is provided "as-is", can be modified to create
+    derivative works, can be redistributed, and can be used in commercial applications, but the
+    article must not be distributed or republished without the authors' consent.</p></div></div><div><p class="pubdate">2018-06-18</p></div><div><div class="revhistory"><table style="border-style:solid; width:100%;" summary="Revision History"><tr><th align="left" valign="top" colspan="3"><b>Revision History</b></th></tr><tr><td align="left">Revision 0.3</td><td align="left">20150724</td><td align="left">gw</td></tr><tr><td align="left" colspan="3">various revisions</td></tr><tr><td align="left">Revision 0.2</td><td align="left">20140707</td><td align="left">gw</td></tr><tr><td align="left" colspan="3">various revisions</td></tr><tr><td align="left">Revision 0.1</td><td align="left">20140625</td><td align="left">md</td></tr><tr><td align="left" colspan="3">create first version</td></tr></table></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="preface"><a href="#d5e53">Foreword</a></span></dt><dt><span class="chapter"><a href="#chapConstrVal">1. Constraint Validation</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e110">1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e139">2. Integrity Constraints</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e201">2.1. String Length Constraints</a></span></dt><dt><span class="section"><a href="#d5e218">2.2. Mandatory Value Constraints</a></span></dt><dt><span class="section"><a href="#d5e249">2.3. Range Constraints</a></span></dt><dt><span class="section"><a href="#d5e278">2.4. Interval Constraints</a></span></dt><dt><span class="section"><a href="#d5e307">2.5. Pattern Constraints</a></span></dt><dt><span class="section"><a href="#d5e339">2.6. Cardinality Constraints</a></span></dt><dt><span class="section"><a href="#d5e366">2.7. Uniqueness Constraints</a></span></dt><dt><span class="section"><a href="#d5e390">2.8. Standard Identifiers (Primary Keys)</a></span></dt><dt><span class="section"><a href="#d5e413">2.9. Referential Integrity Constraints</a></span></dt><dt><span class="section"><a href="#d5e417">2.10. Frozen and Read-Only Value Constraints</a></span></dt><dt><span class="section"><a href="#d5e442">2.11. Beyond property constraints</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e497">3. Responsive Validation</a></span></dt><dt><span class="section"><a href="#d5e527">4. Constraint Validation in MVC Applications</a></span></dt><dt><span class="section"><a href="#d5e545">5. Adding Constraints to a Design Model</a></span></dt><dt><span class="section"><a href="#d5e628">6. Summary</a></span></dt></dl></dd><dt><span class="chapter"><a href="#chConstrValJava">2. Constraint Validation in Java EE</a></span></dt><dd><dl><dt><span class="section"><a href="#sectionHTML5FormValidation">1. Java Annotations for Persistent Data Management and Constraint Validation</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e672">1.1. JPA constraint annotations</a></span></dt><dt><span class="section"><a href="#d5e726">1.2. Bean Validation annotations</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e804">2. New Issues</a></span></dt><dt><span class="section"><a href="#d5e819">3. Make an Entity Class Model</a></span></dt><dt><span class="section"><a href="#d5e889">4. Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e893">4.1. Type mapping</a></span></dt><dt><span class="section"><a href="#d5e943">4.2. Code the constraints as annotations</a></span></dt><dt><span class="section"><a href="#d5e978">4.3. Checking uniqueness constraints</a></span></dt><dt><span class="section"><a href="#d5e1004">4.4. Dealing with model-related exceptions</a></span></dt><dt><span class="section"><a href="#reqNonEmptyStrings">4.5. Requiring non-empty strings</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1050">5. Write the View Code</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1053">5.1. Validation in the <span class="italic">Create</span> use
+      case</a></span></dt><dt><span class="section"><a href="#d5e1094">5.2. Validation in the <span class="italic">Update </span>use
+      case</a></span></dt></dl></dd><dt><span class="section"><a href="#sectCustomAnnotation">6. Defining a Custom Validation Annotation</a></span></dt><dt><span class="section"><a href="#d5e1170">7. Run the App and Get the Code</a></span></dt><dt><span class="section"><a href="#d5e1177">8. Possible Variations and Extensions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1179">8.1. Object-level constraint validation</a></span></dt><dt><span class="section"><a href="#d5e1235">8.2. JSF custom validators</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1247">9. Practice Project</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1251">9.1. Validate movie data</a></span></dt></dl></dd></dl></dd></dl></div><div class="list-of-figures"><p><b>List of Figures</b></p><dl><dt>1.1. <a href="#figObjLevelConstr">An example of an object-level constraint</a></dt><dt>1.2. <a href="#figBookSimpleAppDesModel">A design model defining the object type <code class="code">Book</code> with
+      two invariants</a></dt><dt>2.1. <a href="#figIDM2JavasDM">Deriving an Entity class model from an information design
+      model</a></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>1.1. <a href="#d5e603">Sample data for <code class="code">Book</code></a></dt><dt>2.1. <a href="#d5e731">Bean Validation annotations for properties</a></dt><dt>2.2. <a href="#d5e896">Java datatype mapping</a></dt><dt>2.3. <a href="#d5e921">MySQL datatype mapping</a></dt></dl></div><div class="preface"><div class="titlepage"><div><div><h1 class="title"><a name="d5e53"></a>Foreword</h1></div></div></div><p>This tutorial is Part 2 of our series of <a class="link" href="../../JavaJpaJsfApp.html" target="_top">six tutorials</a> about model-based
+   development of back-end web applications with Java EE using the <span class="italic">Java
+    Persistence API</span> (JPA) and <span class="italic">Java Server Faces</span> (JSF).
+   It shows how to build a simple web app with constraint validation.</p><p>A <span class="italic">distributed web app</span> is composed of at least two parts:
+   a front-end part, which, at least, renders the user interface (UI) pages, and a back-end part,
+   which, at least, takes care of  persistent data storage. A <span class="italic">back-end web
+    app</span> is a distributed web app where essentially all work is performed by the back-end
+   component, including data validation and UI page creation, while the front-end only consists of a
+   web browser's rendering of HTML-forms-based UI pages. Normally, a distributed web app can be
+   accessed by multiple users, possibly at the same time, over HTTP connections.</p><p>In the case of a Java/JPA/JSF back-end web app, the back-end part of the app can be executed
+   by a server machine that runs a web server supporting the Java EE specifications <span class="italic">Java Servlets</span>, <span class="italic">Java Expression Language
+    (EL)</span>, <span class="italic">JPA</span> and <span class="italic">JSF</span>, such as the open source server <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">Tomcat/TomEE</a>.</p><p>This tutorial provides theoretically underpinned and example-based learning materials and
+   supports <span class="bold"><strong><span class="italic">learning by doing it
+    yourself</span></strong></span>.</p><p>The <span class="italic">minimal</span> Java app that we have discussed in the first
+   part of this tutorial has been limited to support the minimum functionality of a data management
+   app only. However, it did not take care of preventing the users from entering invalid data into
+   the app's database. In this second part of the tutorial we show how to express integrity
+   constraints in a Java <span class="italic">model class</span> with the help of
+   annotations, and how to perform constraint validation both in the <span class="italic">model</span> part of the app and in the user interface built with JSF <span class="italic">facelets</span>. </p><p>The simple form of a data management application presented in this tutorial takes care of
+   only one object type ("books") for which it supports the four standard data management operations
+    (<span class="bold"><strong>C</strong></span>reate/<span class="bold"><strong>R</strong></span>ead/<span class="bold"><strong>U</strong></span>pdate/<span class="bold"><strong>D</strong></span>elete). It extends the minimal
+   app discussed in the <a class="link" href="minimal-tutorial.html" target="_top">Minimal App Tutorial</a> by
+   adding <span class="italic"><span class="bold"><strong>constraint validation</strong></span></span>,
+   but it needs to be enhanced by adding further important parts of the app's overall functionality.
+   The other parts of the tutorial are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><a class="link" href="minimal-tutorial.html" target="_top">Part 1</a>: Building a <span class="bold"><strong>minimal</strong></span> app.</p></li><li class="listitem"><p><a class="link" href="enumeration-tutorial.html" target="_top">Part 3</a>: Dealing with <span class="bold"><strong>enumerations</strong></span>.</p></li><li class="listitem"><p><a class="link" href="unidirectional-association-tutorial.html" target="_top">Part 4</a>: Managing
+      <span class="bold"><strong>unidirectional associations</strong></span> between books and publishers,
+     assigning a publisher to a book, and between books and authors, assigning authors to a
+     book.</p></li><li class="listitem"><p><a class="link" href="bidirectional-association-tutorial.html" target="_top">Part 5</a>: Managing
+      <span class="bold"><strong>bidirectional associations</strong></span>, such as the associations between
+     books and publishers and between books and authors, not only assigning authors and a publisher
+     to a book, but also the other way around, assigning books to authors and to publishers.</p></li><li class="listitem"><p><a class="link" href="subtyping-tutorial.html" target="_top">Part 6</a>: Handling <span class="bold"><strong>subtype</strong></span> (inheritance) relationships between object types.</p></li></ul></div><p>You may also want to take a look at our open access book <a class="link" href="../../JavaJpaJsfApp-Book.html" target="_top">Building Java Web Apps with JPA and JSF
+    </a>, which includes all parts of the tutorial in one document, and
+   complements them with additional material.</p></div><div lang="en-US" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="chapConstrVal"></a>Chapter&nbsp;1.&nbsp;Integrity Constraints and Data Validation</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#d5e110">1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e139">2. Integrity Constraints</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e201">2.1. String Length Constraints</a></span></dt><dt><span class="section"><a href="#d5e218">2.2. Mandatory Value Constraints</a></span></dt><dt><span class="section"><a href="#d5e249">2.3. Range Constraints</a></span></dt><dt><span class="section"><a href="#d5e278">2.4. Interval Constraints</a></span></dt><dt><span class="section"><a href="#d5e307">2.5. Pattern Constraints</a></span></dt><dt><span class="section"><a href="#d5e339">2.6. Cardinality Constraints</a></span></dt><dt><span class="section"><a href="#d5e366">2.7. Uniqueness Constraints</a></span></dt><dt><span class="section"><a href="#d5e390">2.8. Standard Identifiers (Primary Keys)</a></span></dt><dt><span class="section"><a href="#d5e413">2.9. Referential Integrity Constraints</a></span></dt><dt><span class="section"><a href="#d5e417">2.10. Frozen and Read-Only Value Constraints</a></span></dt><dt><span class="section"><a href="#d5e442">2.11. Beyond property constraints</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e497">3. Responsive Validation</a></span></dt><dt><span class="section"><a href="#d5e527">4. Constraint Validation in MVC Applications</a></span></dt><dt><span class="section"><a href="#d5e545">5. Adding Constraints to a Design Model</a></span></dt><dt><span class="section"><a href="#d5e628">6. Summary</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e110"></a>1.&nbsp;Introduction</h2></div></div></div><p>For detecting non-admissible and inconsistent data and for
+    preventing such data to be added to an application's database, we need to
+    define suitable <span class="bold"><strong><span class="italic">integrity
+    constraints<a class="indexterm" name="d5e115"></a></span></strong></span> that can be used by the application's
+    <span class="bold"><strong><span class="italic">data
+    validation</span></strong></span> mechanisms for catching these cases of
+    flawed data. Integrity constraints are logical conditions that must be
+    satisfied by the data entered by a user and stored in the application's
+    database.</p><p>For instance, if an application is managing data about persons
+    including their birth dates and their death dates, then we must make sure
+    that for any person record with a death date, this date is not before that
+    person's birth date.</p><p>Since <span class="italic">integrity maintenance</span> is
+    fundamental in database management, the <span class="italic">data
+    definition language</span> part of the <span class="italic">relational database language SQL</span><a class="indexterm" name="d5e124"></a> supports the definition of integrity constraints in various
+    forms. On the other hand, however, there is hardly any support for
+    integrity constraints and data validation in common programming languages
+    such as PHP, Java, C# or JavaScript. It is therefore important to take a
+    systematic approach to constraint validation in web application
+    engineering, like choosing an application development framework that
+    provides sufficient support for it.</p><p>Unfortunately, many web application development frameworks do not
+    provide sufficient support for defining integrity constraints and
+    performing data validation. Integrity constraints should be defined in one
+    (central) place in an app, and then be used for configuring the user
+    interface and for validating data in different parts of the app, such as
+    in the user interface and in the database. In terms of usability, the
+    goals should be:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>To prevent the user from entering invalid data in the user
+          interface (UI) by limiting the input options, if possible.</p></li><li class="listitem"><p>To detect and reject invalid user input as early as possible
+          by performing constraint validation in the UI for those UI widgets
+          where invalid user input cannot be prevented by limiting the input
+          options.</p></li><li class="listitem"><p>To prevent that invalid data pollutes the app's main memory
+          state and persistent database state by performing constraint
+          validation also in the model layer and in the database.</p></li></ol></div><p>HTML5 provides support for validating user input in an
+    HTML-forms-based user interface (UI). Here, the goal is to provide
+    immediate feedback to the user whenever invalid data has been entered into
+    a form field. This UI mechanism of <span class="italic"><span class="bold"><strong>responsive validation</strong></span></span><a class="indexterm" name="d5e137"></a> is an important feature of modern web applications. In
+    traditional web applications, the back-end component validates the data
+    and returns the validation results in the form of a set of error messages
+    to the front-end. Only then, often several seconds later, and in the
+    hard-to-digest form of a bulk message, does the user get the validation
+    feedback.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e139"></a>2.&nbsp;Integrity Constraints</h2></div></div></div><p>Integrity constraints (or simply <span class="italic">constraints</span>) are logical conditions on the data
+    of an app. They may take many different forms. The most important type of
+    constraints, <span class="bold"><strong><span class="italic">property
+    constraints</span></strong></span>, define conditions on the admissible
+    property values of an object. They are defined for an object type (or
+    class) such that they apply to all objects of that type. We concentrate on
+    the most important cases of property constraints: </p><div class="variablelist"><dl class="variablelist"><dt><span class="term">String Length Constraints</span></dt><dd><p>require that the length of a string value for an attribute
+            is less than a certain maximum number, or greater than a minimum
+            number.</p></dd><dt><span class="term">Mandatory Value Constraints</span></dt><dd><p>require that a property must have a value. For instance, a
+            person must have a name, so the name attribute must not be
+            empty.</p></dd><dt><span class="term">Range Constraints</span></dt><dd><p>require that an attribute must have a value from the value
+            space of the type that has been defined as its range. For
+            instance, an integer attribute must not have the value
+            "aaa".</p></dd><dt><span class="term">Interval Constraints</span></dt><dd><p>require that the value of a numeric attribute must be in a
+            specific interval.</p></dd><dt><span class="term">Pattern Constraints</span></dt><dd><p>require that a string attribute's value must match a certain
+            pattern defined by a regular expression.</p></dd><dt><span class="term">Cardinality Constraints</span></dt><dd><p>apply to multi-valued properties, only, and require that the
+            cardinality of a multi-valued property's value set is not less
+            than a given minimum cardinality or not greater than a given
+            maximum cardinality.</p></dd><dt><span class="term">Uniqueness Constraints  (also called 'Key Constraints')</span></dt><dd><p>require that a property's value is unique among all
+            instances of the given object type.</p></dd><dt><span class="term">Referential Integrity Constraints</span></dt><dd><p>require that the values of a reference property refer to an
+            existing object in the range of the reference property.</p></dd><dt><span class="term">Frozen Value Constraints</span></dt><dd><p>require that the value of a property must not be changed
+            after it has been assigned initially.</p></dd></dl></div><p>The visual language of UML class diagrams supports defining
+    integrity constraints either in a special way for special cases (like with
+    predefined keywords), or, in the general case, with the help of <span class="italic">invariants</span>, which are conditions expressed either
+    in plain English or in the <span class="emphasis"><em>Object Constraint Language
+    (OCL)</em></span> and shown in a special type of rectangle attached to the
+    model element concerned. We use UML class diagrams for modeling
+    constraints in <span class="italic">design models</span> that are
+    independent of a specific programming language or technology
+    platform.</p><p>UML class diagrams provide special support for expressing
+    multiplicity (or cardinality) constraints. This type of constraint allows
+    to specify a lower multiplicity (minimum cardinality) or an upper
+    multiplicity (maximum cardinality), or both, for a property or an
+    association end. In UML, this takes the form of a multiplicity expression
+    <code class="code">l..u</code> where the lower multiplicity <code class="code">l</code> is a
+    non-negative integer and the upper multiplicity <code class="code">u</code> is either a
+    positive integer not smaller than <code class="code">l</code> or the special value
+    <code class="code">*</code> standing for <span class="italic">unbounded</span>.
+    For showing property multiplicity (or cardinality) constrains in a class
+    diagram, multiplicity expressions are enclosed in brackets and appended to
+    the property name, as shown in the <code class="code">Person</code> class rectangle
+    below.</p><p>In the following sections, we discuss the different types of
+    property constraints listed above in more detail. We also show how to
+    express some of them in computational languages such as <span class="italic">UML</span> class diagrams, <span class="italic">SQL</span> table creation statements, <span class="italic">JavaScript</span> model class definitions, or the
+    annotation-based languages <span class="italic">Java Bean
+    Validation</span> annotations and <span class="italic">ASP.NET Data
+    Annotations</span>.</p><p>Any systematic approach to constraint validation also requires to
+    define a set of error (or 'exception') classes, including one for each of
+    the standard property constraints listed above.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e201"></a>2.1.&nbsp;String Length Constraints</h3></div></div></div><p>The length of a string value for a property such as the title of a
+      book may have to be constrained, typically rather by a maximum length,
+      but possibly also by a minimum length. In an SQL table definition, a
+      maximum string length can be specified in parenthesis appended to the
+      SQL datatype <code class="code">CHAR</code> or <code class="code">VARCHAR</code>, as in
+      <code class="code">VARCHAR(50)</code>.</p><p>UML does not define any special way of expressing string length
+      constraints in class diagrams. Of course, we always have the option to
+      use an <span class="italic">invariant</span> for expressing any
+      kind of constraint, but it seems preferable to use a simpler form of
+      expressing these property constraints. One option is to append a maximum
+      length, or both a minimum and a maximum length, in parenthesis to the
+      datatype name, like so </p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="180"><tr><td><img src="../fig/Book_withStringLengthConstraint_1.svg" width="180"></td></tr></table></div></div><p>Another option is to use min/max constraint keywords in the
+      property modifier list:</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="240"><tr><td><img src="../fig/Book_withStringLengthConstraint_2.svg" width="240"></td></tr></table></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e218"></a>2.2.&nbsp;Mandatory Value Constraints</h3></div></div></div><p>A <span class="italic">mandatory value constraint</span>
+      requires that a property must have a value. This can be expressed in a
+      UML class diagram with the help of a multiplicity constraint expression
+      where the lower multiplicity is 1. For a single-valued property, this
+      would result in the multiplicity expression <code class="code">1..1</code>, or the
+      simplified expression <code class="code">1</code>, appended to the property name in
+      brackets. For example, the following class diagram defines a mandatory
+      value constraint for the property <code class="code">name</code>: </p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="180"><tr><td><img src="../fig/Person_ExampleModel.svg" width="180"></td></tr></table></div></div><p>Whenever a class rectangle does not show a multiplicity expression
+      for a property, the property is mandatory (and single-valued), that is,
+      the multiplicity expression <code class="code">1</code> is the default for
+      properties.</p><p>In an SQL table creation statement, a mandatory value constraint
+      is expressed in a table column definition by appending the key phrase
+      <code class="code">NOT NULL</code> to the column definition as in the following
+      example: </p><pre class="programlisting">CREATE TABLE persons(
+  name  VARCHAR(30) <span class="bold"><strong>NOT NULL</strong></span>,
+  age   INTEGER
+)</pre><p>According to this table definition, any row of the
+      <code class="code">persons</code> table must have a value in the column
+      <code class="code">name</code>, but not necessarily in the column
+      <code class="code">age</code>.</p><p>In JavaScript, we can code a mandatory value constraint by a
+      class-level check function that tests if the provided argument evaluates
+      to a value, as illustrated in the following example:</p><pre class="programlisting">Person.checkName = function (n) {
+  if (n === undefined) {
+    return "A name must be provided!"; // constraint violation error message
+  } else return "";  // no constraint violation
+};</pre><p>With Java Bean Validation, a mandatory property like
+      <code class="code">name</code> is annotated with <code class="code">NotNull</code> in the
+      following way:</p><pre class="programlisting">@Entity
+public class Person {
+    <span class="bold"><strong>@NotNull</strong></span>
+    private String name;
+    private int age;
+}</pre><p>The equivalent ASP.NET Data Annotation is <code class="code">Required</code> as
+      shown in</p><pre class="programlisting">public class Person{
+    [<span class="bold"><strong>Required</strong></span>]
+    public string name { get; set; }
+    public int age { get; set; }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e249"></a>2.3.&nbsp;Range Constraints</h3></div></div></div><p>A range constraint requires that a property must have a value from
+      the value space of the type that has been defined as its range. This is
+      implicitly expressed by defining a type for a property as its range. For
+      instance, the attribute <code class="code">age</code> defined for the object type
+      <code class="code">Person</code> in the class diagram above has the range
+      <code class="code">Integer</code>, so it must not have a value like "aaa", which does
+      not denote an integer. However, it may have values like -13 or 321,
+      which also do not make sense as the age of a person. In a similar way,
+      since its range is <code class="code">String</code>, the attribute <code class="code">name</code>
+      may have the value "" (the empty string), which is a valid string that
+      does not make sense as a name.</p><p>We can avoid allowing negative integers like -13 as age values,
+      and the empty string as a name, by assigning more specific datatypes as
+      range to these attributes, such as <code class="code">NonNegativeInteger</code> to
+      <code class="code">age</code>, and <code class="code">NonEmptyString</code> to <code class="code">name</code>.
+      Notice that such more specific datatypes are neither predefined in SQL
+      nor in common programming languages, so we have to implement them either
+      in the form of user-defined types, as supported in SQL-99 database
+      management systems such as PostgreSQL, or by using suitable additional
+      constraints such as <span class="italic">interval
+      constraints</span>, which are discussed in the next section. In a
+      UML class diagram, we can simply define <code class="code">NonNegativeInteger</code>
+      and <code class="code">NonEmptyString</code> as custom datatypes and then use them in
+      the definition of a property, as illustrated in the following diagram:
+      </p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="250"><tr><td><img src="../fig/Person_ExampleModelWithCustomPropertyRange.svg" width="250"></td></tr></table></div></div><p>In JavaScript, we can code a range constraint by a check function,
+      as illustrated in the following example:</p><pre class="programlisting">Person.checkName = function (n) {
+  if (typeof(n) !== "string" || n.trim() === "") {
+    return "Name must be a non-empty string!";
+  } else return "";
+};</pre><p>This check function detects and reports a constraint
+      violation if the given value for the <code class="code">name</code> property is not
+      of type "string" or is an empty string.</p><p>In a Java EE web app, for declaring empty strings as
+      non-admissible user input we must set the context parameter</p><pre class="programlisting">javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL </pre><p>to <code class="code">true</code> in the web deployment descriptor file
+      <code class="code">web.xml</code>.</p><p>In ASP.NET, empty strings are non-admissible by default.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e278"></a>2.4.&nbsp;Interval Constraints</h3></div></div></div><p>An interval constraint requires that an attribute's value must be
+      in a specific interval, which is specified by a minimum value or a
+      maximum value, or both. Such a constraint can be defined for any
+      attribute having an ordered type, but normally we define them only for
+      numeric datatypes or calendar datatypes. For instance, we may want to
+      define an interval constraint requiring that the <code class="code">age</code>
+      attribute value must be in the interval [25,70]. In a class diagram, we
+      can define such a constraint by using the property modifiers
+      <code class="code">min</code> and <code class="code">max</code>, as shown for the <code class="code">age</code>
+      attribute of the <code class="code">Driver</code> class in the following
+      diagram.</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="250"><tr><td><img src="../fig/Driver_ExampleModelWithIntervalConstraint.svg" width="250"></td></tr></table></div></div><p>In an SQL table creation statement, an interval constraint is
+      expressed in a table column definition by appending a suitable
+      <code class="code">CHECK</code> clause to the column definition as in the following
+      example: </p><pre class="programlisting">CREATE TABLE drivers(
+  name  VARCHAR NOT NULL,
+  age   INTEGER <span class="bold"><strong>CHECK (age &gt;= 25 AND age &lt;= 70)</strong></span>
+)</pre><p>In JavaScript, we can code an interval constraint in the following
+      way:</p><pre class="programlisting">Driver.checkAge = function (a) {
+  if (a &lt; 25 || a &gt; 70) {
+    return "Age must be between 25 and 70!";
+  } else return "";
+};</pre><p>In Java Bean Validation, we express this interval constraint by
+      adding the annotations <code class="code">Min(0)</code> and <code class="code">Max(120)</code> to
+      the property <code class="code">age</code> in the following way:</p><pre class="programlisting">@Entity
+public class Driver {
+    @NotNull
+    private String name;
+    <span class="bold"><strong>@Min(25) </strong></span><span class="bold"><strong>@Max(70)</strong></span>
+    private int age;
+} </pre><p>The equivalent ASP.NET Data Annotation is
+      <code class="code">Range(25,70)</code> as shown in</p><pre class="programlisting">public class Driver{
+    [Required]
+    public string name { get; set; }
+    [<span class="bold"><strong>Range(25,70)</strong></span>]
+    public int age { get; set; }
+} </pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e307"></a>2.5.&nbsp;Pattern Constraints</h3></div></div></div><p>A pattern constraint requires that a string attribute's value must
+      match a certain pattern, typically defined by a <span class="italic">regular expression</span>. For instance, for the
+      object type <code class="code">Book</code> we define an <code class="code">isbn</code> attribute
+      with the datatype <code class="code">String</code> as its range and add a pattern
+      constraint requiring that the <code class="code">isbn</code> attribute value must be
+      a 10-digit string or a 9-digit string followed by "X" to the
+      <code class="code">Book</code> class rectangle shown in the following diagram.</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="350"><tr><td><img src="../fig/Book_ExampleModelWithPatternConstraint.svg" width="350"></td></tr></table></div></div><p>In an SQL table creation statement, a pattern constraint is
+      expressed in a table column definition by appending a suitable
+      <code class="code">CHECK</code> clause to the column definition as in the following
+      example: </p><pre class="programlisting">CREATE TABLE books(
+  isbn   VARCHAR(10) NOT NULL <span class="bold"><strong>CHECK (isbn ~ '^\d{9}(\d|X)$')</strong></span>,
+  title  VARCHAR(50) NOT NULL
+)</pre><p>The <code class="code">~</code> (tilde) symbol denotes the regular
+      expression matching predicate and the regular expression
+      <code class="code">^\d{9}(\d|X)$</code> follows the syntax of the POSIX standard
+      (see, e.g. the <a class="link" href="http://www.postgresql.org/docs/9.0/static/functions-matching.html" target="_top">PostgreSQL
+      documentation</a>).</p><p>In JavaScript, we can code a pattern constraint by using the
+      built-in regular expression function <code class="code">test</code>, as illustrated
+      in the following example:</p><pre class="programlisting">Person.checkIsbn = function (id) {
+  if (!/\b\d{9}(\d|X)\b/.test( id)) {
+    return "The ISBN must be a 10-digit string or a 9-digit string followed by 'X'!";
+  } else return "";
+};</pre><p>In Java EE Bean Validation, this pattern constraint for
+      <code class="code">isbn</code> is expressed with the annotation <code class="code">Pattern</code>
+      in the following way:</p><pre class="programlisting">@Entity
+public class Book {
+    @NotNull
+    @<span class="bold"><strong>Pattern(regexp="^\\(\d{9}(\d|X))$")</strong></span>
+    private String isbn;
+    @NotNull
+    private String title;
+} </pre><p>The equivalent ASP.NET Data Annotation is
+      <code class="code">RegularExpression</code> as shown in</p><pre class="programlisting">public class Book{
+    [Required]
+    [<span class="bold"><strong>RegularExpression(@"^(\d{9}(\d|X))$")</strong></span>]
+    public string isbn { get; set; }
+    public string title { get; set; }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e339"></a>2.6.&nbsp;Cardinality Constraints</h3></div></div></div><p>A cardinality constraint requires that the cardinality of a
+      multi-valued property's value set is not less than a given <span class="bold"><strong><span class="italic">minimum
+      cardinality</span></strong></span> or not greater than a given <span class="bold"><strong><span class="italic">maximum
+      cardinality</span></strong></span>. In UML, cardinality constraints are
+      called <span class="bold"><strong><span class="italic">multiplicity
+      constraints</span></strong></span>, and minimum and maximum cardinalities
+      are expressed with the lower bound and the upper bound of the
+      multiplicity expression, as shown in the following diagram, which
+      contains two examples of properties with cardinality constraints.</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="350"><tr><td><img src="../fig/CardinalityConstraintsExamples.svg" width="350"></td></tr></table></div></div><p>The attribute definition <code class="code">nickNames[0..3]</code> in the class
+      <code class="code">Person</code> specifies a minimum cardinality of 0 and a maximum
+      cardinality of 3, with the meaning that a person may have no nickname or
+      at most 3 nicknames. The reference property definition
+      <code class="code">members[3..5]</code> in the class <code class="code">Team</code> specifies a
+      minimum cardinality of 3 and a maximum cardinality of 5, with the
+      meaning that a team must have at least 3 and at most 5 members.</p><p>It's not obvious how cardinality constraints could be checked in
+      an SQL database, as there is no explicit concept of cardinality
+      constraints in SQL, and the generic form of constraint expressions in
+      SQL, assertions, are not supported by available DBMSs. However, it seems
+      that the best way to implement a minimum (or maximum) cardinality
+      constraint is an on-delete (or on-insert) trigger that tests the number
+      of rows with the same reference as the deleted (or inserted) row.</p><p>In JavaScript, we can code a cardinality constraint validation for
+      a multi-valued property by testing the size of the property's value set,
+      as illustrated in the following example:</p><pre class="programlisting">Person.checkNickNames = function (nickNames) {
+  if (nickNames.length &gt; 3) {
+    return "There must be no more than 3 nicknames!";
+  } else return "";
+};</pre><p>With Java Bean Validation annotations, we can specify</p><pre class="programlisting"><span class="bold"><strong>@Size( max=3)</strong></span> 
+List&lt;String&gt; <span class="bold"><strong>nickNames</strong></span><span class="bold"><strong>
+@Size( min=3, max=5)</strong></span> 
+List&lt;Person&gt; <span class="bold"><strong>members</strong></span></pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e366"></a>2.7.&nbsp;Uniqueness Constraints</h3></div></div></div><p>A <span class="italic">uniqueness constraint</span> (or
+      <span class="italic">key<a class="indexterm" name="d5e371"></a> constraint</span>) requires that a property's value
+      (or the value list of a list of properties in the case of a composite
+      key constraint) is unique among all instances of the given object type.
+      For instance, in a UML class diagram with the object type
+      <code class="code">Book</code> we can define the <code class="code">isbn</code> attribute to be
+      <span class="emphasis"><em>unique</em></span>, or, in other words, a
+      <span class="emphasis"><em>key</em></span>, by appending the (user-defined) property
+      modifier keyword <code class="code">key</code> in curly braces to the attribute's
+      definition in the <code class="code">Book</code> class rectangle shown in the
+      following diagram.</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="160"><tr><td><img src="../fig/Book_ExampleModelWithUniquenessConstraint.svg" width="160"></td></tr></table></div></div><p>In an SQL table creation statement, a uniqueness constraint is
+      expressed by appending the keyword <code class="code">UNIQUE</code> to the column
+      definition as in the following example: </p><pre class="programlisting">CREATE TABLE books(
+  isbn   VARCHAR(10) NOT NULL <span class="bold"><strong>UNIQUE</strong></span>,
+  title  VARCHAR(50) NOT NULL
+)</pre><p>In JavaScript, we can code this uniqueness constraint by a check
+      function that tests if there is already a book with the given
+      <code class="code">isbn</code> value in the <code class="code">books</code> table of the app's
+      database.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e390"></a>2.8.&nbsp;Standard Identifiers (Primary Keys)</h3></div></div></div><p>A unique attribute (or a composite key) can be declared to be the standard identifier
+    for objects of a given type, if it is mandatory (or if all attributes of the composite key are
+    mandatory). We can indicate this in a UML class diagram with the help of the property modifier
+     <code class="code">id</code> appended to the declaration of the attribute <code class="code">isbn</code> as shown in the
+    following diagram.</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="150"><tr><td><img src="../fig/Book_ExampleModelWithStandardIdentifier.svg" width="150"></td></tr></table></div></div><p>Notice that such a standard ID declaration implies both a mandatory value and a
+    uniqueness constraint on the attribute concerned.</p><p>Often, practitioners do not recommended using a composite key as a standard ID, since
+    composite identifiers are more difficult to handle and not always supported by tools. Whenever
+    an object type does not have a key attribute, but only a composite key, it may therefore be
+    preferable to add an artificial standard ID attribute (also called <span class="italic">surrogate ID</span>) to the object type. However, each additional surrogate ID has a
+    price: it creates some cognitive and computational overhead. Consequently, in the case of a
+    simple composite key, it may be preferable not to add a surrogate ID, but use the composite key
+    as the standard ID.</p><p>There is also an argument against using any real attribute, such as the <code class="code">isbn</code>
+    attribute, for a standard ID. The argument points to the risk that the values even of natural ID
+    attributes like <code class="code">isbn</code> may have to be changed during the life time of a business
+    object, and any such change would require an unmanageable effort to change also all
+    corresponding ID references. However, the business semantics of natural ID attributes implies
+    that they are frozen. Thus, the need of a value change can only occur in the case of a data
+    input error. But such a case is normally detected early in the life time of the object
+    concerned, and at this stage the change of all corresponding ID references is still
+    manageable.</p><p>Standard IDs are called <span class="italic">primary keys<a class="indexterm" name="d5e407"></a></span> in relational databases. We can declare an attribute to be the primary
+    key in an SQL table creation statement by appending the phrase <code class="code">PRIMARY KEY</code> to the
+    column definition as in the following example:
+    </p><pre class="programlisting">CREATE TABLE books(
+  isbn   VARCHAR(10) <span class="bold"><strong>PRIMARY KEY</strong></span>,
+  title  VARCHAR(50) NOT NULL
+)</pre><p>In object-oriented programming languages, like JavaScript and Java, we cannot code a
+    standard ID declaration, because this would have to be part of the metadata of a class
+    definition, and there is no support for such metadata. However, we should still check the
+    implied mandatory value and uniqueness constraints.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e413"></a>2.9.&nbsp;Referential Integrity Constraints</h3></div></div></div><p>A referential integrity constraint requires that the values of a
+      reference property refer to an object that exists in the population of
+      the property's range class. Since we do not deal with reference
+      properties in this chapter, we postpone the discussion of referential
+      integrity constraints to 
+       <span class="phrase">Part
+      4 of our tutorial.</span></p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e417"></a>2.10.&nbsp;Frozen and Read-Only Value Constraints</h3></div></div></div><p>A frozen value constraint defined for a property requires that the
+      value of this property must not be changed after it has been assigned.
+      This includes the special case of <span class="bold"><strong><span class="italic">read-only value constraints</span></strong></span> on
+      mandatory properties that are initialized at object creation
+      time.</p><p>Typical examples of properties with a frozen value constraint are
+      standard identifier attributes and event properties. In the case of
+      events, the semantic principle that the past cannot be changed prohibits
+      that the property values of events can be changed. In the case of a
+      standard identifier attribute we may want to prevent users from changing
+      the ID of an object since this requires that all references to this
+      object using the old ID value are changed as well, which may be
+      difficult to achieve (even though SQL provides special support for such
+      ID changes by means of its <code class="code">ON UPDATE CASCADE</code> clause for the
+      change management of foreign keys).</p><p>The following diagram shows how to define a frozen value
+      constraint for the <code class="code">isbn</code> attribute:</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="200"><tr><td><img src="../fig/Book_ExampleModelWithFrozenValConstr.svg" width="200"></td></tr></table></div></div><p>In Java, a <span class="italic">read-only</span> value
+      constraint can be enforced by declaring the property to be
+      <code class="code">final</code>. In JavaScript, a <span class="italic">read-only</span> property slot can be implemented as
+      in the following example:</p><pre class="programlisting">Object.defineProperty( obj, "teamSize", {value: 5, <span class="bold"><strong>writable: false</strong></span>, enumerable: true})</pre><p>where the property slot <code class="code">obj.teamSize</code> is made
+      unwritable. An entire object <code class="code">obj</code> can be frozen with
+      <code class="code">Object.freeze( obj)</code>.</p><p>We can implement a frozen value constraint for a property in the
+      property's setter method like so:</p><pre class="programlisting">Book.prototype.setIsbn = function (i) {
+  if (this.isbn === undefined) this.isbn = i;
+  else console.log("Attempt to re-assign a frozen property!");
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e442"></a>2.11.&nbsp;Beyond property constraints</h3></div></div></div><p>So far, we have only discussed how to define and check <span class="italic">property constraints</span>. However, in certain cases
+      there may be also integrity constraints that do not just depend on the
+      value of a particular property, but rather on </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the values of several properties of a particular object
+            (object-level constraints),</p></li><li class="listitem"><p>the value of a property before and its value after a change
+            attempt (dynamic constraints),</p></li><li class="listitem"><p>the set of all instances of a particular object type
+            (type-level constraints),</p></li><li class="listitem"><p>the set of all instances of several object types.</p></li></ol></div><div class="sidebar"><div class="titlepage"><div><div><p class="title"><b>OCL</b></p></div></div></div><p>The <span class="italic">Object Constraint
+        Language</span><a class="indexterm" name="d5e459"></a> (OCL<a class="indexterm" name="d5e461"></a>) was defined in 1997 as a formal logic language for
+        expressing integrity constraints in UML version 1.1. Later, it was
+        extended for allowing to define also (1) derivation expressions for
+        defining derived properties, and (2) preconditions and postconditions
+        for operations, in a class model.</p></div><p>In a class model, property constraints can be expressed within the property declaration
+    line in a class rectangle (typically with keywords, such as <code class="code">id</code>, <code class="code">max</code>,
+    etc.). For expressing more complex constraints, such as object-level or type-level constraints,
+    we can attach an <span class="emphasis"><em>invariant</em></span> declaration box to the class rectangle(s)  
+    concerned and express the constraint in unambiguous plain English or in 
+    <span class="phrase">pseudo-code</span> 
+    . 
+    A simple example of an object-level constraint expressed as an invariant is shown in 
+    <a class="xref" href="#figObjLevelConstr" title="Figure&nbsp;1.1.&nbsp;An example of an object-level constraint">Figure&nbsp;1.1</a>.</p><div class="figure"><a name="figObjLevelConstr"></a><p class="title"><b>Figure&nbsp;1.1.&nbsp;An example of an object-level constraint</b></p><div class="figure-contents"><div class="mediaobject"><img src="../fig/AuthorConstraints.svg" alt="An example of an object-level constraint"></div></div></div><br class="figure-break"><p>A general approach for implementing <span class="emphasis"><em>object-level
+      constraint validation</em></span> consists of taking the following
+      steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Choose a fixed name for an object-level constraint validation
+          function, such as <code class="code">validate</code>.</p></li><li class="listitem"><p>For any class that needs object-level constraint validation,
+          define a <code class="code">validate</code> function returning either a
+          <code class="code">ConstraintViolation</code> or a
+          <code class="code">NoConstraintViolation</code> object.</p></li><li class="listitem"><p>Call this function, if it exists, for the given model
+          class,</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>in the UI/view, on form submission;</p></li><li class="listitem"><p>in the model class, before save, both in the
+              <code class="code">create</code> and in the <code class="code">update</code>
+              method.</p></li></ol></div></li></ol></div><p>Constraints affecting two or more model classes could be defined in the form of static
+    methods (in a model layer method library) that are invoked from the <code class="code">validate</code>
+    methods of the affected model classes. </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e497"></a>3.&nbsp;Responsive Validation</h2></div></div></div><p>This problem is well-known from classical web applications where the
+    front-end component submits the user input data via HTML form submission
+    to a back-end component running on a remote web server. Only this back-end
+    component validates the data and returns the validation results in the
+    form of a set of error messages to the front-end. Only then, often several
+    seconds later, and in the hard-to-digest form of a bulk message, does the
+    user get the validation feedback. This approach is no longer considered
+    acceptable today. Rather, in a <span class="italic">responsive
+    validation</span> approach, the user should get immediate validation
+    feedback on each single data input. Technically, this can be achieved with
+    the help of event handlers for the user interface events
+    <code class="code">input</code> or <code class="code">change</code>.</p><p>Responsive validation requires a data validation mechanism in the
+    user interface (UI), such as the <a class="link" href="http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/" target="_top">HTML5
+    form validation API</a>. Alternatively, the <a class="link" href="http://jqueryvalidation.org/" target="_top">jQuery Validation Plugin</a>
+    can be used as a (non-HTML5-based) form validation API.</p><p>The HTML5 form validation API<a class="indexterm" name="d5e507"></a> essentially provides new types of <code class="code">input</code> fields
+    (such as <code class="code">number</code> or <code class="code">date</code>) and a set of new
+    attributes for form control elements for the purpose of supporting
+    responsive validation performed by the browser. Since using the new
+    validation attributes (like <code class="code">required</code>, <code class="code">min</code>,
+    <code class="code">max</code> and <code class="code">pattern</code>) implies defining constraints in
+    the UI, they are not really useful in a general approach where constraints
+    are only checked, but not defined, in the UI.</p><p>Consequently, we only use two methods of the HTML5 form validation
+    API for validating constraints in the HTML-forms-based user interface of
+    our app. The first of them, <code class="code">setCustomValidity</code>, allows to mark
+    a form field as either valid or invalid by assigning either an empty
+    string or a non-empty (constraint violation) message string.</p><p>The second method, <code class="code">checkValidity</code>, is invoked on a form
+    before user input data is committed or saved (for instance with a form
+    submission). It tests, if all fields have a valid value. For having the
+    browser automatically displaying any constraint violation messages, we
+    need to have a <code class="code">submit</code> event, even if we don't really submit
+    the form, but just use a <code class="code">save</code> button.</p><p>See this <a class="link" href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation" target="_top">Mozilla
+    tutorial</a> or this <a class="link" href="http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/" target="_top">HTML5Rocks
+    tutorial</a> for more about the HTML5 form validation API.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e527"></a>4.&nbsp;Constraint Validation in MVC Applications</h2></div></div></div><p>Integrity constraints should be defined in the model classes of an
+    MVC app since they are part of the business semantics of a model class
+    (representing a business object type). However, a more difficult question
+    is where to perform data validation? In the database? In the model
+    classes? In the controller? Or in the user interface ("view")? Or in all
+    of them?</p><p>A relational database management system (DBMS) performs data
+    validation whenever there is an attempt to change data in the database,
+    provided that all relevant integrity constraints have been defined in the
+    database. This is essential since we want to avoid, under all
+    circumstances, that invalid data enters the database. However, it requires
+    that we somehow duplicate the code of each integrity constraint, because
+    we want to have it also in the model class to which the constraint
+    belongs.</p><p>Also, if the DBMS would be the only application component that
+    validates the data, this would create a latency, and hence usability,
+    problem in distributed applications because the user would not get
+    immediate feedback on invalid input data. Consequently, data validation
+    needs to start in the user interface (UI).</p><p>However, it is not sufficient to perform data validation in the UI.
+    We also need to do it in the model classes, and in the database, for
+    making sure that no flawed data enters the application's persistent data
+    store. This creates the problem of how to maintain the constraint
+    definitions in one place (the model), but use them in two or three other
+    places (at least in the model classes and in the UI code, and possibly
+    also in the database). We call this the <span class="bold"><strong><span class="italic">multiple validation problem</span></strong></span>. This
+    problem can be solved in different ways. For instance:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Define the constraints in a declarative language (such as
+        <span class="italic">Java Bean Validation Annotations</span> or
+        <span class="italic">ASP.NET Data Annotations</span>) and
+        generate the back-end/model and front-end/UI validation code both in a
+        back-end application programming language such as Java or C#, and in
+        JavaScript.</p></li><li class="listitem"><p>Keep your validation functions in the (PHP, Java, C# etc.) model
+        classes on the back-end, and invoke them from the JavaScript UI code
+        via XHR. This approach can only be used for specific validations,
+        since it implies the penalty of an additional HTTP communication
+        latency for each validation invoked in this way.</p></li><li class="listitem"><p>Use JavaScript as your back-end application programming language
+        (such as with NodeJS), then you can code your validation functions in
+        your JavaScript model classes on the back-end and execute them both
+        before committing changes on the back-end and on user input and form
+        submission in the UI on the front-end side.</p></li></ol></div><p>The simplest, and most responsive, solution is the third one, using
+    only JavaScript both for the back-end and front-end components of a web
+    app.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e545"></a>5.&nbsp;Adding Constraints to a Design Model</h2></div></div></div><p>We again consider the book data management problem that was considered in 
+   
+   <span class="phrase">Part 1 of this tutorial.</span> But now we also consider the
+    <span class="bold"><strong><span class="italic">data integrity rules</span></strong></span> (or
+   'business rules') that govern the management of book data. These integrity rules, or <span class="bold"><strong><span class="italic">constraints</span></strong></span>, can be expressed in a UML
+   class diagram as shown in <a class="xref" href="#figBookSimpleAppDesModel" title="Figure&nbsp;1.2.&nbsp;A design model defining the object type Book with two invariants">Figure&nbsp;1.2</a>
+   below.</p><div class="figure"><a name="figBookSimpleAppDesModel"></a><p class="title"><b>Figure&nbsp;1.2.&nbsp;A design model defining the object type <code class="code">Book</code> with
+      two invariants</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="420"><tr><td><img src="../fig/Book_SimpleAppDesM.svg" width="420" alt="A design model defining the object type Book with two invariants"></td></tr></table></div></div></div><br class="figure-break"><p>In this model, the following constraints have been
+    expressed:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Due to the fact that the <code class="code">isbn</code> attribute is
+          declared to be the <span class="italic">standard
+          identifier</span> of <code class="code">Book</code>, it is <span class="bold"><strong><span class="italic">mandatory</span></strong></span>
+          and <span class="bold"><strong><span class="italic">unique</span></strong></span>.</p></li><li class="listitem"><p>The <code class="code">isbn</code> attribute has a <span class="bold"><strong><span class="italic">pattern
+          constraint</span></strong></span> requiring its values to match the
+          ISBN-10 format that admits only 10-digit strings or 9-digit strings
+          followed by "X".</p></li><li class="listitem"><p>The <code class="code">title</code> attribute is <span class="bold"><strong><span class="italic">mandatory</span></strong></span>,
+          as indicated by its multiplicity expression [1], and has a <span class="bold"><strong><span class="italic">string length
+          constraint</span></strong></span> requiring its values to have at
+          most 50 characters.</p></li><li class="listitem"><p>The <code class="code">year</code> attribute is <span class="bold"><strong><span class="italic">mandatory</span></strong></span>
+          and has an <span class="bold"><strong><span class="italic">interval
+          constraint</span></strong></span>, however, of a special form since
+          the maximum is not fixed, but provided by the calendar function
+          <code class="code">nextYear()</code>, which we implement as a utility
+          function.</p></li></ol></div><p>Notice that the <code class="code">edition</code> attribute is not mandatory, but
+    <span class="italic">optional</span>, as indicated by its
+    multiplicity expression [0..1]. In addition to the constraints described
+    in this list, there are the implicit range constraints defined by
+    assigning the datatype <code class="code">NonEmptyString</code> as range to
+    <code class="code">isbn</code> and <code class="code">title</code>, <code class="code">Integer</code> to
+    <code class="code">year</code>, and <code class="code">PositiveInteger</code> to
+    <code class="code">edition</code>. In our plain JavaScript approach, all these property
+    constraints are coded in the model class within property-specific
+    <span class="italic">check</span> functions.</p><p>The meaning of the design model can be illustrated by a sample data
+    population respecting all constraints:</p><div class="table"><a name="d5e603"></a><p class="title"><b>Table&nbsp;1.1.&nbsp;Sample data for <code class="code">Book</code></b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+          <th>ISBN</th>
+
+          <th>Title</th>
+
+          <th>Year</th>
+
+          <th>Edition</th>
+        </tr></thead><tbody><tr>
+          <td>006251587X</td>
+
+          <td>Weaving the Web</td>
+
+          <td>2000</td>
+
+          <td>3</td>
+        </tr><tr>
+          <td>0465026567</td>
+
+          <td>G&ouml;del, Escher, Bach</td>
+
+          <td>1999</td>
+
+          <td>2</td>
+        </tr><tr>
+          <td>0465030793</td>
+
+          <td>I Am A Strange Loop</td>
+
+          <td>2008</td>
+
+          <td></td>
+        </tr></tbody></table></div></div><br class="table-break"></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e628"></a>6.&nbsp;Summary</h2></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Constraints are logical conditions on the data of an app. The
+        simplest, and most important, types of constraints are property
+        constraints and object-level constraints.</p></li><li class="listitem"><p>Constraints should be defined in the model classes of an MVC
+        app, since they are part of their business semantics.</p></li><li class="listitem"><p>Constraints should be checked in various places of an MVC app:
+        in the UI/view code, in model classes, and possibly in the
+        database.</p></li><li class="listitem"><p>Software applications that include CRUD data management need to
+        perform two kinds of bi-directional object-to-string type
+        conversions:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Between the model and the UI: converting model object property values to UI widget
+       values, and, the other way around, converting input widget values to property values.
+       Typically, widgets are form fields that have string values.</p></li><li class="listitem"><p>Between the model and the datastore: converting model
+            objects to storage data sets (called serialization), and, the
+            other way around, converting storage data sets to model objects
+            (called de-serialization). This involves converting property
+            values to storage data values, and, the other way around,
+            converting storage data values to property values. Typically,
+            datastores are either JavaScript's local storage or IndexedDB, or
+            SQL databases, and objects have to be mapped to some form of table
+            rows. In the case of an SQL database, this is called
+            "Object-Relational Mapping" (ORM).</p></li></ol></div></li><li class="listitem"><p>Do not perform any string-to-property-value conversion in the UI code. Rather, this is
+     the business of the model code.</p></li><li class="listitem"><p>For being able to observe how an app works, or, if it does not
+        work, where it fails, it is essential to log all critical application
+        events, such as data retrieval, save and delete events, at least in
+        the JavaScript console.</p></li><li class="listitem"><p>Responsive validation means that the user, while typing, gets
+        immediate validation feedback on each input (keystroke), and when
+        requesting to save the new data.</p></li></ol></div></div></div><div lang="" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="chConstrValJava"></a>Chapter&nbsp;2.&nbsp;Implementing Constraint Validation in a Java EE Web App</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#sectionHTML5FormValidation">1. Java Annotations for Persistent Data Management and Constraint Validation</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e672">1.1. JPA constraint annotations</a></span></dt><dt><span class="section"><a href="#d5e726">1.2. Bean Validation annotations</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e804">2. New Issues</a></span></dt><dt><span class="section"><a href="#d5e819">3. Make an Entity Class Model</a></span></dt><dt><span class="section"><a href="#d5e889">4. Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e893">4.1. Type mapping</a></span></dt><dt><span class="section"><a href="#d5e943">4.2. Code the constraints as annotations</a></span></dt><dt><span class="section"><a href="#d5e978">4.3. Checking uniqueness constraints</a></span></dt><dt><span class="section"><a href="#d5e1004">4.4. Dealing with model-related exceptions</a></span></dt><dt><span class="section"><a href="#reqNonEmptyStrings">4.5. Requiring non-empty strings</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1050">5. Write the View Code</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1053">5.1. Validation in the <span class="italic">Create</span> use
+      case</a></span></dt><dt><span class="section"><a href="#d5e1094">5.2. Validation in the <span class="italic">Update </span>use
+      case</a></span></dt></dl></dd><dt><span class="section"><a href="#sectCustomAnnotation">6. Defining a Custom Validation Annotation</a></span></dt><dt><span class="section"><a href="#d5e1170">7. Run the App and Get the Code</a></span></dt><dt><span class="section"><a href="#d5e1177">8. Possible Variations and Extensions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1179">8.1. Object-level constraint validation</a></span></dt><dt><span class="section"><a href="#d5e1235">8.2. JSF custom validators</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1247">9. Practice Project</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1251">9.1. Validate movie data</a></span></dt></dl></dd></dl></div><p>The <span class="italic">minimal</span> web app that we have discussed in Part 1 has
+  been limited to support the minimum functionality of a data management app only. For instance, it
+  did not take care of preventing the user from entering invalid data into the app's database. In
+  this <span class="phrase">second part of the tutorial</span>
+  , we show how to express integrity constraints in
+  a Java EE model class (called <span class="italic">entity class</span>), and how to have
+  constraints automatically validated on critical life cycle events of entity objects with JPA, and
+  on form submission with JSF.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectionHTML5FormValidation"></a>1.&nbsp;Java Annotations for Persistent Data Management and Constraint Validation</h2></div></div></div><p>The integrity constraints of a distributed app have to be checked
+    both in model classes and in the underlying database, and possibly also in
+    the UI. However, this requirement for three-fold validation should not
+    imply having to define the same constraints three times in three different
+    languages: in Java, in SQL and in HTML5/JavaScript. Rather, the preferred
+    approach is to define the constraints only once, in the model classes, and
+    then reuse these constraint definitions also in the underlying database
+    and in the UI. Java EE apps support this goal to some degree. There are
+    two types of constraint annotations:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong><span class="italic">JPA constraint
+       annotations</span></strong></span> specify constraints to be used for generating the database
+      schema (with CREATE TABLE statements) such that they are then checked by the DBMS, and not by
+      the Java runtime environment;</p></li><li class="listitem"><p><span class="bold"><strong><span class="italic">Bean Validation
+          annotations</span></strong></span> specify constraints to be checked
+          by the Java runtime environment</p></li></ol></div><p>In this section we discuss how to use some of the predefined
+    constraint annotations and how to define a custom constraint annotation
+    for the <code class="code">year</code> property of the <code class="code">Book</code> class, since
+    its value has an upper bound defined by an expression ('next
+    year').</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e672"></a>1.1.&nbsp;JPA constraint annotations</h3></div></div></div><p>The JPA constraint annotations specify constraints to be used by
+      the underlying database management system after generating the database
+      schema, but not for Java validation. Consider the <code class="code">@Id</code>
+      annotation in the following definition of an entity class
+      <code class="code">Item</code>:</p><pre class="programlisting">@Entity @Table( name="items")
+public class <span class="bold"><strong>Item</strong></span> {
+  <span class="bold"><strong>@Id</strong></span> private String <span class="bold"><strong>itemCode</strong></span>;
+  private int quantity;
+  ...  // define constructors, setters and getters
+}</pre><p>The <code class="code">@Id</code> annotation of the <code class="code">itemCode</code>
+      attribute is mapped to a SQL primary key<a class="indexterm" name="d5e683"></a> declaration for this attribute in the corresponding
+      database table schema. As a consequence, the <code class="code">itemCode</code>
+      column of the generated <code class="code">items</code> table must have a value in
+      each row and these values have to be <span class="italic">unique</span>. However, these conditions are not
+      checked in the Java runtime environment. JPA generates the following
+      CREATE TABLE statement:</p><pre class="programlisting">CREATE TABLE IF NOT EXISTS <span class="bold"><strong>items</strong></span> (
+  <span class="bold"><strong>itemCode</strong></span> varchar(255) NOT NULL <span class="bold"><strong>PRIMARY KEY</strong></span>,
+  quantity int(11) DEFAULT NULL
+)</pre><p>Since nothing has been specified about the length of
+      <code class="code">itemCode</code> strings, the length is set to 255 by default.
+      However, in our case we know that <code class="code">itemCode</code> has a fixed
+      length of 10, which can be enforced by using the <code class="code">@Column</code>
+      annotation, which has the following parameters:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><code class="code">name</code> allows to specify a name for the column to
+            be used when the table is created (by default, the attribute name
+            of the entity class is used);</p></li><li class="listitem"><p><code class="code">nullable</code> is a boolean parameter that defines if
+            the column allows <code class="code">NULL</code> values (by default, it is
+            <code class="code">true</code>);</p></li><li class="listitem"><p><code class="code">length</code> is a positive integer, specifying the
+            maximum number of characters allowed for string values of that
+            column (by default, this is 255);</p></li><li class="listitem"><p><code class="code">unique</code> is a boolean parameter that defines if
+            the values of the column must be unique (by default, it is
+            <code class="code">false</code>).</p></li></ul></div><p>Using the <code class="code">@Column</code> annotation, the improved Java/JPA
+      code of the model class is:</p><pre class="programlisting">@Entity @Table( name="items")
+public class <span class="bold"><strong>Item</strong></span> {
+  @Id <span class="bold"><strong>@Column( length=10)</strong></span>
+  private String <span class="bold"><strong>itemCode</strong></span>;
+  <span class="bold"><strong>@Column( nullable=false)</strong></span>
+  private int <span class="bold"><strong>quantity</strong></span>;
+  ...  // define constructors, setters and getters
+}</pre><p>As a result, the generated CREATE TABLE statement now contains the
+      additional constraints expressed for the columns <code class="code">itemCode</code>
+      and <code class="code">quantity</code>:</p><pre class="programlisting">CREATE TABLE IF NOT EXISTS items (
+  itemCode <span class="bold"><strong>varchar(10)</strong></span> NOT NULL PRIMARY KEY,
+  quantity int(11) <span class="bold"><strong>NOT NULL</strong></span>
+)</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e726"></a>1.2.&nbsp;Bean Validation annotations</h3></div></div></div><p>In the Java EE <a class="link" href="http://docs.oracle.com/javaee/7/tutorial/doc/bean-validation001.htm#GIRCZ" target="_top">Bean
+      Validation</a> approach, Java runtime validation can be defined in
+      the form of <span class="italic">bean validation
+      annotations</span> placed on a property, method, or class.</p><div class="table"><a name="d5e731"></a><p class="title"><b>Table&nbsp;2.1.&nbsp;Bean Validation annotations for properties</b></p><div class="table-contents"><table frame="border"><thead><tr>
+            <th>Constraint Type</th>
+
+            <th>Annotations</th>
+
+            <th>Examples</th>
+          </tr></thead><tbody><tr>
+            <td>String Length Constraints</td>
+
+            <td><code class="code">@Size</code></td>
+
+            <td><code class="code">@Size( min=8, max=80) String message;</code></td>
+          </tr><tr>
+            <td>Cardinality Constraints (for arrays, collections and
+            maps)</td>
+
+            <td><code class="code">@Size</code></td>
+
+            <td><code class="code">@Size( min=2, max=3) List&lt;Member&gt;
+            coChairs;</code></td>
+          </tr><tr>
+            <td>Mandatory Value Constraints</td>
+
+            <td><code class="code">@NotNull</code></td>
+
+            <td><code class="code">@NotNull String name</code></td>
+          </tr><tr>
+            <td>Range Constraints for numeric attributes</td>
+
+            <td><code class="code">@Digits</code></td>
+
+            <td><code class="code">@Digits( integer=6, fraction=2) BigDecimal
+            price;</code></td>
+          </tr><tr>
+            <td>Interval Constraints for integer-valued attributes</td>
+
+            <td><code class="code">@Min</code> and <code class="code">@Max</code></td>
+
+            <td><code class="code">@Min(5) int teamSize</code></td>
+          </tr><tr>
+            <td>Interval Constraints for decimal-valued attributes</td>
+
+            <td><code class="code">@DecimalMin</code> and <code class="code">@DecimalMax</code></td>
+
+            <td><code class="code">@DecimalMax("30.00") double voltage</code></td>
+          </tr><tr>
+            <td>Pattern Constraints</td>
+
+            <td><code class="code">@Pattern</code></td>
+
+            <td><code class="code">@Pattern( regexp="\\b\\d{10}\\b") String
+            isbn;</code></td>
+          </tr></tbody></table></div></div><br class="table-break"><p>In addition, there are annotations that require a date value to be
+      in the future (<code class="code">@Future</code> ) or in the past
+      (<code class="code">@Past</code>).</p><p>All Bean Validation annotations have an optional
+      <code class="code">message</code> attribute for defining a custom error message. In
+      the following example, we add two <code class="code">@NotNull</code> annotations with
+      messages, a <code class="code">@Size</code> and a <code class="code">@Min</code> annotation to the
+      JPA constraint annotations. The <code class="code">@NotNull</code> annotations
+      constrain the <code class="code">itemCode</code> and the <code class="code">quantity</code>
+      attributes to be mandatory, while the <code class="code">@Min</code> annotation
+      constrains the <code class="code">quantity</code> attribute to have a minimum value
+      of 0:</p><pre class="programlisting">@Entity @Table( name="items")
+public class <span class="bold"><strong>Item</strong></span> {
+  @Id @Column( length=8)
+  @NotNull( message="An item code is required!")
+  @Size( min=8, max=8)
+   private String <span class="bold"><strong>itemCode</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A quantity is required!")
+  @Min(0)
+   private int <span class="bold"><strong>quantity</strong></span>;
+}</pre><p>Notice that that we need some duplicate logic in this example because the same
+    constraints may have to be defined twice: as a JPA constraint annotation and as a Bean
+    Validation annotation. For instance, for a mandatory attribute like <code class="code">quantity</code> we
+    have both a <code class="code">@Column( nullable=false)</code> JPA constraint annotation and a
+     <code class="code">@NotNull</code> Bean Validation annotation.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e804"></a>2.&nbsp;New Issues</h2></div></div></div><p>Compared to the <a class="link" href="../JavaJpaJsfApp/MinimalApp/index.html" target="_top">Minimal
+    App</a> discussed in <span class="phrase">the <a class="link" href="../JavaJpaJsfApp/minimal-tutorial.html" target="_top">Minimal
+    App Tutorial</a></span> we have to deal with a number of new
+    issues:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the <span class="italic">model</span> layer we have to
+        take care of adding for every property the constraints that must be
+        checked before allowing a record to be saved to the database</p></li><li class="listitem"><p>In the <span class="italic">user interface (view)</span>
+        we have to take care of form validation providing feedback to the user
+        whenever data entered in the form is not valid.</p></li></ol></div><p>Checking the constraints in the user interface on user input is
+    important for providing immediate feedback to the user. Using JSF and Bean
+    Validation requires to submit the form before the validation checks are
+    performed. It would be preferable to define the validation checks in the
+    model classes only and use them in the user interface before form
+    submission, without having to duplicate the validation logic in the JSF
+    facelets. However, at this point in time, JSF does not support this, and
+    the validation is performed only after the form is submitted.</p><p>Using HTML5 validation attributes in the JSF facelets to enforce
+    HTML5 validation before submitting the form requires an undesirable
+    duplication of validation logic. The effect of such a duplication would be
+    duplicate maintenance of the validation code, once in the model classes
+    and once more in the user interface. In a simple application like our
+    example app, this is doable, but in a larger application this quickly
+    becomes a maintenance nightmare.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e819"></a>3.&nbsp;Make an Entity Class Model</h2></div></div></div><p>Using the information design model shown in <a class="xref" href="#figBookSimpleAppDesModel" title="Figure&nbsp;1.2.&nbsp;A design model defining the object type Book with two invariants">Figure&nbsp;1.2</a> above as
+    the starting point, we make an <span class="italic">Entity class
+    model</span> with getters/setters and corresponding Java
+    datatypes.</p><div class="figure"><a name="figIDM2JavasDM"></a><p class="title"><b>Figure&nbsp;2.1.&nbsp;Deriving an Entity class model from an information design
+      model</b></p><div class="figure-contents"><div class="informaltable"><table frame="void"><tbody><tr>
+            <td><div class="mediaobject"><img src="../fig/Book_SimpleAppDesM2.svg" alt="Deriving an Entity class model from an information design model"></div></td>
+
+            <td><div class="mediaobject"><img src="../fig/Rightarrow.png" alt="Deriving an Entity class model from an information design model"></div></td>
+
+            <td><div class="mediaobject"><img src="../fig/Book_ValApp_JEE.html" alt="Deriving an Entity class model from an information design model"></div></td>
+          </tr></tbody></table></div></div></div><br class="figure-break"><p>Notice that for the <code class="code">year</code> and <code class="code">edition</code> attributes, the datatype wrapper class <code class="code">Integer</code> is used
+    instead of the primitive datatype <code class="code">int</code>. This is required when using JSF, since if a form with an empty input field is submitted in the Create or Update
+    use case, the value <code class="code">null</code> is assigned to the corresponding attribute (by JSF invoking the attribute's setter), which is not admitted for primitive datatypes by Java.</p><p>The entity class model defines getters and setters for all properties and the following
+   property constraint annotations:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><code class="code">@Id</code> and <code class="code">@NotNull</code> declare the <code class="code">isbn</code> attribute to be a standard
+      identifier, implying that it is <span class="italic">mandatory</span> and <span class="italic">unique</span>.</p></li><li class="listitem"><p><code class="code">@Pattern("\\b\\d{10}\\b")</code> declares a <span class="italic">pattern constraint</span> 
+	  on the <code class="code">isbn</code> attribute requiring its values to match the ISBN-10 format
+      (simplified to the case of 10-digit strings).</p></li><li class="listitem"><p><code class="code">@NotNull</code> and <code class="code">@Size(max=50)</code> declare that the <code class="code">title</code> attribute is <span class="italic">mandatory</span> and has a <span class="italic">string length maximum
+       constraint</span> of at most 50 characters.</p></li><li class="listitem"><p><code class="code">@NotNull</code>, <code class="code">@Min(1459)</code> and the custom annotation <code class="code">@UpToNextYear</code> declare that the
+       <code class="code">year</code> attribute is <span class="italic">mandatory</span> and has an
+       <span class="italic">interval constraint</span> of a special form where the minimum is
+      1459 and the maximum is not fixed, but provided by a custom annotation implementing the
+      calendar arithmetic function <span class="italic">nextYear()</span>.</p></li><li class="listitem"><p><code class="code">@Min(1)</code> declares that the <code class="code">edition</code> attribute has an
+       <span class="italic">interval constraint</span> with minimum value 1.</p></li></ol></div><p>Since there is no predefined Bean Validation annotation for checking the uniqueness of an ID
+   value provided when creating a new entity object, we define a static method
+    <code class="code">checkIsbnAsId</code> that can be invoked in a corresponding controller method when
+   creating a new entity object.</p><p>In addition, the entity class model defines the static CRUD data management methods
+    <code class="code">retrieveAll</code>, <code class="code">create</code>, <code class="code">update</code> and
+   <code class="code">delete</code>.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e889"></a>4.&nbsp;Write the Model Code</h2></div></div></div><p>The Entity class model shown on the right hand side in <a class="xref" href="#figIDM2JavasDM" title="Figure&nbsp;2.1.&nbsp;Deriving an Entity class model from an information design model">Figure&nbsp;2.1</a> can be coded step by step for getting the code of the entity classes
+   of our Java EE web app.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e893"></a>4.1.&nbsp;Type mapping</h3></div></div></div><p>When defining the properties, we first need to map the
+      platform-independent datatypes of the information design model to the
+      corresponding Java datatypes according to the following table.</p><div class="table"><a name="d5e896"></a><p class="title"><b>Table&nbsp;2.2.&nbsp;Java datatype mapping</b></p><div class="table-contents"><table frame="border" rules="all"><thead><tr>
+            <th>Platform-independent datatype</th>
+
+            <th>Java datatype</th>
+          </tr></thead><tbody><tr>
+            <td>String</td>
+
+            <td>String</td>
+          </tr><tr>
+            <td>Integer</td>
+
+            <td>int, long, Integer, Long</td>
+          </tr><tr>
+            <td>Decimal</td>
+
+            <td>double, Double, java.math.BigDecimal</td>
+          </tr><tr>
+            <td>Boolean</td>
+
+            <td>boolean, Boolean</td>
+          </tr><tr>
+            <td>Date</td>
+
+            <td>java.util.Date</td>
+          </tr></tbody></table></div></div><br class="table-break"><p>Notice that for precise computations with decimal numbers, the
+      special datatype <a class="link" href="http://www.opentaps.org/docs/index.php/How_to_Use_Java_BigDecimal:_A_Tutorial" target="_top">java.math.BigDecimal</a>
+      is needed.</p><p>A second datatype mapping is needed for obtaining the
+      corresponding MySQL datatypes:</p><div class="table"><a name="d5e921"></a><p class="title"><b>Table&nbsp;2.3.&nbsp;MySQL datatype mapping</b></p><div class="table-contents"><table frame="border" rules="all"><thead><tr>
+            <th>Platform-independent datatype</th>
+
+            <th>MySQL datatype</th>
+          </tr></thead><tbody><tr>
+            <td>String</td>
+
+            <td>VARCHAR</td>
+          </tr><tr>
+            <td>Integer</td>
+
+            <td>INT</td>
+          </tr><tr>
+            <td>Decimal</td>
+
+            <td>DECIMAL</td>
+          </tr><tr>
+            <td>Boolean</td>
+
+            <td>BOOL</td>
+          </tr><tr>
+            <td>Date</td>
+
+            <td>DATETIME or TIMESTAMP</td>
+          </tr></tbody></table></div></div><br class="table-break"></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e943"></a>4.2.&nbsp;Code the constraints as annotations</h3></div></div></div><p>In this section we add JPA constraint annotations and Bean Validation annotations for
+    implementing the property constraints defined for the <code class="code">Book</code> class in the Java entity
+    class model. For the standard identifier attribute <code class="code">isbn</code>, we add the JPA constraint
+    annotations <code class="code">@Id</code> and <code class="code">@Column( length=10)</code>, as well as the Bean
+    Validation annotations <code class="code">@NotNull</code> and <code class="code">@Pattern( regexp="\\b\\d{10}\\b")</code>.
+    Notice that, for readability, we have simplified the ISBN pattern constraint.</p><p>For the attribute <code class="code">title</code>, we add the JPA constraint annotation
+     <code class="code">@Column( nullable=false)</code>, as well as the Bean Validation annotations
+     <code class="code">@NotNull</code> and <code class="code">@Size( max=50)</code>.</p><p>For the attribute <code class="code">year</code>, we add the JPA constraint annotation <code class="code">@Column(
+     nullable=false)</code>, as well as the Bean Validation annotations <code class="code">@NotNull</code> and
+     <code class="code">@Min( 1459)</code>. Notice that we cannot express the constraint that <code class="code">year</code>
+    must not be greater than next year with a standard validation annotation. Therefore, we'll
+    define a custom annotation for this constraint in <a class="xref" href="#sectCustomAnnotation" title="6.&nbsp;Defining a Custom Validation Annotation">Section&nbsp;6</a> below.</p><p>Coding the integrity constraints with JPA constraint annotations and Bean Validation
+    annotations results in the following annotated bean class:</p><pre class="programlisting">@Entity @Table( name="books")
+@ManagedBean( name="book") @ViewScoped
+public class <span class="bold"><strong>Book</strong></span> {
+  @Id @Column( length=10)
+  @NotNull( message="An ISBN value is required!")
+  @Pattern( regexp="\\b\\d{10}\\b", 
+      message="The ISBN must be a 10-digit string!")
+   private String <span class="bold"><strong>isbn</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A title is required!")
+  @Size( max=255)
+   private String <span class="bold"><strong>title</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A year is required!")
+  @Min( value=1459, message="The year must not be before 1459!")
+   private Integer <span class="bold"><strong>year</strong></span>;
+
+  ...  // define constructors, setters and getters 
+
+  public static Book <span class="bold"><strong>getObjectByStdId</strong></span>(...) {...}
+  public static List&lt;Book&gt; <span class="bold"><strong>getAllObjects</strong></span>(...) {...}
+  public static void <span class="bold"><strong>create</strong></span>(...) throws Exception {...}
+  public static void <span class="bold"><strong>update</strong></span>(...) throws Exception {...}
+  public static void <span class="bold"><strong>delete</strong></span>(...) throws Exception {...}
+}</pre><p>We only provide an overview of the methods. For more details, see
+      <span class="phrase">our <a class="link" href="minimal-tutorial.html" target="_top">minimal app tutorial</a>.</span>
+       </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e978"></a>4.3.&nbsp;Checking uniqueness constraints</h3></div></div></div><p>For avoiding duplicate <code class="code">Book</code> records we have to check
+      that the <code class="code">isbn</code> values are unique. At the level of the
+      database, this is already checked since the <code class="code">isbn</code> column is
+      the primary key, and the DBMS makes sure that its values are unique.
+      However, we would like to check this in our Java app before the data is
+      passed to the DBMS. Unfortunately, there is no predefined Bean
+      Validation annotation for this purpose, and it is not clear how to do
+      this with a custom validation annotation. Therefore we need to write a
+      static method, <code class="code">Book.checkIsbnAsId</code>, for checking if a value
+      for the <code class="code">isbn</code> attribute is unique. This check method can
+      then be called by the controller for validating any <code class="code">isbn</code>
+      attribute value before trying to create a new <code class="code">Book</code> record.
+      The <code class="code">Book.checkIsbnAsId</code> method code is shown
+      below:</p><pre class="programlisting">public static void<span class="bold"><strong> checkIsbnAsId( EntityManager em, String isbn)
+    throws UniquenessConstraintViolation, 
+    MandatoryValueConstraintViolation</strong></span> {
+  if (isbn == null) {
+    throw new MandatoryValueConstraintViolation(
+        "An ISBN value is required!");
+  } else {
+    Book book = Book.retrieve( em, isbn);
+    // book was found, uniqueness constraint validation failed
+    if ( book != null) {
+    throw new UniquenessConstraintViolation(
+        "There is already a book record with this ISBN!");
+  }
+  }
+}</pre><p>The method throws a <code class="code">UniquenessConstraintViolation</code>
+      exception in case that a <code class="code">Book</code> record was found for the
+      given ISBN value. The exception can then be caught and a corresponding
+      error message displayed in the UI. In the sequel of this <span class="phrase">tutorial</span> we show how to define the
+      controller validation method and inform JSF facelets that it must be
+      used to validate the <code class="code">isbn</code> form input field.</p><p>Notice that in this case we also need to check the
+      <code class="code">isbn</code> value and reject <code class="code">null</code> values, because the
+      <code class="code">@NotNull</code> validation triggers only later, when the
+      <code class="code">isbn</code> property of the <code class="code">Book</code> is set, thus at this
+      point we could get <code class="code">NullPointerException</code>, from the
+      <code class="code">Book.retrieve</code> method.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1004"></a>4.4.&nbsp;Dealing with model-related exceptions</h3></div></div></div><p>The <code class="code">Book.checkIsbnAsId</code> method discussed in the previous sub-section is
+    designed to be used in combination with a controller so the user gets an error message when
+    trying to duplicate a <code class="code">Book</code> record (i.e., if the provided <code class="code">isbn</code> value is
+    already used in an existing record). However, if the <code class="code">Book.create</code> method is used
+    directly (i.e. by another piece of code, where the uniqueness constraint is not performed by
+    calling <code class="code">Book.checkIsbnAsId</code>), then uniqueness constraint validation may fail. Lets
+    have a look on the <code class="code">Book.create</code>
+    code:</p><pre class="programlisting">public static void create( EntityManager em, UserTransaction ut,
+    String isbn, String title, int year) 
+    throws NotSupportedException, SystemException, 
+      IllegalStateException, SecurityException,
+      HeuristicMixedException, HeuristicRollbackException, 
+      RollbackException, <span class="bold"><strong>EntityExistsException</strong></span> {
+  ut.begin();
+  Book book = new Book( isbn, title, year);
+  em.persist( book);
+  ut.commit();
+}</pre><p>The
+    method may throw a number of exceptions when trying to execute the <span class="italic">persist</span> or the <span class="italic">commit</span> method. One of the
+    exceptions (i.e. <code class="code">EntityExistsException</code>) is thrown by the <code class="code">ut.commit</code>
+    call. The method which calls <code class="code">Book.create</code> may catch this exception and perform
+    specific actions, such as rolling back the transaction. In our case, the
+     <code class="code">Book.create</code> is called by the <code class="code">create</code> action method of the
+     <code class="code">BookController</code> class, and the action performed is to show the exception stack
+    trace in the console, as well as calling the <code class="code">ut.rollback</code> which takes care of
+    cancelling any database change performed by the current transaction. The rest of the exceptions
+    are caught by using their super class (i.e. <code class="code">Exception</code>) and the exception stack
+    trace is displayed in the
+    console.</p><pre class="programlisting">public String create( String isbn, String title, int year) {
+  try {
+    Book.create( em, ut, isbn, title, year);
+  } catch ( <span class="bold"><strong>EntityExistsException</strong></span> e) {
+    try {
+      ut.<span class="bold"><strong>rollback</strong></span>();
+    } catch ( Exception e1) {
+      e1.printStackTrace();
+    } 
+    e.printStackTrace()<span class="bold"><strong>;</strong></span>
+  } catch ( Exception e) {
+    e.printStackTrace();
+  } 
+  return "create";
+}</pre><p><span class="bold"><strong>Note: </strong></span>the <code class="code">EntityExistsException</code> is part of
+    the <code class="code">javax.persistence</code> package (i.e.
+     <code class="code">javax.persistence.EntityExistsException</code>). TomEE uses the <a class="link" href="http://openjpa.apache.org/" target="_top">Apache OpenJPA</a> implementation of the JPA API,
+    which means that the <code class="code">EntityExistsException</code> class (and other exceptions classes too)
+    are part of the <code class="code">org.apache.openjpa.persistence</code> package. Therefore, using this
+    exception with our code, requires to <code class="code">import
+     org.apache.openjpa.persistence.EntityExistsException;</code> instead of <code class="code">import
+     javax.persistence.EntityExistsException;</code> as well as adding the
+     <code class="filename">openjpa-xxx.jar</code> (located in the <code class="filename">lib</code> subfolder of the
+    TomEE installation folder) to the Java application class path for being able to have the code
+    compiled with Eclipse or other IDE tools.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="reqNonEmptyStrings"></a>4.5.&nbsp;Requiring non-empty strings</h3></div></div></div><p>Normally a mandatory string-valued attribute, such as <code class="code">title</code>, requires a
+    non-empty string, which is expressed in our model above by the range
+    <code class="code">NonEmptyString</code>. For treating empty strings as no value, the context parameter
+     <code class="code">javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</code> must be set to
+     <code class="code">true</code> in
+    <code class="filename">web.xml</code>:</p><pre class="programlisting">&lt;context-param&gt;
+  &lt;param-name&gt;
+    javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL
+  &lt;/param-name&gt;
+  &lt;param-value&gt;true&lt;/param-value&gt;
+&lt;/context-param&gt;</pre></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1050"></a>5.&nbsp;Write the View Code</h2></div></div></div><p>After we have defined the constraints in the Java EE model layer and
+    the database layer, we need to take care of validation in the user
+    interface. In particular, we need to make sure that the user gets informed
+    about issues by rendering visual indicators and informative validation
+    error messages.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1053"></a>5.1.&nbsp;Validation in the <span class="italic">Create</span> use
+      case</h3></div></div></div><p>The <code class="filename">WebContent/views/books/create.xhtml</code> file contains the JSF
+    facelet code for creating a new <code class="code">Book</code> record. We now use the JSF
+     <code class="code">validator</code> attribute for performing the uniqueness validation and JSF
+     <code class="code">message</code> elements for displaying validation error messages.</p><pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="headerTitle"&gt;
+    &lt;h1&gt;Create a new book record&lt;/h1&gt;
+  &lt;/ui:define&gt;
+  &lt;ui:define name="main"&gt;
+    &lt;h:form id="createBookForm"&gt;
+      &lt;div&gt;
+        &lt;h:outputLabel for="isbn" value="ISBN: "&gt;
+        &lt;h:inputText id="isbn" value="#{book.isbn}" 
+            <span class="bold"><strong>validator="#{bookCtrl.checkIsbnAsId}"</strong></span> /&gt;
+        &lt;/h:outputLabel&gt;
+        <span class="bold"><strong>&lt;h:message for="isbn" errorClass="error" /&gt;</strong></span>
+      &lt;/div&gt;  
+      &lt;div&gt;
+        &lt;h:outputLabel for="title" value="Title: "&gt;
+        &lt;h:inputText id="title" value="#{book.title}" /&gt;
+        &lt;/h:outputLabel&gt;
+        <span class="bold"><strong>&lt;h:message for="title" errorClass="error" /&gt;</strong></span>
+      &lt;/div&gt;
+      ...
+    &lt;/h:form&gt;
+  &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre><p>There are only a few changes compared to the same view used for the minimal app, where
+    no validation was performed. The first change is the new <code class="code">h:message</code> element which is
+    bound to a specific form element by the <code class="code">for</code> attribute. We create such an element
+    for each of our form input elements. Notice that we don't have to do anything else for seeing
+    the validation errors for all integrity constraint checks which are performed by using the
+    (built-in and custom) Bean Validation annotations. As soon as a constraint validation fails, the
+    message set by using the <code class="code">message</code> property of the integrity constraint annotation
+    (e.g. <code class="code">@Pattern</code>, <code class="code">@NotNull</code>, etc) is displayed in an HTML
+     <code class="code">span</code> element generated by JSF as a result of using the <code class="code">h:message</code>
+    element.</p><p>For all the integrity constraints we have used Bean Validation annotations, but for the
+    uniqueness constraint we have used custom code, therefore no error message will be shown for it.
+    In the view code we can see that a new attribute, <code class="code">validator</code> in
+     <code class="code">h:inputText</code>, was used for the <code class="code">isbn</code> input field. It specifies which
+    custom method is used to perform validation of the provided value in this form field. In our
+    case, we use the <code class="code">checkIsbnAsId</code> method defined in the <code class="code">BookController</code> as
+    shown
+    below:</p><pre class="programlisting">public void <span class="bold"><strong>checkIsbnAsId</strong></span>( FacesContext context, 
+    UIComponent component, Object value) 
+    throws ValidatorException {
+  String isbn = (String) value;
+  try {
+    Book.checkIsbnAsId( em, isbn);
+  } catch ( UniquenessConstraintViolation e) {
+    throw new <span class="bold"><strong>ValidatorException</strong></span>( new FacesMessage(
+        FacesMessage.SEVERITY_ERROR, e.getMessage(), 
+        e.getMessage()));
+  } catch ( MandatoryValueConstraintViolation e) {
+    throw new ValidatorException( new FacesMessage(
+        FacesMessage.SEVERITY_ERROR, e.getMessage(), 
+        e.getMessage()));
+  }
+}</pre><p>The controller's check method throws a
+      <code class="code">ValidatorException</code> which is also used to deliver the error
+      message (the third parameter of the <code class="code">ValidatorException</code>
+      constructor) to the corresponding JSF facelet for being displayed in the
+      UI. Methods used as <span class="emphasis"><em>JSF validators</em></span><a class="indexterm" name="d5e1086"></a> must have a specific syntax. The first two parameters of
+      type <code class="code">FacesContext</code>, respectively <code class="code">UIComponent</code>
+      are used by the container to invoke the method with references to the
+      right view component and context, and they can be used in more complex
+      validation methods. The last one, of type <code class="code">Object</code>,
+      represents the value to be validated by the method. This value has to be
+      casted to the expected type (to <code class="code">String</code>, in our example). It
+      is important to know that, if a cast to a non-compatible type is
+      performed, the validation method fails and an exception is
+      thrown.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1094"></a>5.2.&nbsp;Validation in the <span class="italic">Update </span>use
+      case</h3></div></div></div><p>In the <span class="emphasis"><em>Update</em></span> use case, the facelet file
+      <code class="filename">update.xhtml</code> in
+      <code class="filename">WebContent/views/books</code> was updated so it uses the
+      <code class="code">h:message</code> elements for being able to display validation
+      errors:</p><pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+ &lt;ui:define name="headerTitle"&gt;
+  &lt;h1&gt;Update a book record&lt;/h1&gt;
+ &lt;/ui:define&gt;
+ &lt;ui:define name="main"&gt;
+  &lt;h:form id="updateBookForm"&gt;
+   &lt;div&gt;
+    &lt;h:outputLabel for="selectBook" value="Select book: "&gt;
+     &lt;h:selectOneMenu id="selectBook" value="#{book.isbn}"&gt;
+      ...
+     &lt;/h:selectOneMenu&gt;
+    &lt;/h:outputLabel&gt;
+    &lt;h:message for="selectBook" errorClass="error" /&gt;
+   &lt;/div&gt;
+   &lt;div&gt;
+   <span class="bold"><strong> </strong></span>&lt;h:outputLabel for="isbn" value="ISBN: "&gt;
+     &lt;h:<span class="bold"><strong>outputText</strong></span> id="isbn" value="#{<span class="bold"><strong>book.isbn</strong></span>}" /&gt;
+    &lt;/h:outputLabel&gt;
+   &lt;/div&gt;
+   ...
+  &lt;/h:form&gt;
+ &lt;/ui:define&gt;
+&lt;/ui:composition&gt;    </pre><p>Since we do not allow to change the ISBN of a book, we create an
+      output field for the <code class="code">isbn</code> attribute with the JSF element
+      <code class="code">h:outputText</code>. This implies that no validation is
+      performed.</p><p>Using an <code class="code">h:outputText</code> element for showing the value of an entity attribute
+    results in an HTML <code class="code">span</code> element. This implies that the HTTP form submission message
+    contains no information about that attribute. If the validation fails, we expect to see the form
+    content together with the error messages. To get the expected result, we need to use the
+    annotation <code class="code">@ViewScoped</code> for the entity class <code class="code">pl.m.Book</code> instead of
+     <code class="code">@RequestScoped</code>, otherwise our bean instance referenced by the <code class="code">book</code>
+    variable is initialized with a new value on every request, implying that the expression
+     <code class="code">#{book.isbn}</code> evaluates to <code class="code">null</code> and the ISBN value is not displayed.
+    The <code class="code">@ViewScoped</code> annotation specifies that the entity bean is alive as long as the
+    associated view is alive, so the ISBN value stored by the <code class="code">book</code> is available during
+    this time and it can be displayed in the view.</p><p>By contrast, <code class="code">h:inputText</code> elements result in HTML
+      <code class="code">input</code> elements which are part of the form submission
+      content, so the response contains the already existing values because
+      these values are known in this case. This consideration shows that it is
+      important to choose the right bean scope.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectCustomAnnotation"></a>6.&nbsp;Defining a Custom Validation Annotation</h2></div></div></div><p>One other integrity constraint we have to consider is about the
+    allowed values of the <code class="code">year</code> property, which must be in the
+    interval [1459, nextYear()] where nextYear() is a function invocation
+    expression. We may have the idea to use <code class="code">@Min</code> and
+    <code class="code">@Max</code> to specify the interval constraint, but this is not
+    possible because the <code class="code">@Max</code> annotation (as well as any other
+    annotation) does not allow expressions, but only data literals. So, while
+    we can express the interval's lower bound with <code class="code">@Min(
+    value=1459)</code>, we need another solution for expressing the upper
+    bound.</p><p>Fortunately, the Bean Validation API allows to define custom
+    validation annotations with custom code performing the constraint checks.
+    This means that we are free to express any kind of validation logic in
+    this way. Creating and using a custom validation annotation requires the
+    following steps: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Create the annotation interface <code class="code">UpToNextYear</code> with
+          the following code:</p><pre class="programlisting">@Target( {ElementType.FIELD, ElementType.METHOD})
+@Retention( RetentionPolicy.RUNTIME)
+@<span class="bold"><strong>Constraint</strong></span>( <span class="bold"><strong>validatedBy = UpToNextYearImpl</strong></span>.class)
+public <span class="bold"><strong>@interface UpToNextYear</strong></span> {
+  String message() default 
+      "The value of year must be between 1459 and next year!";
+  Class&lt;?&gt;[] groups() default {};
+  Class&lt;? extends Payload&gt;[] payload() default {};
+}</pre><p>The interface needs to define three methods,
+          <code class="code">message</code> (returns the default key or error message if
+          the constraint is violated), <code class="code">groups</code> (allows the
+          specification of validation groups, to which this constraint
+          belongs) and <code class="code">payload</code> (used by clients of the Bean
+          Validation API to assign custom payload objects to a constraint -
+          this attribute is not used by the API itself). Notice the
+          <code class="code">@Target</code> annotation, which defines the element types
+          that can be annotated (fields/properties and methods in our case).
+          The <code class="code">@Constraint</code> annotation allows to specify the
+          implementation class that will perform the validation, i.e.
+          <code class="code">UpToNextYearImpl</code> in our case.</p></li><li class="listitem"><p>Create an implementation class with the validation
+          code:</p><pre class="programlisting">public <span class="bold"><strong>class</strong></span> <span class="bold"><strong>UpToNextYearImpl</strong></span> implements 
+    ConstraintValidator&lt; UpToNextYear, Integer&gt; {
+  private Calendar calendar;
+
+  @Override
+  public void <span class="bold"><strong>initialize</strong></span>( UpToNextYear arg0) {
+    this.calendar = Calendar.getInstance();
+    calendar.setTime( new Date());
+  }
+  @Override
+  public boolean <span class="bold"><strong>isValid</strong></span>( Integer year, 
+      ConstraintValidatorContext context) {
+    if (year == null || 
+        year &gt; this.calendar.get( Calendar.YEAR) + 1) {
+      return false;
+    }
+    return true;
+  }
+}</pre><p>The implementation class implements the <code class="code">ConstraintValidator</code> interface,
+      which requires two type parameters: the annotation interface defined before (i.e.
+       <code class="code">UpToNextYear</code>), and the type of elements the validator can handle (i.e.
+       <code class="code">Integer</code>, so implicitly also the compatible primitive type <code class="code">int</code>). The
+       <code class="code">initialize</code> method allows initializing variables required for performing the
+      validation check. The <code class="code">isValid</code> method is responsible for performing the
+      validation: it must return <code class="code">true</code> if the validation succeeds, and
+       <code class="code">false</code> otherwise. The first parameter of the <code class="code">isValid</code> method
+      represents the value to be validated and its type must be compatible with the type defined by
+      the second type parameter of the <code class="code">ConstraintValidator</code> (<code class="code">Integer</code> in our
+      case).</p></li><li class="listitem"><p>Annotate the property or method concerned:</p><pre class="programlisting">@Entity
+@Table( name = "books")
+public class Book {
+  // ...
+
+  @Min( value = 1459)
+  <span class="bold"><strong>@UpToNextYear
+  private Integer year;</strong></span>
+
+  //...
+}</pre></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1170"></a>7.&nbsp;Run the App and Get the Code</h2></div></div></div><p>You can <a class="link" href="ValidationApp/index.html" target="_top">run
+    the validation app</a> on our server or <a class="link" href="ValidationApp.zip" target="_top">download
+    the code</a> as a ZIP archive file.</p><p>Follow our <a class="link" href="../../JavaJpaJsfApp/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" target="_top">instructions</a>
+    for getting your environment prepared for running Java EE web
+    applications.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1177"></a>8.&nbsp;Possible Variations and Extensions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1179"></a>8.1.&nbsp;Object-level constraint validation</h3></div></div></div><p>As an example of a constraint that is not bound to a specific
+      property, but must be checked by inspecting several properties of an
+      object, we consider the validation of the attribute
+      <code class="code">Author::dateOfDeath</code>. First, any value for this attribute
+      must be in the past, which can be specified with the <code class="code">@Past</code>
+      Bean Validation annotation, and second, any value of
+      <code class="code">dateOfDeath</code> must be after the <code class="code">dateOfBirth</code>
+      value of the object concerned. This object-level constraint cannot be
+      expressed with a predefined Bean Validation annotation. We can express
+      it with the help of a custom class-level annotation, like the following
+      <code class="code">AuthorValidator</code> annotation interface: </p><pre class="programlisting"><span class="bold"><strong>@Target( ElementType.TYPE)</strong></span>
+@Retention( RetentionPolicy.RUNTIME)
+@Constraint( validatedBy=AuthorValidatorImpl.class)
+public <span class="bold"><strong>@interface AuthorValidator</strong></span> {
+  String message() default "Author data is invalid!";
+  Class&lt;?&gt;[] groups() default {};
+  Class&lt;? extends Payload&gt;[] payload() default {};
+}</pre><p>Compared to a property constraint annotation definition, there is
+      only one difference, the parameter of the <code class="code">@Target</code>
+      annotation. While in the case of a property and method level custom
+      constraint annotation the values are <code class="code">ElementType.FIELD</code> and
+      <code class="code">ElementType.METHOD</code>, for the case of a class it must be
+      <code class="code">ElementType.TYPE</code>.</p><p>The corresponding implementation class, i.e.,
+      <code class="code">AuthorValidatorImpl</code>, has the same structure as in the case
+      of a property constraint annotation , but now, we can access all
+      properties of an entity bean, so we can compare two or more properties
+      when required. In our case, we have to compare the values of
+      <code class="code">dateOfBirth</code> and <code class="code">dateOfDeath</code> in the
+      <code class="code">isValid</code> method:</p><pre class="programlisting">public class <span class="bold"><strong>AuthorValidatorImpl</strong></span><span class="bold"><strong> </strong></span>implements 
+    ConstraintValidator&lt; AuthorValidator, Author&gt; {
+  @Override
+  public void <span class="bold"><strong>initialize</strong></span>( AuthorValidator arg0) {}  
+  @Override
+  public boolean <span class="bold"><strong>isValid</strong></span>( Author author, 
+   ConstraintValidatorContext context) {
+    if (author.getDateOfDeath() != null &amp;&amp; 
+        author.getDateOfBirth().after( author.getDateOfDeath())) {
+      return false;
+    }
+    return true;
+  }
+}</pre><p>Using class-level JPA validators in facelets requires a bit of
+      tweaking because they are not directly supported by JSF. For the
+      specific form field to be validated, we have to specify a controller
+      method in charge of the validation, as the value of the
+      <code class="code">@validator</code> attribute:</p><pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+ &lt;ui:define name="main"&gt;
+  &lt;h:form id="createAuthorForm"&gt;
+   &lt;div&gt;
+    &lt;h:outputLabel for="dateOfDeath" value="Date of death: "&gt;
+     &lt;h:inputText id="dateOfDeath" p:type="date" 
+        value="#{author.dateOfDeath}" 
+        <span class="bold"><strong>validator="#{authorCtrl.checkDateOfDeath}"</strong></span>&gt;
+      &lt;f:convertDateTime pattern="yyyy-MM-dd" /&gt;
+     &lt;/h:inputText&gt;
+    &lt;/h:outputLabel&gt; 
+    &lt;h:message for="dateOfDeath" errorClass="error" /&gt;
+   &lt;/div&gt;
+   &lt;div&gt;
+    &lt;h:commandButton value="Create" 
+       action="#{authorCtrl.create( author.personId, author.name, 
+       author.dateOfBirth, author.dateOfDeath)}"/&gt;  
+   &lt;/div&gt;
+  &lt;/h:form&gt;
+ &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre><p>The controller method <code class="code">checkDateOfDeath</code> has to invoke the Bean Validation
+    API validator, catch the validation exceptions and translate them to exceptions of type
+     <code class="code">javax.faces.validator.ValidatorException</code>, which are then managed by JSF and
+    displayed in the view. Its code is as
+    follows:</p><pre class="programlisting">public void <span class="bold"><strong>checkDateOfDeath</strong></span>( FacesContext context, 
+    UIComponent component, Object value) {
+  boolean isCreateForm = (UIForm) context.getViewRoot().
+      findComponent( "createAuthorForm") != null;
+  String formName = isCreateForm ? "createAuthorForm:" :
+      "updateAuthorForm:";
+  <span class="bold"><strong>UIInput personIdInput = isCreateForm ? 
+      (UIInput) context.getViewRoot().findComponent( 
+          formName + "personId") : null;</strong></span>
+  UIOutput personIdOutput = isCreateForm ? null : 
+      (UIOutput) context.getViewRoot().findComponent( 
+          formName + "personId");
+  UIInput nameInput = (UIInput) context.getViewRoot().
+      findComponent( formName + "name");
+  UIInput dateOfBirthInput = (UIInput) context.getViewRoot().
+      findComponent( formName + "dateOfBirth");
+  ValidatorFactory factory = 
+      Validation.buildDefaultValidatorFactory();
+  <span class="bold"><strong>Validator validator = factory.getValidator();</strong></span>
+  Author author = new Author();
+  if (isCreateForm) {
+    author.setPersonId( (Integer) personIdInput.getValue());
+  } else {
+    author.setPersonId( (Integer) personIdOutput.getValue());
+  }
+  author.setName( (String) nameInput.getValue());
+  author.setDateOfBirth( (Date) dateOfBirthInput.getValue());
+  author.setDateOfDeath( (Date) value);
+  Set&lt;ConstraintViolation&lt;Author&gt;&gt; constraintViolations = 
+      <span class="bold"><strong>validator.validate( author)</strong></span>;
+  for (ConstraintViolation&lt;Author&gt; cv : constraintViolations) {
+  <span class="bold"><strong>  </strong></span>if (<span class="bold"><strong>cv.getMessage().contains("date of death")</strong></span>) {
+      <span class="bold"><strong>throw new ValidatorException</strong></span>( new FacesMessage( 
+        FacesMessage.SEVERITY_ERROR, cv.getMessage(), 
+        cv.getMessage()));
+    } 
+  }
+}</pre><p>While the method looks complicated, it is responsible for the
+      following simple tasks:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>get access to form data and extract the user input values with the help of the
+        <code class="code">context.getViewRoot().findComponent</code> method. Notice that the component name has
+       the pattern: <code class="code">formName:formElementName</code>.</p></li><li class="listitem"><p>create the Author instance and set the corresponding data as
+            extracted from the form, by using the <code class="code">FacesContext</code>
+            instance provided by the JSF specific validator method</p></li><li class="listitem"><p>manually invoke the Bean Validation API validator by using
+            the javax.validation.Validator class.</p></li><li class="listitem"><p>loop trough the validator exception, select the ones which
+            corresponds to the custom validated field and map them to
+            <code class="code">javax.faces.validator.ValidatorException</code> exceptions.
+            The selection can be made by looking for specific data in the
+            exception message.</p></li></ul></div><p>As a result, the custom Bean Validation class validator is not
+      used, and the facelet is able to render the corresponding error messages
+      when the validation fails, in the same way as is possible for single
+      property validation situations.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1235"></a>8.2.&nbsp;JSF custom validators</h3></div></div></div><p>An alternative approach to object-level validation is using JSF custom validators. They
+    have the advantage that they are directly supported in facelets, but the downside of this
+    approach is that it violates the onion architecture principle by defining business rules in the
+    UI instead of defining them in the model..</p><p>For our example, the validator for the Author class that is responsible for validating
+     <code class="code">dateOfDeath</code> by comparing it with <code class="code">dateOfBirth</code> is shown
+    below:</p><pre class="programlisting"><span class="bold"><strong>@FacesValidator( "AuthorValidator")</strong></span> 
+public class AuthorValidator implements Validator {
+  @Override
+  public void <span class="bold"><strong>validate</strong></span>( FacesContext context, UIComponent component, 
+      Object value) throws ValidatorException  {
+    Date dateOfDeath  = (Date)value;
+    boolean isCreateForm = (UIForm) context.getViewRoot().
+        findComponent( "createAuthorForm") != null;
+    String formName = isCreateForm ? "createAuthorForm:" 
+      : "updateAuthorForm:";
+    UIInput dateOfBirthInput = (UIInput) context.getViewRoot().
+        findComponent( formName + "dateOfBirth");
+    Date dateOfBirth = (Date)dateOfBirth.getValue();  
+    if (dateOfBirth.after( dateOfDeath)) {
+      throw new ValidatorException ( new FacesMessage( 
+          "The date of death should be after the date of birth!"));
+    }
+  }
+}</pre><p>Then, in the facelet, for the corresponding field, the validator
+      has to be specified:</p><pre class="programlisting">&lt;h:outputLabel for="dateOfDeath" value="Date of death: " /&gt;
+&lt;h:inputText id="dateOfDeath" p:type="date" 
+  value="#{author.dateOfDeath}"&gt;
+  <span class="bold"><strong>&lt;f:validator validatorId = "AuthorValidator" /&gt;</strong></span>
+  &lt;f:convertDateTime pattern="yyyy-MM-dd" /&gt;
+&lt;/h:inputText&gt;
+&lt;h:message for="dateOfDeath" errorClass="error" /&gt;</pre></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1247"></a>9.&nbsp;Practice Project</h2></div></div></div><p>If you have any questions about how to carry out the following
+    projects, you can ask them on our <a class="link" href="../../forum/JavaJpaJsfApp.html" target="_top">discussion
+    forum</a>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1251"></a>9.1.&nbsp;Validate movie data</h3></div></div></div><p>The purpose of the app to be built is managing information about
+      movies. The app deals with just one object type: <code class="code">Movie</code>, as
+      depicted in the following class diagram.</p><div class="informalfigure"><div class="mediaobject"><img src="../fig/Movie_DesM.svg" width="567"></div></div><p>In this model, the following constraints have been
+      expressed:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Due to the fact that the <code class="code">movieId</code> attribute is
+            declared to be the <span class="italic">standard
+            identifier</span> of <code class="code">Movie</code>, it is <span class="bold"><strong><span class="italic">mandatory</span></strong></span> and <span class="bold"><strong><span class="italic">unique</span></strong></span>.</p></li><li class="listitem"><p>The <code class="code">title</code> attribute is <span class="bold"><strong><span class="italic">mandatory</span></strong></span>, as indicated by its
+            multiplicity expression [1], and has a <span class="bold"><strong><span class="italic">string length
+            constraint</span></strong></span> requiring its values to have at
+            most 120 characters.</p></li><li class="listitem"><p>The <code class="code">releaseDate</code> attribute has an <span class="bold"><strong><span class="italic">interval
+            constraint</span></strong></span>: it must be greater than or equal
+            to 1895-12-28.</p></li></ol></div><p>Notice that the <code class="code">releaseDate</code> attribute is not
+      mandatory, but <span class="italic">optional</span>, as indicated
+      by its multiplicity expression [0..1]. In addition to the constraints
+      described in this list, there are the implicit range constraints defined
+      by assigning the datatype <code class="code">PositiveInteger</code> to
+      <code class="code">movieId</code>, <code class="code">NonEmptyString</code> to <code class="code">title</code>,
+      and <code class="code">Date</code> to <code class="code">releaseDate</code>.</p></div></div></div><script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48105674-1', 'tu-cottbus.de');
+  ga('send', 'pageview');
+
+</script></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/validation-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:36 GMT -->
+</html>

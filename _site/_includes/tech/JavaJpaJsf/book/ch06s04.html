@@ -1,0 +1,30 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.&nbsp; Style the User Interface with CSS</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App"><link rel="prev" href="ch06s03.html" title="3.&nbsp;Make a JPA Entity Class Model"><link rel="next" href="ch06s05.html" title="5.&nbsp;Write the Model Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.&nbsp; Style the User Interface with CSS </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s05.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e2435"></a>4.&nbsp; Style the User Interface with CSS </h2></div></div></div><p>We style the UI with the help of the CSS library <a class="link" href="http://purecss.io/" target="_top">Pure</a> provided by <span class="italic">Yahoo</span>. We only use
+			Pure's basic styles, which include the browser style normalization of <a class="link" href="http://necolas.github.io/normalize.css/" target="_top">normalize.css</a>, and its
+			styles for forms. In addition, we define our own style rules, as for in the case of
+				<code class="code">table</code> element and for error messages in <code class="code">style.css</code>. </p><p>Adding the Yahoo CSS library to our HTML5 requires to edit the
+				<code class="code">WebContent/WEB-INF/templates/page.xhtml</code> file and add the
+				<code class="code">style</code> element referencing the online CSS
+			file:</p><pre class="programlisting">&lt;h:head&gt;
+  &lt;title&gt;&lt;ui:insert name="title"&gt;Public Library&lt;/ui:insert&gt;&lt;/title&gt;
+  <span class="bold"><strong>&lt;link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css" /&gt;</strong></span>
+&lt;/h:head&gt;</pre><p>Following the same procedure, our custom CSS file is added
+			:</p><pre class="programlisting">&lt;h:head&gt;
+  &lt;title&gt;&lt;ui:insert name="title"&gt;Public Library&lt;/ui:insert&gt;&lt;/title&gt;
+  &lt;link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css" /&gt;
+  <span class="bold"><strong>&lt;link href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" rel="stylesheet" type="text/css" /&gt;</strong></span>
+&lt;/h:head&gt;</pre><p>The <code class="code">facesContext.externalContext.requestContextPath</code> expression allows, via JSF,
+   to get the path to <code class="code">WebContent</code> folder. Our CSS file is named <code class="code">style.css</code>
+   and is located in the <code class="code">WebContent/resources/css</code> folder.</p><p>Specific CSS classes can be applied to JSF view elements (e.g., <code class="code">h:form</code>), by
+   using the <code class="code">@styleClass</code> attribute. For example, using <code class="code">styleClass="pure-form
+    pure-form-aligned"</code> the YUI <code class="code">pure-form</code> and <code class="code">pure-form-aligned</code> CSS
+   classes are applied to the resulting HTML <code class="code">form</code>
+   element:</p><pre class="programlisting">&lt;h:form id="createBookForm" styleClass="pure-form pure-form-aligned"&gt;
+  ...
+&lt;/hform&gt;</pre></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;Make a JPA Entity Class Model&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;5.&nbsp;Write the Model Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+</html>

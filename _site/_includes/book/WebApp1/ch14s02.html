@@ -1,0 +1,45 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch14s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Materialized Derived Properties</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Derived Properties"><link rel="prev" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Derived Properties"><link rel="next" href="ch14s03.html" title="3.&nbsp;Dealing with Derived Properties in the User Interface"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Materialized Derived Properties</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch14.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;14.&nbsp;Derived Properties</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8430"></a>2.&nbsp;Materialized Derived Properties</h2></div></div></div><div class="figure-float" style="float: right;"><div class="figure"><a name="figPersonWithMaterializedAttr"></a><p class="title"><b>Figure&nbsp;14.2.&nbsp;A <span class="italic">materialized</span> derived
+      attribute in a class diagram.</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../fig/Person-withMaterializedAttr.html" width="300" alt="A materialized derived attribute in a class diagram."></td></tr></table></div></div></div><br class="figure-break"></div><p>If the value of a derived property is computed whenever there is a change in the value of
+   one of the properties on which it depends, the derived property is called <span class="italic">materialized</span>. The value of such a materialized derived property is stored, and the
+   getter method simply retrieves this stored value. When using JavaScript's get/set methods in an
+   ES6 <code class="code">class</code> definition, this means that we define a <code class="code">get</code> method for
+    <code class="code">initials</code> retrieving the value of the internal attribute <code class="code">_initials</code>, but
+   no <code class="code">set</code> method. The computation of the materialized derived property's value is
+   performed in the setters of the attributes on which it depends, as shown in the following
+   example:</p><pre class="programlisting">var <span class="bold"><strong>Person</strong></span> = class {
+  constructor (slots) {
+    // assign default values to mandatory properties
+    this._firstName = "";  // string (non-empty)
+    this._lastName = "";  // string (non-empty)
+    this._initials = "";  // string (non-empty)
+    // is constructor invoked with a non-empty slots argument?
+    if (typeof slots === "object" &amp;&amp; 
+        Object.keys( slots).length &gt; 0) {
+      // assign properties by invoking implicit setters
+      this.firstName  = slots.firstName ;
+      this.lastName  = slots.lastName ;
+    }
+  }
+  get firstName () {return this._firstName;}
+  set firstName (f) {
+    this._firstName = f;
+    this._initials = this._firstName.charAt(0) + 
+        this._lastName.charAt(0);
+  }
+  get lastName () {return this._lastName;}
+  set lastName (l) {
+    this._lastName = l;
+    this._initials = this._firstName.charAt(0) + 
+        this._lastName.charAt(0);
+  }
+  <span class="bold"><strong>get initials</strong></span> () {return this._initials;}
+}</pre><p>Notice that the computation of the initials of a person is performed
+    in the setters of <code class="code">firstName</code> and <code class="code">lastName</code>,
+    whenever these attributes are initialized or changed.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch14.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;14.&nbsp;Derived Properties&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Dealing with Derived Properties in the User Interface</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch14s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+</html>

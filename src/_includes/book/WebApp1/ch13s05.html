@@ -1,0 +1,55 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch13s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>5.&nbsp;Quantities</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Special Datatypes"><link rel="prev" href="ch13s04.html" title="4.&nbsp;Calendar Dates and Times"><link rel="next" href="ch13s06.html" title="6.&nbsp;Complex Data Types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.&nbsp;Quantities</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13s04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;13.&nbsp;Special Datatypes</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s06.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8281"></a>5.&nbsp;Quantities</h2></div></div></div><p>A quantity data value consists of a number and a quantity unit.
+    Examples of physical quantity data values (or, simply, <span class="italic">quantities</span>) are 1.86 m, 76.5 kg, 44 s, 3.9 m/s,
+    21 &deg; C, and 200 mV. Other important examples are monetary amounts like
+    $24.95 or 7&#8364;.</p><p>In model object attributes and user interface fields, quantities can be represented by
+   plain numbers, if their unit is retrievable from an underlying datatype definition. It may be
+   desirable that a user interface allows the user to change the unit of a quantity such that the
+   numeric value of the user interface field is automatically converted to the chosen unit.</p><p>In a simple approach for supporting quantities, there is a (possibly
+    extensible) set of predefined quantity datatypes such as
+    <span class="emphasis"><em>Length</em></span>, <span class="emphasis"><em>Mass</em></span>,
+    <span class="emphasis"><em>Time</em></span>, <span class="emphasis"><em>Temperature</em></span> and
+    <span class="emphasis"><em>Amount</em></span>, each of them associated with a fixed standard
+    unit (such as "m" for <span class="emphasis"><em>Length</em></span> and "$" for
+    <span class="emphasis"><em>Amount</em></span>) and an optional base unit such that a
+    quantity data value is a plain number defining the quantity in the base
+    unit, if a base unit is defined, otherwise in the standard unit.</p><div class="figure"><a name="figQuantityTypes"></a><p class="title"><b>Figure&nbsp;13.3.&nbsp;Quantity types.</b></p><div class="figure-contents"><div class="mediaobject"><img src="../fig/QuantityTypes.svg" width="594" alt="Quantity types."></div></div></div><br class="figure-break"><p>When defining the properties of a class, a quantity-valued attribute
+    would have to be defined by specifying a quantity datatype definition like
+    <code class="code">Length()</code>or <code class="code">Time(Y)</code> as its range. This is,
+    however, not possible in a standard JS constructor definition or an ES6
+    class definition. Rather, a class definition approach supporting range
+    specifications like <a class="link" href="https://github.com/gwagner57/cLASSjs" target="_top">cLASSjs</a><span class="phrase">, discussed in Volume 2 of the book,</span> is
+    required.</p><p>In this approach, the data value of a quantity attribute would be a
+    plain number that is interpreted in combination with the base unit of the
+    attribute's quantity datatype. Quantities could be easily converted to
+    other preferred units in a user interface in a generic manner by invoking
+    the conversion functions defined by the quantity unit instances of the
+    <code class="code">QuantityUnit</code> class.</p><p><a class="link" href="http://stackoverflow.com/a/39417034/2795909" target="_top">Gibson2016</a>
+    reports on a proposal for C++, which allows expressing quantities in a
+    natural way as number/unit pairs in arithmetic expressions based on the
+    C++ features of operator overloading and user-defined literals. For
+    instance, if someone would run 100 meter in 9.58 seconds, a variable for
+    computing her speed could be assigned like so</p><pre class="programlisting">Speed sp1 = 100.0_m / 9.58_s ;</pre><p>A general approach to supporting physical quantity datatypes would
+    have to be based on the seven fundamental physical quantity dimensions
+    <span class="emphasis"><em>Length</em></span>, <span class="emphasis"><em>Mass</em></span>,
+    <span class="emphasis"><em>Time</em></span>, <span class="emphasis"><em>Temperature</em></span>,
+    <span class="emphasis"><em>ElectricCurrent</em></span>,
+    <span class="emphasis"><em>LuminousIntensity</em></span> and
+    <span class="emphasis"><em>AmountOfSubstance</em></span>, which are the basis for defining
+    composite physical quantities such as <span class="emphasis"><em>Area</em></span> in
+    m<sup>2</sup> or <span class="emphasis"><em>Velocity</em></span> in m/s by
+    defining a map {d<sub>1</sub>:e<sub>1</sub>, ...,
+    d<sub>7</sub>:e<sub>7</sub>} from the fundamental
+    quantity dimensions d<sub>i</sub> to integers
+    e<sub>i</sub> as exponents of the generic quantity dimension
+    expression</p><div class="informalequation"><span class="mathphrase">d<sub>1</sub><sup>e<sub>1</sub></sup>
+      *
+      d<sub>2</sub><sup>e<sub>2</sub></sup>
+      * ... *
+      d<sub>7</sub><sup>e<sub>7</sub></sup></span></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13s04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.&nbsp;Calendar Dates and Times&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;6.&nbsp;Complex Data Types</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch13s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+</html>

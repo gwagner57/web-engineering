@@ -1,0 +1,92 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch02s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;New JavaScript Elements</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;More on JavaScript"><link rel="prev" href="ch02s02.html" title="2.&nbsp;Storing Database Tables with JavaScript's localStorage API"><link rel="next" href="ch02s04.html" title="4.&nbsp;Quiz Questions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;New JavaScript Elements</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;More on JavaScript</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s04.html">Next</a></td></tr></table><hr></div><div lang="" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1704"></a>3.&nbsp;New JavaScript Elements</h2></div></div></div><p>In this section, we present the most important new language elements
+  introduced to JavaScript by ECMAScript 2015+ (that is,
+  2015+16+17+18+19+20+...).</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1707"></a>3.1.&nbsp;Block-Scope Variable Declarations with <code class="literal">let</code> and
+    <code class="literal">const</code></h3></div></div></div><p>ES5 did not allow declaring variables the scope of which is a block
+    delimited by a pair of curly braces, <code class="literal">{</code> and
+    <code class="literal">}</code>, or defined by a <code class="literal">for</code> loop. Rather,
+    all variables declared with <code class="literal">var</code>, even if declared
+    within a block, have either a function scope or the global scope. The new
+    feature of <span class="emphasis"><em>block-scope variable declarations</em></span> with
+    <span class="bold"><strong><code class="literal">let</code></strong></span> and <span class="bold"><strong><code class="literal">const</code></strong></span> allows declaring local
+    variables with a finer-grained scope, which helps avoiding unintended
+    variable duplications and writing more modular code.</p><p>There is only one meaning difference between <code class="literal">let</code>
+    and <code class="literal">const</code>. Variables declared with
+    <code class="literal">const</code> are <span class="emphasis"><em>frozen</em></span> or
+    <span class="emphasis"><em>immutable</em></span>, and in this sense
+    <span class="emphasis"><em>constant</em></span>, while <code class="literal">let</code> variables are
+    not. It is preferable to use <code class="literal">const</code> for all variables
+    that are not supposed to change their values. Otherwise, or if this is not
+    clear, one should declare the variable with <code class="literal">let</code> if it
+    is a block-scoped variable, or with <code class="literal">var</code> if it is a
+    global or function-scoped variable.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1732"></a>3.2.&nbsp;Arrow Functions</h3></div></div></div><p>Compared to classical JS functions, arrow functions (with =&gt;)
+    provide a more concise function expression syntax, see Ex. 1, and allow
+    using JavaScript's <code class="literal">this</code> variable from the function's
+    outer environment (its <span class="emphasis"><em>closure</em></span>) in their function
+    body, see Ex. 2.</p><div class="example"><a name="d5e1737"></a><p class="title"><b>Example&nbsp;2.1.&nbsp;Code Example 1</b></p><div class="example-contents"><pre class="programlisting">let evens = [0,2,4,6,8];
+let odds = evens.map( v <span class="bold"><strong>=&gt;</strong></span> v+1);  // [1,3,5,7,9]
+// instead of evens.map( function (v) {return v+1;})</pre></div></div><br class="example-break"><div class="example"><a name="d5e1741"></a><p class="title"><b>Example&nbsp;2.2.&nbsp;Code Example 2</b></p><div class="example-contents"><pre class="programlisting">this.nums = [1,3,5,8,10,12,15,17];
+this.fives = [];
+this.nums.forEach( v <span class="bold"><strong>=&gt;</strong></span> {if (v % 5 === 0) this.fives.push(v);});
+// instead of this.nums.forEach( 
+//     function (v) {if (v % 5 === 0) this.fives.push(v);}, this)</pre></div></div><br class="example-break"></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1745"></a>3.3.&nbsp;For-Of Loops over Iterable Objects</h3></div></div></div><p>Iterable objects include strings, arrays, array-like objects (e.g.,
+    the built-in <code class="literal">arguments</code> object or instances of
+    <code class="literal">HTMLCollections</code> and <code class="literal">NodeList</code>), and
+    instances of the datatype objects <code class="literal">TypedArray</code>,
+    <code class="literal">Map</code>, and <code class="literal">Set</code>, as well as
+    user-defined iterables. For instance,</p><pre class="programlisting">const divElems = document.getElementsByTagName("div");
+// an HTMLCollection is iterable
+<span class="bold"><strong>for</strong></span> (const dEl <span class="bold"><strong>of</strong></span> divElems) {
+  console.log( dEl.id);
+}</pre><p>A <span class="emphasis"><em>for-of</em></span> loop is often more handy than a
+    <span class="emphasis"><em>for</em></span> loop whenever a counter variable is not needed.
+    As opposed to a <code class="literal">forEach</code> loop, a
+    <span class="emphasis"><em>for-of</em></span> loop allows iterating over
+    <code class="literal">HTMLCollections</code> and can be abandoned with
+    <code class="literal">break</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1764"></a>3.4.&nbsp;Template Literals</h3></div></div></div><p>... are enclosed by backtick characters (like `... `) instead of
+    double or single quotes and allow a concise syntax for (possibly
+    multi-line) string values resulting from a combination of fixed text parts
+    and variables/expressions. For instance,</p><pre class="programlisting">const classValues = "card important";
+const name = "Joker";
+const htmlTemplate = <span class="bold"><strong>`</strong></span>&lt;div class="${classValues}"&gt;
+  &lt;p&gt;Hello ${name}!&lt;/p&gt;
+&lt;/div&gt;<span class="bold"><strong>`</strong></span></pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1770"></a>3.5.&nbsp;The Spread Operator</h3></div></div></div><p>...allows spreading (1) the elements of an iterable collection in
+    places where arguments for function calls or array elements are expected,
+    or (2) the slots of a JS object in places where name-value pairs are
+    expected. For instance,</p><pre class="programlisting">let nums = [3,4,5], otherNums = [1, 2, <span class="bold"><strong>...</strong></span>nums];  // [1,2,3,4,5]
+// cloning an array
+let numsClone = [<span class="bold"><strong>...</strong></span>nums];
+// cloning an object
+let book = {title:"JavaScript: The Good Parts"};
+let bookClone = {<span class="bold"><strong>...</strong></span>book};</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1777"></a>3.6.&nbsp;Destructuring Assignments</h3></div></div></div><p>...allow a concise syntax for assigning the property values of a JS
+    object or the elements of a JS array to corresponding variables. For
+    instance,</p><pre class="programlisting">var point1 = [10,5];
+var <span class="bold"><strong>[x,y] = point1</strong></span>;  // a destructuring assignment
+console.log(`x = ${x} | y = ${y}`);  // x = 10 | y = 5
+
+var person1 = {firstName:"James", lastName:"Bond"};
+var <span class="bold"><strong>{first, last} = person1</strong></span>;
+console.log(`first:${first} | last:${last}`);
+// Output: first:James | last:Bond</pre><div class="example"><a name="d5e1783"></a><p class="title"><b>Example&nbsp;2.3.&nbsp;Dealing with <span class="emphasis"><em>multiple return values</em></span> of a
+      function</b></p><div class="example-contents"><pre class="programlisting">function getRectangle () {
+  return {width: 50, height: 20};
+}
+const <span class="bold"><strong>{a, b} = getRectangle()</strong></span>;
+drawRectangle( a, b);</pre></div></div><br class="example-break"><div class="example"><a name="d5e1788"></a><p class="title"><b>Example&nbsp;2.4.&nbsp;Swapping two variables</b></p><div class="example-contents"><pre class="programlisting">var a = 1, b = 2;
+<span class="bold"><strong>[a,b] = [b,a]</strong></span>;
+console.log(`a = ${a} | b = ${b}`);
+// Output: a = 2 | b = 1</pre></div></div><br class="example-break"><div class="example"><a name="d5e1792"></a><p class="title"><b>Example&nbsp;2.5.&nbsp;Simplifying functions with parameter records</b></p><div class="example-contents"><p>A function parameter record allows using named arguments in
+      function calls instead of argument lists like so:</p><pre class="programlisting">function displayName( paramRec) {
+  alert( paramRec.first + " " + paramRec.last);
+};
+displayName({first:"James", last:"Bond"});</pre><p>Using Destructuring, the parameter record fields are assigned to
+      ordinary function parameters, simplifying the function's code:</p><pre class="programlisting">function displayName(<span class="bold"><strong>{first, last}</strong></span>) {
+  alert( first + " " + last);
+}
+displayName({first:"James", last:"Bond"});</pre></div></div><br class="example-break"></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Storing Database Tables with JavaScript's localStorage API&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;Quiz Questions</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch02s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+</html>

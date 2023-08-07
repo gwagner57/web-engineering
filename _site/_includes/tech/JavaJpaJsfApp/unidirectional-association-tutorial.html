@@ -1,0 +1,2966 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" vocab="http://schema.org/"
+  typeof="TechArticle WebPage">
+
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsfApp/unidirectional-association-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:51:25 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>Java EE Unidirectional Association App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="An advanced tutorial about managing unidirectional associations in Java/JPA/JSF web applications" />
+  <meta property="learningResourceType" content="Tutorial">
+  <meta property="proficiencyLevel" content="Advanced">
+  <meta property="isPartOf" content="../../index.html">
+  <meta property="specialty" content="../../WebAppEngineering.html">
+  <link rel="stylesheet" type="text/css" href="../docbook.css">
+</head>
+
+<body property="articleBody">
+  <aside>
+    <nav>
+      <ul>
+        <li><a href="UnidirectionalAssociationApp/index.html"><button type="button">Run the app</button></a></li>
+        <li><a href="UnidirectionalAssociationApp.zip"><button type="button">Get the code</button></a></li>
+        <li><a href="../../forum/7.html"><button type="button">Ask a question</button></a></li>
+      </ul>
+    </nav>
+    <div id="supportUs">
+      <p>Please support <em>web-engineering.info</em> and buy our e-book <a href="https://gumroad.com/l/Epke">Building
+          Back-End Web Apps with Java, JPA and JSF</a>.</p>
+      <a href="https://gumroad.com/l/Epke"><img src="./book-cover-180x270-Java.png" /></a>
+    </div>
+  </aside>
+
+  <div lang="en" class="book">
+    <div class="titlepage">
+      <div>
+        <div>
+          <h3 style="color:grey"><em>Understanding</em> and <code>Implementing</code> Information Management Concepts
+            and Techniques</h3>
+          <h1 class="title"><a name="d5e1"></a>Java Back-End Web App Tutorial Part 4: Managing Unidirectional
+            Associations</h1>
+        </div>
+        <div>
+          <h2 class="subtitle"><img style="float:right" property="thumbnailUrl" src="../fig/machine-gears.svg"
+              width="120" title="Icon made by Lorc under CC BY 3.0. Available on http://game-icons.net">Learn how
+            to manage unidirectional associations between object types, such as the associations assigning
+            publishers and authors to books, using Java with Java Server Faces (JSF) as the user interface
+            technology, the Java Persistence API (JPA) for object-to-storage mapping, and a MySQL
+            database</h2>
+        </div>
+        <div>
+          <div class="authorgroup">
+            <div class="author">
+              <h3 class="author"><span class="firstname">Gerd</span> <span class="surname">Wagner</span></h3><code
+                class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#73345d2412141d160133115e07065d1716"><span class="__cf_email__" data-cfemail="793e572e181e171c0b391b540d0c571d1c">[email&#160;protected]</span></a>&gt;</code>
+            </div>
+            <div class="author">
+              <h3 class="author"><span class="firstname">Mircea</span> <span class="surname">Diaconescu</span></h3><code
+                class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#93debdd7faf2f0fcfdf6e0f0e6d3f1bee7e6bdf7f6"><span class="__cf_email__" data-cfemail="d29ffc96bbb3b1bdbcb7a1b1a792b0ffa6a7fcb6b7">[email&#160;protected]</span></a>&gt;</code>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="releaseinfo">Warning: This tutorial may still contain errors and may still be incomplete in
+            certain respects. Please report any issue to Gerd Wagner at G<a href="../../cdn-cgi/l/email-protection.html"
+              class="__cf_email__" data-cfemail="aa84fdcbcdc4cfd8eac887dedf84cecf">[email&#160;protected]</a> or Mircea
+            Diaconescu
+            at <a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__"
+              data-cfemail="92dfbcd6fbf3f1fdfcf7e1f1e7d2f0bfe6e7bcf6f7">[email&#160;protected]</a>.</p>
+        </div>
+        <div>
+          <p class="releaseinfo">This tutorial is also available in the following formats: <a class="link"
+              href="unidirectional-association-tutorial.pdf" target="_top">PDF</a>. See also the <a class="link"
+              href="../../../index.html" target="_top">project page</a>, or <a class="link"
+              href="UnidirectionalAssociationApp/index-2.html" target="_top">run the example app</a> from our server,
+            or <a class="link" href="UnidirectionalAssociationApp.zip" target="_top">download it as a ZIP archive
+              file</a>.
+
+          </p>
+        </div>
+        <div>
+          <p class="copyright">Copyright &copy; 2015-2018 Gerd Wagner, Mircea Diaconescu</p>
+        </div>
+        <div>
+          <div class="legalnotice"><a name="d5e34"></a>
+            <p>This tutorial article, along with any associated source code, is licensed under <a class="link"
+                href="http://www.codeproject.com/info/cpol10.aspx" target="_top">The Code Project Open License
+                (CPOL)</a>, implying that the associated code is provided "as-is", can be modified to create
+              derivative works, can be redistributed, and can be used in commercial applications, but the
+              article must not be distributed or republished without the authors' consent.</p>
+          </div>
+        </div>
+        <div>
+          <p class="pubdate">2018-06-25</p>
+        </div>
+        <div>
+          <div class="revhistory">
+            <table style="border-style:solid; width:100%;" summary="Revision History">
+              <tr>
+                <th align="left" valign="top" colspan="3"><b>Revision History</b></th>
+              </tr>
+              <tr>
+                <td align="left">Revision 0.3</td>
+                <td align="left">20150724</td>
+                <td align="left">gw</td>
+              </tr>
+              <tr>
+                <td align="left" colspan="3">improved entity class model</td>
+              </tr>
+              <tr>
+                <td align="left">Revision 0.2</td>
+                <td align="left">20150529</td>
+                <td align="left">gw</td>
+              </tr>
+              <tr>
+                <td align="left" colspan="3">various revisions</td>
+              </tr>
+              <tr>
+                <td align="left">Revision 0.1</td>
+                <td align="left">20150510</td>
+                <td align="left">md</td>
+              </tr>
+              <tr>
+                <td align="left" colspan="3">create first version</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="toc">
+      <p><b>Table of Contents</b></p>
+      <dl class="toc">
+        <dt><span class="preface"><a href="#d5e53">Foreword</a></span></dt>
+        <dt><span class="chapter"><a href="#chapUnidirAssoc">1. Reference Properties and Unidirectional
+              Associations</a></span></dt>
+        <dd>
+          <dl>
+            <dt><span class="section"><a href="#d5e232">1. References and Reference Properties</a></span></dt>
+            <dt><span class="section"><a href="#chRefPropUniAss_sectRefIntegrity">2. Referential Integrity</a></span>
+            </dt>
+            <dt><span class="section"><a href="#d5e340">3. Modeling Reference Properties as Unidirectional
+                  Associations</a></span></dt>
+            <dt><span class="section"><a href="#d5e422">4. Representing Unidirectional Associations as Reference
+                  Properties</a></span></dt>
+            <dt><span class="section"><a href="#sectAddingDirectionality">5. Adding Directionality to a Non-Directed
+                  Association</a></span></dt>
+            <dt><span class="section"><a href="#d5e493">6. Our Running Example</a></span></dt>
+            <dt><span class="section"><a href="#d5e515">7. Eliminating Unidirectional Associations</a></span></dt>
+            <dd>
+              <dl>
+                <dt><span class="section"><a href="#d5e518">7.1. The basic elimination procedure restricted to
+                      unidirectional
+                      associations</a></span></dt>
+                <dt><span class="section"><a href="#d5e580">7.2. Eliminating associations from the design
+                      model</a></span></dt>
+              </dl>
+            </dd>
+            <dt><span class="section"><a href="#sectRefPropCtrls">8. Rendering Reference Properties in the User
+                  Interface</a></span></dt>
+          </dl>
+        </dd>
+        <dt><span class="chapter"><a href="#chJavaUnidirFunAss">2. Unidirectional Functional Associations in Java
+              EE</a></span></dt>
+        <dd>
+          <dl>
+            <dt><span class="section"><a href="#d5e724">1. Implementing Single-Valued Reference Properties in
+                  Java</a></span></dt>
+            <dt><span class="section"><a href="#d5e737">2. Make a Java Entity Class Model</a></span></dt>
+            <dt><span class="section"><a href="#d5e758">3. New Issues</a></span></dt>
+            <dt><span class="section"><a href="#d5e790">4. Write the Model Code</a></span></dt>
+            <dd>
+              <dl>
+                <dt><span class="section"><a href="#d5e793">4.1. Summary</a></span></dt>
+                <dt><span class="section"><a href="#d5e815">4.2. Code each class of the Entity class model</a></span>
+                </dt>
+                <dt><span class="section"><a href="#d5e867">4.3. Code the constraints</a></span></dt>
+                <dt><span class="section"><a href="#d5e884">4.4. Code getters and setters</a></span></dt>
+                <dt><span class="section"><a href="#d5e887">4.5. Implement a deletion policy</a></span></dt>
+                <dt><span class="section"><a href="#d5e908">4.6. Serialization and De-Serialization</a></span></dt>
+              </dl>
+            </dd>
+            <dt><span class="section"><a href="#d5e911">5. The View and Controller Layers</a></span></dt>
+            <dd>
+              <dl>
+                <dt><span class="section"><a href="#d5e934">5.1. Initialize the app</a></span></dt>
+                <dt><span class="section"><a href="#d5e937">5.2. Show information about associated objects in the <span
+                        class="italic">List Objects</span> use case</a></span></dt>
+                <dt><span class="section"><a href="#d5e949">5.3. Allow selecting associated objects in the <span
+                        class="italic">create</span> and <span class="italic">update</span> use cases</a></span></dt>
+              </dl>
+            </dd>
+          </dl>
+        </dd>
+        <dt><span class="chapter"><a href="#d5e1024">3. Implementing Unidirectional Non-Functional Associations with
+              Java EE</a></span></dt>
+        <dd>
+          <dl>
+            <dt><span class="section"><a href="#d5e1044">1. Implementing Multi-Valued Reference Properties in
+                  Java</a></span></dt>
+            <dt><span class="section"><a href="#d5e1055">2. Make a Java Entity Class Model</a></span></dt>
+            <dt><span class="section"><a href="#d5e1159">3. New issues</a></span></dt>
+            <dt><span class="section"><a href="#d5e1187">4. Write the Model Code </a></span></dt>
+            <dd>
+              <dl>
+                <dt><span class="section"><a href="#d5e1190">4.1. Summary</a></span></dt>
+                <dt><span class="section"><a href="#d5e1214">4.2. Code each class of the Java Entity class model
+                    </a></span></dt>
+                <dt><span class="section"><a href="#d5e1262">4.3. Implement a deletion policy</a></span></dt>
+                <dt><span class="section"><a href="#d5e1287">4.4. Serialization and De-Serialization</a></span></dt>
+              </dl>
+            </dd>
+            <dt><span class="section"><a href="#d5e1292">5. Write the User Interface Code</a></span></dt>
+            <dd>
+              <dl>
+                <dt><span class="section"><a href="#d5e1294">5.1. Show information about associated objects in the <span
+                        class="italic">List
+                        Objects</span> use case</a></span></dt>
+                <dt><span class="section"><a href="#d5e1309">5.2. Allow selecting associated objects in the <span
+                        class="italic">create</span> use
+                      case</a></span></dt>
+              </dl>
+            </dd>
+            <dt><span class="section"><a href="#d5e1335">6. Run the App and Get the Code</a></span></dt>
+            <dt><span class="section"><a href="#d5e1350">7. Possible Variations and Extensions</a></span></dt>
+            <dd>
+              <dl>
+                <dt><span class="section"><a href="#d5e1352">7.1. Set-valued versus ordered-set-valued reference
+                      properties</a></span></dt>
+              </dl>
+            </dd>
+          </dl>
+        </dd>
+      </dl>
+    </div>
+    <div class="list-of-figures">
+      <p><b>List of Figures</b></p>
+      <dl>
+        <dt>1.1. <a href="#figCommitteChairRefProp">A committee has a club member as chair expressed by the reference
+            property <code class="code">chair</code></a></dt>
+        <dt>1.2. <a href="#figCommitteChairAssEnd">An association end with a "dot"</a></dt>
+        <dt>1.3. <a href="#figChairedCommitte">Representing unidirectional associations as reference properties</a></dt>
+        <dt>1.4. <a href="#figCommitteChairDomM">A model of a non-directed association between Committee and
+            ClubMember</a></dt>
+        <dt>1.5. <a href="#figBidirectionalCommitteClubmemberAssoc">Modeling a bidirectional association between
+            Committee and ClubMember</a></dt>
+        <dt>1.6. <a href="#figPublisherBookIDM">The Publisher-Book information design model with a unidirectional
+            association</a></dt>
+        <dt>1.7. <a href="#figPublisherBookAuthorIDM">The Publisher-Book-Author information design model with two
+            unidirectional associations</a></dt>
+        <dt>1.8. <a href="#d5e537">Turning a functional association end into a reference property</a></dt>
+        <dt>1.9. <a href="#figPolygonPoint">Turning a non-functional association end into a multi-valued reference
+            property</a></dt>
+        <dt>1.10. <a href="#figPublBookAFM">An OO class model for <code class="code">Publisher</code> and <code
+              class="code">Book</code></a></dt>
+        <dt>1.11. <a href="#figPublBookAuthAFM">An OO class model for all three classes</a></dt>
+        <dt>3.1. <a href="#figBook-Author-Bidir_DesM-2">An example with a set-valued reference property <code
+              class="code">authoredBooks</code> and an
+            ordered-set-valued reference property <code class="code">authors</code></a></dt>
+      </dl>
+    </div>
+    <div class="list-of-tables">
+      <p><b>List of Tables</b></p>
+      <dl>
+        <dt>1.1. <a href="#d5e155">An example of an association table</a></dt>
+        <dt>1.2. <a href="#d5e197">Different terminologies</a></dt>
+        <dt>1.3. <a href="#d5e402">Functionality types</a></dt>
+        <dt>1.4. <a href="#d5e608">Sample data for <code class="code">Publisher</code></a></dt>
+        <dt>1.5. <a href="#d5e622">Sample data for <code class="code">Book</code></a></dt>
+        <dt>3.1. <a href="#d5e1076">Sample data for <code class="code">Publisher</code></a></dt>
+        <dt>3.2. <a href="#d5e1090">Sample data for <code class="code">Book</code></a></dt>
+        <dt>3.3. <a href="#d5e1125">Sample data for <code class="code">Author</code></a></dt>
+      </dl>
+    </div>
+    <div class="preface">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a name="d5e53"></a>Foreword</h1>
+          </div>
+        </div>
+      </div>
+      <p>This tutorial is Part 4 of our series of <a class="link" href="../../JavaJpaJsfApp.html" target="_top">six
+          tutorials</a> about model-based
+        development of back-end web applications with Java, using JPA and JSF. It shows how to build a
+        web app that takes care of the three object types <code class="code">Book</code>, <code
+          class="code">Publisher</code> and
+        <code class="code">Author</code>, as well as of the two unidirectional associations that assign a publisher
+        and (one or more) authors to a book.
+      </p>
+      <p>A <span class="italic">distributed web app</span> is composed of at least two parts:
+        a front-end part, which, at least, renders the user interface (UI) pages, and a back-end part,
+        which, at least, takes care of persistent data storage. A <span class="italic">back-end web
+          app</span> is a distributed web app where essentially all work is performed by the back-end
+        component, including data validation and UI page creation, while the front-end only consists of a
+        web browser's rendering of HTML-forms-based UI pages. Normally, a distributed web app can be
+        accessed by multiple users, possibly at the same time, over HTTP connections.</p>
+      <p>In the case of a Java/JPA/JSF back-end app, the back-end part of the app can be executed by
+        a server machine that runs a web server supporting the Java EE specifications <span class="italic">Java
+          Servlets</span>, <span class="italic">Java Expression Language
+          (EL)</span>, <span class="italic">JPA</span> and <span class="italic">JSF</span>, such as the open source
+        server <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">Tomcat/TomEE</a>.</p>
+      <p>The app supports the four standard data management operations (<span
+          class="bold"><strong>C</strong></span>reate/<span class="bold"><strong>R</strong></span>ead/<span
+          class="bold"><strong>U</strong></span>pdate/<span class="bold"><strong>D</strong></span>elete). It extends the
+        example app of part
+        2 by adding code for handling the <span class="bold"><strong>unidirectional functional</strong></span>
+        (many-to-one) association between <code class="code">Book</code> and <code class="code">Publisher</code>, and
+        the <span class="bold"><strong>unidirectional non-functional</strong></span> (many-to-many) association between
+        <code class="code">Book</code> and <code class="code">Author</code>. The other parts of the tutorial are:
+      </p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc; ">
+          <li class="listitem">
+            <p><a class="link" href="minimal-tutorial.html" target="_top">Part 1</a>: Building a <span
+                class="bold"><strong>minimal</strong></span> app.</p>
+          </li>
+          <li class="listitem">
+            <p><a class="link" href="validation-tutorial.html" target="_top">Part 2</a>: Handling
+              <span class="bold"><strong>constraint validation</strong></span>.
+            </p>
+          </li>
+          <li class="listitem">
+            <p><a class="link" href="enumeration-tutorial.html" target="_top">Part 3</a>: Dealing with
+              <span class="bold"><strong>enumerations</strong></span>.
+            </p>
+          </li>
+          <li class="listitem">
+            <p><a class="link" href="bidirectional-association-tutorial.html" target="_top">Part 5</a>: Managing
+              <span class="bold"><strong>bidirectional associations</strong></span>, such as the associations between
+              books and publishers and between books and authors, not only assigning authors and a publisher
+              to a book, but also the other way around, assigning books to authors and to publishers.
+            </p>
+          </li>
+          <li class="listitem">
+            <p><a class="link" href="subtyping-tutorial.html" target="_top">Part 6</a>: Handling <span
+                class="bold"><strong>subtype</strong></span> (inheritance) relationships between object types.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div lang="" class="chapter">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a name="chapUnidirAssoc"></a>Chapter&nbsp;1.&nbsp;Reference Properties and Unidirectional
+              Associations</h1>
+          </div>
+        </div>
+      </div>
+      <div class="toc">
+        <p><b>Table of Contents</b></p>
+        <dl class="toc">
+          <dt><span class="section"><a href="#d5e232">1. References and Reference Properties</a></span></dt>
+          <dt><span class="section"><a href="#chRefPropUniAss_sectRefIntegrity">2. Referential Integrity</a></span></dt>
+          <dt><span class="section"><a href="#d5e340">3. Modeling Reference Properties as Unidirectional
+                Associations</a></span></dt>
+          <dt><span class="section"><a href="#d5e422">4. Representing Unidirectional Associations as Reference
+                Properties</a></span></dt>
+          <dt><span class="section"><a href="#sectAddingDirectionality">5. Adding Directionality to a Non-Directed
+                Association</a></span></dt>
+          <dt><span class="section"><a href="#d5e493">6. Our Running Example</a></span></dt>
+          <dt><span class="section"><a href="#d5e515">7. Eliminating Unidirectional Associations</a></span></dt>
+          <dd>
+            <dl>
+              <dt><span class="section"><a href="#d5e518">7.1. The basic elimination procedure restricted to
+                    unidirectional
+                    associations</a></span></dt>
+              <dt><span class="section"><a href="#d5e580">7.2. Eliminating associations from the design model</a></span>
+              </dt>
+            </dl>
+          </dd>
+          <dt><span class="section"><a href="#sectRefPropCtrls">8. Rendering Reference Properties in the User
+                Interface</a></span></dt>
+        </dl>
+      </div>
+      <p>A property defined for an object type, or class, is called a <span class="bold"><strong><span
+              class="italic">reference property</span></strong></span>
+        if its values are <span class="italic">references</span> that
+        reference an object of another, or of the same, type. For instance, the
+        class <code class="code">Committee</code> shown in <a class="xref" href="#figCommitteChairRefProp"
+          title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>
+        below
+        has a reference property <code class="code">chair</code>, the values of which are
+        references to objects of type <code class="code">ClubMember</code>.</p>
+      <p>An <span class="bold"><strong><span class="italic">association</span></strong></span> between object types
+        classifies relationships between objects of those types. For instance, the
+        association <span class="italic">Committee</span>-<span class="bold"><strong>has</strong></span>-<span
+          class="italic">ClubMember</span>-<span class="bold"><strong>as-chair</strong></span>, which is visualized as a
+        connection line in
+        the class diagram shown in <a class="xref" href="#figCommitteChairAssEnd"
+          title="Figure&nbsp;1.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;1.2</a> below, classifies
+        the relationships
+        <span class="underline">FinanceCommittee</span>-<span class="underline"><span
+            class="bold"><strong>has</strong></span></span>-<span class="underline">PeterMiller</span>-<span
+          class="underline"><span class="bold"><strong>as-chair</strong></span></span>, <span
+          class="underline">RecruitmentCommittee</span>-<span class="underline"><span
+            class="bold"><strong>has</strong></span></span>-<span class="underline">SusanSmith</span>-<span
+          class="underline"><span class="bold"><strong>as-chair</strong></span></span> and <span
+          class="underline">AdvisoryCommittee</span>-<span class="underline"><span
+            class="bold"><strong>has</strong></span></span>-<span class="underline">SarahAnderson</span>-<span
+          class="underline"><span class="bold"><strong>as-chair</strong></span></span>, where
+        the objects <span class="underline">PeterMiller</span>, <span class="underline">SusanSmith</span> and <span
+          class="underline">SarahAnderson</span> are of type
+        <code class="code">ClubMember</code>, and the objects <span class="underline">FinanceCommittee</span>, <span
+          class="underline">RecruitmentCommittee</span> and <span class="underline">AdvisoryCommittee</span> are of type
+        <code class="code">Committee</code>.
+      </p>
+      <p>Reference properties correspond to a special form of associations,
+        namely to <span class="italic"><span class="bold"><strong>unidirectional</strong></span> binary
+          associations</span>. While
+        a binary association does, in general, not need to be directional, a
+        reference property represents a binary association that is directed from the
+        property's domain class (where it is defined) to its range class.</p>
+      <p>In general, associations are <span class="bold"><strong><span class="italic">relationship
+              types</span></strong></span> with two or more
+        <span class="bold"><strong><span class="italic">object
+              types</span></strong></span> participating in them. An association between
+        two object types is called <span class="bold"><strong><span class="italic">binary</span></strong></span>. In
+        this tutorial we only discuss
+        binary associations. For simplicity, we just say 'association' when we
+        actually mean 'binary association'.
+      </p>
+      <div class="table"><a name="d5e155"></a>
+        <p class="title"><b>Table&nbsp;1.1.&nbsp;An example of an association table</b></p>
+        <div class="table-contents">
+          <table frame="border" rules="all">
+            <thead>
+              <tr>
+                <th colspan="2"><span class="italic">Committee</span>-<span
+                    class="bold"><strong>has</strong></span>-<span class="italic">ClubMember</span>-<span
+                    class="bold"><strong>as-chair</strong></span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Finance Committee</td>
+
+                <td>Peter Miller</td>
+              </tr>
+              <tr>
+                <td>Recruitment Committee</td>
+
+                <td>Susan Smith</td>
+              </tr>
+              <tr>
+                <td>Advisory Committee</td>
+
+                <td>Sarah Anderson</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><br class="table-break">
+      <p>While individual relationships (such as <span class="underline">FinanceCommittee</span>-<span
+          class="underline"><span class="bold"><strong>has</strong></span></span>-<span
+          class="underline">PeterMiller</span>-<span class="underline"><span
+            class="bold"><strong>as-chair</strong></span></span>) are important information
+        items in business communication and in information systems, associations (such as <span
+          class="italic">Committee</span>-<span class="bold"><strong>has</strong></span>-<span
+          class="italic">ClubMember</span>-<span class="bold"><strong>as-chair</strong></span>) are important elements
+        of
+        <span class="italic">information models</span>. Consequently, software applications have
+        to implement them in a proper way, typically as part of their <span class="italic">model</span> layer within a
+        <span class="italic">model-view-controller</span> (MVC)
+        architecture. Unfortunately, many application development frameworks lack the required support for
+        dealing with associations.
+      </p>
+      <p>In mathematics, associations have been formalized in an abstract way
+        as sets of uniform tuples, called <span class="italic">relations</span>. In <span
+          class="italic">Entity-Relationship (ER)</span> modeling, which is the
+        classical information modeling approach in information systems and software
+        engineering, objects are called <span class="italic">entities</span>,
+        and associations are called <span class="italic">relationship
+          types</span>. The <span class="italic">Unified Modeling Language
+          (UML)</span> includes the <span class="italic">UML Class
+          Diagram</span> language for information modeling. In UML, object types
+        are called <span class="italic">classes</span>, relationship types
+        are called <span class="italic">associations</span>, and individual
+        relationships are called "links". These three terminologies are summarized
+        in the following table: </p>
+      <div class="table"><a name="d5e197"></a>
+        <p class="title"><b>Table&nbsp;1.2.&nbsp;Different terminologies</b></p>
+        <div class="table-contents">
+          <table frame="border" rules="all">
+            <thead>
+              <tr>
+                <th>Our preferred term(s)</th>
+
+                <th>UML</th>
+
+                <th>ER Diagrams</th>
+
+                <th>Mathematics</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>object</td>
+
+                <td>object</td>
+
+                <td>entity</td>
+
+                <td>individual</td>
+              </tr>
+              <tr>
+                <td>object type (class)</td>
+
+                <td>class</td>
+
+                <td>entity type</td>
+
+                <td>unary relation</td>
+              </tr>
+              <tr>
+                <td>relationship</td>
+
+                <td>link</td>
+
+                <td>relationship</td>
+
+                <td>tuple</td>
+              </tr>
+              <tr>
+                <td>association (relationship type)</td>
+
+                <td>association</td>
+
+                <td>relationship type</td>
+
+                <td>relation</td>
+              </tr>
+              <tr>
+                <td>functional association</td>
+
+                <td></td>
+
+                <td>one-to-one, many-to-one or one-to-many relationship type</td>
+
+                <td>function</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p><br class="table-break"></p>
+      <p>We first discuss reference properties, which implicitly represent unidirectional
+        binary associations in an "association-free" class model (a model without any
+        explicit association element).</p>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e232"></a>1.&nbsp;References and Reference Properties
+              </h2>
+            </div>
+          </div>
+        </div>
+        <p>A reference can be either <span class="italic">human-readable</span> or an
+          <span class="italic">internal object reference</span>. Human-readable references refer to
+          identifiers that are used in human communication, such as the unique names of astronomical
+          bodies, the ISBN of books and the employee numbers of the employees of a company. Internal object
+          references refer to the computer memory addresses of OOP objects, thus providing an efficient
+          mechanism for accessing objects in the main memory of a computer.
+        </p>
+        <p>Some languages, like SQL and XML, only support human-readable, but
+          not internal references. In SQL, human-readable references are called
+          <span class="italic">foreign keys</span>, and the identifiers they
+          refer to are called <span class="italic">primary keys</span>. In
+          XML, human-readable references are called <span class="italic">ID
+            references</span> and the corresponding attribute type is
+          <code class="code">IDREF</code>.
+        </p>
+        <p>Objects in an OO program can be referenced either with the help of human-readable
+          references (such as integer codes) or with internal object references, which are preferable for
+          accessing objects efficiently in main memory. Following the XML terminology, we call
+          human-readable references <span class="italic">ID references</span>. We follow the
+          standard naming convention for ID reference properties where an ID reference property defined in
+          a class <code class="code">A</code> and referencing objects of class <code class="code">B</code> has the name
+          <code class="code">b_id</code> using the suffix <code class="code">_id</code>. When we store persistent
+          objects in the
+          form of records or table rows, we need to convert internal object references, stored in
+          properties like <code class="code">publisher</code>, to ID references, stored in properties like
+          <code class="code">publisher_id</code>. This conversion is performed as part of the serialization of the
+          object by assigning the standard identifier value of the referenced object to the ID reference
+          property of the referencing object.
+        </p>
+        <p>In OO languages, a property is defined for an object type, or class, which is its
+          <span class="italic">domain</span>. The values of a property are either <span class="italic">data
+            values</span> from some datatype, in which case the property is called an
+          <span class="bold"><strong><span class="italic">attribute</span></strong></span>, or they are
+          <span class="italic">object references</span> referencing an object from some class, in
+          which case the property is called a <span class="bold"><strong><span class="italic">reference
+                property</span></strong></span>. For instance, the class <code class="code">Committee</code> shown in
+          Figure
+          <a class="xref" href="#figCommitteChairRefProp"
+            title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>
+          below has an attribute
+          <code class="code">name</code> with range <code class="code">String</code>, and a reference property <code
+            class="code">chair</code>
+          with range <code class="code">ClubMember</code>.
+        </p>
+        <div class="figure"><a name="figCommitteChairRefProp"></a>
+          <p class="title"><b>Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference
+              property <code class="code">chair</code></b></p>
+          <div class="figure-contents">
+            <div class="mediaobject"><img src="../fig/CommitteeChair_AFM.svg"
+                alt="A committee has a club member as chair expressed by the reference property chair"></div>
+          </div>
+        </div><br class="figure-break">
+        <p>Object-oriented programming languages, such as JavaScript, PHP, Java
+          and C#, directly support the concept of <span class="italic">reference
+            properties</span>, which are properties whose range is not a <span class="italic">datatype</span> but a
+          <span class="italic">reference
+            type</span>, or <span class="italic">class</span>, and whose
+          values are object references to instances of that class.</p>
+        <p>By default, the multiplicity of a property is <code class="code">1</code>, which
+          means that the property is <span class="bold"><strong><span class="italic">mandatory</span></strong></span>
+          and <span class="bold"><strong><span class="italic">functional</span></strong></span> (or,
+          in other words, <span class="italic">single-valued</span>), having
+          <span class="bold"><strong><span class="italic">exactly
+                one</span></strong></span> value, like the property <code class="code">chair</code> in
+          class <code class="code">Committee</code> shown in <a class="xref" href="#figCommitteChairRefProp"
+            title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>.
+          When
+          a functional property is <span class="bold"><strong><span class="italic">optional</span></strong></span> (not
+          mandatory), it has the
+          multiplicity <code class="code">0..1</code>, which means that the property's minimum
+          cardinality is 0 and its maximum cardinality is 1.
+        </p>
+        <p>A reference property can be either <span class="bold"><strong><span
+                class="italic">single-valued</span></strong></span> (<span class="italic">functional</span>) or <span
+            class="bold"><strong><span class="italic">multi-valued</span></strong></span> (<span
+            class="italic">non-functional</span>). For instance, the reference
+          property <code class="code">Committee::chair</code> shown in <a class="xref" href="#figCommitteChairRefProp"
+            title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>
+          is
+          single-valued, since it assigns a unique club member as chair to a club.
+          An example of a <span class="italic">multi-valued</span> reference
+          property is provided by the property <code class="code">Book::authors</code> shown in
+          <a class="xref" href="#figPublBookAuthAFM"
+            title="Figure&nbsp;1.11.&nbsp;An OO class model for all three classes">Figure&nbsp;1.11</a> below.
+        </p>
+        <p>Normally, the collection value of a multi-valued reference property is a set of
+          references, implying that the order of the references does not matter. In certain cases, however,
+          the order matters and, consequently, the collection value of such a multi-valued reference
+          property is an ordered set of references, typically implemented as a list.</p>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="chRefPropUniAss_sectRefIntegrity"></a>2.&nbsp;Referential
+                Integrity</h2>
+            </div>
+          </div>
+        </div>
+        <p>References are important information items in our application's
+          database. However, they are only meaningful, when their <span class="italic">referential integrity</span> is
+          maintained by the app.
+          This requires that for any reference, there is a referenced object in the
+          database. Consequently, any reference property <code class="code">p</code> with domain
+          class <code class="code">C</code> and range class <code class="code">D</code> comes with a <span
+            class="italic">referential integrity constraint</span> that has to be
+          checked whenever </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>a new object of type <code class="code">C</code> is created,</p>
+            </li>
+            <li class="listitem">
+              <p>the value of <code class="code">p</code> is changed for some object of type
+                <code class="code">C</code>,
+              </p>
+            </li>
+            <li class="listitem">
+              <p>an object of type <code class="code">D</code> is destroyed.</p>
+            </li>
+          </ol>
+        </div>
+        <p>A referential integrity constraint also implies two <span class="italic">change dependencies</span>:</p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>An <span class="bold"><strong><span class="italic">object
+                      creation dependency</span></strong></span>: an object with a
+                reference to another object can only be created after the referenced
+                object has been created.</p>
+            </li>
+            <li class="listitem">
+              <p>An <span class="bold"><strong><span class="italic">object
+                      destruction dependency</span></strong></span>: an object that is
+                referenced by another object can only be destroyed after</p>
+              <div class="orderedlist">
+                <ol class="orderedlist" type="a">
+                  <li class="listitem">
+                    <p>the referencing object is destroyed first (the CASCADE deletion policy), or</p>
+                  </li>
+                  <li class="listitem">
+                    <p>the reference in the referencing object is either
+                      dropped (the DROP-REFERENCE deletion policy) or replaced by another reference.</p>
+                  </li>
+                </ol>
+              </div>
+              <p>For every reference property in our app's model
+                classes, we have to choose, which of these two possible <span class="italic">deletion policies</span>
+                applies.</p>
+            </li>
+          </ol>
+        </div>
+        <p>In certain cases, we may want to relax this strict regime
+          and allow creating objects that have non-referencing values for an ID
+          reference property, but we do not consider such cases.</p>
+        <p>Typically, object creation dependencies are managed in the user
+          interface by not allowing the user to enter a value of an ID reference
+          property, but only to select one from a list of all existing target
+          objects.</p>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e340"></a>3.&nbsp;Modeling Reference Properties as
+                Unidirectional
+                Associations</h2>
+            </div>
+          </div>
+        </div>
+        <p>A reference property (such as <code class="code">chair</code> in the example shown in <a class="xref"
+            href="#figCommitteChairRefProp"
+            title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>
+          above) can be modeled in a UML
+          class diagram in the form of an <span class="bold"><strong><span class="italic">association
+                end</span></strong></span> owned by its domain class, which is visualized with the help of a
+          small filled circle (also called a "dot"). This requires to connect the domain class and the
+          range class of the reference property with an association line, place an <span class="italic">ownership
+            dot</span> at the end of this line at the range class side, and annotate this
+          association end with the property name and with a multiplicity symbol, as shown in <a class="xref"
+            href="#figCommitteChairAssEnd"
+            title="Figure&nbsp;1.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;1.2</a> below for the case
+          of our example.
+          In this way we get a <span class="bold"><strong><span class="italic">unidirectional
+                association</span></strong></span>, the <span class="bold"><strong><span
+                class="italic">source</span></strong></span> class of which is the property's <span
+            class="bold"><strong><span class="italic">domain</span></strong></span> and the <span
+            class="bold"><strong><span class="italic">target</span></strong></span> class of which is the property's
+          <span class="bold"><strong><span class="italic">range</span></strong></span>.</p>
+        <p>The fact that an association end is <span class="italic">owned</span> by the class
+          at the other end, as visually expressed by the <span class="italic">association end ownership
+            dot</span> at the association end <code class="code">chair</code> in the example shown in <a class="xref"
+            href="#figCommitteChairAssEnd"
+            title="Figure&nbsp;1.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;1.2</a> below, implies
+          that the association
+          end represents a reference property. In the example of <a class="xref" href="#figCommitteChairAssEnd"
+            title="Figure&nbsp;1.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;1.2</a>, the represented
+          reference property
+          is <code class="code">Committee</code>::<code class="code">chair</code> having <code
+            class="code">ClubMember</code> as range. Such an
+          association, with only one association end ownership dot, is <span class="italic">unidirectional</span> in the
+          sense that it allows `navigation&acute; (object access) in one
+          direction only: from the class at the opposite side of the dot (the <span class="italic">source</span> class)
+          to the class where the dot is placed (the <span class="italic">target</span> class).</p>
+        <div class="figure"><a name="figCommitteChairAssEnd"></a>
+          <p class="title"><b>Figure&nbsp;1.2.&nbsp;An association end with a "dot"</b></p>
+          <div class="figure-contents">
+            <div class="mediaobject"><img src="../fig/CommitteeChair_DesM.svg"
+                alt="An association end with a &#34;dot&#34;"></div>
+          </div>
+        </div><br class="figure-break">
+        <p>Thus, the two diagrams shown in <a class="xref" href="#figCommitteChairRefProp"
+            title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>
+          and
+          <a class="xref" href="#figCommitteChairAssEnd"
+            title="Figure&nbsp;1.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;1.2</a>
+          express essentially equivalent models. When a reference property, like
+          <code class="code">chair</code> in <a class="xref" href="#figCommitteChairRefProp"
+            title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>,
+          is modeled by an association end with a "dot", then the property's multiplicity
+          is attached to the association end. Since in a design model, all association
+          ends need to have a multiplicity, we also have to define a multiplicity
+          for the other end at the side of the <code class="code">Committee</code> class, which
+          represents the inverse of the property. This multiplicity (of the inverse
+          property) is not available in the original property description in the
+          model shown in <a class="xref" href="#figCommitteChairRefProp"
+            title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>,
+          so it has to be added according to the
+          intended semantics of the association. It can be obtained by answering the
+          question "is it mandatory that any <code class="code">ClubMember</code> is the
+          <code class="code">chair</code> of a <code class="code">Committee</code>?" for finding the minimum
+          cardinality and the question "can a <code class="code">ClubMember</code> be the
+          <code class="code">chair</code> of more than one <code class="code">Committee</code>?" for finding
+          the maximum cardinality.
+        </p>
+        <p>When the value of a property is a set of values from its range, the
+          property is <span class="bold"><strong><span class="italic">non-functional</span></strong></span> and its
+          multiplicity is
+          either <code class="code">0..*</code> or <code class="code">n..*</code> where n &gt; 0. Instead of
+          <code class="code">0..*</code>, which means "neither mandatory nor functional", we can
+          simply write the asterisk symbol <code class="code">*</code>. The association shown in
+          <a class="xref" href="#figCommitteChairAssEnd"
+            title="Figure&nbsp;1.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;1.2</a> assigns at most
+          one object of type
+          <code class="code">ClubMember</code> as chair to an object of type
+          <code class="code">Committee</code>. Consequently, it's an example of a <span class="bold"><strong><span
+                class="italic">functional
+                association</span></strong></span>.
+        </p>
+        <p>The following table provides an overview about the different cases
+          of functionality of an association: </p>
+        <div class="table"><a name="d5e402"></a>
+          <p class="title"><b>Table&nbsp;1.3.&nbsp;Functionality types</b></p>
+          <div class="table-contents">
+            <table frame="border" rules="all">
+              <thead>
+                <tr>
+                  <th>Functionality type</th>
+
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>one-to-one</td>
+
+                  <td>both functional and inverse functional</td>
+                </tr>
+                <tr>
+                  <td>many-to-one</td>
+
+                  <td>functional</td>
+                </tr>
+                <tr>
+                  <td>one-to-many</td>
+
+                  <td>inverse functional</td>
+                </tr>
+                <tr>
+                  <td>many-to-many</td>
+
+                  <td>neither functional nor inverse functional</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p><br class="table-break"></p>
+        <p>Notice that the directionality and the functionality type of an
+          association are independent of each other. So, a unidirectional
+          association can be either functional (one-to-one or many-to-one), or
+          non-functional (one-to-many or many-to-many).</p>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e422"></a>4.&nbsp;Representing Unidirectional
+                Associations as Reference
+                Properties</h2>
+            </div>
+          </div>
+        </div>
+        <p>A unidirectional association between a source and a target class can be represented as a
+          reference property of the source class. This is illustrated in <a class="xref" href="#figChairedCommitte"
+            title="Figure&nbsp;1.3.&nbsp;Representing unidirectional associations as reference properties">Figure&nbsp;1.3</a>
+          below for two unidirectional
+          associations: a many-to-one and a many-to-many association.</p>
+        <div class="figure"><a name="figChairedCommitte"></a>
+          <p class="title"><b>Figure&nbsp;1.3.&nbsp;Representing unidirectional associations as reference properties</b>
+          </p>
+          <div class="figure-contents">
+            <div class="informaltable">
+              <table frame="void">
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="mediaobject"><img src="../fig/Publisher-Book-Author_Unidir_DesM.svg"
+                          alt="Representing unidirectional associations as reference properties"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center">
+                      <div class="mediaobject"><img src="../fig/Downarrow.svg"
+                          alt="Representing unidirectional associations as reference properties"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="mediaobject"><img src="../fig/Publisher-Book-Author_Unidir_AFM.svg"
+                          alt="Representing unidirectional associations as reference properties"></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div><br class="figure-break">
+        <p>Notice that, in a way, we have eliminated the two explicit associations and replaced them
+          with corresponding reference properties resulting in a class model that can be coded with a
+          classical OOP language in a straightforward way. OOP languages do not support associations as
+          first class citizens. They do not have a language element for defining associations.
+          Consequently, an OOP class design model, which we call <span class="bold"><strong><span class="italic">OO
+                class model</span></strong></span>, must not contain any explicit
+          association.</p>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="sectAddingDirectionality"></a>5.&nbsp;Adding Directionality
+                to a Non-Directed Association</h2>
+            </div>
+          </div>
+        </div>
+        <p>When we make an information model in the form of a UML class
+          diagram, we typically end up with a model containing one or more
+          associations that do not have any ownership defined for their ends, as,
+          for instance, in <a class="xref" href="#figCommitteChairDomM"
+            title="Figure&nbsp;1.4.&nbsp;A model of a non-directed association between Committee and ClubMember">Figure&nbsp;1.4</a>
+          below. When there is no ownership dot at
+          either end of an association, such as in this example, this means that the
+          model does not specify how the association is to be represented (or
+          realized) with the help of reference properties. Such an association does
+          not have any direction. According to the UML 2.5 specification, the ends
+          of such an association are "owned" by itself, and not by any of the
+          classes participating in it.</p>
+        <div class="figure"><a name="figCommitteChairDomM"></a>
+          <p class="title"><b>Figure&nbsp;1.4.&nbsp;A model of a non-directed association between Committee and
+              ClubMember</b></p>
+          <div class="figure-contents">
+            <div class="mediaobject"><img src="../fig/CommitteeChair_DomM.svg"
+                alt="A model of a non-directed association between Committee and ClubMember"></div>
+          </div>
+        </div><br class="figure-break">
+        <p>An information design model that contains an association without association end ownership
+          dots is acceptable as a <span class="italic">relational database</span> design model, but
+          it is incomplete as a design model for OOP languages. </p>
+        <p>For instance, the model of <a class="xref" href="#figCommitteChairDomM"
+            title="Figure&nbsp;1.4.&nbsp;A model of a non-directed association between Committee and ClubMember">Figure&nbsp;1.4</a>
+          provides a relational database design with two entity tables,
+          <code class="code">committees</code> and <code class="code">clubmembers</code>, and a separate one-to-one
+          relationship
+          table <code class="code">committee_has_clubmember_as_chair</code>. But it does not provide a design for Java
+          classes, since it does not specify how the association is to be implemented with the help of
+          reference properties.
+        </p>
+        <p>There are three options how to turn an information design model of a non-directed
+          association (without any association end ownership dots) into an information design model where
+          all associations are either unidirectional or bidirectional: we can place an ownership dot at
+          either end or at both ends of the association. Each of these three options defines a different
+          way how to represent, or implement, the association with the help of reference properties. So,
+          for the association shown in <a class="xref" href="#figCommitteChairDomM"
+            title="Figure&nbsp;1.4.&nbsp;A model of a non-directed association between Committee and ClubMember">Figure&nbsp;1.4</a>
+          above, we have the following options:</p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>Place an ownership dot at the <code class="code">chair</code> association end, leading to the model
+                shown in <a class="xref" href="#figCommitteChairAssEnd"
+                  title="Figure&nbsp;1.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;1.2</a> above,
+                which can be transformed into the OO class model shown in <a class="xref"
+                  href="#figCommitteChairRefProp"
+                  title="Figure&nbsp;1.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;1.1</a>
+                above.</p>
+            </li>
+            <li class="listitem">
+              <p>Place an ownership dot at the <code class="code">chairedCommittee</code> association end, leading to
+                the completed models shown in <a class="xref" href="#figChairedCommitte"
+                  title="Figure&nbsp;1.3.&nbsp;Representing unidirectional associations as reference properties">Figure&nbsp;1.3</a>
+                above.</p>
+            </li>
+            <li class="listitem">
+              <p>Make the association bidirectional by placing ownership dots at both association ends
+                with the meaning that the association is implemented in a redundant manner by a pair of
+                mutually inverse reference properties <code class="code">Committee</code>::<code
+                  class="code">chair</code> and
+                <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>, as discussed in
+                <span class="phrase">the next part of our tutorial.</span>
+
+              </p>
+              <div class="figure"><a name="figBidirectionalCommitteClubmemberAssoc"></a>
+                <p class="title"><b>Figure&nbsp;1.5.&nbsp;Modeling a bidirectional association between Committee and
+                    ClubMember</b></p>
+                <div class="figure-contents">
+                  <div class="mediaobject"><img src="../fig/CommitteeChair_DesM3.svg"
+                      alt="Modeling a bidirectional association between Committee and ClubMember"></div>
+                </div>
+              </div><br class="figure-break">
+            </li>
+          </ol>
+        </div>
+        <p>So, whenever we have modeled an association, we have to make a
+          choice, which of its ends represents a reference property and will
+          therefore be marked with an ownership dot. It can be either one, or both.
+          This decision also implies a decision about the <span class="italic">navigability</span> of the association.
+          When an
+          association end represents a reference property, this implies that it is
+          navigable (via this property).</p>
+        <p>In the case of a functional association that is not one-to-one, the
+          simplest design is obtained by defining the direction of the association
+          according to its functionality, placing the association end ownership dot
+          at the association end with the multiplicity <code class="code">0..1</code> or
+          <code class="code">1</code> . For a non-directed one-to-one or many-to-many
+          association, we can choose the direction as we like, that is, we can place
+          the ownership dot at either association end.
+        </p>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e493"></a>6.&nbsp;Our Running Example</h2>
+            </div>
+          </div>
+        </div>
+        <p>The model shown in <a class="xref" href="#figPublisherBookIDM"
+            title="Figure&nbsp;1.6.&nbsp;The Publisher-Book information design model with a unidirectional association">Figure&nbsp;1.6</a>
+          below (about publishers and books)
+          serves as our running example for a unidirectional functional association
+          in this tutorial. Notice that it contains the unidirectional many-to-one
+          association <span class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span
+            class="italic">Publisher</span>.</p>
+        <div class="figure"><a name="figPublisherBookIDM"></a>
+          <p class="title"><b>Figure&nbsp;1.6.&nbsp;The Publisher-Book information design model with a unidirectional
+              association</b></p>
+          <div class="figure-contents">
+            <div class="mediaobject"><img src="../fig/Publisher-Book_DesM.svg"
+                alt="The Publisher-Book information design model with a unidirectional association"></div>
+          </div>
+        </div><br class="figure-break">
+        <p>We may also have to deal with a non-functional (multi-valued)
+          reference property representing a unidirectional non-functional
+          association. For instance, the unidirectional many-to-many association
+          between <code class="code">Book</code> and <code class="code">Author</code> shown in <a class="xref"
+            href="#figPublisherBookAuthorIDM"
+            title="Figure&nbsp;1.7.&nbsp;The Publisher-Book-Author information design model with two unidirectional associations">Figure&nbsp;1.7</a>
+          below, models a multi-valued (non-functional) reference property
+          <code class="code">authors</code>.
+        </p>
+        <div class="figure"><a name="figPublisherBookAuthorIDM"></a>
+          <p class="title"><b>Figure&nbsp;1.7.&nbsp;The Publisher-Book-Author information design model with two
+              unidirectional associations</b></p>
+          <div class="figure-contents">
+            <div class="mediaobject"><img src="../fig/Publisher-Book-Author_Unidir_DesM.svg"
+                alt="The Publisher-Book-Author information design model with two unidirectional associations"></div>
+          </div>
+        </div><br class="figure-break">
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e515"></a>7.&nbsp;Eliminating Unidirectional Associations
+              </h2>
+            </div>
+          </div>
+        </div>
+        <p>Since classical OO programming languages do not support associations as first class
+          citizens, but only classes and reference properties representing unidirectional associations,
+          we have to eliminate all explicit associations from general information design models for
+          obtaining OO class models.</p>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e518"></a>7.1.&nbsp;The basic elimination procedure restricted to
+                  unidirectional
+                  associations</h3>
+              </div>
+            </div>
+          </div>
+          <p>The starting point of our restricted <span class="bold"><strong><span class="italic">association
+                  elimination</span></strong></span> procedure is an information design
+            model with various kinds of unidirectional associations, such as the
+            model shown in <a class="xref" href="#figPublisherBookIDM"
+              title="Figure&nbsp;1.6.&nbsp;The Publisher-Book information design model with a unidirectional association">Figure&nbsp;1.6</a>
+            above. If the model still contains any
+            non-directional associations, we first have to turn them into
+            directional ones by making a decision on the ownership of their ends, as
+            discussed in <a class="xref" href="#sectAddingDirectionality"
+              title="5.&nbsp;Adding Directionality to a Non-Directed Association">Section&nbsp;5</a>.</p>
+          <p>A unidirectional association connecting a source with a target
+            class is replaced with a corresponding reference property in its source
+            class having </p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>the same name as the association end, if there is any,
+                  otherwise it is set to the name of the target class (possibly
+                  pluralized, if the reference property is multi-valued);</p>
+              </li>
+              <li class="listitem">
+                <p>the target class as its range;</p>
+              </li>
+              <li class="listitem">
+                <p>the same multiplicity as the target association end,</p>
+              </li>
+              <li class="listitem">
+                <p>a uniqueness constraint if the unidirectional association is
+                  inverse functional.</p>
+              </li>
+            </ol>
+          </div>
+          <p>This replacement procedure is illustrated for the case of a unidirectional one-to-one
+            association in <a class="xref" href="#figChairedCommitte"
+              title="Figure&nbsp;1.3.&nbsp;Representing unidirectional associations as reference properties">Figure&nbsp;1.3</a>
+            below.</p>
+          <div class="figure"><a name="d5e537"></a>
+            <p class="title"><b>Figure&nbsp;1.8.&nbsp;Turning a functional association end into a reference property</b>
+            </p>
+            <div class="figure-contents">
+              <div class="informaltable">
+                <table frame="void">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="mediaobject"><img src="../fig/CommitteeChair_DesM2.svg"
+                            alt="Turning a functional association end into a reference property"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center">
+                        <div class="mediaobject"><img src="../fig/Downarrow.svg"
+                            alt="Turning a functional association end into a reference property"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="mediaobject"><img src="../fig/CommitteeChair_AFM2.svg"
+                            alt="Turning a functional association end into a reference property"></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><br class="figure-break">
+          <p>For the case of a unidirectional one-to-many association, <a class="xref" href="#figPolygonPoint"
+              title="Figure&nbsp;1.9.&nbsp;Turning a non-functional association end into a multi-valued reference property">Figure&nbsp;1.9</a>
+            below provides an illustration of
+            the association elimination procedure. Here, the non-functional association end at the target
+            class <code class="code">Point</code> is turned into a corresponding reference property with name
+            <code class="code">points</code> obtained as the pluralized form of the target class name.
+          </p>
+          <div class="figure"><a name="figPolygonPoint"></a>
+            <p class="title"><b>Figure&nbsp;1.9.&nbsp;Turning a non-functional association end into a multi-valued
+                reference
+                property</b></p>
+            <div class="figure-contents">
+              <div class="informaltable">
+                <table frame="void">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="mediaobject"><img src="../fig/Polygon-Point_DesM.svg"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center">
+                        <div class="mediaobject"><img src="../fig/Downarrow.svg"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="mediaobject"><img src="../fig/Polygon-Point_AFM.svg"></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><br class="figure-break">
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e580"></a>7.2.&nbsp;Eliminating associations from the design model</h3>
+              </div>
+            </div>
+          </div>
+          <p>In the case of our running example, the Publisher-Book-Author
+            information design model, we have to replace both unidirectional
+            associations with suitable reference properties. In the first step, we
+            replace the many-to-one association <span class="italic">Book</span>-<span
+              class="bold"><strong>has</strong></span>-<span class="italic">Publisher</span>
+            in the model of <a class="xref" href="#figPublisherBookIDM"
+              title="Figure&nbsp;1.6.&nbsp;The Publisher-Book information design model with a unidirectional association">Figure&nbsp;1.6</a>
+            with a functional reference property
+            <code class="code">publisher</code> in the class <code class="code">Book</code>, resulting in the
+            following OO class model:
+          </p>
+          <div class="figure"><a name="figPublBookAFM"></a>
+            <p class="title"><b>Figure&nbsp;1.10.&nbsp;An OO class model for <code class="code">Publisher</code> and
+                <code class="code">Book</code></b></p>
+            <div class="figure-contents">
+              <div class="mediaobject"><img src="../fig/Publisher-Book_AFM.svg"
+                  alt="An OO class model for Publisher and Book"></div>
+            </div>
+          </div><br class="figure-break">
+          <p>Notice that since the target association end of the <span class="italic">Book</span>-<span
+              class="bold"><strong>has</strong></span>-<span class="italic">Publisher</span> association has the
+            multiplicity <code class="code">0..1</code>, we have to declare
+            the new property <code class="code">publisher</code> as optional by defining its multiplicity to be
+            <code class="code">0..1</code>.
+          </p>
+          <p>The meaning of this OO class model and its reference property <code class="code">publisher</code> can be
+            illustrated by a sample
+            data population for the two model classes <code class="code">Book</code> and <code
+              class="code">Publisher</code> as
+            presented in the following tables:</p>
+          <p>
+          </p>
+          <div class="table"><a name="d5e608"></a>
+            <p class="title"><b>Table&nbsp;1.4.&nbsp;Sample data for <code class="code">Publisher</code></b></p>
+            <div class="table-contents">
+              <table frame="box" rules="all">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+
+                    <th>Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Bantam Books</td>
+
+                    <td>New York, USA</td>
+                  </tr>
+                  <tr>
+                    <td>Basic Books</td>
+
+                    <td>New York, USA</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p><br class="table-break">
+
+          </p>
+          <div class="table"><a name="d5e622"></a>
+            <p class="title"><b>Table&nbsp;1.5.&nbsp;Sample data for <code class="code">Book</code></b></p>
+            <div class="table-contents">
+              <table frame="box" rules="all">
+                <thead>
+                  <tr>
+                    <th>ISBN</th>
+
+                    <th>Title</th>
+
+                    <th>Year</th>
+
+                    <th>Publisher</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0553345842</td>
+
+                    <td>The Mind's I</td>
+
+                    <td>1982</td>
+
+                    <td>Bantam Books</td>
+                  </tr>
+                  <tr>
+                    <td>1463794762</td>
+
+                    <td>The Critique of Pure Reason</td>
+
+                    <td>2011</td>
+
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>1928565379</td>
+
+                    <td>The Critique of Practical Reason</td>
+
+                    <td>2009</td>
+
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>0465030793</td>
+
+                    <td>I Am A Strange Loop</td>
+
+                    <td>2000</td>
+
+                    <td>Basic Books</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p><br class="table-break">
+          </p>
+          <p>In the second step, we replace the many-to-many association
+            <span class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span
+              class="italic">Author</span> in
+            the model of <a class="xref" href="#figPublisherBookAuthorIDM"
+              title="Figure&nbsp;1.7.&nbsp;The Publisher-Book-Author information design model with two unidirectional associations">Figure&nbsp;1.7</a>
+            with a multi-valued reference property
+            <code class="code">authors</code> in the class <code class="code">Book</code>, resulting in the
+            following OO class model:
+          </p>
+          <div class="figure"><a name="figPublBookAuthAFM"></a>
+            <p class="title"><b>Figure&nbsp;1.11.&nbsp;An OO class model for all three classes</b></p>
+            <div class="figure-contents">
+              <div class="mediaobject"><img src="../fig/Publisher-Book-Author_Unidir_AFM.svg"
+                  alt="An OO class model for all three classes"></div>
+            </div>
+          </div><br class="figure-break">
+          <p>After the platform-independent OO class model has been completed, one or more
+            platform-specific data models, for a choice of specific implementation platforms, can be derived
+            from it. Such a platform-specific data model can still be expressed in the form of a UML class
+            diagram, but it contains only modeling elements that can be directly coded in the chosen
+            platform. Thus, for any platform considered, two guidelines are needed: 1) how to make the
+            platform-specific data model, and 2) how to code this model.</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="sectRefPropCtrls"></a>8.&nbsp;Rendering Reference
+                Properties in the User Interface</h2>
+            </div>
+          </div>
+        </div>
+        <p>The widgets used for data input and output in a (CRUD) data management user interface (UI)
+          normally correspond to properties defined in a model class of an app. We have to distinguish
+          between (various types of) <span class="italic">input fields</span> corresponding to
+          (various kinds of) <span class="italic">attributes</span>, and <span class="italic">choice widgets</span>
+          (such as <span class="italic">selection lists</span>)
+          corresponding to <span class="italic">enumeration attributes</span> or to <span class="italic">reference
+            properties</span>. Representing reference properties in the UI with
+          <code class="code">select</code> controls, instead of <code class="code">input</code> fields, prevents the
+          user from
+          entering invalid ID references, so it takes care of <span class="italic">referential
+            integrity</span>.
+        </p>
+        <p>In general, a <span class="bold"><strong><span class="italic">single-valued reference
+                property</span></strong></span> can be rendered as a single-selection list in the UI, no matter
+          how many objects populate the reference property's range, from which one specific choice is to be
+          made. If the cardinality of the reference property's range is sufficiently small (say, not
+          greater than 7), then we can also use a <span class="italic">radio button group</span>
+          instead of a selection list.</p>
+        <p>A <span class="bold"><strong><span class="italic">multivalued reference
+                property</span></strong></span> can be rendered as a multiple-selection list in the UI. However,
+          the corresponding multiple-<code class="code">select</code> control of HTML is not really usable as soon as
+          there are many (say, more than 20) different options to choose from because the way it renders
+          the choice is visually too scattered. In the special case of having only a few (say, no more than
+          7) options, we can also use a checkbox group instead of a multiple-selection list. But for the
+          general case of having in the UI a list containing all associated objects chosen from the
+          reference property's range class, we need to develop a special UI widget that allows to add (and
+          remove) objects to (and from) a list of chosen objects.</p>
+        <p>Such a <span class="italic"><span class="bold"><strong>multiple-choice
+                widget</strong></span></span> consists of </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>an HTML list element containing the chosen (associated)
+                objects, where each list item contains a push button for removing
+                the object from the choice;</p>
+            </li>
+            <li class="listitem">
+              <p>a single-<code class="code">select</code> control that, in combination with
+                a push button, allows to add a new associated object from the range
+                of the multi-valued reference property.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div lang="" class="chapter">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a name="chJavaUnidirFunAss"></a>Chapter&nbsp;2.&nbsp;Implementing Unidirectional
+              Functional Associations with Java EE</h1>
+          </div>
+        </div>
+      </div>
+      <div class="toc">
+        <p><b>Table of Contents</b></p>
+        <dl class="toc">
+          <dt><span class="section"><a href="#d5e724">1. Implementing Single-Valued Reference Properties in
+                Java</a></span></dt>
+          <dt><span class="section"><a href="#d5e737">2. Make a Java Entity Class Model</a></span></dt>
+          <dt><span class="section"><a href="#d5e758">3. New Issues</a></span></dt>
+          <dt><span class="section"><a href="#d5e790">4. Write the Model Code</a></span></dt>
+          <dd>
+            <dl>
+              <dt><span class="section"><a href="#d5e793">4.1. Summary</a></span></dt>
+              <dt><span class="section"><a href="#d5e815">4.2. Code each class of the Entity class model</a></span></dt>
+              <dt><span class="section"><a href="#d5e867">4.3. Code the constraints</a></span></dt>
+              <dt><span class="section"><a href="#d5e884">4.4. Code getters and setters</a></span></dt>
+              <dt><span class="section"><a href="#d5e887">4.5. Implement a deletion policy</a></span></dt>
+              <dt><span class="section"><a href="#d5e908">4.6. Serialization and De-Serialization</a></span></dt>
+            </dl>
+          </dd>
+          <dt><span class="section"><a href="#d5e911">5. The View and Controller Layers</a></span></dt>
+          <dd>
+            <dl>
+              <dt><span class="section"><a href="#d5e934">5.1. Initialize the app</a></span></dt>
+              <dt><span class="section"><a href="#d5e937">5.2. Show information about associated objects in the <span
+                      class="italic">List Objects</span> use case</a></span></dt>
+              <dt><span class="section"><a href="#d5e949">5.3. Allow selecting associated objects in the <span
+                      class="italic">create</span> and <span class="italic">update</span> use cases</a></span></dt>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+      <p>The three example apps that we have discussed in previous chapters,
+        the <span class="italic">minimal app</span>, <span class="italic">validation app</span> and <span
+          class="italic">enumeration app</span>, have been limited to managing the
+        data of one object type only. A real app, however, has to manage the data of
+        several object types, which are typically related to each other in various
+        ways. In particular, there may be <span class="bold"><strong><span
+              class="italic">associations</span></strong></span> and <span class="bold"><strong><span
+              class="italic">subtype</span></strong></span>
+        (inheritance) relationships between object types. Handling associations and
+        subtype relationships are advanced issues in software application
+        engineering. They are often not sufficiently discussed in software
+        development text books and not well supported by application development
+        frameworks. In this part of the tutorial, we show how to deal with
+        unidirectional associations, while bidirectional associations and subtype
+        relationships are covered in parts 5 and 6.</p>
+      <p>We adopt the approach of <span class="bold"><strong><span class="italic">model-based
+              development</span></strong></span>, which provides
+        a general methodology for engineering all kinds of artifacts, including data
+        management apps. For being able to understand this tutorial, you need to
+        understand the underlying concepts and theory. Either you first read the
+        theory chapter on reference properties and associations, before you continue
+        to read this tutorial chapter, or you start reading this tutorial chapter
+        and consult the theory chapter only on demand, e.g., when you stumble upon a
+        term that you don't know.</p>
+      <p>A unidirectional <span class="italic">functional</span>
+        association is either one-to-one or many-to-one. In both cases such an
+        association is represented, or implemented, with the help of a <span class="italic">single-valued</span>
+        reference property.</p>
+      <p>In this chapter of our tutorial, we show </p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>how to derive a <span class="italic">data model</span> in
+              the form of a Java <span class="bold"><strong><span class="italic">Entity class
+                    model</span></strong></span> from an
+              information design model with single-valued reference properties
+              representing <span class="italic">unidirectional functional
+                associations</span>,</p>
+          </li>
+          <li class="listitem">
+            <p>how to code the Java Entity class model in the form of entity
+              classes (representing <span class="italic">model
+                classes</span>),</p>
+          </li>
+          <li class="listitem">
+            <p>how to write the view and controller code based on the entity
+              classes.</p>
+          </li>
+        </ol>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e724"></a>1.&nbsp;Implementing Single-Valued Reference
+                Properties in Java</h2>
+            </div>
+          </div>
+        </div>
+        <p>A single-valued reference property, such as the property
+          <code class="code">publisher</code> of the object type <code class="code">Book</code>, allows
+          storing internal references to objects of another type, such as
+          <code class="code">Publisher</code>. When creating a new object, the constructor
+          function needs to have a parameter for allowing to assign a suitable value
+          to the reference property. In a typed programming language, such as Java,
+          we may have to take a decision if this value is expected to be an internal
+          object reference or an ID reference. Using the JPA object-to-storage
+          mapping technology, we can work with object references and leave the
+          mapping to corresponding ID references to JPA. The <code class="code">Book</code> class
+          is extended as follows:
+        </p>
+        <pre class="programlisting">@Entity @Table( name="books")
+@ViewScoped @ManagedBean( name="book")
+public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  private <span class="bold"><strong>Publisher publisher</strong></span>;
+	
+  public Book() {}
+  public Book( String isbn, String title, Integer year, 
+      <span class="bold"><strong>Publisher publisher</strong></span>) {...}
+	
+  public Publisher <span class="bold"><strong>getPublisher</strong></span>() {...}
+  public void <span class="bold"><strong>setPublisher</strong></span>( Publisher publisher) {...}
+  ...
+}</pre>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e737"></a>2.&nbsp;Make a Java Entity Class Model</h2>
+            </div>
+          </div>
+        </div>
+        <p>The starting point for making a Java Entity class model is an OO class model like the one
+          shown in <a class="xref" href="#figPublBookAFM"
+            title="Figure&nbsp;1.10.&nbsp;An OO class model for Publisher and Book">Figure&nbsp;1.10</a>.</p>
+        <p>As explained in the previous parts of this tutorial, we obtain the Java Entity class
+          <code class="code">Publisher</code> from the corresponding information design class by (1) making all
+          properties private, (2) using Java datatype classes (String, Integer, etc.), (3) adding the
+          stereotype &laquo;get/set&raquo; to properties (specifying public getters and setters), (4) adding a
+          <code class="code">toString</code> function, (5) adding the (class-level) data storage methods
+          <code class="code">create</code>, <code class="code">retrieve</code>, <code class="code">update</code> and
+          <code class="code">delete</code>:
+        </p>
+        <div class="mediaobject"><img src="../fig/Publisher_JavaEE.html"></div>
+        <p>In a Java Entity class model, for any association end dot in the OO class model, we show
+          the reference property representing the association end and annotate it with the functionality
+          type of the unidirectional association represented by it. In our example, we add a reference
+          property <code class="code">publisher</code> in the entity class <code class="code">Book</code> and annotate
+          it with the
+          association's functionality type <code class="code">manyToOne</code>:</p>
+        <div class="mediaobject"><img src="../fig/Book_JavaEE.svg"></div>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e758"></a>3.&nbsp;New Issues</h2>
+            </div>
+          </div>
+        </div>
+        <p>Compared to the single-class apps discussed in the previous parts of
+          this tutorial, we have to deal with a number of new technical issues:
+        </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>In the <span class="italic">model</span> code we now
+                have to take care of <span class="bold"><strong><span class="italic">reference
+                      properties</span></strong></span> that
+                require</p>
+              <div class="orderedlist">
+                <ol class="orderedlist" type="a">
+                  <li class="listitem">
+                    <p>defining <span class="italic"><span class="bold"><strong>referential integrity
+                            constraints</strong></span></span> with the help of suitable
+                      JPA annotations;</p>
+                  </li>
+                  <li class="listitem">
+                    <p>extending the code of the <code class="code">create</code>, <code class="code">update</code> and
+                      <code class="code">delete</code> methods by taking the reference properties into consideration;
+                    </p>
+                  </li>
+                  <li class="listitem">
+                    <p>a method for converting between (internal) object
+                      references and corresponding (external) ID references in
+                      serialization and de-serialization operations.</p>
+                  </li>
+                </ol>
+              </div>
+            </li>
+            <li class="listitem">
+              <p>In the <span class="italic">user interface</span>
+                (view) code we now have to take care of</p>
+              <div class="orderedlist">
+                <ol class="orderedlist" type="a">
+                  <li class="listitem">
+                    <p>showing information about associated objects in the
+                      <span class="italic">retrieve/list all</span> use
+                      case;
+                    </p>
+                  </li>
+                  <li class="listitem">
+                    <p>allowing to select an associated object from a list of
+                      all existing instances of the target class in the <span class="italic">create object</span> and
+                      <span class="italic">update object</span> use cases.</p>
+                  </li>
+                </ol>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e790"></a>4.&nbsp;Write the Model Code</h2>
+            </div>
+          </div>
+        </div>
+        <p>The Java Entity class model can be directly coded for getting the
+          model layer code of our Java back-end app.</p>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e793"></a>4.1.&nbsp;Summary</h3>
+              </div>
+            </div>
+          </div>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>Code each class from the Java Entity class model as a
+                  corresponding entity class.</p>
+              </li>
+              <li class="listitem">
+                <p>Code an {id} property modifier with the JPA annotation
+                  <code class="code">@Id</code>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>Code any property modifier denoting the functionality type of
+                  a reference property, such as {manyToOne}, with the corresponding
+                  JPA annotation, such as <code class="code">@ManyToOne</code>.</p>
+              </li>
+              <li class="listitem">
+                <p>Code the integrity constraints specified in the model with the
+                  help of Java Bean Validation annotations (or custom validation
+                  annotations).</p>
+              </li>
+              <li class="listitem">
+                <p>Code the getters and setters.</p>
+              </li>
+              <li class="listitem">
+                <p>Code the <code class="code">create</code>, <code class="code">retrieve</code>, <code
+                    class="code">update</code> and
+                  <code class="code">delete</code> storage management operations as class-level methods.
+                </p>
+              </li>
+            </ol>
+          </div>
+          <p>These steps are discussed in more detail in the following
+            sections.</p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e815"></a>4.2.&nbsp;Code each class of the Entity class model</h3>
+              </div>
+            </div>
+          </div>
+          <p>Each class <code class="code">C</code> of the Java Entity class model is coded
+            as an annotated bean class with name <code class="code">C</code> having a default
+            constructor (with no parameters) and a constructor with entity creation
+            parameters.</p>
+          <p>For instance, the <code class="code">Book</code> class from the Entity class
+            model is coded in the following way:</p>
+          <pre class="programlisting">@Entity @Table( name="books")
+@ViewScoped @ManagedBean( name="book")
+public class <span class="bold"><strong>Book</strong></span> {
+  @Id @NotNull( message="An ISBN is required!")
+  private String <span class="bold"><strong>isbn</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A title is required!")
+  private String <span class="bold"><strong>title</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A year is required!")
+  private Integer <span class="bold"><strong>year</strong></span>;
+  <span class="bold"><strong>@ManyToOne</strong></span>( fetch=FetchType.EAGER)
+  private Publisher <span class="bold"><strong>publisher</strong></span>;
+
+  public Book() {}
+  public Book( String isbn, String title, 
+      Integer year, Publisher publisher) {
+    this.setIsbn( isbn);
+    this.setTitle( title);
+    this.setYear( year);
+    this.setPublisher( publisher);
+  }
+  ...  // getters, setters, etc.
+}</pre>
+          <p>The <code class="code">@ManyToOne</code> annotation on the property
+            <code class="code">publisher</code> is used for specifying the functionality type of
+            the association <span class="italic">Book has Publisher</span>
+            represented by the reference property <code class="code">publisher</code> since it
+            holds that <span class="italic">a book has one publisher</span>
+            and <span class="italic">a publisher has many books</span>. This
+            annotation also allows to specify a <span class="italic">fetch
+              type</span> with the parameter <code class="code">fetch</code> taking one of the
+            following two possible values:
+          </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p><code class="code">FetchType.EAGER</code>, implying that a retrieval of
+                  an entity includes a retrieval of the associated entity referenced
+                  by the entity with this property. In our example, this means that
+                  when a <code class="code">Book</code> entity is retrieved, the
+                  <code class="code">Publisher</code> entity referenced by the book's
+                  <code class="code">publisher</code> property is also retrieved. This behavior
+                  is very useful and it should be used whenever the data to be
+                  retrieved can be handled in main memory.
+                </p>
+              </li>
+              <li class="listitem">
+                <p><code class="code">FetchType.LAZY</code>, implying that referenced
+                  entities are not automatically retrieved when a referencing entity
+                  is retrieved. In our example, this means that the referenced
+                  <code class="code">Publisher</code> entity is not retrieved together with a
+                  referencing <code class="code">Book</code> entity, leaving the value of the
+                  <code class="code">publisher</code> property set to <code class="code">null</code>. With
+                  this fetching behavior, a referenced entity has to be retrieved
+                  separately by invoking the reference property's getter in the
+                  context of a transaction (in our example by invoking
+                  <code class="code">getPublisher</code>).
+                </p>
+              </li>
+            </ul>
+          </div>
+          <p>In the case of a <span class="italic">single-valued</span>
+            reference property (representing a <span class="italic">functional</span> association) annotated with either
+            <code class="code">@OneToOne</code> or <code class="code">@ManyToOne</code>, the default value is
+            <code class="code">FetchType.EAGER</code>, so referenced entities are fetched
+            together with referencing entities, while in the case of a <span class="italic">non-functional</span>
+            association (with either
+            <code class="code">@OneToMany</code> or <code class="code">@ManyToMany</code>), the default value
+            is <code class="code">FetchType.LAZY</code>, so referenced entities are not fetched
+            together with referencing entities, but have to be retrieved separately,
+            if needed.
+          </p>
+          <p>As a result of these JPA annotations, the following SQL table
+            creation statement for creating the <code class="code">books</code> table is
+            generated:</p>
+          <pre class="programlisting">CREATE TABLE IF NOT EXISTS `<span class="bold"><strong>books</strong></span>` (
+  `ISBN` varchar(10) NOT NULL,
+  `TITLE` varchar(255) NOT NULL,
+  `YEAR` int(11) NOT NULL,
+  `PUBLISHER_NAME` varchar(255) DEFAULT NULL 
+      FOREIGN  KEY (`PUBLISHER_NAME`) REFERENCES `publishers` (`NAME`)
+);</pre>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e867"></a>4.3.&nbsp;Code the constraints</h3>
+              </div>
+            </div>
+          </div>
+          <p>Take care that all property constraints specified in the entity
+            class model are properly coded by using suitable Bean Validation
+            annotations, as explained in Part 2 (<a class="link" href="validation-tutorial.html"
+              target="_top">Validation Tutorial</a>). For
+            instance, for the <code class="code">name</code> attribute, we have to use the JPA
+            annotation <code class="code">@Id</code> for specifying that the attribute
+            corresponds to the primary key column of the database table to which the
+            entity class is mapped, and the Bean Validation annotation
+            <code class="code">@NotNull</code> for defining a mandatory value constraint that is
+            checked before an entity is saved to the database.
+          </p>
+          <p>In the case of the <code class="code">address</code> attribute, we have to
+            define a mandatory value constraint in two forms: with the JPA
+            annotation <code class="code">@Column( nullable=false)</code> for the corresponding
+            table column, and with the Bean Validation annotation
+            <code class="code">@NotNull</code> for the attribute.
+          </p>
+          <pre class="programlisting">@Id @NotNull( message="A name is required!")
+private String <span class="bold"><strong>name</strong></span>;
+
+@Column( nullable=false)
+@NotNull( message="An address is required!")
+private String <span class="bold"><strong>address</strong></span>;</pre>
+          <p><span class="bold"><strong><span class="italic">Notice that,
+                  unfortunately, the current Java EE technology requires defining the same
+                  constraint twice, once for the database in the form of a JPA annotation,
+                  and once for the Java app in the form of a Bean Validation
+                  annotation.</span></strong></span></p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e884"></a>4.4.&nbsp;Code getters and setters</h3>
+              </div>
+            </div>
+          </div>
+          <p>Code the setter operations as (instance-level) methods. The
+            setters only assign values and do not perform any validation, since the
+            property constraints are only checked before save by the Java EE/JPA
+            execution environment. The getters simply return the actual values of
+            properties.</p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e887"></a>4.5.&nbsp;Implement a deletion policy</h3>
+              </div>
+            </div>
+          </div>
+          <p>For any reference property, we have to choose and implement a deletion policy for taking
+            care of the corresponding object destruction dependency in the <code class="code">delete</code> method of
+            the
+            reference property's range class. In our case, we have to choose between </p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>deleting all books published by the deleted publisher;</p>
+              </li>
+              <li class="listitem">
+                <p>dropping from all books published by the deleted publisher the reference to the deleted
+                  publisher.</p>
+              </li>
+            </ol>
+          </div>
+          <p>We choose the second policy, which can only be used inf the case of an optional
+            reference property such as <code class="code">book.publisher</code>. This is shown in the following code of
+            the <code class="code">Publisher.delete</code> method where for all <code class="code">book</code> entities
+            concerned the
+            property <code class="code">book.publisher</code> is cleared:</p>
+          <pre class="programlisting">public static void <span class="bold"><strong>delete</strong></span>( EntityManager em, UserTransaction ut, 
+    String name) throw Exception {
+  ut.begin();
+  Publisher publisher = em.find( Publisher.class, name);
+  // find all Books which have this publisher
+  Query query = em.createQuery( 
+      "SELECT b FROM Book b WHERE b.publisher.name = :name");
+  query.setParameter( "name", name);
+  List&lt;Book&gt; books = query.getResultList();
+  // clear these books' publisher reference
+  <span class="bold"><strong>for ( Book b: books) { b.setPublisher( null);}</strong></span>
+  em.remove( publisher);
+  ut.commit();
+}</pre>
+          <p>The method loops through all <code class="code">Book</code> entities
+            referencing the publisher to be destroyed and sets their
+            <code class="code">publisher</code> property to <code class="code">null</code>.
+          </p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e908"></a>4.6.&nbsp;Serialization and De-Serialization</h3>
+              </div>
+            </div>
+          </div>
+          <p>Based on JPA annotations, together with suitable converter classes
+            when needed, serialization (from Java objects to table rows) as well as
+            the corresponding de-serialization (from table columns to Java objects)
+            are performed automatically.</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e911"></a>5.&nbsp;The View and Controller Layers</h2>
+            </div>
+          </div>
+        </div>
+        <p>The user interface (UI) consists of a start page for navigating to
+          the data management UI pages and one UI page for each object type and data
+          management use case. All these UI pages are defined in the form of JSF
+          view files in subfolders of the <code class="code">WebContent/views/</code> folder. We
+          create the <span class="italic">Main Menu</span> page
+          <code class="code">index.xhtml</code> in the subfolder
+          <code class="code">WebContent/views/app</code> with the following
+          content:
+        </p>
+        <pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="..." xmlns:h="..." xmlns:f="..."&gt;
+  &lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+    &lt;ui:define name="content"&gt;
+      &lt;h2&gt;Public Library&lt;/h2&gt;
+      &lt;h:button value="Manage publishers" 
+          outcome="/views/publishers/index" /&gt;
+      &lt;h:button value="Manage books" outcome="/views/books/index" /&gt;
+      &lt;h:form&gt;
+        &lt;h:commandButton value="Clear database" 
+            action="#{appCtrl.clearData()}" /&gt;
+        &lt;h:commandButton value="Create test data" 
+            action="#{appCtrl.createTestData()}" /&gt;
+      &lt;/h:form&gt;
+    &lt;/ui:define&gt;
+  &lt;/ui:composition&gt;
+&lt;/html&gt;</pre>
+        <p>It creates the menu buttons which provide the redirects to
+          corresponding views for each of the management pages. Additionally, we
+          need to create a corresponding AppController class which is responsible
+          for the creation and deletion of the test data. The controller is used to
+          combine code of the <code class="code">Publisher.createTestData</code> and
+          <code class="code">Publisher.clearData</code> methods with
+          <code class="code">Book.createTestData</code> and <code class="code">Book.clearData</code> methods
+          as follows:
+        </p>
+        <pre class="programlisting">@ManagedBean( name="appCtrl")
+@SessionScoped
+public class AppController {
+  @PersistenceContext( unitName="UnidirAssocApp")
+  private EntityManager em;
+  @Resource()
+  UserTransaction ut;
+
+  public String <span class="bold"><strong>clearData</strong></span>() {
+    try {
+      <span class="bold"><strong>Book.clearData</strong></span>( em, ut);
+      <span class="bold"><strong>Publisher.clearData</strong></span>( em, ut);
+    } catch ( Exception e) {
+      e.printStackTrace();
+    }
+    return "index";
+  }
+  public String <span class="bold"><strong>createTestData</strong></span>() {
+    try {
+      <span class="bold"><strong>Publisher.createTestData</strong></span>( em, ut);
+      <span class="bold"><strong>Book.createTestData</strong></span>( em, ut);
+    } catch ( Exception e) {
+      e.printStackTrace();
+    }
+    return "index";
+  }
+}</pre>
+        <p>The deletion of <code class="code">Book</code> and <code class="code">Publisher</code> data
+          must be done in a particular order for avoiding referential integrity
+          violations (books have to be deleted first, before their publishers are
+          deleted).</p>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e934"></a>5.1.&nbsp;Initialize the app</h3>
+              </div>
+            </div>
+          </div>
+          <p>Since the code runs in a Tomcat container, the initialization is
+            made internally by the container.</p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e937"></a>5.2.&nbsp;Show information about associated objects in the <span
+                    class="italic">List Objects</span> use case</h3>
+              </div>
+            </div>
+          </div>
+          <p>In our example we have only one reference property,
+            <code class="code">Book::publisher</code>, which is functional. For showing
+            information about the optional publisher of a book in the <span class="italic">list books</span> use case,
+            the corresponding cell in
+            the HTML table is filled with the name of the publisher, if there is
+            any:
+          </p>
+          <pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="content"&gt;
+    &lt;h:dataTable value="#{bookCtrl.books}" var="b"&gt;
+      ...
+      &lt;h:column&gt;
+        &lt;f:facet name="header"&gt;Publisher&lt;/f:facet&gt;
+        #{b.publisher.name}
+      &lt;/h:column&gt;
+    &lt;/h:dataTable&gt;
+    &lt;h:button value="Main menu" outcome="index" /&gt;
+  &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre>
+          <p>Notice the cascade call used in the
+            <code class="code">#{b.publisher.name}</code> JSF expression: accessing the property
+            <code class="code">name</code> of the <code class="code">publisher</code> which is a property of
+            the book instance <code class="code">b</code>.
+          </p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e949"></a>5.3.&nbsp;Allow selecting associated objects in the <span
+                    class="italic">create</span> and <span class="italic">update</span> use cases</h3>
+              </div>
+            </div>
+          </div>
+          <p>In this section, we discuss how to create and update an object
+            which has reference properties, such as a <code class="code">Book</code> object with
+            the reference property <code class="code">publisher</code>.</p>
+          <div class="section">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title"><a name="d5e956"></a>5.3.1.&nbsp;Create the Object-to-String converter</h4>
+                </div>
+              </div>
+            </div>
+            <p>HTML require string or number values to populate forms. In our
+              case, the property <code class="code">publisher</code> of the <code class="code">Book</code>
+              class is an object reference. JSF allows the mapping from object and
+              string and back by using <span class="italic">face
+                converters</span>, which are classes annotated with
+              <code class="code">@FacesConverter</code> and implementing the
+              <code class="code">javax.faces.convert.Converter</code> interface:
+            </p>
+            <pre class="programlisting"><span class="bold"><strong>@FacesConverter( value="pl.m.converter.PublisherConverter")</strong></span>
+public class PublisherConverter implements Converter {
+  @Override
+  public Object <span class="bold"><strong>getAsObject</strong></span>( FacesContext context, 
+      UIComponent component, String value) {
+    <span class="bold"><strong>PublisherController ac = FacesContext
+        .getCurrentInstance()
+        .getApplication()
+        .evaluateExpressionGet( context, "#{publisherCtrl}",
+            PublisherController.class);</strong></span>
+    EntityManager em = ac.getEntityManager();
+    if (value == null) return null;
+    else return em.find( Publisher.class, value);
+  }
+  @Override
+  public String <span class="bold"><strong>getAsString</strong></span>( FacesContext context, 
+      UIComponent component, Object value) {
+    if (value == null) return null;
+    else if (value instanceof Publisher) {
+      return ((Publisher) value).getName();
+    }
+    else return null;
+  }
+}</pre>
+            <p>It defines two methods, <code class="code">getAsObject</code> and
+              <code class="code">getAsString</code>, responsible for the two mappings. It allows
+              to define custom representations which can be used not only in
+              connection with HTML forms but also allows serialization which can be
+              used with display views. For being able to extract an object from
+              database we need an <code class="code">EntityManager</code> which can be obtained
+              from our controller class instances (e.g., the managed bean
+              <code class="code">publisherCtrl</code>). The instance of the controller can be
+              obtained by using the <code class="code">FacesContext</code> singletone as shown
+              above:
+            </p>
+            <pre class="programlisting"><span class="bold"><strong>PublisherController ac = FacesContext.getCurrentInstance()
+     .getApplication()
+     .evaluateExpressionGet( context, "#{publisherCtrl}", 
+          PublisherController.class);</strong></span></pre>
+            <p>In addition, we need to add a <code class="code">getEntityManager</code>
+              method in the controller class as follows:</p>
+            <pre class="programlisting">@ManagedBean( name="publisherCtrl")
+@SessionScoped
+public class PublisherController {
+  @PersistenceContext( unitName="UnidirAssocApp")
+  private EntityManager em;
+  @Resource()
+  UserTransaction ut;
+
+  public EntityManager getEntityManager() {
+    return this.em;
+  }
+  ...
+}</pre>
+            <p>JSF needs to compare two publisher instances, when the publisher
+              list has to auto-select the current publisher, in the <span class="italic">update book</span> use case.
+              For this reason, the
+              <code class="code">Publisher</code> model class needs to implement the
+              <code class="code">equals</code> method. In our case, two publishers are "one and
+              the same", if the values of their <code class="code">name</code> property are
+              equal:
+            </p>
+            <pre class="programlisting">@Override
+public boolean equals( Object obj) {
+  if (obj instanceof Publisher) {
+    Publisher publisher = (Publisher) obj;
+    return ( this.name.equals( publisher.name));
+  } else return false;
+}</pre>
+          </div>
+          <div class="section">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title"><a name="d5e986"></a>5.3.2.&nbsp;Write the view code</h4>
+                </div>
+              </div>
+            </div>
+            <p>To allow selection of objects which have to be associated with
+              the currently edited object from a list in the <span class="italic">create</span> and <span
+                class="italic">update</span> use cases, an HTML selection list (a
+              <code class="code">select</code> element) is populated with the instances of the
+              associated object type with the help of JSF
+              <code class="code">h:selectOneMenu</code> element. The
+              <code class="code">WebContent/views/books/create.xhtml</code> file is updated as
+              follows:
+            </p>
+            <pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+ &lt;ui:define name="content"&gt;
+  &lt;h:form id="createBookForm" styleClass="pure-form pure-form-aligned"&gt;
+   &lt;h:panelGrid columns="3"&gt;
+    ...
+    <span class="bold"><strong>&lt;h:outputLabel for="publisher" value="Publisher:" /&gt;
+    &lt;h:selectOneMenu id="publisher" value="#{book.publisher}"&gt;
+     &lt;f:selectItem itemValue="" itemLabel="---" /&gt;
+     &lt;f:selectItems value="#{publisherCtrl.publishers}" var="p" 
+                    itemLabel="#{p.name}" itemValue="#{p}" /&gt;
+     &lt;f:converter converterId="pl.m.converter.PublisherConverter" /&gt;
+    &lt;/h:selectOneMenu&gt;
+    &lt;h:message for="publisher" errorClass="error" /&gt;</strong></span>
+    &lt;/h:panelGrid&gt;
+     <span class="bold"><strong>&lt;h:commandButton value="Create" 
+         action="#{bookCtrl.create( book.isbn, book.title, 
+         book.year, book.publisher.name)}" /&gt;</strong></span>
+  &lt;/h:form&gt;
+ &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre>
+            <p>The object-to-string and back converter is specified by using
+              the <code class="code">f:converter</code> JSF element and its associated
+              <code class="code">@converterId attribute</code>. The value of this attribute must
+              be the same with the one specified by the <code class="code">value</code> property
+              of the annotation <code class="code">@FacesConverter</code> used when the converter
+              class is defined, e.g., <code class="code">@FacesConverter(
+        value="pl.m.converter.PublisherConverter")</code>. In general, the
+              converter simple class name should be used (e.g.,
+              <code class="code">PublisherConverter</code>), or the complete fully qualified
+              name, if there is a risk of naming conflicts (e.g.,
+              <code class="code">pl.m.converter.PublisherConverter</code>). We recommend to use
+              the fully qualified name in all cases.
+            </p>
+            <p>The <code class="code">#{publisherCtrl.publishers}</code> JSF expression
+              results in calling the <code class="code">getPublishers</code> method of the
+              <code class="code">PublisherController</code> class, which is responsible to return
+              the list of available publishers:
+            </p>
+            <pre class="programlisting">public List&lt;Publisher&gt; getPublishers() {
+  return Publisher.getAllObjectsAll( em);
+}</pre>
+            <p>The creation of the book is obtained by using the <code class="code">h:commandButton</code> JSF
+              element. It results in the invocation of the <code class="code">create</code> method of the
+              <code class="code">BookController</code>
+              class:
+            </p>
+            <pre class="programlisting">public String create( String isbn, String title, Integer year, 
+    <span class="bold"><strong>Publisher publisher</strong></span>) {
+  try {
+    <span class="bold"><strong>Book.create( em, ut, isbn, title, year, publisher);</strong></span>
+    // Enforce clearing the form after creating the Book row.
+    // Without this, the form will show the latest completed data
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    facesContext.getExternalContext().getRequestMap().remove( "book");
+  } catch ( EntityExistsException e) {
+    try {
+      ut.rollback();
+    } catch ( Exception e1) {
+      e1.printStackTrace();
+    }
+    e.printStackTrace();
+  } catch ( Exception e) {
+    e.printStackTrace();
+  }
+  return "create";
+}</pre>
+            <p>It simply calls the <code class="code">Book.create</code> method, responsible with the creation of
+              a new row in the books table.</p>
+            <p>The code for the <span class="italic">update book</span> use case is very
+              similar, the only important modification being the addition of the <code class="code">select</code>
+              element
+              (i.e., using the<code class="code"> h:selectOneMenu</code> JSF element), which allows to select which book
+              to update:
+            </p>
+            <pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+ &lt;ui:define name="content"&gt;
+  &lt;h:form id="createBookForm" styleClass="pure-form pure-form-aligned"&gt;
+   &lt;h:panelGrid columns="3"&gt;
+    ...
+    &lt;h:outputLabel for="selectBook" value="Select book: " /&gt;
+    &lt;h:selectOneMenu id="selectBook" value="#{book.isbn}"&gt;
+     &lt;f:selectItem itemValue="" itemLabel="---" /&gt; 
+     &lt;f:selectItems value="#{bookCtrl.books}" var="b" 
+         itemValue="#{b.isbn}" itemLabel="#{b.title}" /&gt; 
+     &lt;f:ajax listener="#{bookCtrl.refreshObject( book)}" 
+         render="isbn title year publisher"/&gt;
+    &lt;/h:selectOneMenu&gt;
+    &lt;h:message for="selectedBook"/&gt;
+     ...
+   &lt;/h:panelGrid&gt;
+   &lt;h:commandButton value="Create" action="#{bookCtrl.create( 
+       book.isbn, book.title, book.year, book.publisher.name)}" /&gt;
+  &lt;/h:form&gt;
+ &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div lang="" class="chapter">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title"><a name="d5e1024"></a>Chapter&nbsp;3.&nbsp;Implementing Unidirectional Non-Functional
+              Associations with Java EE</h1>
+          </div>
+        </div>
+      </div>
+      <div class="toc">
+        <p><b>Table of Contents</b></p>
+        <dl class="toc">
+          <dt><span class="section"><a href="#d5e1044">1. Implementing Multi-Valued Reference Properties in
+                Java</a></span></dt>
+          <dt><span class="section"><a href="#d5e1055">2. Make a Java Entity Class Model</a></span></dt>
+          <dt><span class="section"><a href="#d5e1159">3. New issues</a></span></dt>
+          <dt><span class="section"><a href="#d5e1187">4. Write the Model Code </a></span></dt>
+          <dd>
+            <dl>
+              <dt><span class="section"><a href="#d5e1190">4.1. Summary</a></span></dt>
+              <dt><span class="section"><a href="#d5e1214">4.2. Code each class of the Java Entity class model
+                  </a></span></dt>
+              <dt><span class="section"><a href="#d5e1262">4.3. Implement a deletion policy</a></span></dt>
+              <dt><span class="section"><a href="#d5e1287">4.4. Serialization and De-Serialization</a></span></dt>
+            </dl>
+          </dd>
+          <dt><span class="section"><a href="#d5e1292">5. Write the User Interface Code</a></span></dt>
+          <dd>
+            <dl>
+              <dt><span class="section"><a href="#d5e1294">5.1. Show information about associated objects in the <span
+                      class="italic">List
+                      Objects</span> use case</a></span></dt>
+              <dt><span class="section"><a href="#d5e1309">5.2. Allow selecting associated objects in the <span
+                      class="italic">create</span> use
+                    case</a></span></dt>
+            </dl>
+          </dd>
+          <dt><span class="section"><a href="#d5e1335">6. Run the App and Get the Code</a></span></dt>
+          <dt><span class="section"><a href="#d5e1350">7. Possible Variations and Extensions</a></span></dt>
+          <dd>
+            <dl>
+              <dt><span class="section"><a href="#d5e1352">7.1. Set-valued versus ordered-set-valued reference
+                    properties</a></span></dt>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+      <p>A unidirectional non-functional association is either <span class="italic">one-to-many</span> or <span
+          class="italic">many-to-many</span>. In both cases such an
+        association is represented with the help of a <span class="italic">multi-valued</span> reference property.</p>
+      <p>In this chapter, we show</p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>how to derive a <span class="italic">data model</span> in the form of a <span class="bold"><strong><span
+                    class="italic">Java Entity class model</span></strong></span> from an
+              information design model with <span class="italic">multi-valued reference
+                properties</span> representing <span class="italic">unidirectional non-functional
+                associations</span>,</p>
+          </li>
+          <li class="listitem">
+            <p>how to code the Java Entity class model in the form of entity classes (representing
+              <span class="italic">model classes</span>),
+            </p>
+          </li>
+          <li class="listitem">
+            <p>how to write the view and controller code based on the model code.</p>
+          </li>
+        </ol>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e1044"></a>1.&nbsp;Implementing Multi-Valued Reference
+                Properties in Java</h2>
+            </div>
+          </div>
+        </div>
+        <p>A multi-valued reference property, such as <code class="code">Book::authors</code>, allows storing a
+          collection of references to objects of some type, such as references to <code class="code">Author</code>
+          objects. When creating a new object of type <code class="code">Book</code>, it must be possible to assign
+          one or more authors to the book. to assign the constructor needs an extra parameter for the
+          multi-valued reference property. In general, we can allow this value to be a set (or list) of
+          internal object references or of ID references. However, using JPA there is no need for ID
+          references, being very easy to use object references:
+        </p>
+        <pre class="programlisting">@Entity @Table( name="books")
+@ManagedBean( name="book")
+@ViewScoped
+public class Book {
+  ...
+  <span class="bold"><strong>private Set&lt;Author&gt; authors;</strong></span>
+  
+  public Book() { // required by JPA @Entity annotation!}
+  public Book( String isbn, String title, Integer year, Publisher publisher, <span class="bold"><strong>Set&lt;Author&gt; authors</strong></span>) {...}
+
+  public Set&lt;Author&gt; <span class="bold"><strong>getAuthors</strong></span>() { return this.authors;}
+  public void <span class="bold"><strong>setAuthors</strong></span>( Set&lt;Author&gt; authors) { this.authors = authors;}
+  ...
+}</pre>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e1055"></a>2.&nbsp;Make a Java Entity Class Model</h2>
+            </div>
+          </div>
+        </div>
+        <p>The starting point for making a Java Entity class model is an OO class model where reference
+          properties represent associations. The following model for our example app contains the
+          multi-valued reference property <code class="code">Book::authors</code>, which represents the unidirectional
+          many-to-many association <span class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span
+            class="italic">Author</span>:</p>
+        <div class="mediaobject"><img src="../fig/Publisher-Book-Author_Unidir_AFM.svg"></div>
+        <p>This model contains, in addition to the unidirectional many-to-one association <span
+            class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span
+            class="italic">Publisher</span>, the unidirectional many-to-many association <span
+            class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span
+            class="italic">Author</span>,
+          which corresponds to the multi-valued reference property <code class="code">Book::authors</code>. </p>
+        <p>The meaning of the OO class model and its reference properties <code class="code">publisher</code> and
+          <code class="code">authors</code> can be illustrated by a sample data population for the three model
+          classes:
+        </p>
+        <div class="table"><a name="d5e1076"></a>
+          <p class="title"><b>Table&nbsp;3.1.&nbsp;Sample data for <code class="code">Publisher</code></b></p>
+          <div class="table-contents">
+            <table frame="box" rules="all">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bantam Books</td>
+                  <td>New York, USA</td>
+                </tr>
+                <tr>
+                  <td>Basic Books</td>
+                  <td>New York, USA</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div><br class="table-break">
+        <div class="table"><a name="d5e1090"></a>
+          <p class="title"><b>Table&nbsp;3.2.&nbsp;Sample data for <code class="code">Book</code></b></p>
+          <div class="table-contents">
+            <table frame="box" rules="all">
+              <thead>
+                <tr>
+                  <th>ISBN</th>
+                  <th>Title</th>
+                  <th>Year</th>
+                  <th>Authors</th>
+                  <th>Publisher</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0553345842</td>
+                  <td>The Mind's I</td>
+                  <td>1982</td>
+                  <td>1, 2</td>
+                  <td>Bantam Books</td>
+                </tr>
+                <tr>
+                  <td>1463794762</td>
+                  <td>The Critique of Pure Reason</td>
+                  <td>2011</td>
+                  <td>3</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>1928565379</td>
+                  <td>The Critique of Practical Reason</td>
+                  <td>2009</td>
+                  <td>3</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>0465030793</td>
+                  <td>I Am A Strange Loop</td>
+                  <td>2000</td>
+                  <td>2</td>
+                  <td>Basic Books</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div><br class="table-break">
+        <div class="table"><a name="d5e1125"></a>
+          <p class="title"><b>Table&nbsp;3.3.&nbsp;Sample data for <code class="code">Author</code></b></p>
+          <div class="table-contents">
+            <table frame="box" rules="all">
+              <thead>
+                <tr>
+                  <th>Author ID</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Daniel Dennett</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Douglas Hofstadter</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Immanuel Kant</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div><br class="table-break">
+        <p>We obtain the Java Entity class <code class="code">Author</code> from the corresponding class in the OO
+          class model, as explained in the previous parts of this tutorial, by (1) making all properties
+          private, (2) using Java datatype classes, (3) adding public getters and setters, (4) adding a
+          <code class="code">toString</code> function, (5) adding the data storage methods <code
+            class="code">create</code>,
+          <code class="code">retrieve</code>, <code class="code">update</code> and <code class="code">delete</code>:
+        </p>
+        <div class="mediaobject"><img src="../fig/Author_JavaEE.svg"></div>
+        <p>In the Java Entity class model, any reference property specified in the OO class model is
+          annotated with the functionality type of the association represented by it. In our example, we
+          annotate the reference property <code class="code">authors</code> in the Entity class <code
+            class="code">Book</code> with
+          <code class="code">manyToMany</code>:
+        </p>
+        <div class="mediaobject"><img src="../fig/Book-with-authors_JavaEE.svg"></div>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e1159"></a>3.&nbsp;New issues</h2>
+            </div>
+          </div>
+        </div>
+        <p>Compared to dealing with a unidirectional functional association, as discussed in the
+          previous section, we have to deal with the following new technical issues: </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>In <span class="italic">model classes</span> we now have to take care of <span
+                  class="bold"><strong><span class="italic">multi-valued reference properties</span></strong></span>
+                that have to be annotated with <span class="bold"><strong><code
+                      class="code">@OneToMany</code></strong></span> or
+                <span class="bold"><strong><code class="code">@ManyToMany</code></strong></span>.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>In the <span class="italic">user interface</span> code we now have to take care of</p>
+              <div class="orderedlist">
+                <ol class="orderedlist" type="a">
+                  <li class="listitem">
+                    <p>showing information about a collection of associated objects in the view table columns
+                      that render multi-valued reference properties in the <span class="italic">retrieve/list
+                        all objects</span> use case;</p>
+                  </li>
+                  <li class="listitem">
+                    <p>allowing to select a collection of associated objects from a list of all existing
+                      instances of the target class in the <span class="italic">create object</span> and
+                      <span class="italic">update object</span> use cases.
+                    </p>
+                  </li>
+                </ol>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p>The last issue, allowing to select a collection of associated objects from a list of all
+          existing instances of some class, in general, cannot be solved with the help of an HTML
+          <code class="code">select multiple</code> form element because of usability problems. Whenever the set of
+          selectable options is greater than a certain threshold (defined by the number of options that can
+          be seen on the screen without scrolling), the HTML <code class="code">select multiple</code> element is no
+          longer usable, and an alternative <span class="italic">multi-selection widget</span> has
+          to be used.
+        </p>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e1187"></a>4.&nbsp;Write the Model Code </h2>
+            </div>
+          </div>
+        </div>
+        <p>The Java Entity class model can be directly coded for getting the code of the model layer of our
+          Java back-end app.</p>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e1190"></a>4.1.&nbsp;Summary</h3>
+              </div>
+            </div>
+          </div>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>Code each class of the Java Entity class model as a corresponding entity class.</p>
+              </li>
+              <li class="listitem">
+                <p>Code an {id} property modifier with the JPA annotation <code class="code">@Id</code></p>
+              </li>
+              <li class="listitem">
+                <p>Code any property modifier denoting the functionality type of a reference property, such
+                  as {manyToOne}, with the corresponding JPA annotation, such as <code class="code">@ManyToOne</code>.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>Code the integrity constraints specified in the model with the help of Java Bean
+                  Validation annotations (or custom validation annotations).</p>
+              </li>
+              <li class="listitem">
+                <p>Code the getters and setters as well as the <span class="italic">add</span> and
+                  <span class="italic">remove</span> methods for multi-valued properties.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>Code the <code class="code">create</code>, <code class="code">retrieve</code>, <code
+                    class="code">update</code> and
+                  <code class="code">delete</code> storage management operations as class-level methods.
+                </p>
+              </li>
+            </ol>
+          </div>
+          <p>These steps are discussed in more detail in the following sections.</p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e1214"></a>4.2.&nbsp;Code each class of the Java Entity class model </h3>
+              </div>
+            </div>
+          </div>
+          <p>For the multi-valued reference property <code class="code">Book::authors</code>, we use a
+            parametrized <code class="code">Set</code>
+            type:</p>
+          <pre class="programlisting">@Entity @Table( name="books")
+@ViewScoped @ManagedBean( name="book")
+public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  @<span class="bold"><strong>ManyToMany</strong></span>( fetch=FetchType.EAGER)
+  private Set&lt;Author&gt; <span class="bold"><strong>authors</strong></span>;
+ 
+  public Book() {}
+  public Book( String isbn, String title, Integer year, 
+      Publisher publisher, <span class="bold"><strong>Set&lt;Author&gt; authors</strong></span>) {...}
+  ...
+  public Set&lt;Author&gt; getAuthors() { return this.authors;}
+  public void setAuthors( Set&lt;Author&gt; authors) { this.authors=authors;}
+  ...
+}</pre>
+          <p>
+            The JPA annotation <code class="code">@ManyToMany</code> allows to specify the <span
+              class="bold"><strong>Many-To-Many</strong></span> relation between the <code class="code">Book</code> and
+            <code class="code">Author</code>.
+            The annotation parameter<code class="code"> FetchType.EAGER</code> is used, so when a <code
+              class="code">Book</code>
+            instance is created, the list of authors is populated with the corresponding
+            <code class="code">Author</code> instances. As a result of this annotation, a relation table between
+            <code class="code">Book</code> and <code class="code">Author</code> is created, and the resulting SQL code
+            is shown
+            below:
+          </p>
+          <pre class="programlisting">CREATE TABLE IF NOT EXISTS `books_author` (
+  `Book_ISBN` varchar(10) NOT NULL,
+  `authors_PERSONID` int(11) NOT NULL
+);</pre>
+          <p>The resulting class name is the concatenation, underscore separated, of the
+            corresponding table names (e.g., <code class="code">books_author</code>). The primary key columns from each
+            of the two tables are used to implement the relation. The corresponding column names are created
+            as follows:</p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>for the table (e.g., <code class="code">books</code>) which correspond to the class with the
+                  <code class="code">@ManyToMany</code> annotation (e.g., <code class="code">Book</code>), the class
+                  name is used as
+                  well as the primary key column name, (e.g., <code class="code">Book_ISBN</code>).
+                </p>
+              </li>
+              <li class="listitem">
+                <p>for the other table (e.g., <code class="code">authors</code>), the table name is concatenated with
+                  the primary key column name, (e.g., authors_PERSONID).</p>
+              </li>
+            </ul>
+          </div>
+          <p>It is possible to control these parameters, i.e., table name and relation column
+            names, by using the <code class="code">@JoinTable</code> annotation. To obtain a custom named relation
+            table,
+            e.g., <code class="code">books_authors</code> and the corresponding custom named columns, e.g.,
+            <code class="code">book_isbn</code> and <code class="code">author_personid</code>, one can use:
+          </p>
+          <pre class="programlisting">@JoinTable( name="books_authors", 
+            joinColumns = {@JoinColumn( name="book_isbn", referencedColumnName="ISBN")},
+            inverseJoinColumns = {@JoinColumn( name="author_personid", referencedColumnName="PERSONID")}</pre>
+          <p>In
+            our application, we keep the default, so a <code class="code">@JoinTable</code> annotation is not
+            used.</p>
+          <p>The corresponding Author class is coded as a simple Java class with the corresponding
+            JPA and Java Validation API
+            annotations:</p>
+          <pre class="programlisting">@Entity
+@Table( name="author")
+@ManagedBean( name="author")
+@ViewScoped
+public class <span class="bold"><strong>Author</strong></span> {
+  @Id @PositiveInteger
+  private Integer <span class="bold"><strong>personId</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A name is required!")
+  private String <span class="bold"><strong>name</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A date of birth is required!")
+  @Past private Date <span class="bold"><strong>dateOfBirth</strong></span>;
+  @Past private Date <span class="bold"><strong>dateOfDeath</strong></span>;
+
+  public Author() {}
+  public Author( Integer personId, String name, Date dateOfBirth, 
+      Date dateOfDeath) {...}
+
+  public Integer getPersonId() {...}
+  public void setPersonId( Integer personId) {...}
+  public String getName() {...}
+  public void setName( String name) {...}
+  public Date getDateOfBirth() {...}
+  public void setDateOfBirth( Date dateOfBirth) {...}
+  public Date getDateOfDeath() {...}
+  public void setDateOfDeath( Date dateOfDeath) {...}
+
+  public static void create( EntityManager em, UserTransaction ut, Integer personId, 
+      String name, Date dateOfBirth, Date dateOfDeath) {...}
+  public static void update( EntityManager em, UserTransaction ut, Integer personId, 
+      String name, Date dateOfBirth, Date dateOfDeath) {...}
+  public static void delete( EntityManager em, UserTransaction ut, 
+      Integer personId) {...}
+}</pre>
+          <p>Custom validation annotations are defined and implemented (i.e.,
+            <code class="code">@PositiveInteger</code>) as shown in Part 2 (<a class="link"
+              href="validation-tutorial.html" target="_top">Validation Tutorial</a>).
+          </p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e1262"></a>4.3.&nbsp;Implement a deletion policy</h3>
+              </div>
+            </div>
+          </div>
+          <p>For the reference property <code class="code">Book::authors</code>, we have to implement a deletion
+            policy in the <code class="code">delete</code> method of the <code class="code">Author</code> class. If we
+            just try
+            to delete an author, and the author is referenced by any of the book records, then an
+            integrity constraint violation fires, and the author cannot be deleted. We have two
+            possiblitities for this situation:</p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>delete all books (co-)authored by the deleted author;</p>
+              </li>
+              <li class="listitem">
+                <p>drop from all books (co-)authored by the deleted author the reference to the
+                  deleted author. </p>
+              </li>
+            </ol>
+          </div>
+          <p>We go for the second option. This is shown in the following code of the
+            <code class="code">Author.delete</code> method:
+          </p>
+          <pre class="programlisting">public static void delete( EntityManager em, UserTransaction ut, 
+    Integer personId) throws Exception {
+  ut.begin();
+  Author author = em.find( Author.class, personId);
+  // find all books with this author
+  <span class="bold"><strong>Query query = em.createQuery( "SELECT DISTINCT b FROM Book b "+
+      "INNER JOIN b.authors a WHERE a.personId = :personId");</strong></span>
+  query.setParameter( "personId", personId);
+  List&lt;Book&gt; books = query.getResultList();
+  // update the corresponding book-to-author relations from the association
+  // table (otherwise the author can't be deleted)
+ <span class="bold"><strong> for ( Book b : books) {
+    b.getAuthors().remove( author);
+  }</strong></span>
+  // remove the author entry (table row)
+  <span class="bold"><strong>em.remove( author);</strong></span>
+  ut.commit();
+}</pre>
+          <p>Essentially, there are three steps for this operation:</p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>create a JPQL query which allows to select all book instances for this author -
+                  remember, this is an unidirectional association, there is no direct method available
+                  for this case.</p>
+              </li>
+              <li class="listitem">
+                <p>for every found book which reference this author, we have to remove the author
+                  from its authors list.</p>
+              </li>
+              <li class="listitem">
+                <p>remove tha author - now is safe and no relation specific error should
+                  occur.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e1287"></a>4.4.&nbsp;Serialization and De-Serialization</h3>
+              </div>
+            </div>
+          </div>
+          <p>In Java, by using the JPA built-in annotations (i.e., <code class="code">@Entity</code> for the class
+            and the corresponding ones for the properties) together with converter classes where is the
+            case as shown in Part 3 (<a class="link" href="enumeration-tutorial.html" target="_top">Eumeration
+              Tutorial</a>), the serialization is made internally. This means, the serialization from
+            Java object to the corresponding database table row as well as the de-serilaization from
+            database table column to Java object are made automatically. </p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e1292"></a>5.&nbsp;Write the User Interface Code</h2>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e1294"></a>5.1.&nbsp;Show information about associated objects in the <span
+                    class="italic">List
+                    Objects</span> use case</h3>
+              </div>
+            </div>
+          </div>
+          <p>For showing information about the authors of a book in the <span class="italic">list
+              books</span> use case, the corresponding cell in the HTML table has to be filled with
+            a list of the names of all authors. For this, we implement a method in the Book class which
+            returns the serialized (as we like to have it displayed) list of author names (in the form,
+            <span class="italic">authorName_1, authorName_2, ..., authorName_n</span>):
+          </p>
+          <pre class="programlisting">public String getAuthorNames() {
+  String result = "";
+  int i = 0, n = 0;
+  if ( this.authors != null) {
+    n = this.authors.size();
+    for ( Author author : this.authors) {
+      result += author.getName();
+      if ( i&lt; n - 1) {
+        result +=", ";
+      }
+      i++;
+    }
+  }
+  return result;
+ }</pre>
+          <p>In the view file, <code class="code">WebContent/views/books/listAll.xhtml</code> we use this method
+            in the JSF expression corresponding to the authors cell:
+          </p>
+          <pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="content"&gt;
+    &lt;h:dataTable value="#{bookController.books}" var="b"&gt;
+      ...
+      &lt;h:column&gt;
+        &lt;f:facet name="header"&gt;Publisher&lt;/f:facet&gt;
+        #{b.publisher.name}
+      &lt;/h:column&gt;
+      <span class="bold"><strong>&lt;h:column&gt;
+        &lt;f:facet name="header"&gt;Authors&lt;/f:facet&gt;
+        #{b.authorNames}
+      &lt;/h:column&gt;</strong></span>
+    &lt;/h:dataTable&gt;
+    &lt;h:button value="Back" outcome="index" /&gt;
+  &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre>
+          <p>Remember, using <code class="code">b.authorNames</code> results in calling a method named
+            <code class="code">getAuthorNames</code> of the specific <code class="code">b</code> object.
+          </p>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e1309"></a>5.2.&nbsp;Allow selecting associated objects in the <span
+                    class="italic">create</span> use
+                  case</h3>
+              </div>
+            </div>
+          </div>
+          <p>For allowing to select multiple authors to be associated with the currently edited book in
+            the <span class="italic">create book</span> use case, a multiple selection list (a
+            <code class="code">select</code> element with <code class="code">multiple="multiple"</code>), as shown in
+            the HTML code
+            below, is populated with the instances of the associated object type. The following code is part
+            of <code class="code">WebContent/views/books/create.xhtml</code> view
+            file:
+          </p>
+          <pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="content"&gt;
+    &lt;h:form id="createBookForm"&gt;
+      &lt;h:panelGrid columns="3"&gt;
+        ...
+        <span class="bold"><strong>&lt;h:outputLabel for="authors" value="Authors:" /&gt;
+        &lt;h:selectManyListbox id="authors" value="#{book.authors}"&gt;
+          &lt;f:selectItems value="#{authorController.authors}" var="a" 
+                         itemLabel="#{a.name}" itemValue="#{a}" /&gt;
+          &lt;f:converter converterId="AuthorConverter" /&gt;
+        &lt;/h:selectManyListbox&gt;
+        &lt;h:message for="authors" errorClass="error" /&gt;</strong></span>
+      &lt;/h:panelGrid&gt;
+      &lt;h:commandButton value="Create" action="#{bookController.create( 
+       book.isbn, book.title, book.year, book.publisher, book.authors)}"/&gt;
+    &lt;/h:form&gt;
+    &lt;h:button value="Back" outcome="index" /&gt;
+  &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre>
+          <p>Remember that we have to add the <code class="code">equals</code> method for the <code
+              class="code">Author</code>
+            model class. In our case, two authors are "one and the same" if the values of their
+            <code class="code">personId</code> property are
+            equal:
+          </p>
+          <pre class="programlisting">@Override
+public boolean equals( Object obj) {
+  if (obj instanceof Author) {
+    Author author = (Author) obj;
+    return ( this.personId.equals( author.personId));
+  } else return false;
+}</pre>
+          <p>The same like in the case of the <code class="code">Publisher</code>, a JSF converter class is used to
+            serialize authors from object instance to view strings, when the select list has to be
+            populated, and back to object instance, when the <code class="code">create</code> method of the
+            <code class="code">BookController</code> is called (the "Create" button was pushed by the user). The
+            <code class="code">BookController.create</code> method is updated with a new parameter, i.e., the
+            corresponding list of selected
+            authors:
+          </p>
+          <pre class="programlisting">public String create( String isbn, String title, Integer year, Publisher publisher, <span class="bold"><strong>Set&lt;Author&gt; authors</strong></span>) {
+  try {
+    <span class="bold"><strong>Book.create( em, ut, isbn, title, year, publisher, authors);</strong></span>
+    // Enforce clearing the form after creating the Book row.
+    // Without this, the form will show the latest completed data
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    facesContext.getExternalContext().getRequestMap().remove( "book");
+  } catch ( EntityExistsException e) {
+    try {
+      ut.rollback();
+    } catch ( Exception e1) {
+      e1.printStackTrace();
+    }
+    e.printStackTrace();
+  } catch ( Exception e) {
+    e.printStackTrace();
+  }
+  return "create";
+}</pre>
+          <p>The <span class="italic">update book</span> use case is very similar with the
+            <span class="italic">create book</span> use case.
+          </p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e1335"></a>6.&nbsp;Run the App and Get the Code</h2>
+            </div>
+          </div>
+        </div>
+        <p>Running your application is simple. First stop (if
+          already started, otherwise skip this part) your Tomcat/TomEE server by using
+          <code class="code">bin/shutdown.bat</code> for Windows OS or <code class="code">bin/shutdown.sh</code> for
+          Linux.
+          Next, download and unzip the <a class="link" href="UnidirectionalAssociationApp.zip" target="_top">ZIP archive
+            file</a> containing all the source code of the application and also the ANT
+          script file which you have to edit and modify the <code class="code">server.folder</code> property value.
+          Now, execute the following command in your console or terminal: <code class="code">ant deploy
+        -Dappname=unidirectionalassociationapp</code>. Last, start your Tomcat web server (by using
+          <code class="code">bin/startup.bat</code> for Windows OS or <code class="code">bin/startup.sh</code> for
+          Linux).
+          Please be patient, this can take some time depending on the speed of your computer. It will be
+          ready when the console display the following info: <code class="code">INFO: Initializing Mojarra [some
+        library versions and paths are shonw here] for context '/unidirectionalassociationapp'</code>. Finally,
+          open a web browser and type:
+          <code class="code">http://localhost:8080/unidirectionalassociationapp/faces/views/app/index.xhtml</code>
+        </p>
+        <p>You may want to download the<a class="link" href="lib.html" target="_top"> ZIP
+            archive</a> containing all the dependency libaries, or <a class="link"
+            href="http://yew.informatik.tu-cottbus.de/tutorials/java/unidirectionalassociationapp/" target="_top">run
+            the
+            unidirectional association app</a> directly from our server.</p>
+      </div>
+      <div class="section">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a name="d5e1350"></a>7.&nbsp;Possible Variations and Extensions
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title"><a name="d5e1352"></a>7.1.&nbsp;Set-valued versus ordered-set-valued reference
+                  properties</h3>
+              </div>
+            </div>
+          </div>
+          <p>In Java,both set-valued and ordered-set-valued reference properties, such as
+            <code class="code">Author::authoredBooks</code> and <code class="code">Book::authors</code> in the example
+            model
+            below, can be implemented with the predefined generic interface type
+            <code class="code">List&lt;T&gt;</code> as their range. However, it seems that set-valued reference
+            properties should be rather implemented with <code class="code">Set&lt;T&gt;</code>, such as declaring
+            <code class="code">Set&lt;Book&gt;</code> as the range of <code class="code">Author::authoredBooks</code>,
+            while
+            ordered-set-valued reference properties should be implemented with
+            <code class="code">SortedSet&lt;T&gt;</code>, such as declaring <code
+              class="code">SortedSet&lt;Author&gt;</code> as the
+            range of <code class="code">Book::authors</code>. This issue still has to be investigated for future
+            editions of this tutorial.
+          </p>
+          <div class="figure"><a name="figBook-Author-Bidir_DesM-2"></a>
+            <p class="title"><b>Figure&nbsp;3.1.&nbsp;An example with a set-valued reference property <code
+                  class="code">authoredBooks</code> and an
+                ordered-set-valued reference property <code class="code">authors</code></b></p>
+            <div class="figure-contents">
+              <div class="mediaobject"><img src="../fig/Book-Author-ordered_Bidir_DesM.svg"
+                  alt="An example with a set-valued reference property authoredBooks and an ordered-set-valued reference property authors">
+              </div>
+            </div>
+          </div><br class="figure-break">
+        </div>
+      </div>
+    </div>
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '../../../www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-48105674-1', 'tu-cottbus.de');
+      ga('send', 'pageview');
+
+    </script>
+  </div>
+</body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsfApp/unidirectional-association-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:53:07 GMT -->
+
+</html>

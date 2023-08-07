@@ -1,0 +1,27 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch09s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;New Issues</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch09.html" title="Chapter&nbsp;9.&nbsp;Implementing Constraint Validation in a Java EE Web App"><link rel="prev" href="ch09.html" title="Chapter&nbsp;9.&nbsp;Implementing Constraint Validation in a Java EE Web App"><link rel="next" href="ch09s03.html" title="3.&nbsp;Make an Entity Class Model"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;New Issues</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;9.&nbsp;Implementing Constraint Validation in a Java EE Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e5997"></a>2.&nbsp;New Issues</h2></div></div></div><p>Compared to the <a class="link" href="../../tech/JavaJpaJsfApp/MinimalApp/index.html" target="_top">Minimal
+    App</a> discussed in <a class="xref" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps">Chapter&nbsp;4</a> we have to deal with a number of new
+    issues:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the <span class="italic">model</span> layer we have to
+        take care of adding for every property the constraints that must be
+        checked before allowing a record to be saved to the database</p></li><li class="listitem"><p>In the <span class="italic">user interface (view)</span>
+        we have to take care of form validation providing feedback to the user
+        whenever data entered in the form is not valid.</p></li></ol></div><p>Checking the constraints in the user interface on user input is
+    important for providing immediate feedback to the user. Using JSF and Bean
+    Validation requires to submit the form before the validation checks are
+    performed. It would be preferable to define the validation checks in the
+    model classes only and use them in the user interface before form
+    submission, without having to duplicate the validation logic in the JSF
+    facelets. However, at this point in time, JSF does not support this, and
+    the validation is performed only after the form is submitted.</p><p>Using HTML5 validation attributes in the JSF facelets to enforce
+    HTML5 validation before submitting the form requires an undesirable
+    duplication of validation logic. The effect of such a duplication would be
+    duplicate maintenance of the validation code, once in the model classes
+    and once more in the user interface. In a simple application like our
+    example app, this is doable, but in a larger application this quickly
+    becomes a maintenance nightmare.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch09.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;9.&nbsp;Implementing Constraint Validation in a Java EE Web App&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Make an Entity Class Model</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch09s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:57 GMT -->
+</html>

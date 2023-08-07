@@ -1,0 +1,775 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;2.&nbsp;More on JavaScript</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="pt01.html" title="Part&nbsp;I.&nbsp;Getting Started"><link rel="prev" href="ch01s06.html" title="6.&nbsp;Quiz Questions"><link rel="next" href="ch02s02.html" title="2.&nbsp;Storing Database Tables with JavaScript's localStorage API"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;2.&nbsp;More on JavaScript</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s06.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;I.&nbsp;Getting Started</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s02.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="d5e582"></a>Chapter&nbsp;2.&nbsp;More on JavaScript</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch02.html#d5e584">1. JavaScript Basics</a></span></dt><dd><dl><dt><span class="section"><a href="ch02.html#d5e589">1.1. Types and data literals in JavaScript</a></span></dt><dt><span class="section"><a href="ch02.html#d5e838">1.2. Variable scope</a></span></dt><dt><span class="section"><a href="ch02.html#d5e862">1.3. Frozen, or immutable, variables</a></span></dt><dt><span class="section"><a href="ch02.html#d5e870">1.4. Strict Mode</a></span></dt><dt><span class="section"><a href="ch02.html#d5e881">1.5. Different kinds of objects</a></span></dt><dt><span class="section"><a href="ch02.html#d5e986">1.6. Array lists</a></span></dt><dt><span class="section"><a href="ch02.html#d5e1069">1.7. Maps</a></span></dt><dt><span class="section"><a href="ch02.html#d5e1138">1.8. Important types of basic data structures</a></span></dt><dt><span class="section"><a href="ch02.html#d5e1194">1.9. Procedures, methods and functions</a></span></dt><dt><span class="section"><a href="ch02.html#sectClasses">1.10. Defining and using classes</a></span></dt></dl></dd><dt><span class="section"><a href="ch02s02.html">2. Storing Database Tables with JavaScript's localStorage API</a></span></dt><dd><dl><dt><span class="section"><a href="ch02s02.html#d5e1617">2.1. Entity Tables</a></span></dt><dt><span class="section"><a href="ch02s02.html#d5e1664">2.2. JavaScript's LocalStorage API</a></span></dt></dl></dd><dt><span class="section"><a href="ch02s03.html">3. New JavaScript Elements</a></span></dt><dd><dl><dt><span class="section"><a href="ch02s03.html#d5e1707">3.1. Block-Scope Variable Declarations with <code class="literal">let</code> and
+    <code class="literal">const</code></a></span></dt><dt><span class="section"><a href="ch02s03.html#d5e1732">3.2. Arrow Functions</a></span></dt><dt><span class="section"><a href="ch02s03.html#d5e1745">3.3. For-Of Loops over Iterable Objects</a></span></dt><dt><span class="section"><a href="ch02s03.html#d5e1764">3.4. Template Literals</a></span></dt><dt><span class="section"><a href="ch02s03.html#d5e1770">3.5. The Spread Operator</a></span></dt><dt><span class="section"><a href="ch02s03.html#d5e1777">3.6. Destructuring Assignments</a></span></dt></dl></dd><dt><span class="section"><a href="ch02s04.html">4. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch02s04.html#d5e1801">4.1. Question 1: Data values and objects</a></span></dt><dt><span class="section"><a href="ch02s04.html#d5e1810">4.2. Question 2: Evaluating a Boolean expression</a></span></dt><dt><span class="section"><a href="ch02s04.html#d5e1815">4.3. Question 3: JavaScript datatypes</a></span></dt><dt><span class="section"><a href="ch02s04.html#d5e1819">4.4. Question 4: Constructor-based class definition</a></span></dt><dt><span class="section"><a href="ch02s04.html#d5e1842">4.5. Question 5: Type coercion</a></span></dt><dt><span class="section"><a href="ch02s04.html#d5e1851">4.6. Question 6: Variable scope</a></span></dt></dl></dd></dl></div><div lang="en" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e584"></a>1.&nbsp;JavaScript Basics</h2></div></div></div><p>In this summary we take all important points of the <a class="link" href="http://javascript.crockford.com/survey.html" target="_top">classical
+  JavaScript summary</a> by <a class="link" href="http://www.crockford.com/" target="_top">Douglas Crockford</a> into
+  consideration.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e589"></a>1.1.&nbsp;Types and data literals in JavaScript</h3></div></div></div><p>JavaScript<a class="indexterm" name="d5e592"></a> has three primitive datatypes:<a class="indexterm" name="d5e594"></a> <code class="code">string</code>, <code class="code">number</code> and
+    <code class="code">boolean</code>, and we can test if a variable <code class="code">v</code> holds a
+    value of such a type with the help of the JS operator <code class="code">typeof</code>
+    as, for instance, in <code class="code">typeof v === "number"</code>.</p><p>There are five reference types: <code class="code">Object</code>,
+    <code class="code">Array</code>, <code class="code">Function</code>, <code class="code">Date</code> and
+    <code class="code">RegExp</code>. Arrays, functions, dates and regular expressions are
+    special types of objects, but, conceptually, dates and regular expressions
+    are primitive data values, and happen to be implemented in the form of
+    wrapper objects.</p><p>The types of variables, array elements, function parameters and
+    return values are not declared and are normally not checked by JavaScript
+    engines. Type conversion (casting) is performed automatically.</p><p>The value of a variable may be</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>a <span class="italic">data value</span>: either a
+        string, a number, or a boolean;</p></li><li class="listitem"><p>an <span class="italic">object reference</span>: either
+        referencing an ordinary object, or an array, function, date, or
+        regular expression;</p></li><li class="listitem"><p>the special data value <code class="code">null</code>, which is typically
+        used as a default value for initializing an object variable;</p></li><li class="listitem"><p>the special data value <code class="code">undefined</code>, which is the
+        implicit initial value of all variables that have been declared, but
+        not initialized.</p></li></ul></div><p>A <span class="bold"><strong><span class="italic">string</span></strong></span> is a sequence of Unicode
+    characters. String literals, like "Hello world!", 'A3F0', or the empty
+    string "", are enclosed in single or double quotes. Two string expressions
+    can be concatenated with the <code class="code">+</code> operator, and checked for
+    equality with the triple equality operator:</p><pre class="programlisting">if (firstName + lastName === "JamesBond") ...</pre><p>The number of characters of a string can be obtained by applying the
+    <code class="code">length</code> attribute to a string:</p><pre class="programlisting">console.log("Hello world!".length);  // 12</pre><p>All <span class="bold"><strong><span class="italic">numeric</span></strong></span> data values are represented in
+    64-bit floating point format with an optional exponent (like in the
+    numeric data literal <code class="code">3.1e10</code>). There is no explicit type
+    distinction between integers and floating point numbers. If a numeric
+    expression cannot be evaluated to a number, its value is set to
+    <code class="code">NaN</code> ("not a number"), which can be tested with the built-in
+    predicate
+    <code class="code">isNaN(</code><span class="emphasis"><em>expr</em></span><code class="code">)</code>.</p><p>The built-in function, <code class="code">Number.isInteger</code> allows testing
+    if a number is an <span class="bold"><strong><span class="italic">integer</span></strong></span>. For making sure that a
+    numeric value is an integer, or that a string representing a number is
+    converted to an integer, one has to apply the built-in function
+    <code class="code">parseInt</code>. Similarly, a string representing a decimal number
+    can be converted to this number with <code class="code">parseFloat</code>. For
+    converting a number <code class="code">n</code> to a string, the best method is using
+    <code class="code">String(n)</code>.</p><p>There are two predefined <span class="bold"><strong><span class="italic">Boolean</span></strong></span> data literals,
+    <code class="code">true</code> and <code class="code">false</code>, and the Boolean operator symbols
+    are the exclamation mark <code class="code">!</code> for NOT, the double ampersand
+    <code class="code">&amp;&amp;</code> for AND, and the double bar <code class="code">||</code> for
+    OR. When a non-Boolean value is used in a condition, or as an operand of a
+    Boolean expression, it is implicitly converted to a Boolean value
+    according to the following rules. The empty string, the (numerical) data
+    literal 0, as well as <code class="code">undefined</code> and <code class="code">null</code>, are
+    mapped to <code class="code">false</code>, and all other values are mapped to
+    <code class="code">true</code>. This conversion can be performed explicitly with the
+    help of the double negation operation, like in the equality test
+    <code class="code">!!undefined === false</code>, which evaluates to
+    <code class="code">true</code>.</p><p>In addition to strings, numbers and Boolean values, also <span class="bold"><strong><span class="italic">calendar dates</span></strong></span>
+    and times are important types of primitive data values, although they are
+    not implemented as primitive values, but in the form of wrapper objects
+    instantiating <code class="code">Date</code>. Notice that <code class="code">Date</code> objects do,
+    in fact, not really represent dates, but rather date-time instants
+    represented internally as the number of milliseconds since 1 January, 1970
+    UTC. For converting the internal value of a <code class="code">Date</code> object to a
+    human-readable string, we have several options. The two most important
+    options are using either the standard format of ISO date/time strings of
+    the form "2015-01-27", or localized formats of date/time strings like
+    "27.1.2015" (for simplicity, we have omitted the time part of the
+    date/time strings in these examples). When <code class="code">x instanceof Date</code>,
+    then <code class="code">x.toISOString()</code> provides the ISO date/time string, and
+    <code class="code">x.toLocaleDateString()</code> provides the localized date/time
+    string. Given any date string <code class="code">ds</code>, ISO or localized, <code class="code">new
+    Date(ds)</code> creates a corresponding date object.</p><p>For testing the <span class="bold"><strong><span class="italic">equality</span></strong></span> (or inequality) of two
+    primitive data vales, always use the triple equality symbol
+    <code class="code">===</code> (and <code class="code">!==</code>) instead of the double equality
+    symbol <code class="code">==</code> (and <code class="code">!=</code>). Otherwise, for instance, the
+    number 2 would be the same as the string "2", since the condition <code class="code">(2
+    == "2")</code> evaluates to <span class="italic">true</span> in
+    JavaScript.</p><p>Assigning an <span class="bold"><strong><span class="italic">empty
+    array literal</span></strong></span>, as in <code class="code">var a = []</code> is the
+    same as, but more concise than and therefore preferred to, invoking the
+    <code class="code">Array()</code> constructor without arguments, as in <code class="code">var a =
+    new Array()</code>.</p><p>Assigning an <span class="bold"><strong><span class="italic">empty
+    object literal</span></strong></span>, as in <code class="code">var o = {}</code> is the
+    same as, but more concise than and therefore preferred to, invoking the
+    <code class="code">Object()</code> constructor without arguments, as in <code class="code">var o =
+    new Object()</code>. Notice, however, that an empty object literal
+    <code class="code">{}</code> is not really an empty object, as it contains property
+    slots and method slots inherited from <a class="link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype" target="_top"><code class="code">Object.prototype</code></a>.
+    So, a truly empty object (without any slots) has to be created with
+    <code class="code">null</code> as prototype, like in <code class="code">var emptyObject =
+    Object.create(null)</code>.</p><p>A summary of type testing<a class="indexterm" name="d5e700"></a> is provided in the following table:</p><div class="informaltable"><table border="1"><colgroup><col class="col1"><col class="newCol2"><col class="col2"></colgroup><thead><tr><th>Type</th><th>Example values</th><th>Test if <code class="code">x</code> of type</th></tr></thead><tbody><tr><td>string</td><td>"Hello world!", 'A3F0'</td><td><code class="code">typeof x === "string"</code></td></tr><tr><td>boolean</td><td>true, false</td><td><code class="code">typeof x === "boolean"</code></td></tr><tr><td>(floating point) number</td><td>-2.75, 0, 1, 1.0, 3.1e10</td><td><code class="code">typeof x === "number"</code></td></tr><tr><td>integer</td><td>-2, 0, 1, 250</td><td><code class="code">Number.isInteger(x)</code></td></tr><tr><td>Object</td><td>{}, {num:3, denom:4}, {isbn:"006251587X," title:"Weaving
+            the Web"}, {"one":1, "two":2, "three":3}</td><td><p>excluding <code class="code">null</code>: <code class="code">x instanceof
+            Object</code></p> <p>including <code class="code">null</code>:
+            <code class="code">typeof x === "object"</code></p></td></tr><tr><td><a class="link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_top">Array</a></td><td>[], ["one"], [1,2,3], [1,"one", {}]</td><td><code class="code">Array.isArray(x)</code></td></tr><tr><td><a class="link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_top">Function</a></td><td><code class="code">function () { return "one"+1;}</code></td><td><code class="code">typeof x === "function"</code></td></tr><tr><td><a class="link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_top">Date</a></td><td><code class="code">new Date("2015-01-27")</code></td><td><code class="code">x instanceof Date</code></td></tr><tr><td><a class="link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" target="_top">RegExp</a></td><td><code class="code">/(\w+)\s(\w+)/</code></td><td><code class="code">x instanceof RegExp</code></td></tr></tbody></table></div><p>A summary of type conversions<a class="indexterm" name="d5e773"></a> is provided in the following table:</p><div class="informaltable"><table border="1"><colgroup><col class="col1"><col class="col3"><col class="col4"></colgroup><thead><tr><th>Type</th><th>Convert to string</th><th>Convert string to type</th></tr></thead><tbody><tr><td>boolean</td><td><code class="code">String(x)</code></td><td><code class="code">Boolean(y)</code></td></tr><tr><td>(floating point) number</td><td><code class="code">String(x)</code></td><td><code class="code">parseFloat(y)</code></td></tr><tr><td>integer</td><td><code class="code">String(x)</code></td><td><code class="code">parseInt(y)</code></td></tr><tr><td>Object</td><td><code class="code">x.toString()</code> or
+            <code class="code">JSON.stringify(x)</code></td><td><code class="code">JSON.parse(y)</code></td></tr><tr><td>Array</td><td><code class="code">x.toString()</code> or
+            <code class="code">JSON.stringify(x)</code></td><td><code class="code">y.split()</code> or
+            <code class="code">JSON.parse(y)</code></td></tr><tr><td>Function</td><td><code class="code">x.toString()</code></td><td><code class="code">new Function(y)</code></td></tr><tr><td>Date</td><td><code class="code">x.toISOString()</code></td><td><code class="code">new Date(y)</code></td></tr><tr><td>RegExp</td><td><code class="code">x.toString()</code></td><td><code class="code">new RegExp(y)</code></td></tr></tbody></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e838"></a>1.2.&nbsp;Variable scope</h3></div></div></div><p>In ES5, there have only been two kinds of scope for
+    variables<a class="indexterm" name="d5e841"></a> declared with <code class="code">var</code>: the global scope (with
+    <code class="code">window</code> as the context object) and function scope, but
+    <span class="bold"><strong><span class="italic">no block
+    scope</span></strong></span>. Consequently, declaring a variable with
+    <code class="code">var</code> within a code block is confusing and should be avoided.
+    For instance, although this is a frequently used pattern, even by
+    experienced JavaScript programmers, it is a pitfall to declare the counter
+    variable of a <code class="code">for</code> loop in the loop, as in</p><pre class="programlisting">function foo() {
+  for (<span class="bold"><strong>var i=0</strong></span>; i &lt; 10; i++) {
+    ...  // do something with i
+  }
+}</pre><p>Instead of obtaining a variable that is scoped to the block defined
+    by the <code class="code">for</code> loop, JavaScript is interpreting this code (by
+    means of "hoisting" variable declarations) as:</p><pre class="programlisting">function foo() {
+  <span class="bold"><strong>var i=0</strong></span>;
+  for (i=0; i &lt; 10; i++) {
+    ...  // do something with i
+  }
+}</pre><p>Therefore all function-scoped variable declarations (with
+    <code class="code">var</code>) should be placed at the beginning of a function. When a
+    variable is to be scoped to a code block, such as to a <code class="code">for</code>
+    loop, it has to be declared with the keyword <code class="code">let</code>, as in the
+    following example:</p><pre class="programlisting">function foo() {
+  for (<span class="bold"><strong>let</strong></span> i=0; i &lt; 10; i++) {
+    ...  // do something with i
+  }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e862"></a>1.3.&nbsp;Frozen, or immutable, variables</h3></div></div></div><p>Whenever a variable is supposed to be immutable (having a frozen
+    value), it should be declared with the keyword
+    <code class="code">const</code>:</p><pre class="programlisting"><span class="bold"><strong>const</strong></span> pi = 3.14159;</pre><p>It is generally recommended that variables be declared with
+    <code class="code">const</code> whenever it is clear that their values will never be
+    changed. This helps catching errors and it allows the JS engine to
+    optimize code execution.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e870"></a>1.4.&nbsp;Strict Mode</h3></div></div></div><p>Starting from ES5, we can use <a class="link" href="http://speakingjs.com/es5/ch07.html#strict_mode" target="_top">strict
+    mode</a> for getting more runtime error checking. For
+    instance, in strict mode, all variables must be declared. An assignment to
+    an undeclared variable throws an exception.</p><p>We can turn strict mode on by typing the following statement as the
+    first line in a JavaScript file or inside a <code class="code">&lt;script&gt;</code>
+    element:</p><pre class="programlisting">'use strict';</pre><p>It is generally recommended to use strict mode, except when code
+    depends on libraries that are incompatible with strict mode.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e881"></a>1.5.&nbsp;Different kinds of objects</h3></div></div></div><p>JS objects<a class="indexterm" name="d5e884"></a> are different from classical OO/UML objects. In particular,
+    they <span class="bold"><strong><span class="italic">need not instantiate a
+    class</span></strong></span>. And they can have their own (instance-level)
+    methods in the form of method slots, so they do not only have (ordinary)
+    <span class="bold"><strong><span class="italic">property
+    slots</span></strong></span>, but also <span class="bold"><strong><span class="italic">method slots</span></strong></span>. In addition they may
+    also have <span class="bold"><strong><span class="italic">key-value
+    slots</span></strong></span>. So, they may have three different kinds of
+    slots, while classical objects (called "instance specifications" in UML)
+    only have property slots.</p><p>A JS object is essentially a set of name-value-pairs, also called
+    <span class="italic"><span class="bold"><strong><a class="glossterm" href="go01.html#slot"><em class="glossterm">slots</em></a></strong></span></span>, where names can be
+    <span class="italic">property</span> names, <span class="italic">function</span> names or <span class="italic">keys</span> of a map. Objects can be created in an
+    ad-hoc manner, using JavaScript's object literal notation (JSON), without
+    instantiating a class:</p><pre class="programlisting">var person1 = { lastName:"Smith", firstName:"Tom"};</pre><p>An empty object with no slots is created in the following
+    way:</p><pre class="programlisting">var o1 = Object.create( null);  </pre><p>Whenever the name in a slot is an <a class="link" href="http://mothereff.in/js-variables" target="_top">admissible JavaScript
+    identifier</a>, the slot may be either a <span class="italic">property slot</span>, a <span class="italic">method
+    slot</span> or a <span class="italic">key-value slot</span>.
+    Otherwise, if the name is some other type of string (in particular when it
+    contains any blank space), then the slot represents a <span class="italic">key-value slot</span>, which is a map element, as
+    explained below.</p><p>The name in a <span class="bold"><strong><span class="italic">property
+    slot</span></strong></span> may denote either </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>a <span class="bold"><strong><span class="italic">data-valued
+          property</span></strong></span>, in which case the value is a
+          <span class="italic">data value</span> or, more generally, a
+          <span class="italic">data-valued expression</span>;</p><p>or</p></li><li class="listitem"><p>an <span class="bold"><strong><span class="italic">object-valued
+          property</span></strong></span>, in which case the value is an
+          <span class="italic">object reference</span> or, more
+          generally, an <span class="italic">object
+          expression</span>.</p></li></ol></div><p>The name in a <span class="bold"><strong><span class="italic">method
+    slot</span></strong></span> denotes a <span class="italic">JS
+    function</span> (better called <span class="italic">method</span>), and its value is a <span class="italic">JS function definition expression</span>.</p><p>Object properties can be accessed in two ways: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Using the dot notation (like in C++/Java):</p><pre class="programlisting">person1.lastName = "Smith"</pre></li><li class="listitem"><p>Using a map notation:</p><pre class="programlisting">person1["lastName"] = "Smith"</pre></li></ol></div><p>JS objects can be used in many different ways for different
+    purposes. Here are five different use cases for, or possible meanings of,
+    JS objects: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>A <span class="italic"><span class="bold"><strong>record<a class="indexterm" name="d5e948"></a></strong></span></span> is a set of property slots
+          like, for instance, </p><pre class="programlisting">var myRecord = {firstName:"Tom", lastName:"Smith", age:26}</pre></li><li class="listitem"><p>A <span class="italic"><span class="bold"><strong>map<a class="indexterm" name="d5e956"></a></strong></span></span> (also called 'associative
+          array', 'dictionary', 'hash map' or 'hash table' in other languages)
+          supports look-ups of <span class="italic">values</span> based
+          on <span class="italic">keys</span> like, for instance,
+          </p><pre class="programlisting">var numeral2number = {"one":"1", "two":"2", "three":"3"}</pre><p>which
+          associates the value "1" with the key "one", "2" with "two", etc. A
+          key need not be a valid JavaScript identifier, but can be any kind
+          of string (e.g. it may contain blank spaces).</p></li><li class="listitem"><p>An <span class="italic"><span class="bold"><strong>untyped
+          object</strong></span></span> does not instantiate a class. It may
+          have property slots and method slots like, for instance,
+          </p><pre class="programlisting">var person1 = { 
+  lastName: "Smith", 
+  firstName: "Tom",
+  getFullName: function () {
+    return this.firstName +" "+ this.lastName; 
+  }  
+};</pre><p>Within the body of a method slot of an object, the special
+          variable <code class="code">this</code> refers to the object.</p></li><li class="listitem"><p>A <span class="italic"><span class="bold"><strong>namespace<a class="indexterm" name="d5e973"></a></strong></span></span> may be defined in the form of
+          an untyped object referenced by a global object variable, the name
+          of which represents a namespace prefix. For instance, the following
+          object variable provides the main namespace of an application based
+          on the <span class="italic">Model-View-Controller
+          (MVC)</span> architecture paradigm where we have three
+          subnamespaces corresponding to the three parts of an MVC
+          application:</p><pre class="programlisting">var myApp = { model:{}, view:{}, ctrl:{} };</pre><p>A
+          more advanced namespace mechanism is provided by <span class="bold"><strong>ES6 modules</strong></span>, as explained in  <span class="phrase"><a class="xref" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Implementing Constraint Validation in a Plain JS Web App">Chapter&nbsp;5</a>,</span>
+          .</p></li><li class="listitem"><p>A <span class="italic"><span class="bold"><strong>typed
+          object</strong></span></span> instantiates a class that is defined
+          either by a JavaScript constructor function or by a factory object.
+          See <a class="xref" href="ch02.html#sectClasses" title="1.10.&nbsp;Defining and using classes">Section&nbsp;1.10, &#8220;Defining and using classes&#8221;</a></p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e986"></a>1.6.&nbsp;Array lists</h3></div></div></div><p>A JS array<a class="indexterm" name="d5e989"></a> represents, in fact, the logical data structure of an
+    <span class="italic">array list</span>, which is a list where each
+    list item can be accessed via an index number (like the elements of an
+    array). Using the term 'array' without saying 'JS array' creates a
+    terminological ambiguity. But for simplicity, we will sometimes just say
+    'array' instead of 'JS array'.</p><p>A variable may be initialized with a JS <span class="italic">array literal</span>:</p><pre class="programlisting">var a = [1,2,3];</pre><p>Because they are array lists, JS arrays can grow dynamically: it is
+    possible to use indexes that are greater than the length of the array. For
+    instance, after the array variable initialization above, the array held by
+    the variable <code class="code">a</code> has the length 3, but still we can assign
+    further array elements, and may even create gaps, like in</p><pre class="programlisting">a[3] = 4;
+a[5] = 5;</pre><p>The contents of an array <code class="code">a</code> are processed with the help
+    of a standard <span class="italic">for</span> loop with a counter
+    variable counting from the first array index 0 to the last array index,
+    which is <code class="code">a.length-1</code>:</p><pre class="programlisting">for (let i=0; i &lt; a.length; i++) { ...}</pre><p>Since arrays are special types of objects, we sometimes need a
+    method for finding out if a variable represents an array. We can test, if
+    a variable <code class="code">a</code> represents an array by applying the predefined
+    datatype predicate <code class="code">isArray</code> as in <code class="code">Array.isArray(
+    a)</code>.</p><p>For <span class="bold"><strong><span class="italic">adding</span></strong></span> a new element to an array, we
+    append it to the array using the <code class="code">push</code> operation as
+    in:</p><pre class="programlisting">a.<span class="bold"><strong>push</strong></span>( newElement);</pre><p>For <span class="bold"><strong><span class="italic">appending</span></strong></span> (all elements of) another
+    array <code class="code">b</code> to an array <code class="code">a</code>, we <code class="code">push</code> all
+    the elements of <code class="code">b</code> to <code class="code">a</code> with the help of the ES6
+    <span class="italic">spread</span> operator <code class="code">...</code>, like
+    so:</p><pre class="programlisting">a.<span class="bold"><strong>push</strong></span>( ...b);</pre><p>For <span class="bold"><strong><span class="italic">deleting</span></strong></span> an element at position
+    <code class="code">i</code> from an array <code class="code">a</code>, we use the predefined array
+    method <code class="code">splice</code> as in: </p><pre class="programlisting">a.<span class="bold"><strong>splice</strong></span>( i, 1);</pre><p>For <span class="bold"><strong><span class="italic">searching</span></strong></span> a value <code class="code">v</code> in an
+    array <code class="code">a</code>, we can use the predefined array method
+    <code class="code">indexOf</code>, which returns the position, if found, or -1,
+    otherwise, as in: </p><pre class="programlisting">if (a.<span class="bold"><strong>indexOf</strong></span>(v) &gt; -1)  ...</pre><p>For <span class="bold"><strong><span class="italic">looping</span></strong></span> over an array <code class="code">a</code>,
+    there are two good options: either use a classical <code class="code">for</code>
+    (counter variable) loop or a more concise <code class="code">for-of</code> loop. The
+    best performance is achieved with a classical <code class="code">for</code>
+    loop:</p><pre class="programlisting">for (let i=0; i &lt; a.length; i++) {
+  console.log( a[i]);
+}</pre><p>If performance doesn't matter and no counter variable is needed,
+    however, the best option is using a <code class="code">for</code>-<code class="code">of</code> loop
+    (introduced in ES6):</p><pre class="programlisting"><span class="bold"><strong>for</strong></span> (const elem <span class="bold"><strong>of</strong></span> a) {
+  console.log( elem);
+}</pre><p>Notice that in a for-of loop, the looping variable (here:
+    <code class="code">elem</code>) can be declared as a <span class="italic">frozen</span> local variable with <code class="code">const</code>
+    whenever it is not re-assigned in the loop body.</p><p>For <span class="bold"><strong><span class="italic">cloning</span></strong></span> an array <code class="code">a</code>, we
+    can use the array function <code class="code">slice</code> in the following way:</p><pre class="programlisting">var clone = a.slice(0);</pre><p>Alternatively, we can use a new technique based on the ES6 <span class="italic">spread</span> operator:</p><pre class="programlisting">var clone = [ ...a ];</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1069"></a>1.7.&nbsp;Maps</h3></div></div></div><p>A map<a class="indexterm" name="d5e1072"></a> (also called 'hash map', 'associative array' or
+    'dictionary') provides a mapping from keys to their associated values.
+    Traditionally, before the built-in <a class="link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" target="_top"><code class="code">Map</code></a>
+    object has been added to JS (in ES6), maps have been implemented in the
+    form of plain JS objects where the keys are string literals that may
+    include blank spaces like in: </p><pre class="programlisting">var myTranslation = { 
+    "my house": "mein Haus", 
+    "my boat": "mein Boot", 
+    "my horse": "mein Pferd"
+}</pre><p>Alternatively, a proper map can be constructed with the help of the
+    <code class="code">Map</code> constructor: </p><pre class="programlisting">var myTranslation = new <span class="bold"><strong>Map</strong></span>([
+    ["my house", "mein Haus"], 
+    ["my boat", "mein Boot"], 
+    ["my horse", "mein Pferd"]
+])</pre><p>A traditional map (as a plain JS object) is processed with the help
+    of a loop where we loop over all keys using the predefined function
+    <code class="code">Object.keys(m)</code>, which returns an array of all keys of a map
+    <code class="code">m</code>. For instance,</p><pre class="programlisting"><span class="bold"><strong>for</strong></span> (const key of Object.keys( myTranslation)) {
+  console.log(`The translation of ${key} is ${myTranslation[key]}`);
+}</pre><p>A proper map (i.e. a <code class="code">Map</code> object) can be processed with
+    the help of a <code class="code">for-of</code> loop in one of the following
+    ways:</p><pre class="programlisting">// processing both keys and values
+for (const <span class="bold"><strong>[key, value]</strong></span> of myTranslation) {
+  console.log(`The translation of ${key} is ${value}`);
+}
+// processing only keys
+for (const key of myTranslation.<span class="bold"><strong>keys</strong></span>()) {
+  console.log(`The translation of ${key} is ${myTranslation.get( key)}`);
+}
+// processing only values
+for (const value of myTranslation.<span class="bold"><strong>values</strong></span>()) {
+  console.log( value)
+}</pre><p>For <span class="bold"><strong><span class="italic">adding</span></strong></span> a new entry to a traditional
+    map, we simply associate the new value with its key as in:</p><pre class="programlisting">myTranslation["my car"] = "mein Auto";</pre><p>For adding a new entry to a proper map, we use the <code class="code">set</code>
+    operation:</p><pre class="programlisting">myTranslation.<span class="bold"><strong>set</strong></span>("my car", "mein Auto");</pre><p>For <span class="bold"><strong><span class="italic">deleting</span></strong></span> an entry from a traditional
+    map, we can use the predefined <code class="code">delete</code> operator as
+    in:</p><pre class="programlisting"><span class="bold"><strong>delete</strong></span> myTranslation["my boat"];</pre><p>For deleting an entry from a proper map, we can use the
+    <code class="code">Map::delete</code> method as in:</p><pre class="programlisting">myTranslation.<span class="bold"><strong>delete</strong></span>("my boat");</pre><p>For <span class="bold"><strong><span class="italic">testing</span></strong></span> if a traditional map contains
+    an entry for a certain key value, such as for testing if the translation
+    map contains an entry for "my bike" we can check the
+    following:</p><pre class="programlisting">if ("my bike" in myTranslation)  ...</pre><p>For testing if a proper map contains an entry for a certain key
+    value, we can use the Boolean-valued <code class="code">has</code> method:</p><pre class="programlisting">if (myTranslation.<span class="bold"><strong>has</strong></span>("my bike"))  ...</pre><p>For <span class="bold"><strong><span class="italic">cloning</span></strong></span> a traditional map
+    <code class="code">m</code>, we can use the composition of JSON.stringify and
+    JSON.parse. We first serialize <code class="code">m</code> to a string representation
+    with JSON.stringify, and then de-serialize the string representation to a
+    map object with JSON.parse:</p><a name="pre634545"></a><pre class="programlisting">var clone = JSON.parse( JSON.stringify( m));</pre><p>Notice that this method works well if the map contains only simple
+    data values or (possibly nested) arrays/maps containing simple data
+    values. In other cases, e.g. if the map contains <code class="code">Date</code>
+    objects, we have to write our own clone method. Alternatively, we could
+    use a new technique based on the ES6 <span class="italic">spread</span> operator:</p><pre class="programlisting">var clone = { ...m };</pre><p>For cloning a proper map <code class="code">m</code>, we can use the
+    <code class="code">Map</code> constructor in the following way:</p><pre class="programlisting">var clone = new Map(m);</pre><p>Since proper maps (defined as instances of <code class="code">Map</code>) do not
+    have the overhead of properties inherited from
+    <code class="code">Object.prototype</code> and operations on them, such as adding and
+    deleting entries, are faster, they are preferable to using ordinary
+    objects as maps. Only in cases where it is important to be compatible with
+    older browsers that do not support <code class="code">Map</code>, it is justified to
+    use ordinary objects for implementing maps.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1138"></a>1.8.&nbsp;Important types of basic data structures</h3></div></div></div><p>In summary, there are four types of important basic data
+    structures:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="italic"><span class="bold"><strong>array
+        lists</strong></span></span>, such as
+        <code class="code">["one","two","three"]</code>, which are special JS objects
+        called 'arrays', but since they are dynamic, they are rather <span class="italic">array lists</span> as defined in the <span class="italic">Java</span> programming language.</p></li><li class="listitem"><p><span class="italic"><span class="bold"><strong>records</strong></span></span>, which are special JS
+        objects, such as <code class="code">{firstName:"Tom", lastName:"Smith"}</code>, as
+        discussed above,</p></li><li class="listitem"><p><span class="italic"><span class="bold"><strong>maps</strong></span></span>, which can be realized as
+        ordinary JS objects having only key-value slots, such as
+        <code class="code">{"one":1, "two":2, "three":3}</code>, or as <code class="code">Map</code>
+        objects, as discussed above,</p></li><li class="listitem"><p><span class="bold"><strong><span class="italic">entity
+        tables</span></strong></span>,<a class="indexterm" name="d5e1164"></a> like for instance the table shown below, which are
+        special maps where the values are entity records with a standard ID
+        (or <span class="italic">primary key</span>) slot, such that
+        the keys of the map are the standard IDs of these entity
+        records.</p></li></ol></div><div class="table"><a name="d5e1168"></a><p class="title"><b>Table&nbsp;2.1.&nbsp;An example of an entity table representing a collection of
+      books</b></p><div class="table-contents"><table border="1" cellpadding="5" frame="border"><thead><tr>
+          <th>Key</th>
+
+          <th>Value</th>
+        </tr></thead><tbody><tr>
+          <td>006251587X</td>
+
+          <td>{ isbn:"006251587X," title:"Weaving the Web", year:2000 }</td>
+        </tr><tr>
+          <td>0465026567</td>
+
+          <td>{ isbn:"0465026567," title:"G&ouml;del, Escher, Bach", year:1999
+          }</td>
+        </tr><tr>
+          <td>0465030793</td>
+
+          <td>{ isbn:"0465030793," title:"I Am A Strange Loop", year:2008
+          }</td>
+        </tr></tbody></table></div></div><br class="table-break"><p>Notice that our distinction between records, (traditional) maps and
+    entity tables is a purely conceptual distinction, and not a syntactical
+    one. For a JavaScript engine, both <code class="code">{firstName:"Tom",
+    lastName:"Smith"}</code> and <code class="code">{"one":1,"two":2,"three":3}</code> are
+    just objects. But conceptually, <code class="code">{firstName:"Tom",
+    lastName:"Smith"}</code> is a record because <code class="code">firstName</code> and
+    <code class="code">lastName</code> are intended to denote properties (or fields), while
+    <code class="code">{"one":1,"two":2,"three":3}</code> is a map because
+    <code class="code">"one"</code> and <code class="code">"two"</code> are not intended to denote
+    properties/fields, but are just arbitrary string values used as keys for a
+    map.</p><p>Making such conceptual distinctions helps in the logical design of a
+    program, and mapping them to syntactic distinctions, even if they are not
+    interpreted differently, helps to better understand the intended
+    computational meaning of the code and therefore improves its
+    readability.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1194"></a>1.9.&nbsp;Procedures, methods and functions</h3></div></div></div><p>Generally, a (parametrized) <span class="italic">procedure</span> is like a sub-program that can be
+    called (with a certain number of arguments) any number of times from
+    within a program. Whenever a procedure returns a value, it is called a
+    <span class="italic">function</span>. In OOP, procedures are called
+    <span class="italic">methods</span>, if they are defined in the
+    context of a class or of an object.</p><p>In JavaScript, procedures<a class="indexterm" name="d5e1201"></a> are called "functions", no matter if they return a value or
+    not. As shown below in <a class="xref" href="ch02.html#figJsBasicsJsMetamodel" title="Figure&nbsp;2.1.&nbsp;The built-in JavaScript classes Object and Function.">Figure&nbsp;2.1</a>, JS functions<a class="indexterm" name="d5e1205"></a> are special JS objects, having an optional
+    <code class="code">name</code> property and a <code class="code">length</code> property providing
+    their number of parameters. If a variable <code class="code">v</code> references a
+    function can be tested with </p><pre class="programlisting">if (typeof v === "function") {...}</pre><p>Being JS objects implies that JS functions can be stored in
+    variables, passed as arguments to functions, returned by functions, have
+    properties and can be changed dynamically. Therefore, JS functions are
+    first-class citizens, and JavaScript can be viewed as a <span class="italic">functional programming language</span>.</p><p>The general form of a JS <span class="italic"><span class="bold"><strong>function definition</strong></span></span><span class="bold"><strong><span class="italic"> <a class="indexterm" name="d5e1219"></a> </span></strong></span> is an assignment of a JS <span class="italic">function expression</span> to a variable:
+    </p><pre class="programlisting">var myMethod = function theNameOfMyMethod( params) {
+  ...
+}</pre><p>where <code class="code">params</code> is a comma-separated list of
+    parameters (or a parameter record), and <code class="code">theNameOfMyMethod</code> is
+    optional. When it is omitted, the method/function is <span class="emphasis"><em><span class="bold"><strong>anonymous</strong></span></em></span>. In any case, JS functions are
+    normally invoked via a variable that references the function. In the above
+    case, this means that the JS function is invoked with
+    <code class="code">myMethod()</code>, and not with <code class="code">theNameOfMyMethod()</code>.
+    However, a named JS function can be invoked by name from within the
+    function (when the function is recursive). Consequently, a recursive JS
+    function must be named.</p><p>Anonymous function expressions<a class="indexterm" name="d5e1231"></a> are called <span class="italic">lambda
+    expressions</span> (or shorter <span class="italic">lambdas</span>) in other programming languages.</p><p>As an example of an anonymous function expression being passed as an
+    argument in the invocation of another (higher-order) function, we can take
+    a comparison function being passed to the predefined function
+    <code class="code">sort</code> for sorting the elements of an array list. Such a
+    comparison function must return a negative number if its first argument is
+    smaller than its second argument, it must return 0 if both arguments are
+    of the same rank, and it must return a positive number if the second
+    argument is smaller than the first one. In the following example, we sort
+    a list of number pairs in lexicographic order: </p><pre class="programlisting">var list = [[1,2],[2,1],[1,3],[1,1]]; 
+list.sort( function (x,y) {
+  return x[0] === y[0] ? x[1]-y[1] : x[0]-y[0]);
+});
+// results in [[1,1],[1,2],[1,3],[2,1]]</pre><p>Alternatively, we can express the anonymous comparison function in
+    the form of an <span class="bold"><strong><span class="emphasis"><em>arrow
+    function</em></span></strong></span> expression:</p><pre class="programlisting">list.sort( (x,y) <span class="bold"><strong>=&gt;</strong></span> x[0] === y[0] ? x[1]-y[1] : x[0]-y[0]);</pre><p>A JS <span class="bold"><strong><span class="italic">function
+    declaration</span></strong></span> has the following form:</p><pre class="programlisting">function theNameOfMyFunction( params) {...}</pre><p>It is equivalent to the following named function definition:
+    </p><pre class="programlisting">var theNameOfMyFunction = function theNameOfMyFunction( params) {...}</pre><p>that
+    is, it creates both a function with name <code class="code">theNameOfMyFunction</code>
+    and a variable <code class="code">theNameOfMyFunction</code> referencing this
+    function.</p><p>JS functions can have <span class="bold"><strong><span class="italic">inner functions</span></strong></span>. The <span class="italic"><span class="bold"><strong>closure<a class="indexterm" name="d5e1257"></a></strong></span></span> mechanism allows a JS function using
+    variables (except <code class="code">this</code>) from its outer scope, and a function
+    created in a closure remembers the environment in which it was created. In
+    the following example, there is no need to pass the outer scope variable
+    <code class="code">result</code> to the inner function via a parameter, as it is
+    readily available:</p><pre class="programlisting">var <span class="bold"><strong>sum</strong></span> = function (numbers) {
+  var result = 0;
+  for (const n of numbers) {
+    result = result + n;
+  }
+  return result;
+};
+console.log( sum([1,2,3,4]));  // 10</pre><p>When a method/function is executed, we can access its arguments
+    within its body by using the built-in <code class="code">arguments</code> object, which
+    is "array-like" in the sense that it has indexed elements and a
+    <code class="code">length</code> property, and we can iterate over it with a normal
+    <code class="code">for</code> loop, but since it's not an instance of
+    <code class="code">Array</code>, the JS array methods (such as the <code class="code">forEach</code>
+    looping method) cannot be applied to it. The <code class="code">arguments</code> object
+    contains an element for each argument passed to the method. This allows
+    defining a method without parameters and invoking it with <span class="bold"><strong><span class="italic">any number of
+    arguments</span></strong></span>, like so:</p><pre class="programlisting">var <span class="bold"><strong>sum</strong></span> = function () {
+  var result = 0;
+  for (let i=0; i &lt; arguments.length; i++) {
+    result = result + arguments[i];
+  }
+  return result;
+};
+console.log( sum(0,1,1,2,3,5,8));  // 20</pre><p>A method defined on the prototype of a constructor function, which
+    can be invoked on all objects created with that constructor, such as
+    <code class="code">Array.prototype.forEach</code>, where <code class="code">Array</code> represents
+    the constructor, has to be invoked with an instance of the class as
+    <span class="bold"><strong><span class="italic">context
+    object</span></strong></span> referenced by the <code class="code">this</code> variable
+    (see also the next section on classes). In the following example, the
+    array <code class="code">numbers</code> is the context object in the invocation of
+    <code class="code">forEach</code>:</p><pre class="programlisting">var numbers = [1,2,3];  // create an instance of Array
+numbers.<span class="bold"><strong>forEach</strong></span>( function (n) {
+  console.log( n);
+});</pre><p>Whenever such a prototype method is to be invoked not with a context
+    object, but with an object as an ordinary argument, we can do this with
+    the help of <span class="bold"><strong><span class="italic">the JS function
+    method <code class="code">call</code></span></strong></span> that takes an object, on
+    which the method is invoked, as its first parameter, followed by the
+    parameters of the method to be invoked. For instance, we can apply the
+    <code class="code">forEach</code> looping method to the array-like object
+    <code class="code">arguments</code> in the following way:</p><pre class="programlisting">var <span class="bold"><strong>sum</strong></span> = function () {
+  var result = 0;
+  Array.prototype.<span class="bold"><strong>forEach.call</strong></span>( arguments, function (n) {
+    result = result + n;
+  });
+  return result;
+};</pre><p>A two-argument variant of the <code class="code">Function.prototype.call</code>
+    method, collecting all arguments of the method to be invoked in an
+    array-like object, is <code class="code">Function.prototype.apply</code>. The first
+    argument to both <code class="code">call</code> and <code class="code">apply</code> becomes
+    <code class="code">this</code> inside the function, and the rest are passed through.
+    So, <code class="code">f.call( x, y, z)</code> is the same as <code class="code">f.apply( x, [y,
+    z])</code>.</p><p>Whenever a method defined for a prototype is to be invoked without a
+    context object, or when a method defined in a method slot (in the context)
+    of an object is to be invoked without its context object, we can bind its
+    <code class="code">this</code> variable to a given object with the help of <span class="italic"><span class="bold"><strong>the JS function <code class="code">bind</code>
+    method</strong></span></span> (<code class="code">Function.prototype.bind</code>). This
+    allows creating a shortcut for invoking a method, as in <code class="code">var querySel
+    = document.querySelector.bind( document)</code>, which allows to use
+    <code class="code">querySel</code> instead of
+    <code class="code">document.querySelector</code>.</p><p>The option of <span class="italic">immediately invoked JS
+    function expressions</span><a class="indexterm" name="d5e1313"></a> can be used for obtaining a namespace mechanism that is
+    superior to using a plain namespace object, since it can be controlled
+    which variables and methods are globally exposed and which are not. This
+    mechanism is also the basis for JS <span class="italic">module</span> concepts. In the following example, we
+    define a namespace for the model code part of an app, which exposes some
+    variables and the model classes in the form of constructor
+    functions:</p><pre class="programlisting">myApp.model = function () {
+  var appName = "My app's name";
+  var someNonExposedVariable = ...;
+  function ModelClass1() {...}
+  function ModelClass2() {...}
+  function someNonExposedMethod(...) {...}
+  return {
+    appName: appName,
+    ModelClass1: ModelClass1,
+    ModelClass2: ModelClass2
+  }
+}();  // immediately invoked</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectClasses"></a>1.10.&nbsp;Defining and using classes</h3></div></div></div><p>The concept of a <span class="bold"><strong><span class="italic">class</span></strong></span><a class="indexterm" name="d5e1323"></a> is fundamental in <span class="italic">object-oriented</span> programming. Objects <span class="italic">instantiate</span> (or <span class="italic">are
+    classified by</span>) a class. A class defines the properties and
+    methods (as a blueprint) for the objects created with it.</p><p>Having a class concept is essential for being able to implement a
+    <span class="italic">data model</span> in the form of <span class="bold"><strong><span class="italic">model classes</span></strong></span> in
+    a Model-View-Controller (MVC) architecture. However, classes and their
+    inheritance/extension mechanism are over-used in classical OO languages,
+    such as in Java, where all variables and procedures have to be defined in
+    the context of a class and, consequently, classes are not only used for
+    implementing <span class="italic">object types</span> (or model
+    classes), but also as containers for many other purposes in these
+    languages. This is not the case in JavaScript where we have the freedom to
+    use classes for implementing <span class="italic">object
+    types</span> only, while keeping method libraries in namespace
+    objects.</p><p>Any code pattern for defining classes in JavaScript should satisfy
+    five requirements. First of all, (1) it should allow to define a <span class="italic">class name</span>, a set of (instance-level) <span class="bold"><strong><span class="italic">properties</span></strong></span>,
+    preferably with the option to keep them 'private', a set of
+    (instance-level) <span class="bold"><strong><span class="italic">methods</span></strong></span>, and a set of <span class="italic">class-level properties and methods</span>. It's
+    desirable that properties can be defined with a range/type, and with other
+    meta-data, such as constraints. There should also be two introspection
+    features: (2) an <span class="bold"><strong><span class="italic">is-instance-of predicate</span></strong></span> that can be
+    used for checking if an object is a direct or indirect instance of a
+    class, and (3) an instance-level property for retrieving the <span class="bold"><strong><span class="italic">direct type</span></strong></span> of
+    an object. In addition, it is desirable to have a third introspection
+    feature for retrieving the <span class="italic">direct
+    supertype</span> of a class. And finally, there should be two
+    inheritance mechanisms: (4) <span class="bold"><strong><span class="italic">property inheritance</span></strong></span> and (5) <span class="bold"><strong><span class="italic">method
+    inheritance</span></strong></span>. In addition, it is desirable to have
+    support for <span class="italic">multiple inheritance</span> and
+    <span class="italic">multiple classifications</span>, for allowing
+    objects to play several roles at the same time by instantiating several
+    role classes.</p><p>There was no explicit class definition syntax in JavaScript before
+    ES6 (or ES2015). Different code patterns for defining classes in
+    JavaScript have been proposed and are being used in different frameworks.
+    But they do often not satisfy the five requirements listed above. The two
+    most important approaches for defining classes are: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the form of a <span class="bold"><strong><span class="italic">constructor</span></strong></span> function that
+          achieves method inheritance via the prototype chain and allows to
+          create new instances of a class with the help of the
+          <code class="code">new</code> operator. This is the classical approach
+          recommended by Mozilla in their <a class="link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_top">JavaScript
+          Guide</a>. This is also the approach implemented in ES6 with the
+          new <code class="code">class</code> definition syntax.</p></li><li class="listitem"><p>In the form of a <span class="bold"><strong><span class="italic">factory</span></strong></span> object that uses the
+          predefined <code class="code">Object.create</code> method for creating new
+          instances of a class. In this approach, the prototype chain method
+          inheritance mechanism is replaced by a "copy &amp; append"
+          mechanism. <a class="link" href="http://chimera.labs.oreilly.com/books/1234000000262/ch03.html#fluentstyle_javascript" target="_top">Eric
+          Elliott</a> has argued that factory-based classes are a viable
+          alternative to constructor-based classes in JavaScript (in fact, he
+          even condemns the use of classical inheritance with
+          constructor-based classes, throwing out the baby with the bath
+          water).</p></li></ol></div><p>When building an app, we can use both kinds of classes, depending on
+    the requirements of the app. Since we often need to define class
+    hierarchies, and not just single classes, we have to make sure, however,
+    that we don't mix these two alternative approaches within the same class
+    hierarchy. While the factory-based approach, as exemplified by <a class="link" href="../../mODELcLASSjs/validation-tutorial.html" target="_top">mODELcLASSjs</a>,
+    has many advantages, which are summarized in <a class="xref" href="ch02.html#tblJsClasses" title="Table&nbsp;2.2.&nbsp;Required and desirable features of JS code patterns for classes">Table&nbsp;2.2</a>, the constructor-based approach enjoys the
+    advantage of higher performance object creation.</p><div class="table"><a name="tblJsClasses"></a><p class="title"><b>Table&nbsp;2.2.&nbsp;Required and desirable features of JS code patterns for
+      classes</b></p><div class="table-contents"><table border="1" cellpadding="5" frame="border"><thead><tr>
+          <th>Class feature</th>
+
+          <th>Constructor-based approach</th>
+
+          <th>Factory-based approach</th>
+
+          <th>mODELcLASSjs</th>
+        </tr></thead><tbody><tr>
+          <td><span class="bold"><strong>Define properties and
+          methods</strong></span></td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+        </tr><tr>
+          <td><span class="bold"><strong><span class="italic">is-instance-of</span> predicate</strong></span></td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+        </tr><tr>
+          <td><span class="bold"><strong><span class="italic">direct
+          type</span> property</strong></span></td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+        </tr><tr>
+          <td><span class="italic">direct supertype</span> property of
+          classes</td>
+
+          <td>no</td>
+
+          <td>possibly</td>
+
+          <td>yes</td>
+        </tr><tr>
+          <td><span class="bold"><strong>Property inheritance</strong></span></td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+        </tr><tr>
+          <td><span class="bold"><strong>Method inheritance</strong></span></td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+        </tr><tr>
+          <td>Multiple inheritance</td>
+
+          <td>no</td>
+
+          <td>possibly</td>
+
+          <td>yes</td>
+        </tr><tr>
+          <td>Multiple classifications</td>
+
+          <td>no</td>
+
+          <td>possibly</td>
+
+          <td>yes</td>
+        </tr><tr>
+          <td>Allow <a class="link" href="https://en.wikipedia.org/wiki/Object_pool_pattern" target="_top">object
+          pools</a></td>
+
+          <td>no</td>
+
+          <td>yes</td>
+
+          <td>yes</td>
+        </tr></tbody></table></div></div><br class="table-break"><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1434"></a>1.10.1.&nbsp;Constructor-based classes</h4></div></div></div><div class="sidebar"><div class="titlepage"></div><p>Only in ES6 (or ES2015),<a class="indexterm" name="d5e1438"></a> a user-friendly syntax for constructor-based classes
+        has been introduced. In <span class="bold"><strong>Step 1.a)</strong></span>, a
+        base class <code class="code">Person</code> is defined with two properties,
+        <code class="code">firstName</code> and <code class="code">lastName</code>, as well as with an
+        (instance-level) method <code class="code">toString</code> and a static
+        (class-level) method <code class="code">checkLastName</code>:</p><pre class="programlisting"><span class="bold"><strong>class</strong></span> Person {
+  <span class="bold"><strong>constructor</strong></span>( first, last) {
+    this.firstName = first;
+    this.lastName = last;
+  }
+  <span class="bold"><strong>toString</strong></span>() {
+    return this.firstName + " " +
+        this.lastName;
+  }
+  static <span class="bold"><strong>checkLastName</strong></span>( ln) {
+    if (typeof ln !== "string" || 
+        ln.trim()==="") {
+      console.log("Error: invalid last name!");
+    }
+  }
+}</pre><p>In <span class="bold"><strong>Step 1.b)</strong></span>, class-level
+        ("static") properties are defined:</p><pre class="programlisting">Person.<span class="bold"><strong>instances</strong></span> = {};</pre><p>Finally, in <span class="bold"><strong>Step 2</strong></span>, a subclass
+        is defined with additional properties and methods that possibly
+        override the corresponding superclass methods:</p><pre class="programlisting">class <span class="bold"><strong>Student</strong></span> <span class="bold"><strong>extends</strong></span> Person {
+  <span class="bold"><strong>constructor</strong></span>( first, last, studNo) {
+    <span class="bold"><strong>super</strong></span>.constructor( first, last);
+    this.<span class="bold"><strong>studNo</strong></span> = studNo; 
+  }
+  // method overrides superclass method
+  <span class="bold"><strong>toString</strong></span>() {
+    return <span class="bold"><strong>super</strong></span>.toString() + "(" +
+        this.studNo +")";
+  }
+}</pre></div><p>In ES5, we can define a base class with a subclass in the form of
+      constructor functions, following a code pattern recommended by Mozilla
+      in their <a class="link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_top">JavaScript
+      Guide</a>, as shown in the following steps.</p><p><span class="bold"><strong>Step 1.a)</strong></span> First define the
+      constructor function that implicitly defines the properties of the class
+      by assigning them the values of the constructor parameters when a new
+      object is created:</p><pre class="programlisting">function <span class="bold"><strong>Person</strong></span>( first, last) {
+  this.<span class="bold"><strong>firstName</strong></span> = first; 
+  this.<span class="bold"><strong>lastName</strong></span> = last; 
+}</pre><p>Notice that within a constructor, the special variable
+      <code class="code">this</code> refers to the new object that is created when the
+      constructor is invoked.</p><p><span class="bold"><strong>Step 1.b)</strong></span> Next, define the
+      <span class="italic">instance-level methods</span> of the class
+      as method slots of the object referenced by the constructor's
+      <code class="code">prototype</code> property:</p><pre class="programlisting"><span class="bold"><strong>Person</strong></span>.prototype.<span class="bold"><strong>toString</strong></span> = function () {
+  return this.firstName + " " + this.lastName;
+}</pre><p><span class="bold"><strong>Step 1.c)</strong></span> <span class="italic">Class-level</span> ("static") <span class="italic">methods</span> can be defined as method slots of the
+      constructor function itself (recall that, since JS functions are
+      objects, they can have slots), as in</p><pre class="programlisting">Person.checkLastName = function (ln) {
+  if (typeof ln !== "string" || ln.trim()==="") {
+    console.log("Error: invalid last name!");
+  }
+}</pre><p><span class="bold"><strong>Step 1.d)</strong></span> Finally, define
+      class-level ("static") properties as property slots of the constructor
+      function:</p><pre class="programlisting">Person.<span class="bold"><strong>instances</strong></span> = {};</pre><p><span class="bold"><strong>Step 2.a)</strong></span> Define a subclass with
+      additional properties:</p><pre class="programlisting">function <span class="bold"><strong>Student</strong></span>( first, last, studNo) {
+  // invoke superclass constructor
+  <span class="bold"><strong>Person.call</strong></span>( this, first, last);
+  // define and assign additional properties
+  this.<span class="bold"><strong>studNo</strong></span> = studNo;  
+}</pre><p>By invoking the supertype constructor with <code class="code">Person.call(
+      this, ...)</code> for any new object created as an instance of the
+      subtype <code class="code">Student</code>, and referenced by <code class="code">this</code>, we
+      achieve that the property slots created in the supertype constructor
+      (<code class="code">firstName</code> and <code class="code">lastName</code>) are also created for
+      the subtype instance, along the entire chain of supertypes within a
+      given class hierarchy. In this way we set up a <span class="bold"><strong>property inheritance</strong></span> mechanism that makes sure
+      that the own properties defined for an object on creation include the
+      own properties defined by the supertype constructors.</p><p>In <span class="bold"><strong>Step 2b)</strong></span>, we set up a
+      mechanism for <span class="bold"><strong>method inheritance</strong></span> via
+      the constructor's <code class="code">prototype</code> property. We assign a new
+      object created from the supertype's <code class="code">prototype</code> object to the
+      <code class="code">prototype</code> property of the subtype constructor and adjust
+      the prototype's constructor property:</p><pre class="programlisting">// Student inherits from Person
+<span class="bold"><strong>Student</strong></span>.prototype = Object.create( 
+    <span class="bold"><strong>Person</strong></span>.prototype);
+// adjust the subtype's constructor property
+Student.prototype.constructor = Student;</pre><p>With <code class="code">Object.create( Person.prototype)</code> we create a new
+      object with <code class="code">Person.prototype</code> as its prototype and without
+      any own property slots. By assigning this object to the
+      <code class="code">prototype</code> property of the subclass constructor, we achieve
+      that the methods defined in, and inherited from, the superclass are also
+      available for objects instantiating the subclass. This mechanism of
+      chaining the prototypes takes care of method inheritance. Notice that
+      setting <code class="code">Student.prototype</code> to <code class="code">Object.create(
+      Person.prototype)</code> is preferable over setting it to <code class="code">new
+      Person()</code>, which was the way to achieve the same in the time
+      before ES5.</p><p><span class="bold"><strong>Step 2c)</strong></span> Define a subclass method
+      that overrides a superclass method:</p><pre class="programlisting">Student.prototype.<span class="bold"><strong>toString</strong></span> = function () {
+  return Person.prototype.toString.call( this) +
+      "(" + this.studNo + ")";
+};</pre><p>An instance of a constructor-based class is created by applying
+      the <code class="code">new</code> operator to the constructor and providing suitable
+      arguments for the constructor parameters: </p><pre class="programlisting">var pers1 = <span class="bold"><strong>new Person</strong></span>("Tom","Smith");</pre><p>The method <code class="code">toString</code> is invoked on the object
+      <code class="code">pers1</code> by using the 'dot notation': </p><pre class="programlisting">alert("The full name of the person is: " + <span class="bold"><strong>pers1.toString()</strong></span>);</pre><p>When an object <code class="code">o</code> is created with <code class="code">o = new
+      C(</code>...<code class="code">)</code>, where <code class="code">C</code> references a named
+      function with name "C", the type (or class) name of <code class="code">o</code> can
+      be retrieved with the introspective expression
+      <code class="code">o.constructor.name</code>, which returns "C". The
+      <code class="code">Function::name</code> property used in this expression is
+      supported by all browsers, except Internet Explorer versions before
+      version 11.</p><p>In JavaScript, a <span class="bold"><strong><span class="italic">prototype</span></strong></span> object is an object with
+      method slots (and sometimes also property slots) that can be inherited
+      by other objects via JavaScript's method/property slot look-up
+      mechanism. This mechanism follows the <span class="bold"><strong><span class="italic">prototype chain</span></strong></span> defined by the
+      built-in reference property <code class="code">__proto__</code> (with a double
+      underscore prefix and suffix) for finding methods or properties. As
+      shown below in <a class="xref" href="ch02.html#figJsBasicsJsMetamodel" title="Figure&nbsp;2.1.&nbsp;The built-in JavaScript classes Object and Function.">Figure&nbsp;2.1</a>, every constructor function has a reference
+      to a prototype object as the value of its reference property
+      <code class="code">prototype</code>. When a new object is created with the help of
+      <code class="code">new</code>, its <code class="code">__proto__</code> property is set to the
+      constructor's <code class="code">prototype</code> property.</p><p>For instance, after creating a new object with <code class="code">f = new
+      Foo()</code>, it holds that <code class="code">Object.getPrototypeOf(f)</code>, which
+      is the same as <code class="code">f.__proto__</code>, is equal to
+      <code class="code">Foo.prototype</code>. Consequently, changes to the slots of
+      <code class="code">Foo.prototype</code> affect all objects that were created with
+      <code class="code">new Foo()</code>. While every object has a <code class="code">__proto__</code>
+      property slot (except <code class="code">Object</code>), only objects constructed
+      with <code class="code">new</code> have a <code class="code">constructor</code> property
+      slot.</p><div class="figure"><a name="figJsBasicsJsMetamodel"></a><p class="title"><b>Figure&nbsp;2.1.&nbsp;The built-in JavaScript classes <code class="code">Object</code> and
+        <code class="code">Function</code>.</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="450"><tr><td><img src="../../fig/JS-Metamodel.svg" width="450" alt="The built-in JavaScript classes Object and Function."></td></tr></table></div></div></div><br class="figure-break"><p>Notice that we can retrieve the prototype of an object with
+      <code class="code">Object.getPrototypeOf(o)</code>.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1574"></a>1.10.2.&nbsp;Factory-based classes</h4></div></div></div><p>In this approach we define a JS object <code class="code">Person</code>
+      (actually representing a class) with a special <code class="code">create</code>
+      method that invokes the predefined <code class="code">Object.create</code> method for
+      creating objects of type <code class="code">Person</code>:</p><pre class="programlisting">var <span class="bold"><strong>Person</strong></span> = {
+  typeName: "Person",
+  <span class="bold"><strong>properties</strong></span>: {
+    firstName: {range:"NonEmptyString", label:"First name", 
+        writable: true, enumerable: true},
+    lastName: {range:"NonEmptyString", label:"Last name", 
+        writable: true, enumerable: true}
+  },
+  <span class="bold"><strong>methods</strong></span>: {
+    getFullName: function () {
+      return this.firstName +" "+ this.lastName; 
+    }
+  },
+  <span class="bold"><strong>create</strong></span>: function (slots) {
+    // create object
+    var obj = <span class="bold"><strong>Object.create</strong></span>( this.methods, this.properties);
+    // add special property for *direct type* of object
+    Object.defineProperty( obj, "<span class="bold"><strong>type</strong></span>", 
+        {<span class="bold"><strong>value: this</strong></span>, writable: false, enumerable: true});
+    // initialize object
+    for (prop of Object.keys( slots)) {
+      if (prop in this.properties) obj[prop] = slots[prop];
+    }
+    return obj;
+  }
+};</pre><p>Notice that the JS object <code class="code">Person</code> actually represents
+      a factory-based class. An instance of such a factory-based class is
+      created by invoking its <code class="code">create</code> method:</p><pre class="programlisting">var pers1 = Person.create( {firstName:"Tom", lastName:"Smith"});</pre><p>The method <code class="code">getFullName</code> is invoked on the object
+      <code class="code">pers1</code> of type <code class="code">Person</code> by using the 'dot
+      notation', like in the constructor-based approach: </p><pre class="programlisting">alert("The full name of the person is: " + <span class="bold"><strong>pers1.getFullName()</strong></span>);</pre><p>Notice that each property declaration for an object created with
+      <code class="code">Object.create</code> has to include the 'descriptors'
+      <code class="code">writable: true</code> and <code class="code">enumerable: true</code>, as in
+      lines 5 and 7 of the <code class="code">Person</code> object definition above.</p><p>In a general approach, like in the <a class="link" href="../../mODELcLASSjs/validation-tutorial.html" target="_top">mODELcLASSjs</a>
+      library for model-based development, we would not repeatedly define the
+      <code class="code">create</code> method in each class definition, but rather have a
+      generic constructor function for defining factory-based classes. Such a
+      factory-based class constructor, like mODELcLASS, would also provide an
+      <span class="bold"><strong><span class="italic">inheritance</span></strong></span> mechanism by merging the
+      own properties and methods with the properties and methods of the
+      superclass. This mechanism is also called <span class="italic"><a class="link" href="http://aaditmshah.github.io/why-prototypal-inheritance-matters/" target="_top">Inheritance
+      by Concatenation</a></span>.</p></div></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01s06.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt01.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.&nbsp;Quiz Questions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Storing Database Tables with JavaScript's localStorage API</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+</html>

@@ -1,0 +1,181 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>5.&nbsp;Write the Model Code</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App"><link rel="prev" href="ch06s04.html" title="4.&nbsp; Style the User Interface with CSS"><link rel="next" href="ch06s06.html" title="6.&nbsp;Validation in the View Layer"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.&nbsp;Write the Model Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s06.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e2464"></a>5.&nbsp;Write the Model Code</h2></div></div></div><p>The JavaBeans data model shown on the right hand side in <a class="xref" href="ch06s03.html#figIDM2JavasDM" title="Figure&nbsp;6.2.&nbsp;Deriving a JavaBean data model from an information design model">Figure&nbsp;6.2</a> can be encoded step by step for
+			getting the code of the model classes of our Java web app.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2468"></a>5.1.&nbsp;Type mapping</h3></div></div></div><p>When defining the properties, we first need to map the platform-independent data
+				types of the information design model to the corresponding implicit Java supported
+				data types according to the following table. </p><div class="table"><a name="d5e2471"></a><p class="title"><b>Table&nbsp;6.3.&nbsp;Datatype mapping to Java</b></p><div class="table-contents"><table frame="border"><thead><tr>
+						<th>Platform-independent datatype</th>
+						<th>Java datatype</th>
+					</tr></thead><tbody><tr>
+						<td>String</td>
+						<td>String</td>
+					</tr><tr>
+						<td>Integer</td>
+						<td>int, long, Integer, Long</td>
+					</tr><tr>
+						<td>Decimal</td>
+						<td>double, Double, java.math.BigDecimal</td>
+					</tr><tr>
+						<td>Boolean</td>
+						<td>boolean, Boolean</td>
+					</tr><tr>
+						<td>Date</td>
+						<td>java.util.Date</td>
+					</tr></tbody></table></div></div><br class="table-break"><p>Notice that for precise computations with decimal numbers, the special datatype <a class="link" href="http://www.opentaps.org/docs/index.php/How_to_Use_Java_BigDecimal:_A_Tutorial" target="_top">java.math.BigDecimal</a> is needed. </p><p>A second datatype mapping is needed for obtaining the correspnding MySQL data
+				types:</p><div class="table"><a name="d5e2496"></a><p class="title"><b>Table&nbsp;6.4.&nbsp;Datatype mapping to MySQL</b></p><div class="table-contents"><table frame="border"><thead><tr>
+						<th>Platform-independent datatype</th>
+						<th>MySQL datatype</th>
+					</tr></thead><tbody><tr>
+						<td>String</td>
+						<td>VARCHAR</td>
+					</tr><tr>
+						<td>Integer</td>
+						<td>INT</td>
+					</tr><tr>
+						<td>Decimal</td>
+						<td>DECIMAL </td>
+					</tr><tr>
+						<td>Boolean</td>
+						<td>BOOL</td>
+					</tr><tr>
+						<td>Date</td>
+						<td>DATETIME or TIMESTAMP</td>
+					</tr></tbody></table></div></div><br class="table-break"></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2518"></a>5.2.&nbsp;Encode the constraints as annotations </h3></div></div></div><p>In this section we add database constraint annotations and bean validation annotations for
+    implementing the property constraints defined for the <code class="code">Book</code> class in the JavaBean
+    data model. For the standard idenitfier attribute <code class="code">isbn</code>, we add the database
+    constraint annotations <code class="code">@Id</code> and <code class="code">@Column( length=10)</code>, as well as the
+    bean validation annotations <code class="code">@NotNull</code> and <code class="code">@Pattern(
+     regexp="\\b\\d{10}\\b")</code>. Notice that, for readbilty, we have simplified the ISBN pattern
+    constraint.</p><p>For the attribute <code class="code">title</code>, we add the database constraint annotation
+					<code class="code">@Column( nullable=false)</code>, as well as the bean validation annotations
+					<code class="code">@NotNull</code> and  <code class="code">@Size( max=255)</code>. </p><p>For the attribute <code class="code">year</code>, we add the database constraint annotation
+     <code class="code">@Column( nullable=false)</code>, as well as the bean validation annotations
+     <code class="code">@NotNull</code> and <code class="code">@Min( value=1459)</code>. Notice that we cannot express the
+    constraint that <code class="code">year</code> must not be greater than next year with a standatd validation
+    annotation. Therefore, we'll define a custom annotation for this constraint in <a class="xref" href="ch06s07.html" title="7.&nbsp;Defining a Custom Validation Annotation">Section&nbsp;7</a> below.</p><p>Encoding the integrity constraints with database constraint annotations and bean validation
+				annotations results in the following annotated bean class:
+				</p><pre class="programlisting">@Entity
+@Table( name="books")
+@ManagedBean( name="book")
+@ViewScoped
+public class Book {
+  @Id @Column( length=10)
+  @NotNull( message="An ISBN value is required!")
+  @Pattern( regexp="\\b\\d{10}\\b", message="The ISBN must be a 10-digit string!")
+  private String <span class="bold"><strong>isbn</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A title is required!")
+  @Size( max=255)
+  private String <span class="bold"><strong>title</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A year is required!")
+  @Min( value=1459, message="The year must not be before 1459!")
+  private Integer <span class="bold"><strong>year</strong></span>;
+
+  ...  // define constructors, setters and getters 
+
+  public static Book <span class="bold"><strong>getObjectByStdId</strong></span>(...) {...}
+  public static List&lt;Book&gt; <span class="bold"><strong>getAllObjects</strong></span>(...) {...}
+  public static void <span class="bold"><strong>add</strong></span>(...) throws Exception {...}
+  public static void <span class="bold"><strong>update</strong></span>(...) throws Exception {...}
+  public static void <span class="bold"><strong>destroy</strong></span>(...) throws Exception {...}
+}</pre><p>Notice
+				that for the <code class="code">year</code> property, the Java <code class="code">Integer</code> wrapper class
+				is used instead of the primitive <code class="code">int</code> data type. This is required for
+				the combined use of JSF and JPA, because if the value of an empty year input field
+				is submitted in the create or update forms, the value which is passed to the
+					<code class="code">year</code> property by JSF via the <code class="code">setYear</code> method is
+					<code class="code">null</code> (more details on <a class="xref" href="ch06s05.html#reqNonEmptyStrings" title="5.5.&nbsp;Requiring non-empty strings">Section&nbsp;5.5, &#8220;Requiring non-empty strings&#8221;</a>), which
+				is not admitted for primitive datatypes by Java .</p><p>We only provide an overview of the methods. For more details, see our <a class="link" href="minimal-tutorial.html" target="_top">minimal app tutorial</a>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2558"></a>5.3.&nbsp;Checking uniqueness constraints </h3></div></div></div><p>For avoiding duplicate <code class="code">Book</code> records we have to check that the
+					<code class="code">isbn</code> values are unique. At the level of the database, this is
+				already checked since the <code class="code">isbn</code> column is the primary key, and the DBMS
+				makes sure that its values are unique. However, we would like to perform this check
+				in our Java app before the data is passed to the DBMS and create suitable error
+				messages. Unfortunatelly, there is no predefined bean validation annotation for this
+				purpose, and it is not clear how to do this with a custom validation annotation.
+				Therefore we need to write a static method, <code class="code">Book.checkIsbnAsId</code>, for
+				checking if a value for the <code class="code">isbn</code> attribute is unique. This check method
+				can then be called by the controller for validating any <code class="code">isbn</code> attribute
+				value before trying to create a new <code class="code">Book</code> record. The
+					<code class="code">Book.checkIsbnAsId</code> method code is shown
+				below:</p><pre class="programlisting">public static void <span class="bold"><strong>checkIsbnAsId</strong></span>( EntityManager em, String isbn)
+    throws UniquenessConstraintViolation {
+  Book book = Book.getObjectByStdId( em, isbn);
+  if ( book != null) {  // book was found, so isbn is not unique
+    throw new UniquenessConstraintViolation(
+        "There is already a book record with this ISBN!");
+  }
+}</pre><p>The method throws a <code class="code">UniquenessConstraintViolation</code> exception in case that a
+					<code class="code">Book</code> record was found for the given ISBN value. The exception can then be
+				caught and a corresponding error message displayed in the UI. In the sequel of this tutorial
+				we show how to define the controller validation method and inform JSF facelets that it must
+				be used to validate the <code class="code">isbn</code> form input field.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2575"></a>5.4.&nbsp;Dealing with model related exceptions </h3></div></div></div><p>The <code class="code">Book.checkIsbnAsId</code> method from the above section is designed to be used in
+				combination with a controller so the user gets an error message when trying to
+				duplicate a <code class="code">Book</code> entry (i.e. the provided <code class="code">isbn</code> value
+				already exists). However, if the <code class="code">Book.add</code> method is used directly (i.e.
+				by another piece of code, where the uniqueness constraint is not performed by
+				calling <code class="code">Book.checkIsbnAsId</code>), then uniqueness constraint validation may
+				fail. Lets have a look on the <code class="code">Book.add</code>
+				code:</p><pre class="programlisting">public static void add( EntityManager em, UserTransaction ut,
+    String isbn, String title, int year) throws NotSupportedException,
+    SystemException, IllegalStateException, SecurityException,
+    HeuristicMixedException, HeuristicRollbackException, RollbackException,
+    <span class="bold"><strong>EntityExistsException</strong></span> {
+  ut.begin();
+  Book book = new Book( isbn, title, year);
+  em.persist( book);
+  ut.commit();
+}</pre><p>The
+				method throws a set of exceptions to reflect problems occurred when trying to run
+				the persist or the commit method. One of the exceptions (i.e.
+					<code class="code">EntityExistsException</code>) is thrown by the <code class="code">ut.commit</code>
+				call. The method which calls <code class="code">Book.add</code> may catch this exception and
+				perform specific actions, such as rolling back the transaction. In our case, the
+					<code class="code">Book.add</code> is called by the <code class="code">add</code> action method of the
+					<code class="code">BookController</code> class, and the action performed is to show the
+				exception track stace in the console, as well as calling the
+					<code class="code">ut.rollback</code> which takes care of cancelling any database change
+				performed by the current transaction. The rest of the exceptions are catched by
+				using their super class (i.e. <code class="code">Exception</code>) and the exception track is
+				displayed in the
+				console.</p><pre class="programlisting">public String add( String isbn, String title, int year) {
+  try {
+    Book.add( em, ut, isbn, title, year);
+  } <span class="bold"><strong>catch ( EntityExistsException e) {
+    try {
+      ut.rollback();
+    } catch ( Exception e1) {
+      e1.printStackTrace();
+    } 
+    e.printStackTrace();</strong></span>
+  } catch ( Exception e) {
+    e.printStackTrace();
+  } 
+  return "create";
+}</pre><p><span class="bold"><strong>Note: </strong></span>the <code class="code">EntityExistsException</code> is
+				part of the <code class="code">javax.persistence</code> package (i.e.
+					<code class="code">javax.persistence.EntityExistsException</code>). TomEE uses the <a class="link" href="http://openjpa.apache.org/" target="_top">Apache OpenJPA</a> implementation of
+				the JPA API, which means that the <code class="code">EntityExistsException</code> class (and
+				other exceptions classes too) are part of the
+					<code class="code">org.apache.openjpa.persistence</code> package. Therefore, using this
+				exception with our code, requires to use <code class="code">import
+					org.apache.openjpa.persistence.EntityExistsException;</code> instead of
+					<code class="code">import javax.persistence.EntityExistsException;</code> as well as adding
+				the <code class="code">openjpa-xxx.jar</code> (located in the <code class="code">lib</code> subfolder of the
+				TomEE installation folder) to the Java application classpath for being able to have
+				the code compiled with Eclipse or other IDE tools.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="reqNonEmptyStrings"></a>5.5.&nbsp;Requiring non-empty strings</h3></div></div></div><p>Normally a mandatory string-valued attribute, such as <code class="code">title</code>, requires a
+				non-empty string, which is expressed in our model above by the range
+					<code class="code">NonEmptyString</code>.  For treating empty strings as null., the context parameter
+					<code class="code">javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</code> must be set to
+					<code class="code">true</code> in
+				<code class="code">web.xml</code>:</p><pre class="programlisting">&lt;context-param&gt;
+  &lt;param-name&gt;
+    javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL
+  &lt;/param-name&gt;
+  &lt;param-value&gt;true&lt;/param-value&gt;
+&lt;/context-param&gt;</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.&nbsp; Style the User Interface with CSS &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;6.&nbsp;Validation in the View Layer </td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+</html>

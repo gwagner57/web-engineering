@@ -1,0 +1,183 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch12s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Making an OO Class Model</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Bidirectional Associations"><link rel="prev" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Bidirectional Associations"><link rel="next" href="ch12s03.html" title="3.&nbsp;Quiz Questions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Making an OO Class Model</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Bidirectional Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e7429"></a>2.&nbsp;Making an OO Class Model</h2></div></div></div><p>Since classical OO programming languages do not support explicit
+    associations as first class citizens, but only classes with reference
+    properties representing implicit associations, we have to eliminate all
+    explicit associations for obtaining an OO class model.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7432"></a>2.1.&nbsp;The basic procedure</h3></div></div></div><p>The starting point of our <span class="bold"><strong><span class="italic">association elimination</span></strong></span> procedure is
+      an information design model with various kinds of unidirectional and
+      bidirectional associations, such as the model shown in <a class="xref" href="ch12.html#figPublisherBookPersonIDM" title="Figure&nbsp;12.1.&nbsp;The Publisher-Book-Author information design model with two bidirectional associations">Figure&nbsp;12.1</a> above.
+      If the model still contains any non-directed associations, we first have
+      to turn them into directed ones by making a decision on the ownership of
+      their ends, which is typically based on navigability
+      requirements.</p><p>Notice that both associations in the <span class="italic">Publisher-Book-Author</span> information design model,
+      <span class="italic">publisher-publishedBooks</span> and
+      <span class="italic">authoredBooks-authors</span> (or <span class="italic">Authorship</span>), are bidirectional as indicated by
+      the ownership dots at both association ends. For eliminating all
+      explicit associations from an information design model, we have to
+      perform the following steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong><span class="italic">Eliminate
+          unidirectional associations</span></strong></span>, connecting a
+          source with a target class, by replacing them with a reference
+          property in the source class such that the target class is its
+          range.</p></li><li class="listitem"><p><span class="bold"><strong><span class="italic">Eliminate
+          bidirectional associations</span></strong></span> by replacing them
+          with a pair of mutually inverse reference properties.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="secElimNAE"></a>2.2.&nbsp;How to eliminate unidirectional associations</h3></div></div></div><p>A unidirectional association<a class="indexterm" name="d5e7455"></a> connecting a source with a target class is replaced with
+      a corresponding reference property in its source class having the target
+      class as its range. Its multiplicity is the same as the multiplicity of
+      the target association end. Its name is the name of the association end,
+      if there is any, otherwise it is set to the name of the target class
+      (possibly pluralized, if the reference property is multi-valued).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7458"></a>2.3.&nbsp;How to eliminate bidirectional associations</h3></div></div></div><p>A bidirectional association<a class="indexterm" name="d5e7461"></a>, such as the authorship association between the classes
+      <code class="code">Book</code> and <code class="code">Author</code> in the model shown in Figure
+      <a class="xref" href="ch12.html#figPublisherBookPersonIDM" title="Figure&nbsp;12.1.&nbsp;The Publisher-Book-Author information design model with two bidirectional associations">12.1</a> above, is replaced with a pair of
+      mutually inverse reference properties, such as
+      <code class="code">Book</code>::<code class="code">authors</code> and
+      <code class="code">Author</code>::<code class="code">authoredBooks</code>. Since both reference
+      properties represent the same information (the same set of binary
+      relationships), it's an option to consider one of them being the
+      "master" and the other one the "slave", which is derived from the
+      master. We discuss the two cases of a one-to-one and a many-to-many
+      association</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the case of a bidirectional one-to-one association, this
+          leads to a pair of mutually inverse single-valued reference
+          properties, one in each of the two associated classes. Since both of
+          them represent essentially the same information (the same collection
+          of links/relationships), one has to choose which of them is
+          considered the master property, such that the other one is the slave
+          property, which is derived from the master property by inversion. In
+          the class diagram, the slave property is designated as a <span class="italic">derived property</span> that is automatically
+          updated whenever 1) a new master object is created, 2) the master
+          reference property is updated, or 3) a master object is destroyed.
+          This transformation is illustrated with the following
+          example:</p><div class="informalfigure"><a name="figDesM2AFM1"></a><div class="informaltable"><table frame="void"><tbody><tr>
+                  <td><div class="mediaobject"><img src="../../fig/CommitteeChair_DesM3.svg"></div></td>
+                </tr><tr>
+                  <td align="center"><div class="mediaobject"><img src="../../fig/Downarrow.svg"></div></td>
+                </tr><tr>
+                  <td><div class="mediaobject"><img src="../../fig/Committee-ClubMember-Bidir_OoDesM.svg"></div></td>
+                </tr></tbody></table></div></div></li><li class="listitem"><p>A bidirectional many-to-many association is mapped to a pair
+          of mutually inverse multi-valued reference properties, one in each
+          of the two classes participating in the association. Again, in one
+          of the two classes, the multi-valued reference property representing
+          the (inverse) association is designated as a <span class="italic">derived property</span> that is automatically
+          updated whenever the corresponding property in the other class
+          (where the association is maintained) is updated. This
+          transformation is illustrated with the following example:</p><div class="informalfigure"><a name="figDesM2AFM2"></a><div class="informaltable"><table frame="void"><tbody><tr>
+                  <td><div class="mediaobject"><img src="../../fig/Book-Author_DesM.svg"></div></td>
+                </tr><tr>
+                  <td align="center"><div class="mediaobject"><img src="../../fig/Downarrow.svg"></div></td>
+                </tr><tr>
+                  <td><div class="mediaobject"><img src="../../fig/Book-Author_AFM.svg"></div></td>
+                </tr></tbody></table></div></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7514"></a>2.4.&nbsp;The resulting OO class model</h3></div></div></div><p>After replacing both bidirectional associations with reference
+      properties, we obtain the OO class model<a class="indexterm" name="d5e7517"></a> shown in <a class="xref" href="ch12s02.html#figBidirAFM" title="Figure&nbsp;12.2.&nbsp;The OO class model with two pairs of mutually inverse reference properties">12.2</a>.</p><div class="figure"><a name="figBidirAFM"></a><p class="title"><b>Figure&nbsp;12.2.&nbsp;The OO class model with two pairs of mutually inverse reference
+        properties</b></p><div class="figure-contents"><div class="mediaobject"><img src="../../fig/Publisher-Book-Author_Bidir_AFM.svg" alt="The OO class model with two pairs of mutually inverse reference properties"></div></div></div><br class="figure-break"><p>Since books are entities that existentially depend on authors and
+      possibly on publishers, and not the other way around, it's natural to
+      maintain the master references in book objects, and consider the inverse
+      references in publisher and author objects as derived (or 'slave') data.
+      Therefore, we define <code class="code">publishedBooks</code> and
+      <code class="code">authoredBooks</code> as derived inverse reference properties,
+      which is indicated by their slash prefix in the OO class model.</p><p>The meaning of this OO class model can be illustrated by a sample
+      data population for the three model classes involved:</p><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+            <th colspan="3">Publisher</th>
+          </tr><tr>
+            <th>Name</th>
+
+            <th>Address</th>
+
+            <th>Published books</th>
+          </tr></thead><tbody><tr>
+            <td>Bantam Books</td>
+
+            <td>New York, USA</td>
+
+            <td>0553345842</td>
+          </tr><tr>
+            <td>Basic Books</td>
+
+            <td>New York, USA</td>
+
+            <td>0465030793</td>
+          </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+            <th colspan="5">Book</th>
+          </tr><tr>
+            <th>ISBN</th>
+
+            <th>Title</th>
+
+            <th>Year</th>
+
+            <th>Authors</th>
+
+            <th>Publisher</th>
+          </tr></thead><tbody><tr>
+            <td>0553345842</td>
+
+            <td>The Mind's I</td>
+
+            <td>1982</td>
+
+            <td>1, 2</td>
+
+            <td>Bantam Books</td>
+          </tr><tr>
+            <td>1463794762</td>
+
+            <td>The Critique of Pure Reason</td>
+
+            <td>2011</td>
+
+            <td>3</td>
+
+            <td></td>
+          </tr><tr>
+            <td>1928565379</td>
+
+            <td>The Critique of Practical Reason</td>
+
+            <td>2009</td>
+
+            <td>3</td>
+
+            <td></td>
+          </tr><tr>
+            <td>0465030793</td>
+
+            <td>I Am A Strange Loop</td>
+
+            <td>2000</td>
+
+            <td>2</td>
+
+            <td>Basic Books</td>
+          </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+            <th colspan="3">Author</th>
+          </tr><tr>
+            <th>Author ID</th>
+
+            <th>Name</th>
+
+            <th>Authored books</th>
+          </tr></thead><tbody><tr>
+            <td>1</td>
+
+            <td>Daniel Dennett</td>
+
+            <td>0553345842</td>
+          </tr><tr>
+            <td>2</td>
+
+            <td>Douglas Hofstadter</td>
+
+            <td>0553345842, 0465030793</td>
+          </tr><tr>
+            <td>3</td>
+
+            <td>Immanuel Kant</td>
+
+            <td>1463794762, 1928565379</td>
+          </tr></tbody></table></div><p>Notice how <code class="code">Book</code> records reference
+      <code class="code">Publisher</code> and <code class="code">Author</code> records, and, vice versa,
+      <code class="code">Publisher</code> and <code class="code">Author</code> records reference
+      <code class="code">Book</code> records.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;12.&nbsp;Bidirectional Associations&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Quiz Questions</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch12s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:32 GMT -->
+</html>
