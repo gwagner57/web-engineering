@@ -2,261 +2,370 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+  prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/12 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:42 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="In most apps we have some form of data management where data is represented in tables such that table rows correspond to objects, anf the table schema corresponds to the objects&#039; type. When building a front-end web app with JavaScript, the simplest approach for persistent data storage is using JavaScript&#039;s localStorage API, which provides a simple key-value database, but does" />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="12.html" />
-<link rel="shortlink" href="12.html" />
-<title>Storing database tables in JavaScript's Local Storage | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
-<!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="description"
+    content="In most apps we have some form of data management where data is represented in tables such that table rows correspond to objects, anf the table schema corresponds to the objects&#039; type. When building a front-end web app with JavaScript, the simplest approach for persistent data storage is using JavaScript&#039;s localStorage API, which provides a simple key-value database, but does" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="canonical" href="12.html" />
+  <link rel="shortlink" href="12.html" />
+  <title>Storing database tables in JavaScript's Local Storage | web-engineering.info</title>
+  <style type="text/css" media="all">
+    @import url("../modules/system/system.base5056.css?ry1opl");
+    @import url("../modules/system/system.menus5056.css?ry1opl");
+    @import url("../modules/system/system.messages5056.css?ry1opl");
+    @import url("../modules/system/system.theme5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../modules/comment/comment5056.css?ry1opl");
+    @import url("../modules/field/theme/field5056.css?ry1opl");
+    @import url("../modules/node/node5056.css?ry1opl");
+    @import url("../modules/search/search5056.css?ry1opl");
+    @import url("../modules/user/user5056.css?ry1opl");
+    @import url("../modules/forum/forum5056.css?ry1opl");
+    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
+    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
+    @import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="screen">
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="print">
+    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet"
+    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    media="only screen" />
+  <style type="text/css" media="screen">
+    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+    media="only screen" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+    media="only screen and (min-width:1025px)" />
+
+  <!--[if lt IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
 </style>
 <![endif]-->
 
-<!--[if lte IE 9]>
+  <!--[if lte IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
 </style>
 <![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
+  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
+  <script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
+  <script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"FYC1iRSnujKwpiw6l7YNiaipDxrra_OgwjhZUOjCaog","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/12?destination=node\/12":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/12","title":"Storing database tables  in JavaScript\u0026#039;s Local Storage","identifier":"node\/12"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+          jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "FYC1iRSnujKwpiw6l7YNiaipDxrra_OgwjhZUOjCaog", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "0": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "\/\/platform.linkedin.com\/in.js": 1, "\/\/platform.twitter.com\/widgets.js": 1, "\/\/apis.google.com\/js\/plusone.js": 1, "1": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/easy_social\/css\/easy_social.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/12?destination=node\/12": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/node\/12", "title": "Storing database tables  in JavaScript\u0026#039;s Local Storage", "identifier": "node\/12" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
 //--><!]]>
-</script>
-<!--[if lt IE 9]>
+  </script>
+  <!--[if lt IE 9]>
 <script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
 <![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-12 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+
+<body
+  class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-12 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
   <div id="skip-link" class="nocontent">
     <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
   </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+  <div id="page-wrapper">
+    <div id="page"
+      class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
 
-        <header class="clearfix with-logo" role="banner">
+      <div id="header-wrapper">
+        <div class="container clearfix">
 
-                      <div id="branding" class="branding-elements clearfix">
+          <header class="clearfix with-logo" role="banner">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+            <div id="branding" class="branding-elements clearfix">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
+              <div id="logo">
+                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                    src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+              </div>
+
+              <div class="h-group" id="name-and-slogan">
+
+                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+
+                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+              </div>
+
             </div>
-          
-          
-        </header>
 
+
+          </header>
+
+        </div>
       </div>
-    </div>
 
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
 
-        <div id="columns">
-          <div class="columns-inner clearfix">
 
-            <div id="content-column">
-              <div class="content-inner">
 
-                
-                <section id="main-content" role="main">
+      <div id="content-wrapper">
+        <div class="container">
 
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
+          <div id="columns">
+            <div class="columns-inner clearfix">
 
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/2.html">gwagner&#039;s blog</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
+              <div id="content-column">
+                <div class="content-inner">
+
+
+                  <section id="main-content" role="main">
+
+
+                    <div class="content-margin">
+                      <div class="content-style">
+
+
+                        <div id="breadcrumb" class="clearfix">
+                          <nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label">
+                            <h2 id="breadcrumb-label" class="element-invisible">You are here</h2>
+                            <ol id="crumbs" class="clearfix">
+                              <li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"
+                                    property="v:title" href="../blog.html">Blogs</a></span></li>
+                              <li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                    href="../blog/2.html">gwagner&#039;s blog</a></span></li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                        <header class="clearfix">
                           <h1 id="page-title">
-                            Storing database tables  in JavaScript&#039;s Local Storage                          </h1>
+                            Storing database tables in JavaScript&#039;s Local Storage </h1>
                         </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
-  
-  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/12" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="12.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/12"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/12" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box -->
-  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
-  
-  <article id="node-12" class="node node-blog article odd node-with-picture node-full ia-n clearfix" about="/node/12" typeof="sioc:Post sioct:BlogPost" role="article">
-  <div class="node-inner">
 
-    
-              <header class="node-header">
 
-        
-                  <p class="submitted"><span property="dc:date dc:created" content="2015-01-20T16:44:39+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/2.html" title="View user profile." class="username" xml:lang="" about="/user/2" typeof="sioc:UserAccount" property="foaf:name" datatype="">gwagner</a> on <time datetime="2015-01-20T16:44:39+0100">Tue, 01/20/2015 - 16:44</time></span></p>
-        
-      </header>
-        <span property="dc:title" content="Storing database tables  in JavaScript&#039;s Local Storage" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
-    <div class="node-content">
-      <div class="user-picture">
-    <a href="../user/2.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V" alt="gwagner&#039;s picture" title="gwagner&#039;s picture" /></a>  </div>
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>In most apps we have some form of data management where data is represented in tables such that table rows correspond to objects, anf the table schema corresponds to the objects' type. When building a front-end web app with&nbsp;JavaScript, the simplest approach for persistent data storage is using JavaScript's <code>localStorage</code> API, which provides a simple key-value database, but does not support database tables. So, the question is: how can we store and retrieve tables with Local Storage?</p>
 
-<p>We show how to represent database tables in&nbsp;JavaScript in the form of (what we call) <em><strong>JSON tables</strong></em>, and how to store these tables in Local Storage.</p>
+                        <div id="content">
+                          <div class="region region-content">
+                            <div id="block-easy-social-easy-social-block-1"
+                              class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1">
 
-<p>The <a class="link" href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/JSON" target="_top">JavaScript Object Notation (JSON)</a> defines a concise syntax for JavaScript array literals (lists) and JavaScript object literals (maps):</p>
+                              <div class="easy_social_box clearfix horizontal easy_social_lang_en">
+                                <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                    href="https://twitter.com/share" class="twitter-share-button"
+                                    data-url="https://web-engineering.info/node/12" data-count="horizontal"
+                                    data-lang="en" data-via="" data-related=":Check it out!"
+                                    data-text="web-engineering.info">Tweet</a></div>
+                                <div class="easy_social-widget easy_social-widget-facebook">
+                                  <fb:like href="12.html" send="true" layout="button_count" width="88" show_faces="true"
+                                    action="https://web-engineering.info/node/like" colorscheme="light" font="">
+                                  </fb:like>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-googleplus">
+                                  <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                    data-href="https://web-engineering.info/node/12"></div>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-linkedin last">
+                                  <script type="in/share" data-url="https://web-engineering.info/node/12"
+                                    data-counter="right"></script>
+                                </div>
+                              </div> <!-- /.easy_social_box -->
+                            </div>
+                            <div id="block-system-main"
+                              class="block block-system no-title even last block-count-2 block-region-content block-main">
 
-<ul style="list-style-type:disc">
-	<li>
-	<p><strong>Lists</strong> are expressed as comma-separated lists of data literals <strong>enclosed in brackets</strong>:</p>
+                              <article id="node-12"
+                                class="node node-blog article odd node-with-picture node-full ia-n clearfix"
+                                about="/node/12" typeof="sioc:Post sioct:BlogPost" role="article">
+                                <div class="node-inner">
 
-	<pre>
+
+                                  <header class="node-header">
+
+
+                                    <p class="submitted"><span property="dc:date dc:created"
+                                        content="2015-01-20T16:44:39+01:00" datatype="xsd:dateTime"
+                                        rel="sioc:has_creator">Submitted by <a href="../user/2.html"
+                                          title="View user profile." class="username" xml:lang="" about="/user/2"
+                                          typeof="sioc:UserAccount" property="foaf:name" datatype="">gwagner</a> on
+                                        <time datetime="2015-01-20T16:44:39+0100">Tue, 01/20/2015 - 16:44</time></span>
+                                    </p>
+
+                                  </header>
+                                  <span property="dc:title"
+                                    content="Storing database tables  in JavaScript&#039;s Local Storage"
+                                    class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0"
+                                    datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+                                  <div class="node-content">
+                                    <div class="user-picture">
+                                      <a href="../user/2.html" title="View user profile."><img typeof="foaf:Image"
+                                          class="image-style-thumbnail"
+                                          src="../sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V"
+                                          alt="gwagner&#039;s picture" title="gwagner&#039;s picture" /></a>
+                                    </div>
+                                    <div
+                                      class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+                                      <div class="field-items">
+                                        <div class="field-item even" property="content:encoded">
+                                          <p>In most apps we have some form of data management where data is represented
+                                            in tables such that table rows correspond to objects, anf the table schema
+                                            corresponds to the objects' type. When building a front-end web app
+                                            with&nbsp;JavaScript, the simplest approach for persistent data storage is
+                                            using JavaScript's <code>localStorage</code> API, which provides a simple
+                                            key-value database, but does not support database tables. So, the question
+                                            is: how can we store and retrieve tables with Local Storage?</p>
+
+                                          <p>We show how to represent database tables in&nbsp;JavaScript in the form of
+                                            (what we call) <em><strong>JSON tables</strong></em>, and how to store these
+                                            tables in Local Storage.</p>
+
+                                          <p>The <a class="link"
+                                              href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/JSON"
+                                              target="_top">JavaScript Object Notation (JSON)</a> defines a concise
+                                            syntax for JavaScript array literals (lists) and JavaScript object literals
+                                            (maps):</p>
+
+                                          <ul style="list-style-type:disc">
+                                            <li>
+                                              <p><strong>Lists</strong> are expressed as comma-separated lists of data
+                                                literals <strong>enclosed in brackets</strong>:</p>
+
+                                              <pre>
 ["penguin", "arctis", "snow"]</pre>
-	</li>
-	<li>
-	<p><strong>Maps</strong> are expressed as comma-separated lists of key-value slots <strong>enclosed in curly braces</strong>:</p>
+                                            </li>
+                                            <li>
+                                              <p><strong>Maps</strong> are expressed as comma-separated lists of
+                                                key-value slots <strong>enclosed in curly braces</strong>:</p>
 
-	<pre>
+                                              <pre>
 {"id": 2901465, "my phone number":"0049.30.227109"}</pre>
 
-	<p>A <strong>record</strong> is a special type of map where the keys are <a class="link" href="http://mothereff.in/js-variables" target="_top">admissible JavaScript identifiers</a> denoting properties, so they need not be enclosed in quotation marks in JavaScript code. For example, {id: 2901465, phone:"0049.30.227109"} is a record. The value of a property in a record, or the value associated with a key in a map, may be a simple data literal, or an array literal, or another object literal as in:</p>
+                                              <p>A <strong>record</strong> is a special type of map where the keys are
+                                                <a class="link" href="http://mothereff.in/js-variables"
+                                                  target="_top">admissible JavaScript identifiers</a> denoting
+                                                properties, so they need not be enclosed in quotation marks in
+                                                JavaScript code. For example, {id: 2901465, phone:"0049.30.227109"} is a
+                                                record. The value of a property in a record, or the value associated
+                                                with a key in a map, may be a simple data literal, or an array literal,
+                                                or another object literal as in:</p>
 
-	<pre>
+                                              <pre>
 {tags:["penguin","arctis"], photographer:{"last":"Wagner","first":"Gerd"}}</pre>
-	</li>
-</ul>
+                                            </li>
+                                          </ul>
 
-<p>We define a <em><strong>JSON table</strong></em> as a set of records (or table rows) such that each record represents an object with a standard identifier property slot. Consequently, a JSON table can be represented as a map of records such that the keys of the map are the values of the standard identifier property, and their associated values are the corresponding records, as illustrated by the following example:</p>
+                                          <p>We define a <em><strong>JSON table</strong></em> as a set of records (or
+                                            table rows) such that each record represents an object with a standard
+                                            identifier property slot. Consequently, a JSON table can be represented as a
+                                            map of records such that the keys of the map are the values of the standard
+                                            identifier property, and their associated values are the corresponding
+                                            records, as illustrated by the following example:</p>
 
-<table border="1" cellpadding="5">
-	<thead>
-		<tr>
-			<th>Key</th>
-			<th>Value</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>006251587X</td>
-			<td>{ isbn:"006251587X," title:"Weaving the Web", year:2000 }</td>
-		</tr>
-		<tr>
-			<td>0465026567</td>
-			<td>{ isbn:"0465026567," title:"Gödel, Escher, Bach", year:1999 }</td>
-		</tr>
-		<tr>
-			<td>0465030793</td>
-			<td>{ isbn:"0465030793," title:"I Am A Strange Loop", year:2008 }</td>
-		</tr>
-	</tbody>
-</table>
+                                          <table border="1" cellpadding="5">
+                                            <thead>
+                                              <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td>006251587X</td>
+                                                <td>{ isbn:"006251587X," title:"Weaving the Web", year:2000 }</td>
+                                              </tr>
+                                              <tr>
+                                                <td>0465026567</td>
+                                                <td>{ isbn:"0465026567," title:"Gödel, Escher, Bach", year:1999 }</td>
+                                              </tr>
+                                              <tr>
+                                                <td>0465030793</td>
+                                                <td>{ isbn:"0465030793," title:"I Am A Strange Loop", year:2008 }</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
 
-<p>The Local Storage database managed by the browser and associated with an app is exposed as the built-in JavaScript object <code>localStorage</code> with the methods <code>getItem</code>, <code>setItem</code>, <code>removeItem</code> and <code>clear</code>. However, instead of invoking <code>getItem</code> and <code>setItem</code>, it is more convenient to handle <code>localStorage</code> as a map, writing to it by assigning a value to a key as in <code>localStorage["id"] = 2901465</code>, and retrieving data by reading the map as in <code>var id = localStorage["id"]</code>. The following example shows how to create a JSON table and save its serialization to Local Storage:</p>
+                                          <p>The Local Storage database managed by the browser and associated with an
+                                            app is exposed as the built-in JavaScript object <code>localStorage</code>
+                                            with the methods <code>getItem</code>, <code>setItem</code>,
+                                            <code>removeItem</code> and <code>clear</code>. However, instead of invoking
+                                            <code>getItem</code> and <code>setItem</code>, it is more convenient to
+                                            handle <code>localStorage</code> as a map, writing to it by assigning a
+                                            value to a key as in <code>localStorage["id"] = 2901465</code>, and
+                                            retrieving data by reading the map as in
+                                            <code>var id = localStorage["id"]</code>. The following example shows how to
+                                            create a JSON table and save its serialization to Local Storage:</p>
 
-<pre>
+                                          <pre>
 var persons = {};
 persons["2901465"] = {id: 2901465, name:"Tom"};
 persons["3305579"] = {id: 3305579, name:"Su"};
@@ -267,75 +376,198 @@ try {
   alert("Error when writing to Local Storage\n" + e);
 }</pre>
 
-<p>Notice that we have used the predefined method <code>JSON.stringify</code> for serializing the JSON table <code>persons</code> into a string that is assigned as the value of the <code>localStorage</code> key "persons". We can retrieve the table with the help of the predefined de-serialization method <code>JSON.parse</code> in the following way:</p>
+                                          <p>Notice that we have used the predefined method <code>JSON.stringify</code>
+                                            for serializing the JSON table <code>persons</code> into a string that is
+                                            assigned as the value of the <code>localStorage</code> key "persons". We can
+                                            retrieve the table with the help of the predefined de-serialization method
+                                            <code>JSON.parse</code> in the following way:</p>
 
-<pre>
+                                          <pre>
 var persons = {};
 try {
   persons = <strong>JSON.parse</strong>( <strong>localStorage</strong>["personTable"]);
 } catch (e) {
   alert("Error when reading from Local Storage\n" + e);        
 }</pre>
-</div></div></div><div class="easy_social_box clearfix horizontal easy_social_lang_und">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/12" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="Storing database tables  in JavaScript's Local Storage">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="12.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="12.html"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/12" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F12">View the discussion thread.</a></p></noscript></div>    </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                      <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                          href="https://twitter.com/share" class="twitter-share-button"
+                                          data-url="https://web-engineering.info/node/12" data-count="horizontal"
+                                          data-lang="en" data-via="" data-related=":Check it out!"
+                                          data-text="Storing database tables  in JavaScript's Local Storage">Tweet</a>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-facebook">
+                                        <fb:like href="12.html" send="true" layout="button_count" width="88"
+                                          show_faces="true" action="https://web-engineering.info/node/like"
+                                          colorscheme="light" font=""></fb:like>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-googleplus">
+                                        <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                          data-href="12.html"></div>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-linkedin last">
+                                        <script type="in/share" data-url="https://web-engineering.info/node/12"
+                                          data-counter="right"></script>
+                                      </div>
+                                    </div> <!-- /.easy_social_box -->
+                                    <div id="disqus_thread"><noscript>
+                                        <p><a
+                                            href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F12">View
+                                            the discussion thread.</a></p>
+                                      </noscript></div>
+                                  </div>
 
-          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/2.html" title="Read gwagner&#039;s latest blog entries.">gwagner&#039;s blog</a></li></ul></nav>
-    
-    
-  </div>
-</article>
+                                  <nav class="clearfix">
+                                    <ul class="links inline">
+                                      <li class="blog_usernames_blog first last"><a href="../blog/2.html"
+                                          title="Read gwagner&#039;s latest blog entries.">gwagner&#039;s blog</a></li>
+                                    </ul>
+                                  </nav>
 
-  </div></div>                      </div>
 
-                      
+                                </div>
+                              </article>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </section>
+
+                  <div class="region region-content-aside">
+                    <div class="region-inner clearfix">
+                      <div id="block-block-2"
+                        class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2">
+                        <div class="block-inner clearfix">
+
+                          <div class="block-content content">
+                            <p style="text-align: center; margin-top: 10px;">©
+                              2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+"
+                                  src="../../assets/images/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a
+                                href="../../about/index.html">About Us</a> | <a href="../../privacy/index.html">Privacy
+                                Policy</a> | Terms
+                              &amp;
+                              Conditions</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                </section>
+              <div class="region region-sidebar-first sidebar">
+                <div class="region-inner clearfix">
+                  <nav id="block-system-main-menu"
+                    class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                    role="navigation">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">Main menu</h2>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
+                      <div class="block-content content">
+                        <ul class="menu clearfix">
+                          <li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com"
+                              title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                              Discrete Event Simulation</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1218"><a href="../../WebAppBook/index.html"
+                              title="Web Applications with JavaScript or Java">Textbook
+                              Web Apps JS+Java</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1477"><a href="../../textbooknode80/index.html">Book
+                              Information Management</a></li>
+                          <li class="leaf menu-depth-1 menu-item-366"><a href="../../blog/index.html"
+                              title="A blog about web engineering issues.">Web Engineering
+                              Blog</a></li>
+                          <li class="leaf menu-depth-1 menu-item-758"><a
+                              href="../../SummariesCheatsheetsPosters/index.html">Summaries
+                              &amp; Cheat
+                              Sheets</a></li>
+                          <li class="leaf menu-depth-1 menu-item-361"><a href="../../JsFrontendApp/index.html"
+                              title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                              Apps with Plain JS</a></li>
+                          <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                              href="../../JavaJpaJsfApp/index.html"
+                              title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                              class="active-trail active">Back-End Apps with Java EE</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-806"><a href="../../mODELcLASSjsApp/index.html"
+                              title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                              with mODELcLASSjs </a></li>
+                          <li class="leaf menu-depth-1 menu-item-805"><a href="../../WoTProjects/index.html"
+                              title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                              of Things (WoT)</a></li>
+                          <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
+                              title="">Discussion
+                              Forums</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
+                              title="Team members list.">Team</a></li>
+                          <li class="last leaf menu-depth-1 menu-item-554"><a
+                              href="../../contribute/index.html">Contribute
+                              / Support Us</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                  <section id="block-user-login"
+                    class="block block-user even last block-count-5 block-region-sidebar-first block-login" role="form">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">User login</h2>
+
+                      <div class="block-content content">
+                        <form action="https://web-engineering.info/node/12?destination=node/12" method="post"
+                          id="user-login-form" accept-charset="UTF-8">
+                          <div>
+                            <div class="form-item form-type-textfield form-item-name">
+                              <label for="edit-name">Username <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60"
+                                class="form-text required" />
+                            </div>
+                            <div class="form-item form-type-password form-item-pass">
+                              <label for="edit-pass">Password <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="password" id="edit-pass" name="pass" size="15" maxlength="128"
+                                class="form-text required" />
+                            </div>
+                            <div class="item-list">
+                              <ul>
+                                <li class="even first last"><a href="../user/password.html"
+                                    title="Request new password via e-mail.">Request new password</a></li>
+                              </ul>
+                            </div><input type="hidden" name="form_build_id"
+                              value="form-AlxrMcGsDrB9-e2pA-41Cauz5pd5xTCQCj6Obz3Zqz4" />
+                            <input type="hidden" name="form_id" value="user_login_block" />
+                            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit"
+                                id="edit-submit" name="op" value="Log in" class="form-submit" /></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
-
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/12?destination=node/12" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-AlxrMcGsDrB9-e2pA-41Cauz5pd5xTCQCj6Obz3Zqz4" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    
-    
-    
+
+
+
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/12 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:42 GMT -->
+
 </html>

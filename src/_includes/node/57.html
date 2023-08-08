@@ -2,248 +2,350 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+  prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/57 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:53 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="WebRTC is an edge technology, enabling modern web browsers to remotely transfer files, video/audio streams, and share your screen using peer-to-peer connections. In this tutorial, we show how to build a simple video/audio chat web app with WebRTC and WebSockets." />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="57.html" />
-<link rel="shortlink" href="57.html" />
-<title>Building a Video/Audio Chat Web App with WebRTC | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
-<!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="description"
+    content="WebRTC is an edge technology, enabling modern web browsers to remotely transfer files, video/audio streams, and share your screen using peer-to-peer connections. In this tutorial, we show how to build a simple video/audio chat web app with WebRTC and WebSockets." />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="canonical" href="57.html" />
+  <link rel="shortlink" href="57.html" />
+  <title>Building a Video/Audio Chat Web App with WebRTC | web-engineering.info</title>
+  <style type="text/css" media="all">
+    @import url("../modules/system/system.base5056.css?ry1opl");
+    @import url("../modules/system/system.menus5056.css?ry1opl");
+    @import url("../modules/system/system.messages5056.css?ry1opl");
+    @import url("../modules/system/system.theme5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../modules/comment/comment5056.css?ry1opl");
+    @import url("../modules/field/theme/field5056.css?ry1opl");
+    @import url("../modules/node/node5056.css?ry1opl");
+    @import url("../modules/search/search5056.css?ry1opl");
+    @import url("../modules/user/user5056.css?ry1opl");
+    @import url("../modules/forum/forum5056.css?ry1opl");
+    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
+    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
+    @import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="screen">
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="print">
+    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet"
+    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    media="only screen" />
+  <style type="text/css" media="screen">
+    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+    media="only screen" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+    media="only screen and (min-width:1025px)" />
+
+  <!--[if lt IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
 </style>
 <![endif]-->
 
-<!--[if lte IE 9]>
+  <!--[if lte IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
 </style>
 <![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
+  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
+  <script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
+  <script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"owaOEGjcovUF5OYPgNfZ2Tj2IxsvAnQIetZzjT7yWOk","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/57?destination=node\/57":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/57","title":"Building a Video\/Audio Chat Web App with WebRTC","identifier":"node\/57"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+          jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "owaOEGjcovUF5OYPgNfZ2Tj2IxsvAnQIetZzjT7yWOk", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "0": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "\/\/platform.linkedin.com\/in.js": 1, "\/\/platform.twitter.com\/widgets.js": 1, "\/\/apis.google.com\/js\/plusone.js": 1, "1": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/easy_social\/css\/easy_social.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/57?destination=node\/57": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/node\/57", "title": "Building a Video\/Audio Chat Web App with WebRTC", "identifier": "node\/57" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
 //--><!]]>
-</script>
-<!--[if lt IE 9]>
+  </script>
+  <!--[if lt IE 9]>
 <script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
 <![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-57 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+
+<body
+  class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-57 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
   <div id="skip-link" class="nocontent">
     <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
   </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+  <div id="page-wrapper">
+    <div id="page"
+      class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
 
-        <header class="clearfix with-logo" role="banner">
+      <div id="header-wrapper">
+        <div class="container clearfix">
 
-                      <div id="branding" class="branding-elements clearfix">
+          <header class="clearfix with-logo" role="banner">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+            <div id="branding" class="branding-elements clearfix">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
+              <div id="logo">
+                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                    src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+              </div>
+
+              <div class="h-group" id="name-and-slogan">
+
+                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+
+                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+              </div>
+
             </div>
-          
-          
-        </header>
 
+
+          </header>
+
+        </div>
       </div>
-    </div>
 
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
 
-        <div id="columns">
-          <div class="columns-inner clearfix">
 
-            <div id="content-column">
-              <div class="content-inner">
 
-                
-                <section id="main-content" role="main">
+      <div id="content-wrapper">
+        <div class="container">
 
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
+          <div id="columns">
+            <div class="columns-inner clearfix">
 
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
+              <div id="content-column">
+                <div class="content-inner">
+
+
+                  <section id="main-content" role="main">
+
+
+                    <div class="content-margin">
+                      <div class="content-style">
+
+
+                        <div id="breadcrumb" class="clearfix">
+                          <nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label">
+                            <h2 id="breadcrumb-label" class="element-invisible">You are here</h2>
+                            <ol id="crumbs" class="clearfix">
+                              <li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"
+                                    property="v:title" href="../blog.html">Blogs</a></span></li>
+                              <li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                    href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                        <header class="clearfix">
                           <h1 id="page-title">
-                            Building a Video/Audio Chat Web App with WebRTC                          </h1>
+                            Building a Video/Audio Chat Web App with WebRTC </h1>
                         </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
-  
-  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/57" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="57.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/57"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/57" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box -->
-  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
-  
-  <article id="node-57" class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/57" typeof="sioc:Post sioct:BlogPost" role="article">
-  <div class="node-inner">
 
-    
-              <header class="node-header">
 
-        
-                  <p class="submitted"><span property="dc:date dc:created" content="2016-01-20T14:48:19+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/24.html" title="View user profile." class="username" xml:lang="" about="/user/24" typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on <time datetime="2016-01-20T14:48:19+0100">Wed, 01/20/2016 - 14:48</time></span></p>
-        
-      </header>
-        <span property="dc:title" content="Building a Video/Audio Chat Web App with WebRTC" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
-    <div class="node-content">
-      <div class="user-picture">
-    <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc" alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>  </div>
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><h2>WebRTC State of the Art</h2>
 
-<p>WebRTC (Web Real Time Communication) is a new web standard currently supported by Google, Mozilla and Opera. It allows peer-to-peer communication between browsers. Its mission is to enable rich, high-quality RTC applications for the browser, mobile platforms, and the Web of Things (WoT), and allow them to communicate via a common set of protocols.</p>
+                        <div id="content">
+                          <div class="region region-content">
+                            <div id="block-easy-social-easy-social-block-1"
+                              class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1">
 
-<p>One of the last major challenges for the web is to enable human communication via voice and video without using special plugins and without having to pay for these services. The first WebRTC implementation was built in May 2011 by Ericsson. WebRTC defines open standards for real-time, plugin-free video, audio and data communication. Curently, many web services already use RTC, but require downloads, native apps or plugins. These includes Skype, Facebook (which uses Skype) and Google Hangouts (which use the Google Talk plugin). Downloading, installing and updating plugins can be complex, error prone and annoying and it's often difficult to convince people to install plugins in the first place!</p>
+                              <div class="easy_social_box clearfix horizontal easy_social_lang_en">
+                                <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                    href="https://twitter.com/share" class="twitter-share-button"
+                                    data-url="https://web-engineering.info/node/57" data-count="horizontal"
+                                    data-lang="en" data-via="" data-related=":Check it out!"
+                                    data-text="web-engineering.info">Tweet</a></div>
+                                <div class="easy_social-widget easy_social-widget-facebook">
+                                  <fb:like href="57.html" send="true" layout="button_count" width="88" show_faces="true"
+                                    action="https://web-engineering.info/node/like" colorscheme="light" font="">
+                                  </fb:like>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-googleplus">
+                                  <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                    data-href="https://web-engineering.info/node/57"></div>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-linkedin last">
+                                  <script type="in/share" data-url="https://web-engineering.info/node/57"
+                                    data-counter="right"></script>
+                                </div>
+                              </div> <!-- /.easy_social_box -->
+                            </div>
+                            <div id="block-system-main"
+                              class="block block-system no-title even last block-count-2 block-region-content block-main">
 
-<h2>How does it work?</h2>
+                              <article id="node-57"
+                                class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix"
+                                about="/node/57" typeof="sioc:Post sioct:BlogPost" role="article">
+                                <div class="node-inner">
 
-<p>In general, a WebRTC-enabled application needs to:</p>
 
-<ul>
-	<li>obtain an audio, video or other data stream;</li>
-	<li>gather network information (e.g., IP addresses and ports), and exchange this with other WebRTC clients;</li>
-	<li>a "signaling" communication is used to report errors, and initiate or close sessions;</li>
-	<li>clients must exchange information about media, such as resolution and codecs;</li>
-	<li>stream the audio, video or data;</li>
-</ul>
+                                  <header class="node-header">
 
-<p>WebRTC implements three APIs:</p>
 
-<ul>
-	<li>MediaStream - allows the client (e.g., the web browser) to access the stream, such as the one from a WebCam or microphone;</li>
-	<li>RTCPeerConnection - enable audio or video data transfer, with support for encryption and bandwidth management;</li>
-	<li>RTCDataChannel - enables peer-to-peer communication for any generic data.</li>
-</ul>
+                                    <p class="submitted"><span property="dc:date dc:created"
+                                        content="2016-01-20T14:48:19+01:00" datatype="xsd:dateTime"
+                                        rel="sioc:has_creator">Submitted by <a href="../user/24.html"
+                                          title="View user profile." class="username" xml:lang="" about="/user/24"
+                                          typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on
+                                        <time datetime="2016-01-20T14:48:19+0100">Wed, 01/20/2016 - 14:48</time></span>
+                                    </p>
 
-<p>In theory it is possible to create a simple WebRTC application, without any server components for signaling. In practice such application does not make much of a sense because it can be used only on a single page, thus it shares data amoung the same peer.</p>
+                                  </header>
+                                  <span property="dc:title" content="Building a Video/Audio Chat Web App with WebRTC"
+                                    class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0"
+                                    datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+                                  <div class="node-content">
+                                    <div class="user-picture">
+                                      <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image"
+                                          class="image-style-thumbnail"
+                                          src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc"
+                                          alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>
+                                    </div>
+                                    <div
+                                      class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+                                      <div class="field-items">
+                                        <div class="field-item even" property="content:encoded">
+                                          <h2>WebRTC State of the Art</h2>
 
-<h3>MediaStream</h3>
+                                          <p>WebRTC (Web Real Time Communication) is a new web standard currently
+                                            supported by Google, Mozilla and Opera. It allows peer-to-peer communication
+                                            between browsers. Its mission is to enable rich, high-quality RTC
+                                            applications for the browser, mobile platforms, and the Web of Things (WoT),
+                                            and allow them to communicate via a common set of protocols.</p>
 
-<p>The <a href="http://w3c.github.io/mediacapture-main/getusermedia.html">MediaStream</a> represents a synchronized stream(s) of media. Each MediaStream has an input and an output. The <code>getUserMedia</code> method has three parameters:</p>
+                                          <p>One of the last major challenges for the web is to enable human
+                                            communication via voice and video without using special plugins and without
+                                            having to pay for these services. The first WebRTC implementation was built
+                                            in May 2011 by Ericsson. WebRTC defines open standards for real-time,
+                                            plugin-free video, audio and data communication. Curently, many web services
+                                            already use RTC, but require downloads, native apps or plugins. These
+                                            includes Skype, Facebook (which uses Skype) and Google Hangouts (which use
+                                            the Google Talk plugin). Downloading, installing and updating plugins can be
+                                            complex, error prone and annoying and it's often difficult to convince
+                                            people to install plugins in the first place!</p>
 
-<ul>
-	<li>a <a href="http://w3c.github.io/mediacapture-main/getusermedia.html#the-model-sources-sinks-constraints-and-states">constraints</a> object;</li>
-	<li>a success callback method;</li>
-	<li>a failure callback method.</li>
-</ul>
+                                          <h2>How does it work?</h2>
 
-<p>For example, a local WebCam stream can be shown in a HTML5 <code>video</code> element:</p>
+                                          <p>In general, a WebRTC-enabled application needs to:</p>
 
-<pre>
+                                          <ul>
+                                            <li>obtain an audio, video or other data stream;</li>
+                                            <li>gather network information (e.g., IP addresses and ports), and exchange
+                                              this with other WebRTC clients;</li>
+                                            <li>a "signaling" communication is used to report errors, and initiate or
+                                              close sessions;</li>
+                                            <li>clients must exchange information about media, such as resolution and
+                                              codecs;</li>
+                                            <li>stream the audio, video or data;</li>
+                                          </ul>
+
+                                          <p>WebRTC implements three APIs:</p>
+
+                                          <ul>
+                                            <li>MediaStream - allows the client (e.g., the web browser) to access the
+                                              stream, such as the one from a WebCam or microphone;</li>
+                                            <li>RTCPeerConnection - enable audio or video data transfer, with support
+                                              for encryption and bandwidth management;</li>
+                                            <li>RTCDataChannel - enables peer-to-peer communication for any generic
+                                              data.</li>
+                                          </ul>
+
+                                          <p>In theory it is possible to create a simple WebRTC application, without any
+                                            server components for signaling. In practice such application does not make
+                                            much of a sense because it can be used only on a single page, thus it shares
+                                            data amoung the same peer.</p>
+
+                                          <h3>MediaStream</h3>
+
+                                          <p>The <a
+                                              href="http://w3c.github.io/mediacapture-main/getusermedia.html">MediaStream</a>
+                                            represents a synchronized stream(s) of media. Each MediaStream has an input
+                                            and an output. The <code>getUserMedia</code> method has three parameters:
+                                          </p>
+
+                                          <ul>
+                                            <li>a <a
+                                                href="http://w3c.github.io/mediacapture-main/getusermedia.html#the-model-sources-sinks-constraints-and-states">constraints</a>
+                                              object;</li>
+                                            <li>a success callback method;</li>
+                                            <li>a failure callback method.</li>
+                                          </ul>
+
+                                          <p>For example, a local WebCam stream can be shown in a HTML5
+                                            <code>video</code> element:</p>
+
+                                          <pre>
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
@@ -270,11 +372,18 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
 &lt;/html&gt;
 </pre>
 
-<h3>RTCPeerConnection</h3>
+                                          <h3>RTCPeerConnection</h3>
 
-<p>The RTCPeerConnection interface represents a WebRTC connection between the local computer and a remote peer. It is used to handle efficient streaming of data between the two peers. Both parties (the caller and the called party) need to set up their own <code>RTCPeerConnection</code> instances to represent their end of the peer-to-peer connection. In general, we use a <code>RTCPeerConnection::onaddstream</code> event callback to take care of dealing with the audio/video stream, e.g., assigning it to a HTML5 <code>video</code>:</p>
+                                          <p>The RTCPeerConnection interface represents a WebRTC connection between the
+                                            local computer and a remote peer. It is used to handle efficient streaming
+                                            of data between the two peers. Both parties (the caller and the called
+                                            party) need to set up their own <code>RTCPeerConnection</code> instances to
+                                            represent their end of the peer-to-peer connection. In general, we use a
+                                            <code>RTCPeerConnection::onaddstream</code> event callback to take care of
+                                            dealing with the audio/video stream, e.g., assigning it to a HTML5
+                                            <code>video</code>:</p>
 
-<pre>
+                                          <pre>
 var peerConn= new RTCPeerConnection();
 <strong>peerConn.onaddstream</strong> = function (evt) {
   var videoElem = document.createElement("video");
@@ -283,9 +392,11 @@ var peerConn= new RTCPeerConnection();
 };
 </pre>
 
-<p>The initiator of the call (the caller), needs to create an offer and using a signaling service (e.g., a NodeJS server application using WebSockets) send it to the callee:</p>
+                                          <p>The initiator of the call (the caller), needs to create an offer and using
+                                            a signaling service (e.g., a NodeJS server application using WebSockets)
+                                            send it to the callee:</p>
 
-<pre>
+                                          <pre>
 navigator.getUserMedia({video: true}, function(stream) {
   videoElem.src = URL.createObjectURL(stream);
   peerConn.addStream(stream);
@@ -298,9 +409,10 @@ navigator.getUserMedia({video: true}, function(stream) {
 });
 </pre>
 
-<p>The callee, which receives the offer and needs to "answer" the call has to create an answer and send it to the caller:</p>
+                                          <p>The callee, which receives the offer and needs to "answer" the call has to
+                                            create an answer and send it to the caller:</p>
 
-<pre>
+                                          <pre>
 navigator.getUserMedia({video: true}, function(stream) {
   videoElem.src = URL.createObjectURL(stream);
   peerConn.addStream(stream);
@@ -315,22 +427,35 @@ navigator.getUserMedia({video: true}, function(stream) {
 });
 </pre>
 
-<p>The <code>setLocalDescription</code> method takes three parameters: a session description, a success callback method and an error callback method. This method changes the local description associated with a connection. A description defines the properties of the connection like for example the codec.</p>
+                                          <p>The <code>setLocalDescription</code> method takes three parameters: a
+                                            session description, a success callback method and an error callback method.
+                                            This method changes the local description associated with a connection. A
+                                            description defines the properties of the connection like for example the
+                                            codec.</p>
 
-<h3>RTCPeerConnection and Servers</h3>
+                                          <h3>RTCPeerConnection and Servers</h3>
 
-<p>In a real application, WebRTC needs servers (in general simple) for the following purposes:</p>
+                                          <p>In a real application, WebRTC needs servers (in general simple) for the
+                                            following purposes:</p>
 
-<ul>
-	<li>users management;</li>
-	<li>exchange of information between peers;</li>
-	<li>data exchange about media, such as formats and video resolution:</li>
-	<li>the connections needs to traverse NAT gateways and firewalls.</li>
-</ul>
+                                          <ul>
+                                            <li>users management;</li>
+                                            <li>exchange of information between peers;</li>
+                                            <li>data exchange about media, such as formats and video resolution:</li>
+                                            <li>the connections needs to traverse NAT gateways and firewalls.</li>
+                                          </ul>
 
-<p>The STUN protocol and its extension TURN are used by the ICE framework to enable <code>RTCPeerConnection</code> to cope with NAT traversal and other network specific details. ICE is a framework for connecting peers, such as two video chat clients. ICE tries to connect peers directly, with the lowest possible latency, via UDP. In this process, STUN servers have a single task: to enable a peer behind a NAT to find out its public address and port. Google and Mozilla provides a couple of STUN severs which can (for now) be used free of charge. For example, Google STUN servers are used to obtain ICE candidates, which are then forwarded to the other peer(s):</p>
+                                          <p>The STUN protocol and its extension TURN are used by the ICE framework to
+                                            enable <code>RTCPeerConnection</code> to cope with NAT traversal and other
+                                            network specific details. ICE is a framework for connecting peers, such as
+                                            two video chat clients. ICE tries to connect peers directly, with the lowest
+                                            possible latency, via UDP. In this process, STUN servers have a single task:
+                                            to enable a peer behind a NAT to find out its public address and port.
+                                            Google and Mozilla provides a couple of STUN severs which can (for now) be
+                                            used free of charge. For example, Google STUN servers are used to obtain ICE
+                                            candidates, which are then forwarded to the other peer(s):</p>
 
-<pre>
+                                          <pre>
 var peerConnCfg =  {'iceServers': [{'url': 'stun:stun.l.google.com:19302'}]},
     peerConn= new RTCPeerConnection(peerConnCfg),
     signalingChannel = new WebSocket('ws://my-websocket-server:port/');
@@ -349,15 +474,28 @@ signalingChannel.onmessage = function (evt) {
 };
 </pre>
 
-<p>The <code>signalingChannel</code> represents the communication channel, based on <code>WebSockets</code>, <code>XHR</code> or something else, having the purpose of helping to exchange the required information for the peer-to-peer connection initialization.</p>
+                                          <p>The <code>signalingChannel</code> represents the communication channel,
+                                            based on <code>WebSockets</code>, <code>XHR</code> or something else, having
+                                            the purpose of helping to exchange the required information for the
+                                            peer-to-peer connection initialization.</p>
 
-<p>The <code>setRemoteDescription</code> method takes three parameters: a session description, a success callback method and an error callback method. This method changes the remote description associated with a connection. A description defines the properties of the connection like for example the codec.</p>
+                                          <p>The <code>setRemoteDescription</code> method takes three parameters: a
+                                            session description, a success callback method and an error callback method.
+                                            This method changes the remote description associated with a connection. A
+                                            description defines the properties of the connection like for example the
+                                            codec.</p>
 
-<h3>RTCDataChannel</h3>
+                                          <h3>RTCDataChannel</h3>
 
-<p>The RTCDataChannel interface represents a bi-directional data channel between two peers of a connection. Objects of this type can be created using <code>RTCPeerConnection.createDataChannel()</code>, or are received in a <code>datachannel</code> event of type <code>RTCDataChannelEvent</code> on an existing <code>RTCPeerConnection</code>. Using a data channel capabilities is "natural", and makes use of messaging style events based communication:</p>
+                                          <p>The RTCDataChannel interface represents a bi-directional data channel
+                                            between two peers of a connection. Objects of this type can be created using
+                                            <code>RTCPeerConnection.createDataChannel()</code>, or are received in a
+                                            <code>datachannel</code> event of type <code>RTCDataChannelEvent</code> on
+                                            an existing <code>RTCPeerConnection</code>. Using a data channel
+                                            capabilities is "natural", and makes use of messaging style events based
+                                            communication:</p>
 
-<pre>
+                                          <pre>
 var peerConn= new RTCPeerConnection(),
     dc = peerConn.createDataChannel("my channel");
 
@@ -374,24 +512,35 @@ dc.onclose = function () {
 };
 </pre>
 
-<h2>Build a Simple Audio/Video-Chat Web-Application</h2>
+                                          <h2>Build a Simple Audio/Video-Chat Web-Application</h2>
 
-<p>In this section we'll learn how to build a basic Audio/Video-Chat Web-Application. It allows to perform a video call between two peers and displays the local and remote video. In a real application one has to deal with complex situations, users management, and all kind of errors. In this tutorial we skip error situations, and keep our application simple:</p>
+                                          <p>In this section we'll learn how to build a basic Audio/Video-Chat
+                                            Web-Application. It allows to perform a video call between two peers and
+                                            displays the local and remote video. In a real application one has to deal
+                                            with complex situations, users management, and all kind of errors. In this
+                                            tutorial we skip error situations, and keep our application simple:</p>
 
-<ul>
-	<li>Two friends located on different Earth locations need to have a video call;</li>
-	<li>They are able to use a modern Web Browser, such as Google Chrome or Firefox;</li>
-	<li>They are able access the web application URL using their available internet connection (DSL, 3G or any other type);</li>
-	<li>One of the users initiates the video call by clicking the "Video Call" button;</li>
-	<li>Both users allows the browser to access their WebCams and microphones;</li>
-	<li>Now they are able to see and hear each other until one of users clicks the "End Call" button.</li>
-</ul>
+                                          <ul>
+                                            <li>Two friends located on different Earth locations need to have a video
+                                              call;</li>
+                                            <li>They are able to use a modern Web Browser, such as Google Chrome or
+                                              Firefox;</li>
+                                            <li>They are able access the web application URL using their available
+                                              internet connection (DSL, 3G or any other type);</li>
+                                            <li>One of the users initiates the video call by clicking the "Video Call"
+                                              button;</li>
+                                            <li>Both users allows the browser to access their WebCams and microphones;
+                                            </li>
+                                            <li>Now they are able to see and hear each other until one of users clicks
+                                              the "End Call" button.</li>
+                                          </ul>
 
-<h3>The HTML5 Web UI</h3>
+                                          <h3>The HTML5 Web UI</h3>
 
-<p>The HTML5 code is fairly easy. We only define the relevant elements, and for simplicity reasons we don't use CSS to style it:</p>
+                                          <p>The HTML5 code is fairly easy. We only define the relevant elements, and
+                                            for simplicity reasons we don't use CSS to style it:</p>
 
-<pre>
+                                          <pre>
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
@@ -411,17 +560,35 @@ dc.onclose = function () {
 &lt;/html&gt;
 </pre>
 
-<p>Only four HTML elements are relevant here: the two <code>video</code> elements, used to display the remote and the local video and the two <code>input</code> elements, used to create the "Video Call" and "End Call" buttons. The <code>script</code> element at the end of the code registers a <code>load</code> event listener (which executes when the page was fully loaded). The relevant code, including the content of the <code>pageReady</code> method are part of the <code>webrtc.js</code> file included with the help of a <code>script</code> element (see <code>head</code> element).</p>
+                                          <p>Only four HTML elements are relevant here: the two <code>video</code>
+                                            elements, used to display the remote and the local video and the two
+                                            <code>input</code> elements, used to create the "Video Call" and "End Call"
+                                            buttons. The <code>script</code> element at the end of the code registers a
+                                            <code>load</code> event listener (which executes when the page was fully
+                                            loaded). The relevant code, including the content of the
+                                            <code>pageReady</code> method are part of the <code>webrtc.js</code> file
+                                            included with the help of a <code>script</code> element (see
+                                            <code>head</code> element).</p>
 
-<h3>The NodeJS WebSockets-based Signaling Server</h3>
+                                          <h3>The NodeJS WebSockets-based Signaling Server</h3>
 
-<p>The NodeJS server application has a very simple job: receive messages from one client and broadcast them to all the others. These messages are the signaling information required by the peers in order to initiate a peer-to-peer connection. For this, we use <code>WebSockets</code>, which is a built-in API in modern browsers, but requires to install the <code>ws</code> module for NodeJS.</p>
+                                          <p>The NodeJS server application has a very simple job: receive messages from
+                                            one client and broadcast them to all the others. These messages are the
+                                            signaling information required by the peers in order to initiate a
+                                            peer-to-peer connection. For this, we use <code>WebSockets</code>, which is
+                                            a built-in API in modern browsers, but requires to install the
+                                            <code>ws</code> module for NodeJS.</p>
 
-<p>At first we need to install the required NodeJS modules (e.g., <code>ws</code>) by executing <code>npm install</code> in a shell, inside the root folder of the NodeJS application. More information about this module are available on the <a href="https://www.npmjs.com/package/ws">npm ws module page</a>.</p>
+                                          <p>At first we need to install the required NodeJS modules (e.g.,
+                                            <code>ws</code>) by executing <code>npm install</code> in a shell, inside
+                                            the root folder of the NodeJS application. More information about this
+                                            module are available on the <a href="https://www.npmjs.com/package/ws">npm
+                                              ws module page</a>.</p>
 
-<p>Next, create a file named <code>server.js</code> with the following content:</p>
+                                          <p>Next, create a file named <code>server.js</code> with the following
+                                            content:</p>
 
-<pre>
+                                          <pre>
 const WebSocketServer = require('ws').Server,
   express = require('express'),
   https = require('https'),
@@ -469,31 +636,73 @@ wss.broadcast = function (data, exclude) {
 };
 </pre>
 
-<p><strong>Note:</strong> since WebRTC works ONLY with SSL, for your convenience, we provide a free, self signed SSL certificate together with this application. This certificate shall not be used for other purposes outside playing with the provided demo application. Also, the web browsers will complain about the validity of the SSL certificate because it is not signed by a recognized authority. This means that you should add it to your exception list in order to be able to access the application. Otherwise, feel free to use your own certificate, meaning that you need to replace the two <code>.pem</code> files from the <code>ssl</code> subfolder.</p>
+                                          <p><strong>Note:</strong> since WebRTC works ONLY with SSL, for your
+                                            convenience, we provide a free, self signed SSL certificate together with
+                                            this application. This certificate shall not be used for other purposes
+                                            outside playing with the provided demo application. Also, the web browsers
+                                            will complain about the validity of the SSL certificate because it is not
+                                            signed by a recognized authority. This means that you should add it to your
+                                            exception list in order to be able to access the application. Otherwise,
+                                            feel free to use your own certificate, meaning that you need to replace the
+                                            two <code>.pem</code> files from the <code>ssl</code> subfolder.</p>
 
-<p>The application communicate via Secure WebSockets on port 443. You can modify this port with other one if required. The above code simply allows WebSocket connections and broadcasts all the messages received from one client, to all other clients (excluding the sender).</p>
+                                          <p>The application communicate via Secure WebSockets on port 443. You can
+                                            modify this port with other one if required. The above code simply allows
+                                            WebSocket connections and broadcasts all the messages received from one
+                                            client, to all other clients (excluding the sender).</p>
 
-<p>To start the server application, execute <code>node server.js</code> from the folder where you created the file with the above content. If all went fine, you should see no error message and the server waits for WebSocket connections.
-Finally, use a Web Browser and navigate to <a href="http://your.domain/">http://your.domain</a> and you should see the application start page. Using <code>localhost</code> only works for playing locally with the application, and for being able to have a WebRTC connection between two peers having internet connection, one need to use a live server with a public IP address.</p>
+                                          <p>To start the server application, execute <code>node server.js</code> from
+                                            the folder where you created the file with the above content. If all went
+                                            fine, you should see no error message and the server waits for WebSocket
+                                            connections.
+                                            Finally, use a Web Browser and navigate to <a
+                                              href="http://your.domain/">http://your.domain</a> and you should see the
+                                            application start page. Using <code>localhost</code> only works for playing
+                                            locally with the application, and for being able to have a WebRTC connection
+                                            between two peers having internet connection, one need to use a live server
+                                            with a public IP address.</p>
 
-<p>If you are behind a corporate firewall, it is possible that all ports excepting 80 (and maybe 443) are closed. In such a case, one can use the <code>mod_proxy_stunnel</code> Apache module which allows to proxy WebSocket communication via the port 80. This module is bundled with Apache starting from version 2.4.5. However, most of the stable Linux systems, including CentOS 6.x provides only earlier Apache versons, such as 2.2.x. A pre-compiled version of this module, (Apache 2.2.15, available from the CentOS 6.7 repositories) is <a href="../tech/webrtc/mod_proxy_wstunnel.so">available for download on our server</a>. Further, you have to modify the Apache configuration file, i.e., <code>httpd.conf</code> file (usually located under <code>/etc/httpd/conf/</code>) and add the following lines:</p>
+                                          <p>If you are behind a corporate firewall, it is possible that all ports
+                                            excepting 80 (and maybe 443) are closed. In such a case, one can use the
+                                            <code>mod_proxy_stunnel</code> Apache module which allows to proxy WebSocket
+                                            communication via the port 80. This module is bundled with Apache starting
+                                            from version 2.4.5. However, most of the stable Linux systems, including
+                                            CentOS 6.x provides only earlier Apache versons, such as 2.2.x. A
+                                            pre-compiled version of this module, (Apache 2.2.15, available from the
+                                            CentOS 6.7 repositories) is <a
+                                              href="../tech/webrtc/mod_proxy_wstunnel.so">available for download on our
+                                              server</a>. Further, you have to modify the Apache configuration file,
+                                            i.e., <code>httpd.conf</code> file (usually located under
+                                            <code>/etc/httpd/conf/</code>) and add the following lines:</p>
 
-<pre>
+                                          <pre>
 LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 
 ProxyPass /websocket/ ws://localhost:3434/
 ProxyPassReverse /websocket/ ws://localhost:3434/
 </pre>
 
-<p>Last, restart the Apache Web Server by executing <code>service httpd restart</code> command, for which you may need <code>root</code> privileges (i.e., you may have to use <code>sudo</code> or login as <code>root</code>). The "websocket" path from the above configuration lines can be replaced with whatever you like, but keep in mind that this is the last part of the URL used by the WebSocket client app to access the server. Also remember to use the same port number as the one used in <code>server.js</code> (e.g., 3434).</p>
+                                          <p>Last, restart the Apache Web Server by executing
+                                            <code>service httpd restart</code> command, for which you may need
+                                            <code>root</code> privileges (i.e., you may have to use <code>sudo</code> or
+                                            login as <code>root</code>). The "websocket" path from the above
+                                            configuration lines can be replaced with whatever you like, but keep in mind
+                                            that this is the last part of the URL used by the WebSocket client app to
+                                            access the server. Also remember to use the same port number as the one used
+                                            in <code>server.js</code> (e.g., 3434).</p>
 
-<p><strong>Note:</strong> the above information and examples are provided for a CentOS 6.7 Linux distribution, running Apache Web Server 2.2.15 from the official CentOS 6.7 repository. Different Linux distribution or other Apache version may or may not work the same way, so we can't provide any guaranty on that.</p>
+                                          <p><strong>Note:</strong> the above information and examples are provided for
+                                            a CentOS 6.7 Linux distribution, running Apache Web Server 2.2.15 from the
+                                            official CentOS 6.7 repository. Different Linux distribution or other Apache
+                                            version may or may not work the same way, so we can't provide any guaranty
+                                            on that.</p>
 
-<h3>The Client JavaScript Code</h3>
+                                          <h3>The Client JavaScript Code</h3>
 
-<p>In this section we discuss about the content of the <code>webrtc.js</code> file. The first part of this file defines the global variables:</p>
+                                          <p>In this section we discuss about the content of the <code>webrtc.js</code>
+                                            file. The first part of this file defines the global variables:</p>
 
-<pre>
+                                          <pre>
 var localVideoElem = null, remoteVideoElem = null, localVideoStream = null,
     videoCallButton = null, endCallButton = null,
     peerConn = null, wsc = new WebSocket('ws://my-web-domain.de/websocket/'),
@@ -502,13 +711,27 @@ var localVideoElem = null, remoteVideoElem = null, localVideoStream = null,
     };
 </pre>
 
-<p>The relevant variables are <code>wsc</code>, representing a new <code>WebSocket</code> connection (remember to replace <code>ws://my-web-domain.de/websocket/</code> with your own URL) and <code>peerConnCfg</code> which specify the configurations parameters used to initiate a new <code>RTCPeerConnection</code>. We use Mozilla (and as a fallback Google) STUN services.</p>
+                                          <p>The relevant variables are <code>wsc</code>, representing a new
+                                            <code>WebSocket</code> connection (remember to replace
+                                            <code>ws://my-web-domain.de/websocket/</code> with your own URL) and
+                                            <code>peerConnCfg</code> which specify the configurations parameters used to
+                                            initiate a new <code>RTCPeerConnection</code>. We use Mozilla (and as a
+                                            fallback Google) STUN services.</p>
 
-<p>The <code>localVideoElem</code>, <code>remoteVideoElem</code>, <code>videoCallButton</code> and <code>endCallButton</code> are used to get reference to HTML elements representing the local and remote <code>video</code> containers (HTML5 <code>video</code> elements) and the two buttons (HTML <code>input</code> elements with <code>type="button"</code>) used to initiate and end a call. Last, the <code>localVideoStream</code> will keep a reference to the local video stream, so we can close it (release the video and audio devices) when the call ends.</p>
+                                          <p>The <code>localVideoElem</code>, <code>remoteVideoElem</code>,
+                                            <code>videoCallButton</code> and <code>endCallButton</code> are used to get
+                                            reference to HTML elements representing the local and remote
+                                            <code>video</code> containers (HTML5 <code>video</code> elements) and the
+                                            two buttons (HTML <code>input</code> elements with
+                                            <code>type="button"</code>) used to initiate and end a call. Last, the
+                                            <code>localVideoStream</code> will keep a reference to the local video
+                                            stream, so we can close it (release the video and audio devices) when the
+                                            call ends.</p>
 
-<p>Further, we define the <code>pageReady</code> callback method assigned for the <code>load</code> event:</p>
+                                          <p>Further, we define the <code>pageReady</code> callback method assigned for
+                                            the <code>load</code> event:</p>
 
-<pre>
+                                          <pre>
 function pageReady() {
   videoCallButton = document.getElementById("videoCallButton");
   endCallButton = document.getElementById("endCallButton");
@@ -531,11 +754,23 @@ function pageReady() {
 };
 </pre>
 
-<p>Before taking any further actions, we need to check if the browser supports the required WebRTC features (avoid strange situations where nothing seems to work without an obvious reason). We do that by checking for the existence of the <code>getUserMedia</code> method, in the <code>navigator</code> global object. If no such method is found, the "Video Call" button remains disabled (no call can be initiated!) and we provide a warning/error message using <code>alert</code>. If the WebRTC is supported, then we enable the "Video Call" button and assign a <code>click</code> event listener to it, so the <code>initiateCall</code> method is executed when the "Video Call" button is clicked. In the same way, a <code>click</code> event listener is assigned to the "Enc Call" button (more details about this are discussed later on this tutorial).</p>
+                                          <p>Before taking any further actions, we need to check if the browser supports
+                                            the required WebRTC features (avoid strange situations where nothing seems
+                                            to work without an obvious reason). We do that by checking for the existence
+                                            of the <code>getUserMedia</code> method, in the <code>navigator</code>
+                                            global object. If no such method is found, the "Video Call" button remains
+                                            disabled (no call can be initiated!) and we provide a warning/error message
+                                            using <code>alert</code>. If the WebRTC is supported, then we enable the
+                                            "Video Call" button and assign a <code>click</code> event listener to it, so
+                                            the <code>initiateCall</code> method is executed when the "Video Call"
+                                            button is clicked. In the same way, a <code>click</code> event listener is
+                                            assigned to the "Enc Call" button (more details about this are discussed
+                                            later on this tutorial).</p>
 
-<p>Next, we take care of the WebSocket message exchange between the caller and the callee peers:</p>
+                                          <p>Next, we take care of the WebSocket message exchange between the caller and
+                                            the callee peers:</p>
 
-<pre>
+                                          <pre>
 wsc.onmessage = function (evt) {
   var signal = JSON.parse(evt.data);
   if (!peerConn)
@@ -551,15 +786,29 @@ wsc.onmessage = function (evt) {
 };
 </pre>
 
-<p>A peer connection is created (and assigned to <code>peerConn</code> variable) when the "Video Call" button is clicked. If no such (<code>RTCPeerConnection</code>) object exists, it means that we deal with the callee case, so an incoming call, which in our simple application is automatically answered it by invoking the <code>answerCall</code> method. In a more complex real world application, a ring audio signal may be used and the callee may answer the call by clicking an "Answer Call" button, but in our example we keep it simple, so the calls are automatically answered. Well, to be more exact, is more a semi-automatic answer, because the callee web browser asks about the permission to use the video and/or audio devices, so the human user can accept (or reject) these rights, in order to answer (or reject) the call.</p>
+                                          <p>A peer connection is created (and assigned to <code>peerConn</code>
+                                            variable) when the "Video Call" button is clicked. If no such
+                                            (<code>RTCPeerConnection</code>) object exists, it means that we deal with
+                                            the callee case, so an incoming call, which in our simple application is
+                                            automatically answered it by invoking the <code>answerCall</code> method. In
+                                            a more complex real world application, a ring audio signal may be used and
+                                            the callee may answer the call by clicking an "Answer Call" button, but in
+                                            our example we keep it simple, so the calls are automatically answered.
+                                            Well, to be more exact, is more a semi-automatic answer, because the callee
+                                            web browser asks about the permission to use the video and/or audio devices,
+                                            so the human user can accept (or reject) these rights, in order to answer
+                                            (or reject) the call.</p>
 
-<p>The two peers needs to exchange local and remote audio and video media information, such as resolution and codec capabilities. Signaling to exchange media configuration information is made by exchanging an offer and an answer using the Session Description Protocol (SDP).</p>
+                                          <p>The two peers needs to exchange local and remote audio and video media
+                                            information, such as resolution and codec capabilities. Signaling to
+                                            exchange media configuration information is made by exchanging an offer and
+                                            an answer using the Session Description Protocol (SDP).</p>
 
-<h4>Initiating a Call</h4>
+                                          <h4>Initiating a Call</h4>
 
-<p>Lets have now a look at the <code>initiateCall</code> method:</p>
+                                          <p>Lets have now a look at the <code>initiateCall</code> method:</p>
 
-<pre>
+                                          <pre>
 function initiateCall() {
   prepareCall();
   <strong>navigator.getUserMedia</strong>({ "audio": true, "video": true }, function (stream) {
@@ -570,11 +819,19 @@ function initiateCall() {
 };
 </pre>
 
-<p>First we make some initial preparations for the call (we explain more about this a bit later). Then, using <code>getUserMedia</code> we obtain the local video stream and assign it to a <code>video</code> element where we like to display it on our page (e.g., the <code>video</code> element with id <code>localVideo</code> in our case). Last we create and send a connection offer to the other peer, by invoking the <code>createAndSendOffer</code> method, explained later in this tutorial.</p>
+                                          <p>First we make some initial preparations for the call (we explain more about
+                                            this a bit later). Then, using <code>getUserMedia</code> we obtain the local
+                                            video stream and assign it to a <code>video</code> element where we like to
+                                            display it on our page (e.g., the <code>video</code> element with id
+                                            <code>localVideo</code> in our case). Last we create and send a connection
+                                            offer to the other peer, by invoking the <code>createAndSendOffer</code>
+                                            method, explained later in this tutorial.</p>
 
-<p>The <code>prepareCall</code> method (see below), is responsible for creating the <code>RTCPeerConnection</code> instance and assign the needed event listeners:</p>
+                                          <p>The <code>prepareCall</code> method (see below), is responsible for
+                                            creating the <code>RTCPeerConnection</code> instance and assign the needed
+                                            event listeners:</p>
 
-<pre>
+                                          <pre>
 function prepareCall() {
   peerConn = new RTCPeerConnection(peerConnCfg);
   peerConn.onicecandidate = onIceCandidateHandler;
@@ -593,11 +850,16 @@ function onAddStreamHandler(evt) {
 };
 </pre>
 
-<p>Any ICE candidate is forwarded to the signaling server for being sent to the other peer (see <code>onIceCandidateHandler</code>) while when receiving a remote stream, we assign it to our <code>video</code> element for being displayed (e.g., the <code>video</code> element with id <code>remoteVideo</code> in our case).</p>
+                                          <p>Any ICE candidate is forwarded to the signaling server for being sent to
+                                            the other peer (see <code>onIceCandidateHandler</code>) while when receiving
+                                            a remote stream, we assign it to our <code>video</code> element for being
+                                            displayed (e.g., the <code>video</code> element with id
+                                            <code>remoteVideo</code> in our case).</p>
 
-<p>TOne last step is required for the caller, that is to create a connection offer and send it to the other peer:</p>
+                                          <p>TOne last step is required for the caller, that is to create a connection
+                                            offer and send it to the other peer:</p>
 
-<pre>
+                                          <pre>
 function createAndSendOffer() {
   peerConn.createOffer(
     function (offer) {
@@ -618,13 +880,20 @@ function createAndSendOffer() {
 };
 </pre>
 
-<p>The offer contains information about how the two peers are about to be connected. The offer messages are forwarded by the signaling server to the other peer, which is being informed about this by using the <code>onmessage</code> event listener, as described earlier on this tutorial.</p>
+                                          <p>The offer contains information about how the two peers are about to be
+                                            connected. The offer messages are forwarded by the signaling server to the
+                                            other peer, which is being informed about this by using the
+                                            <code>onmessage</code> event listener, as described earlier on this
+                                            tutorial.</p>
 
-<h4>Answering a Call</h4>
+                                          <h4>Answering a Call</h4>
 
-<p>Similar with a call initiation, the RTCPeerConnection is created and the event listeners are assigned. Further, a local stream is obtained by using <code>getuserMedia</code> and assigned to a <code>video</code> element. Last an answer is created and sent, in response to the received offer:</p>
+                                          <p>Similar with a call initiation, the RTCPeerConnection is created and the
+                                            event listeners are assigned. Further, a local stream is obtained by using
+                                            <code>getuserMedia</code> and assigned to a <code>video</code> element. Last
+                                            an answer is created and sent, in response to the received offer:</p>
 
-<pre>
+                                          <pre>
 function answerCall() {
   prepareCall();
   // get the local stream, show it in the local video element and send it
@@ -636,9 +905,11 @@ function answerCall() {
 };
 </pre>
 
-<p>The <code>createAndSendAnswer</code> will prepare the answer and using the WebSocket channel will send it to the singnaling server, which then forwards it to the other peer, so the connection is completed:</p>
+                                          <p>The <code>createAndSendAnswer</code> will prepare the answer and using the
+                                            WebSocket channel will send it to the singnaling server, which then forwards
+                                            it to the other peer, so the connection is completed:</p>
 
-<pre>
+                                          <pre>
 function createAndSendAnswer() {
   peerConn.createAnswer(
     function (answer) {
@@ -658,13 +929,28 @@ function createAndSendAnswer() {
 }
 </pre>
 
-<h4>Ending a Call</h4>
+                                          <h4>Ending a Call</h4>
 
-<p><strong>Note:</strong> in theory, ending an WebRTC call may be slightly simpler: close the peer connection (i.e., calling <code>peerConn.close()</code>) then use the callback method assigned to <code>peerConn.oniceconnectionstatechange</code> and check if <code>peerConn.iceConnectionState === "closed"</code>. However, we've found two problems with this approach: 1) it does not seem to work (at least not all the times) with both, Google Chrome and Firefox, and 2) a <code>closed</code> connection state may also occur when a temporarily break in the peer connection appears (bad internet connection, some big latencies, etc), which in many of the cases can be automatically restored (no need for additional code or management), so a "call end" may or may not be the exact situation. Because of this, we use the signaling server to notify the other peer about a "real end call" request.</p>
+                                          <p><strong>Note:</strong> in theory, ending an WebRTC call may be slightly
+                                            simpler: close the peer connection (i.e., calling
+                                            <code>peerConn.close()</code>) then use the callback method assigned to
+                                            <code>peerConn.oniceconnectionstatechange</code> and check if
+                                            <code>peerConn.iceConnectionState === "closed"</code>. However, we've found
+                                            two problems with this approach: 1) it does not seem to work (at least not
+                                            all the times) with both, Google Chrome and Firefox, and 2) a
+                                            <code>closed</code> connection state may also occur when a temporarily break
+                                            in the peer connection appears (bad internet connection, some big latencies,
+                                            etc), which in many of the cases can be automatically restored (no need for
+                                            additional code or management), so a "call end" may or may not be the exact
+                                            situation. Because of this, we use the signaling server to notify the other
+                                            peer about a "real end call" request.</p>
 
-<p>In the <code>pageReady</code> method (called when the HTML page is fully loaded), we've added a <code>click</code> event listener, where we send a <code>closeConnection</code> signal to our signaling server, which forwards it to the other peers:</p>
+                                          <p>In the <code>pageReady</code> method (called when the HTML page is fully
+                                            loaded), we've added a <code>click</code> event listener, where we send a
+                                            <code>closeConnection</code> signal to our signaling server, which forwards
+                                            it to the other peers:</p>
 
-<pre>
+                                          <pre>
 function pageReady() {
   if(navigator.getUserMedia) {
     // ...some more code here...
@@ -677,9 +963,9 @@ function pageReady() {
 };
 </pre>
 
-<p>The <code>endCall</code> method has the following code:</p>
+                                          <p>The <code>endCall</code> method has the following code:</p>
 
-<pre>
+                                          <pre>
 function endCall() {
   peerConn.close();
   localVideoStream.getTracks().forEach(function (track) {
@@ -692,77 +978,224 @@ function endCall() {
 };
 </pre>
 
-<p>First step is to close the <code>RTCPeerConnection</code> by calling the close method. Further, we stop all the (video) tracks and we reset the stream sources of the remote and local video, so nothing is displayed by the <code>video</code> HTML5 elements (the last image frame remains visible if the source is not reset). Last, we take care to enable the "Video Call" button (allowing for a new call) and disable the "End Call" button.</p>
+                                          <p>First step is to close the <code>RTCPeerConnection</code> by calling the
+                                            close method. Further, we stop all the (video) tracks and we reset the
+                                            stream sources of the remote and local video, so nothing is displayed by the
+                                            <code>video</code> HTML5 elements (the last image frame remains visible if
+                                            the source is not reset). Last, we take care to enable the "Video Call"
+                                            button (allowing for a new call) and disable the "End Call" button.</p>
 
-<h2>Download the Code</h2>
+                                          <h2>Download the Code</h2>
 
-<p>The full client and server source code are available for download on <a href="https://github.com/dimircea/WebRTC/tree/master/SimpleVideoChat">GitHub</a>.</p>
+                                          <p>The full client and server source code are available for download on <a
+                                              href="https://github.com/dimircea/WebRTC/tree/master/SimpleVideoChat">GitHub</a>.
+                                          </p>
 
-<h2>Current Browsers Support</h2>
+                                          <h2>Current Browsers Support</h2>
 
-<p>Not all the browsers support WebRTC. Mainly, one can use Google Chrome, Firefox and Opera. For iOS, <a href="http://www.openwebrtc.org/bowser/">Bowser</a>, an Open Source web browser with WebRTC support, is available. Partial support is also available in EDGE web browser, and actually this technology is not supported at all by Safari. The complete list of WebRTC features supported by each web browser is available at <a href="http://iswebrtcreadyyet.com/">iswebrtcreadyyet.com</a></p>
+                                          <p>Not all the browsers support WebRTC. Mainly, one can use Google Chrome,
+                                            Firefox and Opera. For iOS, <a
+                                              href="http://www.openwebrtc.org/bowser/">Bowser</a>, an Open Source web
+                                            browser with WebRTC support, is available. Partial support is also available
+                                            in EDGE web browser, and actually this technology is not supported at all by
+                                            Safari. The complete list of WebRTC features supported by each web browser
+                                            is available at <a
+                                              href="http://iswebrtcreadyyet.com/">iswebrtcreadyyet.com</a></p>
 
-<p><strong>Note:</strong> starting with 01.01.2016, using Google Chrome and Opera with WebRTC-based applications is possible only via a secure layer, thus HTTPS must be used instead HTTP!</p>
-</div></div></div><section class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Category:&nbsp;</h2><ul class="field-items"><li class="field-item even"><a href="../taxonomy/term/42.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">HTML5</a></li><li class="field-item odd"><a href="../taxonomy/term/41.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WebRTC</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/57" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="Building a Video/Audio Chat Web App with WebRTC">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="57.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/57"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/57" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F57">View the discussion thread.</a></p></noscript></div>    </div>
+                                          <p><strong>Note:</strong> starting with 01.01.2016, using Google Chrome and
+                                            Opera with WebRTC-based applications is possible only via a secure layer,
+                                            thus HTTPS must be used instead HTTP!</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <section
+                                      class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full">
+                                      <h2 class="field-label">Category:&nbsp;</h2>
+                                      <ul class="field-items">
+                                        <li class="field-item even"><a href="../taxonomy/term/42.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">HTML5</a></li>
+                                        <li class="field-item odd"><a href="../taxonomy/term/41.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">WebRTC</a></li>
+                                      </ul>
+                                    </section>
+                                    <div class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                      <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                          href="https://twitter.com/share" class="twitter-share-button"
+                                          data-url="https://web-engineering.info/node/57" data-count="horizontal"
+                                          data-lang="en" data-via="" data-related=":Check it out!"
+                                          data-text="Building a Video/Audio Chat Web App with WebRTC">Tweet</a></div>
+                                      <div class="easy_social-widget easy_social-widget-facebook">
+                                        <fb:like href="57.html" send="true" layout="button_count" width="88"
+                                          show_faces="true" action="https://web-engineering.info/node/like"
+                                          colorscheme="light" font=""></fb:like>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-googleplus">
+                                        <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                          data-href="https://web-engineering.info/node/57"></div>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-linkedin last">
+                                        <script type="in/share" data-url="https://web-engineering.info/node/57"
+                                          data-counter="right"></script>
+                                      </div>
+                                    </div> <!-- /.easy_social_box -->
+                                    <div id="disqus_thread"><noscript>
+                                        <p><a
+                                            href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F57">View
+                                            the discussion thread.</a></p>
+                                      </noscript></div>
+                                  </div>
 
-          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/24.html" title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s blog</a></li></ul></nav>
-    
-    
-  </div>
-</article>
+                                  <nav class="clearfix">
+                                    <ul class="links inline">
+                                      <li class="blog_usernames_blog first last"><a href="../blog/24.html"
+                                          title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s
+                                          blog</a></li>
+                                    </ul>
+                                  </nav>
 
-  </div></div>                      </div>
 
-                      
+                                </div>
+                              </article>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </section>
+
+                  <div class="region region-content-aside">
+                    <div class="region-inner clearfix">
+                      <div id="block-block-2"
+                        class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2">
+                        <div class="block-inner clearfix">
+
+                          <div class="block-content content">
+                            <p style="text-align: center; margin-top: 10px;">©
+                              2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+"
+                                  src="../../assets/images/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a
+                                href="../../about/index.html">About Us</a> | <a href="../../privacy/index.html">Privacy
+                                Policy</a> | Terms
+                              &amp;
+                              Conditions</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                </section>
+              <div class="region region-sidebar-first sidebar">
+                <div class="region-inner clearfix">
+                  <nav id="block-system-main-menu"
+                    class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                    role="navigation">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">Main menu</h2>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
+                      <div class="block-content content">
+                        <ul class="menu clearfix">
+                          <li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com"
+                              title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                              Discrete Event Simulation</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1218"><a href="../../WebAppBook/index.html"
+                              title="Web Applications with JavaScript or Java">Textbook
+                              Web Apps JS+Java</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1477"><a href="../../textbooknode80/index.html">Book
+                              Information Management</a></li>
+                          <li class="leaf menu-depth-1 menu-item-366"><a href="../../blog/index.html"
+                              title="A blog about web engineering issues.">Web Engineering
+                              Blog</a></li>
+                          <li class="leaf menu-depth-1 menu-item-758"><a
+                              href="../../SummariesCheatsheetsPosters/index.html">Summaries
+                              &amp; Cheat
+                              Sheets</a></li>
+                          <li class="leaf menu-depth-1 menu-item-361"><a href="../../JsFrontendApp/index.html"
+                              title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                              Apps with Plain JS</a></li>
+                          <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                              href="../../JavaJpaJsfApp/index.html"
+                              title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                              class="active-trail active">Back-End Apps with Java EE</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-806"><a href="../../mODELcLASSjsApp/index.html"
+                              title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                              with mODELcLASSjs </a></li>
+                          <li class="leaf menu-depth-1 menu-item-805"><a href="../../WoTProjects/index.html"
+                              title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                              of Things (WoT)</a></li>
+                          <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
+                              title="">Discussion
+                              Forums</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
+                              title="Team members list.">Team</a></li>
+                          <li class="last leaf menu-depth-1 menu-item-554"><a
+                              href="../../contribute/index.html">Contribute
+                              / Support Us</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                  <section id="block-user-login"
+                    class="block block-user even last block-count-5 block-region-sidebar-first block-login" role="form">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">User login</h2>
+
+                      <div class="block-content content">
+                        <form action="https://web-engineering.info/node/57?destination=node/57" method="post"
+                          id="user-login-form" accept-charset="UTF-8">
+                          <div>
+                            <div class="form-item form-type-textfield form-item-name">
+                              <label for="edit-name">Username <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60"
+                                class="form-text required" />
+                            </div>
+                            <div class="form-item form-type-password form-item-pass">
+                              <label for="edit-pass">Password <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="password" id="edit-pass" name="pass" size="15" maxlength="128"
+                                class="form-text required" />
+                            </div>
+                            <div class="item-list">
+                              <ul>
+                                <li class="even first last"><a href="../user/password.html"
+                                    title="Request new password via e-mail.">Request new password</a></li>
+                              </ul>
+                            </div><input type="hidden" name="form_build_id"
+                              value="form-FqL43kGPOCkuqM33HegThxnjEs4KU4JNF9bR51sWKhU" />
+                            <input type="hidden" name="form_id" value="user_login_block" />
+                            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit"
+                                id="edit-submit" name="op" value="Log in" class="form-submit" /></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
-
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/57?destination=node/57" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-FqL43kGPOCkuqM33HegThxnjEs4KU4JNF9bR51sWKhU" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    
-    
-    
+
+
+
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/57 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:53 GMT -->
+
 </html>

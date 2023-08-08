@@ -2,367 +2,564 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+  prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/61 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:05 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="Learn how to develop Arduino-based apps for the Web of Things (WoT). This second part of a series of tutorials shows how to read analog and digital sensors with the help of Arduino." />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="61.html" />
-<link rel="shortlink" href="61.html" />
-<title>WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
-<!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="description"
+    content="Learn how to develop Arduino-based apps for the Web of Things (WoT). This second part of a series of tutorials shows how to read analog and digital sensors with the help of Arduino." />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="canonical" href="61.html" />
+  <link rel="shortlink" href="61.html" />
+  <title>WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors | web-engineering.info
+  </title>
+  <style type="text/css" media="all">
+    @import url("../modules/system/system.base5056.css?ry1opl");
+    @import url("../modules/system/system.menus5056.css?ry1opl");
+    @import url("../modules/system/system.messages5056.css?ry1opl");
+    @import url("../modules/system/system.theme5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../modules/comment/comment5056.css?ry1opl");
+    @import url("../modules/field/theme/field5056.css?ry1opl");
+    @import url("../modules/node/node5056.css?ry1opl");
+    @import url("../modules/search/search5056.css?ry1opl");
+    @import url("../modules/user/user5056.css?ry1opl");
+    @import url("../modules/forum/forum5056.css?ry1opl");
+    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
+    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
+    @import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="screen">
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="print">
+    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet"
+    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    media="only screen" />
+  <style type="text/css" media="screen">
+    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+    media="only screen" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+    media="only screen and (min-width:1025px)" />
+
+  <!--[if lt IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
 </style>
 <![endif]-->
 
-<!--[if lte IE 9]>
+  <!--[if lte IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
 </style>
 <![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
+  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
+  <script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
+  <script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"OYv4IptuJEoiPi5psYoXuhjlwtpjvWBbwAgR6KTdW8Q","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/61?destination=node\/61":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/61","title":"WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors","identifier":"node\/61"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+          jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "OYv4IptuJEoiPi5psYoXuhjlwtpjvWBbwAgR6KTdW8Q", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "0": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "\/\/platform.linkedin.com\/in.js": 1, "\/\/platform.twitter.com\/widgets.js": 1, "\/\/apis.google.com\/js\/plusone.js": 1, "1": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/easy_social\/css\/easy_social.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/61?destination=node\/61": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/node\/61", "title": "WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors", "identifier": "node\/61" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
 //--><!]]>
-</script>
-<!--[if lt IE 9]>
+  </script>
+  <!--[if lt IE 9]>
 <script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
 <![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-61 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+
+<body
+  class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-61 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
   <div id="skip-link" class="nocontent">
     <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
   </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+  <div id="page-wrapper">
+    <div id="page"
+      class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
 
-        <header class="clearfix with-logo" role="banner">
+      <div id="header-wrapper">
+        <div class="container clearfix">
 
-                      <div id="branding" class="branding-elements clearfix">
+          <header class="clearfix with-logo" role="banner">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+            <div id="branding" class="branding-elements clearfix">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
+              <div id="logo">
+                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                    src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+              </div>
+
+              <div class="h-group" id="name-and-slogan">
+
+                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+
+                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+              </div>
+
             </div>
-          
-          
-        </header>
 
+
+          </header>
+
+        </div>
       </div>
-    </div>
 
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
 
-        <div id="columns">
-          <div class="columns-inner clearfix">
 
-            <div id="content-column">
-              <div class="content-inner">
 
-                
-                <section id="main-content" role="main">
+      <div id="content-wrapper">
+        <div class="container">
 
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
+          <div id="columns">
+            <div class="columns-inner clearfix">
 
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
+              <div id="content-column">
+                <div class="content-inner">
+
+
+                  <section id="main-content" role="main">
+
+
+                    <div class="content-margin">
+                      <div class="content-style">
+
+
+                        <div id="breadcrumb" class="clearfix">
+                          <nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label">
+                            <h2 id="breadcrumb-label" class="element-invisible">You are here</h2>
+                            <ol id="crumbs" class="clearfix">
+                              <li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"
+                                    property="v:title" href="../blog.html">Blogs</a></span></li>
+                              <li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                    href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                        <header class="clearfix">
                           <h1 id="page-title">
-                            WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors                          </h1>
+                            WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors </h1>
                         </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
-  
-  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/61" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="61.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/61"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/61" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box -->
-  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
-  
-  <article id="node-61" class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/61" typeof="sioc:Post sioct:BlogPost" role="article">
-  <div class="node-inner">
 
-    
-              <header class="node-header">
 
-        
-                  <p class="submitted"><span property="dc:date dc:created" content="2016-04-08T11:41:02+02:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/24.html" title="View user profile." class="username" xml:lang="" about="/user/24" typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on <time datetime="2016-04-08T11:41:02+0200">Fri, 04/08/2016 - 11:41</time></span></p>
-        
-      </header>
-        <span property="dc:title" content="WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
-    <div class="node-content">
-      <div class="user-picture">
-    <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc" alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>  </div>
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>In this multi-part tutorial we show how to develop Arduino-based apps for the Web of Things (WoT). This second part shows how to read data with the help of analog or digitally controlled sensors. In the following parts of this tutorial, which will appear every 1-3 weeks, we discuss how to control actuators and how to connect them all together in a Web of Things (WoT) network. Using standard Web technologies, such as HTTP and Web Sockets, we can then access the data or provide commands to the WoT nodes. As a newbie, it is helpful if you already have some basic C/C++ programming knowledge and understanding of some Web standards and programming languages, such as HTML and JavaScript.</p>
 
-<p>Check the other parts of this tutorial series:</p>
+                        <div id="content">
+                          <div class="region region-content">
+                            <div id="block-easy-social-easy-social-block-1"
+                              class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1">
 
-<ul>
-	<li><a href="60.html">Part 1: Mastering the RGB LED</a></li>
-</ul>
+                              <div class="easy_social_box clearfix horizontal easy_social_lang_en">
+                                <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                    href="https://twitter.com/share" class="twitter-share-button"
+                                    data-url="https://web-engineering.info/node/61" data-count="horizontal"
+                                    data-lang="en" data-via="" data-related=":Check it out!"
+                                    data-text="web-engineering.info">Tweet</a></div>
+                                <div class="easy_social-widget easy_social-widget-facebook">
+                                  <fb:like href="61.html" send="true" layout="button_count" width="88" show_faces="true"
+                                    action="https://web-engineering.info/node/like" colorscheme="light" font="">
+                                  </fb:like>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-googleplus">
+                                  <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                    data-href="https://web-engineering.info/node/61"></div>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-linkedin last">
+                                  <script type="in/share" data-url="https://web-engineering.info/node/61"
+                                    data-counter="right"></script>
+                                </div>
+                              </div> <!-- /.easy_social_box -->
+                            </div>
+                            <div id="block-system-main"
+                              class="block block-system no-title even last block-count-2 block-region-content block-main">
 
-<p><small><strong>Disclaimer:</strong> working with electricity is dangerous. For this project we'll use 5V, which is safe for the human body under any environment conditions. However, the low voltage may be obtained from a mains connected power brick, and therefore we highly recommend you to take safety precautions and to use a trustful brand for the power supply. We cannot be held responsible for any caused damage! Do it at your own risk and/or ask help from an electronics engineer. In case you are using the USB connector from your PC to power the Arduino board, be aware that short-circuits which may occur on the Arduino board may also have a negative impact on your PC!</small></p>
+                              <article id="node-61"
+                                class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix"
+                                about="/node/61" typeof="sioc:Post sioct:BlogPost" role="article">
+                                <div class="node-inner">
 
-<p style="margin-top:1em"><small><strong>Credits:</strong> some of the images from this tutorial are created by using <a href="http://fritzing.org/home/">Fritzing</a>, a nice electronics modeling tool for beginners.</small></p>
 
-<h4><strong><a href="../sites/default/files/wot_tutorials/sensors/WoT-Tutorial-Part2.zip">Download Source Code</a></strong></h4>
+                                  <header class="node-header">
 
-<h2>What is a Sensor ?</h2>
 
-<p>A sensor is a device that is able to capture a quality (property) of the environment, within its detection radius, and provides, in some form, a quantity value representing the quantitative characteristics of that property. There are two main categories of sensors: electronic sensor or mechanical sensors.</p>
+                                    <p class="submitted"><span property="dc:date dc:created"
+                                        content="2016-04-08T11:41:02+02:00" datatype="xsd:dateTime"
+                                        rel="sioc:has_creator">Submitted by <a href="../user/24.html"
+                                          title="View user profile." class="username" xml:lang="" about="/user/24"
+                                          typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on
+                                        <time datetime="2016-04-08T11:41:02+0200">Fri, 04/08/2016 - 11:41</time></span>
+                                    </p>
 
-<p>Examples of devices consisting of one or more sensors:</p>
+                                  </header>
+                                  <span property="dc:title"
+                                    content="WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors"
+                                    class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0"
+                                    datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+                                  <div class="node-content">
+                                    <div class="user-picture">
+                                      <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image"
+                                          class="image-style-thumbnail"
+                                          src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc"
+                                          alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>
+                                    </div>
+                                    <div
+                                      class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+                                      <div class="field-items">
+                                        <div class="field-item even" property="content:encoded">
+                                          <p>In this multi-part tutorial we show how to develop Arduino-based apps for
+                                            the Web of Things (WoT). This second part shows how to read data with the
+                                            help of analog or digitally controlled sensors. In the following parts of
+                                            this tutorial, which will appear every 1-3 weeks, we discuss how to control
+                                            actuators and how to connect them all together in a Web of Things (WoT)
+                                            network. Using standard Web technologies, such as HTTP and Web Sockets, we
+                                            can then access the data or provide commands to the WoT nodes. As a newbie,
+                                            it is helpful if you already have some basic C/C++ programming knowledge and
+                                            understanding of some Web standards and programming languages, such as HTML
+                                            and JavaScript.</p>
 
-<ul>
-	<li><em>electronic sensors:</em> digital thermometers, weather stations or alcohol level testers;</li>
-	<li><em>mechanical sensors:</em> water levels using balloons and graded bars, tire pressure testers found in gas stations, spring based pressure sensors found in some vices or force sensors found in manometer tools.</li>
-</ul>
+                                          <p>Check the other parts of this tutorial series:</p>
 
-<p>Usually, we also call sensor a collection of detectors, such as measuring temperature and humidity in the same time. A detector is an atomic sensor, able to measure one specific quality. Therefore, a sensor may consist of either one or more detectors.</p>
+                                          <ul>
+                                            <li><a href="60.html">Part 1: Mastering the RGB LED</a></li>
+                                          </ul>
 
-<p>Further in this tutorial we only discuss about electronic sensors/detectors: their output is an electric signal, that can be captured and interpret as the quantity of the environment measured quality (property). We'll use Arduino UNO board as interface (or controller), but most of the other Arduino boards (Nano, Micro, MEGA2560, etc) works as well with the provided code examples, without any or with very minor changes.</p>
+                                          <p><small><strong>Disclaimer:</strong> working with electricity is dangerous.
+                                              For this project we'll use 5V, which is safe for the human body under any
+                                              environment conditions. However, the low voltage may be obtained from a
+                                              mains connected power brick, and therefore we highly recommend you to take
+                                              safety precautions and to use a trustful brand for the power supply. We
+                                              cannot be held responsible for any caused damage! Do it at your own risk
+                                              and/or ask help from an electronics engineer. In case you are using the
+                                              USB connector from your PC to power the Arduino board, be aware that
+                                              short-circuits which may occur on the Arduino board may also have a
+                                              negative impact on your PC!</small></p>
 
-<h2>Digital Sensors</h2>
+                                          <p style="margin-top:1em"><small><strong>Credits:</strong> some of the images
+                                              from this tutorial are created by using <a
+                                                href="http://fritzing.org/home/">Fritzing</a>, a nice electronics
+                                              modeling tool for beginners.</small></p>
 
-<p>A digital sensor is a sensor that uses a digital communication interface. Such an interface can be a standard one, such as <a href="https://en.wikipedia.org/wiki/I²C">I2C</a>, <a href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">SPI</a> or <a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver/transmitter">UART</a>, but can also be a custom one, such as a stream of HIGH and LOW signals (also known as pulses), which are then interpreted as binary data. Custom digital interfaces may also refer to simply measuring a pulse for an amount of time and interpreting its length as the received information. Last but not least, some digital sensors are only providing a HIGH (or LOW) signal, when an event occurs, such as a intrusion detection sensor.</p>
+                                          <h4><strong><a
+                                                href="../sites/default/files/wot_tutorials/sensors/WoT-Tutorial-Part2.zip">Download
+                                                Source Code</a></strong></h4>
 
-<p>In this tutorial we discuss the DHT11/DHT22 humidity and temperature sensor as well as the HC-SR04 distance measurement sensor, both using a custom digital interface.</p>
+                                          <h2>What is a Sensor ?</h2>
 
-<h3>Measure Temperature and Humidity with a DHT11/DHT22 Sensor</h3>
+                                          <p>A sensor is a device that is able to capture a quality (property) of the
+                                            environment, within its detection radius, and provides, in some form, a
+                                            quantity value representing the quantitative characteristics of that
+                                            property. There are two main categories of sensors: electronic sensor or
+                                            mechanical sensors.</p>
 
-<p>It is fairly simple to measure temperature and relative air humidity with the help of DHT11, DHT21 or DHT22 sensors. Each of those consists in fact of two detectors in a single package, and with a single 1-Wire custom digital communication interface. The main differences between these sensors are the measured ranges and their accuracy and resolution properties, as shown in the table <a href="#table1">Table 1</a>.</p>
+                                          <p>Examples of devices consisting of one or more sensors:</p>
 
-<p>These sensors are fairly low priced, and in EU you can buy a DHT11 sensor for about 3EUR, a DHT21 for about 4EUR and a DHT22 for about 5EUR, postage included. The price can be cut in less than half when you are willing to order it online from China (e.g., by using <a href="http://www.ebay.com/sch/i.html?_nkw=DHT11">eBay</a>), but be warned, the time to receive it in EU is usually from three to six weeks, sometimes even longer.</p>
+                                          <ul>
+                                            <li><em>electronic sensors:</em> digital thermometers, weather stations or
+                                              alcohol level testers;</li>
+                                            <li><em>mechanical sensors:</em> water levels using balloons and graded
+                                              bars, tire pressure testers found in gas stations, spring based pressure
+                                              sensors found in some vices or force sensors found in manometer tools.
+                                            </li>
+                                          </ul>
 
-<table id="table1">
-	<caption>Table 1: DHT11/DHT21/DHT22 Sensor Characteristics.</caption>
-	<thead>
-		<tr>
-			<th>&nbsp;</th>
-			<th>DHT11 Temperature</th>
-			<th>DHT11 Air Humidity</th>
-			<th>DHT21/HM2301 Temperature</th>
-			<th>DHT21/HM2301 Air Humidity</th>
-			<th>DHT22/AM2302 Temperature</th>
-			<th>DHT22/AM2302 Air Humidity</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Range</td>
-			<td>[0, 50]°C</td>
-			<td>[20, 90]%</td>
-			<td>[-40, 80]°C</td>
-			<td>[0, 100]%</td>
-			<td>[-40, 125]°C</td>
-			<td>[0, 100]%</td>
-		</tr>
-		<tr>
-			<td>Accuracy</td>
-			<td>±2°C</td>
-			<td>±5%</td>
-			<td>±1°C</td>
-			<td>±5%</td>
-			<td>±0.2°C</td>
-			<td>±2%</td>
-		</tr>
-		<tr>
-			<td>Resolution</td>
-			<td>1°C</td>
-			<td>1%RH</td>
-			<td>0.1°C</td>
-			<td>0.1%RH</td>
-			<td>0.1°C</td>
-			<td>0.1%RH</td>
-		</tr>
-		<tr>
-			<td>Operating voltage</td>
-			<td>[3.3, 5.5]V</td>
-			<td>[3.3, 5.5]V</td>
-			<td>[3.3, 6]V</td>
-			<td>[3.3, 6]V</td>
-			<td>[3.3, 6]V</td>
-			<td>[3.3, 6]V</td>
-		</tr>
-		<tr>
-			<td>Operating current</td>
-			<td>[1.2, 2]mA</td>
-			<td>[1.2, 2]mA</td>
-			<td>[1.3, 2.1]mA</td>
-			<td>[1.3, 2.1]mA</td>
-			<td>[1.3, 2.1]mA</td>
-			<td>[1.3, 2.1]mA</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan="2" style="text-align:center; font-weight: bold;"><a href="../sites/default/files/wot_tutorials/sensors/DHT11.pdf">Download datasheet</a></td>
-			<td colspan="2" style="text-align:center; font-weight: bold;"><a href="../sites/default/files/wot_tutorials/sensors/DHT21.pdf">Download datasheet</a></td>
-			<td colspan="2" style="text-align:center; font-weight: bold;"><a href="../sites/default/files/wot_tutorials/sensors/DHT22.pdf">Download datasheet</a></td>
-		</tr>
-	</tbody>
-</table>
+                                          <p>Usually, we also call sensor a collection of detectors, such as measuring
+                                            temperature and humidity in the same time. A detector is an atomic sensor,
+                                            able to measure one specific quality. Therefore, a sensor may consist of
+                                            either one or more detectors.</p>
 
-<p>DHTxx sensor&nbsp;may come with or without a breakout board, which allows not only to fix the sensor with a screw in a fixed place, but also usually have a LED to indicate that the sensor receives power, and most of them provides a PULL UP resistor, which otherwise you have to add between their DATA and VCC pins. A PULL UP resistor has usually a value between 2kΩ and 20kΩ (most common values are 4.7kΩ and 10kΩ), and it connects the corresponding data line to VCC, thus the line stays at VCC level as long there is no other activity from the micro-controller, to pull the data line to LOW. <a href="#fig1">Figure 1</a> shows variations of DHT11 sensors and <a href="#fig2">Figure 2</a> shows variations of DHT22 sensors, with or without a breakout board, as well as the pin-out (pins configuration).</p>
+                                          <p>Further in this tutorial we only discuss about electronic
+                                            sensors/detectors: their output is an electric signal, that can be captured
+                                            and interpret as the quantity of the environment measured quality
+                                            (property). We'll use Arduino UNO board as interface (or controller), but
+                                            most of the other Arduino boards (Nano, Micro, MEGA2560, etc) works as well
+                                            with the provided code examples, without any or with very minor changes.</p>
 
-<figure id="fig1"><img alt="DHT11 Sensors" src="../sites/default/files/wot_tutorials/sensors/DHT11.png" />
-<figcaption>Figure 1: Variations of DHT11 Sensor.</figcaption>
-</figure>
+                                          <h2>Digital Sensors</h2>
 
-<figure id="fig2"><img alt="DHT22 Sensors" src="../sites/default/files/wot_tutorials/sensors/DHT22.png" />
-<figcaption>Figure 2: Variations of DHT22 Sensor.</figcaption>
-</figure>
+                                          <p>A digital sensor is a sensor that uses a digital communication interface.
+                                            Such an interface can be a standard one, such as <a
+                                              href="https://en.wikipedia.org/wiki/I²C">I2C</a>, <a
+                                              href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">SPI</a>
+                                            or <a
+                                              href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver/transmitter">UART</a>,
+                                            but can also be a custom one, such as a stream of HIGH and LOW signals (also
+                                            known as pulses), which are then interpreted as binary data. Custom digital
+                                            interfaces may also refer to simply measuring a pulse for an amount of time
+                                            and interpreting its length as the received information. Last but not least,
+                                            some digital sensors are only providing a HIGH (or LOW) signal, when an
+                                            event occurs, such as a intrusion detection sensor.</p>
 
-<h4>Hardware Configuration</h4>
+                                          <p>In this tutorial we discuss the DHT11/DHT22 humidity and temperature sensor
+                                            as well as the HC-SR04 distance measurement sensor, both using a custom
+                                            digital interface.</p>
 
-<p><a href="#fig3">Figure 3</a> shows how to connect a DHTxx sensor to an Arduino UNO board, and <a href="#fig4">Figure 4</a> shows the electronics schematics. Notice the third pin of the sensor is not connected and all three variations of this sensor have the same pin-out.</p>
+                                          <h3>Measure Temperature and Humidity with a DHT11/DHT22 Sensor</h3>
 
-<figure id="fig3"><img alt="DHTxx Sensor Connected to an Arduino UNO Board" src="../sites/default/files/wot_tutorials/sensors/Fritzing-DHTxx-breadboard.png" />
-<figcaption>Figure 3: DHTxx Sensor Connected to an Arduino UNO Board.</figcaption>
-</figure>
+                                          <p>It is fairly simple to measure temperature and relative air humidity with
+                                            the help of DHT11, DHT21 or DHT22 sensors. Each of those consists in fact of
+                                            two detectors in a single package, and with a single 1-Wire custom digital
+                                            communication interface. The main differences between these sensors are the
+                                            measured ranges and their accuracy and resolution properties, as shown in
+                                            the table <a href="#table1">Table 1</a>.</p>
 
-<figure id="fig4"><img alt="Circuit Diagram for a DHTxx Sensor Connected to an Arduino UNO Board" src="../sites/default/files/wot_tutorials/sensors/Fritzing-DHTxx-schematics.png" />
-<figcaption>Figure 4: Circuit Diagram for a DHTxx Sensor Connected to an Arduino UNO Board.</figcaption>
-</figure>
+                                          <p>These sensors are fairly low priced, and in EU you can buy a DHT11 sensor
+                                            for about 3EUR, a DHT21 for about 4EUR and a DHT22 for about 5EUR, postage
+                                            included. The price can be cut in less than half when you are willing to
+                                            order it online from China (e.g., by using <a
+                                              href="http://www.ebay.com/sch/i.html?_nkw=DHT11">eBay</a>), but be warned,
+                                            the time to receive it in EU is usually from three to six weeks, sometimes
+                                            even longer.</p>
 
-<p><strong>Note1:</strong> if we use a DHTxx sensor without a breakout board that includes a PULL UP resistor, then we'll need to add a 10kΩ one between the VCC line and the DATA pin. If the PULL UP resistor is missing, the received data may be corrupted or may be no transmission.</p>
+                                          <table id="table1">
+                                            <caption>Table 1: DHT11/DHT21/DHT22 Sensor Characteristics.</caption>
+                                            <thead>
+                                              <tr>
+                                                <th>&nbsp;</th>
+                                                <th>DHT11 Temperature</th>
+                                                <th>DHT11 Air Humidity</th>
+                                                <th>DHT21/HM2301 Temperature</th>
+                                                <th>DHT21/HM2301 Air Humidity</th>
+                                                <th>DHT22/AM2302 Temperature</th>
+                                                <th>DHT22/AM2302 Air Humidity</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td>Range</td>
+                                                <td>[0, 50]°C</td>
+                                                <td>[20, 90]%</td>
+                                                <td>[-40, 80]°C</td>
+                                                <td>[0, 100]%</td>
+                                                <td>[-40, 125]°C</td>
+                                                <td>[0, 100]%</td>
+                                              </tr>
+                                              <tr>
+                                                <td>Accuracy</td>
+                                                <td>±2°C</td>
+                                                <td>±5%</td>
+                                                <td>±1°C</td>
+                                                <td>±5%</td>
+                                                <td>±0.2°C</td>
+                                                <td>±2%</td>
+                                              </tr>
+                                              <tr>
+                                                <td>Resolution</td>
+                                                <td>1°C</td>
+                                                <td>1%RH</td>
+                                                <td>0.1°C</td>
+                                                <td>0.1%RH</td>
+                                                <td>0.1°C</td>
+                                                <td>0.1%RH</td>
+                                              </tr>
+                                              <tr>
+                                                <td>Operating voltage</td>
+                                                <td>[3.3, 5.5]V</td>
+                                                <td>[3.3, 5.5]V</td>
+                                                <td>[3.3, 6]V</td>
+                                                <td>[3.3, 6]V</td>
+                                                <td>[3.3, 6]V</td>
+                                                <td>[3.3, 6]V</td>
+                                              </tr>
+                                              <tr>
+                                                <td>Operating current</td>
+                                                <td>[1.2, 2]mA</td>
+                                                <td>[1.2, 2]mA</td>
+                                                <td>[1.3, 2.1]mA</td>
+                                                <td>[1.3, 2.1]mA</td>
+                                                <td>[1.3, 2.1]mA</td>
+                                                <td>[1.3, 2.1]mA</td>
+                                              </tr>
+                                              <tr>
+                                                <td>&nbsp;</td>
+                                                <td colspan="2" style="text-align:center; font-weight: bold;"><a
+                                                    href="../sites/default/files/wot_tutorials/sensors/DHT11.pdf">Download
+                                                    datasheet</a></td>
+                                                <td colspan="2" style="text-align:center; font-weight: bold;"><a
+                                                    href="../sites/default/files/wot_tutorials/sensors/DHT21.pdf">Download
+                                                    datasheet</a></td>
+                                                <td colspan="2" style="text-align:center; font-weight: bold;"><a
+                                                    href="../sites/default/files/wot_tutorials/sensors/DHT22.pdf">Download
+                                                    datasheet</a></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
 
-<p><strong>Note2:</strong> in some diagrams, the VCC pin is also noted as VDD, but its meaning does not change.</p>
+                                          <p>DHTxx sensor&nbsp;may come with or without a breakout board, which allows
+                                            not only to fix the sensor with a screw in a fixed place, but also usually
+                                            have a LED to indicate that the sensor receives power, and most of them
+                                            provides a PULL UP resistor, which otherwise you have to add between their
+                                            DATA and VCC pins. A PULL UP resistor has usually a value between 2kΩ and
+                                            20kΩ (most common values are 4.7kΩ and 10kΩ), and it connects the
+                                            corresponding data line to VCC, thus the line stays at VCC level as long
+                                            there is no other activity from the micro-controller, to pull the data line
+                                            to LOW. <a href="#fig1">Figure 1</a> shows variations of DHT11 sensors and
+                                            <a href="#fig2">Figure 2</a> shows variations of DHT22 sensors, with or
+                                            without a breakout board, as well as the pin-out (pins configuration).</p>
 
-<h4>Software Configuration</h4>
+                                          <figure id="fig1"><img alt="DHT11 Sensors"
+                                              src="../sites/default/files/wot_tutorials/sensors/DHT11.png" />
+                                            <figcaption>Figure 1: Variations of DHT11 Sensor.</figcaption>
+                                          </figure>
 
-<p>Its now the time to query the sensor and obtain temperature and humidity data. For this you'll need to add the DHTxx library to your Arduino IDE libraries collection. Download the DHTxx library from <a href="https://github.com/dimircea/Arduino/tree/master/libraries/DHTxx">github</a> and copy the folder <code>DHTxx</code> into your <code>libraries</code> sub-folder of the Arduino installation folder. If the Arduino IDE was started before, you have now to close it and start it again.</p>
+                                          <figure id="fig2"><img alt="DHT22 Sensors"
+                                              src="../sites/default/files/wot_tutorials/sensors/DHT22.png" />
+                                            <figcaption>Figure 2: Variations of DHT22 Sensor.</figcaption>
+                                          </figure>
 
-<p>To "load" the DHTxx library into our Arduino sketch, we use the <code>#include</code> directive. Then, we create an instance of the <code>Dht</code> class (defined by the library), which takes care of the communication with the DHTxx sensor. Its constructor has two parameters: the pin number used to communicate with the sensor (the Arduino UNO digital pin 7 in our example), and the sensor type used (DHT11, DHT21 or DHT22), defined by the <code>Dht::TypeEL</code> enumeration. While the DHTxx sensors are using almost the same data encoding during the communication, there are also slight differences, which require special attention inside the library code. Explicitly, one of <code>Dht::TypeEL::DHT11</code>, <code>Dht::TypeEL::DHT21</code> or <code>Dht::TypeEL::DHT22</code> can be used as the second parameter of the constructor, depending on your sensor choice.</p>
+                                          <h4>Hardware Configuration</h4>
 
-<pre>
+                                          <p><a href="#fig3">Figure 3</a> shows how to connect a DHTxx sensor to an
+                                            Arduino UNO board, and <a href="#fig4">Figure 4</a> shows the electronics
+                                            schematics. Notice the third pin of the sensor is not connected and all
+                                            three variations of this sensor have the same pin-out.</p>
+
+                                          <figure id="fig3"><img alt="DHTxx Sensor Connected to an Arduino UNO Board"
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-DHTxx-breadboard.png" />
+                                            <figcaption>Figure 3: DHTxx Sensor Connected to an Arduino UNO Board.
+                                            </figcaption>
+                                          </figure>
+
+                                          <figure id="fig4"><img
+                                              alt="Circuit Diagram for a DHTxx Sensor Connected to an Arduino UNO Board"
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-DHTxx-schematics.png" />
+                                            <figcaption>Figure 4: Circuit Diagram for a DHTxx Sensor Connected to an
+                                              Arduino UNO Board.</figcaption>
+                                          </figure>
+
+                                          <p><strong>Note1:</strong> if we use a DHTxx sensor without a breakout board
+                                            that includes a PULL UP resistor, then we'll need to add a 10kΩ one between
+                                            the VCC line and the DATA pin. If the PULL UP resistor is missing, the
+                                            received data may be corrupted or may be no transmission.</p>
+
+                                          <p><strong>Note2:</strong> in some diagrams, the VCC pin is also noted as VDD,
+                                            but its meaning does not change.</p>
+
+                                          <h4>Software Configuration</h4>
+
+                                          <p>Its now the time to query the sensor and obtain temperature and humidity
+                                            data. For this you'll need to add the DHTxx library to your Arduino IDE
+                                            libraries collection. Download the DHTxx library from <a
+                                              href="https://github.com/dimircea/Arduino/tree/master/libraries/DHTxx">github</a>
+                                            and copy the folder <code>DHTxx</code> into your <code>libraries</code>
+                                            sub-folder of the Arduino installation folder. If the Arduino IDE was
+                                            started before, you have now to close it and start it again.</p>
+
+                                          <p>To "load" the DHTxx library into our Arduino sketch, we use the
+                                            <code>#include</code> directive. Then, we create an instance of the
+                                            <code>Dht</code> class (defined by the library), which takes care of the
+                                            communication with the DHTxx sensor. Its constructor has two parameters: the
+                                            pin number used to communicate with the sensor (the Arduino UNO digital pin
+                                            7 in our example), and the sensor type used (DHT11, DHT21 or DHT22), defined
+                                            by the <code>Dht::TypeEL</code> enumeration. While the DHTxx sensors are
+                                            using almost the same data encoding during the communication, there are also
+                                            slight differences, which require special attention inside the library code.
+                                            Explicitly, one of <code>Dht::TypeEL::DHT11</code>,
+                                            <code>Dht::TypeEL::DHT21</code> or <code>Dht::TypeEL::DHT22</code> can be
+                                            used as the second parameter of the constructor, depending on your sensor
+                                            choice.</p>
+
+                                          <pre>
 <strong>#include &lt;dhtxx.h&gt;</strong>
 #define DHT_PIN 7
 
 <strong>Dht dht(DHT_PIN, Dht::TypeEL::DHT22);</strong>
 </pre>
 
-<p>Since we like to see the read temperature and humidity values, we'll use the Arduino serial communication capabilities, in combination with the Arduino IDE serial monitor tool, which you can open by using the "Tools &gt; Serial Monitor" menu. This additional code is only required for being able to visualize the information, but has nothing to do with the sensor, or sensor communication. The DHTxx sensor requires some initialization time, which is usually about two seconds, thus a delay of two seconds is added in the <code>setup</code> method.</p>
+                                          <p>Since we like to see the read temperature and humidity values, we'll use
+                                            the Arduino serial communication capabilities, in combination with the
+                                            Arduino IDE serial monitor tool, which you can open by using the "Tools &gt;
+                                            Serial Monitor" menu. This additional code is only required for being able
+                                            to visualize the information, but has nothing to do with the sensor, or
+                                            sensor communication. The DHTxx sensor requires some initialization time,
+                                            which is usually about two seconds, thus a delay of two seconds is added in
+                                            the <code>setup</code> method.</p>
 
-<pre>
+                                          <pre>
 void setup() {  
   Serial.begin(115200);
   delay(2000);
 };
 </pre>
 
-<p>Last, we use the <code>Dht::read</code> method, to inquire temperature and humidity information from the sensor. A <code>Result</code> structure is provided in return, and it has three properties: temperature, humidity and status, which should be <code>Dht::StatusEL::OK</code> if no communication errors took place. We use a delay of five seconds between two readings.</p>
+                                          <p>Last, we use the <code>Dht::read</code> method, to inquire temperature and
+                                            humidity information from the sensor. A <code>Result</code> structure is
+                                            provided in return, and it has three properties: temperature, humidity and
+                                            status, which should be <code>Dht::StatusEL::OK</code> if no communication
+                                            errors took place. We use a delay of five seconds between two readings.</p>
 
-<pre>
+                                          <pre>
 void loop() {
   <strong>Dht::Result result = dht.read();</strong>
   if (result.status == Dht::StatusEL::OK) {
@@ -379,76 +576,135 @@ void loop() {
 };
 </pre>
 
-<p><strong>Note:</strong> DHTxx sensors can be read no faster than once every two seconds. Not following this rule results in no communication with the sensor or communication timeouts.</p>
+                                          <p><strong>Note:</strong> DHTxx sensors can be read no faster than once every
+                                            two seconds. Not following this rule results in no communication with the
+                                            sensor or communication timeouts.</p>
 
-<p>If all went well, and you have used an DHT21 or DHT22 sensor, you should see the <em>Serial Monitor</em> window showing information similar with <a href="#fig5">Figure 5</a>. One can observe slight differences between readings (like 0.2°C between the temperature values), but that is just fine, and are the result of the sensor accuracy.</p>
+                                          <p>If all went well, and you have used an DHT21 or DHT22 sensor, you should
+                                            see the <em>Serial Monitor</em> window showing information similar with <a
+                                              href="#fig5">Figure 5</a>. One can observe slight differences between
+                                            readings (like 0.2°C between the temperature values), but that is just fine,
+                                            and are the result of the sensor accuracy.</p>
 
-<figure id="fig5"><img alt="Serial Monitor Showing DHTxx Sensor Readings" src="../sites/default/files/wot_tutorials/sensors/Serial-Monitor-DHTxx.png" />
-<figcaption>Figure 5: Serial Monitor Showing DHTxx Sensor Readings.</figcaption>
-</figure>
+                                          <figure id="fig5"><img alt="Serial Monitor Showing DHTxx Sensor Readings"
+                                              src="../sites/default/files/wot_tutorials/sensors/Serial-Monitor-DHTxx.png" />
+                                            <figcaption>Figure 5: Serial Monitor Showing DHTxx Sensor Readings.
+                                            </figcaption>
+                                          </figure>
 
-<p>If you are interested in more information about the low level communication with the DHTxx sensor, then you should have a look at the DHTxx library code (files <code>DHTxx.h</code> and <code>DHTxx.cpp</code>) which contains detailed code comments. Also, check the information provided in the <a href="https://github.com/dimircea/Arduino/tree/master/libraries/DHTxx">DHTxx library github project page</a>.</p>
+                                          <p>If you are interested in more information about the low level communication
+                                            with the DHTxx sensor, then you should have a look at the DHTxx library code
+                                            (files <code>DHTxx.h</code> and <code>DHTxx.cpp</code>) which contains
+                                            detailed code comments. Also, check the information provided in the <a
+                                              href="https://github.com/dimircea/Arduino/tree/master/libraries/DHTxx">DHTxx
+                                              library github project page</a>.</p>
 
-<h3>Measure Distance with HC-SR04 Ultrasonic Sensor</h3>
+                                          <h3>Measure Distance with HC-SR04 Ultrasonic Sensor</h3>
 
-<p>In multiple projects, measuring distance is an important aspect. Imagine a "self-driving" robot (or car) project, where detecting obstacles, thus measuring distance between the robot and any possible nearby objects, is one of the main tasks. Fortunately there is a easy and cheap way to achieve this, with the help of an ultrasonic based distance measurement sensor, such as HC-SR04, shown in <a href="#fig6">Figure 6</a>. These sensors uses high frequency sound pulses (40KHz or more) and measure the time required by the sound to travel forth, and back if it is bounced by an nearby obstacle. Internally, a timeout is used to detect if an object exists or not in the sensor range (which for HC-SR04 is about 4m). In <a href="#table2">Table 2</a> are shown the main characteristics of a HC-SR04 sensor.</p>
+                                          <p>In multiple projects, measuring distance is an important aspect. Imagine a
+                                            "self-driving" robot (or car) project, where detecting obstacles, thus
+                                            measuring distance between the robot and any possible nearby objects, is one
+                                            of the main tasks. Fortunately there is a easy and cheap way to achieve
+                                            this, with the help of an ultrasonic based distance measurement sensor, such
+                                            as HC-SR04, shown in <a href="#fig6">Figure 6</a>. These sensors uses high
+                                            frequency sound pulses (40KHz or more) and measure the time required by the
+                                            sound to travel forth, and back if it is bounced by an nearby obstacle.
+                                            Internally, a timeout is used to detect if an object exists or not in the
+                                            sensor range (which for HC-SR04 is about 4m). In <a href="#table2">Table
+                                              2</a> are shown the main characteristics of a HC-SR04 sensor.</p>
 
-<p>Variations of this sensor, using the UART communication interface (i.e., HC-SR03) can be found on the market. Usually, they are more expensive (the price is double or more), and the communication protocol required to communicate with such a sensor, especially RAM resources, are higher.</p>
+                                          <p>Variations of this sensor, using the UART communication interface (i.e.,
+                                            HC-SR03) can be found on the market. Usually, they are more expensive (the
+                                            price is double or more), and the communication protocol required to
+                                            communicate with such a sensor, especially RAM resources, are higher.</p>
 
-<p>HC-SR04 sensors are fairly low priced, and in EU you can buy one for as low as 3EUR including postage. If you are willing to wait up to six weeks, it is possible to buy such sensors from China (e.g., by using <a href="http://www.ebay.com/sch/i.html?_nkw=hc-sr04">eBay</a>) for about 1EUR per piece, including postage.</p>
+                                          <p>HC-SR04 sensors are fairly low priced, and in EU you can buy one for as low
+                                            as 3EUR including postage. If you are willing to wait up to six weeks, it is
+                                            possible to buy such sensors from China (e.g., by using <a
+                                              href="http://www.ebay.com/sch/i.html?_nkw=hc-sr04">eBay</a>) for about
+                                            1EUR per piece, including postage.</p>
 
-<table id="table2">
-	<caption>Table 2: HC-SR04 sensor characteristics.</caption>
-	<thead>
-		<tr>
-			<th>Range</th>
-			<th>Detection Angle</th>
-			<th>Accuracy</th>
-			<th>Resolution</th>
-			<th>Operating voltage</th>
-			<th>Operating current</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>[2, 400]cm</td>
-			<td>30 degrees</td>
-			<td>3mm</td>
-			<td>1mm</td>
-			<td>[4.5, 5.5]V</td>
-			<td>[12, 18]mA</td>
-		</tr>
-		<tr>
-			<td colspan="6" style="text-align:center; font-weight: bold;"><a href="../sites/default/files/wot_tutorials/sensors/HC-SR04.pdf">Download datasheet</a></td>
-		</tr>
-	</tbody>
-</table>
+                                          <table id="table2">
+                                            <caption>Table 2: HC-SR04 sensor characteristics.</caption>
+                                            <thead>
+                                              <tr>
+                                                <th>Range</th>
+                                                <th>Detection Angle</th>
+                                                <th>Accuracy</th>
+                                                <th>Resolution</th>
+                                                <th>Operating voltage</th>
+                                                <th>Operating current</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td>[2, 400]cm</td>
+                                                <td>30 degrees</td>
+                                                <td>3mm</td>
+                                                <td>1mm</td>
+                                                <td>[4.5, 5.5]V</td>
+                                                <td>[12, 18]mA</td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="6" style="text-align:center; font-weight: bold;"><a
+                                                    href="../sites/default/files/wot_tutorials/sensors/HC-SR04.pdf">Download
+                                                    datasheet</a></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
 
-<figure id="fig6"><img alt="HC-SR04 Sensor" src="../sites/default/files/wot_tutorials/sensors/HC-SR04.png" />
-<figcaption>Figure 6: HC-SR04 Sensor.</figcaption>
-</figure>
+                                          <figure id="fig6"><img alt="HC-SR04 Sensor"
+                                              src="../sites/default/files/wot_tutorials/sensors/HC-SR04.png" />
+                                            <figcaption>Figure 6: HC-SR04 Sensor.</figcaption>
+                                          </figure>
 
-<h4>Hardware Configuration</h4>
+                                          <h4>Hardware Configuration</h4>
 
-<p>Connecting the Arduino board with the HC-SR04 sensor is really easy. First, you'll need to provide power to the VCC and GND pins. Second, chose two Arduino pins (use digital ones while the analog pins we need for other purposes) to be used in the communication with the sensor. One pin represents the "trigger", informing the sensor that we like to read the distance, and the other one represents the output from sensor, also known as "echo", providing a pulse of a specified length, mapped then to a distance value.</p>
+                                          <p>Connecting the Arduino board with the HC-SR04 sensor is really easy. First,
+                                            you'll need to provide power to the VCC and GND pins. Second, chose two
+                                            Arduino pins (use digital ones while the analog pins we need for other
+                                            purposes) to be used in the communication with the sensor. One pin
+                                            represents the "trigger", informing the sensor that we like to read the
+                                            distance, and the other one represents the output from sensor, also known as
+                                            "echo", providing a pulse of a specified length, mapped then to a distance
+                                            value.</p>
 
-<p>In <a href="#fig7">Figure 7</a> is shown how to wire the sensor to an Arduino UNO board, but the same apply to almost any other Arduino boards. <a href="#fig8">Figure 8</a> shows the electrical diagram of the circuit.</p>
+                                          <p>In <a href="#fig7">Figure 7</a> is shown how to wire the sensor to an
+                                            Arduino UNO board, but the same apply to almost any other Arduino boards. <a
+                                              href="#fig8">Figure 8</a> shows the electrical diagram of the circuit.</p>
 
-<figure id="fig7"><img alt="HC-SR04 Sensor Connected to an Arduino UNO Board" src="../sites/default/files/wot_tutorials/sensors/Fritzing-HCSR04-breadboard.png" />
-<figcaption>Figure 7: HC-SR04 Sensor Connected to an Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="fig7"><img alt="HC-SR04 Sensor Connected to an Arduino UNO Board"
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-HCSR04-breadboard.png" />
+                                            <figcaption>Figure 7: HC-SR04 Sensor Connected to an Arduino UNO Board.
+                                            </figcaption>
+                                          </figure>
 
-<figure id="fig8"><img alt="Circuit Diagram of a HC-SR04Sensor Connected to an Arduino UNO Board" src="../sites/default/files/wot_tutorials/sensors/Fritzing-HCSR04-schematics.png" />
-<figcaption>Figure 8: Circuit Diagram of a HC-SR04Sensor Connected to an Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="fig8"><img
+                                              alt="Circuit Diagram of a HC-SR04Sensor Connected to an Arduino UNO Board"
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-HCSR04-schematics.png" />
+                                            <figcaption>Figure 8: Circuit Diagram of a HC-SR04Sensor Connected to an
+                                              Arduino UNO Board.</figcaption>
+                                          </figure>
 
-<h4>Software Configuration</h4>
+                                          <h4>Software Configuration</h4>
 
-<p>Reading the distance with a HC-SR04 sensor requires to <a href="https://github.com/dimircea/Arduino/tree/master/libraries/HCSR04">download from github</a> and import the HCSR04 into your Arduino IDE. For this, you'll need to copy the folder <code>HCSR04</code> into your <code>libraries</code> sub-folder of the Arduino installation folder. If the Arduino IDE was started before, you have now to close it and start it again.</p>
+                                          <p>Reading the distance with a HC-SR04 sensor requires to <a
+                                              href="https://github.com/dimircea/Arduino/tree/master/libraries/HCSR04">download
+                                              from github</a> and import the HCSR04 into your Arduino IDE. For this,
+                                            you'll need to copy the folder <code>HCSR04</code> into your
+                                            <code>libraries</code> sub-folder of the Arduino installation folder. If the
+                                            Arduino IDE was started before, you have now to close it and start it again.
+                                          </p>
 
-<p>Use the #include directive to "load" the library into your Arduino sketch. Create an instance of the HCSR04 class, which takes care of the communication with the sensor. The constructor has two parameters: the pin number used to inform the sensor that we want to read the distance, known as the <em>trigger pin</em> (the Arduino UNO digital pin 7 in our case), and the pin number used to read the sensor response, known as the <em>echo pin</em> (the Arduino UNO digital pin 5 in our example).</p>
+                                          <p>Use the #include directive to "load" the library into your Arduino sketch.
+                                            Create an instance of the HCSR04 class, which takes care of the
+                                            communication with the sensor. The constructor has two parameters: the pin
+                                            number used to inform the sensor that we want to read the distance, known as
+                                            the <em>trigger pin</em> (the Arduino UNO digital pin 7 in our case), and
+                                            the pin number used to read the sensor response, known as the <em>echo
+                                              pin</em> (the Arduino UNO digital pin 5 in our example).</p>
 
-<pre>
+                                          <pre>
 <strong>#include &lt;HCSR04.h&gt;</strong>
 #define TRIGGER_PIN 6
 #define ECHO_PIN 5
@@ -457,9 +713,16 @@ void loop() {
 
 </pre>
 
-<p>Since we want to test the sensor and check the distance it reads, we'll use the Arduino serial communication capabilities, in combination with the Arduino IDE serial monitor tool (use the "Tools &gt; Serial Monitor" menu) to show the sensor readings. This additional code is only required for being able to visualize the information, but has nothing to do with the sensor, or sensor communication. The HC-SR04 sensor requires some initialization time, which is usually about one second, thus a delay of one second is added in the setup method.</p>
+                                          <p>Since we want to test the sensor and check the distance it reads, we'll use
+                                            the Arduino serial communication capabilities, in combination with the
+                                            Arduino IDE serial monitor tool (use the "Tools &gt; Serial Monitor" menu)
+                                            to show the sensor readings. This additional code is only required for being
+                                            able to visualize the information, but has nothing to do with the sensor, or
+                                            sensor communication. The HC-SR04 sensor requires some initialization time,
+                                            which is usually about one second, thus a delay of one second is added in
+                                            the setup method.</p>
 
-<pre>
+                                          <pre>
 void setup() { 
   // Start serial communication, used to show 
   // sensor data in the Arduino serial monitor. 
@@ -469,9 +732,15 @@ void setup() {
   delay(1000); 
 };</pre>
 
-<p>Use the <code>HC-Sr04::read</code> method, to inquire distance measurement from the sensor. By default, the distance is measured in centimeters. If you need the distance in millimeters, meters or kilometers, use the <code>HCSR04::read(HCSR04::MetricsEL::xx)</code> method instead. The value of the parameter can be one of: <code>HCSR04::MetricsEL::mm</code>, <code>HCSR04::MetricsEL::cm</code> (default), <code>HCSR04::MetricsEL::m</code> or <code>HCSR04::MetricsEL::km</code>.</p>
+                                          <p>Use the <code>HC-Sr04::read</code> method, to inquire distance measurement
+                                            from the sensor. By default, the distance is measured in centimeters. If you
+                                            need the distance in millimeters, meters or kilometers, use the
+                                            <code>HCSR04::read(HCSR04::MetricsEL::xx)</code> method instead. The value
+                                            of the parameter can be one of: <code>HCSR04::MetricsEL::mm</code>,
+                                            <code>HCSR04::MetricsEL::cm</code> (default),
+                                            <code>HCSR04::MetricsEL::m</code> or <code>HCSR04::MetricsEL::km</code>.</p>
 
-<pre>
+                                          <pre>
 void loop() {
   <strong>float distance = hcsr04.read();</strong>
   if (distance &gt; 0) {
@@ -485,93 +754,162 @@ void loop() {
   delay(100);
 };</pre>
 
-<p><strong>Note:</strong> while in theory you can make hundreds of readings per second with this sensor, the practice learn us that you can take under ten reliable readings every second second. This is due to Arduino capabilities but also to sensor internals, driven by another micro-controller.</p>
+                                          <p><strong>Note:</strong> while in theory you can make hundreds of readings
+                                            per second with this sensor, the practice learn us that you can take under
+                                            ten reliable readings every second second. This is due to Arduino
+                                            capabilities but also to sensor internals, driven by another
+                                            micro-controller.</p>
 
-<p>If all went well, you should see the <em>Serial Monitor</em> window showing information similar with <a href="#fig9">Figure 9</a>.</p>
+                                          <p>If all went well, you should see the <em>Serial Monitor</em> window showing
+                                            information similar with <a href="#fig9">Figure 9</a>.</p>
 
-<figure id="fig9"><img alt="Serial Monitor Showing HC-SR04 Sensor Readings" src="../sites/default/files/wot_tutorials/sensors/Serial-Monitor-HCSR04.png" />
-<figcaption>Figure 9: Serial Monitor Showing HC-SR04 Sensor Readings.</figcaption>
-</figure>
+                                          <figure id="fig9"><img alt="Serial Monitor Showing HC-SR04 Sensor Readings"
+                                              src="../sites/default/files/wot_tutorials/sensors/Serial-Monitor-HCSR04.png" />
+                                            <figcaption>Figure 9: Serial Monitor Showing HC-SR04 Sensor Readings.
+                                            </figcaption>
+                                          </figure>
 
-<p>If we've got your attention and you want to know more about how exactly the software communicates with the sensor and maps the detected pulse length into a distance value, please have a look at the library code which is commented in the smallest details.</p>
+                                          <p>If we've got your attention and you want to know more about how exactly the
+                                            software communicates with the sensor and maps the detected pulse length
+                                            into a distance value, please have a look at the library code which is
+                                            commented in the smallest details.</p>
 
-<h2>Analog Sensors</h2>
+                                          <h2>Analog Sensors</h2>
 
-<p>Analog sensors provide information about the measured quality as a voltage level, or other equivalent form, e.g., resistance of current. Using various electronics laws and equations we can interpret these values as a quantity of the measured quality. Examples of such sensors are photo resistors, rain or soil moisture sensors, providing the information into the form of "resistance". Other sensors, such as LM35 analog temperature sensor, directly provides a voltage level that can be translated into temperature value using a liner function.</p>
+                                          <p>Analog sensors provide information about the measured quality as a voltage
+                                            level, or other equivalent form, e.g., resistance of current. Using various
+                                            electronics laws and equations we can interpret these values as a quantity
+                                            of the measured quality. Examples of such sensors are photo resistors, rain
+                                            or soil moisture sensors, providing the information into the form of
+                                            "resistance". Other sensors, such as LM35 analog temperature sensor,
+                                            directly provides a voltage level that can be translated into temperature
+                                            value using a liner function.</p>
 
-<h3>Measure Temperature with LM35 Analog Sensor</h3>
+                                          <h3>Measure Temperature with LM35 Analog Sensor</h3>
 
-<p>LM35 sensor, shown in <a href="#fig10">Figure 10</a>, is a very cheap way (it costs under one EUR for one piece) to measure the environment temperature, used in combination with any device that is able to read voltage in the millivolts range. That means, we can even use a multi-meter (a device able to measure voltage, resistance, current, etc) to measure the temperature, without the need of having an additional micro-controller. However, in this tutorial we show how to use an Arduino UNO to do the measurement. These sensors comes in multiple variations, from which the most known is LM35DZ. <a href="#table3">Table 3</a> shows the most important characteristics. Other versions are different in ranges, accuracy or supply voltage values.</p>
+                                          <p>LM35 sensor, shown in <a href="#fig10">Figure 10</a>, is a very cheap way
+                                            (it costs under one EUR for one piece) to measure the environment
+                                            temperature, used in combination with any device that is able to read
+                                            voltage in the millivolts range. That means, we can even use a multi-meter
+                                            (a device able to measure voltage, resistance, current, etc) to measure the
+                                            temperature, without the need of having an additional micro-controller.
+                                            However, in this tutorial we show how to use an Arduino UNO to do the
+                                            measurement. These sensors comes in multiple variations, from which the most
+                                            known is LM35DZ. <a href="#table3">Table 3</a> shows the most important
+                                            characteristics. Other versions are different in ranges, accuracy or supply
+                                            voltage values.</p>
 
-<figure id="fig10"><img alt="LM35DZ Analog Sensor" src="../sites/default/files/wot_tutorials/sensors/LM35DZ.png" />
-<figcaption>Figure 10: LM35DZ Analog Sensor.</figcaption>
-</figure>
+                                          <figure id="fig10"><img alt="LM35DZ Analog Sensor"
+                                              src="../sites/default/files/wot_tutorials/sensors/LM35DZ.png" />
+                                            <figcaption>Figure 10: LM35DZ Analog Sensor.</figcaption>
+                                          </figure>
 
-<table id="table3">
-	<caption>Table 2: LM35DZ Sensor Characteristics.</caption>
-	<thead>
-		<tr>
-			<th>Range</th>
-			<th>Accuracy</th>
-			<th>Resolution</th>
-			<th>Operating voltage</th>
-			<th>Operating current</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>[-40, 110]°C</td>
-			<td>±0.25°C</td>
-			<td>0.2°C (= 2mV Output)</td>
-			<td>[-0.2, 35]V</td>
-			<td>[60, 100]µA</td>
-		</tr>
-		<tr>
-			<td colspan="5" style="text-align:center; font-weight: bold;"><a href="../sites/default/files/wot_tutorials/sensors/LM35DZ.pdf">Download datasheet</a></td>
-		</tr>
-	</tbody>
-</table>
+                                          <table id="table3">
+                                            <caption>Table 2: LM35DZ Sensor Characteristics.</caption>
+                                            <thead>
+                                              <tr>
+                                                <th>Range</th>
+                                                <th>Accuracy</th>
+                                                <th>Resolution</th>
+                                                <th>Operating voltage</th>
+                                                <th>Operating current</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td>[-40, 110]°C</td>
+                                                <td>±0.25°C</td>
+                                                <td>0.2°C (= 2mV Output)</td>
+                                                <td>[-0.2, 35]V</td>
+                                                <td>[60, 100]µA</td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="5" style="text-align:center; font-weight: bold;"><a
+                                                    href="../sites/default/files/wot_tutorials/sensors/LM35DZ.pdf">Download
+                                                    datasheet</a></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
 
-<p>The linear function used to translate sensor output voltage in °C of temperature is: <code>f(x) = 100x</code>, where <code>x</code> is the sensor voltage output in volts and <code>f(x)</code> is the temperature in °C. In other words, for every 1°C, the output voltage of this sensor is 10mV, e.g., 220mV output means a temperature value of 22°C.</p>
+                                          <p>The linear function used to translate sensor output voltage in °C of
+                                            temperature is: <code>f(x) = 100x</code>, where <code>x</code> is the sensor
+                                            voltage output in volts and <code>f(x)</code> is the temperature in °C. In
+                                            other words, for every 1°C, the output voltage of this sensor is 10mV, e.g.,
+                                            220mV output means a temperature value of 22°C.</p>
 
-<h4>Hardware Configuration</h4>
+                                          <h4>Hardware Configuration</h4>
 
-<p>Connecting a LM35 sensor to Arduino UNO is very simple, as shown in <a href="#fig11">Figure 11</a>. Just connect the VCC pin to 5V (obtained from Arduino UNO 5V pin), the GND pin to Arduino UNO ground and the output pin to one of the analog pins of the Arduino UNO board, annotated with A0...A5. In our example, we use A0. No additional components are required. <a href="#fig12">Figure 12</a> shows the schematics of the circuit.</p>
+                                          <p>Connecting a LM35 sensor to Arduino UNO is very simple, as shown in <a
+                                              href="#fig11">Figure 11</a>. Just connect the VCC pin to 5V (obtained from
+                                            Arduino UNO 5V pin), the GND pin to Arduino UNO ground and the output pin to
+                                            one of the analog pins of the Arduino UNO board, annotated with A0...A5. In
+                                            our example, we use A0. No additional components are required. <a
+                                              href="#fig12">Figure 12</a> shows the schematics of the circuit.</p>
 
-<figure id="fig11"><img alt="LM35 Sensor Connected to an Arduino UNO Board." src="../sites/default/files/wot_tutorials/sensors/Fritzing-LM35-breadboard.png" />
-<figcaption>Figure 11: LM35 Sensor Connected to an Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="fig11"><img alt="LM35 Sensor Connected to an Arduino UNO Board."
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-LM35-breadboard.png" />
+                                            <figcaption>Figure 11: LM35 Sensor Connected to an Arduino UNO Board.
+                                            </figcaption>
+                                          </figure>
 
-<figure id="fig12"><img alt="Circuit Diagram of a LM35 Sensor Connected to an Arduino UNO Board." src="../sites/default/files/wot_tutorials/sensors/Fritzing-LM35-schematics.png" />
-<figcaption>Figure 12: Circuit Diagram of a LM35 Sensor Connected to an Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="fig12"><img
+                                              alt="Circuit Diagram of a LM35 Sensor Connected to an Arduino UNO Board."
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-LM35-schematics.png" />
+                                            <figcaption>Figure 12: Circuit Diagram of a LM35 Sensor Connected to an
+                                              Arduino UNO Board.</figcaption>
+                                          </figure>
 
-<h4>Software Configuration</h4>
+                                          <h4>Software Configuration</h4>
 
-<p>Ardunio UNO and most of the arduino boards comes with a feature known as ADC: Analog to Digital Converter. That is, connecting a voltage source to one of the ADC capable pins, we can measure the applied voltage value.</p>
+                                          <p>Ardunio UNO and most of the arduino boards comes with a feature known as
+                                            ADC: Analog to Digital Converter. That is, connecting a voltage source to
+                                            one of the ADC capable pins, we can measure the applied voltage value.</p>
 
-<p><strong>Note:</strong> you should NOT try to measure voltages over VCC, so 5V in our case, with any ADC pin, because you'll burn your Arduino micro-controller. Also when using a 3.3V Arduino board, the maximum measurable voltage value with any ADC pin is 3.3V.</p>
+                                          <p><strong>Note:</strong> you should NOT try to measure voltages over VCC, so
+                                            5V in our case, with any ADC pin, because you'll burn your Arduino
+                                            micro-controller. Also when using a 3.3V Arduino board, the maximum
+                                            measurable voltage value with any ADC pin is 3.3V.</p>
 
-<p>First, we'll define the pin used to read the sensor. Analog pins can be refereed in an Arduino program with Ax (e.g., A0 or A3), and corresponds to the notation you see on your Arduino PCB board.</p>
+                                          <p>First, we'll define the pin used to read the sensor. Analog pins can be
+                                            refereed in an Arduino program with Ax (e.g., A0 or A3), and corresponds to
+                                            the notation you see on your Arduino PCB board.</p>
 
-<pre>
+                                          <pre>
 #define LM35DZ_PIN A0
 </pre>
 
-<p>We like to be able to see the sensor output, and for that we use the Arduino serial monitor feature. Some settle time is welcome for the LM35DZ sensor to adapt to the power supply and environment, and we allow it do do so for about one second (more is required if the temperature variation is larger than a few degrees).</p>
+                                          <p>We like to be able to see the sensor output, and for that we use the
+                                            Arduino serial monitor feature. Some settle time is welcome for the LM35DZ
+                                            sensor to adapt to the power supply and environment, and we allow it do do
+                                            so for about one second (more is required if the temperature variation is
+                                            larger than a few degrees).</p>
 
-<pre>
+                                          <pre>
 void setup() {
   Serial.begin(115200);
   delay(1000);
 }
 </pre>
 
-<p>Further, we can read the pin output by using the <code>analogRead</code> method, which takes as parameter the used pin number, e.g., A0, expressed by LM35DZ_PIN. However, this method returns a number between 0 and 1023 for our Ardunio UNO. This is due to the fact that Arduino UNO ADC unit uses 10 bits to represent data, thus values from 0 to 1023. The question is now: how do we translate this number to the read voltage value?</p>
+                                          <p>Further, we can read the pin output by using the <code>analogRead</code>
+                                            method, which takes as parameter the used pin number, e.g., A0, expressed by
+                                            LM35DZ_PIN. However, this method returns a number between 0 and 1023 for our
+                                            Ardunio UNO. This is due to the fact that Arduino UNO ADC unit uses 10 bits
+                                            to represent data, thus values from 0 to 1023. The question is now: how do
+                                            we translate this number to the read voltage value?</p>
 
-<p>An ADC unit uses a reference voltage for measurements. By default, in most of the Arduino boards, including Arduino UNO, this is VCC (i.e., 5V). It means, that we have a range of [0, 5]V (or [GND, VCC]V) represented with integers in the range [0, 1023], therefore 1024 total values. In conclusion, one ADC unit is: <code>1U = 5 / 1024 ≈ 0.00488</code>. For example, if <code>analogRead</code> returns a value of 237, this represents <code>237 * 0.00488V ≈ 1.155V</code>. Using this, we can now obtain the temperature value, knowing that our LM35DZ sensor has an output of 0.01V (10mV) for every °C: <code>temperature = adcUnits * 0.00488 * 100</code>. Using Arduino code, that is:</p>
+                                          <p>An ADC unit uses a reference voltage for measurements. By default, in most
+                                            of the Arduino boards, including Arduino UNO, this is VCC (i.e., 5V). It
+                                            means, that we have a range of [0, 5]V (or [GND, VCC]V) represented with
+                                            integers in the range [0, 1023], therefore 1024 total values. In conclusion,
+                                            one ADC unit is: <code>1U = 5 / 1024 ≈ 0.00488</code>. For example, if
+                                            <code>analogRead</code> returns a value of 237, this represents
+                                            <code>237 * 0.00488V ≈ 1.155V</code>. Using this, we can now obtain the
+                                            temperature value, knowing that our LM35DZ sensor has an output of 0.01V
+                                            (10mV) for every °C: <code>temperature = adcUnits * 0.00488 * 100</code>.
+                                            Using Arduino code, that is:</p>
 
-<pre>
+                                          <pre>
 void loop() {
   uint16_t adcUnits = analogRead(LM35DZ_PIN);
   float temperature = adcUnits * 0.00488 * 100;
@@ -580,16 +918,25 @@ void loop() {
 }
 </pre>
 
-<p>Dealing with ADC units requires attention, and following the below two rules helps in obtaining stable readings:</p>
+                                          <p>Dealing with ADC units requires attention, and following the below two
+                                            rules helps in obtaining stable readings:</p>
 
-<ul>
-	<li>Read the datasheet and check the minimum interval between two ADC readings. For Arduino UNO the ADC clock works at 125KHz and one ADC conversion requires 13 clocks. Therefore, the reading can be done with a frequency of about 9600Hz, so about 9600 times per second, which means one reading every 100µS.</li>
-	<li>There are a multitude of factors affecting the ADC readings, such as temperature, magnetic waves, voltage stability and so on. Therefore is good to average a set of readings and use these as the "absolute" read value. For our example, it will be appropriate to average at least 10 samples before considering a temperature value.</li>
-</ul>
+                                          <ul>
+                                            <li>Read the datasheet and check the minimum interval between two ADC
+                                              readings. For Arduino UNO the ADC clock works at 125KHz and one ADC
+                                              conversion requires 13 clocks. Therefore, the reading can be done with a
+                                              frequency of about 9600Hz, so about 9600 times per second, which means one
+                                              reading every 100µS.</li>
+                                            <li>There are a multitude of factors affecting the ADC readings, such as
+                                              temperature, magnetic waves, voltage stability and so on. Therefore is
+                                              good to average a set of readings and use these as the "absolute" read
+                                              value. For our example, it will be appropriate to average at least 10
+                                              samples before considering a temperature value.</li>
+                                          </ul>
 
-<p>Following the above presented rules, we obtain the code below:</p>
+                                          <p>Following the above presented rules, we obtain the code below:</p>
 
-<pre>
+                                          <pre>
 
 void loop() {
   uint8_t i = 0;
@@ -607,102 +954,172 @@ void loop() {
 }
 </pre>
 
-<p>The new version of this code provides repeatable results within 0.2°C, while the first version can only provide repeatable results within 0.5°C. If all went fine, you should see the <em>Serial Monitor</em> window showing information similar with <a href="#fig13">Figure 13</a></p>
+                                          <p>The new version of this code provides repeatable results within 0.2°C,
+                                            while the first version can only provide repeatable results within 0.5°C. If
+                                            all went fine, you should see the <em>Serial Monitor</em> window showing
+                                            information similar with <a href="#fig13">Figure 13</a></p>
 
-<figure id="fig13"><img alt="Serial Monitor Showing LM35DZ Sensor Readings" src="../sites/default/files/wot_tutorials/sensors/Serial-Monitor-LM35.png" />
-<figcaption>Figure 13: Serial Monitor Showing LM35DZ Sensor Readings.</figcaption>
-</figure>
+                                          <figure id="fig13"><img alt="Serial Monitor Showing LM35DZ Sensor Readings"
+                                              src="../sites/default/files/wot_tutorials/sensors/Serial-Monitor-LM35.png" />
+                                            <figcaption>Figure 13: Serial Monitor Showing LM35DZ Sensor Readings.
+                                            </figcaption>
+                                          </figure>
 
-<h3>Measure Light Intensity with a Photo Resistor</h3>
+                                          <h3>Measure Light Intensity with a Photo Resistor</h3>
 
-<p>A photo-resistor is a special type of resistor which change its value based on the ambient light intensity. Usually, these resistors have specified values for "complete dark" and "extreme light", and normally the datasheet presents a mapping function allowing to transform a resistance value into a luminous emittance value (measured in LUX).</p>
+                                          <p>A photo-resistor is a special type of resistor which change its value based
+                                            on the ambient light intensity. Usually, these resistors have specified
+                                            values for "complete dark" and "extreme light", and normally the datasheet
+                                            presents a mapping function allowing to transform a resistance value into a
+                                            luminous emittance value (measured in LUX).</p>
 
-<p>In this tutorial we discus about VT93N1 photo-resistor, fairly easy to use and with a low price of about 1EUR for one piece, EU postage included. Being a resistor, it can be mounted either way in a circuit. <a href="#fig14">Figure 14</a> shows the pyhsical shape of a VT93N1 photo-resistor. In <a href="#table4"> Table 4</a> are shown the most important characteristics of the VT93N1 sensor.</p>
+                                          <p>In this tutorial we discus about VT93N1 photo-resistor, fairly easy to use
+                                            and with a low price of about 1EUR for one piece, EU postage included. Being
+                                            a resistor, it can be mounted either way in a circuit. <a
+                                              href="#fig14">Figure 14</a> shows the pyhsical shape of a VT93N1
+                                            photo-resistor. In <a href="#table4"> Table 4</a> are shown the most
+                                            important characteristics of the VT93N1 sensor.</p>
 
-<table id="table4">
-	<caption>Table 4: VT93N1 Photo Resistor Characteristics.</caption>
-	<thead>
-		<tr>
-			<th>Range</th>
-			<th>Accuracy</th>
-			<th>Resolution</th>
-			<th>Adaptation time</th>
-			<th>Operating voltage</th>
-			<th>Max. power dissipation</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>[12, 300]kΩ</td>
-			<td>±20%</td>
-			<td>1Ω</td>
-			<td>min. 5 seconds</td>
-			<td>[-60, 60]V</td>
-			<td>80mW</td>
-		</tr>
-		<tr>
-			<td colspan="6" style="text-align:center; font-weight: bold;"><a href="../sites/default/files/wot_tutorials/sensors/VT93N1.pdf">Download datasheet</a></td>
-		</tr>
-	</tbody>
-</table>
+                                          <table id="table4">
+                                            <caption>Table 4: VT93N1 Photo Resistor Characteristics.</caption>
+                                            <thead>
+                                              <tr>
+                                                <th>Range</th>
+                                                <th>Accuracy</th>
+                                                <th>Resolution</th>
+                                                <th>Adaptation time</th>
+                                                <th>Operating voltage</th>
+                                                <th>Max. power dissipation</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td>[12, 300]kΩ</td>
+                                                <td>±20%</td>
+                                                <td>1Ω</td>
+                                                <td>min. 5 seconds</td>
+                                                <td>[-60, 60]V</td>
+                                                <td>80mW</td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="6" style="text-align:center; font-weight: bold;"><a
+                                                    href="../sites/default/files/wot_tutorials/sensors/VT93N1.pdf">Download
+                                                    datasheet</a></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
 
-<figure id="fig14"><img alt="VT93N1 Photo Resistor" src="../sites/default/files/wot_tutorials/sensors/VT93N1.png" />
-<figcaption>Figure 14: VT93N1 Photo Resistor.</figcaption>
-</figure>
+                                          <figure id="fig14"><img alt="VT93N1 Photo Resistor"
+                                              src="../sites/default/files/wot_tutorials/sensors/VT93N1.png" />
+                                            <figcaption>Figure 14: VT93N1 Photo Resistor.</figcaption>
+                                          </figure>
 
-<p>It is possible to measure a resistor, thus a photo-resistor too, by using various techniques such as:</p>
+                                          <p>It is possible to measure a resistor, thus a photo-resistor too, by using
+                                            various techniques such as:</p>
 
-<ul>
-	<li>Use a constant current source, measure the dropout voltage over the resistor, then use Ohm's law to compute the resistance: <code>R = V / I</code>, where R is the resistance in ohms we want to measure, V is the dropout voltage in volts across the resistor, and I is the applied constant current value in Amperes.</li>
-	<li>Use a voltage divider with another precision resistor, for which the resistance value is already known. Apply a known voltage across the end of the resistor network and measure the voltage drop across the resistor with the known value. The equation which applies is: <code>V_across_R2 = R2 * V_input / (R1 + R2)</code>. We solve this for R1, that is the resistance we are interested in: <code>R1 = R2 * (V_input / V_across_R2 - 1)</code>. Therefore, if we know the applied voltage to the circuit, the value of the fixed R2 resistor, and we measure the voltage drop across R2, we can easily compute the value of R1, measured in ohms.</li>
-</ul>
+                                          <ul>
+                                            <li>Use a constant current source, measure the dropout voltage over the
+                                              resistor, then use Ohm's law to compute the resistance:
+                                              <code>R = V / I</code>, where R is the resistance in ohms we want to
+                                              measure, V is the dropout voltage in volts across the resistor, and I is
+                                              the applied constant current value in Amperes.</li>
+                                            <li>Use a voltage divider with another precision resistor, for which the
+                                              resistance value is already known. Apply a known voltage across the end of
+                                              the resistor network and measure the voltage drop across the resistor with
+                                              the known value. The equation which applies is:
+                                              <code>V_across_R2 = R2 * V_input / (R1 + R2)</code>. We solve this for R1,
+                                              that is the resistance we are interested in:
+                                              <code>R1 = R2 * (V_input / V_across_R2 - 1)</code>. Therefore, if we know
+                                              the applied voltage to the circuit, the value of the fixed R2 resistor,
+                                              and we measure the voltage drop across R2, we can easily compute the value
+                                              of R1, measured in ohms.</li>
+                                          </ul>
 
-<p>In our case, since we don't have a constant current source, but we can use a resistor of a known value, the second method is used, as shown in <a href="#fig15">Figure 15</a>, respectively <a href="#fig16">Figure 16</a>. However, we'll use the Arduino UNO ADC capabilities to replace the voltmeter, as we learned earlier in this tutorial.</p>
+                                          <p>In our case, since we don't have a constant current source, but we can use
+                                            a resistor of a known value, the second method is used, as shown in <a
+                                              href="#fig15">Figure 15</a>, respectively <a href="#fig16">Figure 16</a>.
+                                            However, we'll use the Arduino UNO ADC capabilities to replace the
+                                            voltmeter, as we learned earlier in this tutorial.</p>
 
-<figure id="fig15"><img alt="Measure Resistance Using a Voltmeter." src="../sites/default/files/wot_tutorials/sensors/Fritzing-Resistor-Divider-breadboard.png" />
-<figcaption>Figure 15: Measure Resistance Using a Voltmeter.</figcaption>
-</figure>
+                                          <figure id="fig15"><img alt="Measure Resistance Using a Voltmeter."
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-Resistor-Divider-breadboard.png" />
+                                            <figcaption>Figure 15: Measure Resistance Using a Voltmeter.</figcaption>
+                                          </figure>
 
-<figure id="fig16"><img alt="Circuit Diagram for Measuring Resistance Using a Voltmeter." src="../sites/default/files/wot_tutorials/sensors/Fritzing-Resistor-Divider-schematics.png" />
-<figcaption>Figure 16: Circuit Diagram for Measuring Resistance Using a Voltmeter.</figcaption>
-</figure>
+                                          <figure id="fig16"><img
+                                              alt="Circuit Diagram for Measuring Resistance Using a Voltmeter."
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-Resistor-Divider-schematics.png" />
+                                            <figcaption>Figure 16: Circuit Diagram for Measuring Resistance Using a
+                                              Voltmeter.</figcaption>
+                                          </figure>
 
-<h4>Hardware Configuration</h4>
+                                          <h4>Hardware Configuration</h4>
 
-<p>For being able to measure the luminous flux, we need to measure the resistance of the VT93N1 photo resistor, then use a formula to map this to the corresponding LUX value. In <a href="#fig17">Figure 17</a> is shown how to connect the VT93N1 photo resistor to an Arduino UNO board, and for more details, in <a href="#fig18">Figure 18</a> the circuit diagram is also shown.</p>
+                                          <p>For being able to measure the luminous flux, we need to measure the
+                                            resistance of the VT93N1 photo resistor, then use a formula to map this to
+                                            the corresponding LUX value. In <a href="#fig17">Figure 17</a> is shown how
+                                            to connect the VT93N1 photo resistor to an Arduino UNO board, and for more
+                                            details, in <a href="#fig18">Figure 18</a> the circuit diagram is also
+                                            shown.</p>
 
-<figure id="fig17"><img alt="VT93N1 Sensor Connected to an Arduino UNO Board." src="../sites/default/files/wot_tutorials/sensors/Fritzing-VT93N1-breadboard.png" />
-<figcaption>Figure 17: VT93N1 Sensor Connected to an Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="fig17"><img alt="VT93N1 Sensor Connected to an Arduino UNO Board."
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-VT93N1-breadboard.png" />
+                                            <figcaption>Figure 17: VT93N1 Sensor Connected to an Arduino UNO Board.
+                                            </figcaption>
+                                          </figure>
 
-<figure id="fig18"><img alt="Circuit Diagram of a VT93N1 Sensor Connected to an Arduino UNO Board." src="../sites/default/files/wot_tutorials/sensors/Fritzing-VT93N1-schematics.png" />
-<figcaption>Figure 18: Circuit Diagram of a VT93N1 Sensor Connected to an Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="fig18"><img
+                                              alt="Circuit Diagram of a VT93N1 Sensor Connected to an Arduino UNO Board."
+                                              src="../sites/default/files/wot_tutorials/sensors/Fritzing-VT93N1-schematics.png" />
+                                            <figcaption>Figure 18: Circuit Diagram of a VT93N1 Sensor Connected to an
+                                              Arduino UNO Board.</figcaption>
+                                          </figure>
 
-<p>Due to the relatively low accuracy of the VT93N1 sensor and also because of the high variations of light in a real environment, it is possible to obtain relatively high fluctuations, even if looks to be no change in the light, as perceived by the human eyes. This is relative, and for being able to characterize the performance of your sensor, a higher accuracy LUX-meter device may be required.</p>
+                                          <p>Due to the relatively low accuracy of the VT93N1 sensor and also because of
+                                            the high variations of light in a real environment, it is possible to obtain
+                                            relatively high fluctuations, even if looks to be no change in the light, as
+                                            perceived by the human eyes. This is relative, and for being able to
+                                            characterize the performance of your sensor, a higher accuracy LUX-meter
+                                            device may be required.</p>
 
-<p>Without an initial calibration, using a high precision LUX-meter, the error factor may be as high as 20%. This can be reduced to about 5-10%, when using high precision resistors with a well known value, a good voltmeter for initial voltage drop measurements and a high precision LUX-meter. However, this is only needed if you'll need to use this sensor for sensitive projects. To detect if is getting dark in a room, so a light turns on automatically, or to check if some plants have enough light in their current location (plants can tolerate high light variations) this cheap sensor even without any initial calibration is sufficient.</p>
+                                          <p>Without an initial calibration, using a high precision LUX-meter, the error
+                                            factor may be as high as 20%. This can be reduced to about 5-10%, when using
+                                            high precision resistors with a well known value, a good voltmeter for
+                                            initial voltage drop measurements and a high precision LUX-meter. However,
+                                            this is only needed if you'll need to use this sensor for sensitive
+                                            projects. To detect if is getting dark in a room, so a light turns on
+                                            automatically, or to check if some plants have enough light in their current
+                                            location (plants can tolerate high light variations) this cheap sensor even
+                                            without any initial calibration is sufficient.</p>
 
-<h4>Software Configuration</h4>
+                                          <h4>Software Configuration</h4>
 
-<p>We deal with an analog devices, that point us in using an analog pin of our Arduino UNO board, e.g., pin A1 for this example.</p>
+                                          <p>We deal with an analog devices, that point us in using an analog pin of our
+                                            Arduino UNO board, e.g., pin A1 for this example.</p>
 
-<pre>
+                                          <pre>
 #define VT93N1_PIN A1
 </pre>
 
-<p>As in all our examples, we use the Arduino serial monitor to show sensor data. In addition, the sensor datasheet tells us that at least 5 seconds are needed for having the sensor adapted to the environmental light, so a 5 seconds delay is used at startup.</p>
+                                          <p>As in all our examples, we use the Arduino serial monitor to show sensor
+                                            data. In addition, the sensor datasheet tells us that at least 5 seconds are
+                                            needed for having the sensor adapted to the environmental light, so a 5
+                                            seconds delay is used at startup.</p>
 
-<pre>
+                                          <pre>
 void setup() {
   Serial.begin(115200);
   delay(5000);
 }
 </pre>
 
-<p>Since the datasheet does not provide a mapping function to transform a resistance value into a LUX value, we'll need to use our friend Google, which soon provide us with an response. The formula we can use is: <code>E = 341.64 / R^(10 / 9)</code>, where E is the luminous emittance in LUX, and R is the resistance in kΩ (kilo ohms).</p>
+                                          <p>Since the datasheet does not provide a mapping function to transform a
+                                            resistance value into a LUX value, we'll need to use our friend Google,
+                                            which soon provide us with an response. The formula we can use is:
+                                            <code>E = 341.64 / R^(10 / 9)</code>, where E is the luminous emittance in
+                                            LUX, and R is the resistance in kΩ (kilo ohms).</p>
 
-<pre>
+                                          <pre>
 void loop() {
   double vAcrossR2 = 0, r1 = 0, luxValue = 0,
          vInput = 5, r2 = 10000;
@@ -727,99 +1144,290 @@ void loop() {
   delay(5000);
 }</pre>
 
-<p>There are a few points in the code that requires explanations:</p>
+                                          <p>There are a few points in the code that requires explanations:</p>
 
-<ul>
-	<li>Computing the resistance is made as shown below in this tutorial, with respect to a voltage divider circuit, using the equation: <code>R1 = R2 * (V_input / V_across_R2 - 1)</code>.</li>
-	<li>Ten samples of ADC readings are taken, to improve the stability.</li>
-	<li>The <code>pow</code> method is used to calculate the exponential value: its first argument is the base and the second is the exponent.</li>
-</ul>
+                                          <ul>
+                                            <li>Computing the resistance is made as shown below in this tutorial, with
+                                              respect to a voltage divider circuit, using the equation:
+                                              <code>R1 = R2 * (V_input / V_across_R2 - 1)</code>.</li>
+                                            <li>Ten samples of ADC readings are taken, to improve the stability.</li>
+                                            <li>The <code>pow</code> method is used to calculate the exponential value:
+                                              its first argument is the base and the second is the exponent.</li>
+                                          </ul>
 
-<p>If all went fine, you should see the Serial Monitor window showing information similar with <a href="#fig19">Figure 19</a>.</p>
+                                          <p>If all went fine, you should see the Serial Monitor window showing
+                                            information similar with <a href="#fig19">Figure 19</a>.</p>
 
-<figure id="fig19"><img alt="Serial Monitor Showing VT93N1 Sensor Readings." src="../sites/default/files/wot_tutorials/sensors/Serial-Monitor-VT93N1.png" />
-<figcaption>Figure 19: Serial Monitor Showing VT93N1 Sensor Readings.</figcaption>
-</figure>
+                                          <figure id="fig19"><img alt="Serial Monitor Showing VT93N1 Sensor Readings."
+                                              src="../sites/default/files/wot_tutorials/sensors/Serial-Monitor-VT93N1.png" />
+                                            <figcaption>Figure 19: Serial Monitor Showing VT93N1 Sensor Readings.
+                                            </figcaption>
+                                          </figure>
 
-<h2>Some Points of Attention</h2>
+                                          <h2>Some Points of Attention</h2>
 
-<p>The examples from this tutorial show how to use the sensors with an Arduino UNO board. However, the same code and connections work with almost any other Arduino board. It is important to notice that some Arduino boards, such as Arduino DUE, use 3.3V as input (VCC = 3.3V). Therefore, you should use sensors that are able to receive power from a 3.3V source instead of 5V one. This is required for being able to directly connect sensor pins to Arduino pins without destroying your Arduino board.</p>
+                                          <p>The examples from this tutorial show how to use the sensors with an Arduino
+                                            UNO board. However, the same code and connections work with almost any other
+                                            Arduino board. It is important to notice that some Arduino boards, such as
+                                            Arduino DUE, use 3.3V as input (VCC = 3.3V). Therefore, you should use
+                                            sensors that are able to receive power from a 3.3V source instead of 5V one.
+                                            This is required for being able to directly connect sensor pins to Arduino
+                                            pins without destroying your Arduino board.</p>
 
-<p>There are cases when we really want or need to use a 3.3V an Adruino board with a 5V powered sensor, or a 5V Arduino board with a 3.3V sensor. The solution for this problem is to use <code>voltage level converter</code>. It is possible to build one by using small FETs (Field Effect Transistors) or by using voltage divider circuit (not the most recommended way, but still the cheapest and easiest) or you can simply buy a specially designed board which takes care of such tasks. In <a href="#fig20">Figure 20</a> is shown such a ready to use small board that provides four I/O level converter pins from 3/3.3V to 5V and back. Such boards costs as less as 1-2€ per piece, postage in EU included (e.g., use <a href="http://www.ebay.com/sch/i.html?_nkw=Level+Conversion+Module+5V-3V">eBay</a>).</p>
+                                          <p>There are cases when we really want or need to use a 3.3V an Adruino board
+                                            with a 5V powered sensor, or a 5V Arduino board with a 3.3V sensor. The
+                                            solution for this problem is to use <code>voltage level converter</code>. It
+                                            is possible to build one by using small FETs (Field Effect Transistors) or
+                                            by using voltage divider circuit (not the most recommended way, but still
+                                            the cheapest and easiest) or you can simply buy a specially designed board
+                                            which takes care of such tasks. In <a href="#fig20">Figure 20</a> is shown
+                                            such a ready to use small board that provides four I/O level converter pins
+                                            from 3/3.3V to 5V and back. Such boards costs as less as 1-2€ per piece,
+                                            postage in EU included (e.g., use <a
+                                              href="http://www.ebay.com/sch/i.html?_nkw=Level+Conversion+Module+5V-3V">eBay</a>).
+                                          </p>
 
-<figure id="fig20"><img alt="Two ways, four channels, 3.3V to 5V Voltage Level Converter" src="../sites/default/files/wot_tutorials/sensors/HV-LV-Converter.png" />
-<figcaption>Figure 20: Two ways, four channels, 3.3V to 5V Voltage Level Converter.</figcaption>
-</figure>
+                                          <figure id="fig20"><img
+                                              alt="Two ways, four channels, 3.3V to 5V Voltage Level Converter"
+                                              src="../sites/default/files/wot_tutorials/sensors/HV-LV-Converter.png" />
+                                            <figcaption>Figure 20: Two ways, four channels, 3.3V to 5V Voltage Level
+                                              Converter.</figcaption>
+                                          </figure>
 
-<p>Another special attention has to be paid to the power supplyused for your project. Cheap ones comes usually with low regulation, that is, the maximum ±5% allowed tolerance is not really what we get, thus causing all kind of strange problems with your micro-controller, such as resets. This is even worst when using analog sensors, which are usually highly sensitive to voltage variation, and even a ±1% variation may reduce the accuracy to a few levels of magnitude. As a general advice, either use a high quality power source (that can be expensive for a DIY project!), or at least add a 0.1µF ceramic capacitor in parallel with a 100µF (or larger, up to 1000µF) electrolytic capacitor on the power supply line, before any other device in the circuit. This allows for high frequency (the small ceramic capacitor) and low frequency (the larger electrolytic capacitor) spikes filtering (at some level), thus improving the general behavior of the circuit.</p>
+                                          <p>Another special attention has to be paid to the power supplyused for your
+                                            project. Cheap ones comes usually with low regulation, that is, the maximum
+                                            ±5% allowed tolerance is not really what we get, thus causing all kind of
+                                            strange problems with your micro-controller, such as resets. This is even
+                                            worst when using analog sensors, which are usually highly sensitive to
+                                            voltage variation, and even a ±1% variation may reduce the accuracy to a few
+                                            levels of magnitude. As a general advice, either use a high quality power
+                                            source (that can be expensive for a DIY project!), or at least add a 0.1µF
+                                            ceramic capacitor in parallel with a 100µF (or larger, up to 1000µF)
+                                            electrolytic capacitor on the power supply line, before any other device in
+                                            the circuit. This allows for high frequency (the small ceramic capacitor)
+                                            and low frequency (the larger electrolytic capacitor) spikes filtering (at
+                                            some level), thus improving the general behavior of the circuit.</p>
 
-<h2>Next Tutorial: Part 3 - WiFI Network Connection and Cloud Data Storage</h2>
+                                          <h2>Next Tutorial: Part 3 - WiFI Network Connection and Cloud Data Storage
+                                          </h2>
 
-<p>In this tutorial we'll learn how to use an ESP8266 WiFi module (there are 13 or more different variations) to connect an Arduino based sensor node to network, and use free online services to store data for later analyze, or provide charts showing the evolution of the measured environment properties over time.</p>
+                                          <p>In this tutorial we'll learn how to use an ESP8266 WiFi module (there are
+                                            13 or more different variations) to connect an Arduino based sensor node to
+                                            network, and use free online services to store data for later analyze, or
+                                            provide charts showing the evolution of the measured environment properties
+                                            over time.</p>
 
-<p>The ESP8266 WiFI module is a cheap way to empower a device very limited in resources, such as the Arduino UNO board, with a standard 802.11g/b/n WiFi network connection, and allow it to communicate (as a client) with another devices, or services, by using standard HTTP/HTTPS protocols, i.e., GET, POST and PUT methods. In addition, custom UDP based communication is also possible when using ESP8266 WiFi module and the right firmware.</p>
+                                          <p>The ESP8266 WiFI module is a cheap way to empower a device very limited in
+                                            resources, such as the Arduino UNO board, with a standard 802.11g/b/n WiFi
+                                            network connection, and allow it to communicate (as a client) with another
+                                            devices, or services, by using standard HTTP/HTTPS protocols, i.e., GET,
+                                            POST and PUT methods. In addition, custom UDP based communication is also
+                                            possible when using ESP8266 WiFi module and the right firmware.</p>
 
-<p>Stay tuned, the release date is: before 10 May 2016.</p>
-</div></div></div><section class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Category:&nbsp;</h2><ul class="field-items"><li class="field-item even"><a href="../Arduino.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li><li class="field-item odd"><a href="../taxonomy/term/40.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WoT</a></li><li class="field-item even"><a href="../taxonomy/term/43.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">C/C++</a></li><li class="field-item odd"><a href="../taxonomy/term/45.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Sensor</a></li><li class="field-item even"><a href="../taxonomy/term/47.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Digital</a></li><li class="field-item odd"><a href="../taxonomy/term/48.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Analog</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/61" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="61.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="61.html"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/61" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F61">View the discussion thread.</a></p></noscript></div>    </div>
+                                          <p>Stay tuned, the release date is: before 10 May 2016.</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <section
+                                      class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full">
+                                      <h2 class="field-label">Category:&nbsp;</h2>
+                                      <ul class="field-items">
+                                        <li class="field-item even"><a href="../Arduino.html" typeof="skos:Concept"
+                                            property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li>
+                                        <li class="field-item odd"><a href="../taxonomy/term/40.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">WoT</a></li>
+                                        <li class="field-item even"><a href="../taxonomy/term/43.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">C/C++</a></li>
+                                        <li class="field-item odd"><a href="../taxonomy/term/45.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">Sensor</a></li>
+                                        <li class="field-item even"><a href="../taxonomy/term/47.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">Digital</a></li>
+                                        <li class="field-item odd"><a href="../taxonomy/term/48.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">Analog</a></li>
+                                      </ul>
+                                    </section>
+                                    <div class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                      <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                          href="https://twitter.com/share" class="twitter-share-button"
+                                          data-url="https://web-engineering.info/node/61" data-count="horizontal"
+                                          data-lang="en" data-via="" data-related=":Check it out!"
+                                          data-text="WoT with Arduino for Beginners: Part 2 - Connecting to the Real World via Sensors">Tweet</a>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-facebook">
+                                        <fb:like href="61.html" send="true" layout="button_count" width="88"
+                                          show_faces="true" action="https://web-engineering.info/node/like"
+                                          colorscheme="light" font=""></fb:like>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-googleplus">
+                                        <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                          data-href="61.html"></div>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-linkedin last">
+                                        <script type="in/share" data-url="https://web-engineering.info/node/61"
+                                          data-counter="right"></script>
+                                      </div>
+                                    </div> <!-- /.easy_social_box -->
+                                    <div id="disqus_thread"><noscript>
+                                        <p><a
+                                            href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F61">View
+                                            the discussion thread.</a></p>
+                                      </noscript></div>
+                                  </div>
 
-          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/24.html" title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s blog</a></li></ul></nav>
-    
-    
-  </div>
-</article>
+                                  <nav class="clearfix">
+                                    <ul class="links inline">
+                                      <li class="blog_usernames_blog first last"><a href="../blog/24.html"
+                                          title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s
+                                          blog</a></li>
+                                    </ul>
+                                  </nav>
 
-  </div></div>                      </div>
 
-                      
+                                </div>
+                              </article>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </section>
+
+                  <div class="region region-content-aside">
+                    <div class="region-inner clearfix">
+                      <div id="block-block-2"
+                        class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2">
+                        <div class="block-inner clearfix">
+
+                          <div class="block-content content">
+                            <p style="text-align: center; margin-top: 10px;">©
+                              2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+"
+                                  src="../../assets/images/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a
+                                href="../../about/index.html">About Us</a> | <a href="../../privacy/index.html">Privacy
+                                Policy</a> | Terms
+                              &amp;
+                              Conditions</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                </section>
+              <div class="region region-sidebar-first sidebar">
+                <div class="region-inner clearfix">
+                  <nav id="block-system-main-menu"
+                    class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                    role="navigation">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">Main menu</h2>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
+                      <div class="block-content content">
+                        <ul class="menu clearfix">
+                          <li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com"
+                              title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                              Discrete Event Simulation</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1218"><a href="../../WebAppBook/index.html"
+                              title="Web Applications with JavaScript or Java">Textbook
+                              Web Apps JS+Java</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1477"><a href="../../textbooknode80/index.html">Book
+                              Information Management</a></li>
+                          <li class="leaf menu-depth-1 menu-item-366"><a href="../../blog/index.html"
+                              title="A blog about web engineering issues.">Web Engineering
+                              Blog</a></li>
+                          <li class="leaf menu-depth-1 menu-item-758"><a
+                              href="../../SummariesCheatsheetsPosters/index.html">Summaries
+                              &amp; Cheat
+                              Sheets</a></li>
+                          <li class="leaf menu-depth-1 menu-item-361"><a href="../../JsFrontendApp/index.html"
+                              title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                              Apps with Plain JS</a></li>
+                          <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                              href="../../JavaJpaJsfApp/index.html"
+                              title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                              class="active-trail active">Back-End Apps with Java EE</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-806"><a href="../../mODELcLASSjsApp/index.html"
+                              title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                              with mODELcLASSjs </a></li>
+                          <li class="leaf menu-depth-1 menu-item-805"><a href="../../WoTProjects/index.html"
+                              title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                              of Things (WoT)</a></li>
+                          <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
+                              title="">Discussion
+                              Forums</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
+                              title="Team members list.">Team</a></li>
+                          <li class="last leaf menu-depth-1 menu-item-554"><a
+                              href="../../contribute/index.html">Contribute
+                              / Support Us</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                  <section id="block-user-login"
+                    class="block block-user even last block-count-5 block-region-sidebar-first block-login" role="form">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">User login</h2>
+
+                      <div class="block-content content">
+                        <form action="https://web-engineering.info/node/61?destination=node/61" method="post"
+                          id="user-login-form" accept-charset="UTF-8">
+                          <div>
+                            <div class="form-item form-type-textfield form-item-name">
+                              <label for="edit-name">Username <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60"
+                                class="form-text required" />
+                            </div>
+                            <div class="form-item form-type-password form-item-pass">
+                              <label for="edit-pass">Password <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="password" id="edit-pass" name="pass" size="15" maxlength="128"
+                                class="form-text required" />
+                            </div>
+                            <div class="item-list">
+                              <ul>
+                                <li class="even first last"><a href="../user/password.html"
+                                    title="Request new password via e-mail.">Request new password</a></li>
+                              </ul>
+                            </div><input type="hidden" name="form_build_id"
+                              value="form-RVHYX3rXjUhrRCAFxn-Z7tUfFFCc9rlI84p5utV8MNc" />
+                            <input type="hidden" name="form_id" value="user_login_block" />
+                            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit"
+                                id="edit-submit" name="op" value="Log in" class="form-submit" /></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
-
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/61?destination=node/61" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-RVHYX3rXjUhrRCAFxn-Z7tUfFFCc9rlI84p5utV8MNc" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    
-    
-    
+
+
+
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/61 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:14 GMT -->
+
 </html>

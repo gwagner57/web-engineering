@@ -2,242 +2,365 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+  prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/83 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:44:35 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="In programming, we often have the situation that, when calling a possibly time-consuming input/output (I/O) operation (or any long-running operation, e.g., for performing a complex computation), the program execution has to wait for its result being returned before it can go on. Calling such an operation and waiting for its result, while the main program&#039;s further execution" />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="83.html" />
-<link rel="shortlink" href="83.html" />
-<title>Asynchronous Programming in JavaScript | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
-<!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="description"
+    content="In programming, we often have the situation that, when calling a possibly time-consuming input/output (I/O) operation (or any long-running operation, e.g., for performing a complex computation), the program execution has to wait for its result being returned before it can go on. Calling such an operation and waiting for its result, while the main program&#039;s further execution" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="canonical" href="83.html" />
+  <link rel="shortlink" href="83.html" />
+  <title>Asynchronous Programming in JavaScript | web-engineering.info</title>
+  <style type="text/css" media="all">
+    @import url("../modules/system/system.base5056.css?ry1opl");
+    @import url("../modules/system/system.menus5056.css?ry1opl");
+    @import url("../modules/system/system.messages5056.css?ry1opl");
+    @import url("../modules/system/system.theme5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../modules/comment/comment5056.css?ry1opl");
+    @import url("../modules/field/theme/field5056.css?ry1opl");
+    @import url("../modules/node/node5056.css?ry1opl");
+    @import url("../modules/search/search5056.css?ry1opl");
+    @import url("../modules/user/user5056.css?ry1opl");
+    @import url("../modules/forum/forum5056.css?ry1opl");
+    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
+    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
+    @import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="screen">
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="print">
+    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet"
+    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    media="only screen" />
+  <style type="text/css" media="screen">
+    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+    media="only screen" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+    media="only screen and (min-width:1025px)" />
+
+  <!--[if lt IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
 </style>
 <![endif]-->
 
-<!--[if lte IE 9]>
+  <!--[if lte IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
 </style>
 <![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
+  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
+  <script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
+  <script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"sXJpwjpC76uzNYdYQVLMw2Bmro_2W5Xf8Opkss1q7d0","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/83?destination=node\/83":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/83","title":"Asynchronous Programming in JavaScript","identifier":"node\/83"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+          jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "sXJpwjpC76uzNYdYQVLMw2Bmro_2W5Xf8Opkss1q7d0", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "0": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "\/\/platform.linkedin.com\/in.js": 1, "\/\/platform.twitter.com\/widgets.js": 1, "\/\/apis.google.com\/js\/plusone.js": 1, "1": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/easy_social\/css\/easy_social.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/83?destination=node\/83": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/node\/83", "title": "Asynchronous Programming in JavaScript", "identifier": "node\/83" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
 //--><!]]>
-</script>
-<!--[if lt IE 9]>
+  </script>
+  <!--[if lt IE 9]>
 <script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
 <![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-83 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+
+<body
+  class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-83 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
   <div id="skip-link" class="nocontent">
     <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
   </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+  <div id="page-wrapper">
+    <div id="page"
+      class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
 
-        <header class="clearfix with-logo" role="banner">
+      <div id="header-wrapper">
+        <div class="container clearfix">
 
-                      <div id="branding" class="branding-elements clearfix">
+          <header class="clearfix with-logo" role="banner">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+            <div id="branding" class="branding-elements clearfix">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
+              <div id="logo">
+                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                    src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+              </div>
+
+              <div class="h-group" id="name-and-slogan">
+
+                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+
+                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+              </div>
+
             </div>
-          
-          
-        </header>
 
+
+          </header>
+
+        </div>
       </div>
-    </div>
 
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
 
-        <div id="columns">
-          <div class="columns-inner clearfix">
 
-            <div id="content-column">
-              <div class="content-inner">
 
-                
-                <section id="main-content" role="main">
+      <div id="content-wrapper">
+        <div class="container">
 
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
+          <div id="columns">
+            <div class="columns-inner clearfix">
 
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/2.html">gwagner&#039;s blog</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
+              <div id="content-column">
+                <div class="content-inner">
+
+
+                  <section id="main-content" role="main">
+
+
+                    <div class="content-margin">
+                      <div class="content-style">
+
+
+                        <div id="breadcrumb" class="clearfix">
+                          <nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label">
+                            <h2 id="breadcrumb-label" class="element-invisible">You are here</h2>
+                            <ol id="crumbs" class="clearfix">
+                              <li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"
+                                    property="v:title" href="../blog.html">Blogs</a></span></li>
+                              <li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                    href="../blog/2.html">gwagner&#039;s blog</a></span></li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                        <header class="clearfix">
                           <h1 id="page-title">
-                            Asynchronous Programming in JavaScript                          </h1>
+                            Asynchronous Programming in JavaScript </h1>
                         </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
-  
-  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/83" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="83.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/83"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/83" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box -->
-  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
-  
-  <article id="node-83" class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/83" typeof="sioc:Post sioct:BlogPost" role="article">
-  <div class="node-inner">
 
-    
-              <header class="node-header">
 
-        
-                  <p class="submitted"><span property="dc:date dc:created" content="2021-07-01T14:36:44+02:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/2.html" title="View user profile." class="username" xml:lang="" about="/user/2" typeof="sioc:UserAccount" property="foaf:name" datatype="">gwagner</a> on <time datetime="2021-07-01T14:36:44+0200">Thu, 07/01/2021 - 14:36</time></span></p>
-        
-      </header>
-        <span property="dc:title" content="Asynchronous Programming in JavaScript" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
-    <div class="node-content">
-      <div class="user-picture">
-    <a href="../user/2.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V" alt="gwagner&#039;s picture" title="gwagner&#039;s picture" /></a>  </div>
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>In programming, we often have the situation that, when calling a possibly time-consuming input/output (I/O) operation (or any long-running operation, e.g., for performing a complex computation), the program execution has to wait for its result being returned before it can go on. Calling such an operation and waiting for its result, while the main program's further execution (and its entire thread) is blocked, represents a <em>synchronous</em> operation call. The implied waiting/blocking poses a problem for a JS program that is being executed in a browser thread since during the waiting time the user interface (in a browser tab) would be frozen, which is not acceptable from a usability point of view and therefore not accepted by browsers.</p>
 
-<p>Consequently, in JavaScript, it is not possible to call an I/O operation, e.g., for fetching data from a webpage (with the built-in <code>XMLHttpRequest</code> or <code>fetch</code> API) or for accessing a remote database (via HTTP request-response messaging) synchronously. These types of operations have to be performed in an <em><b>asynchronous</b></em> (non-blocking) manner, instead.</p>
+                        <div id="content">
+                          <div class="region region-content">
+                            <div id="block-easy-social-easy-social-block-1"
+                              class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1">
 
-<p>Asynchronous programming concepts in JavaScript have undergone an evolution from <em>callbacks</em> to <em>promises</em> to <em>generators</em> (coroutines) and, most recently, to <em>asynchronous procedure calls</em> with <code>await</code> procedure invocation expressions and asynchronous procedure definitions with <code>async</code>. Each evolution step has made asynchronous programming a little bit easier for those who have taken the effort to get familiar with it.</p>
+                              <div class="easy_social_box clearfix horizontal easy_social_lang_en">
+                                <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                    href="https://twitter.com/share" class="twitter-share-button"
+                                    data-url="https://web-engineering.info/node/83" data-count="horizontal"
+                                    data-lang="en" data-via="" data-related=":Check it out!"
+                                    data-text="web-engineering.info">Tweet</a></div>
+                                <div class="easy_social-widget easy_social-widget-facebook">
+                                  <fb:like href="83.html" send="true" layout="button_count" width="88" show_faces="true"
+                                    action="https://web-engineering.info/node/like" colorscheme="light" font="">
+                                  </fb:like>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-googleplus">
+                                  <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                    data-href="https://web-engineering.info/node/83"></div>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-linkedin last">
+                                  <script type="in/share" data-url="https://web-engineering.info/node/83"
+                                    data-counter="right"></script>
+                                </div>
+                              </div> <!-- /.easy_social_box -->
+                            </div>
+                            <div id="block-system-main"
+                              class="block block-system no-title even last block-count-2 block-region-content block-main">
 
-<p>Due to this evolution, operations of older JS input/output APIs available in the form of built-in objects, like <code>XMLHttpRequest</code> for HTTP messaging or <code>indexedDB</code> for object database management, work with callbacks, while newer APIs, like <code>fetch</code> for HTTP messaging, work with promises and can also be invoked with <code>await</code>.</p>
+                              <article id="node-83"
+                                class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix"
+                                about="/node/83" typeof="sioc:Post sioct:BlogPost" role="article">
+                                <div class="node-inner">
 
-<section>
-<h2>Callbacks</h2>
 
-<p>A simple asynchronous programming approach consists of defining a procedure that is to be executed as soon as the asynchronous operation completes. This allows to continue the program execution after the invocation of the asynchronous operation, however, without assuming that the operation result is available. But how does the execution environment know, which procedure to call after completing the asynchronous operation?</p>
+                                  <header class="node-header">
 
-<p>In JS, we can pass a JS function as an argument in the invocation of the asynchronous operation. A <em>callback</em> is such a JS function.</p>
 
-<p>Consider the following example. An external JS file can be dynamically loaded (in the context of an already loaded webpage with associated JS code) by (1) programmatically creating an HTML <code>script</code> element DOM object with the file's URL as the value of the script's <code>src</code> attribute, and (2) inserting the newly created <code>script</code> element after the last child node of the document's <code>head</code> element:</p>
+                                    <p class="submitted"><span property="dc:date dc:created"
+                                        content="2021-07-01T14:36:44+02:00" datatype="xsd:dateTime"
+                                        rel="sioc:has_creator">Submitted by <a href="../user/2.html"
+                                          title="View user profile." class="username" xml:lang="" about="/user/2"
+                                          typeof="sioc:UserAccount" property="foaf:name" datatype="">gwagner</a> on
+                                        <time datetime="2021-07-01T14:36:44+0200">Thu, 07/01/2021 - 14:36</time></span>
+                                    </p>
 
-<pre class="role-listing">
+                                  </header>
+                                  <span property="dc:title" content="Asynchronous Programming in JavaScript"
+                                    class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0"
+                                    datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+                                  <div class="node-content">
+                                    <div class="user-picture">
+                                      <a href="../user/2.html" title="View user profile."><img typeof="foaf:Image"
+                                          class="image-style-thumbnail"
+                                          src="../sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V"
+                                          alt="gwagner&#039;s picture" title="gwagner&#039;s picture" /></a>
+                                    </div>
+                                    <div
+                                      class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+                                      <div class="field-items">
+                                        <div class="field-item even" property="content:encoded">
+                                          <p>In programming, we often have the situation that, when calling a possibly
+                                            time-consuming input/output (I/O) operation (or any long-running operation,
+                                            e.g., for performing a complex computation), the program execution has to
+                                            wait for its result being returned before it can go on. Calling such an
+                                            operation and waiting for its result, while the main program's further
+                                            execution (and its entire thread) is blocked, represents a
+                                            <em>synchronous</em> operation call. The implied waiting/blocking poses a
+                                            problem for a JS program that is being executed in a browser thread since
+                                            during the waiting time the user interface (in a browser tab) would be
+                                            frozen, which is not acceptable from a usability point of view and therefore
+                                            not accepted by browsers.</p>
+
+                                          <p>Consequently, in JavaScript, it is not possible to call an I/O operation,
+                                            e.g., for fetching data from a webpage (with the built-in
+                                            <code>XMLHttpRequest</code> or <code>fetch</code> API) or for accessing a
+                                            remote database (via HTTP request-response messaging) synchronously. These
+                                            types of operations have to be performed in an <em><b>asynchronous</b></em>
+                                            (non-blocking) manner, instead.</p>
+
+                                          <p>Asynchronous programming concepts in JavaScript have undergone an evolution
+                                            from <em>callbacks</em> to <em>promises</em> to <em>generators</em>
+                                            (coroutines) and, most recently, to <em>asynchronous procedure calls</em>
+                                            with <code>await</code> procedure invocation expressions and asynchronous
+                                            procedure definitions with <code>async</code>. Each evolution step has made
+                                            asynchronous programming a little bit easier for those who have taken the
+                                            effort to get familiar with it.</p>
+
+                                          <p>Due to this evolution, operations of older JS input/output APIs available
+                                            in the form of built-in objects, like <code>XMLHttpRequest</code> for HTTP
+                                            messaging or <code>indexedDB</code> for object database management, work
+                                            with callbacks, while newer APIs, like <code>fetch</code> for HTTP
+                                            messaging, work with promises and can also be invoked with
+                                            <code>await</code>.</p>
+
+                                          <section>
+                                            <h2>Callbacks</h2>
+
+                                            <p>A simple asynchronous programming approach consists of defining a
+                                              procedure that is to be executed as soon as the asynchronous operation
+                                              completes. This allows to continue the program execution after the
+                                              invocation of the asynchronous operation, however, without assuming that
+                                              the operation result is available. But how does the execution environment
+                                              know, which procedure to call after completing the asynchronous operation?
+                                            </p>
+
+                                            <p>In JS, we can pass a JS function as an argument in the invocation of the
+                                              asynchronous operation. A <em>callback</em> is such a JS function.</p>
+
+                                            <p>Consider the following example. An external JS file can be dynamically
+                                              loaded (in the context of an already loaded webpage with associated JS
+                                              code) by (1) programmatically creating an HTML <code>script</code> element
+                                              DOM object with the file's URL as the value of the script's
+                                              <code>src</code> attribute, and (2) inserting the newly created
+                                              <code>script</code> element after the last child node of the document's
+                                              <code>head</code> element:</p>
+
+                                            <pre class="role-listing">
 <span class="hl-keyword">function</span> <b>loadJsFile</b>( fileURL) {
   <span class="hl-keyword">const</span> scriptEl = document.createElement(<span class="hl-string">"script"</span>);
   script.src = fileURL;
   document.head.<b>append</b>( scriptEl);
 }</pre>
 
-<p>When the new script element is inserted into the document's DOM, e.g., with the help of the asynchronous DOM operation <code>append</code> (at the end of the <code>loadJsFile</code> procedure), the browser will load the JS file and then parse and execute it, which will take some time. Let's assume that we have a JS code file containing the definition of a function <code>addTwoNumbers</code> that does what its name says and we first load the file and then invoke the function in the following way:</p>
+                                            <p>When the new script element is inserted into the document's DOM, e.g.,
+                                              with the help of the asynchronous DOM operation <code>append</code> (at
+                                              the end of the <code>loadJsFile</code> procedure), the browser will load
+                                              the JS file and then parse and execute it, which will take some time.
+                                              Let's assume that we have a JS code file containing the definition of a
+                                              function <code>addTwoNumbers</code> that does what its name says and we
+                                              first load the file and then invoke the function in the following way:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>);
 console.log( addTwoNumbers( <span class="hl-number">1</span>, <span class="hl-number">2</span>));</pre>
 
-<p>This wouldn't work. We would get an error message instead of the sum of 1 and 2, since the intended result of the first statement, the availability of the <code>addTwoNumbers</code> function, is not (yet) obtained when the second statement is executed.</p>
+                                            <p>This wouldn't work. We would get an error message instead of the sum of 1
+                                              and 2, since the intended result of the first statement, the availability
+                                              of the <code>addTwoNumbers</code> function, is not (yet) obtained when the
+                                              second statement is executed.</p>
 
-<p>We can fix this by adding a callback procedure as a second parameter to the <code>loadJsFile</code> procedure and assign it as an event handler of the JS file <code>load</code> event :</p>
+                                            <p>We can fix this by adding a callback procedure as a second parameter to
+                                              the <code>loadJsFile</code> procedure and assign it as an event handler of
+                                              the JS file <code>load</code> event :</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <span class="hl-keyword">function</span> loadJsFile( fileURL, <b>callback</b>) {
   <span class="hl-keyword">const</span> scriptEl = document.createElement(<span class="hl-string">"script"</span>);
   script.src = fileURL;
@@ -245,16 +368,21 @@ console.log( addTwoNumbers( <span class="hl-number">1</span>, <span class="hl-nu
   document.head.append( scriptEl);
 }</pre>
 
-<p>Now when calling <code>loadJsFile</code> we can provide the code to be executed after loading the "addTwoNumbers.js" file in an anonymous callback function:</p>
+                                            <p>Now when calling <code>loadJsFile</code> we can provide the code to be
+                                              executed after loading the "addTwoNumbers.js" file in an anonymous
+                                              callback function:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>, <span class="hl-keyword">function</span> () {
   console.log( addTwoNumbers( <span class="hl-number">1</span>, <span class="hl-number">2</span>));  <span class="hl-comment">// results in 3</span>
 ]);</pre>
 
-<p>Since the loading of the JS file can fail, we should better add some error handling for this case by defining an event handler for the <code>error</code> event. We can handle possible errors within the <i>callback</i> procedure by calling it with an error argument:</p>
+                                            <p>Since the loading of the JS file can fail, we should better add some
+                                              error handling for this case by defining an event handler for the
+                                              <code>error</code> event. We can handle possible errors within the
+                                              <i>callback</i> procedure by calling it with an error argument:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <span class="hl-keyword">function</span> loadJsFile( fileURL, <b>callback</b>) {
   <span class="hl-keyword">const</span> scriptEl = document.createElement(<span class="hl-string">"script"</span>);
   script.src = fileURL;
@@ -265,25 +393,45 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>, <span class="hl-ke
   document.head.append( scriptEl);
 }</pre>
 
-<p>Now we call <code>loadJsFile</code> with an anonymous callback function having an <code>error</code> parameter:</p>
+                                            <p>Now we call <code>loadJsFile</code> with an anonymous callback function
+                                              having an <code>error</code> parameter:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>, <span class="hl-keyword">function</span> (error) {
   <span class="hl-keyword">if</span> (!error) console.log( addTwoNumbers(<span class="hl-number">1</span>,<span class="hl-number">2</span>));  <span class="hl-comment">// results in 3</span>
   <span class="hl-keyword">else</span> console.log( error);
 ]);</pre>
 
-<p>Callbacks work well as an asynchronous programming approach in simple cases. But when it is necessary to perform several asynchronous operations in a sequence, one quickly ends up in a "callback hell", a term that refers to the resulting deeply nested code structures that are hard to read and maintain.</p>
-</section>
+                                            <p>Callbacks work well as an asynchronous programming approach in simple
+                                              cases. But when it is necessary to perform several asynchronous operations
+                                              in a sequence, one quickly ends up in a "callback hell", a term that
+                                              refers to the resulting deeply nested code structures that are hard to
+                                              read and maintain.</p>
+                                          </section>
 
-<section>
-<h2>Promises</h2>
+                                          <section>
+                                            <h2>Promises</h2>
 
-<p>A <em>promise</em> (also called <em>future</em> in some programming languages, like in Python) is a special object that provides the deferred result of an asynchronous operation to the code that waits for this result. A promise object is initially in the state <em>pending</em>. If the asynchronous operation succeeds (in the case when the <code>resolve</code> function is called with an argument providing the result value), the promise state is changed from <em>pending</em> to <em>fulfilled</em>. If it fails (in the case when the <code>reject</code> function is called with an argument providing the error), the promise state is changed from <em>pending</em> to <em>rejected</em>.</p>
+                                            <p>A <em>promise</em> (also called <em>future</em> in some programming
+                                              languages, like in Python) is a special object that provides the deferred
+                                              result of an asynchronous operation to the code that waits for this
+                                              result. A promise object is initially in the state <em>pending</em>. If
+                                              the asynchronous operation succeeds (in the case when the
+                                              <code>resolve</code> function is called with an argument providing the
+                                              result value), the promise state is changed from <em>pending</em> to
+                                              <em>fulfilled</em>. If it fails (in the case when the <code>reject</code>
+                                              function is called with an argument providing the error), the promise
+                                              state is changed from <em>pending</em> to <em>rejected</em>.</p>
 
-<p>An example of a built-in asynchronous operation that returns a promise is <code>import</code> for dynamically loading JS code files (and ES6 modules). We can use it instead of the user-defined <code>loadJsFile</code> procedure discussed in the previous section for loading the <kbd>addTwoNumbers.js</kbd> file and subsequently executing code that uses the <code>addTwoNumbers</code> function (or reporting an error if the loading failed):</p>
+                                            <p>An example of a built-in asynchronous operation that returns a promise is
+                                              <code>import</code> for dynamically loading JS code files (and ES6
+                                              modules). We can use it instead of the user-defined
+                                              <code>loadJsFile</code> procedure discussed in the previous section for
+                                              loading the <kbd>addTwoNumbers.js</kbd> file and subsequently executing
+                                              code that uses the <code>addTwoNumbers</code> function (or reporting an
+                                              error if the loading failed):</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <span class="hl-keyword">import</span>(<span class="hl-string">"addTwoNumbers.js"</span>)
 .<b>then</b>( <span class="hl-keyword">function</span> () {
   console.log( addTwoNumbers( <span class="hl-number">1</span>, <span class="hl-number">2</span>));
@@ -292,20 +440,35 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>, <span class="hl-ke
   console.log( error);
 });</pre>
 
-<p>This example code shows that on the promise object returned by <code>import</code> we can call the predefined functions <code>then</code> and <code>catch</code>:</p>
+                                            <p>This example code shows that on the promise object returned by
+                                              <code>import</code> we can call the predefined functions <code>then</code>
+                                              and <code>catch</code>:</p>
 
-<dl>
-	<dt><code>then</code></dt>
-	<dd>for continuing the execution only when the <code>import</code> operation is completed with a <em>fulfilled</em> promise, and</dd>
-	<dt><code>catch</code></dt>
-	<dd>for processing the error result of a <em>rejected</em> promise.</dd>
-</dl>
+                                            <dl>
+                                              <dt><code>then</code></dt>
+                                              <dd>for continuing the execution only when the <code>import</code>
+                                                operation is completed with a <em>fulfilled</em> promise, and</dd>
+                                              <dt><code>catch</code></dt>
+                                              <dd>for processing the error result of a <em>rejected</em> promise.</dd>
+                                            </dl>
 
-<p>The general approach of <em>asynchronous programming with promises</em> requires each asynchronous operation to return a promise object that typically provides either a result value, when the promise is fulfilled, or an error value, when the promise is rejected. For user-defined asynchronous procedures, this means that they have to create a promise as their return value, as shown in the promise-valued <code>loadJsFile</code> function presented below.</p>
+                                            <p>The general approach of <em>asynchronous programming with promises</em>
+                                              requires each asynchronous operation to return a promise object that
+                                              typically provides either a result value, when the promise is fulfilled,
+                                              or an error value, when the promise is rejected. For user-defined
+                                              asynchronous procedures, this means that they have to create a promise as
+                                              their return value, as shown in the promise-valued <code>loadJsFile</code>
+                                              function presented below.</p>
 
-<p>A promise object can be created with the help of the <code>Promise</code> constructor by providing an anonymous function expression as the argument of the <code>Promise</code> constructor invocation (with two parameters <code>resolve</code> and <code>reject</code> representing JS functions). We do this in the following example of a promise-valued <code>loadJsFile</code> function, which is a variant of the previously discussed callback-based <code>loadJsFile</code> procedure:</p>
+                                            <p>A promise object can be created with the help of the <code>Promise</code>
+                                              constructor by providing an anonymous function expression as the argument
+                                              of the <code>Promise</code> constructor invocation (with two parameters
+                                              <code>resolve</code> and <code>reject</code> representing JS functions).
+                                              We do this in the following example of a promise-valued
+                                              <code>loadJsFile</code> function, which is a variant of the previously
+                                              discussed callback-based <code>loadJsFile</code> procedure:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <span class="hl-keyword">function</span> <b>loadJsFile</b>( fileURL) {
   <span class="hl-keyword">return</span> <span class="hl-keyword">new</span> <b>Promise</b>( <span class="hl-keyword">function</span> (<b>resolve</b>, <b>reject</b>) {
     <span class="hl-keyword">const</span> scriptEl = document.createElement(<span class="hl-string">"script"</span>);
@@ -318,9 +481,10 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>, <span class="hl-ke
   });
 }</pre>
 
-<p>This new version of the asynchronous <code>loadJsFile</code> operation is used in the following way:</p>
+                                            <p>This new version of the asynchronous <code>loadJsFile</code> operation is
+                                              used in the following way:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
 .<b>then</b>( <span class="hl-keyword">function</span> () {
   console.log( addTwoNumbers( <span class="hl-number">1</span>, <span class="hl-number">2</span>));
@@ -329,9 +493,14 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
   console.log( error);
 });</pre>
 
-<p>We can see that even the syntax of a simple promise-valued function call with <code>then</code> and <code>catch</code> is more clear than the syntax of a callback-based asynchronous procedure call. This advantage is even more significant when it comes to chaining asynchronous procedure calls, as in the following example where we first sequentially load three JS files and then invoke their functions:</p>
+                                            <p>We can see that even the syntax of a simple promise-valued function call
+                                              with <code>then</code> and <code>catch</code> is more clear than the
+                                              syntax of a callback-based asynchronous procedure call. This advantage is
+                                              even more significant when it comes to chaining asynchronous procedure
+                                              calls, as in the following example where we first sequentially load three
+                                              JS files and then invoke their functions:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
 .<b>then</b>( <span class="hl-keyword">function</span> () {
   <span class="hl-keyword">return</span> loadJsFile(<span class="hl-string">"multiplyBy3.js"</span>);})
@@ -343,11 +512,15 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
   console.log( error);
 });</pre>
 
-<p>Notice that for executing a sequence of asynchronous operations with <code>then</code>, we need to make sure that each <code>then</code>-function returns a promise.</p>
+                                            <p>Notice that for executing a sequence of asynchronous operations with
+                                              <code>then</code>, we need to make sure that each
+                                              <code>then</code>-function returns a promise.</p>
 
-<p>As an alternative to the sequential execution of asynchronous operations, we may also execute them <strong>in parallel</strong> with <code>Promise.all</code>:</p>
+                                            <p>As an alternative to the sequential execution of asynchronous operations,
+                                              we may also execute them <strong>in parallel</strong> with
+                                              <code>Promise.all</code>:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <b>Promise.all</b>([ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>),
   loadJsFile(<span class="hl-string">"multiplyBy3.js"</span>),
   loadJsFile(<span class="hl-string">"decrementBy2.js"</span>)
@@ -357,34 +530,66 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
 })
 .<b>catch</b>( <span class="hl-keyword">function</span> (error) {console.log( error);});</pre>
 
-<p>Unlike <code>loadJsFile</code>, which simply completes with a side effect (the loading of JS code), but without a result value being returned, a typical asynchronous operation returns a promise object that provides either a result value, when the promise is fulfilled, or an error value, when the promise is rejected.</p>
+                                            <p>Unlike <code>loadJsFile</code>, which simply completes with a side effect
+                                              (the loading of JS code), but without a result value being returned, a
+                                              typical asynchronous operation returns a promise object that provides
+                                              either a result value, when the promise is fulfilled, or an error value,
+                                              when the promise is rejected.</p>
 
-<p>Let's consider another example, where we have asynchronous operations with result values. The JS built-in <code>fetch</code> operation allows retrieving the contents of a remote resource file via sending HTTP request messages in two steps:</p>
+                                            <p>Let's consider another example, where we have asynchronous operations
+                                              with result values. The JS built-in <code>fetch</code> operation allows
+                                              retrieving the contents of a remote resource file via sending HTTP request
+                                              messages in two steps:</p>
 
-<ol>
-	<li>In the first step, it returns a promise that resolves with a <code>response</code> object as its result value containing the HTTP header information retrieved.</li>
-	<li>Then, invoking the <code>text()</code> or the <code>json()</code> function on the previously retrieved <code>response</code> object returns a promise that resolves to the HTTP response message's body (in the form of a string or a JSON object) when it is retrieved from the remote server.</li>
-</ol>
+                                            <ol>
+                                              <li>In the first step, it returns a promise that resolves with a
+                                                <code>response</code> object as its result value containing the HTTP
+                                                header information retrieved.</li>
+                                              <li>Then, invoking the <code>text()</code> or the <code>json()</code>
+                                                function on the previously retrieved <code>response</code> object
+                                                returns a promise that resolves to the HTTP response message's body (in
+                                                the form of a string or a JSON object) when it is retrieved from the
+                                                remote server.</li>
+                                            </ol>
 
-<p>In such a case, when we chain two or more asynchronous operation calls with result values, each successor call can be expressed as a transformation from the previous result to a new result using arrow functions as shown in line 2 of the following example:</p>
+                                            <p>In such a case, when we chain two or more asynchronous operation calls
+                                              with result values, each successor call can be expressed as a
+                                              transformation from the previous result to a new result using arrow
+                                              functions as shown in line 2 of the following example:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <b>fetch</b>(<span class="hl-string">"user1.json"</span>)
 .then( response =&gt; response.<b>json</b>())
 .then( <span class="hl-keyword">function</span> (user1) {alert( user1.name);})
 .<span class="hl-keyword">catch</span>( <span class="hl-keyword">function</span> (error) {console.log( error);});</pre>
 
-<p>Notice that the text file "user1.json" is assumed to contain a JSON object describing a particular user with a <i>name</i> field. This JSON object is retrieved with the arrow function expression in line 2.</p>
-</section>
+                                            <p>Notice that the text file "user1.json" is assumed to contain a JSON
+                                              object describing a particular user with a <i>name</i> field. This JSON
+                                              object is retrieved with the arrow function expression in line 2.</p>
+                                          </section>
 
-<section>
-<h2>Calling asynchronous operations with <code>await</code></h2>
+                                          <section>
+                                            <h2>Calling asynchronous operations with <code>await</code></h2>
 
-<p>When a program with a statement containing an asynchronous procedure call (with <code>await</code>) is executed, the program will run up to that statement, call the procedure, and suspend execution until the asynchronous procedure execution completes, which means that if it returns a Promise, it is <em>settled</em>. That suspension of execution means that control is returned to the event loop, such that other asynchronous procedures also get a chance to run. If the Promise of the asynchronous procedure execution is fulfilled, the execution of the program is resumed and the value of the <code>await</code> expression is that of the fulfilled Promise. If it is rejected, the <code>await</code> expression throws the value of the rejected Promise (its error).</p>
+                                            <p>When a program with a statement containing an asynchronous procedure call
+                                              (with <code>await</code>) is executed, the program will run up to that
+                                              statement, call the procedure, and suspend execution until the
+                                              asynchronous procedure execution completes, which means that if it returns
+                                              a Promise, it is <em>settled</em>. That suspension of execution means that
+                                              control is returned to the event loop, such that other asynchronous
+                                              procedures also get a chance to run. If the Promise of the asynchronous
+                                              procedure execution is fulfilled, the execution of the program is resumed
+                                              and the value of the <code>await</code> expression is that of the
+                                              fulfilled Promise. If it is rejected, the <code>await</code> expression
+                                              throws the value of the rejected Promise (its error).</p>
 
-<p>When we use <code>await</code> for invoking a Promise-valued JS function, we typically do not use Promise chaining with <code>.then</code>, because <code>await</code> handles the waiting for us. And we can use a regular <code>try-catch</code> block instead of a Promise chaining <code>.catch</code> clause, as shown in the following example code:</p>
+                                            <p>When we use <code>await</code> for invoking a Promise-valued JS function,
+                                              we typically do not use Promise chaining with <code>.then</code>, because
+                                              <code>await</code> handles the waiting for us. And we can use a regular
+                                              <code>try-catch</code> block instead of a Promise chaining
+                                              <code>.catch</code> clause, as shown in the following example code:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <span class="hl-keyword">try</span> {
   <b>await</b> loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>);
   console.log( addTwoNumbers(<span class="hl-number">2</span>,<span class="hl-number">3</span>));
@@ -392,11 +597,15 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
   console.log( error);
 }</pre>
 
-<p>Notice that this is the code of an ES6 module. In a normal JS file, <code>await</code> can only be used within <code>async</code> functions.</p>
+                                            <p>Notice that this is the code of an ES6 module. In a normal JS file,
+                                              <code>await</code> can only be used within <code>async</code> functions.
+                                            </p>
 
-<p>When we call several asynchronous procedures in succession with <code>await</code>, the code reads in a natural way, similar to the code for calling synchronous procedures:</p>
+                                            <p>When we call several asynchronous procedures in succession with
+                                              <code>await</code>, the code reads in a natural way, similar to the code
+                                              for calling synchronous procedures:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <span class="hl-keyword">try</span> {
   <b>await</b> loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>);
   <b>await</b> loadJsFile(<span class="hl-string">"multiplyBy3.js"</span>);
@@ -406,9 +615,11 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
   console.log( error);
 }</pre>
 
-<p>In an <code>async</code> function, we can invoke Promise-valued functions in <code>await</code> expressions. Since an <code>async</code> function returns a Promise, it can itself be invoked with <code>await</code>.</p>
+                                            <p>In an <code>async</code> function, we can invoke Promise-valued functions
+                                              in <code>await</code> expressions. Since an <code>async</code> function
+                                              returns a Promise, it can itself be invoked with <code>await</code>.</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <b>async</b> <span class="hl-keyword">function</span> load3JsFiles() {
   <b>await</b> loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>);
   <b>await</b> loadJsFile(<span class="hl-string">"multiplyBy3.js"</span>);
@@ -421,9 +632,11 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
   console.log( error);
 }</pre>
 
-<p>In the more typical case of asynchronous operation calls with result values, we obtain code like the following await-based version of the above promise-based example of using <code>fetch</code>:</p>
+                                            <p>In the more typical case of asynchronous operation calls with result
+                                              values, we obtain code like the following await-based version of the above
+                                              promise-based example of using <code>fetch</code>:</p>
 
-<pre class="role-listing">
+                                            <pre class="role-listing">
 <span class="hl-keyword">try</span> {
   <span class="hl-keyword">const</span> response = <b>await</b> fetch(<span class="hl-string">"user1.json"</span>);
   <span class="hl-keyword">const</span> user1 = <b>await</b> response.json();
@@ -432,68 +645,197 @@ loadJsFile(<span class="hl-string">"addTwoNumbers.js"</span>)
   console.log( error);
 }</pre>
 
-<p>For more about asynchronous programming techniques, see <a href="https://javascript.info/async">Promises, async/await</a> and <a href="https://yunchi.dev/posts/demystifying-async/">Demystifying Async Programming in Javascript</a>.</p>
-</section>
-</div></div></div><section class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Category:&nbsp;</h2><ul class="field-items"><li class="field-item even"><a href="../JavaScript.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">JavaScript</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/83" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="Asynchronous Programming in JavaScript">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="83.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/83"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/83" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F83">View the discussion thread.</a></p></noscript></div>    </div>
+                                            <p>For more about asynchronous programming techniques, see <a
+                                                href="https://javascript.info/async">Promises, async/await</a> and <a
+                                                href="https://yunchi.dev/posts/demystifying-async/">Demystifying Async
+                                                Programming in Javascript</a>.</p>
+                                          </section>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <section
+                                      class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full">
+                                      <h2 class="field-label">Category:&nbsp;</h2>
+                                      <ul class="field-items">
+                                        <li class="field-item even"><a href="../JavaScript.html" typeof="skos:Concept"
+                                            property="rdfs:label skos:prefLabel" datatype="">JavaScript</a></li>
+                                      </ul>
+                                    </section>
+                                    <div class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                      <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                          href="https://twitter.com/share" class="twitter-share-button"
+                                          data-url="https://web-engineering.info/node/83" data-count="horizontal"
+                                          data-lang="en" data-via="" data-related=":Check it out!"
+                                          data-text="Asynchronous Programming in JavaScript">Tweet</a></div>
+                                      <div class="easy_social-widget easy_social-widget-facebook">
+                                        <fb:like href="83.html" send="true" layout="button_count" width="88"
+                                          show_faces="true" action="https://web-engineering.info/node/like"
+                                          colorscheme="light" font=""></fb:like>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-googleplus">
+                                        <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                          data-href="https://web-engineering.info/node/83"></div>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-linkedin last">
+                                        <script type="in/share" data-url="https://web-engineering.info/node/83"
+                                          data-counter="right"></script>
+                                      </div>
+                                    </div> <!-- /.easy_social_box -->
+                                    <div id="disqus_thread"><noscript>
+                                        <p><a
+                                            href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F83">View
+                                            the discussion thread.</a></p>
+                                      </noscript></div>
+                                  </div>
 
-          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/2.html" title="Read gwagner&#039;s latest blog entries.">gwagner&#039;s blog</a></li></ul></nav>
-    
-    
-  </div>
-</article>
+                                  <nav class="clearfix">
+                                    <ul class="links inline">
+                                      <li class="blog_usernames_blog first last"><a href="../blog/2.html"
+                                          title="Read gwagner&#039;s latest blog entries.">gwagner&#039;s blog</a></li>
+                                    </ul>
+                                  </nav>
 
-  </div></div>                      </div>
 
-                      
+                                </div>
+                              </article>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </section>
+
+                  <div class="region region-content-aside">
+                    <div class="region-inner clearfix">
+                      <div id="block-block-2"
+                        class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2">
+                        <div class="block-inner clearfix">
+
+                          <div class="block-content content">
+                            <p style="text-align: center; margin-top: 10px;">©
+                              2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+"
+                                  src="../../assets/images/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a
+                                href="../../about/index.html">About Us</a> | <a href="../../privacy/index.html">Privacy
+                                Policy</a> | Terms
+                              &amp;
+                              Conditions</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                </section>
+              <div class="region region-sidebar-first sidebar">
+                <div class="region-inner clearfix">
+                  <nav id="block-system-main-menu"
+                    class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                    role="navigation">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">Main menu</h2>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
+                      <div class="block-content content">
+                        <ul class="menu clearfix">
+                          <li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com"
+                              title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                              Discrete Event Simulation</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1218"><a href="../../WebAppBook/index.html"
+                              title="Web Applications with JavaScript or Java">Textbook
+                              Web Apps JS+Java</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1477"><a href="../../textbooknode80/index.html">Book
+                              Information Management</a></li>
+                          <li class="leaf menu-depth-1 menu-item-366"><a href="../../blog/index.html"
+                              title="A blog about web engineering issues.">Web Engineering
+                              Blog</a></li>
+                          <li class="leaf menu-depth-1 menu-item-758"><a
+                              href="../../SummariesCheatsheetsPosters/index.html">Summaries
+                              &amp; Cheat
+                              Sheets</a></li>
+                          <li class="leaf menu-depth-1 menu-item-361"><a href="../../JsFrontendApp/index.html"
+                              title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                              Apps with Plain JS</a></li>
+                          <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                              href="../../JavaJpaJsfApp/index.html"
+                              title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                              class="active-trail active">Back-End Apps with Java EE</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-806"><a href="../../mODELcLASSjsApp/index.html"
+                              title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                              with mODELcLASSjs </a></li>
+                          <li class="leaf menu-depth-1 menu-item-805"><a href="../../WoTProjects/index.html"
+                              title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                              of Things (WoT)</a></li>
+                          <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
+                              title="">Discussion
+                              Forums</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
+                              title="Team members list.">Team</a></li>
+                          <li class="last leaf menu-depth-1 menu-item-554"><a
+                              href="../../contribute/index.html">Contribute
+                              / Support Us</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                  <section id="block-user-login"
+                    class="block block-user even last block-count-5 block-region-sidebar-first block-login" role="form">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">User login</h2>
+
+                      <div class="block-content content">
+                        <form action="https://web-engineering.info/node/83?destination=node/83" method="post"
+                          id="user-login-form" accept-charset="UTF-8">
+                          <div>
+                            <div class="form-item form-type-textfield form-item-name">
+                              <label for="edit-name">Username <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60"
+                                class="form-text required" />
+                            </div>
+                            <div class="form-item form-type-password form-item-pass">
+                              <label for="edit-pass">Password <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="password" id="edit-pass" name="pass" size="15" maxlength="128"
+                                class="form-text required" />
+                            </div>
+                            <div class="item-list">
+                              <ul>
+                                <li class="even first last"><a href="../user/password.html"
+                                    title="Request new password via e-mail.">Request new password</a></li>
+                              </ul>
+                            </div><input type="hidden" name="form_build_id"
+                              value="form-jAjQqH532UeSReU0AcENLY64McmUSC3V38V5Iqvc0sQ" />
+                            <input type="hidden" name="form_id" value="user_login_block" />
+                            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit"
+                                id="edit-submit" name="op" value="Log in" class="form-submit" /></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
-
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/83?destination=node/83" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-jAjQqH532UeSReU0AcENLY64McmUSC3V38V5Iqvc0sQ" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    
-    
-    
+
+
+
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/83 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:44:35 GMT -->
+
 </html>

@@ -2,309 +2,513 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+  prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/68 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:19 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="Home Automation is made simple for everyone, with the industrial grade PRODINo ESP8266 based module. It can be programmed with the Arduino IDE and allows to control (ON/OFF switch) mains (110-240 VAC) powered devices such as light bulbs, water pumps, cafe machines or garage doors." />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="68.html" />
-<link rel="shortlink" href="68.html" />
-<title>PRODINo: Home Automation with ESP8266 based WiFi Control | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
-<!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="description"
+    content="Home Automation is made simple for everyone, with the industrial grade PRODINo ESP8266 based module. It can be programmed with the Arduino IDE and allows to control (ON/OFF switch) mains (110-240 VAC) powered devices such as light bulbs, water pumps, cafe machines or garage doors." />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="canonical" href="68.html" />
+  <link rel="shortlink" href="68.html" />
+  <title>PRODINo: Home Automation with ESP8266 based WiFi Control | web-engineering.info</title>
+  <style type="text/css" media="all">
+    @import url("../modules/system/system.base5056.css?ry1opl");
+    @import url("../modules/system/system.menus5056.css?ry1opl");
+    @import url("../modules/system/system.messages5056.css?ry1opl");
+    @import url("../modules/system/system.theme5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../modules/comment/comment5056.css?ry1opl");
+    @import url("../modules/field/theme/field5056.css?ry1opl");
+    @import url("../modules/node/node5056.css?ry1opl");
+    @import url("../modules/search/search5056.css?ry1opl");
+    @import url("../modules/user/user5056.css?ry1opl");
+    @import url("../modules/forum/forum5056.css?ry1opl");
+    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
+    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
+    @import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="screen">
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="print">
+    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet"
+    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    media="only screen" />
+  <style type="text/css" media="screen">
+    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+    media="only screen" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+    media="only screen and (min-width:1025px)" />
+
+  <!--[if lt IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
 </style>
 <![endif]-->
 
-<!--[if lte IE 9]>
+  <!--[if lte IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
 </style>
 <![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
+  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
+  <script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
+  <script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
 //--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"TMicvfN7DzwnEKJ8pDUH3Uizg8bR6WEKfRZuvYnL6iE","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/68?destination=node\/68":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/68","title":"PRODINo: Home Automation with ESP8266 based WiFi Control ","identifier":"node\/68"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
+  </script>
+  <script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+          jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "TMicvfN7DzwnEKJ8pDUH3Uizg8bR6WEKfRZuvYnL6iE", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "0": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "\/\/platform.linkedin.com\/in.js": 1, "\/\/platform.twitter.com\/widgets.js": 1, "\/\/apis.google.com\/js\/plusone.js": 1, "1": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/easy_social\/css\/easy_social.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/68?destination=node\/68": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/node\/68", "title": "PRODINo: Home Automation with ESP8266 based WiFi Control ", "identifier": "node\/68" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
 //--><!]]>
-</script>
-<!--[if lt IE 9]>
+  </script>
+  <!--[if lt IE 9]>
 <script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
 <![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-68 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+
+<body
+  class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-68 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
   <div id="skip-link" class="nocontent">
     <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
   </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+  <div id="page-wrapper">
+    <div id="page"
+      class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
 
-        <header class="clearfix with-logo" role="banner">
+      <div id="header-wrapper">
+        <div class="container clearfix">
 
-                      <div id="branding" class="branding-elements clearfix">
+          <header class="clearfix with-logo" role="banner">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+            <div id="branding" class="branding-elements clearfix">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
+              <div id="logo">
+                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                    src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+              </div>
+
+              <div class="h-group" id="name-and-slogan">
+
+                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+
+                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+              </div>
+
             </div>
-          
-          
-        </header>
 
+
+          </header>
+
+        </div>
       </div>
-    </div>
 
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
 
-        <div id="columns">
-          <div class="columns-inner clearfix">
 
-            <div id="content-column">
-              <div class="content-inner">
 
-                
-                <section id="main-content" role="main">
+      <div id="content-wrapper">
+        <div class="container">
 
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
+          <div id="columns">
+            <div class="columns-inner clearfix">
 
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
+              <div id="content-column">
+                <div class="content-inner">
+
+
+                  <section id="main-content" role="main">
+
+
+                    <div class="content-margin">
+                      <div class="content-style">
+
+
+                        <div id="breadcrumb" class="clearfix">
+                          <nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label">
+                            <h2 id="breadcrumb-label" class="element-invisible">You are here</h2>
+                            <ol id="crumbs" class="clearfix">
+                              <li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"
+                                    property="v:title" href="../blog.html">Blogs</a></span></li>
+                              <li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                    href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                        <header class="clearfix">
                           <h1 id="page-title">
-                            PRODINo: Home Automation with ESP8266 based WiFi Control                           </h1>
+                            PRODINo: Home Automation with ESP8266 based WiFi Control </h1>
                         </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
-  
-  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/68" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="68.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/68"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/68" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box -->
-  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
-  
-  <article id="node-68" class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/68" typeof="sioc:Post sioct:BlogPost" role="article">
-  <div class="node-inner">
 
-    
-              <header class="node-header">
 
-        
-                  <p class="submitted"><span property="dc:date dc:created" content="2016-11-27T15:30:39+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/24.html" title="View user profile." class="username" xml:lang="" about="/user/24" typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on <time datetime="2016-11-27T15:30:39+0100">Sun, 11/27/2016 - 15:30</time></span></p>
-        
-      </header>
-        <span property="dc:title" content="PRODINo: Home Automation with ESP8266 based WiFi Control " class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
-    <div class="node-content">
-      <div class="user-picture">
-    <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc" alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>  </div>
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>You may like to check <a href="../WoTProjects.html">our other WoT/IoT related articles</a>, in particular, <a href="52.html">Building a WiFi-connected weather station with an Android user interface for less than 30 Euro</a> and <a href="65.html">JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi</a>.</p>
 
-<h2>What is PRODINo WiFi-ESP?</h2>
+                        <div id="content">
+                          <div class="region region-content">
+                            <div id="block-easy-social-easy-social-block-1"
+                              class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1">
 
-<p>PRODINo is an industrial grade, ESP8266 based WiFi module (uses the WROOM-2 official ESP8266 module) that is designed and produced by <a href="http://www.kmpelectronics.eu/">KMP Electronics LTD</a>, based in Bulgaria. The module contains four high power relays, allowing to control all kind of appliances, including some that require mains power. It opens the door for DIY (but not only) projects that otherwise would have been required careful design and good electronics knowledge, normally possible only for specialists or requiring a lot of time for design and implementation. Moreover, using ESP8266 allows not only for WiFi network connection, but also provides space for hacking and tweaking, using custom firmware if Arduino is not what you want to use, and even giving you access to your project from the Internet, which however comes with security risks and requires additional care.</p>
+                              <div class="easy_social_box clearfix horizontal easy_social_lang_en">
+                                <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                    href="https://twitter.com/share" class="twitter-share-button"
+                                    data-url="https://web-engineering.info/node/68" data-count="horizontal"
+                                    data-lang="en" data-via="" data-related=":Check it out!"
+                                    data-text="web-engineering.info">Tweet</a></div>
+                                <div class="easy_social-widget easy_social-widget-facebook">
+                                  <fb:like href="68.html" send="true" layout="button_count" width="88" show_faces="true"
+                                    action="https://web-engineering.info/node/like" colorscheme="light" font="">
+                                  </fb:like>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-googleplus">
+                                  <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                    data-href="https://web-engineering.info/node/68"></div>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-linkedin last">
+                                  <script type="in/share" data-url="https://web-engineering.info/node/68"
+                                    data-counter="right"></script>
+                                </div>
+                              </div> <!-- /.easy_social_box -->
+                            </div>
+                            <div id="block-system-main"
+                              class="block block-system no-title even last block-count-2 block-region-content block-main">
 
-<p><strong>Disclaimer:</strong> working with electricity is very dangerous! The module we are going to discuss uses 3.3-5VDC, as well as mains voltage (110 - 250V). Working with electricity can cause bad injuries and even death if not used with care. We cannot be held responsible for any caused damage or any harm brought to yourself! Do it at your own risk and/or ask help from an electronics engineer.</p>
+                              <article id="node-68"
+                                class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix"
+                                about="/node/68" typeof="sioc:Post sioct:BlogPost" role="article">
+                                <div class="node-inner">
 
-<h3>Hardware Specifications</h3>
 
-<p>The used relay specification (<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="b48581f5f4858681e2f5f7">[email&#160;protected]</a>, <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="fbcacebabbc9cfadbfb8">[email&#160;protected]</a>, <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="81b0b1c0c1b3b4b1d7c0c2">[email&#160;protected]</a>) allows for up to 2500W for each output. In addition, it provides four optically isolated inputs (using the Toshiba TLP185 opto-coupler), meaning that it does not only allow to read data, e.g., from sensors, but also makes this operation (relatively) safe, allowing to connect 3-30V sources without killing the ESP8266 module or its GPIOs, since they are only up 3.3V tolerant. In <a href="#table1">Table 1</a> we show the complete electrical specs for this module:</p>
+                                  <header class="node-header">
 
-<table cellpadding="5" id="table1" style="border: 2px solid black; text-align: center; font-size: large; border-collapse: collapse; width: 100%">
-	<thead>
-		<tr>
-			<th style="width: 40%;">Name</th>
-			<th style="width: 10%;">Min</th>
-			<th style="width: 25%;">Max</th>
-			<th style="width: 25%;">Unit</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td style="text-align: left;">Size</td>
-			<td>-</td>
-			<td>70 x 32 x 92</td>
-			<td>mm</td>
-		</tr>
-		<tr>
-			<td style="text-align: left;">Module power supply</td>
-			<td>5</td>
-			<td>30</td>
-			<td>V</td>
-		</tr>
-		<tr>
-			<td style="text-align: left;">Module power supply @5V</td>
-			<td>150</td>
-			<td>400</td>
-			<td>mA</td>
-		</tr>
-		<tr>
-			<td style="text-align: left;">DC Input (opto-couplers)</td>
-			<td>3</td>
-			<td>30</td>
-			<td>V</td>
-		</tr>
-		<tr>
-			<td style="text-align: left;">Output AC (relay)</td>
-			<td>-</td>
-			<td>2500 (<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="cefffe8f8efcfbfe988f8d">[email&#160;protected]</a>)<br />
-			1800 (<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="3c0d097d7c0d0e0c6a7d7f">[email&#160;protected]</a>)</td>
-			<td>W</td>
-		</tr>
-		<tr>
-			<td style="text-align: left;">Output DC (relay)</td>
-			<td>-</td>
-			<td>360 (<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="2b1a1e6a6b191f7d6f68">[email&#160;protected]</a>)</td>
-			<td>W</td>
-		</tr>
-	</tbody>
-</table>
 
-<p>The relays are not driven directly by using the ESP8266 GPIOs but with the help of an MCP23S08 IC (see <a href="#fig2">Figure 2</a>), that is an 8-bit, general purpose, parallel bidirectional I/O expansion for SPI (an I2C version of it, i.e., MCP23008, is also available). The optically isolated inputs use the same MCP23S08 IC (see <a href="#fig2">Figure 2</a>), which means that most of the ESP8266 GPIOs remains practically unused, and most of those I/O pins (including the analog one) are brought out via connectors (which unfortunately are not standard 2.54 male or female headers). To drive the relay coils (requires <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="2b551e7d6b1c19466a">[email&#160;protected]</a> for each), the MCP23S08 is connected to an ULN2003A IC (see <a href="#fig2">Figure 2</a>), which is a 7 port Darlington Transistor Array, allowing an output of up to <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="d0e5e08690e3e0e0bd91">[email&#160;protected]</a> per port. This may be a bit of an overkill for this design, but allows for some error margins and also some higher powered relays on future module releases, or...to be replaced by the DIY project author (we love hacking!).</p>
+                                    <p class="submitted"><span property="dc:date dc:created"
+                                        content="2016-11-27T15:30:39+01:00" datatype="xsd:dateTime"
+                                        rel="sioc:has_creator">Submitted by <a href="../user/24.html"
+                                          title="View user profile." class="username" xml:lang="" about="/user/24"
+                                          typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on
+                                        <time datetime="2016-11-27T15:30:39+0100">Sun, 11/27/2016 - 15:30</time></span>
+                                    </p>
 
-<figure id="fig1" style="display: block !important; margin: auto"><a href="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Cover.png"><img alt="PRODINo WROOM-02 Module Specs" src="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Cover.png" width="320" /> </a>
+                                  </header>
+                                  <span property="dc:title"
+                                    content="PRODINo: Home Automation with ESP8266 based WiFi Control "
+                                    class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0"
+                                    datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+                                  <div class="node-content">
+                                    <div class="user-picture">
+                                      <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image"
+                                          class="image-style-thumbnail"
+                                          src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc"
+                                          alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>
+                                    </div>
+                                    <div
+                                      class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+                                      <div class="field-items">
+                                        <div class="field-item even" property="content:encoded">
+                                          <p>You may like to check <a href="../WoTProjects.html">our other WoT/IoT
+                                              related articles</a>, in particular, <a href="52.html">Building a
+                                              WiFi-connected weather station with an Android user interface for less
+                                              than 30 Euro</a> and <a href="65.html">JavaScript-Based IoT/WoT
+                                              Development with the ESP8266 and the Raspberry Pi</a>.</p>
 
-<figcaption>Figure 1: PRODINo WROOM-02 Module Specs.</figcaption>
-</figure>
+                                          <h2>What is PRODINo WiFi-ESP?</h2>
 
-<p>As visible on the product label, shown in <a href="#fig1">Figure 1</a>, the specified output per relay is only 5A, which at the highest voltage (250VAC) means 1250W. We are not sure if this is just a very conservative specification, with respect to the usage of this module, thus allowing for a large safety margin or simply because of some other design considerations that we are not aware of. From our perspective, both the relays (specified for <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="546564151466616402">[email&#160;protected]</a>) and the ULN2003A IC that drives the relay coil can easily handle a much higher output (lets say about 2000W, keeping some safety margins).</p>
+                                          <p>PRODINo is an industrial grade, ESP8266 based WiFi module (uses the WROOM-2
+                                            official ESP8266 module) that is designed and produced by <a
+                                              href="http://www.kmpelectronics.eu/">KMP Electronics LTD</a>, based in
+                                            Bulgaria. The module contains four high power relays, allowing to control
+                                            all kind of appliances, including some that require mains power. It opens
+                                            the door for DIY (but not only) projects that otherwise would have been
+                                            required careful design and good electronics knowledge, normally possible
+                                            only for specialists or requiring a lot of time for design and
+                                            implementation. Moreover, using ESP8266 allows not only for WiFi network
+                                            connection, but also provides space for hacking and tweaking, using custom
+                                            firmware if Arduino is not what you want to use, and even giving you access
+                                            to your project from the Internet, which however comes with security risks
+                                            and requires additional care.</p>
 
-<figure id="fig2" style="display: block !important; margin: auto"><a href="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Board_Front.png"><img alt="PRODINo WROOM-02 Module Board (Front)" src="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Board_Front.png" width="480" /> </a>
+                                          <p><strong>Disclaimer:</strong> working with electricity is very dangerous!
+                                            The module we are going to discuss uses 3.3-5VDC, as well as mains voltage
+                                            (110 - 250V). Working with electricity can cause bad injuries and even death
+                                            if not used with care. We cannot be held responsible for any caused damage
+                                            or any harm brought to yourself! Do it at your own risk and/or ask help from
+                                            an electronics engineer.</p>
 
-<figcaption>Figure 2: PRODINo WROOM-02 Module Board (Front).</figcaption>
-</figure>
+                                          <h3>Hardware Specifications</h3>
 
-<h2>Programming the PRODINo</h2>
+                                          <p>The used relay specification (<a href="../cdn-cgi/l/email-protection.html"
+                                              class="__cf_email__"
+                                              data-cfemail="b48581f5f4858681e2f5f7">[email&#160;protected]</a>, <a
+                                              href="../cdn-cgi/l/email-protection.html" class="__cf_email__"
+                                              data-cfemail="fbcacebabbc9cfadbfb8">[email&#160;protected]</a>, <a
+                                              href="../cdn-cgi/l/email-protection.html" class="__cf_email__"
+                                              data-cfemail="81b0b1c0c1b3b4b1d7c0c2">[email&#160;protected]</a>) allows
+                                            for up to 2500W for each output. In addition, it provides four optically
+                                            isolated inputs (using the Toshiba TLP185 opto-coupler), meaning that it
+                                            does not only allow to read data, e.g., from sensors, but also makes this
+                                            operation (relatively) safe, allowing to connect 3-30V sources without
+                                            killing the ESP8266 module or its GPIOs, since they are only up 3.3V
+                                            tolerant. In <a href="#table1">Table 1</a> we show the complete electrical
+                                            specs for this module:</p>
 
-<p>Programming the module requires to use the included FTDI module. However, it is also possible to use a cheap (under 2 EUR) USB-TTL converter module, as long as it supports 3.3V output on its TX (UART transmit) line. Make sure that the FTDI module, that comes on the packet, has the voltage selection jumper set to 3.3V position, as shown in <a href="fig3.html">Figure 3</a>. Make sure that you connect the FTDI module in the correct position (see <a href="fig3.html">Figure 3</a>), otherwise you may kill the PRODUINo module.</p>
+                                          <table cellpadding="5" id="table1"
+                                            style="border: 2px solid black; text-align: center; font-size: large; border-collapse: collapse; width: 100%">
+                                            <thead>
+                                              <tr>
+                                                <th style="width: 40%;">Name</th>
+                                                <th style="width: 10%;">Min</th>
+                                                <th style="width: 25%;">Max</th>
+                                                <th style="width: 25%;">Unit</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td style="text-align: left;">Size</td>
+                                                <td>-</td>
+                                                <td>70 x 32 x 92</td>
+                                                <td>mm</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="text-align: left;">Module power supply</td>
+                                                <td>5</td>
+                                                <td>30</td>
+                                                <td>V</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="text-align: left;">Module power supply @5V</td>
+                                                <td>150</td>
+                                                <td>400</td>
+                                                <td>mA</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="text-align: left;">DC Input (opto-couplers)</td>
+                                                <td>3</td>
+                                                <td>30</td>
+                                                <td>V</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="text-align: left;">Output AC (relay)</td>
+                                                <td>-</td>
+                                                <td>2500 (<a href="../cdn-cgi/l/email-protection.html"
+                                                    class="__cf_email__"
+                                                    data-cfemail="cefffe8f8efcfbfe988f8d">[email&#160;protected]</a>)<br />
+                                                  1800 (<a href="../cdn-cgi/l/email-protection.html"
+                                                    class="__cf_email__"
+                                                    data-cfemail="3c0d097d7c0d0e0c6a7d7f">[email&#160;protected]</a>)
+                                                </td>
+                                                <td>W</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="text-align: left;">Output DC (relay)</td>
+                                                <td>-</td>
+                                                <td>360 (<a href="../cdn-cgi/l/email-protection.html"
+                                                    class="__cf_email__"
+                                                    data-cfemail="2b1a1e6a6b191f7d6f68">[email&#160;protected]</a>)</td>
+                                                <td>W</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
 
-<p><strong>Note:</strong> the "Auto-Flash" jumper located just on the right site if the UART connector (see <a href="fig2.html">Figure 2</a>), below the "Flash" button, can be set, thus allowing to program the ESP8266 module (the brain of the PRODINo module) without your direct intervention: there is no need to ground the GPIO 0 or to push some sort of "Set to Flash Mode" button. The alternative is to use the "Flash" button, located above the "Auto-Flash" jumper, (see <a href="fig2.html">Figure 2</a>). This makes sense when using an USB-TTL module that does not allow to ground the GPIO 0 pin of the ESP8266 module, for all the other cases, just enable the "Auto-Flash" jumper.</p>
+                                          <p>The relays are not driven directly by using the ESP8266 GPIOs but with the
+                                            help of an MCP23S08 IC (see <a href="#fig2">Figure 2</a>), that is an 8-bit,
+                                            general purpose, parallel bidirectional I/O expansion for SPI (an I2C
+                                            version of it, i.e., MCP23008, is also available). The optically isolated
+                                            inputs use the same MCP23S08 IC (see <a href="#fig2">Figure 2</a>), which
+                                            means that most of the ESP8266 GPIOs remains practically unused, and most of
+                                            those I/O pins (including the analog one) are brought out via connectors
+                                            (which unfortunately are not standard 2.54 male or female headers). To drive
+                                            the relay coils (requires <a href="../cdn-cgi/l/email-protection.html"
+                                              class="__cf_email__"
+                                              data-cfemail="2b551e7d6b1c19466a">[email&#160;protected]</a> for each),
+                                            the MCP23S08 is connected to an ULN2003A IC (see <a href="#fig2">Figure
+                                              2</a>), which is a 7 port Darlington Transistor Array, allowing an output
+                                            of up to <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__"
+                                              data-cfemail="d0e5e08690e3e0e0bd91">[email&#160;protected]</a> per port.
+                                            This may be a bit of an overkill for this design, but allows for some error
+                                            margins and also some higher powered relays on future module releases,
+                                            or...to be replaced by the DIY project author (we love hacking!).</p>
 
-<figure id="fig3" style="display: block !important; margin: auto"><a href="../sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer.png"><img alt="FTDI Programmer Module" src="../sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer.png" width="260" /> </a> <a href="../sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer-Connected.png"> <img alt=" FTDI Programmer Connected to PRODINo WROOM-02" height="520" src="../sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer-Connected.png" /> </a>
+                                          <figure id="fig1" style="display: block !important; margin: auto"><a
+                                              href="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Cover.png"><img
+                                                alt="PRODINo WROOM-02 Module Specs"
+                                                src="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Cover.png"
+                                                width="320" /> </a>
 
-<figcaption>Figure 3: FTDI Programmer Connected to PRODINo WROOM-02 Module Board.</figcaption>
-</figure>
+                                            <figcaption>Figure 1: PRODINo WROOM-02 Module Specs.</figcaption>
+                                          </figure>
 
-<h3>Use Arduino IDE to Program a PRODINo Module</h3>
+                                          <p>As visible on the product label, shown in <a href="#fig1">Figure 1</a>, the
+                                            specified output per relay is only 5A, which at the highest voltage (250VAC)
+                                            means 1250W. We are not sure if this is just a very conservative
+                                            specification, with respect to the usage of this module, thus allowing for a
+                                            large safety margin or simply because of some other design considerations
+                                            that we are not aware of. From our perspective, both the relays (specified
+                                            for <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__"
+                                              data-cfemail="546564151466616402">[email&#160;protected]</a>) and the
+                                            ULN2003A IC that drives the relay coil can easily handle a much higher
+                                            output (lets say about 2000W, keeping some safety margins).</p>
 
-<p>It is fairly easy to program the PRODINo module, by simply using the Arduino IDE and Arduino code. Thus, if you ever used the Arduino IDE and wrote some code for one or more of the Arduino boards, you are ready to go with the PRODINo module.</p>
+                                          <figure id="fig2" style="display: block !important; margin: auto"><a
+                                              href="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Board_Front.png"><img
+                                                alt="PRODINo WROOM-02 Module Board (Front)"
+                                                src="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESP_Board_Front.png"
+                                                width="480" /> </a>
 
-<p>First, you'll need to download the Arduino IDE from the <a href="https://www.arduino.cc/en/Main/Software">official download page</a>. Make sure that you download the correct version corresponding to your operating system. Also, specially when using UNIX/Linux systems, make sure that your user has the rights to use "COM" ports, that are required by the FTDI module when programming the PRODINo board.</p>
+                                            <figcaption>Figure 2: PRODINo WROOM-02 Module Board (Front).</figcaption>
+                                          </figure>
 
-<p>Next, start the Arduino IDE and navigate to <code>File &gt; Preferences</code> menu. In the section "Additional Boards Manager URLs", copy and paste the following URL: <a href="https://raw.githubusercontent.com/kmpelectronics/Arduino/master/ProDinoEsp8266/package_prodino-esp8266_index.json"> https://raw.githubusercontent.com/kmpelectronics/Arduino/master/ProDinoEsp8266/package_prodino-esp8266_index.json</a>, used to indicate the location of the JSON which describes the PRODINo module and the additional Arduino libraries that it requires. Further, use the <code>Tools &gt; Board Manager</code> menu, and from the list of the additional (custom) boards, select the "PRODINo WiFi board by KMP Electronics LTD" one, then click "Install". In a short amount of time the installation process is completed and we are ready to go with the programming of the PRODINo WiFi-ESP module.</p>
+                                          <h2>Programming the PRODINo</h2>
 
-<p>Later, when you'll like to write your custom program to the PRODINo module, use the small arrow icon from the left-top of the Arduino IDE user interface or use the <code>Sketch &gt; upload</code> menu (its keyboard shortcut is CTRL + U). Remember, you'll need to use the <code>Tools</code> menu to select the corresponding board (use: PRODINo WiFi-ESP WROOM-2) and COM port (this can be different from case to case, but usually is something like COM4, COM5, etc).</p>
+                                          <p>Programming the module requires to use the included FTDI module. However,
+                                            it is also possible to use a cheap (under 2 EUR) USB-TTL converter module,
+                                            as long as it supports 3.3V output on its TX (UART transmit) line. Make sure
+                                            that the FTDI module, that comes on the packet, has the voltage selection
+                                            jumper set to 3.3V position, as shown in <a href="fig3.html">Figure 3</a>.
+                                            Make sure that you connect the FTDI module in the correct position (see <a
+                                              href="fig3.html">Figure 3</a>), otherwise you may kill the PRODUINo
+                                            module.</p>
 
-<h3>Controlling the Relays</h3>
+                                          <p><strong>Note:</strong> the "Auto-Flash" jumper located just on the right
+                                            site if the UART connector (see <a href="fig2.html">Figure 2</a>), below the
+                                            "Flash" button, can be set, thus allowing to program the ESP8266 module (the
+                                            brain of the PRODINo module) without your direct intervention: there is no
+                                            need to ground the GPIO 0 or to push some sort of "Set to Flash Mode"
+                                            button. The alternative is to use the "Flash" button, located above the
+                                            "Auto-Flash" jumper, (see <a href="fig2.html">Figure 2</a>). This makes
+                                            sense when using an USB-TTL module that does not allow to ground the GPIO 0
+                                            pin of the ESP8266 module, for all the other cases, just enable the
+                                            "Auto-Flash" jumper.</p>
 
-<p>The first feature we like to test is the control of the four relays. We'll write the most basic Arduino program that allows to switch ON or OFF any of the four relays, by simply using a HTML form. At first, lets write the HTML form, which sends a POST request to the PRODINo module. The full content of the <code>index.html</code> HTML file is shown below:</p>
+                                          <figure id="fig3" style="display: block !important; margin: auto"><a
+                                              href="../sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer.png"><img
+                                                alt="FTDI Programmer Module"
+                                                src="../sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer.png"
+                                                width="260" /> </a> <a
+                                              href="../sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer-Connected.png">
+                                              <img alt=" FTDI Programmer Connected to PRODINo WROOM-02" height="520"
+                                                src="../sites/default/files/wot_tutorials/PRODINo/FTDI-Programmer-Connected.png" />
+                                            </a>
 
-<pre>
+                                            <figcaption>Figure 3: FTDI Programmer Connected to PRODINo WROOM-02 Module
+                                              Board.</figcaption>
+                                          </figure>
+
+                                          <h3>Use Arduino IDE to Program a PRODINo Module</h3>
+
+                                          <p>It is fairly easy to program the PRODINo module, by simply using the
+                                            Arduino IDE and Arduino code. Thus, if you ever used the Arduino IDE and
+                                            wrote some code for one or more of the Arduino boards, you are ready to go
+                                            with the PRODINo module.</p>
+
+                                          <p>First, you'll need to download the Arduino IDE from the <a
+                                              href="https://www.arduino.cc/en/Main/Software">official download page</a>.
+                                            Make sure that you download the correct version corresponding to your
+                                            operating system. Also, specially when using UNIX/Linux systems, make sure
+                                            that your user has the rights to use "COM" ports, that are required by the
+                                            FTDI module when programming the PRODINo board.</p>
+
+                                          <p>Next, start the Arduino IDE and navigate to
+                                            <code>File &gt; Preferences</code> menu. In the section "Additional Boards
+                                            Manager URLs", copy and paste the following URL: <a
+                                              href="https://raw.githubusercontent.com/kmpelectronics/Arduino/master/ProDinoEsp8266/package_prodino-esp8266_index.json">
+                                              https://raw.githubusercontent.com/kmpelectronics/Arduino/master/ProDinoEsp8266/package_prodino-esp8266_index.json</a>,
+                                            used to indicate the location of the JSON which describes the PRODINo module
+                                            and the additional Arduino libraries that it requires. Further, use the
+                                            <code>Tools &gt; Board Manager</code> menu, and from the list of the
+                                            additional (custom) boards, select the "PRODINo WiFi board by KMP
+                                            Electronics LTD" one, then click "Install". In a short amount of time the
+                                            installation process is completed and we are ready to go with the
+                                            programming of the PRODINo WiFi-ESP module.</p>
+
+                                          <p>Later, when you'll like to write your custom program to the PRODINo module,
+                                            use the small arrow icon from the left-top of the Arduino IDE user interface
+                                            or use the <code>Sketch &gt; upload</code> menu (its keyboard shortcut is
+                                            CTRL + U). Remember, you'll need to use the <code>Tools</code> menu to
+                                            select the corresponding board (use: PRODINo WiFi-ESP WROOM-2) and COM port
+                                            (this can be different from case to case, but usually is something like
+                                            COM4, COM5, etc).</p>
+
+                                          <h3>Controlling the Relays</h3>
+
+                                          <p>The first feature we like to test is the control of the four relays. We'll
+                                            write the most basic Arduino program that allows to switch ON or OFF any of
+                                            the four relays, by simply using a HTML form. At first, lets write the HTML
+                                            form, which sends a POST request to the PRODINo module. The full content of
+                                            the <code>index.html</code> HTML file is shown below:</p>
+
+                                          <pre>
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
@@ -332,13 +536,27 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
 &lt;/html&gt;
 </pre>
 
-<p>Pushing the "Save relay state" form submit button, a standard HTML <code>POST</code> request is made to <a href="http://192.168.4.1/relay">http://192.168.4.1/relay</a>. The request URL consists of: 1) the IP address of our PRODINo module (defaults to 192.168.4.1, but it can be changed if needed or wanted); 2) a custom path that handles the requests (we chose to use <code>/relay</code>).</p>
+                                          <p>Pushing the "Save relay state" form submit button, a standard HTML
+                                            <code>POST</code> request is made to <a
+                                              href="http://192.168.4.1/relay">http://192.168.4.1/relay</a>. The request
+                                            URL consists of: 1) the IP address of our PRODINo module (defaults to
+                                            192.168.4.1, but it can be changed if needed or wanted); 2) a custom path
+                                            that handles the requests (we chose to use <code>/relay</code>).</p>
 
-<p>Two HTML <code>select</code> elements are used for our form. The first one uses the name <code>relayId</code> (this is the parameter name received on the POST request) and allows to select the relay we'll like to control. Allowed values are from 0 (first relay from left to right when watching the relay connectors on the module) to 3 (the most right relay). The second HTML <code>select</code> uses the name, <code>relayState</code>, and allows to specify the state of the selected relay. We'll use 1 for enable (turn ON) and 0 for disable (turn OFF).</p>
+                                          <p>Two HTML <code>select</code> elements are used for our form. The first one
+                                            uses the name <code>relayId</code> (this is the parameter name received on
+                                            the POST request) and allows to select the relay we'll like to control.
+                                            Allowed values are from 0 (first relay from left to right when watching the
+                                            relay connectors on the module) to 3 (the most right relay). The second HTML
+                                            <code>select</code> uses the name, <code>relayState</code>, and allows to
+                                            specify the state of the selected relay. We'll use 1 for enable (turn ON)
+                                            and 0 for disable (turn OFF).</p>
 
-<p>Let's now write the Arduino code that intercepts the HTTP post request and turn the corresponding relay ON or OFF based on our selection in the HTML form:</p>
+                                          <p>Let's now write the Arduino code that intercepts the HTTP post request and
+                                            turn the corresponding relay ON or OFF based on our selection in the HTML
+                                            form:</p>
 
-<pre>
+                                          <pre>
 #include &lt;KMPDinoWiFiESP.h&gt;
 #include &lt;KMPCommon.h&gt;
 #include &lt;ESP8266WebServer.h&gt;
@@ -385,24 +603,56 @@ void handleRelayRoute() {
 }
 </pre>
 
-<p>The set of <code>#include</code> directives allows to load the required libraries, which were automatically added when installing the new PRODINo board manager module. Further, for the WiFi name, the WiFi shared password and the server port, the corresponding <code>SSID</code>, <code>WIFI_PSK</code> and <code>PORT</code> constants are defined. Feel free to alter the <code>SSID</code> and <code>WIFI_PSK</code> values, but let the <code>PORT</code> value unchanged (port 80 is the HTTP port).</p>
+                                          <p>The set of <code>#include</code> directives allows to load the required
+                                            libraries, which were automatically added when installing the new PRODINo
+                                            board manager module. Further, for the WiFi name, the WiFi shared password
+                                            and the server port, the corresponding <code>SSID</code>,
+                                            <code>WIFI_PSK</code> and <code>PORT</code> constants are defined. Feel free
+                                            to alter the <code>SSID</code> and <code>WIFI_PSK</code> values, but let the
+                                            <code>PORT</code> value unchanged (port 80 is the HTTP port).</p>
 
-<p>As part of the Arduino <code>setup</code> method, we initialize the module and set the WiFi in AP (access point) mode. Then, we register the <code>/relay</code> route (as used for the <code>@action</code> attribute of the HTML form element) and the corresponding handler method, i.e., <code>handleRelayRoute</code>. Last, we start the web server by calling its <code>begin</code> method.</p>
+                                          <p>As part of the Arduino <code>setup</code> method, we initialize the module
+                                            and set the WiFi in AP (access point) mode. Then, we register the
+                                            <code>/relay</code> route (as used for the <code>@action</code> attribute of
+                                            the HTML form element) and the corresponding handler method, i.e.,
+                                            <code>handleRelayRoute</code>. Last, we start the web server by calling its
+                                            <code>begin</code> method.</p>
 
-<p>The <code>handleRelayRoute</code> method, the handler for the <code>/relay</code> HTTP route, checks if the used HTTP request is of type <code>POST</code> and if there are exactly two parameters provided (recall, we expect the <code>relayId</code> and <code>relayState</code> parameters to be sent). If that is the case, then we extract the relay identifier and the desired relay state, then we change the relay to that state by using the <code>KMPDinoWiFiESP.SetRelayState</code> method and we respond with HTTP code 200, having the meaning "all went fine for the request". If the request type is not of type <code>POST</code> or there are more or less than two parameters, then a HTTP error code 400 is sent, which means "bad request - wrong parameters or request type!"</p>
+                                          <p>The <code>handleRelayRoute</code> method, the handler for the
+                                            <code>/relay</code> HTTP route, checks if the used HTTP request is of type
+                                            <code>POST</code> and if there are exactly two parameters provided (recall,
+                                            we expect the <code>relayId</code> and <code>relayState</code> parameters to
+                                            be sent). If that is the case, then we extract the relay identifier and the
+                                            desired relay state, then we change the relay to that state by using the
+                                            <code>KMPDinoWiFiESP.SetRelayState</code> method and we respond with HTTP
+                                            code 200, having the meaning "all went fine for the request". If the request
+                                            type is not of type <code>POST</code> or there are more or less than two
+                                            parameters, then a HTTP error code 400 is sent, which means "bad request -
+                                            wrong parameters or request type!"</p>
 
-<p>The Arduino <code>loop</code> method simply waits for requests, by using the <code>ESP8266WebServer.handleClient</code> method.</p>
+                                          <p>The Arduino <code>loop</code> method simply waits for requests, by using
+                                            the <code>ESP8266WebServer.handleClient</code> method.</p>
 
-<p>To test, upload the following code to the PRODINo board (as shown before in this tutorial), then connect to the WiFi network with the name set by the SSID variable. Open the <code>index.html</code> HTML page, and use the form to turn ON or OFF the relays you'll like to test.</p>
+                                          <p>To test, upload the following code to the PRODINo board (as shown before in
+                                            this tutorial), then connect to the WiFi network with the name set by the
+                                            SSID variable. Open the <code>index.html</code> HTML page, and use the form
+                                            to turn ON or OFF the relays you'll like to test.</p>
 
-<p><a href="../sites/default/files/wot_tutorials/PRODINo/PRODINo-Relay-AP-src.zip" style="padding: 
+                                          <p><a
+                                              href="../sites/default/files/wot_tutorials/PRODINo/PRODINo-Relay-AP-src.zip"
+                                              style="padding: 
 2px 3px; margin: 1em; border: 1px solid black;">Download the code</a></p>
 
-<h3>Reading the Inputs</h3>
+                                          <h3>Reading the Inputs</h3>
 
-<p>The second important feature we like to test is the optically isolated inputs. For this, we'll write a simple Arduino program that is able to read the states of all four optically isolated inputs and return the result. A HTML <code>GET</code> request for the path <code>/opto</code> is used, i.e., <a href="http://192.168.4.1/opto">http://192.168.4.1/opto</a>. The response is plain text with the format <code>I_x is HIGH | LOW;</code>.</p>
+                                          <p>The second important feature we like to test is the optically isolated
+                                            inputs. For this, we'll write a simple Arduino program that is able to read
+                                            the states of all four optically isolated inputs and return the result. A
+                                            HTML <code>GET</code> request for the path <code>/opto</code> is used, i.e.,
+                                            <a href="http://192.168.4.1/opto">http://192.168.4.1/opto</a>. The response
+                                            is plain text with the format <code>I_x is HIGH | LOW;</code>.</p>
 
-<pre>
+                                          <pre>
 #include &lt;KMPDinoWiFiESP.h&gt;
 #include &lt;KMPCommon.h&gt;
 #include &lt;ESP8266WebServer.h&gt;
@@ -449,114 +699,343 @@ void handleOptoRoute() {
 }
 </pre>
 
-<p>Compared with the relays example, we have a few relevant differences. The first one is in the <code>setup</code> method, for which we register the new route, <code>/opto</code> and the new handler, <code>handleOptoRoute</code>. The second change is in the <code>handleOptoRoute</code> method, as part of the request method detection, where now we expect a HTTP <code>GET</code> type instead of <code>POST</code>. The last one is the reading of the optically isolated inputs, made with the help of the <code>KMPDinoWiFiESP.GetOptoInState(inputId)</code> method, which as as parameter the input number (0 to 3). A less significant change regards the creation of the GET response body, which consists of chain of "I_x is HIGH | LOW;" strings, one for each of the four inputs (response example: <code>I_0 is LOW; I_1 is HIGH; I_2 is HIGH; I_3 is LOW;</code>).</p>
+                                          <p>Compared with the relays example, we have a few relevant differences. The
+                                            first one is in the <code>setup</code> method, for which we register the new
+                                            route, <code>/opto</code> and the new handler, <code>handleOptoRoute</code>.
+                                            The second change is in the <code>handleOptoRoute</code> method, as part of
+                                            the request method detection, where now we expect a HTTP <code>GET</code>
+                                            type instead of <code>POST</code>. The last one is the reading of the
+                                            optically isolated inputs, made with the help of the
+                                            <code>KMPDinoWiFiESP.GetOptoInState(inputId)</code> method, which as as
+                                            parameter the input number (0 to 3). A less significant change regards the
+                                            creation of the GET response body, which consists of chain of "I_x is HIGH |
+                                            LOW;" strings, one for each of the four inputs (response example:
+                                            <code>I_0 is LOW; I_1 is HIGH; I_2 is HIGH; I_3 is LOW;</code>).</p>
 
-<p>To test this example, write the Arduino program to your PRODINo board (as shown above in this tutorial), then connect to the WiFi network with the name set by the <code>SSID</code> constant. Open a Web Browser and navigate to <a href="http://192.168.4.1/opto">http://192.168.4.1/opto</a>. For this case we don't need a HTML form, since GET is the default request type you get by simply using the URL in the URL bar of a web browser.</p>
+                                          <p>To test this example, write the Arduino program to your PRODINo board (as
+                                            shown above in this tutorial), then connect to the WiFi network with the
+                                            name set by the <code>SSID</code> constant. Open a Web Browser and navigate
+                                            to <a href="http://192.168.4.1/opto">http://192.168.4.1/opto</a>. For this
+                                            case we don't need a HTML form, since GET is the default request type you
+                                            get by simply using the URL in the URL bar of a web browser.</p>
 
-<p><strong>Note: </strong> normally, you'll only see only "LOW" states for all the input pins. Also, notice that those inputs are actually in pair of two for each input, since they are practically diodes. You'll need to provide HIGH (more than 0.5VDC) or LOW (less than 0.5VDC) voltages at the corresponding diode end to achieve the expected results. The product cover has labels clearly showing which pin represents which end of the corresponding diode (see also <a href="#fig1">Figure 1</a>).</p>
+                                          <p><strong>Note: </strong> normally, you'll only see only "LOW" states for all
+                                            the input pins. Also, notice that those inputs are actually in pair of two
+                                            for each input, since they are practically diodes. You'll need to provide
+                                            HIGH (more than 0.5VDC) or LOW (less than 0.5VDC) voltages at the
+                                            corresponding diode end to achieve the expected results. The product cover
+                                            has labels clearly showing which pin represents which end of the
+                                            corresponding diode (see also <a href="#fig1">Figure 1</a>).</p>
 
-<p><strong>Homework:</strong> modify the above Arduino program so that the number (0 to 3) of the optically isolated input is provided as part of the HTML <code>GET</code> request, and the response is either "HIGH" or "LOW" depending on the state.</p>
+                                          <p><strong>Homework:</strong> modify the above Arduino program so that the
+                                            number (0 to 3) of the optically isolated input is provided as part of the
+                                            HTML <code>GET</code> request, and the response is either "HIGH" or "LOW"
+                                            depending on the state.</p>
 
-<p><a href="../sites/default/files/wot_tutorials/PRODINo/PRODINo-Opto-AP-src.zip" style="padding: 
+                                          <p><a
+                                              href="../sites/default/files/wot_tutorials/PRODINo/PRODINo-Opto-AP-src.zip"
+                                              style="padding: 
 2px 3px; margin: 1em; border: 1px solid black;">Download the code</a></p>
 
-<h3>More Examples for PRODINo</h3>
+                                          <h3>More Examples for PRODINo</h3>
 
-<p>It looks that the PRODINo team had a busy time, so an impressive number of usage scenarios and examples are available and ready to use. You'll certainly want to check the Arduino IDE <code>File &gt; Examples &gt; Examples for PRODINo WiFi-ESP</code> menu and chose the one you'll like to test. The example set includes the use of PRODINo as server, access point and client, with the help of the WiFi module and also shows how to provide a HTML interface that allows to control the relays or to show the state of the optically isolated inputs by simply using a web browser, available on any PC or smart device, such as a smartphone, smartwatch or table.</p>
+                                          <p>It looks that the PRODINo team had a busy time, so an impressive number of
+                                            usage scenarios and examples are available and ready to use. You'll
+                                            certainly want to check the Arduino IDE
+                                            <code>File &gt; Examples &gt; Examples for PRODINo WiFi-ESP</code> menu and
+                                            chose the one you'll like to test. The example set includes the use of
+                                            PRODINo as server, access point and client, with the help of the WiFi module
+                                            and also shows how to provide a HTML interface that allows to control the
+                                            relays or to show the state of the optically isolated inputs by simply using
+                                            a web browser, available on any PC or smart device, such as a smartphone,
+                                            smartwatch or table.</p>
 
-<h2>Conclusions</h2>
+                                          <h2>Conclusions</h2>
 
-<p>After having quite some fun with the PRODINo WiFi-ESP WROOM-2 v1.0 module and taking a closer look at its hardware components and design, we found it to be user friendly and easy to use for DIY IoT projects, even for beginners. The quality of the board, its electrical design (also check the <a href="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESPv1.0_Schematics.pdf">schematics</a>) and the selection of the electronic components, sets the PRODINo device into the semi-professional category. The price range makes possible its usage for most of the DIY or professional projects / products. Below are the most relevant pros and cons we have found for this module:</p>
+                                          <p>After having quite some fun with the PRODINo WiFi-ESP WROOM-2 v1.0 module
+                                            and taking a closer look at its hardware components and design, we found it
+                                            to be user friendly and easy to use for DIY IoT projects, even for
+                                            beginners. The quality of the board, its electrical design (also check the
+                                            <a
+                                              href="../sites/default/files/wot_tutorials/PRODINo/PRODINo_WiFi-ESPv1.0_Schematics.pdf">schematics</a>)
+                                            and the selection of the electronic components, sets the PRODINo device into
+                                            the semi-professional category. The price range makes possible its usage for
+                                            most of the DIY or professional projects / products. Below are the most
+                                            relevant pros and cons we have found for this module:</p>
 
-<p><strong>Pros:</strong></p>
+                                          <p><strong>Pros:</strong></p>
 
-<ul>
-	<li><em>low-to-medium price</em>: 40-47 EUR, exclusive shipping costs, but including the FTDI programmer;</li>
-	<li><em>DIY ready and user friendly</em>: if you ever played with Arduino IDE and some Arduino boards, you are ready to go with PRODINo;</li>
-	<li><em>(almost) ready to use out of the box</em>: it comes together with the FTDI FTD232R based programmer/debugger module, but notice that you'll need a <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="350018060563750105055874">[email&#160;protected]</a>+ power supply (or an USB breakup cable) and a mini USB cable (for programming only).</li>
-	<li><em>allows to control four appliances with up to 2500W each</em>: unfortunately, with the current design, it is not possible to directly parallel the outputs for even higher power;</li>
-	<li><em>isolated inputs</em>: four optically isolated inputs are available, thus the ESP8266 module is safe, even when inputs are misused;</li>
-	<li><em>uses the official WROOM-02 ESP8266 module</em>: ensures a good WiFi experience and allows for lots of hacks and software tweaks, including the use of JavaScript as the programming language, when the appropriate firmware is uploaded;</li>
-	<li><em>(almost) open source</em>: its electrical schematics are made public and a module (and corresponding libs) is available for the Arduino IDE board manager, but it is unclear if you are allowed to improve the schematics and release them for public usage;</li>
-	<li><em>lots of usage examples</em>: after installing the corresponding Arduino IDE module (via the board manager), more than sufficient examples are available (check the <code>File &gt; Examples &gt; Examples for PRODINo</code> menu in Arduino IDE).</li>
-</ul>
+                                          <ul>
+                                            <li><em>low-to-medium price</em>: 40-47 EUR, exclusive shipping costs, but
+                                              including the FTDI programmer;</li>
+                                            <li><em>DIY ready and user friendly</em>: if you ever played with Arduino
+                                              IDE and some Arduino boards, you are ready to go with PRODINo;</li>
+                                            <li><em>(almost) ready to use out of the box</em>: it comes together with
+                                              the FTDI FTD232R based programmer/debugger module, but notice that you'll
+                                              need a <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__"
+                                                data-cfemail="350018060563750105055874">[email&#160;protected]</a>+
+                                              power supply (or an USB breakup cable) and a mini USB cable (for
+                                              programming only).</li>
+                                            <li><em>allows to control four appliances with up to 2500W each</em>:
+                                              unfortunately, with the current design, it is not possible to directly
+                                              parallel the outputs for even higher power;</li>
+                                            <li><em>isolated inputs</em>: four optically isolated inputs are available,
+                                              thus the ESP8266 module is safe, even when inputs are misused;</li>
+                                            <li><em>uses the official WROOM-02 ESP8266 module</em>: ensures a good WiFi
+                                              experience and allows for lots of hacks and software tweaks, including the
+                                              use of JavaScript as the programming language, when the appropriate
+                                              firmware is uploaded;</li>
+                                            <li><em>(almost) open source</em>: its electrical schematics are made public
+                                              and a module (and corresponding libs) is available for the Arduino IDE
+                                              board manager, but it is unclear if you are allowed to improve the
+                                              schematics and release them for public usage;</li>
+                                            <li><em>lots of usage examples</em>: after installing the corresponding
+                                              Arduino IDE module (via the board manager), more than sufficient examples
+                                              are available (check the
+                                              <code>File &gt; Examples &gt; Examples for PRODINo</code> menu in Arduino
+                                              IDE).</li>
+                                          </ul>
 
-<p><strong>Cons:</strong></p>
+                                          <p><strong>Cons:</strong></p>
 
-<ul>
-	<li><em>(somehow) limited number of inputs</em>: only four (optically isolated) inputs are available, keeping in account that the MCP23S08 (8-bit, general purpose, parallel I/O expansion for I2C bus or SPI) is used, and the WROOM-2 module provides itself 9 GPIOs (including SPI and I2C ones);</li>
-	<li><em>hazard safety</em>, while in general we found this module safe to be used, a better electrical isolation of the (possible mains connected) outputs would have helped to avoid electrical shocks, that can possibly cause injuries or even death (!). This is even more relevant, when the module is used for DIY projects implemented by amateurs. The plastic cover could have been extended over the output connections, thus making the (accidental) touching less probable.</li>
-</ul>
+                                          <ul>
+                                            <li><em>(somehow) limited number of inputs</em>: only four (optically
+                                              isolated) inputs are available, keeping in account that the MCP23S08
+                                              (8-bit, general purpose, parallel I/O expansion for I2C bus or SPI) is
+                                              used, and the WROOM-2 module provides itself 9 GPIOs (including SPI and
+                                              I2C ones);</li>
+                                            <li><em>hazard safety</em>, while in general we found this module safe to be
+                                              used, a better electrical isolation of the (possible mains connected)
+                                              outputs would have helped to avoid electrical shocks, that can possibly
+                                              cause injuries or even death (!). This is even more relevant, when the
+                                              module is used for DIY projects implemented by amateurs. The plastic cover
+                                              could have been extended over the output connections, thus making the
+                                              (accidental) touching less probable.</li>
+                                          </ul>
 
-<h3>Project Ideas</h3>
+                                          <h3>Project Ideas</h3>
 
-<ul>
-	<li>automatic home/garage door locker (and un-locker), based on the the location of your smartphone, and home monitoring by reading various available sensors, such as temperature, humidity, light intensity or air quality;</li>
-	<li>control the watering of your home plants or your backyard garden, by reading soil moisture sensors and enabling/disabling water pumps or water pipe connected electro-valves;</li>
-	<li>an alarm system that detects intrusion into a home (or perimeter) when we are in holidays, using PIR and capacitive touch sensors, allowing to trigger a high level alarm bugler and sending an e-mail to you whenever something suspicious is detected.</li>
-</ul>
+                                          <ul>
+                                            <li>automatic home/garage door locker (and un-locker), based on the the
+                                              location of your smartphone, and home monitoring by reading various
+                                              available sensors, such as temperature, humidity, light intensity or air
+                                              quality;</li>
+                                            <li>control the watering of your home plants or your backyard garden, by
+                                              reading soil moisture sensors and enabling/disabling water pumps or water
+                                              pipe connected electro-valves;</li>
+                                            <li>an alarm system that detects intrusion into a home (or perimeter) when
+                                              we are in holidays, using PIR and capacitive touch sensors, allowing to
+                                              trigger a high level alarm bugler and sending an e-mail to you whenever
+                                              something suspicious is detected.</li>
+                                          </ul>
 
-<p>In further tutorials we'll show how to use JavaScript (Mongoose-IoT based firmware) code to program the PRODINo module. We'll also discuss how to write an Android App to control common used appliances from your house, such as unlocking the door and turning on the light when dark and you just reached the house after a hard work day.</p>
-</div></div></div><section class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Category:&nbsp;</h2><ul class="field-items"><li class="field-item even"><a href="../taxonomy/term/50.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">IoT</a></li><li class="field-item odd"><a href="../taxonomy/term/40.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WoT</a></li><li class="field-item even"><a href="../taxonomy/term/52.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WiFi</a></li><li class="field-item odd"><a href="../Arduino.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li><li class="field-item even"><a href="../taxonomy/term/51.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">ESP8266</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/68" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="PRODINo: Home Automation with ESP8266 based WiFi Control ">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="68.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="68.html"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="in/share" data-url="https://web-engineering.info/node/68" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F68">View the discussion thread.</a></p></noscript></div>    </div>
+                                          <p>In further tutorials we'll show how to use JavaScript (Mongoose-IoT based
+                                            firmware) code to program the PRODINo module. We'll also discuss how to
+                                            write an Android App to control common used appliances from your house, such
+                                            as unlocking the door and turning on the light when dark and you just
+                                            reached the house after a hard work day.</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <section
+                                      class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full">
+                                      <h2 class="field-label">Category:&nbsp;</h2>
+                                      <ul class="field-items">
+                                        <li class="field-item even"><a href="../taxonomy/term/50.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">IoT</a></li>
+                                        <li class="field-item odd"><a href="../taxonomy/term/40.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">WoT</a></li>
+                                        <li class="field-item even"><a href="../taxonomy/term/52.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">WiFi</a></li>
+                                        <li class="field-item odd"><a href="../Arduino.html" typeof="skos:Concept"
+                                            property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li>
+                                        <li class="field-item even"><a href="../taxonomy/term/51.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">ESP8266</a></li>
+                                      </ul>
+                                    </section>
+                                    <div class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                      <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                          href="https://twitter.com/share" class="twitter-share-button"
+                                          data-url="https://web-engineering.info/node/68" data-count="horizontal"
+                                          data-lang="en" data-via="" data-related=":Check it out!"
+                                          data-text="PRODINo: Home Automation with ESP8266 based WiFi Control ">Tweet</a>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-facebook">
+                                        <fb:like href="68.html" send="true" layout="button_count" width="88"
+                                          show_faces="true" action="https://web-engineering.info/node/like"
+                                          colorscheme="light" font=""></fb:like>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-googleplus">
+                                        <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                          data-href="68.html"></div>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-linkedin last">
+                                        <script data-cfasync="false"
+                                          src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                                        <script type="in/share" data-url="https://web-engineering.info/node/68"
+                                          data-counter="right"></script>
+                                      </div>
+                                    </div> <!-- /.easy_social_box -->
+                                    <div id="disqus_thread"><noscript>
+                                        <p><a
+                                            href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F68">View
+                                            the discussion thread.</a></p>
+                                      </noscript></div>
+                                  </div>
 
-          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/24.html" title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s blog</a></li></ul></nav>
-    
-    
-  </div>
-</article>
+                                  <nav class="clearfix">
+                                    <ul class="links inline">
+                                      <li class="blog_usernames_blog first last"><a href="../blog/24.html"
+                                          title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s
+                                          blog</a></li>
+                                    </ul>
+                                  </nav>
 
-  </div></div>                      </div>
 
-                      
+                                </div>
+                              </article>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </section>
+
+                  <div class="region region-content-aside">
+                    <div class="region-inner clearfix">
+                      <div id="block-block-2"
+                        class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2">
+                        <div class="block-inner clearfix">
+
+                          <div class="block-content content">
+                            <p style="text-align: center; margin-top: 10px;">©
+                              2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+"
+                                  src="../../assets/images/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a
+                                href="../../about/index.html">About Us</a> | <a href="../../privacy/index.html">Privacy
+                                Policy</a> | Terms
+                              &amp;
+                              Conditions</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                </section>
+              <div class="region region-sidebar-first sidebar">
+                <div class="region-inner clearfix">
+                  <nav id="block-system-main-menu"
+                    class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                    role="navigation">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">Main menu</h2>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
+                      <div class="block-content content">
+                        <ul class="menu clearfix">
+                          <li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com"
+                              title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                              Discrete Event Simulation</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1218"><a href="../../WebAppBook/index.html"
+                              title="Web Applications with JavaScript or Java">Textbook
+                              Web Apps JS+Java</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1477"><a href="../../textbooknode80/index.html">Book
+                              Information Management</a></li>
+                          <li class="leaf menu-depth-1 menu-item-366"><a href="../../blog/index.html"
+                              title="A blog about web engineering issues.">Web Engineering
+                              Blog</a></li>
+                          <li class="leaf menu-depth-1 menu-item-758"><a
+                              href="../../SummariesCheatsheetsPosters/index.html">Summaries
+                              &amp; Cheat
+                              Sheets</a></li>
+                          <li class="leaf menu-depth-1 menu-item-361"><a href="../../JsFrontendApp/index.html"
+                              title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                              Apps with Plain JS</a></li>
+                          <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                              href="../../JavaJpaJsfApp/index.html"
+                              title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                              class="active-trail active">Back-End Apps with Java EE</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-806"><a href="../../mODELcLASSjsApp/index.html"
+                              title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                              with mODELcLASSjs </a></li>
+                          <li class="leaf menu-depth-1 menu-item-805"><a href="../../WoTProjects/index.html"
+                              title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                              of Things (WoT)</a></li>
+                          <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
+                              title="">Discussion
+                              Forums</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
+                              title="Team members list.">Team</a></li>
+                          <li class="last leaf menu-depth-1 menu-item-554"><a
+                              href="../../contribute/index.html">Contribute
+                              / Support Us</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                  <section id="block-user-login"
+                    class="block block-user even last block-count-5 block-region-sidebar-first block-login" role="form">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">User login</h2>
+
+                      <div class="block-content content">
+                        <form action="https://web-engineering.info/node/68?destination=node/68" method="post"
+                          id="user-login-form" accept-charset="UTF-8">
+                          <div>
+                            <div class="form-item form-type-textfield form-item-name">
+                              <label for="edit-name">Username <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60"
+                                class="form-text required" />
+                            </div>
+                            <div class="form-item form-type-password form-item-pass">
+                              <label for="edit-pass">Password <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="password" id="edit-pass" name="pass" size="15" maxlength="128"
+                                class="form-text required" />
+                            </div>
+                            <div class="item-list">
+                              <ul>
+                                <li class="even first last"><a href="../user/password.html"
+                                    title="Request new password via e-mail.">Request new password</a></li>
+                              </ul>
+                            </div><input type="hidden" name="form_build_id"
+                              value="form-CyScAO94EKnqTbm5Ryxxp-VZ6huBE-pEVOsp58dEzx0" />
+                            <input type="hidden" name="form_id" value="user_login_block" />
+                            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit"
+                                id="edit-submit" name="op" value="Log in" class="form-submit" /></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
-
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/68?destination=node/68" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-CyScAO94EKnqTbm5Ryxxp-VZ6huBE-pEVOsp58dEzx0" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    
-    
-    
+
+
+
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/68 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:21 GMT -->
+
 </html>

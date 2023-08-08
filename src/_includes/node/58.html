@@ -2,352 +2,558 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+  prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/58 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:45 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="I have been going through the tutorial and the code and it has been a great learning experience. I have found something and wonder if you could comment when you have a few minutes to spare!" />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="58.html" />
-<link rel="shortlink" href="58.html" />
-<title>Circular structure | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/advanced_forum/styles/naked/advanced-forum.naked.structure5056.css?ry1opl");
-@import url("../sites/all/modules/advanced_forum/styles/silver_bells/advanced-forum.silver_bells.style5056.css?ry1opl");
-@import url("../sites/all/modules/advanced_forum/styles/naked/advanced-forum.naked.images5056.css?ry1opl");
-@import url("../sites/all/modules/advanced_forum/styles/silver_bells/advanced-forum.silver_bells.images5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
-<!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="description"
+    content="I have been going through the tutorial and the code and it has been a great learning experience. I have found something and wonder if you could comment when you have a few minutes to spare!" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="canonical" href="58.html" />
+  <link rel="shortlink" href="58.html" />
+  <title>Circular structure | web-engineering.info</title>
+  <style type="text/css" media="all">
+    @import url("../modules/system/system.base5056.css?ry1opl");
+    @import url("../modules/system/system.menus5056.css?ry1opl");
+    @import url("../modules/system/system.messages5056.css?ry1opl");
+    @import url("../modules/system/system.theme5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../modules/comment/comment5056.css?ry1opl");
+    @import url("../modules/field/theme/field5056.css?ry1opl");
+    @import url("../modules/node/node5056.css?ry1opl");
+    @import url("../modules/search/search5056.css?ry1opl");
+    @import url("../modules/user/user5056.css?ry1opl");
+    @import url("../modules/forum/forum5056.css?ry1opl");
+    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
+    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
+    @import url("../sites/all/modules/advanced_forum/styles/naked/advanced-forum.naked.structure5056.css?ry1opl");
+    @import url("../sites/all/modules/advanced_forum/styles/silver_bells/advanced-forum.silver_bells.style5056.css?ry1opl");
+    @import url("../sites/all/modules/advanced_forum/styles/naked/advanced-forum.naked.images5056.css?ry1opl");
+    @import url("../sites/all/modules/advanced_forum/styles/silver_bells/advanced-forum.silver_bells.images5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="screen">
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
+    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="all">
+    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
+    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
+  </style>
+  <style type="text/css" media="print">
+    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet"
+    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    media="only screen" />
+  <style type="text/css" media="screen">
+    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
+  </style>
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+    media="only screen" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+    media="only screen and (min-width:1025px)" />
+
+  <!--[if lt IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
 </style>
 <![endif]-->
 
-<!--[if lte IE 9]>
+  <!--[if lte IE 9]>
 <style type="text/css" media="screen">
 @import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
 </style>
 <![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
+  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
+  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
 //--><!]]>
-</script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"SDefaP0e_WDP3ofPoW5D-HuoyKHCKKRJPpk2GLoMrgk","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"0":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/advanced_forum\/styles\/naked\/advanced-forum.naked.structure.css":1,"sites\/all\/modules\/advanced_forum\/styles\/silver_bells\/advanced-forum.silver_bells.style.css":1,"sites\/all\/modules\/advanced_forum\/styles\/naked\/advanced-forum.naked.images.css":1,"sites\/all\/modules\/advanced_forum\/styles\/silver_bells\/advanced-forum.silver_bells.images.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/58?destination=node\/58":true},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
+  </script>
+  <script type="text/javascript">
+<!--//-->
+  < ![CDATA[//><!--
+        jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "SDefaP0e_WDP3ofPoW5D-HuoyKHCKKRJPpk2GLoMrgk", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "0": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/advanced_forum\/styles\/naked\/advanced-forum.naked.structure.css": 1, "sites\/all\/modules\/advanced_forum\/styles\/silver_bells\/advanced-forum.silver_bells.style.css": 1, "sites\/all\/modules\/advanced_forum\/styles\/naked\/advanced-forum.naked.images.css": 1, "sites\/all\/modules\/advanced_forum\/styles\/silver_bells\/advanced-forum.silver_bells.images.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/58?destination=node\/58": true }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
 //--><!]]>
-</script>
-<!--[if lt IE 9]>
+  </script>
+  <!--[if lt IE 9]>
 <script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
 <![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-58 node-type-forum atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+
+<body
+  class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-58 node-type-forum atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
   <div id="skip-link" class="nocontent">
     <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
   </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+  <div id="page-wrapper">
+    <div id="page"
+      class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
 
-        <header class="clearfix with-logo" role="banner">
+      <div id="header-wrapper">
+        <div class="container clearfix">
 
-                      <div id="branding" class="branding-elements clearfix">
+          <header class="clearfix with-logo" role="banner">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+            <div id="branding" class="branding-elements clearfix">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
+              <div id="logo">
+                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                    src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+              </div>
+
+              <div class="h-group" id="name-and-slogan">
+
+                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+
+                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+              </div>
+
             </div>
-          
-          
-        </header>
-
-      </div>
-    </div>
-
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
-
-        <div id="columns">
-          <div class="columns-inner clearfix">
-
-            <div id="content-column">
-              <div class="content-inner">
-
-                
-                <section id="main-content" role="main">
-
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
-
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../forum.html">Forums</a></span></li><li class="crumb"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../forum/10.html">Plain JavaScript Front-End Web Apps</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../forum/15.html">Bidirectional Associations in Plain JS</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
-                          <h1 id="page-title">
-                            Circular structure                          </h1>
-                        </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-system-main" class="block block-system no-title odd first last block-count-1 block-region-content block-main" >  
-  
-  
-  
-<div id="forum-topic-header" class="forum-topic-header clearfix">
-	
-  <div class="topic-post-count">
-  2 posts / 0 new  </div>
-
-      <div class="topic-reply-link">
-    <a href="../user/login5cac.html?destination=node/58%23comment-form">Log in</a> to post comments    </div>
-  
-  
-      <div class="last-post-link">
-     <a href="58.html#comment-6" class="af-button-large active"><span>Last post</span></a>    </div>
-  
-
-  <a id="forum-topic-top"></a>
-</div>
-
-<div id="post-58" class="forum-post clearfix en posted-by-51 article odd node-full ia-n"  about="/node/58" typeof="sioc:Post sioct:BoardPost" role="article">
-  <div class="forum-post-info clearfix">
-    <div class="forum-posted-on">
-      <span property="dc:date dc:created" content="2016-01-31T04:16:09+01:00" datatype="xsd:dateTime">Sun, 01/31/2016 - 04:16</span>
-                </div>
-    
-    
-        
-    <span class="forum-post-number"><a href="58.html" class="active">#1</a></span>
-  </div> 
-  <div class="forum-post-wrapper">
-    <div class="forum-post-panel-sub">
-              <div class="author-pane"><a href="../user/51.html" title="View user profile." class="username" xml:lang="" about="/user/51" typeof="sioc:UserAccount" property="foaf:name" datatype="">j.s.</a></div>          </div>
-
-    <div class="forum-post-panel-main clearfix">
-              <div class="forum-post-title">
-          Circular structure        </div>
-      
-      <div class="forum-post-content">
-        <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I have been going through the tutorial and the code and it has been a great learning experience. I have found something and wonder if you could comment when you have a few minutes to spare! :)</p>
-
-<p>Going through the book application in pure JavaScript, if I issue this command:</p>
-
-<p class="rteindent1">JSON.stringify(slots)</p>
-
-<p>I get this:</p>
-
-<p class="rteindent1">"{"isbn":"0553345842","title":"The Mind's I","year":"1982","publisherIdRef":"Bantam Books","authorsIdRefToAdd":["3"]}"</p>
-
-<p>However, If i try to use the book object:</p>
-
-<p class="rteindent1">JSON.stringify(book)</p>
-
-<p>I get this error:</p>
-
-<p class="rteindent1">VM419:1 Uncaught TypeError: Converting circular structure to JSON(…)</p>
-
-<p>Checking the runtime code with the debugger, as in the following screenshot,</p>
-
-<p><img alt="" src="data:image/png;base64,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" /></p>
-
-<p>I understand that we are using references to objects and so the circular reference: book ==&gt; authors ==&gt; authored books ==&gt; book, etc.</p>
-
-<p>Can this be a bad thing if we have a book published by a major publishing company with thousands of boos published?</p>
-
-<p>Should we just use a ‘foreign’ key to the publisher instead of an object reference?</p>
-
-<p>Thank you,<br />
-Everardo</p>
-</div></div></div>      </div>
-
-      
-          </div>
-  </div>
-  
-  <div class="forum-post-footer clearfix">
-    <div class="forum-jump-links">
-      <a href="#forum-topic-top" title="Jump to top of page" class="af-button-small"><span>Top</span></a>
-    </div>
-
-    <div class="forum-post-links">
-      <ul class="links inline"><li class="comment_forbidden first last"><span><a href="../user/login5cac.html?destination=node/58%23comment-form">Log in</a> to post comments</span></li></ul>    </div>
-  </div>
-  </div>
-<div id="forum-comments" class="comment-wrapper">
-  <a id="comment-6"></a>
 
 
-<div id="post-6" class="forum-post clearfix en posted-by-2 odd first last comment-with-picture"  about="/comment/6#comment-6" typeof="sioc:Post sioct:Comment">
-  <div class="forum-post-info clearfix">
-    <div class="forum-posted-on">
-      Sun, 01/31/2016 - 04:20
-                    
-        
-                  </div>
-    
-    
-        
-    <span class="forum-post-number"><a href="../comment/6.html#comment-6" class="permalink" rel="bookmark">#2</a></span>
-  </div> 
-  <div class="forum-post-wrapper">
-    <div class="forum-post-panel-sub">
-              <div class="author-pane"><a href="../user/2.html" title="View user profile." class="username" xml:lang="" about="/user/2" typeof="sioc:UserAccount" property="foaf:name" datatype="">gwagner</a>  <div class="user-picture">
-    <a href="../user/2.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V" alt="gwagner&#039;s picture" title="gwagner&#039;s picture" /></a>  </div>
-</div>          </div>
+          </header>
 
-    <div class="forum-post-panel-main clearfix">
-              <div class="forum-post-title">
-          <a href="../comment/6.html#comment-6" rel="bookmark">Can this be a bad thing if we</a>        </div>
-      
-      <div class="forum-post-content">
-        <span rel="sioc:reply_of" resource="/node/58" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><blockquote><p>Can this be a bad thing if we have a book published by a major publishing company with thousands of boos published?</p></blockquote>
-<p>No, that's not really creating any problem, since a reference is as efficient as it is, no matter how large the objects are, which are referenced, if this is your concern.</p>
-<blockquote><p>Should we just use a ‘foreign’ key to the publisher instead of an object reference?</p></blockquote>
-<p>We normally prefer using object references in OO programs since they allow direct (and thus more efficient) access. A foreign key (or ID reference) requires a two step access procedure: first resolve the ID into an object reference, then access the object.</p>
-<p>In user-interactive CRUD operations, this difference in access efficiency may not matter, but if you would do more complex data analysis requiring to process a great many objects in main memory, then it would (and also in simulations and games).</p>
-<p>-Gerd</p>
-</div></div></div>      </div>
-
-      
-          </div>
-  </div>
-  
-  <div class="forum-post-footer clearfix">
-    <div class="forum-jump-links">
-      <a href="#forum-topic-top" title="Jump to top of page" class="af-button-small"><span>Top</span></a>
-    </div>
-
-    <div class="forum-post-links">
-      <ul class="links inline"><li class="comment_forbidden first last"><span><a href="../user/login5cac.html?destination=node/58%23comment-form">Log in</a> to post comments</span></li></ul>    </div>
-  </div>
-  </div>
         </div>
+      </div>
 
-  </div></div>                      </div>
 
-                      
+
+
+      <div id="content-wrapper">
+        <div class="container">
+
+          <div id="columns">
+            <div class="columns-inner clearfix">
+
+              <div id="content-column">
+                <div class="content-inner">
+
+
+                  <section id="main-content" role="main">
+
+
+                    <div class="content-margin">
+                      <div class="content-style">
+
+
+                        <div id="breadcrumb" class="clearfix">
+                          <nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label">
+                            <h2 id="breadcrumb-label" class="element-invisible">You are here</h2>
+                            <ol id="crumbs" class="clearfix">
+                              <li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"
+                                    property="v:title" href="../forum.html">Forums</a></span></li>
+                              <li class="crumb"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="../forum/10.html">Plain
+                                    JavaScript Front-End Web Apps</a></span></li>
+                              <li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                    href="../forum/15.html">Bidirectional Associations in Plain JS</a></span></li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                        <header class="clearfix">
+                          <h1 id="page-title">
+                            Circular structure </h1>
+                        </header>
+
+
+
+                        <div id="content">
+                          <div class="region region-content">
+                            <div id="block-system-main"
+                              class="block block-system no-title odd first last block-count-1 block-region-content block-main">
+
+
+
+                              <div id="forum-topic-header" class="forum-topic-header clearfix">
+
+                                <div class="topic-post-count">
+                                  2 posts / 0 new </div>
+
+                                <div class="topic-reply-link">
+                                  <a href="../user/login5cac.html?destination=node/58%23comment-form">Log in</a> to post
+                                  comments
+                                </div>
+
+
+                                <div class="last-post-link">
+                                  <a href="58.html#comment-6" class="af-button-large active"><span>Last post</span></a>
+                                </div>
+
+
+                                <a id="forum-topic-top"></a>
+                              </div>
+
+                              <div id="post-58" class="forum-post clearfix en posted-by-51 article odd node-full ia-n"
+                                about="/node/58" typeof="sioc:Post sioct:BoardPost" role="article">
+                                <div class="forum-post-info clearfix">
+                                  <div class="forum-posted-on">
+                                    <span property="dc:date dc:created" content="2016-01-31T04:16:09+01:00"
+                                      datatype="xsd:dateTime">Sun, 01/31/2016 - 04:16</span>
+                                  </div>
+
+
+
+                                  <span class="forum-post-number"><a href="58.html" class="active">#1</a></span>
+                                </div>
+                                <div class="forum-post-wrapper">
+                                  <div class="forum-post-panel-sub">
+                                    <div class="author-pane"><a href="../user/51.html" title="View user profile."
+                                        class="username" xml:lang="" about="/user/51" typeof="sioc:UserAccount"
+                                        property="foaf:name" datatype="">j.s.</a></div>
+                                  </div>
+
+                                  <div class="forum-post-panel-main clearfix">
+                                    <div class="forum-post-title">
+                                      Circular structure </div>
+
+                                    <div class="forum-post-content">
+                                      <div
+                                        class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+                                        <div class="field-items">
+                                          <div class="field-item even" property="content:encoded">
+                                            <p>I have been going through the tutorial and the code and it has been a
+                                              great learning experience. I have found something and wonder if you could
+                                              comment when you have a few minutes to spare! :)</p>
+
+                                            <p>Going through the book application in pure JavaScript, if I issue this
+                                              command:</p>
+
+                                            <p class="rteindent1">JSON.stringify(slots)</p>
+
+                                            <p>I get this:</p>
+
+                                            <p class="rteindent1">"{"isbn":"0553345842","title":"The Mind's
+                                              I","year":"1982","publisherIdRef":"Bantam
+                                              Books","authorsIdRefToAdd":["3"]}"</p>
+
+                                            <p>However, If i try to use the book object:</p>
+
+                                            <p class="rteindent1">JSON.stringify(book)</p>
+
+                                            <p>I get this error:</p>
+
+                                            <p class="rteindent1">VM419:1 Uncaught TypeError: Converting circular
+                                              structure to JSON(…)</p>
+
+                                            <p>Checking the runtime code with the debugger, as in the following
+                                              screenshot,</p>
+
+                                            <p><img alt=""
+                                                src="data:image/png;base64,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" />
+                                            </p>
+
+                                            <p>I understand that we are using references to objects and so the circular
+                                              reference: book ==&gt; authors ==&gt; authored books ==&gt; book, etc.</p>
+
+                                            <p>Can this be a bad thing if we have a book published by a major publishing
+                                              company with thousands of boos published?</p>
+
+                                            <p>Should we just use a ‘foreign’ key to the publisher instead of an object
+                                              reference?</p>
+
+                                            <p>Thank you,<br />
+                                              Everardo</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+
+                                  </div>
+                                </div>
+
+                                <div class="forum-post-footer clearfix">
+                                  <div class="forum-jump-links">
+                                    <a href="#forum-topic-top" title="Jump to top of page"
+                                      class="af-button-small"><span>Top</span></a>
+                                  </div>
+
+                                  <div class="forum-post-links">
+                                    <ul class="links inline">
+                                      <li class="comment_forbidden first last"><span><a
+                                            href="../user/login5cac.html?destination=node/58%23comment-form">Log in</a>
+                                          to post comments</span></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                              <div id="forum-comments" class="comment-wrapper">
+                                <a id="comment-6"></a>
+
+
+                                <div id="post-6"
+                                  class="forum-post clearfix en posted-by-2 odd first last comment-with-picture"
+                                  about="/comment/6#comment-6" typeof="sioc:Post sioct:Comment">
+                                  <div class="forum-post-info clearfix">
+                                    <div class="forum-posted-on">
+                                      Sun, 01/31/2016 - 04:20
+
+
+                                    </div>
+
+
+
+                                    <span class="forum-post-number"><a href="../comment/6.html#comment-6"
+                                        class="permalink" rel="bookmark">#2</a></span>
+                                  </div>
+                                  <div class="forum-post-wrapper">
+                                    <div class="forum-post-panel-sub">
+                                      <div class="author-pane"><a href="../user/2.html" title="View user profile."
+                                          class="username" xml:lang="" about="/user/2" typeof="sioc:UserAccount"
+                                          property="foaf:name" datatype="">gwagner</a>
+                                        <div class="user-picture">
+                                          <a href="../user/2.html" title="View user profile."><img typeof="foaf:Image"
+                                              class="image-style-thumbnail"
+                                              src="../sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V"
+                                              alt="gwagner&#039;s picture" title="gwagner&#039;s picture" /></a>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="forum-post-panel-main clearfix">
+                                      <div class="forum-post-title">
+                                        <a href="../comment/6.html#comment-6" rel="bookmark">Can this be a bad thing if
+                                          we</a>
+                                      </div>
+
+                                      <div class="forum-post-content">
+                                        <span rel="sioc:reply_of" resource="/node/58"
+                                          class="rdf-meta element-hidden"></span>
+                                        <div
+                                          class="field field-name-comment-body field-type-text-long field-label-hidden view-mode-full">
+                                          <div class="field-items">
+                                            <div class="field-item even" property="content:encoded">
+                                              <blockquote>
+                                                <p>Can this be a bad thing if we have a book published by a major
+                                                  publishing company with thousands of boos published?</p>
+                                              </blockquote>
+                                              <p>No, that's not really creating any problem, since a reference is as
+                                                efficient as it is, no matter how large the objects are, which are
+                                                referenced, if this is your concern.</p>
+                                              <blockquote>
+                                                <p>Should we just use a ‘foreign’ key to the publisher instead of an
+                                                  object reference?</p>
+                                              </blockquote>
+                                              <p>We normally prefer using object references in OO programs since they
+                                                allow direct (and thus more efficient) access. A foreign key (or ID
+                                                reference) requires a two step access procedure: first resolve the ID
+                                                into an object reference, then access the object.</p>
+                                              <p>In user-interactive CRUD operations, this difference in access
+                                                efficiency may not matter, but if you would do more complex data
+                                                analysis requiring to process a great many objects in main memory, then
+                                                it would (and also in simulations and games).</p>
+                                              <p>-Gerd</p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                    </div>
+                                  </div>
+
+                                  <div class="forum-post-footer clearfix">
+                                    <div class="forum-jump-links">
+                                      <a href="#forum-topic-top" title="Jump to top of page"
+                                        class="af-button-small"><span>Top</span></a>
+                                    </div>
+
+                                    <div class="forum-post-links">
+                                      <ul class="links inline">
+                                        <li class="comment_forbidden first last"><span><a
+                                              href="../user/login5cac.html?destination=node/58%23comment-form">Log
+                                              in</a> to post comments</span></li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </section>
+
+                  <div class="region region-content-aside">
+                    <div class="region-inner clearfix">
+                      <div id="block-block-2"
+                        class="block block-block no-title odd first last block-count-2 block-region-content-aside block-2">
+                        <div class="block-inner clearfix">
+
+                          <div class="block-content content">
+                            <p style="text-align: center; margin-top: 10px;">©
+                              2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+"
+                                  src="../../assets/images/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a
+                                href="../../about/index.html">About Us</a> | <a href="../../privacy/index.html">Privacy
+                                Policy</a> | Terms
+                              &amp;
+                              Conditions</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                </section>
+              <div class="region region-sidebar-first sidebar">
+                <div class="region-inner clearfix">
+                  <nav id="block-system-main-menu"
+                    class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                    role="navigation">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">Main menu</h2>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-2 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
+                      <div class="block-content content">
+                        <ul class="menu clearfix">
+                          <li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com"
+                              title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                              Discrete Event Simulation</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1218"><a href="../../WebAppBook/index.html"
+                              title="Web Applications with JavaScript or Java">Textbook
+                              Web Apps JS+Java</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1477"><a href="../../textbooknode80/index.html">Book
+                              Information Management</a></li>
+                          <li class="leaf menu-depth-1 menu-item-366"><a href="../../blog/index.html"
+                              title="A blog about web engineering issues.">Web Engineering
+                              Blog</a></li>
+                          <li class="leaf menu-depth-1 menu-item-758"><a
+                              href="../../SummariesCheatsheetsPosters/index.html">Summaries
+                              &amp; Cheat
+                              Sheets</a></li>
+                          <li class="leaf menu-depth-1 menu-item-361"><a href="../../JsFrontendApp/index.html"
+                              title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                              Apps with Plain JS</a></li>
+                          <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                              href="../../JavaJpaJsfApp/index.html"
+                              title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                              class="active-trail active">Back-End Apps with Java EE</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-806"><a href="../../mODELcLASSjsApp/index.html"
+                              title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                              with mODELcLASSjs </a></li>
+                          <li class="leaf menu-depth-1 menu-item-805"><a href="../../WoTProjects/index.html"
+                              title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                              of Things (WoT)</a></li>
+                          <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
+                              title="">Discussion
+                              Forums</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
+                              title="Team members list.">Team</a></li>
+                          <li class="last leaf menu-depth-1 menu-item-554"><a
+                              href="../../contribute/index.html">Contribute
+                              / Support Us</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                  <section id="block-user-login"
+                    class="block block-user even last block-count-4 block-region-sidebar-first block-login" role="form">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">User login</h2>
+
+                      <div class="block-content content">
+                        <form action="https://web-engineering.info/node/58?destination=node/58" method="post"
+                          id="user-login-form" accept-charset="UTF-8">
+                          <div>
+                            <div class="form-item form-type-textfield form-item-name">
+                              <label for="edit-name">Username <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60"
+                                class="form-text required" />
+                            </div>
+                            <div class="form-item form-type-password form-item-pass">
+                              <label for="edit-pass">Password <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="password" id="edit-pass" name="pass" size="15" maxlength="128"
+                                class="form-text required" />
+                            </div>
+                            <div class="item-list">
+                              <ul>
+                                <li class="even first last"><a href="../user/password.html"
+                                    title="Request new password via e-mail.">Request new password</a></li>
+                              </ul>
+                            </div><input type="hidden" name="form_build_id"
+                              value="form-ZEL3TjREaSd0UW9bb80FyUvJsBjPo1UDpSjzCn0Hma0" />
+                            <input type="hidden" name="form_id" value="user_login_block" />
+                            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit"
+                                id="edit-submit" name="op" value="Log in" class="form-submit" /></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
-
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-4 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/58?destination=node/58" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-ZEL3TjREaSd0UW9bb80FyUvJsBjPo1UDpSjzCn0Hma0" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    
-    
-    
+
+
+
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/58 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:46 GMT -->
+
 </html>
