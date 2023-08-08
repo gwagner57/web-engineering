@@ -1,0 +1,781 @@
+---
+layout: layouts/basetutorials.html
+title: JavaScript
+---
+
+<body
+    class="html not-front not-logged-in one-sidebar sidebar-first page-taxonomy page-taxonomy-term page-taxonomy-term- page-taxonomy-term-37 atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-javascript color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+    <div id="skip-link" class="nocontent">
+        <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+    </div>
+    <div id="page-wrapper">
+        <div id="page"
+            class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+
+
+            <div id="header-wrapper">
+                <div class="container clearfix">
+
+                    <header class="clearfix with-logo" role="banner">
+
+                        <div id="branding" class="branding-elements clearfix">
+
+                            <div id="logo">
+                                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                                        src="../_includes/sites/default/files/logo_1.png"
+                                        alt="web-engineering.info" /></a>
+                            </div>
+
+                            <div class="h-group" id="name-and-slogan">
+
+                                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a>
+                                </h1>
+
+                                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+                            </div>
+
+                        </div>
+
+
+                    </header>
+
+                </div>
+            </div>
+
+
+
+
+            <div id="content-wrapper">
+                <div class="container">
+
+                    <div id="columns">
+                        <div class="columns-inner clearfix">
+
+                            <div id="content-column">
+                                <div class="content-inner">
+
+
+                                    <section id="main-content" role="main">
+
+
+                                        <div class="content-margin">
+                                            <div class="content-style">
+
+
+
+
+                                                <header class="clearfix">
+                                                    <h1 id="page-title">
+                                                        JavaScript </h1>
+                                                </header>
+
+
+
+                                                <div id="content">
+                                                    <div class="region region-content">
+                                                        <div id="block-system-main"
+                                                            class="block block-system no-title odd first last block-count-1 block-region-content block-main">
+
+                                                            <section class="nodes">
+                                                                <article id="node-83"
+                                                                    class="node node-blog node-promoted node-teaser article odd node-with-picture iat-n clearfix"
+                                                                    about="/node/83" typeof="sioc:Post sioct:BlogPost"
+                                                                    role="article">
+                                                                    <div class="node-inner">
+
+
+                                                                        <header class="node-header">
+
+                                                                            <h1 class="node-title">
+                                                                                <a href="../_includes/node/83.html"
+                                                                                    rel="bookmark">Asynchronous
+                                                                                    Programming in JavaScript</a>
+                                                                            </h1>
+
+                                                                            <p class="submitted"><span
+                                                                                    property="dc:date dc:created"
+                                                                                    content="2021-07-01T14:36:44+02:00"
+                                                                                    datatype="xsd:dateTime"
+                                                                                    rel="sioc:has_creator">Submitted by
+                                                                                    <a href="../_includes/user/2.html"
+                                                                                        title="View user profile."
+                                                                                        class="username" xml:lang=""
+                                                                                        about="/user/2"
+                                                                                        typeof="sioc:UserAccount"
+                                                                                        property="foaf:name"
+                                                                                        datatype="">gwagner</a> on <time
+                                                                                        datetime="2021-07-01T14:36:44+0200">Thu,
+                                                                                        07/01/2021 - 14:36</time></span>
+                                                                            </p>
+
+                                                                        </header>
+                                                                        <span property="dc:title"
+                                                                            content="Asynchronous Programming in JavaScript"
+                                                                            class="rdf-meta element-hidden"></span><span
+                                                                            property="sioc:num_replies" content="0"
+                                                                            datatype="xsd:integer"
+                                                                            class="rdf-meta element-hidden"></span>
+                                                                        <div class="node-content">
+                                                                            <div class="user-picture">
+                                                                                <a href="../_includes/user/2.html"
+                                                                                    title="View user profile."><img
+                                                                                        typeof="foaf:Image"
+                                                                                        class="image-style-thumbnail"
+                                                                                        src="../_includes/sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V"
+                                                                                        alt="gwagner&#039;s picture"
+                                                                                        title="gwagner&#039;s picture" /></a>
+                                                                            </div>
+                                                                            <div
+                                                                                class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-teaser">
+                                                                                <div class="field-items">
+                                                                                    <div class="field-item even"
+                                                                                        property="content:encoded">
+                                                                                        <p>In programming, we often have
+                                                                                            the situation that, when
+                                                                                            calling a possibly
+                                                                                            time-consuming input/output
+                                                                                            (I/O) operation (or any
+                                                                                            long-running operation,
+                                                                                            e.g., for performing a
+                                                                                            complex computation), the
+                                                                                            program execution has to
+                                                                                            wait for its result being
+                                                                                            returned before it can go
+                                                                                            on. Calling such an
+                                                                                            operation and waiting for
+                                                                                            its result, while the main
+                                                                                            program's further execution
+                                                                                            (and its entire thread) is
+                                                                                            blocked, represents a
+                                                                                            <em>synchronous</em>
+                                                                                            operation call.
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-twitter first">
+                                                                                    <a href="https://twitter.com/share"
+                                                                                        class="twitter-share-button"
+                                                                                        data-url="https://web-engineering.info/node/83"
+                                                                                        data-count="horizontal"
+                                                                                        data-lang="en" data-via=""
+                                                                                        data-related=":Check it out!"
+                                                                                        data-text="Asynchronous Programming in JavaScript">Tweet</a>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-facebook">
+                                                                                    <fb:like
+                                                                                        href="../_includes/node/83.html"
+                                                                                        send="true"
+                                                                                        layout="button_count" width="88"
+                                                                                        show_faces="true"
+                                                                                        action="https://web-engineering.info/like"
+                                                                                        colorscheme="light" font="">
+                                                                                    </fb:like>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-googleplus">
+                                                                                    <div class="g-plusone"
+                                                                                        data-size="medium"
+                                                                                        data-annotation="bubble"
+                                                                                        data-href="https://web-engineering.info/node/83">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-linkedin last">
+                                                                                    <script type="in/share"
+                                                                                        data-url="https://web-engineering.info/node/83"
+                                                                                        data-counter="right"></script>
+                                                                                </div>
+                                                                            </div> <!-- /.easy_social_box -->
+                                                                        </div>
+
+                                                                        <nav class="clearfix">
+                                                                            <ul class="links inline">
+                                                                                <li class="node-readmore first"><a
+                                                                                        href="../_includes/node/83.html"
+                                                                                        rel="tag"
+                                                                                        title="Asynchronous Programming in JavaScript">Read
+                                                                                        more<span
+                                                                                            class="element-invisible">
+                                                                                            about Asynchronous
+                                                                                            Programming in
+                                                                                            JavaScript</span></a></li>
+                                                                                <li class="blog_usernames_blog"><a
+                                                                                        href="../_includes/blog/2.html"
+                                                                                        title="Read gwagner&#039;s latest blog entries.">gwagner&#039;s
+                                                                                        blog</a></li>
+                                                                                <li class="disqus_comments_num last"><a
+                                                                                        href="node/83.html#disqus_thread"
+                                                                                        data-disqus-identifier="node/83">Comments</a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </nav>
+
+
+                                                                    </div>
+                                                                </article>
+                                                                <article id="node-65"
+                                                                    class="node node-blog node-promoted node-teaser article even node-with-picture iat-n clearfix"
+                                                                    about="/node/65" typeof="sioc:Post sioct:BlogPost"
+                                                                    role="article">
+                                                                    <div class="node-inner">
+
+
+                                                                        <header class="node-header">
+
+                                                                            <h1 class="node-title">
+                                                                                <a href="../_includes/node/65.html"
+                                                                                    rel="bookmark">JavaScript-Based
+                                                                                    IoT/WoT Development with the ESP8266
+                                                                                    and the Raspberry Pi</a>
+                                                                            </h1>
+
+                                                                            <p class="submitted"><span
+                                                                                    property="dc:date dc:created"
+                                                                                    content="2016-09-21T11:52:01+02:00"
+                                                                                    datatype="xsd:dateTime"
+                                                                                    rel="sioc:has_creator">Submitted by
+                                                                                    <a href="../_includes/user/24.html"
+                                                                                        title="View user profile."
+                                                                                        class="username" xml:lang=""
+                                                                                        about="/user/24"
+                                                                                        typeof="sioc:UserAccount"
+                                                                                        property="foaf:name"
+                                                                                        datatype="">mdiaconescu</a> on
+                                                                                    <time
+                                                                                        datetime="2016-09-21T11:52:01+0200">Wed,
+                                                                                        09/21/2016 - 11:52</time></span>
+                                                                            </p>
+
+                                                                        </header>
+                                                                        <span property="dc:title"
+                                                                            content="JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi"
+                                                                            class="rdf-meta element-hidden"></span><span
+                                                                            property="sioc:num_replies" content="0"
+                                                                            datatype="xsd:integer"
+                                                                            class="rdf-meta element-hidden"></span>
+                                                                        <div class="node-content">
+                                                                            <div class="user-picture">
+                                                                                <a href="../_includes/user/24.html"
+                                                                                    title="View user profile."><img
+                                                                                        typeof="foaf:Image"
+                                                                                        class="image-style-thumbnail"
+                                                                                        src="../_includes/sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc"
+                                                                                        alt="mdiaconescu&#039;s picture"
+                                                                                        title="mdiaconescu&#039;s picture" /></a>
+                                                                            </div>
+                                                                            <div
+                                                                                class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-teaser">
+                                                                                <div class="field-items">
+                                                                                    <div class="field-item even"
+                                                                                        property="content:encoded">
+                                                                                        <p>As opposed to the less
+                                                                                            powerful Arduino, the
+                                                                                            competitively priced and
+                                                                                            WiFi-enabled ESP8266
+                                                                                            supports the Web-of-Things
+                                                                                            (WoT) since it can be
+                                                                                            programmed in JavaScript.
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-twitter first">
+                                                                                    <a href="https://twitter.com/share"
+                                                                                        class="twitter-share-button"
+                                                                                        data-url="https://web-engineering.info/node/65"
+                                                                                        data-count="horizontal"
+                                                                                        data-lang="en" data-via=""
+                                                                                        data-related=":Check it out!"
+                                                                                        data-text="JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi">Tweet</a>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-facebook">
+                                                                                    <fb:like
+                                                                                        href="../_includes/node/65.html"
+                                                                                        send="true"
+                                                                                        layout="button_count" width="88"
+                                                                                        show_faces="true"
+                                                                                        action="https://web-engineering.info/like"
+                                                                                        colorscheme="light" font="">
+                                                                                    </fb:like>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-googleplus">
+                                                                                    <div class="g-plusone"
+                                                                                        data-size="medium"
+                                                                                        data-annotation="bubble"
+                                                                                        data-href="https://web-engineering.info/node/65">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-linkedin last">
+                                                                                    <script type="in/share"
+                                                                                        data-url="https://web-engineering.info/node/65"
+                                                                                        data-counter="right"></script>
+                                                                                </div>
+                                                                            </div> <!-- /.easy_social_box -->
+                                                                        </div>
+
+                                                                        <nav class="clearfix">
+                                                                            <ul class="links inline">
+                                                                                <li class="node-readmore first"><a
+                                                                                        href="../_includes/node/65.html"
+                                                                                        rel="tag"
+                                                                                        title="JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi">Read
+                                                                                        more<span
+                                                                                            class="element-invisible">
+                                                                                            about JavaScript-Based
+                                                                                            IoT/WoT Development with the
+                                                                                            ESP8266 and the Raspberry
+                                                                                            Pi</span></a></li>
+                                                                                <li class="blog_usernames_blog"><a
+                                                                                        href="../_includes/blog/24.html"
+                                                                                        title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s
+                                                                                        blog</a></li>
+                                                                                <li class="disqus_comments_num last"><a
+                                                                                        href="node/65.html#disqus_thread"
+                                                                                        data-disqus-identifier="node/65">Comments</a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </nav>
+
+
+                                                                    </div>
+                                                                </article>
+                                                                <article id="node-49"
+                                                                    class="node node-blog node-teaser article odd node-with-picture iat-n clearfix"
+                                                                    about="/node/49" typeof="sioc:Post sioct:BlogPost"
+                                                                    role="article">
+                                                                    <div class="node-inner">
+
+
+                                                                        <header class="node-header">
+
+                                                                            <h1 class="node-title">
+                                                                                <a href="../_includes/node/49.html"
+                                                                                    rel="bookmark">Web Development
+                                                                                    Pitfall No.1: Confusing a DOM
+                                                                                    collection with a JS array</a>
+                                                                            </h1>
+
+                                                                            <p class="submitted"><span
+                                                                                    property="dc:date dc:created"
+                                                                                    content="2015-12-10T03:44:23+01:00"
+                                                                                    datatype="xsd:dateTime"
+                                                                                    rel="sioc:has_creator">Submitted by
+                                                                                    <a href="../_includes/user/2.html"
+                                                                                        title="View user profile."
+                                                                                        class="username" xml:lang=""
+                                                                                        about="/user/2"
+                                                                                        typeof="sioc:UserAccount"
+                                                                                        property="foaf:name"
+                                                                                        datatype="">gwagner</a> on <time
+                                                                                        datetime="2015-12-10T03:44:23+0100">Thu,
+                                                                                        12/10/2015 - 03:44</time></span>
+                                                                            </p>
+
+                                                                        </header>
+                                                                        <span property="dc:title"
+                                                                            content="Web Development Pitfall No.1: Confusing a DOM collection with a JS array"
+                                                                            class="rdf-meta element-hidden"></span><span
+                                                                            property="sioc:num_replies" content="0"
+                                                                            datatype="xsd:integer"
+                                                                            class="rdf-meta element-hidden"></span>
+                                                                        <div class="node-content">
+                                                                            <div class="user-picture">
+                                                                                <a href="../_includes/user/2.html"
+                                                                                    title="View user profile."><img
+                                                                                        typeof="foaf:Image"
+                                                                                        class="image-style-thumbnail"
+                                                                                        src="../_includes/sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V"
+                                                                                        alt="gwagner&#039;s picture"
+                                                                                        title="gwagner&#039;s picture" /></a>
+                                                                            </div>
+                                                                            <div
+                                                                                class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-teaser">
+                                                                                <div class="field-items">
+                                                                                    <div class="field-item even"
+                                                                                        property="content:encoded">
+                                                                                        <h2>Summary</h2>
+
+                                                                                        <p><strong>Don't confuse a DOM
+                                                                                                collection with a JS
+                                                                                                array: Array functions,
+                                                                                                such as the
+                                                                                                <code>forEach</code>
+                                                                                                looping method, cannot
+                                                                                                be applied to a DOM
+                                                                                                collection!</strong></p>
+
+                                                                                        <p>For instance, when you
+                                                                                            retrieve all rows of an HTML
+                                                                                            table element, you get an
+                                                                                            <code>HTMLCollection</code>,
+                                                                                            which is an array-like
+                                                                                            object, but not an instance
+                                                                                            of <code>Array</code>, and
+                                                                                            therefore the following code
+                                                                                            does not succeed because the
+                                                                                            <code>Array</code> method
+                                                                                            <code>forEach</code> is not
+                                                                                            defined for an
+                                                                                            <code>HTMLCollection</code>
+                                                                                            like
+                                                                                            <code>myTableEl.rows</code>:
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-twitter first">
+                                                                                    <a href="https://twitter.com/share"
+                                                                                        class="twitter-share-button"
+                                                                                        data-url="https://web-engineering.info/node/49"
+                                                                                        data-count="horizontal"
+                                                                                        data-lang="en" data-via=""
+                                                                                        data-related=":Check it out!"
+                                                                                        data-text="Web Development Pitfall No.1: Confusing a DOM collection with a JS array">Tweet</a>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-facebook">
+                                                                                    <fb:like
+                                                                                        href="../_includes/node/49.html"
+                                                                                        send="true"
+                                                                                        layout="button_count" width="88"
+                                                                                        show_faces="true"
+                                                                                        action="https://web-engineering.info/like"
+                                                                                        colorscheme="light" font="">
+                                                                                    </fb:like>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-googleplus">
+                                                                                    <div class="g-plusone"
+                                                                                        data-size="medium"
+                                                                                        data-annotation="bubble"
+                                                                                        data-href="https://web-engineering.info/node/49">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-linkedin last">
+                                                                                    <script type="in/share"
+                                                                                        data-url="https://web-engineering.info/node/49"
+                                                                                        data-counter="right"></script>
+                                                                                </div>
+                                                                            </div> <!-- /.easy_social_box -->
+                                                                        </div>
+
+                                                                        <nav class="clearfix">
+                                                                            <ul class="links inline">
+                                                                                <li class="node-readmore first"><a
+                                                                                        href="../_includes/node/49.html"
+                                                                                        rel="tag"
+                                                                                        title="Web Development Pitfall No.1: Confusing a DOM collection with a JS array">Read
+                                                                                        more<span
+                                                                                            class="element-invisible">
+                                                                                            about Web Development
+                                                                                            Pitfall No.1: Confusing a
+                                                                                            DOM collection with a JS
+                                                                                            array</span></a></li>
+                                                                                <li class="blog_usernames_blog"><a
+                                                                                        href="../_includes/blog/2.html"
+                                                                                        title="Read gwagner&#039;s latest blog entries.">gwagner&#039;s
+                                                                                        blog</a></li>
+                                                                                <li class="disqus_comments_num last"><a
+                                                                                        href="node/49.html#disqus_thread"
+                                                                                        data-disqus-identifier="node/49">Comments</a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </nav>
+
+
+                                                                    </div>
+                                                                </article>
+                                                                <article id="node-45"
+                                                                    class="node node-blog node-promoted node-teaser article even node-with-picture iat-n clearfix"
+                                                                    about="/node/45" typeof="sioc:Post sioct:BlogPost"
+                                                                    role="article">
+                                                                    <div class="node-inner">
+
+
+                                                                        <header class="node-header">
+
+                                                                            <h1 class="node-title">
+                                                                                <a href="../_includes/node/45.html"
+                                                                                    rel="bookmark">NEW: JavaScript
+                                                                                    Summary</a>
+                                                                            </h1>
+
+                                                                            <p class="submitted"><span
+                                                                                    property="dc:date dc:created"
+                                                                                    content="2015-10-23T00:29:47+02:00"
+                                                                                    datatype="xsd:dateTime"
+                                                                                    rel="sioc:has_creator">Submitted by
+                                                                                    <a href="../_includes/user/2.html"
+                                                                                        title="View user profile."
+                                                                                        class="username" xml:lang=""
+                                                                                        about="/user/2"
+                                                                                        typeof="sioc:UserAccount"
+                                                                                        property="foaf:name"
+                                                                                        datatype="">gwagner</a> on <time
+                                                                                        datetime="2015-10-23T00:29:47+0200">Fri,
+                                                                                        10/23/2015 - 00:29</time></span>
+                                                                            </p>
+
+                                                                        </header>
+                                                                        <span property="dc:title"
+                                                                            content="NEW: JavaScript Summary"
+                                                                            class="rdf-meta element-hidden"></span><span
+                                                                            property="sioc:num_replies" content="0"
+                                                                            datatype="xsd:integer"
+                                                                            class="rdf-meta element-hidden"></span>
+                                                                        <div class="node-content">
+                                                                            <div class="user-picture">
+                                                                                <a href="../_includes/user/2.html"
+                                                                                    title="View user profile."><img
+                                                                                        typeof="foaf:Image"
+                                                                                        class="image-style-thumbnail"
+                                                                                        src="../_includes/sites/default/files/styles/thumbnail/public/pictures/picture-2-14442312552e30.jpg?itok=fLXXwl1V"
+                                                                                        alt="gwagner&#039;s picture"
+                                                                                        title="gwagner&#039;s picture" /></a>
+                                                                            </div>
+                                                                            <div
+                                                                                class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-teaser">
+                                                                                <div class="field-items">
+                                                                                    <div class="field-item even"
+                                                                                        property="content:encoded">
+                                                                                        <p>The first summary article has
+                                                                                            been published on our new
+                                                                                            page <a
+                                                                                                href="SummariesCheatsheetsPosters/index.html">Summaries,
+                                                                                                Cheat Sheets and
+                                                                                                Posters</a>.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-twitter first">
+                                                                                    <a href="https://twitter.com/share"
+                                                                                        class="twitter-share-button"
+                                                                                        data-url="https://web-engineering.info/node/45"
+                                                                                        data-count="horizontal"
+                                                                                        data-lang="en" data-via=""
+                                                                                        data-related=":Check it out!"
+                                                                                        data-text="NEW: JavaScript Summary">Tweet</a>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-facebook">
+                                                                                    <fb:like
+                                                                                        href="../_includes/node/45.html"
+                                                                                        send="true"
+                                                                                        layout="button_count" width="88"
+                                                                                        show_faces="true"
+                                                                                        action="https://web-engineering.info/like"
+                                                                                        colorscheme="light" font="">
+                                                                                    </fb:like>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-googleplus">
+                                                                                    <div class="g-plusone"
+                                                                                        data-size="medium"
+                                                                                        data-annotation="bubble"
+                                                                                        data-href="https://web-engineering.info/node/45">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="easy_social-widget easy_social-widget-linkedin last">
+                                                                                    <script type="in/share"
+                                                                                        data-url="https://web-engineering.info/node/45"
+                                                                                        data-counter="right"></script>
+                                                                                </div>
+                                                                            </div> <!-- /.easy_social_box -->
+                                                                        </div>
+
+                                                                        <nav class="clearfix">
+                                                                            <ul class="links inline">
+                                                                                <li class="node-readmore first"><a
+                                                                                        href="../_includes/node/45.html"
+                                                                                        rel="tag"
+                                                                                        title="NEW: JavaScript Summary">Read
+                                                                                        more<span
+                                                                                            class="element-invisible">
+                                                                                            about NEW: JavaScript
+                                                                                            Summary</span></a></li>
+                                                                                <li class="blog_usernames_blog"><a
+                                                                                        href="../_includes/blog/2.html"
+                                                                                        title="Read gwagner&#039;s latest blog entries.">gwagner&#039;s
+                                                                                        blog</a></li>
+                                                                                <li class="disqus_comments_num last"><a
+                                                                                        href="node/45.html#disqus_thread"
+                                                                                        data-disqus-identifier="node/45">Comments</a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </nav>
+
+
+                                                                    </div>
+                                                                </article>
+                                                            </section>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <a href="../_includes/taxonomy/term/37/feed" class="feed-icon"
+                                                    title="Subscribe to RSS - JavaScript"><img typeof="foaf:Image"
+                                                        class="image-style-none" src="../_includes/misc/feed.png"
+                                                        width="16" height="16"
+                                                        alt="Subscribe to RSS - JavaScript" /></a>
+                                            </div>
+                                        </div>
+
+                                    </section>
+
+                                    <div class="region region-content-aside">
+                                        <div class="region-inner clearfix">
+                                            <div id="block-block-2"
+                                                class="block block-block no-title odd first last block-count-2 block-region-content-aside block-2">
+                                                <div class="block-inner clearfix">
+
+                                                    <div class="block-content content">
+                                                        <p style="text-align: center; margin-top: 10px;">©
+                                                            2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                                                href="https://plus.google.com/104237216582874489152"
+                                                                rel="publisher"><img alt="G+"
+                                                                    src="../assets/images/gplus-16.png"
+                                                                    style="width: 16px; height: 16px;" /></a> | <a
+                                                                href="../about/index.html">About Us</a> | <a
+                                                                href="../privacy/index.html">Privacy Policy</a> | Terms
+                                                            &amp;
+                                                            Conditions</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="region region-sidebar-first sidebar">
+                                <div class="region-inner clearfix">
+                                    <nav id="block-system-main-menu"
+                                        class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                                        role="navigation">
+                                        <div class="block-inner clearfix">
+                                            <h2 class="block-title">Main menu</h2>
+
+                                            <div class="block-content content">
+                                                <ul class="menu clearfix">
+                                                    <li class="first leaf menu-depth-1 menu-item-1476"><a
+                                                            href="https://sim4edu.com"
+                                                            title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                                                            Discrete Event Simulation</a></li>
+                                                    <li class="leaf menu-depth-1 menu-item-1218"><a
+                                                            href="../WebAppBook/index.html"
+                                                            title="Web Applications with JavaScript or Java">Textbook
+                                                            Web Apps JS+Java</a></li>
+                                                    <li class="leaf menu-depth-1 menu-item-1477"><a
+                                                            href="../textbooknode80/index.html">Book
+                                                            Information Management</a></li>
+                                                    <li class="leaf menu-depth-1 menu-item-366"><a href="/blog"
+                                                            title="A blog about web engineering issues.">Web Engineering
+                                                            Blog</a></li>
+                                                    <li class="leaf menu-depth-1 menu-item-758"><a
+                                                            href="../SummariesCheatsheetsPosters/index.html">Summaries
+                                                            &amp; Cheat
+                                                            Sheets</a></li>
+                                                    <li class="leaf menu-depth-1 menu-item-361"><a
+                                                            href="../JsFrontendApp/index.html"
+                                                            title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                                                            Apps with Plain JS</a></li>
+                                                    <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                                                            href="../JavaJpaJsfApp/index.html"
+                                                            title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                                                            class="active-trail active">Back-End Apps with Java EE</a>
+                                                    </li>
+                                                    <li class="leaf menu-depth-1 menu-item-806"><a
+                                                            href="../mODELcLASSjsApp/index.html"
+                                                            title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                                                            with mODELcLASSjs </a></li>
+                                                    <li class="leaf menu-depth-1 menu-item-805"><a
+                                                            href="../WoTProjects/index.html"
+                                                            title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                                                            of Things (WoT)</a></li>
+                                                    <li class="leaf menu-depth-1 menu-item-613"><a
+                                                            href="../forum/index.html" title="">Discussion Forums</a>
+                                                    </li>
+                                                    <li class="leaf menu-depth-1 menu-item-720"><a
+                                                            href="../team/index.html"
+                                                            title="Team members list.">Team</a></li>
+                                                    <li class="last leaf menu-depth-1 menu-item-554"><a
+                                                            href="../contribute/index.html">Contribute / Support Us</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                    <section id="block-user-login"
+                                        class="block block-user even last block-count-4 block-region-sidebar-first block-login"
+                                        role="form">
+                                        <div class="block-inner clearfix">
+                                            <h2 class="block-title">User login</h2>
+
+                                            <div class="block-content content">
+                                                <form
+                                                    action="https://web-engineering.info/JavaScript?destination=taxonomy/term/37"
+                                                    method="post" id="user-login-form" accept-charset="UTF-8">
+                                                    <div>
+                                                        <div class="form-item form-type-textfield form-item-name">
+                                                            <label for="edit-name">Username <span class="form-required"
+                                                                    title="This field is required.">*</span></label>
+                                                            <input type="text" id="edit-name" name="name" value=""
+                                                                size="15" maxlength="60" class="form-text required" />
+                                                        </div>
+                                                        <div class="form-item form-type-password form-item-pass">
+                                                            <label for="edit-pass">Password <span class="form-required"
+                                                                    title="This field is required.">*</span></label>
+                                                            <input type="password" id="edit-pass" name="pass" size="15"
+                                                                maxlength="128" class="form-text required" />
+                                                        </div>
+                                                        <div class="item-list">
+                                                            <ul>
+                                                                <li class="even first last"><a href="user/password.html"
+                                                                        title="Request new password via e-mail.">Request
+                                                                        new password</a></li>
+                                                            </ul>
+                                                        </div><input type="hidden" name="form_build_id"
+                                                            value="form-qxfIAFdmYMMvRkNu4edaa44NIBKck6BjoB1PM5onufI" />
+                                                        <input type="hidden" name="form_id" value="user_login_block" />
+                                                        <div class="form-actions form-wrapper" id="edit-actions"><input
+                                                                type="submit" id="edit-submit" name="op" value="Log in"
+                                                                class="form-submit" /></div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</body>
