@@ -23,118 +23,105 @@
   <link rel="canonical" href="59.html" />
   <link rel="shortlink" href="59.html" />
   <title>Learn JavaScript/ES6 Promises by Examples | web-engineering.info</title>
-  <style type="text/css" media="all">
-    @import url("../modules/system/system.base5056.css?ry1opl");
-    @import url("../modules/system/system.menus5056.css?ry1opl");
-    @import url("../modules/system/system.messages5056.css?ry1opl");
-    @import url("../modules/system/system.theme5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../modules/comment/comment5056.css?ry1opl");
-    @import url("../modules/field/theme/field5056.css?ry1opl");
-    @import url("../modules/node/node5056.css?ry1opl");
-    @import url("../modules/search/search5056.css?ry1opl");
-    @import url("../modules/user/user5056.css?ry1opl");
-    @import url("../modules/forum/forum5056.css?ry1opl");
-    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-    @import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="screen">
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="print">
-    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-  </style>
+  <link rel="stylesheet" href="../../_includes/modules/system/system.base5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.menus5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.messages5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.theme5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/comment/comment5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/field/theme/field5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/node/node5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/search/search5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/user/user5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/forum/forum5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/views/css/views5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ckeditor/css/ckeditor5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ctools/css/ctools5056.css" type="text/css" media="all">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css"
+    type="text/css" media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/webeng.custom5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/html-elements5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/forms5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/tables5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/page5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/articles5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/comments5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/fields5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/blocks5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/navigation5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/corolla.settings.style5056.css"
+    type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/color/colors5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/print5056.css" type="text/css"
+    media="print">
   <link type="text/css" rel="stylesheet"
-    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css"
     media="only screen" />
-  <style type="text/css" media="screen">
-    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-  </style>
-  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+  <link rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css"
+    type="text/css" media="screen">
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.custom5056.css"
     media="only screen" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css"
     media="only screen and (max-width:320px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css"
     media="only screen and (min-width:321px) and (max-width:480px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.portrait5056.css"
     media="only screen and (min-width:481px) and (max-width:768px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.landscape5056.css"
     media="only screen and (min-width:769px) and (max-width:1024px)" />
-  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.desktop5056.css"
     media="only screen and (min-width:1025px)" />
 
+
   <!--[if lt IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
-</style>
-<![endif]-->
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?qv28dn");
+      </style>
+      <![endif]-->
 
   <!--[if lte IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
-</style>
-<![endif]-->
-  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/all/themes/corolla/css/ie-lte-9.css?qv28dn");
+      </style>
+      <![endif]-->
+  <script type="text/javascript" src="../../_includes/misc/jquery1cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery-extend-3.4.01cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery.once7839.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/drupal5056.js"></script>
+  <script type="text/javascript"
+    src="../../_includes/sites/all/modules/google_analytics/googleanalytics5056.js"></script>
   <script type="text/javascript">
-<!--//-->
+      <!--//-->
   < ![CDATA[//><!--
-      (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s); js.id = id;
-        js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-//--><!]]>
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "https://www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
+      //--><!]]>
   </script>
-  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-  <script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-  <script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-  <script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+  <script type="text/javascript" src="../../_includes/sites/all/modules/disqus/disqus5056.js"></script>
   <script type="text/javascript">
-<!--//-->
+      <!--//-->
   < ![CDATA[//><!--
-      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
-//--><!]]>
-  </script>
-  <script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-  <script type="text/javascript">
-<!--//-->
-  < ![CDATA[//><!--
-          jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "hKvYXfWNZ7KgDaGn24c1n40TKf3bt43ezOhUR_X8A8A", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "0": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "\/\/platform.linkedin.com\/in.js": 1, "\/\/platform.twitter.com\/widgets.js": 1, "\/\/apis.google.com\/js\/plusone.js": 1, "1": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/easy_social\/css\/easy_social.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/59?destination=node\/59": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/node\/59", "title": "Learn JavaScript\/ES6 Promises by Examples", "identifier": "node\/59" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
-//--><!]]>
+        jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "lFZahT6-VB7Qy37XiPt4hR1WARBvKq95YLAdjNylpqc", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "0": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/index.html?destination=node\/5": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/index.html", "title": "Free Tutorials and Books with the Complete Code of Example Apps", "identifier": "node\/5" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
+      //--><!]]>
   </script>
   <!--[if lt IE 9]>
-<script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
-<![endif]-->
+      <script src="../../_includes/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?qv28dn"></script>
+      <![endif]-->
 </head>
 
 <body
@@ -284,7 +271,8 @@
                                             acts as a proxy for a result that will be available only some time later
                                             because its computation takes place asychronously. In this tutorial, we show
                                             how to use&nbsp;ECMAScript 6 (ES6)<em> promises</em> and how they can help
-                                            with asynchronous computations.</p>
+                                            with asynchronous computations.
+                                          </p>
 
                                           <p>The term <em>promise</em> was coined by Daniel P. Friedman and David Wise
                                             in 1976, while Peter Hibbard called it <em>eventual</em>. The first
@@ -296,7 +284,8 @@
                                             were renamed to <em>Promises</em>, and finally moved into JavaScript, as
                                             part of the ECMAScript 6 (ES6) specification. Having them in JavaScript
                                             rather than in the DOM is great because this makes them available in other
-                                            JavaScript contexts, like in NodeJS.</p>
+                                            JavaScript contexts, like in NodeJS.
+                                          </p>
 
                                           <h2>What is a Promise?</h2>
 
@@ -313,7 +302,8 @@
                                             takes one argument, a function with two parameters, <code>resolve</code> and
                                             <code>reject</code>. Notice that <code>resolve</code> and
                                             <code>reject</code> are also functions. The generic structure of a promise
-                                            is shown in the example below:</p>
+                                            is shown in the example below:
+                                          </p>
 
                                           <pre lang="jscript">
 var promise = new Promise( function (resolve, reject) {
@@ -363,7 +353,8 @@ promise.then( function (params) {
 
                                           <p>While <code>catch</code> is almost the equivalent of
                                             <code>then( undefined, catchCallback)</code>, using both, <code>then</code>
-                                            and <code>catch</code>, makes the code easier to read and understand.</p>
+                                            and <code>catch</code>, makes the code easier to read and understand.
+                                          </p>
 
                                           <p>Promises can also be chained, so we can write code similar to:</p>
 
@@ -382,7 +373,8 @@ promise.then( function (params) {
                                             <code>.then(function (p){...}).then(function (p){...})</code>) or
                                             <code>catch</code> with <code>then</code> (i.e.,
                                             <code>.then(function (p){...}).catch(function (p){...}).then(function (p){...})</code>)
-                                            as many times as needed.</p>
+                                            as many times as needed.
+                                          </p>
 
                                           <h2>States and Fates</h2>
 
@@ -390,9 +382,11 @@ promise.then( function (params) {
 
                                           <ul>
                                             <li><strong>fulfilled:</strong> if <code>promise.then(f)</code> will call
-                                              <code>f</code> at some point in time;</li>
+                                              <code>f</code> at some point in time;
+                                            </li>
                                             <li><strong>rejected:</strong> if <code>promise.catch(e)</code> will call
-                                              <code>e</code> at some point in time;</li>
+                                              <code>e</code> at some point in time;
+                                            </li>
                                             <li><strong>pending:</strong> if it is neither fulfilled nor rejected.</li>
                                           </ul>
 
@@ -415,14 +409,16 @@ promise.then( function (params) {
                                           <p>A promise can be <em>resolved</em> to either a promise or
                                             <em>thenable</em>, in which case it will store the <em>promise</em> or
                                             <em>thenable</em> for later unwrapping, or it can be resolved to a
-                                            non-promise value, in which case it is fulfilled with that value.</p>
+                                            non-promise value, in which case it is fulfilled with that value.
+                                          </p>
 
                                           <h2>Example 1: Asynchronous JavaScript File Loading</h2>
 
                                           <p>Before ECMAScript6, the JavaScript programmers used to implement promises
                                             in ad-hock manners, with the help of callback methods and/or using
                                             <code>setTimeout</code>/<code>setInterval</code> calls combined with flags
-                                            and conditional checks.</p>
+                                            and conditional checks.
+                                          </p>
 
                                           <p>One common example of asynchronous operation was dynamic JavaScript scripts
                                             loading. This is very useful to obtain a modular behavior for our JavaScript
@@ -472,13 +468,15 @@ loadJsFile("js/script.js",
                                             browsers. Some old web browsers may not be able to execute it. Check the
                                             JavaScript console for details in case of errors. It also works locally, by
                                             using the <em>file</em> protocol (e.g.,
-                                            <code>file://path/to/app/index.html</code>).</p>
+                                            <code>file://path/to/app/index.html</code>).
+                                          </p>
 
                                           <h3>ES6 promise implementation</h3>
 
                                           <p>Lets see now how we obtain the same behavior, this time with the help of
                                             <em>ECMAScript6 Promises</em>. First we re-implement the
-                                            <code>loadJsFile</code> method as follows:</p>
+                                            <code>loadJsFile</code> method as follows:
+                                          </p>
 
                                           <pre lang="jscript">
 function loadJsFile( filePath) {
@@ -498,10 +496,12 @@ function loadJsFile( filePath) {
                                             the promise <code>reject</code> is called. The difference is that our
                                             <code>loadJsFile</code> has now only one parameter, i.e., the
                                             <code>filePath</code> instead of three, which is what we normally expect
-                                            from a "file loading" method.</p>
+                                            from a "file loading" method.
+                                          </p>
 
                                           <p>Later, somewhere in our JavaScript code, we like to invoke the
-                                            <code>loadJsFile</code> method:</p>
+                                            <code>loadJsFile</code> method:
+                                          </p>
 
                                           <pre lang="jscript">
 loadJsFile("js/myScript.js").then( 
@@ -528,7 +528,8 @@ loadJsFile("js/myScript.js").then(
                                             browsers. Some old web browsers may not be able to execute it. Check the
                                             JavaScript console for details in case of errors. It also works locally, by
                                             using the <em>file</em> protocol (e.g.,
-                                            <code>file://path/to/app/index.html</code>).</p>
+                                            <code>file://path/to/app/index.html</code>).
+                                          </p>
 
                                           <p><a href="../tech/promise/loadJsFileWithPromise/index.html"
                                               style="padding: 2px 3px; margin-removed 1em; border: 1px solid black;"
@@ -554,7 +555,8 @@ loadJsFile("js/myScript.js").then(
                                             <code>{timestamp: timestamp_value, message: "some message..."}</code>.
                                             Fortunatelly, we don't have to install any additional module, but you'll
                                             have <a href="https://nodejs.org/en/">download and install NodeJS</a>, in
-                                            case you don't have it already.</p>
+                                            case you don't have it already.
+                                          </p>
 
                                           <p>The NodeJS server code is very simple:</p>
 
@@ -609,7 +611,8 @@ function makeGetRequest(url, successCallback, errCallback) {
                                             implementation, which does not allow request parameters and does not treat
                                             more specific error cases, such as the ones specific to network problems,
                                             normally being captured with the help of <code>onerror</code> (i.e.,
-                                            <code>req.onerror = function (err) {...})</code>).</p>
+                                            <code>req.onerror = function (err) {...})</code>).
+                                          </p>
 
                                           <p>Calling the <code>makeGetRequest</code> method somewhere in our JavaScript
                                             code can be done as in the following example:</p>
@@ -666,7 +669,8 @@ ProxyPassReverse /example/promise http://localhost:3000/
 
                                           <p>Our NodeJS code remains unchanged, but the client
                                             <code>makeGetRequest</code> method needs to be re-implemented by using a
-                                            <code>Promise</code> this time:</p>
+                                            <code>Promise</code> this time:
+                                          </p>
 
                                           <pre lang="jscript">
 function makeGetRequest(url) {
@@ -689,7 +693,8 @@ function makeGetRequest(url) {
                                             represents an error, so the promise <code>reject</code> is called.</p>
 
                                           <p>In our HTML code, at some point we need to make to invoke the
-                                            <code>makeGetRequest</code> method:</p>
+                                            <code>makeGetRequest</code> method:
+                                          </p>
 
                                           <pre lang="jscript">
 makeGetRequest("/example/promise")
@@ -743,7 +748,8 @@ makeGetRequest("/example/promise")
                                             sure that we have connected successfully to the database, so we need to use
                                             <code>mongodb.connect</code> and pass it a callback function where,
                                             depending on the success or error case, we look for the user or we have to
-                                            deal with a connection error.</p>
+                                            deal with a connection error.
+                                          </p>
 
                                           <pre lang="jscript">
 var MongoClient = require('mongodb').MongoClient;
@@ -773,7 +779,8 @@ function login(username, password, successCallback, errCallback) {
                                             connect to database, then check authentication, then make a modification
                                             (update) and then update a log collection, and all these operations have
                                             callbacks. In such a case, a "doom pyramid" code is obtained, which is
-                                            really ugly and hard to read.</p>
+                                            really ugly and hard to read.
+                                          </p>
 
                                           <p>Later on, the login method can be invoked to check the credentials of a
                                             specific user:</p>
@@ -800,7 +807,8 @@ login("johnny", "12CqqDt4e*",
                                             able to have a succesful login, you need to create the Mongo collection and
                                             insert the user(s). For this, using your command tool, type
                                             <code>mongo</code> and press enter. In the interactive Mongo client mode,
-                                            type the following code:</p>
+                                            type the following code:
+                                          </p>
 
                                           <pre lang="jscript">
 use myapp;
@@ -866,7 +874,8 @@ login("johnny", "12345")
                                             readable, but it also provide additional advantages, such as a semantic
                                             handling of errors by using <code>catch</code> instead of our old
                                             <code>errorCallback</code> buddy. There are a few more important facts to
-                                            consider when using promises, which are discussed in this section.</p>
+                                            consider when using promises, which are discussed in this section.
+                                          </p>
 
                                           <h3>Do promises swallow your errors?</h3>
 
@@ -953,7 +962,8 @@ Promise.resolve().then( function () {return v; });
 Promise.all([v]).then( function (val){ return val[0]; });</pre>
 
                                           <h3>The choices <code>catch()</code> and
-                                            <code>then(undefined,function(v){})</code> are not "exactly" the same</h3>
+                                            <code>then(undefined,function(v){})</code> are not "exactly" the same
+                                          </h3>
 
                                           <p>In the first part of the article, we discussed that using <code>then</code>
                                             and <code>catch</code> is "almost" equivalent with using <code>then</code>
@@ -993,7 +1003,8 @@ somePromise().then(function () {
 
                                           <p>When using <code>then</code>, to handle both, the <em>resolve</em> and the
                                             <em>reject</em> cases, an error (exception) thrown in the resolve case is
-                                            not passed to the reject handler.</p>
+                                            not passed to the reject handler.
+                                          </p>
 
                                           <h2>Support for ES6 Promises</h2>
 

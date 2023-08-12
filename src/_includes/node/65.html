@@ -23,118 +23,105 @@
   <link rel="canonical" href="65.html" />
   <link rel="shortlink" href="65.html" />
   <title>JavaScript-Based IoT/WoT Development with the ESP8266 and the Raspberry Pi | web-engineering.info</title>
-  <style type="text/css" media="all">
-    @import url("../modules/system/system.base5056.css?ry1opl");
-    @import url("../modules/system/system.menus5056.css?ry1opl");
-    @import url("../modules/system/system.messages5056.css?ry1opl");
-    @import url("../modules/system/system.theme5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../modules/comment/comment5056.css?ry1opl");
-    @import url("../modules/field/theme/field5056.css?ry1opl");
-    @import url("../modules/node/node5056.css?ry1opl");
-    @import url("../modules/search/search5056.css?ry1opl");
-    @import url("../modules/user/user5056.css?ry1opl");
-    @import url("../modules/forum/forum5056.css?ry1opl");
-    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-    @import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="screen">
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="print">
-    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-  </style>
+  <link rel="stylesheet" href="../../_includes/modules/system/system.base5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.menus5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.messages5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.theme5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/comment/comment5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/field/theme/field5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/node/node5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/search/search5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/user/user5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/forum/forum5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/views/css/views5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ckeditor/css/ckeditor5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ctools/css/ctools5056.css" type="text/css" media="all">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css"
+    type="text/css" media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/webeng.custom5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/html-elements5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/forms5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/tables5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/page5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/articles5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/comments5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/fields5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/blocks5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/navigation5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/corolla.settings.style5056.css"
+    type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/color/colors5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/print5056.css" type="text/css"
+    media="print">
   <link type="text/css" rel="stylesheet"
-    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css"
     media="only screen" />
-  <style type="text/css" media="screen">
-    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-  </style>
-  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+  <link rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css"
+    type="text/css" media="screen">
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.custom5056.css"
     media="only screen" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css"
     media="only screen and (max-width:320px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css"
     media="only screen and (min-width:321px) and (max-width:480px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.portrait5056.css"
     media="only screen and (min-width:481px) and (max-width:768px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.landscape5056.css"
     media="only screen and (min-width:769px) and (max-width:1024px)" />
-  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.desktop5056.css"
     media="only screen and (min-width:1025px)" />
 
+
   <!--[if lt IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
-</style>
-<![endif]-->
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?qv28dn");
+      </style>
+      <![endif]-->
 
   <!--[if lte IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
-</style>
-<![endif]-->
-  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/all/themes/corolla/css/ie-lte-9.css?qv28dn");
+      </style>
+      <![endif]-->
+  <script type="text/javascript" src="../../_includes/misc/jquery1cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery-extend-3.4.01cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery.once7839.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/drupal5056.js"></script>
+  <script type="text/javascript"
+    src="../../_includes/sites/all/modules/google_analytics/googleanalytics5056.js"></script>
   <script type="text/javascript">
-<!--//-->
+      <!--//-->
   < ![CDATA[//><!--
-      (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s); js.id = id;
-        js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-//--><!]]>
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "https://www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
+      //--><!]]>
   </script>
-  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-  <script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-  <script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-  <script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+  <script type="text/javascript" src="../../_includes/sites/all/modules/disqus/disqus5056.js"></script>
   <script type="text/javascript">
-<!--//-->
+      <!--//-->
   < ![CDATA[//><!--
-      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
-//--><!]]>
-  </script>
-  <script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-  <script type="text/javascript">
-<!--//-->
-  < ![CDATA[//><!--
-          jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "fz-igfMDw3d9DdPVQFmBB-F79xjlVpIqpTvLlNPvLAA", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "0": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "\/\/platform.linkedin.com\/in.js": 1, "\/\/platform.twitter.com\/widgets.js": 1, "\/\/apis.google.com\/js\/plusone.js": 1, "1": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/easy_social\/css\/easy_social.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/65?destination=node\/65": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/node\/65", "title": "JavaScript-Based IoT\/WoT Development with the ESP8266 and the Raspberry Pi", "identifier": "node\/65" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
-//--><!]]>
+        jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "lFZahT6-VB7Qy37XiPt4hR1WARBvKq95YLAdjNylpqc", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "0": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/index.html?destination=node\/5": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/index.html", "title": "Free Tutorials and Books with the Complete Code of Example Apps", "identifier": "node\/5" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
+      //--><!]]>
   </script>
   <!--[if lt IE 9]>
-<script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
-<![endif]-->
+      <script src="../../_includes/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?qv28dn"></script>
+      <![endif]-->
 </head>
 
 <body
@@ -459,7 +446,8 @@
                                             additional features, which are not available as part of the standard
                                             JavaScript core, but a being available on NodeJS (i.e., stripped down
                                             modules or core functionality), such as the HTTP client (allowing for HTTP
-                                            requests) and HTTP server capabilities.</p>
+                                            requests) and HTTP server capabilities.
+                                          </p>
 
                                           <h3>Build the Mongoose Flashing Tool Application</h3>
 
@@ -599,7 +587,8 @@
                                             using <code>sudo apt-get install libxcb-util0</code>. Now you can run the
                                             application by using <code>src/MFT</code> from the
                                             <code>mongoose-flashing-tool</code> folder or simply <code>./MFT</code> from
-                                            the <code>mongoose-flashing-tool/src</code> folder.</p>
+                                            the <code>mongoose-flashing-tool/src</code> folder.
+                                          </p>
 
                                           <p><a
                                               href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/mongoose-flashing-tool.zip"
@@ -674,7 +663,8 @@
                                           <p>One more test we like to do, is to upload a JavaScript file, containing
                                             some code that we like to execute on ESP8266. For this, create a file named
                                             <code>app.js</code> on a folder at your choice, then using a text editor,
-                                            open it and copy/paste the following simple test code:</p>
+                                            open it and copy/paste the following simple test code:
+                                          </p>
 
                                           <pre>
 function sum(a, b) {return a+b;};
@@ -696,7 +686,8 @@ console.log( "The sum of 123 and 456 is: " + sum( 123, 456));
                                             found, the JavaScript code is executed. Note that if you have JavaScript
                                             errors in your code, the module may behave strange, like continuously
                                             resetting itself, and in some cases, the only way to have it back working is
-                                            to upload the firmware again!</p>
+                                            to upload the firmware again!
+                                          </p>
 
                                           <p>You may also want to check this <a
                                               href="https://www.youtube.com/watch?v=kThcRN8VF0Q">YouTube</a> video
@@ -760,7 +751,8 @@ CREATE_RAW_FS ?= 1</pre>
                                               after selecting the correct communication port (e.g.,
                                               <code>ttyUSB0</code>), then use the <code>Firmwware</code> section to
                                               select the firmware zip file created above, and press the
-                                              <code>Flash</code> button</li>
+                                              <code>Flash</code> button
+                                            </li>
                                             <li>in a few seconds, the flash process must be completed, now reboot the
                                               ESP module by clicking the <code>Reboot</code> button</li>
                                             <li>test if the module works as expected: execute <code>Sys.conf</code> in
@@ -805,7 +797,8 @@ CREATE_RAW_FS ?= 1</pre>
                                             exclude this code from the firmware simply by using a flag. Notice that the
                                             firmware needs to be compiled/rebuild after adding or dropping the
                                             parameter. The following C/C++ code is part of the
-                                            <code>fw/platforms/esp8266/user/v7_esp_features.h</code> file:</p>
+                                            <code>fw/platforms/esp8266/user/v7_esp_features.h</code> file:
+                                          </p>
 
                                           <pre>
 #ifndef CS_FW_PLATFORMS_ESP8266_USER_V7_ESP_FEATURES_H_
@@ -816,11 +809,13 @@ CREATE_RAW_FS ?= 1</pre>
 
                                           <p><strong>Note: </strong> only the marked code line is new (added by us), the
                                             rest of the code already exists as part of the
-                                            <code>fw/platforms/esp8266/user/v7_esp_features.h</code> file.</p>
+                                            <code>fw/platforms/esp8266/user/v7_esp_features.h</code> file.
+                                          </p>
 
                                           <p>The next step is to modify the file
                                             <code>fw/platforms/esp8266/user/v7_esp.c</code> by considering the code
-                                            shown below:</p>
+                                            shown below:
+                                          </p>
 
                                           <pre>
 <strong>#include "fw/platforms/esp8266/user/dht.h"</strong>
@@ -874,7 +869,8 @@ CREATE_RAW_FS ?= 1</pre>
                                             <code>DHT_read</code> method returns <code>V7_OK</code> or throws
                                             exceptions, depending on the case. Also notice that <code>DHT_read</code> is
                                             a name that we choose, so you are free to change it with whatever you find
-                                            appropriate, but remember to change every reference in the code.</p>
+                                            appropriate, but remember to change every reference in the code.
+                                          </p>
 
                                           <p>Further, in the same <code>fw/platforms/esp8266/user/v7_esp.c</code> file,
                                             we modify the <code>init_v7</code> method code as shown below:</p>
@@ -925,13 +921,15 @@ CREATE_RAW_FS ?= 1</pre>
                                             value to it if required. Datatypes values are obtained by calling the
                                             corresponding <code>v7_mk_xxx</code> method, where <code>xxx</code> can be
                                             <code>null</code>, <code>object</code>, <code>number</code> or
-                                            <code>string</code> depending on the case.</p>
+                                            <code>string</code> depending on the case.
+                                          </p>
 
                                           <p>It is also important to know that when we use the <code>v7_def</code> and
                                             <code>v7_set</code> methods, their 4th parameter is a positive integer,
                                             representing the number of characters of the name of the property or method
                                             that is created. Failing to set this value correctly, results in the
-                                            property or method not being recognized in the JavaScript code!</p>
+                                            property or method not being recognized in the JavaScript code!
+                                          </p>
 
                                           <p><strong>Note: </strong> the init_v7 method contains additional code, which
                                             should be kept unchanged. In this tutorial only show the new code, required
@@ -942,7 +940,8 @@ CREATE_RAW_FS ?= 1</pre>
                                             meant to be used by the Mongoose-IoT firmware for the communication with the
                                             DHTxx sensor. We create the file
                                             <code>fw/platforms/esp8266/user/dht.h</code> that defines the signature of
-                                            the <code>dhtRead</code> method:</p>
+                                            the <code>dhtRead</code> method:
+                                          </p>
 
                                           <pre>
 #ifndef DHT_LIBRARY
@@ -958,7 +957,8 @@ CREATE_RAW_FS ?= 1</pre>
                                             <code>fw/platforms/esp8266/user/v7_esp.c</code> code. Finally, we need to
                                             add the <code>fw/platforms/esp8266/user/dht.c</code> file, where we put the
                                             code that allows us to communicate with any of the the DHT11/21/22 sensors,
-                                            for getting temperature and humidity readings:</p>
+                                            for getting temperature and humidity readings:
+                                          </p>
 
                                           <pre>
 #include &lt;osapi.h&gt;
@@ -1000,7 +1000,8 @@ CREATE_RAW_FS ?= 1</pre>
                                             <code>{GPIO_PULL_FLOAT = 0, GPIO_PULL_PULLUP = 1, GPIO_PULL_PULLDOWN = 2}</code>,
                                             specifying if the GPIO pin is internally pulled up, down or let floating.
                                             The following example makes sets the GPIO5 pin as a digital output and GPIO4
-                                            as pulled down digital input:</p>
+                                            as pulled down digital input:
+                                          </p>
 
                                           <pre>
 mg_gpio_set_mode( 5, GPIO_MODE_OUTPUT, GPIO_PULL_FLOAT);
@@ -1018,7 +1019,8 @@ mg_gpio_set_mode( 4, GPIO_MODE_INPUT, GPIO_PULL_DOWN);</pre>
                                             <code>{GPIO_LEVEL_LOW = 0, GPIO_LEVEL_HIGH = 1}</code>. For example, if we
                                             like to wait for a HIGH signal on GPIO4 pin (set as digital input in the
                                             above example) and write a HIGH state on GPIO5 (set as digital output in the
-                                            above example) afterwards, we'll use:</p>
+                                            above example) afterwards, we'll use:
+                                          </p>
 
                                           <pre>
 <code>
@@ -1028,7 +1030,8 @@ set_gpio( 4, GPIO_LEVEL_HIGH);</code></pre>
                                           <p><strong>Note: </strong> the following two header files are required for
                                             getting the above described GPIO operations:
                                             <code>fw/platforms/esp8266/user/util.h</code> and
-                                            <code>fw/platforms/esp8266/user/esp_gpio.h</code>.</p>
+                                            <code>fw/platforms/esp8266/user/esp_gpio.h</code>.
+                                          </p>
 
                                           <p>To make this new feature available on your ESP module, you'll need to
                                             compile and build the source code, then flash the firmware, as shown in <a
@@ -1037,7 +1040,8 @@ set_gpio( 4, GPIO_LEVEL_HIGH);</code></pre>
 
                                           <p>After uploading the new firmware, test the DHT functionality by using the
                                             following JavaScript code in the MFT Console, or as part of the
-                                            <code>app.js</code> file:</p>
+                                            <code>app.js</code> file:
+                                          </p>
 
                                           <pre>
 Dht.read( Dht.TypeEL.DHT11, 5);
@@ -1047,7 +1051,8 @@ Dht.read( Dht.TypeEL.DHT11, 5);
                                             <code>Dht.TypeEL.DHT11</code> with <code>Dht.TypeEL.DHT21</code> or
                                             <code>Dht.TypeEL.DHT22</code>, depending on the used DHT sensor type, and
                                             also replace 5 (the second parameter) with the corresponding GPIO number, to
-                                            which you have connected the data pin of the DHT sensor.</p>
+                                            which you have connected the data pin of the DHT sensor.
+                                          </p>
 
                                           <p><a
                                               href="../sites/default/files/wot_tutorials/Mongoose-IoT-ESP8266/DHTxx_src.zip"

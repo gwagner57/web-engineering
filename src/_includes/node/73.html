@@ -20,122 +20,110 @@
     content="Test the Drag &amp; Drop Mechanism Move me into the pink area (the drop zone). The HTML specification defines an event-based drag-and-drop (D&amp;D) mechanism, which is supported by all current major browsers (including IE11 and iOS/Safari), except on Android, according to caniuse. The main concepts of the HTML D&amp;D mechanism are: A drag-and-drop operation is a complex user action" />
   <meta name="HandheldFriendly" content="true" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <link r
-  el="canonical" href="73.html" />
+  <link r el="canonical" href="73.html" />
   <link rel="shortlink" href="73.html" />
   <title>Drag&Drop HTML5/JS API Summary | web-engineering.info</title>
-  <style type="text/css" media="all">
-    @import url("../modules/system/system.base5056.css?ry1opl");
-    @import url("../modules/system/system.menus5056.css?ry1opl");
-    @import url("../modules/system/system.messages5056.css?ry1opl");
-    @import url("../modules/system/system.theme5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../modules/comment/comment5056.css?ry1opl");
-    @import url("../modules/field/theme/field5056.css?ry1opl");
-    @import url("../modules/node/node5056.css?ry1opl");
-    @import url("../modules/search/search5056.css?ry1opl");
-    @import url("../modules/user/user5056.css?ry1opl");
-    @import url("../modules/forum/forum5056.css?ry1opl");
-    @import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-    @import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-    @import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="screen">
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-    @import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="all">
-    @import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-    @import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-  </style>
-  <style type="text/css" media="print">
-    @import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-  </style>
+  <link rel="stylesheet" href="../../_includes/modules/system/system.base5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.menus5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.messages5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.theme5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/comment/comment5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/field/theme/field5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/node/node5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/search/search5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/user/user5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/forum/forum5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/views/css/views5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ckeditor/css/ckeditor5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ctools/css/ctools5056.css" type="text/css" media="all">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css"
+    type="text/css" media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/webeng.custom5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/html-elements5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/forms5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/tables5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/page5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/articles5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/comments5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/fields5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/blocks5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/navigation5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/corolla.settings.style5056.css"
+    type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/color/colors5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/print5056.css" type="text/css"
+    media="print">
   <link type="text/css" rel="stylesheet"
-    href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl"
+    href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css"
     media="only screen" />
-  <style type="text/css" media="screen">
-    @import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-  </style>
-  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl"
+  <link rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css"
+    type="text/css" media="screen">
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.custom5056.css"
     media="only screen" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css"
     media="only screen and (max-width:320px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css"
     media="only screen and (min-width:321px) and (max-width:480px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.portrait5056.css"
     media="only screen and (min-width:481px) and (max-width:768px)" />
   <link type="text/css" rel="stylesheet"
-    href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.landscape5056.css"
     media="only screen and (min-width:769px) and (max-width:1024px)" />
-  <link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl"
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.desktop5056.css"
     media="only screen and (min-width:1025px)" />
 
+
   <!--[if lt IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
-</style>
-<![endif]-->
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?qv28dn");
+      </style>
+      <![endif]-->
 
   <!--[if lte IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
-</style>
-<![endif]-->
-  <script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-  <script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-  <script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-  <script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/all/themes/corolla/css/ie-lte-9.css?qv28dn");
+      </style>
+      <![endif]-->
+  <script type="text/javascript" src="../../_includes/misc/jquery1cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery-extend-3.4.01cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery.once7839.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/drupal5056.js"></script>
+  <script type="text/javascript"
+    src="../../_includes/sites/all/modules/google_analytics/googleanalytics5056.js"></script>
   <script type="text/javascript">
-<!--//-->
-  < ![CDATA[//><!--
-      (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s); js.id = id;
-        js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-//--><!]]>
+      <!--//-->
+  < ![CDATA[/ / >< !--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "https://www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
+      //-->
+  < !]]>
   </script>
-  <script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-  <script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-  <script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-  <script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
+  <script type="text/javascript" src="../../_includes/sites/all/modules/disqus/disqus5056.js"></script>
   <script type="text/javascript">
-<!--//-->
-  < ![CDATA[//><!--
-      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "../../www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
-//--><!]]>
-  </script>
-  <script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-  <script type="text/javascript">
-<!--//-->
-  < ![CDATA[//><!--
-      jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "bcUjko5n-NRvZg4Bw_d3g3L6ksrn9VcJBuoN9ch-4Uw", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "0": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "\/\/platform.linkedin.com\/in.js": 1, "\/\/platform.twitter.com\/widgets.js": 1, "\/\/apis.google.com\/js\/plusone.js": 1, "1": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/modules\/easy_social\/css\/easy_social.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/node\/73?destination=node\/73": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/node\/73", "title": "Drag\u0026amp;Drop HTML5\/JS API Summary", "identifier": "node\/73" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
-//--><!]]>
+      <!--//-->
+  < ![CDATA[/ / >< !--
+        jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "lFZahT6-VB7Qy37XiPt4hR1WARBvKq95YLAdjNylpqc", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "0": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/index.html?destination=node\/5": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/index.html", "title": "Free Tutorials and Books with the Complete Code of Example Apps", "identifier": "node\/5" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
+      //-->
+  < !]]>
   </script>
   <!--[if lt IE 9]>
-<script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
-<![endif]-->
+      <script src="../../_includes/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?qv28dn"></script>
+      <![endif]-->
 </head>
 
 <body
@@ -280,24 +268,24 @@
                                           <h2>Test the Drag &amp; Drop Mechanism</h2>
 
                                           <script>
-                                                  function handleDragStart(evt) {
-                                                    evt.dataTransfer.dropEffect = 'copy';
-                                                    evt.dataTransfer.setData("text/plain", evt.target.id);
-                                                  }
-  function handleDragOver(evt) {
-                                                    // allow dropping by preventing the default behavior
-                                                    evt.preventDefault();
-                                                  }
-  function handleDrop(evt) {
-                                                    var elId = evt.dataTransfer.getData("text/plain"),
-                                                      el = document.getElementById(elId),
-                                                      x = evt.clientX, y = evt.clientY;
-                                                    el.style.position = "absolute";
-                                                    el.style.left = x + "px";
-                                                    el.style.top = y + "px";
-                                                    el.textContent = "Moved to " + x + "/" + y;
-                                                    evt.preventDefault();
-                                                  }
+                                              function handleDragStart(evt) {
+                                                evt.dataTransfer.dropEffect = 'copy';
+                                                evt.dataTransfer.setData("text/plain", evt.target.id);
+                                              }
+                                            function handleDragOver(evt) {
+                                              // allow dropping by preventing the default behavior
+                                              evt.preventDefault();
+                                            }
+                                            function handleDrop(evt) {
+                                              var elId = evt.dataTransfer.getData("text/plain"),
+                                                el = document.getElementById(elId),
+                                                x = evt.clientX, y = evt.clientY;
+                                              el.style.position = "absolute";
+                                              el.style.left = x + "px";
+                                              el.style.top = y + "px";
+                                              el.textContent = "Moved to " + x + "/" + y;
+                                              evt.preventDefault();
+                                            }
                                           </script>
                                           <div id="dropZone" ondragover="handleDragOver(event)"
                                             ondrop="handleDrop(event)"
@@ -326,17 +314,20 @@
                                                 consists of a <code>mousedown</code> event on a drag element followed by
                                                 a series of <code>mousemove</code> events, while the subsequent
                                                 <em>drop</em> user action normally consists of the mouse being released
-                                                on the drop zone element.</p>
+                                                on the drop zone element.
+                                              </p>
                                             </li>
                                             <li>
                                               <p>When a browser detects a <em>drag</em> user action, it raises a
                                                 <code>dragstart</code> event followed by a series of
                                                 <code>dragover</code> events while the user keeps dragging the drag
-                                                element.</p>
+                                                element.
+                                              </p>
                                             </li>
                                             <li>
                                               <p>When a browser detects a <em>drop</em> user action, it raises a
-                                                <code>dragend</code> event followed by a <code>drop</code> event.</p>
+                                                <code>dragend</code> event followed by a <code>drop</code> event.
+                                              </p>
                                             </li>
                                           </ol>
 
@@ -351,7 +342,8 @@
                                                 text selections, are draggable by default. The&nbsp;D&amp;D API requires
                                                 to transfer data (about the drag source element) by invoking an event
                                                 handler for the&nbsp;<code>dragstart</code> event. So, we get the
-                                                following HTML code: &nbsp;</p>
+                                                following HTML code: &nbsp;
+                                              </p>
 
                                               <pre>
 &lt;div id="drag" <strong>draggable="true"</strong>&nbsp;<strong>ondragstart</strong>="handleDragStart(event)"&gt;Drag me...&lt;/div&gt;  </pre>
@@ -379,7 +371,8 @@ function <strong>handleDragStart</strong>( evt) {
                                               <p>HTML elements can be turned into a <em>drop zone</em> for a D&amp;D
                                                 operation by&nbsp;invoking an event handler for the
                                                 <code>dragover</code> event and another one for the <code>drop</code>
-                                                event:</p>
+                                                event:
+                                              </p>
 
                                               <pre>
      &lt;div id="dropZone" <strong>ondrop</strong>="handleDrop(event)" <strong>ondragover</strong>="handleDragOver(event)"&gt;&lt;/div&gt;
@@ -390,7 +383,8 @@ function <strong>handleDragStart</strong>( evt) {
                                                 supposed to be dropped (the "drop zone"), the&nbsp;D&amp;D API requires
                                                 to prevent the browser's default behavior by invoking
                                                 <code>preventDefault</code> in the JS function that handles the
-                                                <code>dragover</code> event:</p>
+                                                <code>dragover</code> event:
+                                              </p>
 
                                               <pre>
 function <strong>handleDragOver</strong>( evt) {
@@ -429,7 +423,8 @@ function <strong>handleDrop</strong>( evt) {
                                             The specification also defines a few additional features, which are,
                                             however, not that much important, like the&nbsp;<code>dropEffect</code>
                                             attribute for setting the drag shape (indicating either a move, a copy or a
-                                            drag link operation).</p>
+                                            drag link operation).
+                                          </p>
 
                                           <p>For indicating to the user that an element is&nbsp;draggable, we set the
                                             cursor shape to a "move" symbol whenever the cursor is over a draggable
