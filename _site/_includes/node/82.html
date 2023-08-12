@@ -2,522 +2,1562 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+	prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/82 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:44:35 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
 <head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="Seeeduino XIAO is a tiny Arduino compatible board based on Microchip&#039;s ARM Cortex-M0+ MCU. Measuring just 2x1.7x0.35 cm, it is low power, comes with 11 GPIO pins and a big features pack, thus making it almost perfect for many IoT/WoT projects." />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="82.html" />
-<link rel="shortlink" href="82.html" />
-<title>Seeeduino XIAO - A Tiny Arduino Zero Variation | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="MobileOptimized" content="width" />
+	<meta name="description"
+		content="Seeeduino XIAO is a tiny Arduino compatible board based on Microchip&#039;s ARM Cortex-M0+ MCU. Measuring just 2x1.7x0.35 cm, it is low power, comes with 11 GPIO pins and a big features pack, thus making it almost perfect for many IoT/WoT projects." />
+	<meta name="HandheldFriendly" content="true" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link rel="canonical" href="82.html" />
+	<link rel="shortlink" href="82.html" />
+	<title>Seeeduino XIAO - A Tiny Arduino Zero Variation | web-engineering.info</title>
+	<link rel="stylesheet" href="../../_includes/modules/system/system.base5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/system/system.menus5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/system/system.messages5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/system/system.theme5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/comment/comment5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/field/theme/field5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/node/node5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/search/search5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/user/user5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/modules/forum/forum5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/modules/views/css/views5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/modules/ckeditor/css/ckeditor5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/modules/ctools/css/ctools5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet"
+		href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css"
+		type="text/css" media="screen">
+	<link rel="stylesheet"
+		href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css"
+		type="text/css" media="screen">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css"
+		type="text/css" media="screen">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/webeng.custom5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/html-elements5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/forms5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/tables5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/page5056.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/articles5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/comments5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/fields5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/blocks5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/navigation5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/corolla.settings.style5056.css"
+		type="text/css" media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/color/colors5056.css" type="text/css"
+		media="all">
+	<link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/print5056.css" type="text/css"
+		media="print">
+	<link type="text/css" rel="stylesheet"
+		href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css"
+		media="only screen" />
+	<link rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css"
+		type="text/css" media="screen">
+	<link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.custom5056.css"
+		media="only screen" />
+	<link type="text/css" rel="stylesheet"
+		href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css"
+		media="only screen and (max-width:320px)" />
+	<link type="text/css" rel="stylesheet"
+		href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css"
+		media="only screen and (min-width:321px) and (max-width:480px)" />
+	<link type="text/css" rel="stylesheet"
+		href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.portrait5056.css"
+		media="only screen and (min-width:481px) and (max-width:768px)" />
+	<link type="text/css" rel="stylesheet"
+		href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.landscape5056.css"
+		media="only screen and (min-width:769px) and (max-width:1024px)" />
+	<link type="text/css" rel="stylesheet"
+		href="../../_includes/sites/all/themes/corolla/css/responsive.desktop5056.css"
+		media="only screen and (min-width:1025px)" />
 
-<!--[if lt IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
-</style>
-<![endif]-->
 
-<!--[if lte IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
-</style>
-<![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-//--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
-//--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"3jlMxrF6SHp1NyFN9muAYIlFCfXaEj6w743yFVtIg6E","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/82?destination=node\/82":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/82","title":"Seeeduino XIAO - A Tiny Arduino Zero Variation","identifier":"node\/82"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
-//--><!]]>
-</script>
-<!--[if lt IE 9]>
-<script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
-<![endif]-->
+	<!--[if lt IE 9]>
+		<style type="text/css" media="screen">
+		@import url("../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?qv28dn");
+		</style>
+		<![endif]-->
+
+	<!--[if lte IE 9]>
+		<style type="text/css" media="screen">
+		@import url("../../_includes/sites/all/themes/corolla/css/ie-lte-9.css?qv28dn");
+		</style>
+		<![endif]-->
+	<script type="text/javascript" src="../../_includes/misc/jquery1cc4.js"></script>
+	<script type="text/javascript" src="../../_includes/misc/jquery-extend-3.4.01cc4.js"></script>
+	<script type="text/javascript" src="../../_includes/misc/jquery.once7839.js"></script>
+	<script type="text/javascript" src="../../_includes/misc/drupal5056.js"></script>
+	<script type="text/javascript"
+		src="../../_includes/sites/all/modules/google_analytics/googleanalytics5056.js"></script>
+	<script type="text/javascript">
+		<!--//-->
+	< ![CDATA[/ / >< !--
+			(function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "https://www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
+		//-->
+	< !]]>
+	</script>
+	<script type="text/javascript" src="../../_includes/sites/all/modules/disqus/disqus5056.js"></script>
+	<script type="text/javascript">
+		<!--//-->
+	< ![CDATA[/ / >< !--
+				jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "lFZahT6-VB7Qy37XiPt4hR1WARBvKq95YLAdjNylpqc", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "0": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/index.html?destination=node\/5": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/index.html", "title": "Free Tutorials and Books with the Complete Code of Example Apps", "identifier": "node\/5" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
+		//-->
+	< !]]>
+	</script>
+	<!--[if lt IE 9]>
+		<script src="../../_includes/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?qv28dn"></script>
+		<![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-82 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
-  <div id="skip-link" class="nocontent">
-    <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
-  </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
+<body
+	class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-82 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+	<div id="skip-link" class="nocontent">
+		<a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+	</div>
+	<div id="page-wrapper">
+		<div id="page"
+			class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-        <header class="clearfix with-logo" role="banner">
 
-                      <div id="branding" class="branding-elements clearfix">
+			<div id="header-wrapper">
+				<div class="container clearfix">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+					<header class="clearfix with-logo" role="banner">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
-            </div>
-          
-          
-        </header>
+						<div id="branding" class="branding-elements clearfix">
 
-      </div>
-    </div>
+							<div id="logo">
+								<a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+										src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+							</div>
 
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
+							<div class="h-group" id="name-and-slogan">
 
-        <div id="columns">
-          <div class="columns-inner clearfix">
+								<h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a>
+								</h1>
 
-            <div id="content-column">
-              <div class="content-inner">
+								<h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
 
-                
-                <section id="main-content" role="main">
+							</div>
 
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
+						</div>
 
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
-                          <h1 id="page-title">
-                            Seeeduino XIAO - A Tiny Arduino Zero Variation                          </h1>
-                        </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
-  
-  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/82" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="82.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/82"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/82" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box -->
-  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
-  
-  <article id="node-82" class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/82" typeof="sioc:Post sioct:BlogPost" role="article">
-  <div class="node-inner">
 
-    
-              <header class="node-header">
+					</header>
 
-        
-                  <p class="submitted"><span property="dc:date dc:created" content="2020-08-17T12:02:49+02:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/24.html" title="View user profile." class="username" xml:lang="" about="/user/24" typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on <time datetime="2020-08-17T12:02:49+0200">Mon, 08/17/2020 - 12:02</time></span></p>
-        
-      </header>
-        <span property="dc:title" content="Seeeduino XIAO - A Tiny Arduino Zero Variation" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
-    <div class="node-content">
-      <div class="user-picture">
-    <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc" alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>  </div>
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>You may like to check <a href="../WoTProjects.html">our other WoT/IoT related articles</a>.</p>
+				</div>
+			</div>
 
-<h2>Another Arduino Compatible Board?</h2>
 
-<p>You probably asked yourself a few times: <em>what, another Arduino compatible board? Why shall I choose this one over the other one? Is this "the one" for my project?</em></p>
 
-<p>If you are not familiar with Arduino, you shall have a look at the <a href="https://www.arduino.cc/">Arduino official website</a>. You may also be interested in reading our <a href="../WoTProjects.html">WoT with Arduino for Beginners</a> tutorials.</p>
 
-<p>A simple answer for all or each of these questions does not really exist. A few other questions must be answered first: <em>which features do I really need for my project? Is it battery powered? How much $$$ do I want to spend (or do I have available) for the project? Where do I buy the board? Does it have a "real" community?</em> ... and so on.</p>
+			<div id="content-wrapper">
+				<div class="container">
 
-<p><strong>The expectations:</strong> a new Arduino "compatible" board is also a progress step, so at least in theory it must have "something" that makes it "better" or at least "different". Many of these boards have just (some) minor hardware changes when comparing them with the equivalent Arduino brother, but their price is the one of a coffee cup, thus making them attractive for the very beginner or for low cost projects - this is also the case of many "Arduino clone" boards. Other boards have relevant hardware improvements, but usually (at least at the release time) have a higher price. Such boards have for example a better MCU (higher speed, amount of RAM and FLASH) and usually a larger features pack, like I2C, SPI, UART, CAN, touch sensor interface, ADC, DAC, etc. Finally, a few of them combine most of the goodies in a (very) tiny board and have the price of two beers or coffee cups. In the former category, we also find the <a href="https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html">Seeeduino XIAO</a> board.</p>
+					<div id="columns">
+						<div class="columns-inner clearfix">
 
-<p>While XIAO is not necessarily "the perfect Arduino compatible board", it is among the few ones that for around five bucks, comes in a very low size, has a MCU capable of coping with demanding tasks, requires just a little amount of power, has 11 GPIOs that can be either used for digital or analog operations and supports a lot of the standard protocols. The compatibility with the Arduino IDE and many of the existing libraries is also very good, and in practice this means that it can be a replacement for the <a href="https://store.arduino.cc/arduino-mkr-zero-i2s-bus-sd-for-sound-music-digital-audio-data">Arduino Zero</a> (or its smaller brothers) board in many projects.</p>
+							<div id="content-column">
+								<div class="content-inner">
 
-<h2>Technical Description and Features</h2>
 
-<p>A brief description of the most important features and technical characteristics of the XIAO board are provided in <a href="#table1">Table 1</a>.</p>
+									<section id="main-content" role="main">
 
-<div style="display: inline-block">
-<div style="display: inline-block; float: left; min-width: 50%; max-width: 50%">
-<table cellpadding="5" id="table1" style="border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%">
-	<caption>Table 1: XIAO Technical Specs.</caption>
-	<thead>
-		<tr>
-			<th style="width: 40%;">Feature</th>
-			<th style="width: 60%;">Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td style="width: 40%;">MCU</td>
-			<td style="width: 60%;">32 Bit ARM Cortex-M0+ @48MHz</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">RAM</td>
-			<td style="width: 60%;">32KB SRAM</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">FLASH</td>
-			<td style="width: 60%;">256KB</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">GPIOs</td>
-			<td style="width: 60%;">11 analog/digital pins<br />
-			A0-A10 analog (-0.3 - 3.3V)<br />
-			D0-D10 digital (max. 7mA / pin)</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">DAC</td>
-			<td style="width: 60%;">pin D0/A0<br />
-			10 Bit, 350ksps</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">ADC</td>
-			<td style="width: 60%;">pin A0-A10<br />
-			12 Bit, 350ksps</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">UART</td>
-			<td style="width: 60%;">TX: pin A6/D6<br />
-			RX: pin A7/D7</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">I2C</td>
-			<td style="width: 60%;">SDA: pin A4/D4<br />
-			SCL: pin A5/D5</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">SPI</td>
-			<td style="width: 60%;">MOSI: pin A10/D10<br />
-			MISO: pin A9/D9<br />
-			SCK/SCLK: pin A8/D8<br />
-			CS/SS: any GPIO but D8, D9, D10</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">IRQ</td>
-			<td style="width: 60%;">all GPIOs support interrupts, but GPIO A5/D5 and GPIO A7/D7 cannot be used at the same time</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">PWM</td>
-			<td style="width: 60%;">available on pins D1-D10</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">SWD</td>
-			<td style="width: 60%;">Serial Wire Debug (SWD) is available as exposed pads on the back of the board</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">RTC</td>
-			<td style="width: 60%;">32-bit Real Time Counter (RTC) with clock/calendar function but requires the board to be powered</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">Builtin LEDs</td>
-			<td style="width: 60%;">one green power led<br />
-			one yellow user led<br />
-			two blue serial port LEDs</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">Power Supply</td>
-			<td style="width: 60%;">Option 1: 5V via USB-C port<br />
-			Option 2: 4-6V via power pads<br />
-			<br />
-			<strong>Note:</strong> The power pads are on the back of the board (see <a href="#fig3">Figure 3</a>).</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">Reset</td>
-			<td style="width: 60%;">exposed reset pads on the front (<a href="#fig2">See Figure 2</a>) and on the back (<a href="#fig3">See Figure 3</a>) of the board</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">Size</td>
-			<td style="width: 60%;">20x17.5x3.5mm (<a href="#fig1">See Figure 1</a>)</td>
-		</tr>
-	</tbody>
-</table>
-</div>
 
-<div style="display: inline-block; float: left; max-width: 50%;">
-<figure id="fig1" style=" margin: 0! important; padding: 0 !important;"><a href="../sites/default/files/seeeduino-xiao-size.jpg"><img alt="XIAO Board Pinout" src="../sites/default/files/seeeduino-xiao-size.jpg" title="Click the image to enlarge it." /></a>
+										<div class="content-margin">
+											<div class="content-style">
 
-<figcaption>Figure 1: XIAO Board Size.</figcaption>
-</figure>
 
-<figure id="fig2" style="margin: 0! important; padding: 0 !important;"><a href="../sites/default/files/seeeduino-xiao-pinout.jpg"><img alt="XIAO Board Pinout" src="../sites/default/files/seeeduino-xiao-pinout.jpg" title="Click the image to enlarge it." /></a>
+												<div id="breadcrumb" class="clearfix">
+													<nav class="breadcrumb-wrapper clearfix" role="navigation"
+														aria-labelledby="breadcrumb-label">
+														<h2 id="breadcrumb-label" class="element-invisible">You are here
+														</h2>
+														<ol id="crumbs" class="clearfix">
+															<li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a
+																		rel="v:url" property="v:title"
+																		href="../blog.html">Blogs</a></span></li>
+															<li class="crumb crumb-last"><span class="crumb-separator">
+																	&#187; </span><span typeof="v:Breadcrumb"><a
+																		rel="v:url" property="v:title"
+																		href="../blog/24.html">mdiaconescu&#039;s
+																		blog</a></span></li>
+														</ol>
+													</nav>
+												</div>
 
-<figcaption>Figure 2: XIAO Board Pinout.</figcaption>
-</figure>
+												<header class="clearfix">
+													<h1 id="page-title">
+														Seeeduino XIAO - A Tiny Arduino Zero Variation </h1>
+												</header>
 
-<figure id="fig2" style="margin: 0! important; padding: 0 !important;"><a href="../sites/default/files/seeeduino-xiao-pinout-back.png"><img alt="XIAO Board Pinout" src="../sites/default/files/seeeduino-xiao-pinout-back.png" title="Click the image to enlarge it." /></a>
 
-<figcaption>Figure 3: the Back of the XIAO Board.</figcaption>
-</figure>
-</div>
-</div>
 
-<h2>Benchmark Test</h2>
+												<div id="content">
+													<div class="region region-content">
+														<div id="block-easy-social-easy-social-block-1"
+															class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1">
 
-<p>We performed a benchmark test on the XIAO Board, by using the Paul Stoffregen's <a href="https://github.com/PaulStoffregen/CoreMark">CoreMark GitHub</a> project. The <a href="#table2">Table 2</a> shows a comparison with a few other Arduino or Arduino compatible boards which we have available on our toolbox. The results were rounded up to the closest integer value.</p>
+															<div
+																class="easy_social_box clearfix horizontal easy_social_lang_en">
+																<div
+																	class="easy_social-widget easy_social-widget-twitter first">
+																	<a href="https://twitter.com/share"
+																		class="twitter-share-button"
+																		data-url="https://web-engineering.info/node/82"
+																		data-count="horizontal" data-lang="en"
+																		data-via="" data-related=":Check it out!"
+																		data-text="web-engineering.info">Tweet</a>
+																</div>
+																<div
+																	class="easy_social-widget easy_social-widget-facebook">
+																	<fb:like href="82.html" send="true"
+																		layout="button_count" width="88"
+																		show_faces="true"
+																		action="https://web-engineering.info/node/like"
+																		colorscheme="light" font=""></fb:like>
+																</div>
+																<div
+																	class="easy_social-widget easy_social-widget-googleplus">
+																	<div class="g-plusone" data-size="medium"
+																		data-annotation="bubble"
+																		data-href="https://web-engineering.info/node/82">
+																	</div>
+																</div>
+																<div
+																	class="easy_social-widget easy_social-widget-linkedin last">
+																	<script type="in/share"
+																		data-url="https://web-engineering.info/node/82"
+																		data-counter="right"></script>
+																</div>
+															</div> <!-- /.easy_social_box -->
+														</div>
+														<div id="block-system-main"
+															class="block block-system no-title even last block-count-2 block-region-content block-main">
 
-<table cellpadding="5" id="table2" style="border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%">
-	<caption>Table 2: CoreMark Benchmark</caption>
-	<thead>
-		<tr>
-			<th style="width: 60%;">Board</th>
-			<th style="width: 40%;">Result</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td style="width: 60%;">Teensy 4.0 (ARM Cortex-M7 @600MHz)</td>
-			<td style="width: 40%;">2309</td>
-		</tr>
-		<tr>
-			<td style="width: 60%;">Teensy 3.2 (ARM Cortex-M4 @72MHz)</td>
-			<td style="width: 40%;">167</td>
-		</tr>
-		<tr>
-			<td style="width: 60%;">Arduino Due (AT91SAM3X8E @84MHz)</td>
-			<td style="width: 40%;">91</td>
-		</tr>
-		<tr>
-			<td style="width: 60%;">Arduino Zero (ATSAMD21G18 @48MHz)</td>
-			<td style="width: 40%;">53</td>
-		</tr>
-		<tr>
-			<td style="width: 60%;">Seeeduino XIAO (ATSAMD21G18 @48MhZ)</td>
-			<td style="width: 40%;">52</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">Arduino Mega (ATmega2560 @16MHz)</td>
-			<td style="width: 60%;">8</td>
-		</tr>
-	</tbody>
-</table>
+															<article id="node-82"
+																class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix"
+																about="/node/82" typeof="sioc:Post sioct:BlogPost"
+																role="article">
+																<div class="node-inner">
 
-<p>As expected, in terms of the CoreMark benchmark, the little XIAO board behaves very similar with Arduino Zero, which also uses the <a href="https://www.microchip.com/wwwproducts/en/ATsamd21g18">ATSAMD21G18</a>, 32-Bit ARM Cortex M0+ chip familly.</p>
 
-<p><strong>Note</strong>: A CoreMark test with an <a href="https://store.arduino.cc/arduino-uno-rev3">Arduino UNO Rev 3</a> was not possible, due to its low amount RAM that causes instability problems, and as a result the board keeps restarting itself every a few seonds.</p>
+																	<header class="node-header">
 
-<h2>The Power Consumption</h2>
 
-<p>Not necessarily each WoT/IoT project is battery powered, nor require a very low power consumption. However, we still need to think on our "little and <strong>still </strong>green planet" and use the limited resources responsible. Believe it or not, but a few extra mW does really matter - <a href="https://www.statista.com/statistics/471264/iot-number-of-connected-devices-worldwide/">as of 2020 over 30 billion IoT devices are estimated as being used all over the world and connected to the Internet</a>. In addition, there are many other such devices not (yet) connected to the internet. Elementary math show us that even 1mW (milli watts!) extra power consumption, actually means 30MW (mega watts!), and this just for the IoT devices connected to the Internet. So, yes, it does really matter to keep the power consumption reduced at the minimum, at least when that is possible.</p>
+																		<p class="submitted"><span
+																				property="dc:date dc:created"
+																				content="2020-08-17T12:02:49+02:00"
+																				datatype="xsd:dateTime"
+																				rel="sioc:has_creator">Submitted by <a
+																					href="../user/24.html"
+																					title="View user profile."
+																					class="username" xml:lang=""
+																					about="/user/24"
+																					typeof="sioc:UserAccount"
+																					property="foaf:name"
+																					datatype="">mdiaconescu</a> on <time
+																					datetime="2020-08-17T12:02:49+0200">Mon,
+																					08/17/2020 - 12:02</time></span></p>
 
-<p>In our opinion, this little XIAO guy, was well designed, and the power consumption is quite low for what this board can do. The MCU plays a key role, since it takes most of the power juice, but the hardware design is also an important factor. Many other Arduino compatible boards, use additional components or modules (sometimes justified, sometimes not really), thus increasing the power consumption of the board. For example, various sensors or wireless communication modules (WiFi, Bluetooth, RF, etc) are incorporated in some boards. While this is not every time the case, and by this we mean "<em>having the board filled up with as many goodies as possible</em>" in terms of hardware features, such features are in fact underused. As a result, they don't only take additional space on the board and increase&nbsp;the price but also produce a bit more CO<sub>2</sub> using additional power when the board is powered, and of course&nbsp;at the time of being produced by the factory.</p>
+																	</header>
+																	<span property="dc:title"
+																		content="Seeeduino XIAO - A Tiny Arduino Zero Variation"
+																		class="rdf-meta element-hidden"></span><span
+																		property="sioc:num_replies" content="0"
+																		datatype="xsd:integer"
+																		class="rdf-meta element-hidden"></span>
+																	<div class="node-content">
+																		<div class="user-picture">
+																			<a href="../user/24.html"
+																				title="View user profile."><img
+																					typeof="foaf:Image"
+																					class="image-style-thumbnail"
+																					src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc"
+																					alt="mdiaconescu&#039;s picture"
+																					title="mdiaconescu&#039;s picture" /></a>
+																		</div>
+																		<div
+																			class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+																			<div class="field-items">
+																				<div class="field-item even"
+																					property="content:encoded">
+																					<p>You may like to check <a
+																							href="../WoTProjects.html">our
+																							other WoT/IoT related
+																							articles</a>.</p>
 
-<p>While we&nbsp;are&nbsp;really fans of the ESP8266, ESP32 and alike boards, they do not represent the answer to all our problem. Sure, it makes a lot of sense to use the powerful MCU and the included WiFi or Bluetooth features when needed, but for example these are a very bad replacement for a simple IoT temperature monitoring node, where an <a href="https://en.wikipedia.org/wiki/ATmega328">ATMega 328</a> MCU (e.g., Arduino Nano), a temperature / humidity sensor (e.g., DHT11 / DHT22) and a nRF24-based transmitter/receiver (e.g., nRF24L01+) make much more sense. Using the Arduino Nano, a nRF24L01+ module and a DHT11 / DHT22 sensor the power consumption will go around <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="ccfffca18d8cf99a">[email&#160;protected]</a> (so, about 150mW). This can be reduced even more by using 3.3V instead of 5V and an efficient LDO, thus going down to about <a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="8fbbbfe2cecfbca1bcd9">[email&#160;protected]</a> (so about 132mW). The Arduino Nano can be successfully replaced with the XIAO board, and the power requirements do not increase, actually it can go down if your project is well designed. An ESP32 or ESP8266 will be less efficient by a few factors of magnitude, even with the WiFi and/or BT deactivated.</p>
+																					<h2>Another Arduino Compatible
+																						Board?</h2>
 
-<p>The XIAO Board uses the <a href="https://www.torexsemi.com/file/xc6206/XC6206.pdf">XC6206</a>. According to the datasheet of this voltage regulator, the maximum input voltage is 6V, so this will also be the maximum voltage that it can be supplied to the board either via the contact pads located on the back of the board (see <a href="#fig3">Figure 3</a>) or via the USB-C connector (which normally shall provide about 5V). It can output a maximum of 200mA of current, but we do not recommend more than 150mA to avoid overheating it. Moreover, keep in mind that up to about 25mA may&nbsp;be used by the MCU and the other components (LEDs, voltage regulator, etc), so the conservative current available for the user, to power sensors and any other devices is about 120mA. Moreover, keep in mind that the GPIO pins can only supply a little amount of current. According with the specs, this can go up to 7mA (source) or 10mA (sink) per pin, but for this a special bit/flag shall be enabled, and this also comes with some other disadvantages. The real "by default" current for each GPIO pin is 2.5mA (sink) or 2mA (source) per pin.</p>
+																					<p>You probably asked yourself a few
+																						times: <em>what, another Arduino
+																							compatible board? Why shall
+																							I choose this one over the
+																							other one? Is this "the one"
+																							for my project?</em></p>
 
-<p><strong>Keep this in mind:</strong> you can easily burn up a GPIO or even destroy the MCU completely if the source or sink current is larger than 2.5mA (sink) or 2mA (source) even if this happens for very short amount of time. Something like half of a second is more than enough to destroy your MCU or GPIO if the current is exceeded. By setting the <em>Output Driver Strength bit (DRVSTR)</em> to 1 for a specific pin, a maximum of 10mA (sink) and 7mA (source) can be obtained. More details about this are available on the section <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf">37.9 I/O Pin Characteristics</a> of the SAMD21D datasheet document.</p>
+																					<p>If you are not familiar with
+																						Arduino, you shall have a look
+																						at the <a
+																							href="https://www.arduino.cc/">Arduino
+																							official website</a>. You
+																						may also be interested in
+																						reading our <a
+																							href="../WoTProjects.html">WoT
+																							with Arduino for
+																							Beginners</a> tutorials.</p>
 
-<p>Using our digital multimeter UNI-T model <a href="https://www.uni-trend.com/html/product/General_Meters/Digital_Multimeters/UT71_Series/UT71C.html">UT71C</a> we made some measurements to see how this board performs in terms of power requirements. In <a href="#table3">Table 3</a> we provide the obtained results.</p>
+																					<p>A simple answer for all or each
+																						of these questions does not
+																						really exist. A few other
+																						questions must be answered
+																						first: <em>which features do I
+																							really need for my project?
+																							Is it battery powered? How
+																							much $$$ do I want to spend
+																							(or do I have available) for
+																							the project? Where do I buy
+																							the board? Does it have a
+																							"real" community?</em> ...
+																						and so on.</p>
 
-<table cellpadding="5" id="table3" style="border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%">
-	<caption>Table 3: Power Consumption Measurements</caption>
-	<thead>
-		<tr>
-			<th style="width: 40%;">Conditions</th>
-			<th style="width: 20%;">Results</th>
-			<th style="width: 40%;">Details</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td style="width: 40%;">Input voltage via USB-C port: 4.95V<br />
-			Sketch: LED Blink every second Sketch</td>
-			<td style="width: 20%;"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="d8e9eaf6ecb59998ecf6e1ed8e">[email&#160;protected]</a> (61.38mW)</td>
-			<td style="width: 40%;">Measured when the blinking LED is ON.</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">Input voltage via USB-C port: 4.95V<br />
-			Sketch: the CoreMark benchmark</td>
-			<td style="width: 20%;"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="e2d3d1ccd78fa3a2d6ccdbd7b4">[email&#160;protected]</a> (66.82mW)</td>
-			<td style="width: 40%;">Measured during the benchmark runtime.</td>
-		</tr>
-		<tr>
-			<td style="width: 40%;">Input voltage via USB-C port: 4.95V<br />
-			Sketch: Sleep Mode with RTCZero Library</td>
-			<td style="width: 20%;"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="f7c5d9c59ab6b7c3d9cec2a1">[email&#160;protected]</a> (10.89mW)</td>
-			<td style="width: 40%;">The MCU itself uses less than 1mA (the RTC and some other services are active). The rest is used by the power LED and the voltage regulator.</td>
-		</tr>
-	</tbody>
-</table>
+																					<p><strong>The
+																							expectations:</strong> a new
+																						Arduino "compatible" board is
+																						also a progress step, so at
+																						least in theory it must have
+																						"something" that makes it
+																						"better" or at least
+																						"different". Many of these
+																						boards have just (some) minor
+																						hardware changes when comparing
+																						them with the equivalent Arduino
+																						brother, but their price is the
+																						one of a coffee cup, thus making
+																						them attractive for the very
+																						beginner or for low cost
+																						projects - this is also the case
+																						of many "Arduino clone" boards.
+																						Other boards have relevant
+																						hardware improvements, but
+																						usually (at least at the release
+																						time) have a higher price. Such
+																						boards have for example a better
+																						MCU (higher speed, amount of RAM
+																						and FLASH) and usually a larger
+																						features pack, like I2C, SPI,
+																						UART, CAN, touch sensor
+																						interface, ADC, DAC, etc.
+																						Finally, a few of them combine
+																						most of the goodies in a (very)
+																						tiny board and have the price of
+																						two beers or coffee cups. In the
+																						former category, we also find
+																						the <a
+																							href="https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html">Seeeduino
+																							XIAO</a> board.</p>
 
-<h2>Get Started with the XIAO board and the Arduino IDE</h2>
+																					<p>While XIAO is not necessarily
+																						"the perfect Arduino compatible
+																						board", it is among the few ones
+																						that for around five bucks,
+																						comes in a very low size, has a
+																						MCU capable of coping with
+																						demanding tasks, requires just a
+																						little amount of power, has 11
+																						GPIOs that can be either used
+																						for digital or analog operations
+																						and supports a lot of the
+																						standard protocols. The
+																						compatibility with the Arduino
+																						IDE and many of the existing
+																						libraries is also very good, and
+																						in practice this means that it
+																						can be a replacement for the <a
+																							href="https://store.arduino.cc/arduino-mkr-zero-i2s-bus-sd-for-sound-music-digital-audio-data">Arduino
+																							Zero</a> (or its smaller
+																						brothers) board in many
+																						projects.</p>
 
-<p>The XIAO board can be programmed by using the Arduino IDE and the "Arduino Programming Language". Well, to be clear here, there is no such thing as "Arduino Programming Language", it is really just C/C++, but there is a trend to use this metaphor whenever the Arduino core and custom libraries are used. There following steps will guide you to get started with your first Arduino sketch and having the XIAO user controlled LED blinking.</p>
+																					<h2>Technical Description and
+																						Features</h2>
 
-<ul>
-	<li>Download the official <a href="https://www.arduino.cc/en/Main/Software">Arduino IDE</a> software if you didn't already. We also recommend to use the latest version available to avoid various issues caused by old bugs and to get access to the newest features.</li>
-	<li>Add Seeeduino to your Arduino IDE. For this, use the "<em><strong>File &gt; Preference</strong></em>" menu item and copy/paste the following URL <a href="https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json">https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json</a> into the "<em>Additional Boards Manager URLs</em>" input field.</li>
-	<li>Use the "<em><strong>Tools &gt; Board &gt; Boards Manager...</strong></em>" menu item, and in the new open window, search and install the "<em>Seeed SAMD Boards</em>". After this step we recommend to restart your Arduino IDE.</li>
-	<li>Open the Blink sketch by using the "<em><strong>File &gt; Examples &gt; 01.Basics &gt; Blink</strong></em>" menu item.</li>
-	<li>Select the "<em><strong>Tools &gt; Board &gt; Seeed SAMD (32-bits ARM Cortex-M0+ and Cortex-M4) Boards &gt; Seeeduino XIAO</strong></em>" menu item. This will instruct Arduino IDE what to do when you like to compile and upload a sketch.</li>
-	<li>Select the "<em><strong>Tools &gt; Port &gt; COMxx (Seeeduino XIAO)</strong></em>" menu item. COMxx represents the COM port to which the XIAO board connects too.</li>
-	<li>Now use the "<em><strong>Sketch &gt; Upload</strong></em>" menu item to have the sketch compiled and uploaded to your board. It may take a up to one minute to complete this task, in particular when the sketch was not yet compiled and your PC is not the fastest one in the world.</li>
-</ul>
+																					<p>A brief description of the most
+																						important features and technical
+																						characteristics of the XIAO
+																						board are provided in <a
+																							href="#table1">Table 1</a>.
+																					</p>
 
-<p>If all went well, when the upload is completed your XIAO shall have the yellow user LED blinking once every second.</p>
+																					<div style="display: inline-block">
+																						<div
+																							style="display: inline-block; float: left; min-width: 50%; max-width: 50%">
+																							<table cellpadding="5"
+																								id="table1"
+																								style="border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%">
+																								<caption>Table 1: XIAO
+																									Technical Specs.
+																								</caption>
+																								<thead>
+																									<tr>
+																										<th
+																											style="width: 40%;">
+																											Feature</th>
+																										<th
+																											style="width: 60%;">
+																											Description
+																										</th>
+																									</tr>
+																								</thead>
+																								<tbody>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											MCU</td>
+																										<td
+																											style="width: 60%;">
+																											32 Bit ARM
+																											Cortex-M0+
+																											@48MHz</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											RAM</td>
+																										<td
+																											style="width: 60%;">
+																											32KB SRAM
+																										</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											FLASH</td>
+																										<td
+																											style="width: 60%;">
+																											256KB</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											GPIOs</td>
+																										<td
+																											style="width: 60%;">
+																											11
+																											analog/digital
+																											pins<br />
+																											A0-A10
+																											analog (-0.3
+																											-
+																											3.3V)<br />
+																											D0-D10
+																											digital
+																											(max. 7mA /
+																											pin)</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											DAC</td>
+																										<td
+																											style="width: 60%;">
+																											pin
+																											D0/A0<br />
+																											10 Bit,
+																											350ksps</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											ADC</td>
+																										<td
+																											style="width: 60%;">
+																											pin
+																											A0-A10<br />
+																											12 Bit,
+																											350ksps</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											UART</td>
+																										<td
+																											style="width: 60%;">
+																											TX: pin
+																											A6/D6<br />
+																											RX: pin
+																											A7/D7</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											I2C</td>
+																										<td
+																											style="width: 60%;">
+																											SDA: pin
+																											A4/D4<br />
+																											SCL: pin
+																											A5/D5</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											SPI</td>
+																										<td
+																											style="width: 60%;">
+																											MOSI: pin
+																											A10/D10<br />
+																											MISO: pin
+																											A9/D9<br />
+																											SCK/SCLK:
+																											pin
+																											A8/D8<br />
+																											CS/SS: any
+																											GPIO but D8,
+																											D9, D10</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											IRQ</td>
+																										<td
+																											style="width: 60%;">
+																											all GPIOs
+																											support
+																											interrupts,
+																											but GPIO
+																											A5/D5 and
+																											GPIO A7/D7
+																											cannot be
+																											used at the
+																											same time
+																										</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											PWM</td>
+																										<td
+																											style="width: 60%;">
+																											available on
+																											pins D1-D10
+																										</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											SWD</td>
+																										<td
+																											style="width: 60%;">
+																											Serial Wire
+																											Debug (SWD)
+																											is available
+																											as exposed
+																											pads on the
+																											back of the
+																											board</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											RTC</td>
+																										<td
+																											style="width: 60%;">
+																											32-bit Real
+																											Time Counter
+																											(RTC) with
+																											clock/calendar
+																											function but
+																											requires the
+																											board to be
+																											powered</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											Builtin LEDs
+																										</td>
+																										<td
+																											style="width: 60%;">
+																											one green
+																											power
+																											led<br />
+																											one yellow
+																											user
+																											led<br />
+																											two blue
+																											serial port
+																											LEDs</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											Power Supply
+																										</td>
+																										<td
+																											style="width: 60%;">
+																											Option 1: 5V
+																											via USB-C
+																											port<br />
+																											Option 2:
+																											4-6V via
+																											power
+																											pads<br />
+																											<br />
+																											<strong>Note:</strong>
+																											The power
+																											pads are on
+																											the back of
+																											the board
+																											(see <a
+																												href="#fig3">Figure
+																												3</a>).
+																										</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											Reset</td>
+																										<td
+																											style="width: 60%;">
+																											exposed
+																											reset pads
+																											on the front
+																											(<a
+																												href="#fig2">See
+																												Figure
+																												2</a>)
+																											and on the
+																											back (<a
+																												href="#fig3">See
+																												Figure
+																												3</a>)
+																											of the board
+																										</td>
+																									</tr>
+																									<tr>
+																										<td
+																											style="width: 40%;">
+																											Size</td>
+																										<td
+																											style="width: 60%;">
+																											20x17.5x3.5mm
+																											(<a
+																												href="#fig1">See
+																												Figure
+																												1</a>)
+																										</td>
+																									</tr>
+																								</tbody>
+																							</table>
+																						</div>
 
-<p><strong>Note:</strong> in our experience, most of the time this board can't be switched to programming mode automatically. What you shall do is to use some tweezers or a conductive tool (e.g., a small flat head screwdriver) and to touch the two reset pins from the front of the board - these are located near the A0/D and A1/D2 GPIO pins (see <a href="#fig2">Figure 2</a>). Notice that you have to repeat this twice, in a short time (i.e., twice in about one second). After that, the board enters boot-loading mode (the green and yellow LEDs must be on at this point) and the uploading of your sketch will work as expected. Notice that this will also switch the used COM port, thus you have to select the new one by using the "<em><strong>Tools &gt; Port &gt; COMxx (Seeeduino XIAO)</strong></em>" menu item.</p>
+																						<div
+																							style="display: inline-block; float: left; max-width: 50%;">
+																							<figure id="fig1"
+																								style=" margin: 0! important; padding: 0 !important;">
+																								<a
+																									href="../sites/default/files/seeeduino-xiao-size.jpg"><img
+																										alt="XIAO Board Pinout"
+																										src="../sites/default/files/seeeduino-xiao-size.jpg"
+																										title="Click the image to enlarge it." /></a>
 
-<h2>Some Final toughts</h2>
+																								<figcaption>Figure 1:
+																									XIAO Board Size.
+																								</figcaption>
+																							</figure>
 
-<p>We played with the little XIAO for a few months by now and we have used it in a few of our projects already. It is for sure not perfect, and there are a few issues with it, like the need to manually enter boot-loading mode every time when it needs to be reprogrammed, the low amount of current available to each GPIO or the incompatibility with a few Arduino libraries. The 11 GPIO pins are also not enough for projects that requires more than just one or two sensors, a switch and eventually an I2C or SPI display. In many of our projects however, the board filled up the requirements and being so tiny, it fitted with ease in almost any case of the IoT/WoT nodes. Therefore, whenever we do not need WiFi / BT, a faster MCU or more GPIO pins, we do consider using XIAO before jumping further with our searches. The low price is also a big plus, in particular when you need a lot of such boards and the total price can rise up very fast.</p>
+																							<figure id="fig2"
+																								style="margin: 0! important; padding: 0 !important;">
+																								<a
+																									href="../sites/default/files/seeeduino-xiao-pinout.jpg"><img
+																										alt="XIAO Board Pinout"
+																										src="../sites/default/files/seeeduino-xiao-pinout.jpg"
+																										title="Click the image to enlarge it." /></a>
 
-<p><strong>Do we recommend the XIAO board?</strong> Yes, it is a very good candidate for many low power projects. It is also very small and very cheap, so you don't need to break the bank when you need a few of them for your project.</p>
+																								<figcaption>Figure 2:
+																									XIAO Board Pinout.
+																								</figcaption>
+																							</figure>
 
-<p><strong>Is is perfect candidate for any project?</strong> No, unfortunately it is not. Among the reasons, an important one is the reduced number of GPIO pins. In this case, you either have to look further for another board, but then expect a larger sized board and very likely a higher price too, or you think on using a "GPIO multiplier", such as the MCP23017 IC, which will give you 8 I/O pins with 25mA per pin at the expense of the I2C pins of your board.</p>
+																							<figure id="fig2"
+																								style="margin: 0! important; padding: 0 !important;">
+																								<a
+																									href="../sites/default/files/seeeduino-xiao-pinout-back.png"><img
+																										alt="XIAO Board Pinout"
+																										src="../sites/default/files/seeeduino-xiao-pinout-back.png"
+																										title="Click the image to enlarge it." /></a>
 
-<h2>What's next?</h2>
+																								<figcaption>Figure 3:
+																									the Back of the XIAO
+																									Board.</figcaption>
+																							</figure>
+																						</div>
+																					</div>
 
-<p>The the "Green Balcony" project is work in progress. Among others, it makes use of a few <a href="https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html">Seeeduino XIAO</a> boards, used to control the watering of the plants as well to monitor various aspects, such as the water tank level, temperature and to keep an eye on the light intensity variation. Since the balcony is populated with very different species of plants (blackberry, raspberry, a small fig tree and various flowers), it is important and interessant as well to observe the light variation. This will help to decide the optimal position for the plants, to have them as "happy" as possible, and get their smile when drinking the morning coffee in the green seven square meter mini-garden. Since only solar power is used for this project, keeping an eye on the light intensity provides also indications about the optimal positioning of the 10W solar panel used to collect the "free" energy from the sun.</p>
+																					<h2>Benchmark Test</h2>
 
-<p><strong>Note</strong>: yes, we know that&nbsp;there is no such thing as <em>free energy</em>. We use here the term of <em>free energy</em>&nbsp;only as a metaphor, with the meaning of <em>energy that is not taken from the grid</em>. In term of costs, this actually means, the costs of the equipment used to collect it (solar panel, charge controller, battery, wires, etc) - theoretically no other costs are involved, practically, we'll see...</p>
+																					<p>We performed a benchmark test on
+																						the XIAO Board, by using the
+																						Paul Stoffregen's <a
+																							href="https://github.com/PaulStoffregen/CoreMark">CoreMark
+																							GitHub</a> project. The <a
+																							href="#table2">Table 2</a>
+																						shows a comparison with a few
+																						other Arduino or Arduino
+																						compatible boards which we have
+																						available on our toolbox. The
+																						results were rounded up to the
+																						closest integer value.</p>
 
-<p>Stay tuned, a set of tutorials providing step-by-step implementation instructions of the "Green Balcony" project will be published soon!</p>
-</div></div></div><section class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Category:&nbsp;</h2><ul class="field-items"><li class="field-item even"><a href="../Arduino.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li><li class="field-item odd"><a href="../taxonomy/term/50.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">IoT</a></li><li class="field-item even"><a href="../taxonomy/term/40.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WoT</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/82" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="Seeeduino XIAO - A Tiny Arduino Zero Variation">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="82.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="82.html"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="in/share" data-url="https://web-engineering.info/node/82" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F82">View the discussion thread.</a></p></noscript></div>    </div>
+																					<table cellpadding="5" id="table2"
+																						style="border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%">
+																						<caption>Table 2: CoreMark
+																							Benchmark</caption>
+																						<thead>
+																							<tr>
+																								<th style="width: 60%;">
+																									Board</th>
+																								<th style="width: 40%;">
+																									Result</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td style="width: 60%;">
+																									Teensy 4.0 (ARM
+																									Cortex-M7 @600MHz)
+																								</td>
+																								<td style="width: 40%;">
+																									2309</td>
+																							</tr>
+																							<tr>
+																								<td style="width: 60%;">
+																									Teensy 3.2 (ARM
+																									Cortex-M4 @72MHz)
+																								</td>
+																								<td style="width: 40%;">
+																									167</td>
+																							</tr>
+																							<tr>
+																								<td style="width: 60%;">
+																									Arduino Due
+																									(AT91SAM3X8E @84MHz)
+																								</td>
+																								<td style="width: 40%;">
+																									91</td>
+																							</tr>
+																							<tr>
+																								<td style="width: 60%;">
+																									Arduino Zero
+																									(ATSAMD21G18 @48MHz)
+																								</td>
+																								<td style="width: 40%;">
+																									53</td>
+																							</tr>
+																							<tr>
+																								<td style="width: 60%;">
+																									Seeeduino XIAO
+																									(ATSAMD21G18 @48MhZ)
+																								</td>
+																								<td style="width: 40%;">
+																									52</td>
+																							</tr>
+																							<tr>
+																								<td style="width: 40%;">
+																									Arduino Mega
+																									(ATmega2560 @16MHz)
+																								</td>
+																								<td style="width: 60%;">
+																									8</td>
+																							</tr>
+																						</tbody>
+																					</table>
 
-          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/24.html" title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s blog</a></li></ul></nav>
-    
-    
-  </div>
-</article>
+																					<p>As expected, in terms of the
+																						CoreMark benchmark, the little
+																						XIAO board behaves very similar
+																						with Arduino Zero, which also
+																						uses the <a
+																							href="https://www.microchip.com/wwwproducts/en/ATsamd21g18">ATSAMD21G18</a>,
+																						32-Bit ARM Cortex M0+ chip
+																						familly.</p>
 
-  </div></div>                      </div>
+																					<p><strong>Note</strong>: A CoreMark
+																						test with an <a
+																							href="https://store.arduino.cc/arduino-uno-rev3">Arduino
+																							UNO Rev 3</a> was not
+																						possible, due to its low amount
+																						RAM that causes instability
+																						problems, and as a result the
+																						board keeps restarting itself
+																						every a few seonds.</p>
 
-                      
-                    </div>
-                  </div>
+																					<h2>The Power Consumption</h2>
 
-                </section>
+																					<p>Not necessarily each WoT/IoT
+																						project is battery powered, nor
+																						require a very low power
+																						consumption. However, we still
+																						need to think on our "little and
+																						<strong>still </strong>green
+																						planet" and use the limited
+																						resources responsible. Believe
+																						it or not, but a few extra mW
+																						does really matter - <a
+																							href="https://www.statista.com/statistics/471264/iot-number-of-connected-devices-worldwide/">as
+																							of 2020 over 30 billion IoT
+																							devices are estimated as
+																							being used all over the
+																							world and connected to the
+																							Internet</a>. In addition,
+																						there are many other such
+																						devices not (yet) connected to
+																						the internet. Elementary math
+																						show us that even 1mW (milli
+																						watts!) extra power consumption,
+																						actually means 30MW (mega
+																						watts!), and this just for the
+																						IoT devices connected to the
+																						Internet. So, yes, it does
+																						really matter to keep the power
+																						consumption reduced at the
+																						minimum, at least when that is
+																						possible.
+																					</p>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
-              </div>
-            </div>
+																					<p>In our opinion, this little XIAO
+																						guy, was well designed, and the
+																						power consumption is quite low
+																						for what this board can do. The
+																						MCU plays a key role, since it
+																						takes most of the power juice,
+																						but the hardware design is also
+																						an important factor. Many other
+																						Arduino compatible boards, use
+																						additional components or modules
+																						(sometimes justified, sometimes
+																						not really), thus increasing the
+																						power consumption of the board.
+																						For example, various sensors or
+																						wireless communication modules
+																						(WiFi, Bluetooth, RF, etc) are
+																						incorporated in some boards.
+																						While this is not every time the
+																						case, and by this we mean
+																						"<em>having the board filled up
+																							with as many goodies as
+																							possible</em>" in terms of
+																						hardware features, such features
+																						are in fact underused. As a
+																						result, they don't only take
+																						additional space on the board
+																						and increase&nbsp;the price but
+																						also produce a bit more
+																						CO<sub>2</sub> using additional
+																						power when the board is powered,
+																						and of course&nbsp;at the time
+																						of being produced by the
+																						factory.</p>
 
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/82?destination=node/82" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-VkKmZyPM_KN_kHHTciGNmf_WbqiAmORb9v9Aya0KzF4" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
-          </div>
-        </div>
+																					<p>While we&nbsp;are&nbsp;really
+																						fans of the ESP8266, ESP32 and
+																						alike boards, they do not
+																						represent the answer to all our
+																						problem. Sure, it makes a lot of
+																						sense to use the powerful MCU
+																						and the included WiFi or
+																						Bluetooth features when needed,
+																						but for example these are a very
+																						bad replacement for a simple IoT
+																						temperature monitoring node,
+																						where an <a
+																							href="https://en.wikipedia.org/wiki/ATmega328">ATMega
+																							328</a> MCU (e.g., Arduino
+																						Nano), a temperature / humidity
+																						sensor (e.g., DHT11 / DHT22) and
+																						a nRF24-based
+																						transmitter/receiver (e.g.,
+																						nRF24L01+) make much more sense.
+																						Using the Arduino Nano, a
+																						nRF24L01+ module and a DHT11 /
+																						DHT22 sensor the power
+																						consumption will go around <a
+																							href="../cdn-cgi/l/email-protection.html"
+																							class="__cf_email__"
+																							data-cfemail="ccfffca18d8cf99a">[email&#160;protected]</a>
+																						(so, about 150mW). This can be
+																						reduced even more by using 3.3V
+																						instead of 5V and an efficient
+																						LDO, thus going down to about <a
+																							href="../cdn-cgi/l/email-protection.html"
+																							class="__cf_email__"
+																							data-cfemail="8fbbbfe2cecfbca1bcd9">[email&#160;protected]</a>
+																						(so about 132mW). The Arduino
+																						Nano can be successfully
+																						replaced with the XIAO board,
+																						and the power requirements do
+																						not increase, actually it can go
+																						down if your project is well
+																						designed. An ESP32 or ESP8266
+																						will be less efficient by a few
+																						factors of magnitude, even with
+																						the WiFi and/or BT deactivated.
+																					</p>
 
-      </div>
-    </div>
+																					<p>The XIAO Board uses the <a
+																							href="https://www.torexsemi.com/file/xc6206/XC6206.pdf">XC6206</a>.
+																						According to the datasheet of
+																						this voltage regulator, the
+																						maximum input voltage is 6V, so
+																						this will also be the maximum
+																						voltage that it can be supplied
+																						to the board either via the
+																						contact pads located on the back
+																						of the board (see <a
+																							href="#fig3">Figure 3</a>)
+																						or via the USB-C connector
+																						(which normally shall provide
+																						about 5V). It can output a
+																						maximum of 200mA of current, but
+																						we do not recommend more than
+																						150mA to avoid overheating it.
+																						Moreover, keep in mind that up
+																						to about 25mA may&nbsp;be used
+																						by the MCU and the other
+																						components (LEDs, voltage
+																						regulator, etc), so the
+																						conservative current available
+																						for the user, to power sensors
+																						and any other devices is about
+																						120mA. Moreover, keep in mind
+																						that the GPIO pins can only
+																						supply a little amount of
+																						current. According with the
+																						specs, this can go up to 7mA
+																						(source) or 10mA (sink) per pin,
+																						but for this a special bit/flag
+																						shall be enabled, and this also
+																						comes with some other
+																						disadvantages. The real "by
+																						default" current for each GPIO
+																						pin is 2.5mA (sink) or 2mA
+																						(source) per pin.</p>
 
-    
-    
-    
-  </div>
-</div>
-  </body>
+																					<p><strong>Keep this in
+																							mind:</strong> you can
+																						easily burn up a GPIO or even
+																						destroy the MCU completely if
+																						the source or sink current is
+																						larger than 2.5mA (sink) or 2mA
+																						(source) even if this happens
+																						for very short amount of time.
+																						Something like half of a second
+																						is more than enough to destroy
+																						your MCU or GPIO if the current
+																						is exceeded. By setting the
+																						<em>Output Driver Strength bit
+																							(DRVSTR)</em> to 1 for a
+																						specific pin, a maximum of 10mA
+																						(sink) and 7mA (source) can be
+																						obtained. More details about
+																						this are available on the
+																						section <a
+																							href="http://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf">37.9
+																							I/O Pin Characteristics</a>
+																						of the SAMD21D datasheet
+																						document.
+																					</p>
+
+																					<p>Using our digital multimeter
+																						UNI-T model <a
+																							href="https://www.uni-trend.com/html/product/General_Meters/Digital_Multimeters/UT71_Series/UT71C.html">UT71C</a>
+																						we made some measurements to see
+																						how this board performs in terms
+																						of power requirements. In <a
+																							href="#table3">Table 3</a>
+																						we provide the obtained results.
+																					</p>
+
+																					<table cellpadding="5" id="table3"
+																						style="border: 2px solid black; text-align: center; font-size: normal; border-collapse: collapse; width: 100%">
+																						<caption>Table 3: Power
+																							Consumption Measurements
+																						</caption>
+																						<thead>
+																							<tr>
+																								<th style="width: 40%;">
+																									Conditions</th>
+																								<th style="width: 20%;">
+																									Results</th>
+																								<th style="width: 40%;">
+																									Details</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td style="width: 40%;">
+																									Input voltage via
+																									USB-C port:
+																									4.95V<br />
+																									Sketch: LED Blink
+																									every second Sketch
+																								</td>
+																								<td style="width: 20%;">
+																									<a href="../cdn-cgi/l/email-protection.html"
+																										class="__cf_email__"
+																										data-cfemail="d8e9eaf6ecb59998ecf6e1ed8e">[email&#160;protected]</a>
+																									(61.38mW)
+																								</td>
+																								<td style="width: 40%;">
+																									Measured when the
+																									blinking LED is ON.
+																								</td>
+																							</tr>
+																							<tr>
+																								<td style="width: 40%;">
+																									Input voltage via
+																									USB-C port:
+																									4.95V<br />
+																									Sketch: the CoreMark
+																									benchmark</td>
+																								<td style="width: 20%;">
+																									<a href="../cdn-cgi/l/email-protection.html"
+																										class="__cf_email__"
+																										data-cfemail="e2d3d1ccd78fa3a2d6ccdbd7b4">[email&#160;protected]</a>
+																									(66.82mW)
+																								</td>
+																								<td style="width: 40%;">
+																									Measured during the
+																									benchmark runtime.
+																								</td>
+																							</tr>
+																							<tr>
+																								<td style="width: 40%;">
+																									Input voltage via
+																									USB-C port:
+																									4.95V<br />
+																									Sketch: Sleep Mode
+																									with RTCZero Library
+																								</td>
+																								<td style="width: 20%;">
+																									<a href="../cdn-cgi/l/email-protection.html"
+																										class="__cf_email__"
+																										data-cfemail="f7c5d9c59ab6b7c3d9cec2a1">[email&#160;protected]</a>
+																									(10.89mW)
+																								</td>
+																								<td style="width: 40%;">
+																									The MCU itself uses
+																									less than 1mA (the
+																									RTC and some other
+																									services are
+																									active). The rest is
+																									used by the power
+																									LED and the voltage
+																									regulator.</td>
+																							</tr>
+																						</tbody>
+																					</table>
+
+																					<h2>Get Started with the XIAO board
+																						and the Arduino IDE</h2>
+
+																					<p>The XIAO board can be programmed
+																						by using the Arduino IDE and the
+																						"Arduino Programming Language".
+																						Well, to be clear here, there is
+																						no such thing as "Arduino
+																						Programming Language", it is
+																						really just C/C++, but there is
+																						a trend to use this metaphor
+																						whenever the Arduino core and
+																						custom libraries are used. There
+																						following steps will guide you
+																						to get started with your first
+																						Arduino sketch and having the
+																						XIAO user controlled LED
+																						blinking.</p>
+
+																					<ul>
+																						<li>Download the official <a
+																								href="https://www.arduino.cc/en/Main/Software">Arduino
+																								IDE</a> software if you
+																							didn't already. We also
+																							recommend to use the latest
+																							version available to avoid
+																							various issues caused by old
+																							bugs and to get access to
+																							the newest features.</li>
+																						<li>Add Seeeduino to your
+																							Arduino IDE. For this, use
+																							the "<em><strong>File &gt;
+																									Preference</strong></em>"
+																							menu item and copy/paste the
+																							following URL <a
+																								href="https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json">https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json</a>
+																							into the "<em>Additional
+																								Boards Manager
+																								URLs</em>" input field.
+																						</li>
+																						<li>Use the "<em><strong>Tools
+																									&gt; Board &gt;
+																									Boards
+																									Manager...</strong></em>"
+																							menu item, and in the new
+																							open window, search and
+																							install the "<em>Seeed SAMD
+																								Boards</em>". After this
+																							step we recommend to restart
+																							your Arduino IDE.</li>
+																						<li>Open the Blink sketch by
+																							using the "<em><strong>File
+																									&gt; Examples &gt;
+																									01.Basics &gt;
+																									Blink</strong></em>"
+																							menu item.</li>
+																						<li>Select the
+																							"<em><strong>Tools &gt;
+																									Board &gt; Seeed
+																									SAMD (32-bits ARM
+																									Cortex-M0+ and
+																									Cortex-M4) Boards
+																									&gt; Seeeduino
+																									XIAO</strong></em>"
+																							menu item. This will
+																							instruct Arduino IDE what to
+																							do when you like to compile
+																							and upload a sketch.</li>
+																						<li>Select the
+																							"<em><strong>Tools &gt; Port
+																									&gt; COMxx
+																									(Seeeduino
+																									XIAO)</strong></em>"
+																							menu item. COMxx represents
+																							the COM port to which the
+																							XIAO board connects too.
+																						</li>
+																						<li>Now use the
+																							"<em><strong>Sketch &gt;
+																									Upload</strong></em>"
+																							menu item to have the sketch
+																							compiled and uploaded to
+																							your board. It may take a up
+																							to one minute to complete
+																							this task, in particular
+																							when the sketch was not yet
+																							compiled and your PC is not
+																							the fastest one in the
+																							world.</li>
+																					</ul>
+
+																					<p>If all went well, when the upload
+																						is completed your XIAO shall
+																						have the yellow user LED
+																						blinking once every second.</p>
+
+																					<p><strong>Note:</strong> in our
+																						experience, most of the time
+																						this board can't be switched to
+																						programming mode automatically.
+																						What you shall do is to use some
+																						tweezers or a conductive tool
+																						(e.g., a small flat head
+																						screwdriver) and to touch the
+																						two reset pins from the front of
+																						the board - these are located
+																						near the A0/D and A1/D2 GPIO
+																						pins (see <a href="#fig2">Figure
+																							2</a>). Notice that you have
+																						to repeat this twice, in a short
+																						time (i.e., twice in about one
+																						second). After that, the board
+																						enters boot-loading mode (the
+																						green and yellow LEDs must be on
+																						at this point) and the uploading
+																						of your sketch will work as
+																						expected. Notice that this will
+																						also switch the used COM port,
+																						thus you have to select the new
+																						one by using the
+																						"<em><strong>Tools &gt; Port
+																								&gt; COMxx (Seeeduino
+																								XIAO)</strong></em>"
+																						menu item.</p>
+
+																					<h2>Some Final toughts</h2>
+
+																					<p>We played with the little XIAO
+																						for a few months by now and we
+																						have used it in a few of our
+																						projects already. It is for sure
+																						not perfect, and there are a few
+																						issues with it, like the need to
+																						manually enter boot-loading mode
+																						every time when it needs to be
+																						reprogrammed, the low amount of
+																						current available to each GPIO
+																						or the incompatibility with a
+																						few Arduino libraries. The 11
+																						GPIO pins are also not enough
+																						for projects that requires more
+																						than just one or two sensors, a
+																						switch and eventually an I2C or
+																						SPI display. In many of our
+																						projects however, the board
+																						filled up the requirements and
+																						being so tiny, it fitted with
+																						ease in almost any case of the
+																						IoT/WoT nodes. Therefore,
+																						whenever we do not need WiFi /
+																						BT, a faster MCU or more GPIO
+																						pins, we do consider using XIAO
+																						before jumping further with our
+																						searches. The low price is also
+																						a big plus, in particular when
+																						you need a lot of such boards
+																						and the total price can rise up
+																						very fast.</p>
+
+																					<p><strong>Do we recommend the XIAO
+																							board?</strong> Yes, it is a
+																						very good candidate for many low
+																						power projects. It is also very
+																						small and very cheap, so you
+																						don't need to break the bank
+																						when you need a few of them for
+																						your project.</p>
+
+																					<p><strong>Is is perfect candidate
+																							for any project?</strong>
+																						No, unfortunately it is not.
+																						Among the reasons, an important
+																						one is the reduced number of
+																						GPIO pins. In this case, you
+																						either have to look further for
+																						another board, but then expect a
+																						larger sized board and very
+																						likely a higher price too, or
+																						you think on using a "GPIO
+																						multiplier", such as the
+																						MCP23017 IC, which will give you
+																						8 I/O pins with 25mA per pin at
+																						the expense of the I2C pins of
+																						your board.</p>
+
+																					<h2>What's next?</h2>
+
+																					<p>The the "Green Balcony" project
+																						is work in progress. Among
+																						others, it makes use of a few <a
+																							href="https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html">Seeeduino
+																							XIAO</a> boards, used to
+																						control the watering of the
+																						plants as well to monitor
+																						various aspects, such as the
+																						water tank level, temperature
+																						and to keep an eye on the light
+																						intensity variation. Since the
+																						balcony is populated with very
+																						different species of plants
+																						(blackberry, raspberry, a small
+																						fig tree and various flowers),
+																						it is important and interessant
+																						as well to observe the light
+																						variation. This will help to
+																						decide the optimal position for
+																						the plants, to have them as
+																						"happy" as possible, and get
+																						their smile when drinking the
+																						morning coffee in the green
+																						seven square meter mini-garden.
+																						Since only solar power is used
+																						for this project, keeping an eye
+																						on the light intensity provides
+																						also indications about the
+																						optimal positioning of the 10W
+																						solar panel used to collect the
+																						"free" energy from the sun.</p>
+
+																					<p><strong>Note</strong>: yes, we
+																						know that&nbsp;there is no such
+																						thing as <em>free energy</em>.
+																						We use here the term of <em>free
+																							energy</em>&nbsp;only as a
+																						metaphor, with the meaning of
+																						<em>energy that is not taken
+																							from the grid</em>. In term
+																						of costs, this actually means,
+																						the costs of the equipment used
+																						to collect it (solar panel,
+																						charge controller, battery,
+																						wires, etc) - theoretically no
+																						other costs are involved,
+																						practically, we'll see...
+																					</p>
+
+																					<p>Stay tuned, a set of tutorials
+																						providing step-by-step
+																						implementation instructions of
+																						the "Green Balcony" project will
+																						be published soon!</p>
+																				</div>
+																			</div>
+																		</div>
+																		<section
+																			class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full">
+																			<h2 class="field-label">Category:&nbsp;</h2>
+																			<ul class="field-items">
+																				<li class="field-item even"><a
+																						href="../Arduino.html"
+																						typeof="skos:Concept"
+																						property="rdfs:label skos:prefLabel"
+																						datatype="">Arduino</a></li>
+																				<li class="field-item odd"><a
+																						href="../taxonomy/term/50.html"
+																						typeof="skos:Concept"
+																						property="rdfs:label skos:prefLabel"
+																						datatype="">IoT</a></li>
+																				<li class="field-item even"><a
+																						href="../taxonomy/term/40.html"
+																						typeof="skos:Concept"
+																						property="rdfs:label skos:prefLabel"
+																						datatype="">WoT</a></li>
+																			</ul>
+																		</section>
+																		<div
+																			class="easy_social_box clearfix horizontal easy_social_lang_und">
+																			<div
+																				class="easy_social-widget easy_social-widget-twitter first">
+																				<a href="https://twitter.com/share"
+																					class="twitter-share-button"
+																					data-url="https://web-engineering.info/node/82"
+																					data-count="horizontal"
+																					data-lang="en" data-via=""
+																					data-related=":Check it out!"
+																					data-text="Seeeduino XIAO - A Tiny Arduino Zero Variation">Tweet</a>
+																			</div>
+																			<div
+																				class="easy_social-widget easy_social-widget-facebook">
+																				<fb:like href="82.html" send="true"
+																					layout="button_count" width="88"
+																					show_faces="true"
+																					action="https://web-engineering.info/node/like"
+																					colorscheme="light" font="">
+																				</fb:like>
+																			</div>
+																			<div
+																				class="easy_social-widget easy_social-widget-googleplus">
+																				<div class="g-plusone"
+																					data-size="medium"
+																					data-annotation="bubble"
+																					data-href="82.html"></div>
+																			</div>
+																			<div
+																				class="easy_social-widget easy_social-widget-linkedin last">
+																				<script data-cfasync="false"
+																					src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+																				<script type="in/share"
+																					data-url="https://web-engineering.info/node/82"
+																					data-counter="right"></script>
+																			</div>
+																		</div> <!-- /.easy_social_box -->
+																		<div id="disqus_thread"><noscript>
+																				<p><a
+																						href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F82">View
+																						the discussion thread.</a></p>
+																			</noscript></div>
+																	</div>
+
+																	<nav class="clearfix">
+																		<ul class="links inline">
+																			<li class="blog_usernames_blog first last">
+																				<a href="../blog/24.html"
+																					title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s
+																					blog</a>
+																			</li>
+																		</ul>
+																	</nav>
+
+
+																</div>
+															</article>
+
+														</div>
+													</div>
+												</div>
+
+
+											</div>
+										</div>
+
+									</section>
+
+									<div class="region region-content-aside">
+										<div class="region-inner clearfix">
+											<div id="block-block-2"
+												class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2">
+												<div class="block-inner clearfix">
+
+													<div class="block-content content">
+														<p style="text-align: center; margin-top: 10px;">©
+															2014-2020&nbsp;web-engineering.info&nbsp;<a
+																href="https://plus.google.com/104237216582874489152"
+																rel="publisher"><img alt="G+"
+																	src="../../assets/images/gplus-16.png"
+																	style="width: 16px; height: 16px;" /></a> | <a
+																href="../../about/index.html">About Us</a> | <a
+																href="../../privacy/index.html">Privacy
+																Policy</a> | Terms
+															&amp;
+															Conditions</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="region region-sidebar-first sidebar">
+								<div class="region-inner clearfix">
+									<nav id="block-system-main-menu"
+										class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+										role="navigation">
+										<div class="block-inner clearfix">
+											<h2 class="block-title">Main menu</h2>
+
+											<div class="block-content content">
+												<ul class="menu clearfix">
+													<li class="first leaf menu-depth-1 menu-item-1476"><a
+															href="https://sim4edu.com"
+															title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+															Discrete Event Simulation</a></li>
+													<li class="leaf menu-depth-1 menu-item-1218"><a
+															href="../../WebAppBook/index.html"
+															title="Web Applications with JavaScript or Java">Textbook
+															Web Apps JS+Java</a></li>
+													<li class="leaf menu-depth-1 menu-item-1477"><a
+															href="../../textbooknode80/index.html">Book
+															Information Management</a></li>
+													<li class="leaf menu-depth-1 menu-item-366"><a
+															href="../../blog/index.html"
+															title="A blog about web engineering issues.">Web Engineering
+															Blog</a></li>
+													<li class="leaf menu-depth-1 menu-item-758"><a
+															href="../../SummariesCheatsheetsPosters/index.html">Summaries
+															&amp; Cheat
+															Sheets</a></li>
+													<li class="leaf menu-depth-1 menu-item-361"><a
+															href="../../JsFrontendApp/index.html"
+															title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+															Apps with Plain JS</a></li>
+													<li class="leaf active-trail menu-depth-1 menu-item-465"><a
+															href="../../JavaJpaJsfApp/index.html"
+															title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+															class="active-trail active">Back-End Apps with Java EE</a>
+													</li>
+													<li class="leaf menu-depth-1 menu-item-806"><a
+															href="../../mODELcLASSjsApp/index.html"
+															title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+															with mODELcLASSjs </a></li>
+													<li class="leaf menu-depth-1 menu-item-805"><a
+															href="../../WoTProjects/index.html"
+															title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+															of Things (WoT)</a></li>
+													<li class="leaf menu-depth-1 menu-item-613"><a
+															href="../../forum/index.html" title="">Discussion
+															Forums</a>
+													</li>
+													<li class="leaf menu-depth-1 menu-item-720"><a
+															href="../../team/index.html"
+															title="Team members list.">Team</a></li>
+													<li class="last leaf menu-depth-1 menu-item-554"><a
+															href="../../contribute/index.html">Contribute
+															/ Support Us</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</nav>
+									<section id="block-user-login"
+										class="block block-user even last block-count-5 block-region-sidebar-first block-login"
+										role="form">
+										<div class="block-inner clearfix">
+											<h2 class="block-title">User login</h2>
+
+											<div class="block-content content">
+												<form action="https://web-engineering.info/node/82?destination=node/82"
+													method="post" id="user-login-form" accept-charset="UTF-8">
+													<div>
+														<div class="form-item form-type-textfield form-item-name">
+															<label for="edit-name">Username <span class="form-required"
+																	title="This field is required.">*</span></label>
+															<input type="text" id="edit-name" name="name" value=""
+																size="15" maxlength="60" class="form-text required" />
+														</div>
+														<div class="form-item form-type-password form-item-pass">
+															<label for="edit-pass">Password <span class="form-required"
+																	title="This field is required.">*</span></label>
+															<input type="password" id="edit-pass" name="pass" size="15"
+																maxlength="128" class="form-text required" />
+														</div>
+														<div class="item-list">
+															<ul>
+																<li class="even first last"><a
+																		href="../user/password.html"
+																		title="Request new password via e-mail.">Request
+																		new password</a></li>
+															</ul>
+														</div><input type="hidden" name="form_build_id"
+															value="form-VkKmZyPM_KN_kHHTciGNmf_WbqiAmORb9v9Aya0KzF4" />
+														<input type="hidden" name="form_id" value="user_login_block" />
+														<div class="form-actions form-wrapper" id="edit-actions"><input
+																type="submit" id="edit-submit" name="op" value="Log in"
+																class="form-submit" /></div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</section>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+
+
+		</div>
+	</div>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/82 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:44:36 GMT -->
+
 </html>

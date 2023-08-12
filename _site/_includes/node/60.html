@@ -2,313 +2,541 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+  prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/60 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:01 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
 <head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="Learn how to develop Arduino-based apps for the Web of Things (WoT). This first part of a series of tutorials shows the basics of an Arduino program (known as a &quot;sketch&quot;) and provides a quick introduction to some electronic components, including resistors, RGB LEDs and LEDs in general." />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="60.html" />
-<link rel="shortlink" href="60.html" />
-<title>WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="description"
+    content="Learn how to develop Arduino-based apps for the Web of Things (WoT). This first part of a series of tutorials shows the basics of an Arduino program (known as a &quot;sketch&quot;) and provides a quick introduction to some electronic components, including resistors, RGB LEDs and LEDs in general." />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="canonical" href="60.html" />
+  <link rel="shortlink" href="60.html" />
+  <title>WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED | web-engineering.info</title>
+  <link rel="stylesheet" href="../../_includes/modules/system/system.base5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.menus5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.messages5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.theme5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/comment/comment5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/field/theme/field5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/node/node5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/search/search5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/user/user5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/forum/forum5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/views/css/views5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ckeditor/css/ckeditor5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ctools/css/ctools5056.css" type="text/css" media="all">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css"
+    type="text/css" media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/webeng.custom5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/html-elements5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/forms5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/tables5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/page5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/articles5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/comments5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/fields5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/blocks5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/navigation5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/corolla.settings.style5056.css"
+    type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/color/colors5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/print5056.css" type="text/css"
+    media="print">
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css"
+    media="only screen" />
+  <link rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css"
+    type="text/css" media="screen">
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.custom5056.css"
+    media="only screen" />
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css"
+    media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css"
+    media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.portrait5056.css"
+    media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.landscape5056.css"
+    media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.desktop5056.css"
+    media="only screen and (min-width:1025px)" />
 
-<!--[if lt IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
-</style>
-<![endif]-->
 
-<!--[if lte IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
-</style>
-<![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-//--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
-//--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"FOT8CJSH5rZ3Ut3TnYFW2P0iO3-9WTgaKCg326d1vBI","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/60?destination=node\/60":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/60","title":"WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED","identifier":"node\/60"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
-//--><!]]>
-</script>
-<!--[if lt IE 9]>
-<script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
-<![endif]-->
+  <!--[if lt IE 9]>
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?qv28dn");
+      </style>
+      <![endif]-->
+
+  <!--[if lte IE 9]>
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/all/themes/corolla/css/ie-lte-9.css?qv28dn");
+      </style>
+      <![endif]-->
+  <script type="text/javascript" src="../../_includes/misc/jquery1cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery-extend-3.4.01cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery.once7839.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/drupal5056.js"></script>
+  <script type="text/javascript"
+    src="../../_includes/sites/all/modules/google_analytics/googleanalytics5056.js"></script>
+  <script type="text/javascript">
+      <!--//-->
+  < ![CDATA[//><!--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "https://www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
+      //--><!]]>
+  </script>
+  <script type="text/javascript" src="../../_includes/sites/all/modules/disqus/disqus5056.js"></script>
+  <script type="text/javascript">
+      <!--//-->
+  < ![CDATA[//><!--
+        jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "lFZahT6-VB7Qy37XiPt4hR1WARBvKq95YLAdjNylpqc", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "0": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/index.html?destination=node\/5": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/index.html", "title": "Free Tutorials and Books with the Complete Code of Example Apps", "identifier": "node\/5" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
+      //--><!]]>
+  </script>
+  <!--[if lt IE 9]>
+      <script src="../../_includes/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?qv28dn"></script>
+      <![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-60 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+
+<body
+  class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-60 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
   <div id="skip-link" class="nocontent">
     <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
   </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+  <div id="page-wrapper">
+    <div id="page"
+      class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
 
-        <header class="clearfix with-logo" role="banner">
+      <div id="header-wrapper">
+        <div class="container clearfix">
 
-                      <div id="branding" class="branding-elements clearfix">
+          <header class="clearfix with-logo" role="banner">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+            <div id="branding" class="branding-elements clearfix">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
+              <div id="logo">
+                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                    src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+              </div>
+
+              <div class="h-group" id="name-and-slogan">
+
+                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+
+                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+              </div>
+
             </div>
-          
-          
-        </header>
 
+
+          </header>
+
+        </div>
       </div>
-    </div>
 
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
 
-        <div id="columns">
-          <div class="columns-inner clearfix">
 
-            <div id="content-column">
-              <div class="content-inner">
 
-                
-                <section id="main-content" role="main">
+      <div id="content-wrapper">
+        <div class="container">
 
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
+          <div id="columns">
+            <div class="columns-inner clearfix">
 
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
+              <div id="content-column">
+                <div class="content-inner">
+
+
+                  <section id="main-content" role="main">
+
+
+                    <div class="content-margin">
+                      <div class="content-style">
+
+
+                        <div id="breadcrumb" class="clearfix">
+                          <nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label">
+                            <h2 id="breadcrumb-label" class="element-invisible">You are here</h2>
+                            <ol id="crumbs" class="clearfix">
+                              <li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"
+                                    property="v:title" href="../blog.html">Blogs</a></span></li>
+                              <li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                    href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                        <header class="clearfix">
                           <h1 id="page-title">
-                            WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED                          </h1>
+                            WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED </h1>
                         </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
-  
-  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/60" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="60.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/60"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/60" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box -->
-  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
-  
-  <article id="node-60" class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/60" typeof="sioc:Post sioct:BlogPost" role="article">
-  <div class="node-inner">
 
-    
-              <header class="node-header">
 
-        
-                  <p class="submitted"><span property="dc:date dc:created" content="2016-04-04T15:07:40+02:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/24.html" title="View user profile." class="username" xml:lang="" about="/user/24" typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on <time datetime="2016-04-04T15:07:40+0200">Mon, 04/04/2016 - 15:07</time></span></p>
-        
-      </header>
-        <span property="dc:title" content="WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
-    <div class="node-content">
-      <div class="user-picture">
-    <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc" alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>  </div>
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>In this multi-part tutorial we show how to develop Arduino-based apps for the Web of Things (WoT). This first part shows the very basics of an Arduino program (known as a "sketch") and provides a quick introduction to some electronic components, such as resistors, RGB LEDs and LEDs in general. In the following parts of this tutorial, which will appear every 1-2 weeks, we discuss how to read sensors, control actuators, and how to connect them all together in a Web of Things (WoT) network. Using standard Web technologies, such as HTTP and Web Sockets, we can then access the data or provide commands to the WoT nodes. As a newbie, it is helpful if you already have some basic C/C++ programming knowledge and understanding of some Web standards and programming languages, such as HTML and JavaScript.</p>
 
-<p><small><strong>Disclaimer:</strong> working with electricity is dangerous. For this project we'll use 5V, which is safe for the human body under any environment conditions. However, the low voltage may be obtained from a mains connected power brick, and therefore we highly recommend you to take safety precautions and to use a trustful brand for the power supply. We cannot be held responsible for any caused damage! Do it at your own risk and/or ask help from an electronics engineer. In case you are using the USB connector from your PC to power the Arduino board, be aware that short-circuits which may occur on the Arduino board may also have a negative impact on your PC!</small></p>
+                        <div id="content">
+                          <div class="region region-content">
+                            <div id="block-easy-social-easy-social-block-1"
+                              class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1">
 
-<p style="margin-top:1em"><small><strong>Credits:</strong> some of the images from this tutorial are created by using <a href="http://fritzing.org/home/">Fritzing</a>, a nice electronics modeling tool for beginners.</small></p>
+                              <div class="easy_social_box clearfix horizontal easy_social_lang_en">
+                                <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                    href="https://twitter.com/share" class="twitter-share-button"
+                                    data-url="https://web-engineering.info/node/60" data-count="horizontal"
+                                    data-lang="en" data-via="" data-related=":Check it out!"
+                                    data-text="web-engineering.info">Tweet</a></div>
+                                <div class="easy_social-widget easy_social-widget-facebook">
+                                  <fb:like href="60.html" send="true" layout="button_count" width="88" show_faces="true"
+                                    action="https://web-engineering.info/node/like" colorscheme="light" font="">
+                                  </fb:like>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-googleplus">
+                                  <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                    data-href="https://web-engineering.info/node/60"></div>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-linkedin last">
+                                  <script type="in/share" data-url="https://web-engineering.info/node/60"
+                                    data-counter="right"></script>
+                                </div>
+                              </div> <!-- /.easy_social_box -->
+                            </div>
+                            <div id="block-system-main"
+                              class="block block-system no-title even last block-count-2 block-region-content block-main">
 
-<h4><strong><a href="../sites/default/files/wot_tutorials/rgb_led/WoT-Tutorial-Part1.zip">Download Source Code</a></strong></h4>
+                              <article id="node-60"
+                                class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix"
+                                about="/node/60" typeof="sioc:Post sioct:BlogPost" role="article">
+                                <div class="node-inner">
 
-<h2>The Arduino Story</h2>
 
-<p>The name <em>Arduino</em> comes from a bar in Ivrea, Italy, where some of the founders of the project used to meet. Today, this term is well known as referring to a project and a community.</p>
+                                  <header class="node-header">
 
-<p>All started when Hernando Barragán, a Colombian student, created the development platform <a href="https://en.wikipedia.org/wiki/Wiring_(development_platform)">Wiring</a> as his Master thesis project in 2004. The goal was to create low-cost, simple tools for non-engineers to create digital projects. The Wiring platform consisted of a hardware PCB with an ATmega128 micro-controller, an integrated development environment (IDE) based on <a href="https://en.wikipedia.org/wiki/Processing_(programming_language)">Processing</a>, and library functions to easily program the micro-controller. In 2005, Massimo Banzi, with David Mellis (then an IDII student) and David Cuartielles, added support for the cheaper ATmega8 micro-controller to Wiring. The two forked the Wiring source code and started running it as a separate project, called <em>Arduino</em>. The Arduino's initial core team consisted of Massimo Banzi, David Cuartielles, Tom Igoe, Gianluca Martino, and David Mellis.</p>
 
-<p>The project is based on micro-controller board designs, produced by several vendors, using various micro-controllers. These systems provide sets of digital and analog I/O pins that can interface to various expansion boards (also called 'shields') and other circuits. The boards feature serial communication interfaces, including Universal Serial Bus (USB) on some models, for loading programs from personal computers. For programming the micro-controllers, the Arduino project provides an integrated development environment (IDE) based on a programming language named <em>Processing</em>, which also supports the languages C and C++.</p>
+                                    <p class="submitted"><span property="dc:date dc:created"
+                                        content="2016-04-04T15:07:40+02:00" datatype="xsd:dateTime"
+                                        rel="sioc:has_creator">Submitted by <a href="../user/24.html"
+                                          title="View user profile." class="username" xml:lang="" about="/user/24"
+                                          typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on
+                                        <time datetime="2016-04-04T15:07:40+0200">Mon, 04/04/2016 - 15:07</time></span>
+                                    </p>
 
-<p>The first Arduino was introduced in 2005, aiming to provide a low cost, easy way for novices and professionals to create devices that interact with their environment using sensors and actuators. Common examples of such devices intended for beginner hobbyists include simple robots, thermostats, and motion detectors.</p>
+                                  </header>
+                                  <span property="dc:title"
+                                    content="WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED"
+                                    class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0"
+                                    datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+                                  <div class="node-content">
+                                    <div class="user-picture">
+                                      <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image"
+                                          class="image-style-thumbnail"
+                                          src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc"
+                                          alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>
+                                    </div>
+                                    <div
+                                      class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+                                      <div class="field-items">
+                                        <div class="field-item even" property="content:encoded">
+                                          <p>In this multi-part tutorial we show how to develop Arduino-based apps for
+                                            the Web of Things (WoT). This first part shows the very basics of an Arduino
+                                            program (known as a "sketch") and provides a quick introduction to some
+                                            electronic components, such as resistors, RGB LEDs and LEDs in general. In
+                                            the following parts of this tutorial, which will appear every 1-2 weeks, we
+                                            discuss how to read sensors, control actuators, and how to connect them all
+                                            together in a Web of Things (WoT) network. Using standard Web technologies,
+                                            such as HTTP and Web Sockets, we can then access the data or provide
+                                            commands to the WoT nodes. As a newbie, it is helpful if you already have
+                                            some basic C/C++ programming knowledge and understanding of some Web
+                                            standards and programming languages, such as HTML and JavaScript.</p>
 
-<p>Today, there is a large number of various types of Arduino boards. They are different in hardware capabilities (MCU type, RAM size, number of I/O pins, size, etc), but they all share a common IDE and programming language.</p>
+                                          <p><small><strong>Disclaimer:</strong> working with electricity is dangerous.
+                                              For this project we'll use 5V, which is safe for the human body under any
+                                              environment conditions. However, the low voltage may be obtained from a
+                                              mains connected power brick, and therefore we highly recommend you to take
+                                              safety precautions and to use a trustful brand for the power supply. We
+                                              cannot be held responsible for any caused damage! Do it at your own risk
+                                              and/or ask help from an electronics engineer. In case you are using the
+                                              USB connector from your PC to power the Arduino board, be aware that
+                                              short-circuits which may occur on the Arduino board may also have a
+                                              negative impact on your PC!</small></p>
 
-<p>The <a href="https://www.arduino.cc/en/Main/Software">Arduino IDE</a> is not the only way, and not necessarily the best way to program an Arduino development board. However, it is by far the easiest way to start with Arduino, and enter the world of <em>Do it Yourself</em> control. It supports the whole multitude of Arduino boards, and internally takes care of all the software and hardware variations, leaving as the only important task the writing of an "almost" hardware-independent program.</p>
+                                          <p style="margin-top:1em"><small><strong>Credits:</strong> some of the images
+                                              from this tutorial are created by using <a
+                                                href="http://fritzing.org/home/">Fritzing</a>, a nice electronics
+                                              modeling tool for beginners.</small></p>
 
-<h2>Contents of this Tutorial</h2>
+                                          <h4><strong><a
+                                                href="../sites/default/files/wot_tutorials/rgb_led/WoT-Tutorial-Part1.zip">Download
+                                                Source Code</a></strong></h4>
 
-<p>The following main topics are discussed:</p>
+                                          <h2>The Arduino Story</h2>
 
-<ul>
-	<li>How to write the first Arduino program.</li>
-	<li>What are (RGB) LEDs and how to use them.</li>
-	<li>Using the RGB LED as single color indicator.</li>
-	<li>Use PWM (pulse width modulation) to emulate analog voltages and create "real" colors with the RGB LED.</li>
-</ul>
+                                          <p>The name <em>Arduino</em> comes from a bar in Ivrea, Italy, where some of
+                                            the founders of the project used to meet. Today, this term is well known as
+                                            referring to a project and a community.</p>
 
-<h2>Prerequisites</h2>
+                                          <p>All started when Hernando Barragán, a Colombian student, created the
+                                            development platform <a
+                                              href="https://en.wikipedia.org/wiki/Wiring_(development_platform)">Wiring</a>
+                                            as his Master thesis project in 2004. The goal was to create low-cost,
+                                            simple tools for non-engineers to create digital projects. The Wiring
+                                            platform consisted of a hardware PCB with an ATmega128 micro-controller, an
+                                            integrated development environment (IDE) based on <a
+                                              href="https://en.wikipedia.org/wiki/Processing_(programming_language)">Processing</a>,
+                                            and library functions to easily program the micro-controller. In 2005,
+                                            Massimo Banzi, with David Mellis (then an IDII student) and David
+                                            Cuartielles, added support for the cheaper ATmega8 micro-controller to
+                                            Wiring. The two forked the Wiring source code and started running it as a
+                                            separate project, called <em>Arduino</em>. The Arduino's initial core team
+                                            consisted of Massimo Banzi, David Cuartielles, Tom Igoe, Gianluca Martino,
+                                            and David Mellis.</p>
 
-<p>For this project we need the following software and hardware components:</p>
+                                          <p>The project is based on micro-controller board designs, produced by several
+                                            vendors, using various micro-controllers. These systems provide sets of
+                                            digital and analog I/O pins that can interface to various expansion boards
+                                            (also called 'shields') and other circuits. The boards feature serial
+                                            communication interfaces, including Universal Serial Bus (USB) on some
+                                            models, for loading programs from personal computers. For programming the
+                                            micro-controllers, the Arduino project provides an integrated development
+                                            environment (IDE) based on a programming language named <em>Processing</em>,
+                                            which also supports the languages C and C++.</p>
 
-<ul>
-	<li>The <a href="https://www.arduino.cc/en/Main/Software"> official Arduino IDE</a>.</li>
-	<li>An <a href="https://www.arduino.cc/en/Main/ArduinoBoardUno">Arduino/Genuino UNO R3</a> or <a href="https://www.arduino.cc/en/Main/ArduinoBoardNano">Arduino Nano 3.x</a> board. Other Arduino boards (MEGA2560, Micro, Mini, etc) work as well, but some of the instructions may be slightly different.</li>
-	<li>An RGB LED. For this tutorial we'll use a common cathode one (common GND pin for all three LEDs).</li>
-	<li>Three resistors: 2 x 330Ω and 1 x 220Ω.</li>
-	<li>A breadboard and a few jumper wires.</li>
-	<li>A power supply for your arduino board (7 - 12V is recommended, 5.5/2.1 center positive connector). A simpler alternative for this project is to use an USB Type B Male connector (for Arduino UNO) or USB Mini A Male (for Arduino Nano), and power if from an USB port of your PC. That's required anyway, in order to upload the program to the Arduino board.</li>
-</ul>
+                                          <p>The first Arduino was introduced in 2005, aiming to provide a low cost,
+                                            easy way for novices and professionals to create devices that interact with
+                                            their environment using sensors and actuators. Common examples of such
+                                            devices intended for beginner hobbyists include simple robots, thermostats,
+                                            and motion detectors.</p>
 
-<p>The <a href="https://www.arduino.cc/en/Main/ArduinoBoardUno">Arduino UNO R3</a> board (see <a href="#fig1">Figure 1</a>) is equipped with the ATmega 328p MCU, running at 16MHz. It comes with 2KB of RAM memory, 32KB of flash memory (used for the program) and 1KB of EEPROM memory. Only 31.5KB of the flash memory is available, 0.5KB are used by the Arduino bootloader (a piece of software running on the MCU which allows you to easily upload the program to the board without the complications of a special programmer device). The board provides 14 digital input/output pins (of which 6 can be used as PWM outputs), 6 analog inputs, a power jack, an ICSP header (used to program the MCU with an external programmer) and a reset button. A maximum of 40mA (no more than 200mA in total) is provided by the board.</p>
+                                          <p>Today, there is a large number of various types of Arduino boards. They are
+                                            different in hardware capabilities (MCU type, RAM size, number of I/O pins,
+                                            size, etc), but they all share a common IDE and programming language.</p>
 
-<p>The <a href="https://www.arduino.cc/en/Main/ArduinoBoardNano">Arduino Nano 3.x</a> board (see <a href="#fig1">Figure 1</a>) is equipped with the ATmega 328 (or ATmega 328p for some clones) MCU, running at 16MHz. It comes with 2KB of RAM memory and 32KB of flash memory, and 1KB of EEPROM memory. Only 30KB of the flash memory are usable, 2KB are used by the Arduino bootloader. The board provides 14 digital input/output pins (of which 6 can be used as PWM outputs), 8 analog inputs and a reset button.</p>
+                                          <p>The <a href="https://www.arduino.cc/en/Main/Software">Arduino IDE</a> is
+                                            not the only way, and not necessarily the best way to program an Arduino
+                                            development board. However, it is by far the easiest way to start with
+                                            Arduino, and enter the world of <em>Do it Yourself</em> control. It supports
+                                            the whole multitude of Arduino boards, and internally takes care of all the
+                                            software and hardware variations, leaving as the only important task the
+                                            writing of an "almost" hardware-independent program.</p>
 
-<p><strong>Note:</strong> Notice that some older versions of Arduino Nano (under version 3) comes with an ATmega 168 (or 168p for some clones), thus the amount of RAM, flash and EEPROM are half of the values available in the Arduino Nano 3.x.</p>
+                                          <h2>Contents of this Tutorial</h2>
 
-<figure id="fig1"><img alt="Arduino UNO R3 and Nano 3" src="../sites/default/files/wot_tutorials/rgb_led/arduino-boards.png" />
-<figcaption>Figure 1: Arduino UNO R3 and Nano 3</figcaption>
-</figure>
+                                          <p>The following main topics are discussed:</p>
 
-<h2>What is a (RGB) LED?</h2>
+                                          <ul>
+                                            <li>How to write the first Arduino program.</li>
+                                            <li>What are (RGB) LEDs and how to use them.</li>
+                                            <li>Using the RGB LED as single color indicator.</li>
+                                            <li>Use PWM (pulse width modulation) to emulate analog voltages and create
+                                              "real" colors with the RGB LED.</li>
+                                          </ul>
 
-<p>An LED (Light Emitting Diode) is a diode that emits lights when connected to a correct power source. LEDs comes in different shapes or colors, but basically they follow the same concept. <a href="#fig2">Figure 2</a> shows various LEDs and the LED symbol used in electronic schematics. The cathode represents the negative pin, and in many cases this identifies with the circuit GND (ground). However, the negative and the GND of a circuit must not be confused, because they may or may not represent the same thing on a specific circuit. The anode is the positive pin, usually named VCC or simply +.</p>
+                                          <h2>Prerequisites</h2>
 
-<p><strong>Node:</strong> in real physics, the electrons are traveling (thus creating the current) from the negative pol to the positive pol. However, in electronic diagrams, the symbols are used other way around, because earlier, when these symbols were created, there was no real way to know how the electrons are moving, therefore the scientist at that time believed that the electrons moves from the positive pol to the negative one.</p>
+                                          <p>For this project we need the following software and hardware components:
+                                          </p>
 
-<figure id="fig2"><img alt="RGB LED" src="../sites/default/files/wot_tutorials/rgb_led/led-example.png" />
-<figcaption>Figure 2: Various LEDs and the Electronic Schematics Symbol</figcaption>
-</figure>
+                                          <ul>
+                                            <li>The <a href="https://www.arduino.cc/en/Main/Software"> official Arduino
+                                                IDE</a>.</li>
+                                            <li>An <a
+                                                href="https://www.arduino.cc/en/Main/ArduinoBoardUno">Arduino/Genuino
+                                                UNO R3</a> or <a
+                                                href="https://www.arduino.cc/en/Main/ArduinoBoardNano">Arduino Nano
+                                                3.x</a> board. Other Arduino boards (MEGA2560, Micro, Mini, etc) work as
+                                              well, but some of the instructions may be slightly different.</li>
+                                            <li>An RGB LED. For this tutorial we'll use a common cathode one (common GND
+                                              pin for all three LEDs).</li>
+                                            <li>Three resistors: 2 x 330Ω and 1 x 220Ω.</li>
+                                            <li>A breadboard and a few jumper wires.</li>
+                                            <li>A power supply for your arduino board (7 - 12V is recommended, 5.5/2.1
+                                              center positive connector). A simpler alternative for this project is to
+                                              use an USB Type B Male connector (for Arduino UNO) or USB Mini A Male (for
+                                              Arduino Nano), and power if from an USB port of your PC. That's required
+                                              anyway, in order to upload the program to the Arduino board.</li>
+                                          </ul>
 
-<p>An RGB LED (see <a href="#fig3">Figure 3</a>) consists of three individual (one red, one green and one blue) LEDs in a single unit. These LEDs come either with a common cathode (negative pin) or with a common anode (positive pin). This is important to know in order to wire it correctly to a circuit.</p>
+                                          <p>The <a href="https://www.arduino.cc/en/Main/ArduinoBoardUno">Arduino UNO
+                                              R3</a> board (see <a href="#fig1">Figure 1</a>) is equipped with the
+                                            ATmega 328p MCU, running at 16MHz. It comes with 2KB of RAM memory, 32KB of
+                                            flash memory (used for the program) and 1KB of EEPROM memory. Only 31.5KB of
+                                            the flash memory is available, 0.5KB are used by the Arduino bootloader (a
+                                            piece of software running on the MCU which allows you to easily upload the
+                                            program to the board without the complications of a special programmer
+                                            device). The board provides 14 digital input/output pins (of which 6 can be
+                                            used as PWM outputs), 6 analog inputs, a power jack, an ICSP header (used to
+                                            program the MCU with an external programmer) and a reset button. A maximum
+                                            of 40mA (no more than 200mA in total) is provided by the board.</p>
 
-<figure id="fig3"><img alt="RGB LED" src="../sites/default/files/wot_tutorials/rgb_led/rgb-led.png" />
-<figcaption>
-<ul>
-	<li>Figure 3: Common Cathode and Common Anode RGB LED</li>
-</ul>
-</figcaption>
-</figure>
+                                          <p>The <a href="https://www.arduino.cc/en/Main/ArduinoBoardNano">Arduino Nano
+                                              3.x</a> board (see <a href="#fig1">Figure 1</a>) is equipped with the
+                                            ATmega 328 (or ATmega 328p for some clones) MCU, running at 16MHz. It comes
+                                            with 2KB of RAM memory and 32KB of flash memory, and 1KB of EEPROM memory.
+                                            Only 30KB of the flash memory are usable, 2KB are used by the Arduino
+                                            bootloader. The board provides 14 digital input/output pins (of which 6 can
+                                            be used as PWM outputs), 8 analog inputs and a reset button.</p>
 
-<p>A LED is a current controlled device, which means that it is important to determine the amount of current flowing through the LED. A LED has a maximum current specified by its datasheet, and when this information is not available, for standard 3mm or 5mm LEDs, but not only, one can safely assume 20mA (0.02A) as the maximum value. Knowing the voltage applied to the LED pins (e.g., 3.3V, 5V, 12V, etc), and the LED forward voltage, we can use the Ohm's law, <code>V = I * R</code>, to determine the value of a resistor which ensures that the maximum current is not exceeded. Thus, <code>R = V / I</code>, where R is the resistence value in Ohms, V is the voltage in volts and I is the current in amperes.</p>
+                                          <p><strong>Note:</strong> Notice that some older versions of Arduino Nano
+                                            (under version 3) comes with an ATmega 168 (or 168p for some clones), thus
+                                            the amount of RAM, flash and EEPROM are half of the values available in the
+                                            Arduino Nano 3.x.</p>
 
-<p>A resistor is a passive electronic component which restrict the amount of current passing through it. By analogy, a water tab is used to control the amount of water flow, so is the resistor, but instead of water, it controls the amount of electrons (thus the current) allowed to flow throug it.</p>
+                                          <figure id="fig1"><img alt="Arduino UNO R3 and Nano 3"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/arduino-boards.png" />
+                                            <figcaption>Figure 1: Arduino UNO R3 and Nano 3</figcaption>
+                                          </figure>
 
-<p>The <em>LED forward voltage</em> is the the voltage level at which the led to starts to emit light (because it allows just enough current to pass trough). Common LED forward voltage values are: 1.7V for red, 2V for green and orange and 2.7V for white and blue.</p>
+                                          <h2>What is a (RGB) LED?</h2>
 
-<p>For a value of 5V applied to the LED circuitry (which is the case with our Arduino UNO example), we can compute the resistor value for an red LED:</p>
+                                          <p>An LED (Light Emitting Diode) is a diode that emits lights when connected
+                                            to a correct power source. LEDs comes in different shapes or colors, but
+                                            basically they follow the same concept. <a href="#fig2">Figure 2</a> shows
+                                            various LEDs and the LED symbol used in electronic schematics. The cathode
+                                            represents the negative pin, and in many cases this identifies with the
+                                            circuit GND (ground). However, the negative and the GND of a circuit must
+                                            not be confused, because they may or may not represent the same thing on a
+                                            specific circuit. The anode is the positive pin, usually named VCC or simply
+                                            +.</p>
 
-<ul>
-	<li>Determine the voltage to be dropped outside the LED. This is the difference between the voltage applied to the circuit and the LED forward voltage. For the red LED this is: 5V - 1.7V = 3.3V.</li>
-	<li>Decide how much current you want to allow passing through the LED. The amount of current determines the LED brightness. In general, half of the maximum specified current is just sufficient, which for a normal 3mm or 5mm LED is about 10mA (0.01A).</li>
-	<li>Apply the Ohm's law: <code>R = 3.3 / 0.01</code>, resulting in <code>R = 330Ω.</code></li>
-</ul>
+                                          <p><strong>Node:</strong> in real physics, the electrons are traveling (thus
+                                            creating the current) from the negative pol to the positive pol. However, in
+                                            electronic diagrams, the symbols are used other way around, because earlier,
+                                            when these symbols were created, there was no real way to know how the
+                                            electrons are moving, therefore the scientist at that time believed that the
+                                            electrons moves from the positive pol to the negative one.</p>
 
-<p>Like with any LED, resistors are are required for the RGB LEDs, thus limiting the current and protecting the LED. For an RGB LED we need three resistors, one for each color. Following the above rule, we have:</p>
+                                          <figure id="fig2"><img alt="RGB LED"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/led-example.png" />
+                                            <figcaption>Figure 2: Various LEDs and the Electronic Schematics Symbol
+                                            </figcaption>
+                                          </figure>
 
-<ul>
-	<li>Voltage to be <em>dropped</em> outside the LED: <code>5V - 1.7V = 3.3V</code> for the red LED, <code>5V - 2V = 3V</code> for the green LED, and <code>5V - 2.7V = 2.3V</code> for the blue LED. Therefore, the voltage to be dropped out is: <code>V = {3.3V (red), 3V (green), 2.3V (blue)}</code>.</li>
-	<li>Knowing that we need 10mA (0.01A) current applied to the LED, we compute the resistor values by using the Ohm's law, <code>R = V / I</code>. We obtain: <code>R = { 3.3 / 0.01 (red), 3.0 / 0.01 (green), 2.3 / 0.01 (blue)}, </code> <code>R = {330Ω (red), 300Ω (green), 230Ω (blue)}</code>.</li>
-</ul>
+                                          <p>An RGB LED (see <a href="#fig3">Figure 3</a>) consists of three individual
+                                            (one red, one green and one blue) LEDs in a single unit. These LEDs come
+                                            either with a common cathode (negative pin) or with a common anode (positive
+                                            pin). This is important to know in order to wire it correctly to a circuit.
+                                          </p>
 
-<p>Resistors can be found in various values, but unfortunately not all the resistor values we obtained above are standard ones. However, we can approximate these values with the first lower or upper (whichever is convenient for us) standard values, so we obtain, <code>R = {330Ω (red), 330Ω (green), 220Ω (blue)}</code>. This means that the real current passing through our LEDs is <code>I = {10mA (red), 9mA (green), 10.4mA (blue)}</code>. It is possible to use resistors in series or parallel (or both), to obtain more exact values, or we can buy expensive resistors which have the exact value we need, but there is no reason to do this if the purpose is just to have the LED lighting up.</p>
+                                          <figure id="fig3"><img alt="RGB LED"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/rgb-led.png" />
+                                            <figcaption>
+                                              <ul>
+                                                <li>Figure 3: Common Cathode and Common Anode RGB LED</li>
+                                              </ul>
+                                            </figcaption>
+                                          </figure>
 
-<p><strong>Note:</strong> we use a common cathode RGB LED, so the resistors are connected to the LED's anodes. Using a common anode RGB led requires to connect the resistor to LED's anodes, and also to make a few changes in the Arduino program.</p>
+                                          <p>A LED is a current controlled device, which means that it is important to
+                                            determine the amount of current flowing through the LED. A LED has a maximum
+                                            current specified by its datasheet, and when this information is not
+                                            available, for standard 3mm or 5mm LEDs, but not only, one can safely assume
+                                            20mA (0.02A) as the maximum value. Knowing the voltage applied to the LED
+                                            pins (e.g., 3.3V, 5V, 12V, etc), and the LED forward voltage, we can use the
+                                            Ohm's law, <code>V = I * R</code>, to determine the value of a resistor
+                                            which ensures that the maximum current is not exceeded. Thus,
+                                            <code>R = V / I</code>, where R is the resistence value in Ohms, V is the
+                                            voltage in volts and I is the current in amperes.
+                                          </p>
 
-<h2>The Basics of an Arduino Program (Sketch)</h2>
+                                          <p>A resistor is a passive electronic component which restrict the amount of
+                                            current passing through it. By analogy, a water tab is used to control the
+                                            amount of water flow, so is the resistor, but instead of water, it controls
+                                            the amount of electrons (thus the current) allowed to flow throug it.</p>
 
-<p>An Arduino program or sketch is essentially a C/C++ program. It comes with a set of methods (implemented in the core) which allows to control the Arduino I/O pins, communicate over UART, I2C, SPI or read analog values from a voltage source. Every Arduino code consists of the following (some optional) sections:</p>
+                                          <p>The <em>LED forward voltage</em> is the the voltage level at which the led
+                                            to starts to emit light (because it allows just enough current to pass
+                                            trough). Common LED forward voltage values are: 1.7V for red, 2V for green
+                                            and orange and 2.7V for white and blue.</p>
 
-<pre>
+                                          <p>For a value of 5V applied to the LED circuitry (which is the case with our
+                                            Arduino UNO example), we can compute the resistor value for an red LED:</p>
+
+                                          <ul>
+                                            <li>Determine the voltage to be dropped outside the LED. This is the
+                                              difference between the voltage applied to the circuit and the LED forward
+                                              voltage. For the red LED this is: 5V - 1.7V = 3.3V.</li>
+                                            <li>Decide how much current you want to allow passing through the LED. The
+                                              amount of current determines the LED brightness. In general, half of the
+                                              maximum specified current is just sufficient, which for a normal 3mm or
+                                              5mm LED is about 10mA (0.01A).</li>
+                                            <li>Apply the Ohm's law: <code>R = 3.3 / 0.01</code>, resulting in
+                                              <code>R = 330Ω.</code>
+                                            </li>
+                                          </ul>
+
+                                          <p>Like with any LED, resistors are are required for the RGB LEDs, thus
+                                            limiting the current and protecting the LED. For an RGB LED we need three
+                                            resistors, one for each color. Following the above rule, we have:</p>
+
+                                          <ul>
+                                            <li>Voltage to be <em>dropped</em> outside the LED:
+                                              <code>5V - 1.7V = 3.3V</code> for the red LED, <code>5V - 2V = 3V</code>
+                                              for the green LED, and <code>5V - 2.7V = 2.3V</code> for the blue LED.
+                                              Therefore, the voltage to be dropped out is:
+                                              <code>V = {3.3V (red), 3V (green), 2.3V (blue)}</code>.
+                                            </li>
+                                            <li>Knowing that we need 10mA (0.01A) current applied to the LED, we compute
+                                              the resistor values by using the Ohm's law, <code>R = V / I</code>. We
+                                              obtain:
+                                              <code>R = { 3.3 / 0.01 (red), 3.0 / 0.01 (green), 2.3 / 0.01 (blue)}, </code>
+                                              <code>R = {330Ω (red), 300Ω (green), 230Ω (blue)}</code>.
+                                            </li>
+                                          </ul>
+
+                                          <p>Resistors can be found in various values, but unfortunately not all the
+                                            resistor values we obtained above are standard ones. However, we can
+                                            approximate these values with the first lower or upper (whichever is
+                                            convenient for us) standard values, so we obtain,
+                                            <code>R = {330Ω (red), 330Ω (green), 220Ω (blue)}</code>. This means that
+                                            the real current passing through our LEDs is
+                                            <code>I = {10mA (red), 9mA (green), 10.4mA (blue)}</code>. It is possible to
+                                            use resistors in series or parallel (or both), to obtain more exact values,
+                                            or we can buy expensive resistors which have the exact value we need, but
+                                            there is no reason to do this if the purpose is just to have the LED
+                                            lighting up.
+                                          </p>
+
+                                          <p><strong>Note:</strong> we use a common cathode RGB LED, so the resistors
+                                            are connected to the LED's anodes. Using a common anode RGB led requires to
+                                            connect the resistor to LED's anodes, and also to make a few changes in the
+                                            Arduino program.</p>
+
+                                          <h2>The Basics of an Arduino Program (Sketch)</h2>
+
+                                          <p>An Arduino program or sketch is essentially a C/C++ program. It comes with
+                                            a set of methods (implemented in the core) which allows to control the
+                                            Arduino I/O pins, communicate over UART, I2C, SPI or read analog values from
+                                            a voltage source. Every Arduino code consists of the following (some
+                                            optional) sections:</p>
+
+                                          <pre>
 // 1) constants definition (optional if no constant is needed)
 // 2) include headers for used libraries ( optional if no library is used)
 // 3) define the global variables (optional if no global variable is required)
@@ -324,106 +552,235 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
   // I will run again and again, in a loop, as long as the board is powered.
 }</pre>
 
-<p>While the sections marked 1), 2) and 3) are optional, in most of the Arduino programs you'll use at least one if not all of them.</p>
+                                          <p>While the sections marked 1), 2) and 3) are optional, in most of the
+                                            Arduino programs you'll use at least one if not all of them.</p>
 
-<p>The <code>setup</code> method executes only once, when the Arduino board is powered up or when a reset signal is received. This method contains initialization code, such as set pin modes (we discuss later about this), initializing serial communication and so on. The <code>loop</code> method, as also suggested by its name, executes in an infinite loop. This method contains the code that your MCU (micro-controller) executes again and again, such as reading a sensor, or counting the elapsed time.</p>
+                                          <p>The <code>setup</code> method executes only once, when the Arduino board is
+                                            powered up or when a reset signal is received. This method contains
+                                            initialization code, such as set pin modes (we discuss later about this),
+                                            initializing serial communication and so on. The <code>loop</code> method,
+                                            as also suggested by its name, executes in an infinite loop. This method
+                                            contains the code that your MCU (micro-controller) executes again and again,
+                                            such as reading a sensor, or counting the elapsed time.</p>
 
-<h2>Compile and Upload an Arduino Program</h2>
+                                          <h2>Compile and Upload an Arduino Program</h2>
 
-<p>While the above program does nothing, we use it to show how to compile and upload a program to an Arduino board. We mostly refer to Arduino UNO board, but the procedure for the other Arduino boards is very similar (one just need to chose the correct board from the IDE menu).</p>
+                                          <p>While the above program does nothing, we use it to show how to compile and
+                                            upload a program to an Arduino board. We mostly refer to Arduino UNO board,
+                                            but the procedure for the other Arduino boards is very similar (one just
+                                            need to chose the correct board from the IDE menu).</p>
 
-<p>Open the Arduino IDE, then navigate to <code>File &gt; New</code> top bar main menu. Copy/paste the above code example, then navigate to <code>File &gt; Save</code>. Give a name (e.g., <code>rgb_led</code>) to your program and then save it. You should have now a result as shown in <a href="#fig4">Figure 4</a>.</p>
+                                          <p>Open the Arduino IDE, then navigate to <code>File &gt; New</code> top bar
+                                            main menu. Copy/paste the above code example, then navigate to
+                                            <code>File &gt; Save</code>. Give a name (e.g., <code>rgb_led</code>) to
+                                            your program and then save it. You should have now a result as shown in <a
+                                              href="#fig4">Figure 4</a>.
+                                          </p>
 
-<figure id="fig4"><img alt="Arduino Dummy Program" src="../sites/default/files/wot_tutorials/rgb_led/arduino-ide-dummy.png" />
-<figcaption>Figure 4: The Most Useless Arduino UNO Program Ever.</figcaption>
-</figure>
+                                          <figure id="fig4"><img alt="Arduino Dummy Program"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/arduino-ide-dummy.png" />
+                                            <figcaption>Figure 4: The Most Useless Arduino UNO Program Ever.
+                                            </figcaption>
+                                          </figure>
 
-<p>Navigage to <em>Tools &gt; Board</em> and select <em>Arduino/Genuino UNO</em>. Last, navigate to <em>Tools &gt; Port</em> and select the COM port associated with your Arduino Uno Board (usually is the only COM port in the list, or is the one that is not COM1). If all went fine, then expanding the <em>Tools</em> menu you should see something similar with <a href="#fig5">Figure 5</a> (the COM port may be different, the rest must be the same).</p>
+                                          <p>Navigage to <em>Tools &gt; Board</em> and select <em>Arduino/Genuino
+                                              UNO</em>. Last, navigate to <em>Tools &gt; Port</em> and select the COM
+                                            port associated with your Arduino Uno Board (usually is the only COM port in
+                                            the list, or is the one that is not COM1). If all went fine, then expanding
+                                            the <em>Tools</em> menu you should see something similar with <a
+                                              href="#fig5">Figure 5</a> (the COM port may be different, the rest must be
+                                            the same).</p>
 
-<figure id="fig5"><img alt="Arduino IDE Configuration" src="../sites/default/files/wot_tutorials/rgb_led/arduino-ide-board.png" />
-<figcaption>Figure 5: Arduino IDE Configured for Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="fig5"><img alt="Arduino IDE Configuration"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/arduino-ide-board.png" />
+                                            <figcaption>Figure 5: Arduino IDE Configured for Arduino UNO Board.
+                                            </figcaption>
+                                          </figure>
 
-<p>When using Arduino Nano 3.x, make sure to select the <em>Arduino Nano</em> from the <em>Tools &gt; Board</em> menu. An additional menu is shown, <em>Tools &gt; Processor</em> allowing to select 328 or 168 MCU. Selecting 328 works also on the clone boards using 328p MCU, and the same, selecting 168 MCU works also with some clone boards using the 168p MCU.</p>
+                                          <p>When using Arduino Nano 3.x, make sure to select the <em>Arduino Nano</em>
+                                            from the <em>Tools &gt; Board</em> menu. An additional menu is shown,
+                                            <em>Tools &gt; Processor</em> allowing to select 328 or 168 MCU. Selecting
+                                            328 works also on the clone boards using 328p MCU, and the same, selecting
+                                            168 MCU works also with some clone boards using the 168p MCU.
+                                          </p>
 
-<p>Last, we compile and upload the program to the Arduino UNO board (the procedure for Arduino Nano is exactly the same). This is achieved with a simple click of a button: the arrow button located in the top-left corner (as marked with a red circle in <a href="#fig6">Figure 6</a>). Alternatively, use the <em>Sketch &gt; Upload</em> menu. If all went fine, you should see the "Done Uploading" text in the green bar, just under the sketch edit area (see the rectangle red mark in <a href="#fig6">Figure 6</a>).</p>
+                                          <p>Last, we compile and upload the program to the Arduino UNO board (the
+                                            procedure for Arduino Nano is exactly the same). This is achieved with a
+                                            simple click of a button: the arrow button located in the top-left corner
+                                            (as marked with a red circle in <a href="#fig6">Figure 6</a>).
+                                            Alternatively, use the <em>Sketch &gt; Upload</em> menu. If all went fine,
+                                            you should see the "Done Uploading" text in the green bar, just under the
+                                            sketch edit area (see the rectangle red mark in <a href="#fig6">Figure
+                                              6</a>).</p>
 
-<figure id="fig6"><img alt="Arduino IDE Upload Program" src="../sites/default/files/wot_tutorials/rgb_led/arduino-ide-upload.png" />
-<figcaption>Figure 6: Compile and Upload Sketch with the Arduino IDE.</figcaption>
-</figure>
+                                          <figure id="fig6"><img alt="Arduino IDE Upload Program"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/arduino-ide-upload.png" />
+                                            <figcaption>Figure 6: Compile and Upload Sketch with the Arduino IDE.
+                                            </figcaption>
+                                          </figure>
 
-<p>It is important to notice the information shown in the info area (black area at the bottom of the application interface). It states amount of flash memory used by this program (450 Bytes) and the amount of RAM used by the global variables (9 Bytes). You may wonder, why so much flash and RAM is taken for a program which does nothing? Well, this happens because there is some additional code, part of the Arduino core code that is compiled and added to the program, behind the scene.</p>
+                                          <p>It is important to notice the information shown in the info area (black
+                                            area at the bottom of the application interface). It states amount of flash
+                                            memory used by this program (450 Bytes) and the amount of RAM used by the
+                                            global variables (9 Bytes). You may wonder, why so much flash and RAM is
+                                            taken for a program which does nothing? Well, this happens because there is
+                                            some additional code, part of the Arduino core code that is compiled and
+                                            added to the program, behind the scene.</p>
 
-<h2>Master the RGB LED: the Hardware Configuration</h2>
+                                          <h2>Master the RGB LED: the Hardware Configuration</h2>
 
-<p>In <a href="#fig7">Figure 7</a> is shown how to wire the RGB LED to the Arduino UNO board, by using the three resistors and a set of jumper wires. If you don't have a breadboard and also no jumper wires, you can use the resistor leads as wires, and connect them directly to Arduino UNO board header pin. While that's a kind of hack, it is easy to perform, and requires no additional components than the Arduino board, the RGB LED and the resistors. <a href="fig8.html">Figure 8</a> shows the schematics of the circuit.</p>
+                                          <p>In <a href="#fig7">Figure 7</a> is shown how to wire the RGB LED to the
+                                            Arduino UNO board, by using the three resistors and a set of jumper wires.
+                                            If you don't have a breadboard and also no jumper wires, you can use the
+                                            resistor leads as wires, and connect them directly to Arduino UNO board
+                                            header pin. While that's a kind of hack, it is easy to perform, and requires
+                                            no additional components than the Arduino board, the RGB LED and the
+                                            resistors. <a href="fig8.html">Figure 8</a> shows the schematics of the
+                                            circuit.</p>
 
-<figure id="fig7"><img alt="Arduino UNO Breadboard" src="../sites/default/files/wot_tutorials/rgb_led/breadboard_uno.png" />
-<figcaption>Figure 7: Breadboard Wiring of the RGB LED to the Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="fig7"><img alt="Arduino UNO Breadboard"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/breadboard_uno.png" />
+                                            <figcaption>Figure 7: Breadboard Wiring of the RGB LED to the Arduino UNO
+                                              Board.</figcaption>
+                                          </figure>
 
-<figure id="#fig8"><img alt="Arduino UNO Schematics" src="../sites/default/files/wot_tutorials/rgb_led/schematics_uno.png" />
-<figcaption>Figure 8: Schematics Wiring of the RGB LED to the Arduino UNO Board.</figcaption>
-</figure>
+                                          <figure id="#fig8"><img alt="Arduino UNO Schematics"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/schematics_uno.png" />
+                                            <figcaption>Figure 8: Schematics Wiring of the RGB LED to the Arduino UNO
+                                              Board.</figcaption>
+                                          </figure>
 
-<p>In <a href="#fig9"> Figure 9</a> is shown the breadboard arrangement for the RGB LED when the Arduino Nano 3.x board is used.</p>
+                                          <p>In <a href="#fig9"> Figure 9</a> is shown the breadboard arrangement for
+                                            the RGB LED when the Arduino Nano 3.x board is used.</p>
 
-<figure id="fig9"><img alt="Arduino Nano Breadboard" src="../sites/default/files/wot_tutorials/rgb_led/breadboard_nano.png" />
-<figcaption>Figure 9: Breadboard Wiring of the RGB LED to the Arduino Nano Board.</figcaption>
-</figure>
+                                          <figure id="fig9"><img alt="Arduino Nano Breadboard"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/breadboard_nano.png" />
+                                            <figcaption>Figure 9: Breadboard Wiring of the RGB LED to the Arduino Nano
+                                              Board.</figcaption>
+                                          </figure>
 
-<figure id="fig10"><img alt="Arduino Nano Schematics" src="../sites/default/files/wot_tutorials/rgb_led/schematics_nano.png" />
-<figcaption>Figure 10: Schematics Wiring of the RGB LED to the Arduino Nano Board.</figcaption>
-</figure>
+                                          <figure id="fig10"><img alt="Arduino Nano Schematics"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/schematics_nano.png" />
+                                            <figcaption>Figure 10: Schematics Wiring of the RGB LED to the Arduino Nano
+                                              Board.</figcaption>
+                                          </figure>
 
-<h2>Master the RGB LED: the Software Configuration</h2>
+                                          <h2>Master the RGB LED: the Software Configuration</h2>
 
-<p>In this section we show how to write an Arduino program, allowing to light up the RGB LED in various color combinations. Notice that the code is common for both, the Arduino UNO R3 and Arduino Nano 3.x boards, therefore when we say "Arduino broard" we refer to either of the two Arduino boards. In addition, the exact same sketch code will work in most of the Arduino boards.</p>
+                                          <p>In this section we show how to write an Arduino program, allowing to light
+                                            up the RGB LED in various color combinations. Notice that the code is common
+                                            for both, the Arduino UNO R3 and Arduino Nano 3.x boards, therefore when we
+                                            say "Arduino broard" we refer to either of the two Arduino boards. In
+                                            addition, the exact same sketch code will work in most of the Arduino
+                                            boards.</p>
 
-<h3>Arduino I/O Capabilities</h3>
+                                          <h3>Arduino I/O Capabilities</h3>
 
-<p>Controlling the RGB LED means to be able to individually light up each of the three component LEDs. That is, using some of the Arduino pins, we should be able to allow (or stop) the current to flow through the LED. Each Arduino board has a number of pins named general purpose I/O (input/output) pins. In addition, some of the pins are capable of analog input (ADC) or analog output (DAC or PWM). Finally, some of the pins have special features, as being able to communicate by using some standard protocols, such as <a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver/transmitter">U(S)ART</a> (Universal (Synchronous) Asynchronous Receiver/Transmitter), <a href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">SPI</a> (Serial Peripheral Interface) or <a href="https://en.wikipedia.org/wiki/I²C">I2C</a> (I square C).</p>
+                                          <p>Controlling the RGB LED means to be able to individually light up each of
+                                            the three component LEDs. That is, using some of the Arduino pins, we should
+                                            be able to allow (or stop) the current to flow through the LED. Each Arduino
+                                            board has a number of pins named general purpose I/O (input/output) pins. In
+                                            addition, some of the pins are capable of analog input (ADC) or analog
+                                            output (DAC or PWM). Finally, some of the pins have special features, as
+                                            being able to communicate by using some standard protocols, such as <a
+                                              href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver/transmitter">U(S)ART</a>
+                                            (Universal (Synchronous) Asynchronous Receiver/Transmitter), <a
+                                              href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">SPI</a>
+                                            (Serial Peripheral Interface) or <a
+                                              href="https://en.wikipedia.org/wiki/I²C">I2C</a> (I square C).</p>
 
-<h4>Digital Output</h4>
+                                          <h4>Digital Output</h4>
 
-<p>A <em>digital output pin</em> is a pin that is able to change its state into HIGH (that is usually very close to the VCC value) or LOW (that is GND), whenever the running program tells it to do so. That means, we can write code, that allows to transform that pin into either a VCC or GND connection. In simple words, inside the MCU there are transistors (some miniaturized as electronic switches), able to bound the pin either to VCC or to GND.</p>
+                                          <p>A <em>digital output pin</em> is a pin that is able to change its state
+                                            into HIGH (that is usually very close to the VCC value) or LOW (that is
+                                            GND), whenever the running program tells it to do so. That means, we can
+                                            write code, that allows to transform that pin into either a VCC or GND
+                                            connection. In simple words, inside the MCU there are transistors (some
+                                            miniaturized as electronic switches), able to bound the pin either to VCC or
+                                            to GND.</p>
 
-<p>It is important to notice, that while your power supply used for the Arduino board may be able to deliver a lot of current, (maybe 500mA via an USB 2.0 port or more tha 1A from a power brick supply), each of the Arduino pins are only able to support up to 40mA. So we can use an Arduino pin to light up a LED (we saw that this means about 10mA per LED) or transmit a signal, but it is NOT possible to power up a motor or an electromagnet in this manner. Ignore this rule and you'll either have a dead pin or a even a dead Arduino board. Also, the total current (for all the pins used at a moment in time) must not exceed 200mA. Notice that these values are already maximum values, and should not be used for long time. Use values under 80% of these maximums to be in a safe margin and protect your board.</p>
+                                          <p>It is important to notice, that while your power supply used for the
+                                            Arduino board may be able to deliver a lot of current, (maybe 500mA via an
+                                            USB 2.0 port or more tha 1A from a power brick supply), each of the Arduino
+                                            pins are only able to support up to 40mA. So we can use an Arduino pin to
+                                            light up a LED (we saw that this means about 10mA per LED) or transmit a
+                                            signal, but it is NOT possible to power up a motor or an electromagnet in
+                                            this manner. Ignore this rule and you'll either have a dead pin or a even a
+                                            dead Arduino board. Also, the total current (for all the pins used at a
+                                            moment in time) must not exceed 200mA. Notice that these values are already
+                                            maximum values, and should not be used for long time. Use values under 80%
+                                            of these maximums to be in a safe margin and protect your board.</p>
 
-<p>In this section we've used a few new terms:</p>
+                                          <p>In this section we've used a few new terms:</p>
 
-<dl>
-	<dt>Digital</dt>
-	<dd>it refers to a signal which can be either LOW (equivalent of binary 0) or HIGH (equivalent of binary 1). A sequence of such states can be interpreted as a set of binary data, used to communicate with a digital device, using a communication protocol.</dd>
-	<dt>HIGH</dt>
-	<dd>is a digital state, where the voltage level is close to VCC.</dd>
-	<dt>LOW</dt>
-	<dd>is a state, where the voltage level is close to GND.</dd>
-</dl>
+                                          <dl>
+                                            <dt>Digital</dt>
+                                            <dd>it refers to a signal which can be either LOW (equivalent of binary 0)
+                                              or HIGH (equivalent of binary 1). A sequence of such states can be
+                                              interpreted as a set of binary data, used to communicate with a digital
+                                              device, using a communication protocol.</dd>
+                                            <dt>HIGH</dt>
+                                            <dd>is a digital state, where the voltage level is close to VCC.</dd>
+                                            <dt>LOW</dt>
+                                            <dd>is a state, where the voltage level is close to GND.</dd>
+                                          </dl>
 
-<p>Please note that while in many cases <code>HIGH</code> refers to a voltage almost equal with VCC, and LOW is a voltage level close to GND, this may be different form case to case. For example, in some systems, HIGH may be equal with VCC, but may also mean any voltage level in the inverval [VCC / 2, VCC]. In the same way, LOW may mean GND, but also any voltage level in the interval [GND, VCC / 2).</p>
+                                          <p>Please note that while in many cases <code>HIGH</code> refers to a voltage
+                                            almost equal with VCC, and LOW is a voltage level close to GND, this may be
+                                            different form case to case. For example, in some systems, HIGH may be equal
+                                            with VCC, but may also mean any voltage level in the inverval [VCC / 2,
+                                            VCC]. In the same way, LOW may mean GND, but also any voltage level in the
+                                            interval [GND, VCC / 2).</p>
 
-<h4>Digital Input</h4>
+                                          <h4>Digital Input</h4>
 
-<p>A <em>digital input pin</em> is a pin that is able to detect changes of HIGH or LOW coming from some external source. In other words, with an digital input pin we are able to "read" HIGH or LOW digital events, coming for example from sensors or other voltage sources. With a digital input pin we can't light up LEDs or power up devices.</p>
+                                          <p>A <em>digital input pin</em> is a pin that is able to detect changes of
+                                            HIGH or LOW coming from some external source. In other words, with an
+                                            digital input pin we are able to "read" HIGH or LOW digital events, coming
+                                            for example from sensors or other voltage sources. With a digital input pin
+                                            we can't light up LEDs or power up devices.</p>
 
-<h4>Analog Output</h4>
+                                          <h4>Analog Output</h4>
 
-<p>An <em>analog output pin</em> is a pin which is able not only to transform to VCC or GND but also to voltage values in between. Such pins are not available for every Arduino boards, and they are named DAC pins (Digital to Analog Converter). For example, hardware DAC pins are available in the <a href="https://www.arduino.cc/en/Main/ArduinoBoardDue">Arduino DUE board</a>. A solution to emulate DAC with an Arduino board which does not have such built in capabilities, is to use a technique named PWM (Pulse Width Modulation). We discuss this topic later in this tutorial. Both, Arduino UNO and Nano boards have six pins capable of PWM output.</p>
+                                          <p>An <em>analog output pin</em> is a pin which is able not only to transform
+                                            to VCC or GND but also to voltage values in between. Such pins are not
+                                            available for every Arduino boards, and they are named DAC pins (Digital to
+                                            Analog Converter). For example, hardware DAC pins are available in the <a
+                                              href="https://www.arduino.cc/en/Main/ArduinoBoardDue">Arduino DUE
+                                              board</a>. A solution to emulate DAC with an Arduino board which does not
+                                            have such built in capabilities, is to use a technique named PWM (Pulse
+                                            Width Modulation). We discuss this topic later in this tutorial. Both,
+                                            Arduino UNO and Nano boards have six pins capable of PWM output.</p>
 
-<h4>Analog Input</h4>
+                                          <h4>Analog Input</h4>
 
-<p>An <em>analog input pin</em> is a pin capable to detect voltage values within a range, which is usually [GND, VCC]. This is possible by using an internal ADC (Analog to Digital Converter) module, which is able to map the voltage level value in a number, representing the voltage quantity. This feature is very important and it is found in almost any Arduino board. Examples of using this feature are: analog sensors (provides a voltage level to tell you what is the measured quantity), voltmeters or ammeters.</p>
+                                          <p>An <em>analog input pin</em> is a pin capable to detect voltage values
+                                            within a range, which is usually [GND, VCC]. This is possible by using an
+                                            internal ADC (Analog to Digital Converter) module, which is able to map the
+                                            voltage level value in a number, representing the voltage quantity. This
+                                            feature is very important and it is found in almost any Arduino board.
+                                            Examples of using this feature are: analog sensors (provides a voltage level
+                                            to tell you what is the measured quantity), voltmeters or ammeters.</p>
 
-<h3>Control the Individual Colors of the RGB LED</h3>
+                                          <h3>Control the Individual Colors of the RGB LED</h3>
 
-<p>Using Arduino, we can light up individual LEDs by using Arduino digital output pins. Arduino digital pins are identified by using specific positive integer numbers, also printed out on the Arduino PCB board.</p>
+                                          <p>Using Arduino, we can light up individual LEDs by using Arduino digital
+                                            output pins. Arduino digital pins are identified by using specific positive
+                                            integer numbers, also printed out on the Arduino PCB board.</p>
 
-<p>Setting an Arduino pin as <em>Digital Output</em> is possible by using the <code>pinMode</code> method. It takes two arguments: 1) the pin number; and 2) a constant specifying the mode type: <code>INPUT</code>, <code>OUTPUT</code> or <code>INPUT_PULLUP</code>. For our case, we need to use <code>OUTPUT</code>.</p>
+                                          <p>Setting an Arduino pin as <em>Digital Output</em> is possible by using the
+                                            <code>pinMode</code> method. It takes two arguments: 1) the pin number; and
+                                            2) a constant specifying the mode type: <code>INPUT</code>,
+                                            <code>OUTPUT</code> or <code>INPUT_PULLUP</code>. For our case, we need to
+                                            use <code>OUTPUT</code>.
+                                          </p>
 
-<p>We have used pin 9 to control the blue LED, pin 10 for the green LED and pin 11 for the red LED, as shown in <a href="#fig7">Figure 7</a> and <a href="#fig9">Figure 9</a>. Therefore, in the <code>setup</code> method, we set these pins as digital output:</p>
+                                          <p>We have used pin 9 to control the blue LED, pin 10 for the green LED and
+                                            pin 11 for the red LED, as shown in <a href="#fig7">Figure 7</a> and <a
+                                              href="#fig9">Figure 9</a>. Therefore, in the <code>setup</code> method, we
+                                            set these pins as digital output:</p>
 
-<pre>
+                                          <pre>
 void setup() {
   <strong>pinMode</strong>(9, <strong>OUTPUT</strong>);
   pinMode(10, OUTPUT);
@@ -431,19 +788,31 @@ void setup() {
 }
 </pre>
 
-<p>We like to implement the following LED effect: every of the three LEDs lights in the sequence red, green then blue, and each time the LED stays ON for about one second. To do that, we need to use some kind of "pause" in the Arduino code. This is possible using the <code>delay</code> method, which has one parameter, the number of milliseconds for the "pause". In addition, there is another method, named <code>delayMicroseconds</code> allowing for smaller pause delays, in the range of microseconds.</p>
+                                          <p>We like to implement the following LED effect: every of the three LEDs
+                                            lights in the sequence red, green then blue, and each time the LED stays ON
+                                            for about one second. To do that, we need to use some kind of "pause" in the
+                                            Arduino code. This is possible using the <code>delay</code> method, which
+                                            has one parameter, the number of milliseconds for the "pause". In addition,
+                                            there is another method, named <code>delayMicroseconds</code> allowing for
+                                            smaller pause delays, in the range of microseconds.</p>
 
-<p>As we discussed, the <code>loop</code> method executes again, and again. This is the place where our main code goes, and where we also like to use the "pause".</p>
+                                          <p>As we discussed, the <code>loop</code> method executes again, and again.
+                                            This is the place where our main code goes, and where we also like to use
+                                            the "pause".</p>
 
-<pre>
+                                          <pre>
 void loop() {
   delay(1000);
 }
 </pre>
 
-<p>To light up a LED, we'll need to enable (set HIGH) or disable (set LOW) the corresponding Arduino pins. This is possible by using the <code>digitalWrite</code> method, which has two arguments: 1) the pin number; and 2) the state (HIGH or LOW).</p>
+                                          <p>To light up a LED, we'll need to enable (set HIGH) or disable (set LOW) the
+                                            corresponding Arduino pins. This is possible by using the
+                                            <code>digitalWrite</code> method, which has two arguments: 1) the pin
+                                            number; and 2) the state (HIGH or LOW).
+                                          </p>
 
-<pre>
+                                          <pre>
 void loop() {
   digitalWrite(9, HIGH);
   digitalWrite(10, HIGH);
@@ -451,9 +820,11 @@ void loop() {
   delay(1000);
 }</pre>
 
-<p>Now all the LEDs are light up but they stay ON all the time. We can go one step further and using a counter, we can determine when is the time to turn the LED ON or OFF.</p>
+                                          <p>Now all the LEDs are light up but they stay ON all the time. We can go one
+                                            step further and using a counter, we can determine when is the time to turn
+                                            the LED ON or OFF.</p>
 
-<pre>
+                                          <pre>
 uint8_t step = 0;
 void loop() {
   switch (step % 3) {
@@ -477,41 +848,97 @@ void loop() {
   step++;
 }</pre>
 
-<p>The result of the modulo operation <code>step % 3 </code> is 0, 1 or 2. Thus for each of this value, we can assign a LED to be ON and all the other to be OFF.</p>
+                                          <p>The result of the modulo operation <code>step % 3 </code> is 0, 1 or 2.
+                                            Thus for each of this value, we can assign a LED to be ON and all the other
+                                            to be OFF.</p>
 
-<p><strong>Homework:</strong> modify the code so that the red LED is on for one second, the green LED for two seconds and the blue LED for three seconds.</p>
+                                          <p><strong>Homework:</strong> modify the code so that the red LED is on for
+                                            one second, the green LED for two seconds and the blue LED for three
+                                            seconds.</p>
 
-<p>Now compile and upload the code to your Arduino board and enjoy the light show! If you are ready for more, then read further.</p>
+                                          <p>Now compile and upload the code to your Arduino board and enjoy the light
+                                            show! If you are ready for more, then read further.</p>
 
-<h3>Use PWM to create "Real" Colors with an RGB LED</h3>
+                                          <h3>Use PWM to create "Real" Colors with an RGB LED</h3>
 
-<p>We have a new idea: lets use the three LEDs and create mixture of colors, as done by our monitors or TVs (which in a way, use the same strategy to create the colorful images we see). But wait, wouldn't this mean to create the monitor with the smallest resolution in the world: 1 pixel! That sounds cool, right?</p>
+                                          <p>We have a new idea: lets use the three LEDs and create mixture of colors,
+                                            as done by our monitors or TVs (which in a way, use the same strategy to
+                                            create the colorful images we see). But wait, wouldn't this mean to create
+                                            the monitor with the smallest resolution in the world: 1 pixel! That sounds
+                                            cool, right?</p>
 
-<p>Creating "real" colors, requires to find a way to obtain different levels of red, green and blue from our RGB LED. That will be possible if we are able to provide more (or less) current to the LED, thus obtaining various levels of brightness. From the hardware point of view, this means to either variate the resistor value or the voltage, thus controlling the current, which in turn determines the LED brightnes. But how do we do this via the Arduino code, since we don't want to use dozens or hundreds resistors, and we only have the 5V supply from our USB 2.0 port? Here is handy to have a DAC module, which will be able to transform a number into a voltage level. Unfortunately, we don't have one and the Arduino UNO and Nano boards come with no such built in module.</p>
+                                          <p>Creating "real" colors, requires to find a way to obtain different levels
+                                            of red, green and blue from our RGB LED. That will be possible if we are
+                                            able to provide more (or less) current to the LED, thus obtaining various
+                                            levels of brightness. From the hardware point of view, this means to either
+                                            variate the resistor value or the voltage, thus controlling the current,
+                                            which in turn determines the LED brightnes. But how do we do this via the
+                                            Arduino code, since we don't want to use dozens or hundreds resistors, and
+                                            we only have the 5V supply from our USB 2.0 port? Here is handy to have a
+                                            DAC module, which will be able to transform a number into a voltage level.
+                                            Unfortunately, we don't have one and the Arduino UNO and Nano boards come
+                                            with no such built in module.</p>
 
-<h4>What is PWM Signal?</h4>
+                                          <h4>What is PWM Signal?</h4>
 
-<p>PWM describes a way to switch the voltage ON and OFF, for specific amounts of time, thus making the device connected to PWM output (e.g., the LED) to "think" that it actually gets less voltage.</p>
+                                          <p>PWM describes a way to switch the voltage ON and OFF, for specific amounts
+                                            of time, thus making the device connected to PWM output (e.g., the LED) to
+                                            "think" that it actually gets less voltage.</p>
 
-<p><a href="#fig11">Figure 11</a> shows how PWM works, with a square signal. A pair of LOW and HIGH signal is named <em>period</em>. The number of period repetitions in the interval of one second is named <em>frequency</em>. The amount of time from a period (measured in percent), for which the signal is HIGH represents the <em>duty cycle</em>.</p>
+                                          <p><a href="#fig11">Figure 11</a> shows how PWM works, with a square signal. A
+                                            pair of LOW and HIGH signal is named <em>period</em>. The number of period
+                                            repetitions in the interval of one second is named <em>frequency</em>. The
+                                            amount of time from a period (measured in percent), for which the signal is
+                                            HIGH represents the <em>duty cycle</em>.</p>
 
-<p>The important aspects are the frequency and the duty cycle. The frequency is somehow dependent on the device we try to "lie" about the voltage value. Using too low frequency values, may not trick the device in believing that it gets a lower voltage, or it may not work at all. The duty cycle determines the voltage quantity that is saw by the device (e.g., the LED). Normally, the duty cycle percent value from the real applied voltage, is what the device "sees". E.g., duty cycle = 50%, real applied voltage = 5V, then the voltage observed by the device powered device is <code>50% * 5V = 2.5V</code>.</p>
+                                          <p>The important aspects are the frequency and the duty cycle. The frequency
+                                            is somehow dependent on the device we try to "lie" about the voltage value.
+                                            Using too low frequency values, may not trick the device in believing that
+                                            it gets a lower voltage, or it may not work at all. The duty cycle
+                                            determines the voltage quantity that is saw by the device (e.g., the LED).
+                                            Normally, the duty cycle percent value from the real applied voltage, is
+                                            what the device "sees". E.g., duty cycle = 50%, real applied voltage = 5V,
+                                            then the voltage observed by the device powered device is
+                                            <code>50% * 5V = 2.5V</code>.
+                                          </p>
 
-<figure id="fig11"><img alt="PWM Signal Example" src="../sites/default/files/wot_tutorials/rgb_led/pwm_example.png" />
-<figcaption>Figure 11: Example of PWM Signals.</figcaption>
-</figure>
+                                          <figure id="fig11"><img alt="PWM Signal Example"
+                                              src="../sites/default/files/wot_tutorials/rgb_led/pwm_example.png" />
+                                            <figcaption>Figure 11: Example of PWM Signals.</figcaption>
+                                          </figure>
 
-<h4>Arduino and PWM</h4>
+                                          <h4>Arduino and PWM</h4>
 
-<p>Most of the Arduino boards comes with built in PWM capabilities. The PWM capable pins are marked with ~ (tilde). Now it is obvious that we didn't chose the pins at random. All the pins we use, 9, 10, an 11 are PWM pins. Depending on the used Arduino board, more or less such pins are available.</p>
+                                          <p>Most of the Arduino boards comes with built in PWM capabilities. The PWM
+                                            capable pins are marked with ~ (tilde). Now it is obvious that we didn't
+                                            chose the pins at random. All the pins we use, 9, 10, an 11 are PWM pins.
+                                            Depending on the used Arduino board, more or less such pins are available.
+                                          </p>
 
-<p>To use PWM in the software, the Arduino core code provides the <code>analogWrite</code> method. It has two arguments: 1) the pin number; and 2) the duty cycle value, expressed as a number between 0 (only LOW signal for the whole period) and 255 (only HIGH signal for the whole period). Notice that hardware wise, it is possible to have more than 8 bit (thus, values from 0 to 255) PWM resolution, since some of the PWM pins are 16 bit PWM resolution capable. The number of bits defines the granularity of the duty cycle.</p>
+                                          <p>To use PWM in the software, the Arduino core code provides the
+                                            <code>analogWrite</code> method. It has two arguments: 1) the pin number;
+                                            and 2) the duty cycle value, expressed as a number between 0 (only LOW
+                                            signal for the whole period) and 255 (only HIGH signal for the whole
+                                            period). Notice that hardware wise, it is possible to have more than 8 bit
+                                            (thus, values from 0 to 255) PWM resolution, since some of the PWM pins are
+                                            16 bit PWM resolution capable. The number of bits defines the granularity of
+                                            the duty cycle.
+                                          </p>
 
-<p>The pulse frequency is different from board to board and from pin to pin. For example, Arduino UNO uses a frequency of 980Hz for PWM pins 5 and 6 and about 490Hz for the other PWM pins (i.e., 3, 9, 10, 11).</p>
+                                          <p>The pulse frequency is different from board to board and from pin to pin.
+                                            For example, Arduino UNO uses a frequency of 980Hz for PWM pins 5 and 6 and
+                                            about 490Hz for the other PWM pins (i.e., 3, 9, 10, 11).</p>
 
-<p>Lets now play with our LED and try to obtain all the color combinations we can get for 8 bit resolution. For this will loop each LED through each 5th PWM value, at an interval of 8 milliseconds, thus at about 125Hz so our eyes does not perceive the breaks. 30Hz suffices for our eyes, but then the change in color will be to slow and you need quite long time to see all the variations. The total run time, for every 5th PWM value, three PWM pins and 125Hz changing frequency on the most variable color (that's red in our case), is between 15 and 20 minutes.</p>
+                                          <p>Lets now play with our LED and try to obtain all the color combinations we
+                                            can get for 8 bit resolution. For this will loop each LED through each 5th
+                                            PWM value, at an interval of 8 milliseconds, thus at about 125Hz so our eyes
+                                            does not perceive the breaks. 30Hz suffices for our eyes, but then the
+                                            change in color will be to slow and you need quite long time to see all the
+                                            variations. The total run time, for every 5th PWM value, three PWM pins and
+                                            125Hz changing frequency on the most variable color (that's red in our
+                                            case), is between 15 and 20 minutes.</p>
 
-<pre>
+                                          <pre>
 void setup() {
   pinMode(9, OUTPUT);
   pinMode(10, OUTPUT);
@@ -530,17 +957,33 @@ void loop() {
   }
 }</pre>
 
-<p>PWM does not represent a complete replacement for DACs, but is a solution when such (in general more expensive) modules are not available.</p>
+                                          <p>PWM does not represent a complete replacement for DACs, but is a solution
+                                            when such (in general more expensive) modules are not available.</p>
 
-<h2>Some Points of Attention</h2>
+                                          <h2>Some Points of Attention</h2>
 
-<p>While in this tutorial we only "played" with (RGB) LEDs, and just had some simple operations, we've gone through an important set of basic Arduino capabilities. Some other more advanced features, such as analog input or communication protocols (SPI, I2C, etc) are part of the future tutorials.</p>
+                                          <p>While in this tutorial we only "played" with (RGB) LEDs, and just had some
+                                            simple operations, we've gone through an important set of basic Arduino
+                                            capabilities. Some other more advanced features, such as analog input or
+                                            communication protocols (SPI, I2C, etc) are part of the future tutorials.
+                                          </p>
 
-<p>We brought in discussion only the Arduino UNO and Nano boards, but the above shown code will work with most of the Arduino boards without any modification. However, it is important to know that some Arduino boards, such as Arduino DUE, uses 3.3V as input (<code>VCC = 3V</code>). Therefore, the appropriate resistor values need to be recalculated. Also, some boards have a lower maximum current value per pin, e.g., Arduino DUE allows a maximum of 3mA or 15mA per pin, depending on the used pin.</p>
+                                          <p>We brought in discussion only the Arduino UNO and Nano boards, but the
+                                            above shown code will work with most of the Arduino boards without any
+                                            modification. However, it is important to know that some Arduino boards,
+                                            such as Arduino DUE, uses 3.3V as input (<code>VCC = 3V</code>). Therefore,
+                                            the appropriate resistor values need to be recalculated. Also, some boards
+                                            have a lower maximum current value per pin, e.g., Arduino DUE allows a
+                                            maximum of 3mA or 15mA per pin, depending on the used pin.</p>
 
-<p>In our code examples, the explicit number of the Arduino board pin was used. While this is easy to do with small programs, it becomes more and more difficult when your code grows. In such cases, but not only, since this is a kind of general recommendation, it is good to use constants. For example, instead of using 9 to identify the pin used to control the blue LED, we could have used a constant BLUE_LED, as shown in the example below:</p>
+                                          <p>In our code examples, the explicit number of the Arduino board pin was
+                                            used. While this is easy to do with small programs, it becomes more and more
+                                            difficult when your code grows. In such cases, but not only, since this is a
+                                            kind of general recommendation, it is good to use constants. For example,
+                                            instead of using 9 to identify the pin used to control the blue LED, we
+                                            could have used a constant BLUE_LED, as shown in the example below:</p>
 
-<pre>
+                                          <pre>
 const uint8_t BLUE_LED = 9;
 
 void setup() {
@@ -548,9 +991,11 @@ void setup() {
 }
 </pre>
 
-<p>Or even better, we can use the <code>#define</code> directive to obtain at compile time a replacement of all the identifier occurrences with the corresponding value:</p>
+                                          <p>Or even better, we can use the <code>#define</code> directive to obtain at
+                                            compile time a replacement of all the identifier occurrences with the
+                                            corresponding value:</p>
 
-<pre>
+                                          <pre>
 #define BLUE_LED 9;
 
 void setup() {
@@ -558,73 +1003,219 @@ void setup() {
 }
 </pre>
 
-<p>Using the <code>#define</code> directive has the advantage that it does not take extra static memory. Learn more about how to deal with Arduino limited RAM resources: <a href="30.html">Optimize Arduino Memory Usage</a>.</p>
+                                          <p>Using the <code>#define</code> directive has the advantage that it does not
+                                            take extra static memory. Learn more about how to deal with Arduino limited
+                                            RAM resources: <a href="30.html">Optimize Arduino Memory Usage</a>.</p>
 
-<p>This is not only a better programming style, but also allows to easily change the pin without a need to replace the pin number in multiple place of your code. We have used explicit pin numbers so one can make the relation between what is written on the Arduino board near each pin, and what you see in the code. However, starting from now on we'll use constants instead of "magic pin numbers".</p>
+                                          <p>This is not only a better programming style, but also allows to easily
+                                            change the pin without a need to replace the pin number in multiple place of
+                                            your code. We have used explicit pin numbers so one can make the relation
+                                            between what is written on the Arduino board near each pin, and what you see
+                                            in the code. However, starting from now on we'll use constants instead of
+                                            "magic pin numbers".</p>
 
-<h2>Next Tutorial: Part 2 - Sensing with Analog and Digital Sensors</h2>
+                                          <h2>Next Tutorial: Part 2 - Sensing with Analog and Digital Sensors</h2>
 
-<p>In the second part, we'll learn how to use various digital and analog sensors with an Arduino board. Specifically, we discuss the DHT22 (temperature and humidity digital sensor), the Grove (soil moisture analog sensor), PIR (passive infrared digital sensor) and HC-SR04 (ultrasonic distance measurement digital sensor). The release date of the second part is: before 21 April 2016.</p>
-</div></div></div><section class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Category:&nbsp;</h2><ul class="field-items"><li class="field-item even"><a href="../Arduino.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li><li class="field-item odd"><a href="../taxonomy/term/40.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">WoT</a></li><li class="field-item even"><a href="../taxonomy/term/43.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">C/C++</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/60" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="60.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="60.html"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/60" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F60">View the discussion thread.</a></p></noscript></div>    </div>
+                                          <p>In the second part, we'll learn how to use various digital and analog
+                                            sensors with an Arduino board. Specifically, we discuss the DHT22
+                                            (temperature and humidity digital sensor), the Grove (soil moisture analog
+                                            sensor), PIR (passive infrared digital sensor) and HC-SR04 (ultrasonic
+                                            distance measurement digital sensor). The release date of the second part
+                                            is: before 21 April 2016.</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <section
+                                      class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full">
+                                      <h2 class="field-label">Category:&nbsp;</h2>
+                                      <ul class="field-items">
+                                        <li class="field-item even"><a href="../Arduino.html" typeof="skos:Concept"
+                                            property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li>
+                                        <li class="field-item odd"><a href="../taxonomy/term/40.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">WoT</a></li>
+                                        <li class="field-item even"><a href="../taxonomy/term/43.html"
+                                            typeof="skos:Concept" property="rdfs:label skos:prefLabel"
+                                            datatype="">C/C++</a></li>
+                                      </ul>
+                                    </section>
+                                    <div class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                      <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                          href="https://twitter.com/share" class="twitter-share-button"
+                                          data-url="https://web-engineering.info/node/60" data-count="horizontal"
+                                          data-lang="en" data-via="" data-related=":Check it out!"
+                                          data-text="WoT with Arduino for Beginners: Part 1 - Mastering the RGB LED">Tweet</a>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-facebook">
+                                        <fb:like href="60.html" send="true" layout="button_count" width="88"
+                                          show_faces="true" action="https://web-engineering.info/node/like"
+                                          colorscheme="light" font=""></fb:like>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-googleplus">
+                                        <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                          data-href="60.html"></div>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-linkedin last">
+                                        <script type="in/share" data-url="https://web-engineering.info/node/60"
+                                          data-counter="right"></script>
+                                      </div>
+                                    </div> <!-- /.easy_social_box -->
+                                    <div id="disqus_thread"><noscript>
+                                        <p><a
+                                            href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F60">View
+                                            the discussion thread.</a></p>
+                                      </noscript></div>
+                                  </div>
 
-          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/24.html" title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s blog</a></li></ul></nav>
-    
-    
-  </div>
-</article>
+                                  <nav class="clearfix">
+                                    <ul class="links inline">
+                                      <li class="blog_usernames_blog first last"><a href="../blog/24.html"
+                                          title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s
+                                          blog</a></li>
+                                    </ul>
+                                  </nav>
 
-  </div></div>                      </div>
 
-                      
+                                </div>
+                              </article>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </section>
+
+                  <div class="region region-content-aside">
+                    <div class="region-inner clearfix">
+                      <div id="block-block-2"
+                        class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2">
+                        <div class="block-inner clearfix">
+
+                          <div class="block-content content">
+                            <p style="text-align: center; margin-top: 10px;">©
+                              2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+"
+                                  src="../../assets/images/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a
+                                href="../../about/index.html">About Us</a> | <a href="../../privacy/index.html">Privacy
+                                Policy</a> | Terms
+                              &amp;
+                              Conditions</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                </section>
+              <div class="region region-sidebar-first sidebar">
+                <div class="region-inner clearfix">
+                  <nav id="block-system-main-menu"
+                    class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                    role="navigation">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">Main menu</h2>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
+                      <div class="block-content content">
+                        <ul class="menu clearfix">
+                          <li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com"
+                              title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                              Discrete Event Simulation</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1218"><a href="../../WebAppBook/index.html"
+                              title="Web Applications with JavaScript or Java">Textbook
+                              Web Apps JS+Java</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1477"><a href="../../textbooknode80/index.html">Book
+                              Information Management</a></li>
+                          <li class="leaf menu-depth-1 menu-item-366"><a href="../../blog/index.html"
+                              title="A blog about web engineering issues.">Web Engineering
+                              Blog</a></li>
+                          <li class="leaf menu-depth-1 menu-item-758"><a
+                              href="../../SummariesCheatsheetsPosters/index.html">Summaries
+                              &amp; Cheat
+                              Sheets</a></li>
+                          <li class="leaf menu-depth-1 menu-item-361"><a href="../../JsFrontendApp/index.html"
+                              title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                              Apps with Plain JS</a></li>
+                          <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                              href="../../JavaJpaJsfApp/index.html"
+                              title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                              class="active-trail active">Back-End Apps with Java EE</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-806"><a href="../../mODELcLASSjsApp/index.html"
+                              title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                              with mODELcLASSjs </a></li>
+                          <li class="leaf menu-depth-1 menu-item-805"><a href="../../WoTProjects/index.html"
+                              title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                              of Things (WoT)</a></li>
+                          <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
+                              title="">Discussion
+                              Forums</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
+                              title="Team members list.">Team</a></li>
+                          <li class="last leaf menu-depth-1 menu-item-554"><a
+                              href="../../contribute/index.html">Contribute
+                              / Support Us</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                  <section id="block-user-login"
+                    class="block block-user even last block-count-5 block-region-sidebar-first block-login" role="form">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">User login</h2>
+
+                      <div class="block-content content">
+                        <form action="https://web-engineering.info/node/60?destination=node/60" method="post"
+                          id="user-login-form" accept-charset="UTF-8">
+                          <div>
+                            <div class="form-item form-type-textfield form-item-name">
+                              <label for="edit-name">Username <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60"
+                                class="form-text required" />
+                            </div>
+                            <div class="form-item form-type-password form-item-pass">
+                              <label for="edit-pass">Password <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="password" id="edit-pass" name="pass" size="15" maxlength="128"
+                                class="form-text required" />
+                            </div>
+                            <div class="item-list">
+                              <ul>
+                                <li class="even first last"><a href="../user/password.html"
+                                    title="Request new password via e-mail.">Request new password</a></li>
+                              </ul>
+                            </div><input type="hidden" name="form_build_id"
+                              value="form-g3_ChWSk9Sku-j2asgzsG2fwyMsjmOrVCkcbBJKiaBQ" />
+                            <input type="hidden" name="form_id" value="user_login_block" />
+                            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit"
+                                id="edit-submit" name="op" value="Log in" class="form-submit" /></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
-
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/60?destination=node/60" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-g3_ChWSk9Sku-j2asgzsG2fwyMsjmOrVCkcbBJKiaBQ" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    
-    
-    
+
+
+
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/60 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:05 GMT -->
+
 </html>

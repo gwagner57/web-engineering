@@ -2,233 +2,341 @@
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 7]><html class="lt-ie9 lt-ie8" lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en" dir="ltr" prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" dir="ltr"
+  prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
+<!--<![endif]-->
 
 <!-- Mirrored from web-engineering.info/node/30 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:00 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
 <head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="MobileOptimized" content="width" />
-<meta name="description" content="When working with embedded devices, RAM (random access memory) is one of the most valuable and limited resource of the system. The focus of this article is on the RAM usage optimization for Arduino MCUs, but the same principle applies to many other embedded devices." />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="canonical" href="30.html" />
-<link rel="shortlink" href="30.html" />
-<title>Optimize Arduino Memory Usage | web-engineering.info</title>
-<style type="text/css" media="all">
-@import url("../modules/system/system.base5056.css?ry1opl");
-@import url("../modules/system/system.menus5056.css?ry1opl");
-@import url("../modules/system/system.messages5056.css?ry1opl");
-@import url("../modules/system/system.theme5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../modules/comment/comment5056.css?ry1opl");
-@import url("../modules/field/theme/field5056.css?ry1opl");
-@import url("../modules/node/node5056.css?ry1opl");
-@import url("../modules/search/search5056.css?ry1opl");
-@import url("../modules/user/user5056.css?ry1opl");
-@import url("../modules/forum/forum5056.css?ry1opl");
-@import url("../sites/all/modules/views/css/views5056.css?ry1opl");
-@import url("../sites/all/modules/ckeditor/css/ckeditor5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/modules/ctools/css/ctools5056.css?ry1opl");
-@import url("../sites/all/modules/easy_social/css/easy_social5056.css?ry1opl");
-</style>
-<style type="text/css" media="screen">
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css?ry1opl");
-@import url("../sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css?ry1opl");
-</style>
-<style type="text/css" media="all">
-@import url("../sites/all/themes/corolla/css/webeng.custom5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/html-elements5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/forms5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/tables5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/page5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/articles5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/comments5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/fields5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/blocks5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/navigation5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/css/corolla.settings.style5056.css?ry1opl");
-@import url("../sites/all/themes/corolla/color/colors5056.css?ry1opl");
-</style>
-<style type="text/css" media="print">
-@import url("../sites/all/themes/corolla/css/print5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css?ry1opl" media="only screen" />
-<style type="text/css" media="screen">
-@import url("../sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css?ry1opl");
-</style>
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.custom5056.css?ry1opl" media="only screen" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css?ry1opl" media="only screen and (max-width:320px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css?ry1opl" media="only screen and (min-width:321px) and (max-width:480px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.portrait5056.css?ry1opl" media="only screen and (min-width:481px) and (max-width:768px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.tablet.landscape5056.css?ry1opl" media="only screen and (min-width:769px) and (max-width:1024px)" />
-<link type="text/css" rel="stylesheet" href="../sites/all/themes/corolla/css/responsive.desktop5056.css?ry1opl" media="only screen and (min-width:1025px)" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="../sites/default/files/machine-build-16x16_0.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="description"
+    content="When working with embedded devices, RAM (random access memory) is one of the most valuable and limited resource of the system. The focus of this article is on the RAM usage optimization for Arduino MCUs, but the same principle applies to many other embedded devices." />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="canonical" href="30.html" />
+  <link rel="shortlink" href="30.html" />
+  <title>Optimize Arduino Memory Usage | web-engineering.info</title>
+  <link rel="stylesheet" href="../../_includes/modules/system/system.base5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.menus5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.messages5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.theme5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/comment/comment5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/field/theme/field5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/node/node5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/search/search5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/user/user5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/forum/forum5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/views/css/views5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ckeditor/css/ckeditor5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ctools/css/ctools5056.css" type="text/css" media="all">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet"
+    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css" type="text/css"
+    media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css"
+    type="text/css" media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/webeng.custom5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/html-elements5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/forms5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/tables5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/page5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/articles5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/comments5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/fields5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/blocks5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/navigation5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/corolla.settings.style5056.css"
+    type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/color/colors5056.css" type="text/css"
+    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/print5056.css" type="text/css"
+    media="print">
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css"
+    media="only screen" />
+  <link rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css"
+    type="text/css" media="screen">
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.custom5056.css"
+    media="only screen" />
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css"
+    media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css"
+    media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.portrait5056.css"
+    media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet"
+    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.landscape5056.css"
+    media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.desktop5056.css"
+    media="only screen and (min-width:1025px)" />
 
-<!--[if lt IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?ry1opl");
-</style>
-<![endif]-->
 
-<!--[if lte IE 9]>
-<style type="text/css" media="screen">
-@import url("https://web-engineering.info/sites/all/themes/corolla/css/ie-lte-9.css?ry1opl");
-</style>
-<![endif]-->
-<script type="text/javascript" src="../misc/jquery1cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery-extend-3.4.01cc4.js?v=1.4.4"></script>
-<script type="text/javascript" src="../misc/jquery.once7839.js?v=1.2"></script>
-<script type="text/javascript" src="../misc/drupal5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "../../connect.facebook.net/en_US/all.js#xfbml=1&appId=";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-//--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/google_analytics/googleanalytics5056.js?ry1opl"></script>
-<script type="text/javascript" src="../../platform.linkedin.com/in.js"></script>
-<script type="text/javascript" src="../../platform.twitter.com/widgets.js"></script>
-<script type="text/javascript" src="../../apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","../../www.google-analytics.com/analytics.js","ga");ga("create", "UA-48105674-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
-//--><!]]>
-</script>
-<script type="text/javascript" src="../sites/all/modules/disqus/disqus5056.js?ry1opl"></script>
-<script type="text/javascript">
-<!--//--><![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"corolla","theme_token":"54aEvOrD4IobBR8H8QxlAlMAffhFCWsIfGEVZOzQqvY","js":{"misc\/jquery.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"0":1,"sites\/all\/modules\/google_analytics\/googleanalytics.js":1,"\/\/platform.linkedin.com\/in.js":1,"\/\/platform.twitter.com\/widgets.js":1,"\/\/apis.google.com\/js\/plusone.js":1,"1":1,"sites\/all\/modules\/disqus\/disqus.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/easy_social\/css\/easy_social.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css":1,"sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css":1,"sites\/all\/themes\/corolla\/css\/webeng.custom.css":1,"sites\/all\/themes\/corolla\/css\/html-elements.css":1,"sites\/all\/themes\/corolla\/css\/forms.css":1,"sites\/all\/themes\/corolla\/css\/tables.css":1,"sites\/all\/themes\/corolla\/css\/page.css":1,"sites\/all\/themes\/corolla\/css\/articles.css":1,"sites\/all\/themes\/corolla\/css\/comments.css":1,"sites\/all\/themes\/corolla\/css\/fields.css":1,"sites\/all\/themes\/corolla\/css\/blocks.css":1,"sites\/all\/themes\/corolla\/css\/navigation.css":1,"sites\/all\/themes\/corolla\/css\/fonts.css":1,"sites\/all\/themes\/corolla\/css\/corolla.settings.style.css":1,"sites\/all\/themes\/corolla\/color\/colors.css":1,"sites\/all\/themes\/corolla\/css\/print.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css":1,"sites\/all\/themes\/corolla\/css\/responsive.custom.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css":1,"sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css":1,"sites\/all\/themes\/corolla\/css\/responsive.desktop.css":1,"public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css":1,"sites\/all\/themes\/corolla\/css\/ie-lte-9.css":1}},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/search\/node":true,"\/node\/30?destination=node\/30":true},"disqus":{"domain":"web-engineering","url":"https:\/\/web-engineering.info\/node\/30","title":"Optimize Arduino Memory Usage","identifier":"node\/30"},"adaptivetheme":{"corolla":{"layout_settings":{"bigscreen":"three-col-grail","tablet_landscape":"three-col-grail","tablet_portrait":"one-col-vert","smalltouch_landscape":"one-col-vert","smalltouch_portrait":"one-col-stack"},"media_query_settings":{"bigscreen":"only screen and (min-width:1025px)","tablet_landscape":"only screen and (min-width:769px) and (max-width:1024px)","tablet_portrait":"only screen and (min-width:481px) and (max-width:768px)","smalltouch_landscape":"only screen and (min-width:321px) and (max-width:480px)","smalltouch_portrait":"only screen and (max-width:320px)"}}}});
-//--><!]]>
-</script>
-<!--[if lt IE 9]>
-<script src="https://web-engineering.info/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?ry1opl"></script>
-<![endif]-->
+  <!--[if lt IE 9]>
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.lt-ie9.layout.css?qv28dn");
+      </style>
+      <![endif]-->
+
+  <!--[if lte IE 9]>
+      <style type="text/css" media="screen">
+      @import url("../../_includes/sites/all/themes/corolla/css/ie-lte-9.css?qv28dn");
+      </style>
+      <![endif]-->
+  <script type="text/javascript" src="../../_includes/misc/jquery1cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery-extend-3.4.01cc4.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/jquery.once7839.js"></script>
+  <script type="text/javascript" src="../../_includes/misc/drupal5056.js"></script>
+  <script type="text/javascript"
+    src="../../_includes/sites/all/modules/google_analytics/googleanalytics5056.js"></script>
+  <script type="text/javascript">
+      <!--//-->
+  < ![CDATA[//><!--
+      (function (i, s, o, g, r, a, m) { i["GoogleAnalyticsObject"] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, "script", "https://www.google-analytics.com/analytics.js", "ga"); ga("create", "UA-48105674-1", { "cookieDomain": "auto" }); ga("set", "anonymizeIp", true); ga("send", "pageview");
+      //--><!]]>
+  </script>
+  <script type="text/javascript" src="../../_includes/sites/all/modules/disqus/disqus5056.js"></script>
+  <script type="text/javascript">
+      <!--//-->
+  < ![CDATA[//><!--
+        jQuery.extend(Drupal.settings, { "basePath": "\/", "pathPrefix": "", "ajaxPageState": { "theme": "corolla", "theme_token": "lFZahT6-VB7Qy37XiPt4hR1WARBvKq95YLAdjNylpqc", "js": { "misc\/jquery.js": 1, "misc\/jquery-extend-3.4.0.js": 1, "misc\/jquery.once.js": 1, "misc\/drupal.js": 1, "sites\/all\/modules\/google_analytics\/googleanalytics.js": 1, "0": 1, "sites\/all\/modules\/disqus\/disqus.js": 1 }, "css": { "modules\/system\/system.base.css": 1, "modules\/system\/system.menus.css": 1, "modules\/system\/system.messages.css": 1, "modules\/system\/system.theme.css": 1, "modules\/comment\/comment.css": 1, "modules\/field\/theme\/field.css": 1, "modules\/node\/node.css": 1, "modules\/search\/search.css": 1, "modules\/user\/user.css": 1, "modules\/forum\/forum.css": 1, "sites\/all\/modules\/views\/css\/views.css": 1, "sites\/all\/modules\/ckeditor\/css\/ckeditor.css": 1, "sites\/all\/modules\/ctools\/css\/ctools.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.headings.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.settings.style.image.css": 1, "sites\/all\/themes\/adaptivetheme\/at_core\/css\/at.layout.css": 1, "sites\/all\/themes\/corolla\/css\/webeng.custom.css": 1, "sites\/all\/themes\/corolla\/css\/html-elements.css": 1, "sites\/all\/themes\/corolla\/css\/forms.css": 1, "sites\/all\/themes\/corolla\/css\/tables.css": 1, "sites\/all\/themes\/corolla\/css\/page.css": 1, "sites\/all\/themes\/corolla\/css\/articles.css": 1, "sites\/all\/themes\/corolla\/css\/comments.css": 1, "sites\/all\/themes\/corolla\/css\/fields.css": 1, "sites\/all\/themes\/corolla\/css\/blocks.css": 1, "sites\/all\/themes\/corolla\/css\/navigation.css": 1, "sites\/all\/themes\/corolla\/css\/fonts.css": 1, "sites\/all\/themes\/corolla\/css\/corolla.settings.style.css": 1, "sites\/all\/themes\/corolla\/color\/colors.css": 1, "sites\/all\/themes\/corolla\/css\/print.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.responsive.layout.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.fonts.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.custom.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.smartphone.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.portrait.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.tablet.landscape.css": 1, "sites\/all\/themes\/corolla\/css\/responsive.desktop.css": 1, "public:\/\/adaptivetheme\/corolla_files\/corolla.lt-ie9.layout.css": 1, "sites\/all\/themes\/corolla\/css\/ie-lte-9.css": 1 } }, "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip" }, "urlIsAjaxTrusted": { "\/search\/node": true, "\/index.html?destination=node\/5": true }, "disqus": { "domain": "web-engineering", "url": "https:\/\/web-engineering.info\/index.html", "title": "Free Tutorials and Books with the Complete Code of Example Apps", "identifier": "node\/5" }, "adaptivetheme": { "corolla": { "layout_settings": { "bigscreen": "three-col-grail", "tablet_landscape": "three-col-grail", "tablet_portrait": "one-col-vert", "smalltouch_landscape": "one-col-vert", "smalltouch_portrait": "one-col-stack" }, "media_query_settings": { "bigscreen": "only screen and (min-width:1025px)", "tablet_landscape": "only screen and (min-width:769px) and (max-width:1024px)", "tablet_portrait": "only screen and (min-width:481px) and (max-width:768px)", "smalltouch_landscape": "only screen and (min-width:321px) and (max-width:480px)", "smalltouch_portrait": "only screen and (max-width:320px)" } } } });
+      //--><!]]>
+  </script>
+  <!--[if lt IE 9]>
+      <script src="../../_includes/sites/all/themes/adaptivetheme/at_core/scripts/html5.js?qv28dn"></script>
+      <![endif]-->
 </head>
-<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-30 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
+
+<body
+  class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-30 node-type-blog atr-7.x-3.x atv-7.x-3.1 site-name-web-engineeringinfo section-node color-scheme-default corolla bs-n bb-n mb-dd rc-6 rct-6">
   <div id="skip-link" class="nocontent">
     <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
   </div>
-    <div id="page-wrapper">
-  <div id="page" class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
+  <div id="page-wrapper">
+    <div id="page"
+      class="page snc-n snw-n sna-l sns-n ssc-n ssw-n ssa-l sss-n btc-n btw-b bta-l bts-n ntc-n ntw-b nta-l nts-n ctc-n ctw-b cta-l cts-n ptc-n ptw-b pta-l pts-n">
 
-    
-    <div id="header-wrapper">
-      <div class="container clearfix">
 
-        <header class="clearfix with-logo" role="banner">
+      <div id="header-wrapper">
+        <div class="container clearfix">
 
-                      <div id="branding" class="branding-elements clearfix">
+          <header class="clearfix with-logo" role="banner">
 
-                              <div id="logo">
-                  <a href="../index.html"><img class="site-logo" typeof="foaf:Image" src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>                </div>
-              
-                              <div class="h-group" id="name-and-slogan">
+            <div id="branding" class="branding-elements clearfix">
 
-                                      <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
-                  
-                                      <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
-                  
-                </div>
-              
+              <div id="logo">
+                <a href="../index.html"><img class="site-logo" typeof="foaf:Image"
+                    src="../sites/default/files/logo_1.png" alt="web-engineering.info" /></a>
+              </div>
+
+              <div class="h-group" id="name-and-slogan">
+
+                <h1 id="site-name"><a href="../index.html" title="Home page">web-engineering.info</a></h1>
+
+                <h2 id="site-slogan">High-quality resources for learning developers and makers</h2>
+
+              </div>
+
             </div>
-          
-          
-        </header>
 
+
+          </header>
+
+        </div>
       </div>
-    </div>
 
-    
-    
-    
-    <div id="content-wrapper">
-      <div class="container">
 
-        <div id="columns">
-          <div class="columns-inner clearfix">
 
-            <div id="content-column">
-              <div class="content-inner">
 
-                
-                <section id="main-content" role="main">
+      <div id="content-wrapper">
+        <div class="container">
 
-                  
-                  <div class="content-margin">
-                    <div class="content-style">
+          <div id="columns">
+            <div class="columns-inner clearfix">
 
-                      
-                      <div id="breadcrumb" class="clearfix"><nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label"><h2 id="breadcrumb-label" class="element-invisible">You are here</h2><ol id="crumbs" class="clearfix"><li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog.html">Blogs</a></span></li><li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span typeof="v:Breadcrumb"><a rel="v:url"  property="v:title"  href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li></ol></nav></div>
-                      
-                                              <header class="clearfix">
+              <div id="content-column">
+                <div class="content-inner">
+
+
+                  <section id="main-content" role="main">
+
+
+                    <div class="content-margin">
+                      <div class="content-style">
+
+
+                        <div id="breadcrumb" class="clearfix">
+                          <nav class="breadcrumb-wrapper clearfix" role="navigation" aria-labelledby="breadcrumb-label">
+                            <h2 id="breadcrumb-label" class="element-invisible">You are here</h2>
+                            <ol id="crumbs" class="clearfix">
+                              <li class="crumb crumb-first"><span typeof="v:Breadcrumb"><a rel="v:url"
+                                    property="v:title" href="../blog.html">Blogs</a></span></li>
+                              <li class="crumb crumb-last"><span class="crumb-separator"> &#187; </span><span
+                                  typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                    href="../blog/24.html">mdiaconescu&#039;s blog</a></span></li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                        <header class="clearfix">
                           <h1 id="page-title">
-                            Optimize Arduino Memory Usage                          </h1>
+                            Optimize Arduino Memory Usage </h1>
                         </header>
-                      
-                      
-                      
-                      <div id="content">
-                        <div class="region region-content"><div id="block-easy-social-easy-social-block-1" class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1" >  
-  
-  <div class="easy_social_box clearfix horizontal easy_social_lang_en">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/30" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="web-engineering.info">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="30.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="https://web-engineering.info/node/30"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/30" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box -->
-  </div><div id="block-system-main" class="block block-system no-title even last block-count-2 block-region-content block-main" >  
-  
-  <article id="node-30" class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix" about="/node/30" typeof="sioc:Post sioct:BlogPost" role="article">
-  <div class="node-inner">
 
-    
-              <header class="node-header">
 
-        
-                  <p class="submitted"><span property="dc:date dc:created" content="2015-07-27T10:45:55+02:00" datatype="xsd:dateTime" rel="sioc:has_creator">Submitted by <a href="../user/24.html" title="View user profile." class="username" xml:lang="" about="/user/24" typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on <time datetime="2015-07-27T10:45:55+0200">Mon, 07/27/2015 - 10:45</time></span></p>
-        
-      </header>
-        <span property="dc:title" content="Optimize Arduino Memory Usage" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
-    <div class="node-content">
-      <div class="user-picture">
-    <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image" class="image-style-thumbnail" src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc" alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>  </div>
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Did your Arduino gone "crazy", without obvious reasons, and restarts or resets by itself? Did your device started to misbehave but you are 100% sure that your code is correct? In such cases, one of the possible cause is the lack of free RAM (random access memory). In other words, your MCU does not have sufficient free RAM to perform the required task(s).</p>
 
-<h3>Random Access Memory: types and differences</h3>
+                        <div id="content">
+                          <div class="region region-content">
+                            <div id="block-easy-social-easy-social-block-1"
+                              class="block block-easy-social no-title odd first block-count-1 block-region-content block-easy-social-block-1">
 
-<p>There are two main types of RAM available in embedded devices: <em>SRAM</em> (static random access memory) and <em>DRAM</em> (dynamic random access memory). While SRAM is faster in read/write/access operation, it is also more expensive and usually takes more physical space. On the other hand, DRAM is generally slower in read/write/access operations (this improves with each generation), but cheaper to produce and usually smaller with respect to its physical size.</p>
+                              <div class="easy_social_box clearfix horizontal easy_social_lang_en">
+                                <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                    href="https://twitter.com/share" class="twitter-share-button"
+                                    data-url="https://web-engineering.info/node/30" data-count="horizontal"
+                                    data-lang="en" data-via="" data-related=":Check it out!"
+                                    data-text="web-engineering.info">Tweet</a></div>
+                                <div class="easy_social-widget easy_social-widget-facebook">
+                                  <fb:like href="30.html" send="true" layout="button_count" width="88" show_faces="true"
+                                    action="https://web-engineering.info/node/like" colorscheme="light" font="">
+                                  </fb:like>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-googleplus">
+                                  <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                    data-href="https://web-engineering.info/node/30"></div>
+                                </div>
+                                <div class="easy_social-widget easy_social-widget-linkedin last">
+                                  <script type="in/share" data-url="https://web-engineering.info/node/30"
+                                    data-counter="right"></script>
+                                </div>
+                              </div> <!-- /.easy_social_box -->
+                            </div>
+                            <div id="block-system-main"
+                              class="block block-system no-title even last block-count-2 block-region-content block-main">
 
-<p>No matter which type of RAM (SRAM or DRAM) uses&nbsp;an embedded device, the following discussion stands. Many of the MCUs used by Arduino boards (e.g., <em>ATmega328p</em> in <em>Arduino UNO v3</em> and <em>ATmega2560</em> in <em>Arduino MEGA2560</em>) use SRAM memory, but unfortunately only in small quantities&nbsp;(e.g., 2KB for ATmega328P and 8KB for ATmega2560), thus special care is required in writing the code. For the rest of the discussion, we only use the RAM term for both, SRAM and DRAM.</p>
+                              <article id="node-30"
+                                class="node node-blog node-promoted article odd node-with-picture node-full ia-n clearfix"
+                                about="/node/30" typeof="sioc:Post sioct:BlogPost" role="article">
+                                <div class="node-inner">
 
-<h3>RAM Diagnose: when <em>heap </em>meets <em>stack</em></h3>
 
-<p>At first, we need to check if&nbsp;the problem is caused by insufficient free RAM,&nbsp;and not by various other possible reasons, such as a defective MCU, problem with peripherals or even non-obvious code bugs. Debugging an Arduino is not really easy since it does not "beeps" on error, does not show blue screens and also does not trigger popup windows telling you which is the possible problem. The RAM available in an Arduino MCU is organized as shown in the picture below (picture linked from: <a href="http://www.nongnu.org/avr-libc/user-manual/malloc.html">avr-libc</a>).</p>
+                                  <header class="node-header">
 
-<p><img alt="8 bit Atmel MCUs SRAM structure" src="../../www.nongnu.org/avr-libc/user-manual/malloc-std.png" /></p>
 
-<ul>
-	<li><em>.data variables</em> is the first RAM section and it is used to store program static data, such as strings, initialized structures and global variables.</li>
-	<li><em>.bss variables</em> is the memory allocated for uninitialized global and static variables.</li>
-	<li><em>heap</em> is the dynamic memory area, and this is the playground area for&nbsp;<code>malloc</code> (and alike).&nbsp;The heap can grow (when new allocation is made) or "possibly" decrease in size (when memory is released, as for example when using <code>free</code>)&nbsp;based on the requirements.</li>
-	<li><em>stack</em> is the memory area located at the end of the RAM and it grows towards the heap area. The stack area is used for function calls, storing values for local variables. Memory occupied by local variables is reclaimed when the function call finished.</li>
-	<li><em>external RAM</em> is only available to some of the MCUs and it means that it is possible to add RAM in a kind of similar way that we do for a PC. Usually this is expensive (a few KB of external RAM costs in general more than the MCU)&nbsp;and requires also advanced hardware and software skills.</li>
-	<li><em>free available memory</em> is the area between heap and stack and this is what we need to measure in order to detect problems caused by not enough RAM resources.When this area is either too small for the required tasks, or is missing at all (<em>heap </em>meets <em>stack</em>), our MCU starts to missbehave or to restart itself.</li>
-</ul>
+                                    <p class="submitted"><span property="dc:date dc:created"
+                                        content="2015-07-27T10:45:55+02:00" datatype="xsd:dateTime"
+                                        rel="sioc:has_creator">Submitted by <a href="../user/24.html"
+                                          title="View user profile." class="username" xml:lang="" about="/user/24"
+                                          typeof="sioc:UserAccount" property="foaf:name" datatype="">mdiaconescu</a> on
+                                        <time datetime="2015-07-27T10:45:55+0200">Mon, 07/27/2015 - 10:45</time></span>
+                                    </p>
 
-<p>The following C/C++ method definition allows to compute the free memory (in bytes) for an Arduino MCU. It works with both, Arduino IDE and also with other tools such as AvrStudio:</p>
+                                  </header>
+                                  <span property="dc:title" content="Optimize Arduino Memory Usage"
+                                    class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0"
+                                    datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+                                  <div class="node-content">
+                                    <div class="user-picture">
+                                      <a href="../user/24.html" title="View user profile."><img typeof="foaf:Image"
+                                          class="image-style-thumbnail"
+                                          src="../sites/default/files/styles/thumbnail/public/pictures/picture-24-144421814220be.jpg?itok=q_Sm9CHc"
+                                          alt="mdiaconescu&#039;s picture" title="mdiaconescu&#039;s picture" /></a>
+                                    </div>
+                                    <div
+                                      class="field field-name-body field-type-text-with-summary field-label-hidden view-mode-full">
+                                      <div class="field-items">
+                                        <div class="field-item even" property="content:encoded">
+                                          <p>Did your Arduino gone "crazy", without obvious reasons, and restarts or
+                                            resets by itself? Did your device started to misbehave but you are 100% sure
+                                            that your code is correct? In such cases, one of the possible cause is the
+                                            lack of free RAM (random access memory). In other words, your MCU does not
+                                            have sufficient free RAM to perform the required task(s).</p>
 
-<pre>
+                                          <h3>Random Access Memory: types and differences</h3>
+
+                                          <p>There are two main types of RAM available in embedded devices:
+                                            <em>SRAM</em> (static random access memory) and <em>DRAM</em> (dynamic
+                                            random access memory). While SRAM is faster in read/write/access operation,
+                                            it is also more expensive and usually takes more physical space. On the
+                                            other hand, DRAM is generally slower in read/write/access operations (this
+                                            improves with each generation), but cheaper to produce and usually smaller
+                                            with respect to its physical size.
+                                          </p>
+
+                                          <p>No matter which type of RAM (SRAM or DRAM) uses&nbsp;an embedded device,
+                                            the following discussion stands. Many of the MCUs used by Arduino boards
+                                            (e.g., <em>ATmega328p</em> in <em>Arduino UNO v3</em> and
+                                            <em>ATmega2560</em> in <em>Arduino MEGA2560</em>) use SRAM memory, but
+                                            unfortunately only in small quantities&nbsp;(e.g., 2KB for ATmega328P and
+                                            8KB for ATmega2560), thus special care is required in writing the code. For
+                                            the rest of the discussion, we only use the RAM term for both, SRAM and
+                                            DRAM.
+                                          </p>
+
+                                          <h3>RAM Diagnose: when <em>heap </em>meets <em>stack</em></h3>
+
+                                          <p>At first, we need to check if&nbsp;the problem is caused by insufficient
+                                            free RAM,&nbsp;and not by various other possible reasons, such as a
+                                            defective MCU, problem with peripherals or even non-obvious code bugs.
+                                            Debugging an Arduino is not really easy since it does not "beeps" on error,
+                                            does not show blue screens and also does not trigger popup windows telling
+                                            you which is the possible problem. The RAM available in an Arduino MCU is
+                                            organized as shown in the picture below (picture linked from: <a
+                                              href="http://www.nongnu.org/avr-libc/user-manual/malloc.html">avr-libc</a>).
+                                          </p>
+
+                                          <p><img alt="8 bit Atmel MCUs SRAM structure"
+                                              src="../../www.nongnu.org/avr-libc/user-manual/malloc-std.png" /></p>
+
+                                          <ul>
+                                            <li><em>.data variables</em> is the first RAM section and it is used to
+                                              store program static data, such as strings, initialized structures and
+                                              global variables.</li>
+                                            <li><em>.bss variables</em> is the memory allocated for uninitialized global
+                                              and static variables.</li>
+                                            <li><em>heap</em> is the dynamic memory area, and this is the playground
+                                              area for&nbsp;<code>malloc</code> (and alike).&nbsp;The heap can grow
+                                              (when new allocation is made) or "possibly" decrease in size (when memory
+                                              is released, as for example when using <code>free</code>)&nbsp;based on
+                                              the requirements.</li>
+                                            <li><em>stack</em> is the memory area located at the end of the RAM and it
+                                              grows towards the heap area. The stack area is used for function calls,
+                                              storing values for local variables. Memory occupied by local variables is
+                                              reclaimed when the function call finished.</li>
+                                            <li><em>external RAM</em> is only available to some of the MCUs and it means
+                                              that it is possible to add RAM in a kind of similar way that we do for a
+                                              PC. Usually this is expensive (a few KB of external RAM costs in general
+                                              more than the MCU)&nbsp;and requires also advanced hardware and software
+                                              skills.</li>
+                                            <li><em>free available memory</em> is the area between heap and stack and
+                                              this is what we need to measure in order to detect problems caused by not
+                                              enough RAM resources.When this area is either too small for the required
+                                              tasks, or is missing at all (<em>heap </em>meets <em>stack</em>), our MCU
+                                              starts to missbehave or to restart itself.</li>
+                                          </ul>
+
+                                          <p>The following C/C++ method definition allows to compute the free memory (in
+                                            bytes) for an Arduino MCU. It works with both, Arduino IDE and also with
+                                            other tools such as AvrStudio:</p>
+
+                                          <pre>
 extern unsigned int __bss_end;
 extern unsigned int __heap_start;
 extern void *__brkval;
@@ -244,187 +352,430 @@ uint16_t getFreeSram() {
 };
 </pre>
 
-<p>The <code>getFreeRam</code> function defines a new variable (named <code>newVariable</code>), which being a local variable of a function will be stored in the stack. Because the <em>stack</em> memory area grows towards the <em>heap</em>, the memory address of this new variable is the last memory address used by the stack at the moment of calling this method. The <code>__brkval</code> is a pointer to the last memory address (towards the stack) used by the heap. We don't have to worry about the management of <code>__brkval</code> since this is done internally. We also have to be sure that the heap is not empty, because then <code>__brkval</code> can't be used (it is a <code>NULL</code> pointer). If the heap is empty, then we use <code> __bss_end</code> which is a variable internally defined, and it is stored in the last part of the <em>.bss variables</em> RAM area</p>
+                                          <p>The <code>getFreeRam</code> function defines a new variable (named
+                                            <code>newVariable</code>), which being a local variable of a function will
+                                            be stored in the stack. Because the <em>stack</em> memory area grows towards
+                                            the <em>heap</em>, the memory address of this new variable is the last
+                                            memory address used by the stack at the moment of calling this method. The
+                                            <code>__brkval</code> is a pointer to the last memory address (towards the
+                                            stack) used by the heap. We don't have to worry about the management of
+                                            <code>__brkval</code> since this is done internally. We also have to be sure
+                                            that the heap is not empty, because then <code>__brkval</code> can't be used
+                                            (it is a <code>NULL</code> pointer). If the heap is empty, then we use
+                                            <code> __bss_end</code> which is a variable internally defined, and it is
+                                            stored in the last part of the <em>.bss variables</em> RAM area
+                                          </p>
 
-<p>The free amount of RAM represents the differences between the address used by our <code>newVariable</code> variable and the <code>__brkval</code> referenced address ( or the address of <code> __bss_end</code> if the heap is empty). This give us the number of unused bytes on 8bits MCUs, such as the ones used by the Arduino (with the exception of Arduino DUE, which uses an ARM 32 bits MCU).</p>
+                                          <p>The free amount of RAM represents the differences between the address used
+                                            by our <code>newVariable</code> variable and the <code>__brkval</code>
+                                            referenced address ( or the address of <code> __bss_end</code> if the heap
+                                            is empty). This give us the number of unused bytes on 8bits MCUs, such as
+                                            the ones used by the Arduino (with the exception of Arduino DUE, which uses
+                                            an ARM 32 bits MCU).</p>
 
-<p>The above code works with most of the Arduino MCUs (up to 64KB RAM), and in case you find one which does not, please report.</p>
+                                          <p>The above code works with most of the Arduino MCUs (up to 64KB RAM), and in
+                                            case you find one which does not, please report.</p>
 
-<p><strong>NOTE:</strong>&nbsp;the above discussion represents a simplified story of the RAM division and its management. Our intention was to provide an explanation for everyone&nbsp;(the beginner and also the advanced programmer) without going in "black hole" details.</p>
+                                          <p><strong>NOTE:</strong>&nbsp;the above discussion represents a simplified
+                                            story of the RAM division and its management. Our intention was to provide
+                                            an explanation for everyone&nbsp;(the beginner and also the advanced
+                                            programmer) without going in "black hole" details.</p>
 
-<h3>Ram Usage Optimization: <em>stack </em>or <em>heap</em>?</h3>
+                                          <h3>Ram Usage Optimization: <em>stack </em>or <em>heap</em>?</h3>
 
-<p>Knowing that the problem comes from the lack of RAM resources, what can we do to fix it? There are at least two ways: use an MCU with more RAM resources, or optimize your code for a better management of existing RAM resources. While in some cases the first method is acceptable (the actual prices of the MCUs are quite low), there are many other cases when this is not a real solution, e.g., if the hardware already exists and new options need to be added to it. We discuss further how to optimize the RAM usage, which in many cases is the way to go for your Arduino.</p>
+                                          <p>Knowing that the problem comes from the lack of RAM resources, what can we
+                                            do to fix it? There are at least two ways: use an MCU with more RAM
+                                            resources, or optimize your code for a better management of existing RAM
+                                            resources. While in some cases the first method is acceptable (the actual
+                                            prices of the MCUs are quite low), there are many other cases when this is
+                                            not a real solution, e.g., if the hardware already exists and new options
+                                            need to be added to it. We discuss further how to optimize the RAM usage,
+                                            which in many cases is the way to go for your Arduino.</p>
 
-<h4>Avoid using dynamic memory allocation</h4>
+                                          <h4>Avoid using dynamic memory allocation</h4>
 
-<p>While using dynamic memory allocation is a good solution when programming a normal PC with multiple hundreds of megabytes, gigabytes or even terabytes of ram, it is in general a bad idea for embedded devices (such as the Arduino family). The problem with dynamic memory allocation is that may&nbsp;easily produce memory (heap area) fragmentation. Memory fragmentation can be seen as small "holes" in the RAM which can't be reused in many cases.</p>
+                                          <p>While using dynamic memory allocation is a good solution when programming a
+                                            normal PC with multiple hundreds of megabytes, gigabytes or even terabytes
+                                            of ram, it is in general a bad idea for embedded devices (such as the
+                                            Arduino family). The problem with dynamic memory allocation is that
+                                            may&nbsp;easily produce memory (heap area) fragmentation. Memory
+                                            fragmentation can be seen as small "holes" in the RAM which can't be reused
+                                            in many cases.</p>
 
-<p>Lets take an example. Say that 8 bytes of memory are allocated with a <code>malloc</code> call,then another 16 bytes are allocated with another&nbsp;<code>malloc</code> call. As a result, we have 24 bytes of continuous allocated heap memory. Later, since the first 8 bytes of memory are no longer used, we decide to reclaim it, with a <code>free</code> call, hopping to gain that memory for later usage. Indeed, the memory is freed up, but additionally, we have also created a "hole" in the heap. Why this is bad? Well, if now we need to allocate 10 more bytes (or any number greater than 8) of memory, the heap is increased because the 8 bytes free memory (the heap hole) are not sufficient. Memory allocation with <code>malloc</code> calls (also when using <code>calloc</code> or <code>realloc</code>) works with continuous memory areas. If any time later 6 bytes of memory needs to be allocated, these can use a part of the "hole", but the two remaining bytes (was a 8 bytes area) are now isolated and have a big probability to never be used. Repetitions of what we described above can and will result in a big heap size with small unusable (in most of the cases) memory holes. Thus, sooner or later, the heap and stack collision becomes hard to avoid, (remember, the stack grows towards the heap and the heap grows toward the stack). When these two areas meet&nbsp;(or collide), strange things start to happen, such as auto-resets.</p>
+                                          <p>Lets take an example. Say that 8 bytes of memory are allocated with a
+                                            <code>malloc</code> call,then another 16 bytes are allocated with
+                                            another&nbsp;<code>malloc</code> call. As a result, we have 24 bytes of
+                                            continuous allocated heap memory. Later, since the first 8 bytes of memory
+                                            are no longer used, we decide to reclaim it, with a <code>free</code> call,
+                                            hopping to gain that memory for later usage. Indeed, the memory is freed up,
+                                            but additionally, we have also created a "hole" in the heap. Why this is
+                                            bad? Well, if now we need to allocate 10 more bytes (or any number greater
+                                            than 8) of memory, the heap is increased because the 8 bytes free memory
+                                            (the heap hole) are not sufficient. Memory allocation with
+                                            <code>malloc</code> calls (also when using <code>calloc</code> or
+                                            <code>realloc</code>) works with continuous memory areas. If any time later
+                                            6 bytes of memory needs to be allocated, these can use a part of the "hole",
+                                            but the two remaining bytes (was a 8 bytes area) are now isolated and have a
+                                            big probability to never be used. Repetitions of what we described above can
+                                            and will result in a big heap size with small unusable (in most of the
+                                            cases) memory holes. Thus, sooner or later, the heap and stack collision
+                                            becomes hard to avoid, (remember, the stack grows towards the heap and the
+                                            heap grows toward the stack). When these two areas meet&nbsp;(or collide),
+                                            strange things start to happen, such as auto-resets.
+                                          </p>
 
-<p>A few simple rules may help to avoid RAM fragmentation:</p>
+                                          <p>A few simple rules may help to avoid RAM fragmentation:</p>
 
-<ul>
-	<li>use <em>stack</em> instead of <em>heap</em> whenever possible - stack memory is preferred because the memory is complete freed up when the function returns, and also the stack memory is fragmentation free. In general, this means using local variables and avoid using dynamic memory allocation( i.e., <code>malloc</code>, <code>calloc</code> and <code>realloc</code> calls).</li>
-	<li>avoid using global and static data whenever possible - the memory area (<em>.data variables</em> and <em>.bss variables</em>) occupied by these variables is never freed up for the live time of the same program.</li>
-	<li>when using strings is a must, then it is important to keep them as short as possible - remember, each single char takes one byte of RAM (the entire 2KB RAM memory of an ATmega328p can be occupied by a string with a length of 2048 chars).&nbsp;</li>
-	<li>when using arrays, try to keep their length at minimum - if later you really need a different length, just increase/decrease it the and reprogram your MCU.</li>
-</ul>
+                                          <ul>
+                                            <li>use <em>stack</em> instead of <em>heap</em> whenever possible - stack
+                                              memory is preferred because the memory is complete freed up when the
+                                              function returns, and also the stack memory is fragmentation free. In
+                                              general, this means using local variables and avoid using dynamic memory
+                                              allocation( i.e., <code>malloc</code>, <code>calloc</code> and
+                                              <code>realloc</code> calls).
+                                            </li>
+                                            <li>avoid using global and static data whenever possible - the memory area
+                                              (<em>.data variables</em> and <em>.bss variables</em>) occupied by these
+                                              variables is never freed up for the live time of the same program.</li>
+                                            <li>when using strings is a must, then it is important to keep them as short
+                                              as possible - remember, each single char takes one byte of RAM (the entire
+                                              2KB RAM memory of an ATmega328p can be occupied by a string with a length
+                                              of 2048 chars).&nbsp;</li>
+                                            <li>when using arrays, try to keep their length at minimum - if later you
+                                              really need a different length, just increase/decrease it the and
+                                              reprogram your MCU.</li>
+                                          </ul>
 
-<h4>Use appropriate types for variables/fields</h4>
+                                          <h4>Use appropriate types for variables/fields</h4>
 
-<p>In general, the programmers are tempted to use datatypes with a larger range than actually needed, in many cases, the reason being "<em>who knows, maybe later I need a greater value</em>". For example, one may define an integer (using <code>int</code> or <code>short</code> types) variable when actually the values of the variable are only positive numbers lower than 100. This is a bad idea no matter if we program a low resource device, such an MCU, or a normal PC application. Remember, we can change the variable type later, if a larger range is really required for that variable.</p>
+                                          <p>In general, the programmers are tempted to use datatypes with a larger
+                                            range than actually needed, in many cases, the reason being "<em>who knows,
+                                              maybe later I need a greater value</em>". For example, one may define an
+                                            integer (using <code>int</code> or <code>short</code> types) variable when
+                                            actually the values of the variable are only positive numbers lower than
+                                            100. This is a bad idea no matter if we program a low resource device, such
+                                            an MCU, or a normal PC application. Remember, we can change the variable
+                                            type later, if a larger range is really required for that variable.</p>
 
-<p>The following table provides the most used C/C++ types to be used when programming low resource devices (but not only):</p>
+                                          <p>The following table provides the most used C/C++ types to be used when
+                                            programming low resource devices (but not only):</p>
 
-<table cellpadding="3" cellspacing="0" style="border:1px solid black; border-collapse: collapse;">
-	<thead>
-		<tr>
-			<th scope="col" style="border:1px solid black; padding: 3px 5px;">Datatypes</th>
-			<th scope="col" style="border:1px solid black; padding: 3px 5px;">Size in Bytes</th>
-			<th scope="col" style="border:1px solid black; padding: 3px 5px;">Values</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td style="border:1px solid black; padding: 3px 5px;">boolean, bool</td>
-			<td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">1</td>
-			<td style="border:1px solid black; padding: 3px 5px;">true(1) or false(0)</td>
-		</tr>
-		<tr>
-			<td style="border:1px solid black; padding: 3px 5px;">char</td>
-			<td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">1</td>
-			<td style="border:1px solid black; padding: 3px 5px;">ASCII character or signed value in the range [-128, 127]</td>
-		</tr>
-		<tr>
-			<td style="border:1px solid black; padding: 3px 5px;">unsigned char, byte, uint8_t</td>
-			<td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">1</td>
-			<td style="border:1px solid black; padding: 3px 5px;">ASCII character or unsigned value in the range [0, 255]</td>
-		</tr>
-		<tr>
-			<td style="border:1px solid black; padding: 3px 5px;">int, short</td>
-			<td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">2</td>
-			<td style="border:1px solid black; padding: 3px 5px;">signed value in the range [-32768, 32767]</td>
-		</tr>
-		<tr>
-			<td style="border:1px solid black; padding: 3px 5px;">unsigned int, word, uint16_t</td>
-			<td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">2</td>
-			<td style="border:1px solid black; padding: 3px 5px;">unsigned value in the range [0, 65535]</td>
-		</tr>
-		<tr>
-			<td style="border:1px solid black; padding: 3px 5px;">long</td>
-			<td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">4</td>
-			<td style="border:1px solid black; padding: 3px 5px;">signed value in the range [2147483648, 2147483647]</td>
-		</tr>
-		<tr>
-			<td style="border:1px solid black; padding: 3px 5px;">unsigned long, uint32_t</td>
-			<td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">4</td>
-			<td style="border:1px solid black; padding: 3px 5px;">unsigned value in the range [0, 4294967295]</td>
-		</tr>
-		<tr>
-			<td style="border:1px solid black; padding: 3px 5px;">float, double</td>
-			<td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">4</td>
-			<td style="border:1px solid black; padding: 3px 5px;">
-			<p>floating point value in the range [-3.4028235e+38, 3.4028235e+38]</p>
+                                          <table cellpadding="3" cellspacing="0"
+                                            style="border:1px solid black; border-collapse: collapse;">
+                                            <thead>
+                                              <tr>
+                                                <th scope="col" style="border:1px solid black; padding: 3px 5px;">
+                                                  Datatypes</th>
+                                                <th scope="col" style="border:1px solid black; padding: 3px 5px;">Size
+                                                  in Bytes</th>
+                                                <th scope="col" style="border:1px solid black; padding: 3px 5px;">Values
+                                                </th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td style="border:1px solid black; padding: 3px 5px;">boolean, bool</td>
+                                                <td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">
+                                                  1</td>
+                                                <td style="border:1px solid black; padding: 3px 5px;">true(1) or
+                                                  false(0)</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="border:1px solid black; padding: 3px 5px;">char</td>
+                                                <td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">
+                                                  1</td>
+                                                <td style="border:1px solid black; padding: 3px 5px;">ASCII character or
+                                                  signed value in the range [-128, 127]</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="border:1px solid black; padding: 3px 5px;">unsigned char,
+                                                  byte, uint8_t</td>
+                                                <td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">
+                                                  1</td>
+                                                <td style="border:1px solid black; padding: 3px 5px;">ASCII character or
+                                                  unsigned value in the range [0, 255]</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="border:1px solid black; padding: 3px 5px;">int, short</td>
+                                                <td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">
+                                                  2</td>
+                                                <td style="border:1px solid black; padding: 3px 5px;">signed value in
+                                                  the range [-32768, 32767]</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="border:1px solid black; padding: 3px 5px;">unsigned int,
+                                                  word, uint16_t</td>
+                                                <td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">
+                                                  2</td>
+                                                <td style="border:1px solid black; padding: 3px 5px;">unsigned value in
+                                                  the range [0, 65535]</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="border:1px solid black; padding: 3px 5px;">long</td>
+                                                <td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">
+                                                  4</td>
+                                                <td style="border:1px solid black; padding: 3px 5px;">signed value in
+                                                  the range [2147483648, 2147483647]</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="border:1px solid black; padding: 3px 5px;">unsigned long,
+                                                  uint32_t</td>
+                                                <td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">
+                                                  4</td>
+                                                <td style="border:1px solid black; padding: 3px 5px;">unsigned value in
+                                                  the range [0, 4294967295]</td>
+                                              </tr>
+                                              <tr>
+                                                <td style="border:1px solid black; padding: 3px 5px;">float, double</td>
+                                                <td class="rtecenter" style="border:1px solid black; padding: 3px 5px;">
+                                                  4</td>
+                                                <td style="border:1px solid black; padding: 3px 5px;">
+                                                  <p>floating point value in the range [-3.4028235e+38, 3.4028235e+38]
+                                                  </p>
 
-			<p>NOTE: float and double are the same in this (Arduino) platform</p>
-			</td>
-		</tr>
-	</tbody>
-</table>
+                                                  <p>NOTE: float and double are the same in this (Arduino) platform</p>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
 
-<p>Be responsible and try to use the type which both, fits with the requirements for your data but also is the one with the lowest number of bytes used for memory storage. Just another example to convince you: an array with 128 elements of type <code>uin16_t</code> instead of <code>uint8_t</code> uses 128 bytes more RAm. That is 6.25% of the total memory for an Arduino UNO v3, and it is occupied just because we have used a wrong type for an array variable!</p>
+                                          <p>Be responsible and try to use the type which both, fits with the
+                                            requirements for your data but also is the one with the lowest number of
+                                            bytes used for memory storage. Just another example to convince you: an
+                                            array with 128 elements of type <code>uin16_t</code> instead of
+                                            <code>uint8_t</code> uses 128 bytes more RAm. That is 6.25% of the total
+                                            memory for an Arduino UNO v3, and it is occupied just because we have used a
+                                            wrong type for an array variable!
+                                          </p>
 
-<h4>Use PROGMEM for "constant"&nbsp;data</h4>
+                                          <h4>Use PROGMEM for "constant"&nbsp;data</h4>
 
-<p>In many cases, a large amount of RAM is taken by the static memory (<code>.data variable</code> RAM area), as a result of using global variables (such as strings or numbers). Whenever this data is not likely to change, it can easily be stored in the so called <code>PROGMEM</code> (program memory). This represents a piece of the flash memory, and it is good to know that in general the flash memory is many times larger as the RAM (e.g., ATmega2560 has 8KB RAM and 256KB flash). The disadvantage of using PROGMEM is the reading speed, which is slower compared with reading the same data from RAM.</p>
+                                          <p>In many cases, a large amount of RAM is taken by the static memory
+                                            (<code>.data variable</code> RAM area), as a result of using global
+                                            variables (such as strings or numbers). Whenever this data is not likely to
+                                            change, it can easily be stored in the so called <code>PROGMEM</code>
+                                            (program memory). This represents a piece of the flash memory, and it is
+                                            good to know that in general the flash memory is many times larger as the
+                                            RAM (e.g., ATmega2560 has 8KB RAM and 256KB flash). The disadvantage of
+                                            using PROGMEM is the reading speed, which is slower compared with reading
+                                            the same data from RAM.</p>
 
-<p>The general way to define a PROGMEM variable is:</p>
+                                          <p>The general way to define a PROGMEM variable is:</p>
 
-<pre>
+                                          <pre>
 #include &lt;avr/pgmspace.h&gt;
 
 const PROGMEM datatype varName[] = {v0, v1, v2...};
 </pre>
 
-<p>For example, we define a string and the set of first seven prime numbers, and require to store them in the PROGMEM area, as follows:</p>
+                                          <p>For example, we define a string and the set of first seven prime numbers,
+                                            and require to store them in the PROGMEM area, as follows:</p>
 
-<pre>
+                                          <pre>
 #include &lt;avr/pgmspace.h&gt;
 
 const PROGMEM char errorMsg[] = {"Invalid code!"};
 const PROGMEM uint8_t primes[] = { 1, 3, 5, 7, 11, 13, 17};
 </pre>
 
-<p>We need to include <code>pgmspace.h</code> for being able to use PROGMEM. Later, reading back the set of first seven prime numbers, can be done as follows:</p>
+                                          <p>We need to include <code>pgmspace.h</code> for being able to use PROGMEM.
+                                            Later, reading back the set of first seven prime numbers, can be done as
+                                            follows:</p>
 
-<pre>
+                                          <pre>
 for ( uint8_t k = 0; k &lt; 7; k++) {
   uint8_t prime = pgm_read_byte_near( primes + k);
 
   // now, do something with the prime number stored in the "prime" variable
 }
 </pre>
-</div></div></div><section class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full"><h2 class="field-label">Category:&nbsp;</h2><ul class="field-items"><li class="field-item even"><a href="../Arduino.html" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li></ul></section><div class="easy_social_box clearfix horizontal easy_social_lang_und">
-            <div class="easy_social-widget easy_social-widget-twitter first"><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://web-engineering.info/node/30" data-count="horizontal" data-lang = "en" data-via="" data-related=":Check it out!" data-text="Optimize Arduino Memory Usage">Tweet</a></div>
-          <div class="easy_social-widget easy_social-widget-facebook"><fb:like href="30.html" send="true" layout="button_count" width="88" show_faces="true" action="https://web-engineering.info/node/like" colorscheme="light" font=""></fb:like></div>
-          <div class="easy_social-widget easy_social-widget-googleplus"><div class="g-plusone" data-size="medium" data-annotation="bubble" data-href="30.html"></div></div>
-          <div class="easy_social-widget easy_social-widget-linkedin last"><script type="in/share" data-url="https://web-engineering.info/node/30" data-counter="right"></script></div>
-  </div> <!-- /.easy_social_box --><div id="disqus_thread"><noscript><p><a href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F30">View the discussion thread.</a></p></noscript></div>    </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <section
+                                      class="field field-name-field-category field-type-taxonomy-term-reference field-label-above view-mode-full">
+                                      <h2 class="field-label">Category:&nbsp;</h2>
+                                      <ul class="field-items">
+                                        <li class="field-item even"><a href="../Arduino.html" typeof="skos:Concept"
+                                            property="rdfs:label skos:prefLabel" datatype="">Arduino</a></li>
+                                      </ul>
+                                    </section>
+                                    <div class="easy_social_box clearfix horizontal easy_social_lang_und">
+                                      <div class="easy_social-widget easy_social-widget-twitter first"><a
+                                          href="https://twitter.com/share" class="twitter-share-button"
+                                          data-url="https://web-engineering.info/node/30" data-count="horizontal"
+                                          data-lang="en" data-via="" data-related=":Check it out!"
+                                          data-text="Optimize Arduino Memory Usage">Tweet</a></div>
+                                      <div class="easy_social-widget easy_social-widget-facebook">
+                                        <fb:like href="30.html" send="true" layout="button_count" width="88"
+                                          show_faces="true" action="https://web-engineering.info/node/like"
+                                          colorscheme="light" font=""></fb:like>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-googleplus">
+                                        <div class="g-plusone" data-size="medium" data-annotation="bubble"
+                                          data-href="30.html"></div>
+                                      </div>
+                                      <div class="easy_social-widget easy_social-widget-linkedin last">
+                                        <script type="in/share" data-url="https://web-engineering.info/node/30"
+                                          data-counter="right"></script>
+                                      </div>
+                                    </div> <!-- /.easy_social_box -->
+                                    <div id="disqus_thread"><noscript>
+                                        <p><a
+                                            href="http://web-engineering.disqus.com/?url=https%3A%2F%2Fweb-engineering.info%2Fnode%2F30">View
+                                            the discussion thread.</a></p>
+                                      </noscript></div>
+                                  </div>
 
-          <nav class="clearfix"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="../blog/24.html" title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s blog</a></li></ul></nav>
-    
-    
-  </div>
-</article>
+                                  <nav class="clearfix">
+                                    <ul class="links inline">
+                                      <li class="blog_usernames_blog first last"><a href="../blog/24.html"
+                                          title="Read mdiaconescu&#039;s latest blog entries.">mdiaconescu&#039;s
+                                          blog</a></li>
+                                    </ul>
+                                  </nav>
 
-  </div></div>                      </div>
 
-                      
+                                </div>
+                              </article>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </section>
+
+                  <div class="region region-content-aside">
+                    <div class="region-inner clearfix">
+                      <div id="block-block-2"
+                        class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2">
+                        <div class="block-inner clearfix">
+
+                          <div class="block-content content">
+                            <p style="text-align: center; margin-top: 10px;">©
+                              2014-2020&nbsp;web-engineering.info&nbsp;<a
+                                href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+"
+                                  src="../../assets/images/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a
+                                href="../../about/index.html">About Us</a> | <a href="../../privacy/index.html">Privacy
+                                Policy</a> | Terms
+                              &amp;
+                              Conditions</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                </section>
+              <div class="region region-sidebar-first sidebar">
+                <div class="region-inner clearfix">
+                  <nav id="block-system-main-menu"
+                    class="block block-system block-menu odd first block-count-3 block-region-sidebar-first block-main-menu"
+                    role="navigation">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">Main menu</h2>
 
-                <div class="region region-content-aside"><div class="region-inner clearfix"><div id="block-block-2" class="block block-block no-title odd first last block-count-3 block-region-content-aside block-2" ><div class="block-inner clearfix">  
-  
-  <div class="block-content content"><p style="text-align: center; margin-top: 10px;">© 2014-2020&nbsp;web-engineering.info&nbsp;<a href="https://plus.google.com/104237216582874489152" rel="publisher"><img alt="G+" src="../../ssl.gstatic.com/images/icons/gplus-16.png" style="width: 16px; height: 16px;" /></a> | <a href="../about.html">About Us</a> | <a href="../privacy.html">Privacy Policy</a> | Terms &amp; Conditions</p>
-</div>
-  </div></div></div></div>
+                      <div class="block-content content">
+                        <ul class="menu clearfix">
+                          <li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com"
+                              title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based
+                              Discrete Event Simulation</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1218"><a href="../../WebAppBook/index.html"
+                              title="Web Applications with JavaScript or Java">Textbook
+                              Web Apps JS+Java</a></li>
+                          <li class="leaf menu-depth-1 menu-item-1477"><a href="../../textbooknode80/index.html">Book
+                              Information Management</a></li>
+                          <li class="leaf menu-depth-1 menu-item-366"><a href="../../blog/index.html"
+                              title="A blog about web engineering issues.">Web Engineering
+                              Blog</a></li>
+                          <li class="leaf menu-depth-1 menu-item-758"><a
+                              href="../../SummariesCheatsheetsPosters/index.html">Summaries
+                              &amp; Cheat
+                              Sheets</a></li>
+                          <li class="leaf menu-depth-1 menu-item-361"><a href="../../JsFrontendApp/index.html"
+                              title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End
+                              Apps with Plain JS</a></li>
+                          <li class="leaf active-trail menu-depth-1 menu-item-465"><a
+                              href="../../JavaJpaJsfApp/index.html"
+                              title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database."
+                              class="active-trail active">Back-End Apps with Java EE</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-806"><a href="../../mODELcLASSjsApp/index.html"
+                              title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps
+                              with mODELcLASSjs </a></li>
+                          <li class="leaf menu-depth-1 menu-item-805"><a href="../../WoTProjects/index.html"
+                              title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
+                              of Things (WoT)</a></li>
+                          <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
+                              title="">Discussion
+                              Forums</a>
+                          </li>
+                          <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
+                              title="Team members list.">Team</a></li>
+                          <li class="last leaf menu-depth-1 menu-item-554"><a
+                              href="../../contribute/index.html">Contribute
+                              / Support Us</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                  <section id="block-user-login"
+                    class="block block-user even last block-count-5 block-region-sidebar-first block-login" role="form">
+                    <div class="block-inner clearfix">
+                      <h2 class="block-title">User login</h2>
+
+                      <div class="block-content content">
+                        <form action="https://web-engineering.info/node/30?destination=node/30" method="post"
+                          id="user-login-form" accept-charset="UTF-8">
+                          <div>
+                            <div class="form-item form-type-textfield form-item-name">
+                              <label for="edit-name">Username <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60"
+                                class="form-text required" />
+                            </div>
+                            <div class="form-item form-type-password form-item-pass">
+                              <label for="edit-pass">Password <span class="form-required"
+                                  title="This field is required.">*</span></label>
+                              <input type="password" id="edit-pass" name="pass" size="15" maxlength="128"
+                                class="form-text required" />
+                            </div>
+                            <div class="item-list">
+                              <ul>
+                                <li class="even first last"><a href="../user/password.html"
+                                    title="Request new password via e-mail.">Request new password</a></li>
+                              </ul>
+                            </div><input type="hidden" name="form_build_id"
+                              value="form-ZmmolLclc_TtE3kN5xLT-QXAgymGIFpdwlRimcoqMpY" />
+                            <input type="hidden" name="form_id" value="user_login_block" />
+                            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit"
+                                id="edit-submit" name="op" value="Log in" class="form-submit" /></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
-
-            <div class="region region-sidebar-first sidebar"><div class="region-inner clearfix"><nav id="block-system-main-menu" class="block block-system block-menu odd first block-count-4 block-region-sidebar-first block-main-menu"  role="navigation"><div class="block-inner clearfix">  
-      <h2 class="block-title">Main menu</h2>
-  
-  <div class="block-content content"><ul class="menu clearfix"><li class="first leaf menu-depth-1 menu-item-1476"><a href="https://sim4edu.com/" title="The Simulation for Education (Sim4edu) project website supports web-based simulation with open source technologies for science and education.">Web-Based Discrete Event Simulation</a></li><li class="leaf menu-depth-1 menu-item-1218"><a href="../WebAppBook.html" title="Web Applications with JavaScript or Java">Textbook Web Apps JS+Java</a></li><li class="leaf menu-depth-1 menu-item-1477"><a href="80.html">Book Information Management</a></li><li class="leaf menu-depth-1 menu-item-366"><a href="../blog.html" title="A blog about web engineering issues.">Web Engineering Blog</a></li><li class="leaf menu-depth-1 menu-item-758"><a href="../SummariesCheatsheetsPosters.html">Summaries &amp; Cheat Sheets</a></li><li class="leaf menu-depth-1 menu-item-361"><a href="../JsFrontendApp.html" title="This 6-part tutorial shows how to build front-end web applications with plain JavaScript, not using any (third-party) framework or library.">Front-End Apps with Plain JS</a></li><li class="leaf menu-depth-1 menu-item-465"><a href="../JavaJpaJsfApp.html" title="Learn how to build back-end Java web applications with Java Server Faces (JSF) as the user interface technology, the Java Persistence API (JPA) as the object-to-storage mapping technology, and a MySQL database.">Back-End Apps with Java EE</a></li><li class="leaf menu-depth-1 menu-item-806"><a href="../mODELcLASSjsApp.html" title="Getting rid of boilerplate code with the model-based development approach of mODELcLASSjs.">Apps with mODELcLASSjs </a></li><li class="leaf menu-depth-1 menu-item-805"><a href="../WoTProjects.html" title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web of Things (WoT)</a></li><li class="leaf menu-depth-1 menu-item-613"><a href="../forum.html" title="">Discussion Forums</a></li><li class="leaf menu-depth-1 menu-item-720"><a href="../team.html" title="Team members list.">Team</a></li><li class="last leaf menu-depth-1 menu-item-554"><a href="../contribute.html">Contribute / Support Us</a></li></ul></div>
-  </div></nav><section id="block-user-login" class="block block-user even last block-count-5 block-region-sidebar-first block-login"  role="form"><div class="block-inner clearfix">  
-      <h2 class="block-title">User login</h2>
-  
-  <div class="block-content content"><form action="https://web-engineering.info/node/30?destination=node/30" method="post" id="user-login-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
-  <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
- <input type="text" id="edit-name" name="name" value="" size="15" maxlength="60" class="form-text required" />
-</div>
-<div class="form-item form-type-password form-item-pass">
-  <label for="edit-pass">Password <span class="form-required" title="This field is required.">*</span></label>
- <input type="password" id="edit-pass" name="pass" size="15" maxlength="128" class="form-text required" />
-</div>
-<div class="item-list"><ul><li class="even first last"><a href="../user/password.html" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_build_id" value="form-ZmmolLclc_TtE3kN5xLT-QXAgymGIFpdwlRimcoqMpY" />
-<input type="hidden" name="form_id" value="user_login_block" />
-<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Log in" class="form-submit" /></div></div></form></div>
-  </div></section></div></div>            
           </div>
+
         </div>
-
       </div>
-    </div>
 
-    
-    
-    
+
+
+
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
 <!-- Mirrored from web-engineering.info/node/30 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:58:01 GMT -->
+
 </html>
