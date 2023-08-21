@@ -1,0 +1,174 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch08s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>6.&nbsp;Write the View Code</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Implementing Constraint Validation in a Plain JS Web App"><link rel="prev" href="ch08s05.html" title="5.&nbsp;Write the Model Code"><link rel="next" href="ch08s07.html" title="7.&nbsp;Run the App and Get the Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.&nbsp;Write the View Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;8.&nbsp;Implementing Constraint Validation in a Plain JS Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s07.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e5416"></a>6.&nbsp;Write the View Code</h2></div></div></div><p>The user interface (UI) consists of a start page
+    <code class="filename">index.html</code> that allows the user choosing one of the
+    data management operations by navigating to the corresponding UI page such
+    as <code class="filename">retrieveAndListAllBooks.html</code> or
+    <code class="filename">createBook.html</code> in the app folder. The start page
+    <code class="filename">index.html</code> has been discussed in <a class="xref" href="ch08s04.html#sectSimpleAppStartPage" title="4.2.&nbsp;Create a start page">Section&nbsp;4.2</a>.</p><p>We render the data management menu items in the form of buttons. For
+    simplicity, we invoke the <code class="code">Book.clearData()</code> and
+    <code class="code">Book.createTestData()</code> methods directly from the buttons'
+    <code class="code">onclick</code> event handler attribute. Notice, however, that it is
+    generally preferable to register such event handling functions with
+    <code class="code">addEventListener(...)</code>, as we do in all other cases.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5429"></a>6.1.&nbsp;The data management UI pages</h3></div></div></div><p>Each data management UI page loads the same basic CSS and
+      JavaScript files like the start page <code class="filename">index.html</code>
+      discussed above. In addition, it loads a use-case-specific view code
+      file <code class="filename">src/v/</code><span class="italic">useCase</span><code class="filename">.js</code> and then sets
+      the <code class="code">setupUserInterface</code> procedure of the use-case as an
+      event handler for the page load event, which takes care of initializing
+      the use case when the UI page has been loaded.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5437"></a>6.2.&nbsp;Initialize the app</h3></div></div></div><p>For initializing the app, its namespace and MVC sub-namespaces
+      have to be defined. For our example app, the main namespace is defined
+      to be <code class="code">pl</code>, standing for "Public Library", with the three
+      sub-namespaces <code class="code">m</code>, <code class="code">v</code> and <code class="code">c</code> being
+      initially empty objects:</p><pre class="programlisting">var pl = { m:{}, v:{}, c:{} };</pre><p>We put this code in the file <code class="filename">initialize.js</code> in
+      the <code class="code">c</code> folder.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5448"></a>6.3.&nbsp;Set up the user interface</h3></div></div></div><p>For setting up the user interfaces of the data management use
+      cases, we have to distinguish the case of "Retrieve/List All" from the
+      other ones (Create, Update, Delete). While the latter ones require using
+      an HTML form and attaching event handlers to form controls, in the case
+      of "Retrieve/List All" we only have to render a table displaying all
+      books, as in the case of the <a class="link" href="../../tech/JsFrontendApp/MinimalApp-with-CSS/index.html" target="_top">Minimal
+      App</a> discussed in <span class="phrase"><a class="xref" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Plain JS in Seven Steps">Chapter&nbsp;3</a>.</span>  </p><p>For the <span class="italic">Create</span>, <span class="italic">Update</span> and <span class="italic">Delete</span> use cases, we need to add event
+      listeners for:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>responsive validation on form field <code class="code">input</code>
+          events,</p></li><li class="listitem"><p>handling the event when the user clicks (or pushes) the
+          <span class="italic">save</span> (or <span class="italic">delete</span>) button,</p></li><li class="listitem"><p>making sure the main memory data is saved when a
+          <code class="code">beforeunload</code> event occurs, that is, when the browser
+          window/tab is closed.</p></li></ol></div><p>For the use case <span class="italic">Create</span>, we
+      obtain the following code (in
+      <code class="filename">v/createBook.js</code>)::</p><pre class="programlisting">pl.v.createBook = {
+  <span class="bold"><strong>setupUserInterface</strong></span>: function () {
+    var formEl = document.forms['Book'],
+        saveButton = formEl.commit;
+    // load all book records
+    Book.retrieveAll();
+    // add event listeners for responsive validation
+    formEl.isbn.addEventListener("input", function () { 
+        formEl.isbn.setCustomValidity( 
+            Book.<span class="bold"><strong>checkIsbnAsId</strong></span>( formEl.isbn.value).message);
+    });
+    formEl.title.addEventListener("input", function () { 
+        formEl.title.setCustomValidity( 
+            Book.<span class="bold"><strong>checkTitle</strong></span>( formEl.title.value).message);
+    });
+    formEl.year.addEventListener("input", function () { 
+        formEl.year.setCustomValidity( 
+            Book.<span class="bold"><strong>checkYear</strong></span>( formEl.year.value).message);
+    });
+    formEl.edition.addEventListener("input", function () { 
+        formEl.edition.setCustomValidity( 
+            Book.<span class="bold"><strong>checkEdition</strong></span>( formEl.edition.value).message);
+    });
+    ...
+  }
+};</pre><p>Notice that for each input field we add a listener for
+      <code class="code">input</code> events, such that on any user input a validation
+      check is performed because <code class="code">input</code> events are created by user
+      input actions such as typing. We use the predefined function
+      <code class="code">setCustomValidity</code> from the HTML5 form validation
+      API<a class="indexterm" name="d5e5483"></a> for having our property check functions invoked on the
+      current value of the form field and returning an error message in the
+      case of a constraint violation. So, whenever the string represented by
+      the expression <code class="code">Book.checkIsbn( formEl.isbn.value).message</code>
+      is empty, everything is fine. Otherwise, if it represents an error
+      message, the browser indicates the constraint violation to the user by
+      rendering a red outline for the form field concerned (due to our CSS
+      rule for the <code class="code">:invalid</code> pseudo class).</p><p>In addition to the event handlers for responsive constraint
+      validation, we need two more event handlers:</p><pre class="programlisting">pl.v.createBook = {
+  <span class="bold"><strong>setupUserInterface</strong></span>: function () {
+    ...
+    // Set an event handler for the submit/save button
+    saveButton.addEventListener("click", 
+        pl.v.createBook.handleSaveButtonClickEvent);
+    // neutralize the submit event
+    formEl.addEventListener( 'submit', function (e) { 
+        e.preventDefault();
+        formEl.reset();
+    });
+    // when the browser window/tab is closed
+    window.addEventListener("beforeunload", Book.saveAll);
+  },
+  handleSaveButtonClickEvent: function () {...}
+};</pre><p>While the validation on user input enhances the usability of the
+      UI by providing immediate feedback to the user, validation on form data
+      submission is even more important for catching invalid data. Therefore,
+      the event handler <code class="code">handleSaveButtonClickEvent()</code> performs the
+      property checks again with the help of <code class="code">setCustomValidity</code>,
+      as shown in the following program listing:</p><pre class="programlisting"><span class="bold"><strong>handleSaveButtonClickEvent</strong></span>: function () {
+  var formEl = document.forms['Book'];
+  var slots = {isbn: formEl.isbn.value, 
+               title: formEl.title.value,
+               year: formEl.year.value};
+  // set error messages in case of constraint violations
+  formEl.isbn.setCustomValidity( 
+      Book.<span class="bold"><strong>checkIsbnAsId</strong></span>( slots.isbn).message);
+  formEl.title.setCustomValidity( 
+      Book.<span class="bold"><strong>checkTitle</strong></span>( slots.title).message);
+  formEl.year.setCustomValidity( 
+      Book.<span class="bold"><strong>checkYear</strong></span>( slots.year).message);
+  if (formEl.edition.value) {
+    slots.edition = formEl.edition.value;
+    formEl.edition.setCustomValidity( 
+        Book.<span class="bold"><strong>checkEdition</strong></span>( slots.edition).message);
+  }
+  // save the input data only if all input fields are valid
+  if (formEl.checkValidity()) Book.add( slots);
+}</pre><p>By invoking <code class="code">checkValidity()</code> on the form element, we
+      make sure that the form data is only saved (by <code class="code">Book.add</code>),
+      if there is no constraint violation. After this
+      <code class="code">handleSaveButtonClickEvent</code> handler has been executed on an
+      invalid form, the browser takes control and tests if the predefined
+      property <code class="code">validity</code> has an error flag for any form field. In
+      our approach, since we use <code class="code">setCustomValidity</code>, the
+      <code class="code">validity.customError</code> would be true. If this is the case,
+      the custom constraint violation message will be displayed (in a bubble)
+      and the <code class="code">submit</code> event will be suppressed.</p><p>In the UI of the use case <span class="italic">Update</span>, which is handled in
+      <code class="filename">v/updateBook.js</code>, we do not have an
+      <code class="code">input</code>, but rather an <code class="code">output</code> field for the
+      standard identifier attribute <code class="code">isbn</code>, since it is not
+      supposed to be modifiable. Consequently, we don't need to validate any
+      user input for it. However, we need to set up a selection list (in the
+      form of an HTML <code class="code">select</code> element) allowing the user to select
+      a learning unit in the first step, before its data can be modified. This
+      requires to add a <code class="code">change</code> event listener on the
+      <code class="code">select</code> element such that the fields of the UI can be filled
+      with the data of the selected object.</p><pre class="programlisting">pl.v.updateBook = {
+  <span class="bold"><strong>setupUserInterface</strong></span>: function () {
+    var formEl = document.forms['Book'],
+        submitButton = formEl.commit,
+        selectBookEl = formEl.selectBook;
+    // set up the book selection list
+    util.<span class="bold"><strong>fillSelectWithOptions</strong></span>( Book.instances, 
+    selectBookEl, "isbn", "title");
+    // when a book is selected, fill the form with its data
+    selectBookEl.addEventListener("change", function () {
+      var book=null, bookKey = selectBookEl.value;
+      if (bookKey) {  // set form fields and reset CustomValidity
+        book = Book.instances[bookKey];
+        ["isbn","title","year","edition"].forEach( function (p) {
+          formEl[p].value = book[p] !== undefined ? book[p] : "";
+          formEl[p].setCustomValidity("");  // no error
+        });
+      } else formEl.reset();
+    });
+    // add event listeners for responsive validation
+    ...
+    // Set an event handler for the submit/save button
+    ...
+    // neutralize the submit event
+    ...
+    // Set a handler for the event when the browser window/tab is closed
+    ...
+  },
+  handleSaveButtonClickEvent: function () {...}
+};</pre><p>There is no need to set up responsive validation for the standard
+      identifier attribute <code class="code">isbn</code>, but for all other form fields,
+      as shown above for the <span class="italic">Create</span> use
+      case.</p><p>The logic of the <code class="code">setupUserInterface</code> method for the
+      <span class="italic">Delete</span> use case is similar. We only
+      need to take care that the object to be deleted can be selected by
+      providing a selection list, like in the <span class="italic">Update</span> use case. No validation is needed for
+      the <span class="italic">Delete</span> use case.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.&nbsp;Write the Model Code&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;7.&nbsp;Run the App and Get the Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch08s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:56 GMT -->
+</html>

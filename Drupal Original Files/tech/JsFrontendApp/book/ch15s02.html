@@ -1,0 +1,55 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch15s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Composition</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch15.html" title="Chapter&nbsp;15.&nbsp;Part-Whole Associations"><link rel="prev" href="ch15.html" title="Chapter&nbsp;15.&nbsp;Part-Whole Associations"><link rel="next" href="pt05.html" title="Part&nbsp;V.&nbsp;Inheritance in Class Hierarchies"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Composition</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;15.&nbsp;Part-Whole Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="pt05.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8436"></a>2.&nbsp;Composition</h2></div></div></div><p>It's amazing how much confusion exists about the distinction between the
+   part-whole-association concepts <span class="italic">aggregation</span> and <span class="italic">composition</span>. The main problem is the widespread misunderstanding (even
+   among expert software developers and among the authors of UML) that the concept of composition
+   implies a life-cycle dependency between the whole and its parts such that the parts cannot exist
+   without the whole. But this view ignores the fact that there are also cases of
+   part-whole-associations with non-shareable parts where the parts can be detached from and survive
+   the destruction of the whole. </p><p>In the UML specification document, the definition of the term "composition" has always
+   implied non-shareable parts, but it has not been clear what is the defining characteristic of
+   "composition", and what is merely an optional characteristic. Even in the new version (as of
+   2015), UML 2.5, after an attempt to improve the definition of the term "composition", it remains
+   still ambiguous and doesn't provide any guidance how to model part-whole-associations with
+   non-shareable parts where the parts can be detached from, and survive the destruction of, the
+   whole as opposed to the case where the parts cannot be detached and are destroyed together with
+   the whole. They say:</p><div class="blockquote"><blockquote class="blockquote"><p>If a composite object is deleted, all of its part instances that are
+    objects are deleted with it.</p></blockquote></div><p>But at the same time they also say:</p><div class="blockquote"><blockquote class="blockquote"><p>A part object may be removed from a composite object before the composite
+    object is deleted, and thus not be deleted as part of the composite object.</p></blockquote></div><p>This confusion points to an incompleteness of the UML definition, which does not account for
+   life-cycle dependencies between components and composites. It's therefore important to understand
+   how the UML definition can be enhanced, e.g. by introducing a UML stereotype for
+   &lt;&lt;inseparable&gt;&gt; compositions, or by introducing a constraint keyword
+    <code class="code">inseparable</code> for characterizing the association end at the component side.</p><p>As <a class="link" href="http://martinfowler.com/bliki/AggregationAndComposition.html" target="_top">Martin
+    Fowler has explained</a>, the main issue for characterizing composition is that "an object
+   can only be the part of one composition relationship". This is also explained in the blog post
+    <a class="link" href="http://bellekens.com/2010/12/20/uml-composition-vs-aggregation-vs-association/" target="_top">UML
+    Composition vs Aggregation vs Association</a> by Geert Bellekens. In addition to this
+   defining characteristic of a composition (to have <span class="bold"><strong><span class="italic">exclusive</span></strong></span>, or <span class="bold"><strong><span class="italic">non-shareable</span></strong></span>, parts), a composition may also come with a life-cycle
+   dependency between the composite and its components. In fact, there are two kinds of such
+   dependencies:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Whenever a component <span class="bold"><strong><span class="italic">must always be attached</span></strong></span>
+    to a composite, or, in other words, when it has a <span class="bold"><strong><span class="italic">mandatory
+     composite</span></strong></span>, as expressed by the "exactly one" multiplicity at the composite side 
+     of the composition line, then it must either be re-used in (or re-attached to) another composite, or destroyed,
+     when its current composite is destroyed. This is exemplified by the composition between <code class="code">Person</code>
+    and <code class="code">Heart</code>, shown in the diagram below. A heart is either destroyed or transplanted to another
+     person, when its owner has died.</p></li><li class="listitem"><p>Whenever a component <span class="bold"><strong><span class="italic">must not be
+       detached</span></strong></span> from its composite, or, in other words, when it is <span class="bold"><strong><span class="italic">inseparable</span></strong></span>, then, and only then,
+     the component has to be destroyed, when its composite is destroyed. An example of such a
+     composition with inseparable parts is the composition between <code class="code">Person</code> and
+      <code class="code">Brain</code>.</p></li></ol></div><div class="mediaobject"><img src="../../fig/PartWhole-Composition-Inseparabale.svg"></div><p>In summary, life-cycle dependencies only apply to specific cases of composition, but not in
+   general. They are, therefore, not a defining characteristic. The UML spec states: "A part may be
+   removed from a composite instance before the composite instance is deleted, and thus not be
+   deleted as part of the composite instance." </p><p>In the example of a <code class="code">Car</code>-<code class="code">Engine</code> composition, as shown in the
+   following diagram, it's clearly the case that the engine can be detached from the car before the
+   car is destroyed, in which case the engine is not destroyed and can be re-used. This is implied
+   by the <span class="bold"><strong><span class="italic">zero or one</span></strong></span>
+   multiplicity at the composite side of the composition line.</p><div class="mediaobject"><img src="../../fig/Car-Engine-Composition.svg"></div><p>The <span class="bold"><strong><span class="italic">multiplicity</span></strong></span> of a
+   composition's association end at the composite side is either 1 or 0..1, depending on the fact if
+   components have a mandatory composite or not. Of course, the fact that a component is inseparable
+   implies that it has a mandatory composite, and consequently the composite's multiplicity must be
+   1.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch15.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="pt05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;15.&nbsp;Part-Whole Associations&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Part&nbsp;V.&nbsp;Inheritance in Class Hierarchies</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch15s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:34 GMT -->
+</html>

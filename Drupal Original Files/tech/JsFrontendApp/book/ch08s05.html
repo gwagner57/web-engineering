@@ -1,0 +1,54 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch08s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>5.&nbsp;Adding Directionality to a Non-Directed Association</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Reference Properties and Unidirectional Associations"><link rel="prev" href="ch08s04.html" title="4.&nbsp;Representing Unidirectional Associations as Reference Properties"><link rel="next" href="ch08s06.html" title="6.&nbsp;Our Running Example"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.&nbsp;Adding Directionality to a Non-Directed Association</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;8.&nbsp;Reference Properties and Unidirectional Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s06.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectAddingDirectionality"></a>5.&nbsp;Adding Directionality to a Non-Directed Association</h2></div></div></div><p>When we make an information model in the form of a UML class
+    diagram, we typically end up with a model containing one or more
+    associations that do not have any ownership defined for their ends, as,
+    for instance, in <a class="xref" href="ch08s05.html#figCommitteChairDomM" title="Figure&nbsp;8.4.&nbsp;A model of a non-directed association between Committee and ClubMember">Figure&nbsp;8.4</a> below. When there is no ownership dot at
+    either end of an association, such as in this example, this means that the
+    model does not specify how the association is to be represented (or
+    realized) with the help of reference properties. Such an association does
+    not have any direction. According to the UML 2.5 specification, the ends
+    of such an association are "owned" by itself, and not by any of the
+    classes participating in it.</p><div class="figure"><a name="figCommitteChairDomM"></a><p class="title"><b>Figure&nbsp;8.4.&nbsp;A model of a non-directed association between Committee and
+      ClubMember</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="500"><tr><td><img src="../../fig/CommitteeChair_DomM.svg" width="500" alt="A model of a non-directed association between Committee and ClubMember"></td></tr></table></div></div></div><br class="figure-break"><p>An information design model that contains an association without
+    association end ownership dots is acceptable as a <span class="italic">relational database</span> design model, but it is
+    incomplete as a design model for OOP languages.</p><p>For instance, the model of <a class="xref" href="ch08s05.html#figCommitteChairDomM" title="Figure&nbsp;8.4.&nbsp;A model of a non-directed association between Committee and ClubMember">Figure&nbsp;8.4</a> provides a relational database design with two
+    entity tables, <code class="code">committees</code> and <code class="code">clubmembers</code>, and a
+    separate one-to-one relationship table
+    <code class="code">committee_has_clubmember_as_chair</code>. But it does not provide a
+    design for Java classes, since it does not specify how the association is
+    to be implemented with the help of reference properties.</p><p>There are three options how to turn an information design model of a
+    non-directed association<a class="indexterm" name="d5e5622"></a> (without any association end ownership dots) into an
+    information design model where all associations are either unidirectional
+    or bidirectional: we can place an ownership dot at either end or at both
+    ends of the association. Each of these three options defines a different
+    way how to represent, or implement, the association with the help of
+    reference properties. So, for the association shown in <a class="xref" href="ch08s05.html#figCommitteChairDomM" title="Figure&nbsp;8.4.&nbsp;A model of a non-directed association between Committee and ClubMember">Figure&nbsp;8.4</a> above, we have
+    the following options:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Place an ownership dot at the <code class="code">chair</code> association
+        end, leading to the model shown in <a class="xref" href="ch08s03.html#figCommitteChairAssEnd" title="Figure&nbsp;8.2.&nbsp;An association end with a &#34;dot&#34;">Figure&nbsp;8.2</a> above,
+        which can be transformed into the OO class model shown in <a class="xref" href="ch08.html#figCommitteChairRefProp" title="Figure&nbsp;8.1.&nbsp;A committee has a club member as chair expressed by the reference property chair">Figure&nbsp;8.1</a>
+        above.</p></li><li class="listitem"><p>Place an ownership dot at the <code class="code">chairedCommittee</code>
+        association end, leading to the completed models shown in <a class="xref" href="ch08s07.html#figChairedCommitte" title="Figure&nbsp;8.8.&nbsp;Turning a functional association end into a reference property">Figure&nbsp;8.8</a> below.</p></li><li class="listitem"><p>Make the association bidirectional by placing ownership dots at
+        both association ends, as shown in <a class="xref" href="ch08s05.html#figBidirectionalCommitteClubmemberAssoc" title="Figure&nbsp;8.5.&nbsp;Modeling a bidirectional association between Committee and ClubMember">Figure&nbsp;8.5</a> with the meaning that the association is
+        implemented in a redundant manner by a pair of mutually inverse
+        reference properties <code class="code">Committee</code>::<code class="code">chair</code> and
+        <code class="code">ClubMember</code>::<code class="code">chairedCommittee</code>, as discussed
+        in <span class="phrase"><a class="xref" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Bidirectional Associations">Chapter&nbsp;12</a>.</span></p><div class="figure"><a name="figBidirectionalCommitteClubmemberAssoc"></a><p class="title"><b>Figure&nbsp;8.5.&nbsp;Modeling a bidirectional association between Committee and
+          ClubMember</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="500"><tr><td><img src="../../fig/CommitteeChair_DesM3.svg" width="500" alt="Modeling a bidirectional association between Committee and ClubMember"></td></tr></table></div></div></div><br class="figure-break"></li></ol></div><p>So, whenever we have modeled an association, we have to make a
+    choice, which of its ends represents a reference property and will
+    therefore be marked with an ownership dot. It can be either one, or both.
+    This decision also implies a decision about the <span class="italic">navigability</span><a class="indexterm" name="d5e5652"></a> of the association. When an association end represents a
+    reference property, this implies that it is navigable (via this
+    property).</p><p>In the case of a functional association that is not one-to-one, the
+    simplest design is obtained by defining the direction of the association
+    according to its functionality, placing the association end ownership dot
+    at the association end with the multiplicity <code class="code">0..1</code> or
+    <code class="code">1</code>. For a non-directed one-to-one or many-to-many association,
+    we can choose the direction as we like, that is, we can place the
+    ownership dot at either association end.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.&nbsp;Representing Unidirectional Associations as Reference
+    Properties&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;6.&nbsp;Our Running Example</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch08s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:31 GMT -->
+</html>

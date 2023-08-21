@@ -1,0 +1,33 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch07s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>6.&nbsp;Summary</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Integrity Constraints and Data Validation"><link rel="prev" href="ch07s05.html" title="5.&nbsp;Adding Constraints to a Design Model"><link rel="next" href="ch07s07.html" title="7.&nbsp;Criteria for Evaluating the Validation Support of Frameworks"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.&nbsp;Summary</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;7.&nbsp;Integrity Constraints and Data Validation</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s07.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4880"></a>6.&nbsp;Summary</h2></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Constraints are logical conditions on the data of an app. The
+        simplest, and most important, types of constraints are property
+        constraints and object-level constraints.</p></li><li class="listitem"><p>Constraints should be defined in the model classes of an MVC
+        app, since they are part of their business semantics.</p></li><li class="listitem"><p>Constraints should be checked in various places of an MVC app:
+        in the UI/view code, in model classes, and possibly in the
+        database.</p></li><li class="listitem"><p>Software applications that include CRUD data management need to
+        perform two kinds of bi-directional object-to-string type
+        conversions:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Between the model and the UI: converting model object property values to UI widget
+       values, and, the other way around, converting input widget values to property values.
+       Typically, widgets are form fields that have string values.</p></li><li class="listitem"><p>Between the model and the datastore: converting model
+            objects to storage data sets (called serialization), and, the
+            other way around, converting storage data sets to model objects
+            (called de-serialization). This involves converting property
+            values to storage data values, and, the other way around,
+            converting storage data values to property values. Typically,
+            datastores are either JavaScript's local storage or IndexedDB, or
+            SQL databases, and objects have to be mapped to some form of table
+            rows. In the case of an SQL database, this is called
+            "Object-Relational Mapping" (ORM).</p></li></ol></div></li><li class="listitem"><p>Do not perform any string-to-property-value conversion in the UI code. Rather, this is
+     the business of the model code.</p></li><li class="listitem"><p>For being able to observe how an app works, or, if it does not
+        work, where it fails, it is essential to log all critical application
+        events, such as data retrieval, save and delete events, at least in
+        the JavaScript console.</p></li><li class="listitem"><p>Responsive validation means that the user, while typing, gets
+        immediate validation feedback on each input (keystroke), and when
+        requesting to save the new data.</p></li></ol></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.&nbsp;Adding Constraints to a Design Model&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;7.&nbsp;Criteria for Evaluating the Validation Support of
+    Frameworks</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch07s06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:55 GMT -->
+</html>

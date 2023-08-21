@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="role-ebook-page">
+<!-- Mirrored from web-engineering.info/book/InformationManagement/Delete-Key-Value-Pair.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:02:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head><meta charset="UTF-8" /><title>2.3. Deleting a Key-Value Pair</title><link href="_res/pageNavigation.css" rel="stylesheet" type="text/css" /><link href="_res/ebook.css" rel="stylesheet" type="text/css" /><link href="_res/icons/index.html" type="inode/directory" /></head><body><header class="page-navigation"><table><tr><td class="page-navigation-to-first"><a href="InformationManagement.html"><span class="page-navigation-to-first-icon" title="First page
+Information Management"></span></a></td><td class="page-navigation-to-previous"><a href="Add-Key-Value-Pair.html"><span class="page-navigation-to-previous-icon" title="Previous page
+2.2. Adding a Key-Value Pair in a User Interface"></span></a></td><td class="page-navigation-previous"><span>2.2. Adding a Key-Value Pair in a User Interface</span></td><td class="page-navigation-current"><span>2.3. Deleting a Key-Value Pair</span> <span class="page-navigation-current-page">(13 / 42)</span></td><td class="page-navigation-next"><span>2.4. Updating a Key-Value Pair</span></td><td class="page-navigation-to-next"><a href="Update-Key-Value-Pair.html"><span class="page-navigation-to-next-icon" title="Next page
+2.4. Updating a Key-Value Pair"></span></a></td><td class="page-navigation-to-last"><a href="_index.html"><span class="page-navigation-to-last-icon" title="Last page
+Index"></span></a></td></tr></table></header><main><section class="role-section1" id="sectDelKeyValPair"><h2 class="role-section1-title"><span class="role-label"><span class="role-number">2.3</span>. </span>Deleting a Key-Value Pair</h2><p>For allowing the user to delete a key-value pair entry from the store, the user interface must provide a facility for choosing the entry to be dropped. For this purpose, HTML provides the <code>select</code> element, which is rendered as a selection field that can be expanded to a list of options to choose from. </p><p>The <em>Delete</em> user interface consists of a labeled selection field (named &quot;key&quot;) and a <i>Delete</i> button. </p><table class="role-listing" style="width: 100%; border-collapse: collapse;"><colgroup class="listing-numbers-column" style="width: 2.25em;"></colgroup><tbody style="vertical-align: baseline;"><tr><td class="listing-numbers"><pre style="text-align: right; background-color: transparent; border-style: none; padding: 0; margin: 0;">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></td><td class="listing-lines"><pre style="text-align: left; background-color: transparent; border-style: none; padding: 0; margin: 0;">&lt;!DOCTYPE html&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+ &lt;meta charset=&quot;UTF-8&quot; /&gt;
+ &lt;title&gt;Phone Number Directory&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ &lt;h1&gt;Phone Number Directory&lt;/h1&gt;
+ &lt;h2&gt;<b>Delete an entry</b>&lt;/h2&gt;
+ &lt;form&gt;
+  &lt;p&gt;&lt;label&gt;Name: &lt;<b>select</b> name=&quot;key&quot;&gt;&lt;/select&gt;&lt;/label&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;<strong>button</strong> type=&quot;button&quot; onclick=&quot;<b>destroy</b>()&quot;&gt;Delete&lt;/button&gt;&lt;/p&gt;
+ &lt;/form&gt;
+ &lt;hr/&gt;
+ &lt;nav&gt;...&lt;/nav&gt;
+ &lt;script&gt;...&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></td></tr></tbody></table> <p>The following <code>script</code> element contains the JavaScript code for filling the selection list with <code>option</code> elements and the code of the <code>destroy</code> function, which deletes the selected key-value pair both from the <code>localStorage</code> store and from the selection list.</p> <table class="role-listing" style="width: 100%; border-collapse: collapse;"><colgroup class="listing-numbers-column" style="width: 2.25em;"></colgroup><tbody style="vertical-align: baseline;"><tr><td class="listing-numbers"><pre style="text-align: right; background-color: transparent; border-style: none; padding: 0; margin: 0;">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></td><td class="listing-lines"><pre style="text-align: left; background-color: transparent; border-style: none; padding: 0; margin: 0;">&lt;script&gt;
+ // get a handle for accessing the form element
+ let formEl = document.forms[0];
+ // get a handle for accessing the &quot;key&quot; selection field
+ let selectEl = formEl.key;
+ // fill selection list with options
+ for (let key of Object.keys( localStorage)) {
+   let optionEl = document.createElement(&quot;option&quot;);
+   optionEl.text = key;
+   selectEl.add( optionEl, null);
+ }
+ function <b>destroy</b>() {
+   // delete from key-value store
+   localStorage.removeItem( selectEl.value);
+   // delete also from selection list
+   selectEl.remove( selectEl.selectedIndex);
+ }
+&lt;/script&gt;</pre></td></tr></tbody></table><p><b>Exercise</b>: Copy and paste the HTML code into a fresh editor window. Don't forget to insert both the content of the <code>nav</code> element (from a code listing above) and the content of the <code>script</code> element. Save the resulting user interface page in your example folder as &quot;delete.html&quot;. Then open the &quot;delete.html&quot; file in a browser. You should see a page containing a user interface as in <a class="role-figure-ref" href="#sectDelKeyValPair__figDelEntry"><span class="role-label">Figure <span class="role-number">2-2</span></span></a> below. Choose a name and click the <i>Delete</i> button. Then click on <i>Home</i> in the menu for checking if the chosen key-value pair has been deleted from the store.</p> <figure id="sectDelKeyValPair__figDelEntry"> <div><img height="277" src="_res/Delete-UI.png" width="353" /></div> <figcaption><span class="role-label">Figure <span class="role-number">2-2</span>. </span>The user interface of the key-value data management app for the operation <i>Delete</i>. </figcaption> </figure></section></main><footer class="page-navigation"><table><tr><td class="page-navigation-to-first"><a href="InformationManagement.html"><span class="page-navigation-to-first-icon" title="First page
+Information Management"></span></a></td><td class="page-navigation-to-previous"><a href="Add-Key-Value-Pair.html"><span class="page-navigation-to-previous-icon" title="Previous page
+2.2. Adding a Key-Value Pair in a User Interface"></span></a></td><td class="page-navigation-previous"><span>2.2. Adding a Key-Value Pair in a User Interface</span></td><td class="page-navigation-current"><span>2.3. Deleting a Key-Value Pair</span> <span class="page-navigation-current-page">(13 / 42)</span></td><td class="page-navigation-next"><span>2.4. Updating a Key-Value Pair</span></td><td class="page-navigation-to-next"><a href="Update-Key-Value-Pair.html"><span class="page-navigation-to-next-icon" title="Next page
+2.4. Updating a Key-Value Pair"></span></a></td><td class="page-navigation-to-last"><a href="_index.html"><span class="page-navigation-to-last-icon" title="Last page
+Index"></span></a></td></tr></table></footer></body>
+<!-- Mirrored from web-engineering.info/book/InformationManagement/Delete-Key-Value-Pair.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:02:19 GMT -->
+</html>

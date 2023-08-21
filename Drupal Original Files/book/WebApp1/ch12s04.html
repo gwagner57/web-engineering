@@ -1,0 +1,110 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch12s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.&nbsp;Write the View Code</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Implementing Enumeration Attributes in a Java EE Web App"><link rel="prev" href="ch12s03.html" title="3.&nbsp;Write the Model Code"><link rel="next" href="ch12s05.html" title="5.&nbsp;Displaying Value Sets for Multi-Valued Enumeration Attributes"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.&nbsp;Write the View Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Implementing Enumeration Attributes in a Java EE Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s05.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e7712"></a>4.&nbsp;Write the View Code</h2></div></div></div><p>The example app's user interface for creating a new book record with
+    ISBN, title and four enumeration attributes looks as in <a class="xref" href="ch12s04.html#figJavaEnumAppCreateUI" title="Figure&nbsp;12.2.&nbsp;The user interface for creating a new book record">Figure&nbsp;12.2</a> below.</p><div class="figure"><a name="figJavaEnumAppCreateUI"></a><p class="title"><b>Figure&nbsp;12.2.&nbsp;The user interface for creating a new book record</b></p><div class="figure-contents"><div class="mediaobject"><img src="../fig/EnumApp-CreateUI-JavaJpaJsf.png" alt="The user interface for creating a new book record"></div></div></div><br class="figure-break"><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7721"></a>4.1.&nbsp;Selection lists</h3></div></div></div><p>We use JSF selection lists for rendering the enumeration
+      attributes <code class="code">originalLanguage</code> and
+      <code class="code">otherAvailableLanguages</code> in the code of the facelet files
+      <code class="filename">WebContent/views/books/create.xhtml</code> and
+      <code class="filename">.../update.xhtml</code>:</p><pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt; 
+ ...
+ &lt;ui:define name="main"&gt;
+  &lt;h:form id="createBookForm"&gt;
+   ...
+   &lt;div&gt;
+    &lt;h:outputLabel for="originalLanguage" value="Original language"&gt;
+     &lt;h:<span class="bold"><strong>selectOneMenu</strong></span> id="originalLanguage"
+        value="#{<span class="bold"><strong>book.originalLanguage</strong></span>}"&gt;
+      &lt;f:selectItem itemValue="" itemLabel="---" /&gt;
+      &lt;f:selectItems value="#{book.languageItems}" /&gt;
+     &lt;/h:selectOneMenu&gt;
+    &lt;/h:outputLabel&gt;
+    &lt;h:message for="originalLanguage" errorClass="error" /&gt;
+   &lt;/div&gt;
+   &lt;div class="multi-sel"&gt;
+    &lt;h:outputLabel for="otherAvailableLanguages" 
+       value="Also available in"&gt;
+     &lt;h:<span class="bold"><strong>selectManyListbox</strong></span> id="otherAvailableLanguages"
+        value="#{book.otherAvailableLanguages}"&gt;
+      &lt;f:selectItems value="#{book.languageItems}" /&gt;
+     &lt;/h:selectManyListbox&gt;
+    &lt;/h:outputLabel&gt;
+    &lt;h:message for="otherAvailableLanguages" errorClass="error" /&gt;
+   &lt;/div&gt;
+   ...
+   &lt;div&gt;
+    &lt;h:commandButton value="Save"
+       action="#{bookCtrl.create( book.isbn, book.title, book.year, 
+           book.originalLanguage, book.otherAvailableLanguages, 
+           book.category, book.publicationForms)}" /&gt;
+   &lt;/div&gt;
+  &lt;/h:form&gt;
+ &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre><p>The JSF element <code class="code">h:selectOneMenu</code> allows creating
+      single selection lists with the HTML <code class="code">select</code> element. The
+      list is populated with language options due to its child element
+      <code class="code">&lt;f:selectItems value="#{book.languageItems}"/&gt;</code>. Using
+      the expression <code class="code">#{book.languageItems}</code> results in calling the
+      method <code class="code">getLanguageItems()</code> on the <code class="code">book</code> object.
+      This method returns a set of <code class="code">SelectItem</code> objects, which are
+      used to populate the selection list. The corresponding method code is as
+      follows: </p><pre class="programlisting">public SelectItem[] <span class="bold"><strong>getLanguageItems()</strong></span> {
+  SelectItem[] items = new SelectItem[LanguageEL.values().length];
+  int i = 0;
+  for (LanguageEL lang : LanguageEL.values()) {
+    items[i++] = new <span class="bold"><strong>SelectItem</strong></span>( lang.<span class="bold"><strong>name</strong></span>(), lang.<span class="bold"><strong>getLabel</strong></span>());
+  }
+  return items;
+} </pre><p>A multiple selection list, corresponding to an HTML element
+      <code class="code">&lt;select multiple="multiple" .../&gt;</code>, is created with
+      the JSF element <code class="code">h:selectManyListbox</code> using the same
+      <code class="code">getLanguageItems</code> method for obtaining the selection list
+      items.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7749"></a>4.2.&nbsp;Radio button groups and checkbox groups</h3></div></div></div><p>Since the enumeration attributes <code class="code">category</code> and <code class="code">publicationForms</code>
+    have not more than seven possible values, we can use a <span class="italic">radio button
+     group</span> and a <span class="italic">checkbox group</span> for rendering
+    them:</p><pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  ...
+  &lt;ui:define name="main"&gt;
+    &lt;h:form id="createBookForm"&gt;
+      &lt;div&gt;
+        &lt;h:outputLabel for="category" value="Category"&gt;
+          &lt;h:<span class="bold"><strong>selectOneRadio</strong></span> id="category" value="#{<span class="bold"><strong>book.category</strong></span>}"&gt;
+            &lt;f:selectItems value="#{book.categoryItems}" /&gt;
+          &lt;/h:selectOneRadio&gt;
+        &lt;/h:outputLabel&gt;
+        &lt;h:message for="category" errorClass="error" /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;h:outputLabel for="publicationForms" 
+          value="Publication forms "&gt;
+         <span class="bold"><strong> </strong></span>&lt;h:<span class="bold"><strong>selectManyCheckbox</strong></span> id="publicationForms"
+            value="#{<span class="bold"><strong>book.publicationForms</strong></span>}"&gt;
+            &lt;f:selectItems value="#{book.publicationFormsItems}" /&gt;
+          &lt;/h:selectManyCheckbox&gt;
+        &lt;/h:outputLabel&gt;
+        &lt;h:message for="publicationForms" errorClass="error" /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;h:commandButton value="Save"
+          action="#{bookCtrl.create( 
+            book.isbn, book.title, book.year, 
+            book.originalLanguage, book.otherAvailableLanguages, 
+            book.category, book.publicationForms)}" /&gt;
+      &lt;/div&gt;
+    &lt;/h:form&gt;
+  &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre><p>The radio button group is obtained by using the JSF element
+      <code class="code">h:selectOneRadio</code>. It renders a set of <code class="code">&lt;input
+      type="radio" ... /&gt;</code> elements. Using the same technique as for
+      selection lists, the radio button group is populated with a set of
+      <code class="code">SelectItem</code> objects. The corresponding
+      <code class="code">getCategoryItems</code> method from the <code class="code">Book</code> class is
+      similar to <code class="code">getLanguageItems</code>.</p><p>The checkbox group, consisting of <code class="code">&lt;input type="checkbox"
+      ... /&gt;</code> elements, is created with the JSF element
+      <code class="code">h:selectManyCheckbox</code> and populated in the same way as a
+      radio button group or a selection list.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;Write the Model Code&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;5.&nbsp;Displaying Value Sets for Multi-Valued Enumeration
+    Attributes</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch12s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:01 GMT -->
+</html>

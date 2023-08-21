@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  
+<!-- Mirrored from web-engineering.info/tech/promise/ajaxCallNoPromise/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:01:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>GET AJAX Request without Promise</title>
+    <script src="js/script.js"></script>
+  </head>
+
+  <body>
+    <h2>GET AJAX Request without Promise</h2>
+    <h3>Performing AJAX GET request...</h3>
+    <h3><span id="msg1"></span><br /><span id="msg2"></span></h3>
+    <h3>If the request fails, check also the JS console.</h3>    
+    <script>
+      window.addEventListener("load", function (evt) {
+        var msg1Elem = document.getElementById("msg1"),
+            msg2Elem = document.getElementById("msg2");
+        makeGetRequest("/tech/promise/ajaxCallNoPromise/node", 
+          function (resp) {
+            msg1Elem.innerHTML = "Message: " + resp.message;
+            msg2Elem.innerHTML = "Timestamp: " + resp.timestamp;
+          },
+          function (err) {
+            msg1Elem.innerHTML = "Message: " + err.message;
+            msg2Elem.innerHTML = "Error code: " + err.code;
+          }
+        );
+      });
+    </script>
+  </body>
+
+<!-- Mirrored from web-engineering.info/tech/promise/ajaxCallNoPromise/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:01:07 GMT -->
+</html>

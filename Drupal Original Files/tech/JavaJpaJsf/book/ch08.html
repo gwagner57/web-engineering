@@ -1,0 +1,127 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch08.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;8.&nbsp;Enumerations and Enumeration Attributes</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="pt03.html" title="Part&nbsp;III.&nbsp;Enumerations"><link rel="prev" href="pt03.html" title="Part&nbsp;III.&nbsp;Enumerations"><link rel="next" href="ch08s02.html" title="2.&nbsp;Enumeration Attributes"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;8.&nbsp;Enumerations and Enumeration Attributes</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="pt03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;III.&nbsp;Enumerations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="d5e2866"></a>Chapter&nbsp;8.&nbsp;Enumerations and Enumeration Attributes</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch08.html#d5e2868">1. Enumerations</a></span></dt><dd><dl><dt><span class="section"><a href="ch08.html#d5e2938">1.1. Simple Enumerations</a></span></dt><dt><span class="section"><a href="ch08.html#d5e2952">1.2. Code Lists</a></span></dt><dt><span class="section"><a href="ch08.html#d5e2965">1.3. Record Enumerations</a></span></dt></dl></dd><dt><span class="section"><a href="ch08s02.html">2. Enumeration Attributes</a></span></dt><dt><span class="section"><a href="ch08s03.html">3. Enumerations in Computational Languages</a></span></dt><dd><dl><dt><span class="section"><a href="ch08s03.html#d5e3071">3.1. Enumerations in SQL</a></span></dt><dt><span class="section"><a href="ch08s03.html#d5e3083">3.2. Enumerations in XML Schema</a></span></dt><dt><span class="section"><a href="ch08s03.html#d5e3088">3.3. Enumerations in JavaScript</a></span></dt></dl></dd><dt><span class="section"><a href="ch08s04.html">4. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch08s04.html#d5e3138">4.1. Question 1: Languages Supporting Enumerations</a></span></dt><dt><span class="section"><a href="ch08s04.html#d5e3142">4.2. Question 2: UI Widget for Single-Valued Enum Attribute</a></span></dt><dt><span class="section"><a href="ch08s04.html#d5e3157">4.3. Question 3: UI Widget for Multi-Valued Enum Attribute</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e2868"></a>1.&nbsp;Enumerations</h2></div></div></div><p>In all application domains, there are string-valued attributes with a fixed set of possible
+   string values. These attributes are called <span class="italic">enumeration
+    attributes</span>, and the fixed value sets defining their possible string values are called
+    <span class="italic">enumerations</span>. For instance, when we have to manage data about
+   persons, we often need to include information about the gender of a person. The possible values
+   of a <code class="code">gender</code> attribute may be restricted to one of the <span class="bold"><strong><span class="italic">enumeration labels</span></strong></span> "male","female" and
+   "undetermined", or to one of the <span class="bold"><strong><span class="italic">enumeration
+     codes</span></strong></span> "M", "F" and "U". Whenever we deal with codes, we also need to have
+   their corresponding labels, at least in a legend explaining the meaning of each code.</p><p>Instead of using the enumeration string values as the internal values of an enumeration
+   attribute (such as <code class="code">gender</code>), it is preferable to use a simplified internal
+   representation for them, such as the positive integers 1, 2, 3, etc., which enumerate the
+   possible values. However, since these integers do not reveal their meaning (which is indicated by
+   the enumeration label) in program code, for readability we rather use special constants, called
+    <span class="bold"><strong><span class="italic">enumeration literals</span></strong></span>, such
+   as <code class="code">MALE</code> or <code class="code">M</code>, prefixed by the name of the enumeration, like
+    <code class="code">GenderEL</code>, in program statements like <code class="code">this.gender = GenderEL.MALE</code>.
+   Notice that we follow the convention that the names of enumeration literals are written all upper
+   case, and that we also use the convention to suffix the name of an enumeration data type with
+   "EL" standing for "enumeration literal" (such that we can recognize from the name
+    <code class="code">GenderEL</code> that each instance of this datatype is a "gender enumeration
+   literal").</p><p>There are also enumerations having records as their instances, such that one of the record
+   fields provides the name of the enumeration literals. An example of such an enumeration is the
+   following set of <span class="italic">units of measurement</span>: </p><div class="table"><a name="d5e2889"></a><p class="title"><b>Table&nbsp;8.1.&nbsp;Representing an enumeration of records as a table</b></p><div class="table-contents"><table frame="box" rules="all"><thead align="center"><tr>
+      <th colspan="3">Units of Measurement </th>
+     </tr><tr>
+      <th>Unit Symbol</th>
+      <th>Unit Name</th>
+      <th>Dimension</th>
+     </tr></thead><tbody align="center"><tr>
+      <td>m</td>
+      <td>meter</td>
+      <td>length</td>
+     </tr><tr>
+      <td>kg</td>
+      <td>kilogram</td>
+      <td>mass</td>
+     </tr><tr>
+      <td>g</td>
+      <td>gram</td>
+      <td>mass</td>
+     </tr><tr>
+      <td>s</td>
+      <td>second</td>
+      <td>time</td>
+     </tr><tr>
+      <td>ms</td>
+      <td>milisecond</td>
+      <td>time</td>
+     </tr></tbody></table></div></div><p><br class="table-break"></p><p>Notice that since both the "Unit Symbol" and the "Unit Name" fields are unique, either of
+   them could be used for the name of the enumeration literals.</p><p>In summary, we can distinguish between the following three forms of enumerations:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong><span class="italic">simple enumerations</span></strong></span>
+      define a set of self-explanatory enumeration labels;</p></li><li class="listitem"><p><span class="bold"><strong><span class="italic">code lists</span></strong></span> define a
+      set of code/label pairs.</p></li><li class="listitem"><p><span class="bold"><strong><span class="italic">record enumerations</span></strong></span>
+      consist of a set of records, so they are defined like classes with simple attributes defining
+      the record fields.</p></li></ol></div><p>These three forms of enumerations are discussed in more detail below.</p><p>Notice that, since enumerations are used as the range of enumeration attributes, they are
+   considered to be <span class="italic">data types</span>. </p><p>Enumerations may have further features. For instance, we may want to be able to define a new
+   enumeration by extending an existing enumeration. In programming languages and in other
+   computational languages, enumerations are implemented with different features in different ways.
+   See also the <a class="link" href="https://en.wikipedia.org/wiki/Enumerated_type" target="_top">Wikipedia article on
+    enumerations</a>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2938"></a>1.1.&nbsp;Simple Enumerations</h3></div></div></div><p>A <span class="italic">simple enumeration</span> defines a fixed set of
+    self-explanatory enumeration labels, like in the example of a <code class="code">GenderEL</code> enumeration
+    shown in the following UML class diagram:</p><div class="figure"><a name="figGenderEL-Enumeration"></a><p class="title"><b>Figure&nbsp;8.1.&nbsp;The simple enumeration <code class="code">GenderEL</code> represented as a UML enumeration data
+     type</b></p><div class="figure-contents"><div class="mediaobject"><img src="../../fig/GenderEL-Enumeration.svg" alt="The simple enumeration GenderEL represented as a UML enumeration data type"></div></div></div><br class="figure-break"><p>Since the labels of a simple enumeration are being used, in capitalized form, as the names
+    of the corresponding enumeration literals (<code class="code">GenderEL.MALE</code>,
+     <code class="code">GenderEL.FEMALE</code>, etc.), we may also list the (all upper case) enumeration literals
+    in the UML enumeration data type, instead of the corresponding (lower or mixed case) enumeration
+    labels.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2952"></a>1.2.&nbsp;Code Lists</h3></div></div></div><p>A <span class="italic">code list</span> defines a fixed set of code/label pairs.
+    Unfortunately, the UML concept of an enumeration data type does not support the distinction
+    between codes as enumeration literals and their labels. For defining both codes and labels in a
+    UML class diagram in the form of an enumeration data type, we may use the attribute compartment
+    of the data type rectangle and use the codes as attribute names defining the enumeration
+    literals, and set their initial values to the corresponding label. This approach results in a
+    visual representation as in the following diagram: </p><div class="figure"><a name="figGenderEL-CodeList"></a><p class="title"><b>Figure&nbsp;8.2.&nbsp;The enumeration <code class="code">GenderEL</code> defined as a code list </b></p><div class="figure-contents"><div class="mediaobject"><img src="../../fig/GenderEL-CodeList.svg" alt="The enumeration GenderEL defined as a code list"></div></div></div><br class="figure-break"><p>In the case of a code list, we can use both the codes or the labels as the names of
+    enumeration literals, but using the codes seems preferable for brevity (<code class="code">GenderEL.M</code>,
+     <code class="code">GenderEL.F</code>, etc.). For displaying the value of an enumeration attribute, it's an
+    option to show not only the label, but also the code, like  "male (M)", provided that there is
+    sufficient space. If space is an issue, only the code can be shown.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2965"></a>1.3.&nbsp;Record Enumerations</h3></div></div></div><p>A <span class="italic">record enumeration</span> defines a record type with a unique
+    field designated to provide the enumeration literals, and a fixed set of records of that type.
+    In general, a record type is defined by a set of field definitions (in the form of primitive
+    data type attributes), such that one of the unique fields is defined to be the enumeration
+    literal field, and a set of operation definitions. </p><p>Unfortunately, record enumerations, as the most general form of an enumeration data type,
+    are not supported by the current version of UML (2.5) where the general form of an enumeration
+    is defined as a special kind of data type (with optional field and operation definitions) having
+    an additional list of unique strings as enumeration literals (shown in a fourth compartment).
+    The UML definition does neither allow designating one of the unique fields as the enumeration
+    literal field, nor does it allow populating an enumeration with records.</p><p>Consequently, for showing a record enumeration in a UML class diagram, we need to find a
+    workaround. For instance, if our modeling tools allows adding a drawing, we could draw a
+    rectangle with four compartments, such that the first three of them correspond to the name,
+    properties and operations compartments of a data type rectangle, and the fourth one is a table
+    with the names of properties/fields defined in the second compartment as column headers, as
+    shown in the table below.</p><div class="table"><a name="d5e2971"></a><p class="title"><b>Table&nbsp;8.2.&nbsp;Representing a record enumeration as a table</b></p><div class="table-contents"><table frame="box" rules="all"><col width="120"><col width="120"><col width="120"><thead align="center"><tr>
+      <th colspan="3">UnitEL</th>
+     </tr></thead><tbody align="left"><tr>
+      <td colspan="3"><p>&laquo;el&raquo; unitSymbol: String</p>
+      <p>unitName: String</p>
+      <p>dimension: String</p></td>
+     </tr><tr>
+      <th>Unit Symbol</th>
+      <th>Unit Name</th>
+      <th>Dimension</th>
+     </tr><tr>
+      <td>m</td>
+      <td>meter</td>
+      <td>length</td>
+     </tr><tr>
+      <td>kg</td>
+      <td>kilogram</td>
+      <td>mass</td>
+     </tr><tr>
+      <td>g</td>
+      <td>gram</td>
+      <td>mass</td>
+     </tr><tr>
+      <td>s</td>
+      <td>second</td>
+      <td>time</td>
+     </tr><tr>
+      <td>ms</td>
+      <td>milisecond</td>
+      <td>time</td>
+     </tr></tbody></table></div></div><br class="table-break"></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="pt03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt03.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Part&nbsp;III.&nbsp;Enumerations&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Enumeration Attributes</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch08.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+</html>

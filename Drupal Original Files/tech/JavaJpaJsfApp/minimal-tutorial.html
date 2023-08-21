@@ -1,0 +1,1764 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" vocab="http://schema.org/" typeof="TechArticle WebPage">
+
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsfApp/minimal-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:46:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8" />
+  <meta property="learningResourceType" content="Tutorial">
+  <meta property="proficiencyLevel" content="Beginner">
+  <title>Minimal Java EE  App</title>
+  <link rel="stylesheet" type="text/css" href="../docbook.css">
+  <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+  <meta name="description" content="A tutorial about developing a Java EE web application with constraint validation using JPA and JSF" />  
+  <meta property="keywords" content="web development, Java web app, MVC web app, Java EE, JPA, JSF">
+  <meta property="isPartOf" content="../../index.html">
+  <meta property="specialty" content="../../WebAppEngineering.html">
+</head>
+<body property="articleBody">
+<aside>
+ <nav>
+  <ul>
+  <li><a href="MinimalApp/index.html"><button type="button">Run the app</button></a></li>
+  <li><a href="MinimalApp.zip"><button type="button">Get the code</button></a></li>
+  <li><a href="https://web-engineering.info/forum/3"><button type="button">Ask a question</button></a></li>
+  </ul>
+ </nav>
+ <div id="supportUs">
+  <p>Please support <em>web-engineering.info</em> and buy our e-book <a href="https://gumroad.com/l/Epke">Building Back-End Web Apps with Java, JPA and JSF</a>.</p>
+  <a href="https://gumroad.com/l/Epke"><img src="book-cover-180x270-Java.html" /></a>
+ </div>
+</aside>
+   <div lang="en" class="book"><div class="titlepage"><div><div>
+   <h3 style="color:grey"><em>Understanding</em> and <code>Implementing</code> Information Management Concepts and Techniques</h3>
+   <h1 class="title"><a name="d5e1"></a>Java EE Web App Tutorial Part 1: Building a Minimal App in Seven Steps</h1></div><div><h2 class="subtitle"><img style="float:right" property="thumbnailUrl" src="../fig/machine-build.svg" width="120" title="Icon made by Lorc under CC BY 3.0. Available on http://game-icons.net">Learn how to build a
+   back-end web application with minimal effort, using Java with Java Server Faces (JSF) as the user
+   interface technology, the Java Persistence API (JPA) for object-to-storage mapping, and a MySQL
+   database</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Mircea</span> <span class="surname">Diaconescu</span></h3><code class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#672a49230e060408090214041227054a1312490302"><span class="__cf_email__" data-cfemail="abe685efc2cac8c4c5ced8c8deebc986dfde85cfce">[email&#160;protected]</span></a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Gerd</span> <span class="surname">Wagner</span></h3><code class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#aaed84fdcbcdc4cfd8eac887dedf84cecf"><span class="__cf_email__" data-cfemail="d493fa83b5b3bab1a694b6f9a0a1fab0b1">[email&#160;protected]</span></a>&gt;</code></div></div></div><div><p class="releaseinfo">Warning: This tutorial may still contain errors and may still be incomplete in
+   certain respects. Please report any issue to Gerd Wagner at G<a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="a18ff6c0c6cfc4d3e1c38cd5d48fc5c4">[email&#160;protected]</a> or Mircea Diaconescu
+   at <a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="135e3d577a72707c7d7660706653713e67663d7776">[email&#160;protected]</a>.</p></div><div><p class="releaseinfo">This tutorial is also available in the following formats: <a class="link" href="minimal-tutorial.pdf" target="_top">PDF</a>. See also the <a class="link" href="../../index.html" target="_top">project page</a>, or <a class="link" href="MinimalApp/index.html" target="_top">run the example
+    app</a> from our server, or <a class="link" href="MinimalApp.zip" target="_top">download it as a ZIP archive
+    file</a>. 
+  </p></div><div><p class="copyright">Copyright &copy; 2014-2015 Gerd Wagner, Mircea Diaconescu</p></div><div><div class="legalnotice"><a name="d5e35"></a><p>This tutorial article, along with any associated source code, is licensed under <a class="link" href="http://www.codeproject.com/info/cpol10.aspx" target="_top">The Code Project Open License
+     (CPOL)</a>, implying that the associated code is provided "as-is", can be modified to create
+    derivative works, can be redistributed, and can be used in commercial applications, but the
+    article must not be distributed or republished without the authors' consent.</p></div></div><div><p class="pubdate">2017-06-01</p></div><div><div class="revhistory"><table style="border-style:solid; width:100%;" summary="Revision History"><tr><th align="left" valign="top" colspan="3"><b>Revision History</b></th></tr><tr><td align="left">Revision 0.2</td><td align="left">20150619</td><td align="left">gw, md</td></tr><tr><td align="left" colspan="3">some small revisions</td></tr><tr><td align="left">Revision 0.1</td><td align="left">20140611</td><td align="left">gw, md</td></tr><tr><td align="left" colspan="3">create first version</td></tr></table></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="preface"><a href="#d5e51">Foreword</a></span></dt><dt><span class="chapter"><a href="#d5e95">1. A Quick Tour of the Foundations of Web Apps</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e98">1. The World Wide Web (WWW)</a></span></dt><dt><span class="section"><a href="#d5e139">2. HTML and XML</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e147">2.1. XML documents</a></span></dt><dt><span class="section"><a href="#d5e169">2.2. Unicode and UTF-8</a></span></dt><dt><span class="section"><a href="#d5e185">2.3. XML namespaces</a></span></dt><dt><span class="section"><a href="#d5e208">2.4. Correct XML documents</a></span></dt><dt><span class="section"><a href="#d5e249">2.5. The evolution of HTML</a></span></dt><dt><span class="section"><a href="#d5e315">2.6. HTML forms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e384">3. Styling Web Documents and User Interfaces with CSS</a></span></dt><dt><span class="section"><a href="#d5e415">4. JavaScript - "the assembly language of the Web"</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e458">4.1. JavaScript as an object-oriented language</a></span></dt><dt><span class="section"><a href="#d5e468">4.2. Further reading about JavaScript</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e481">5. Accessibility for Web Apps</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d5e507">2. Java Summary</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e509">1. Compared to JavaScript, what is different in Java?</a></span></dt><dt><span class="section"><a href="#d5e585">2. Java Bean Classes and Entity Classes</a></span></dt></dl></dd><dt><span class="chapter"><a href="#chMinimalJava">3. A Minimal Web App with Java EE</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e686">1. Java Basics</a></span></dt><dt><span class="section"><a href="#d5e808">2. Step 1 - Set up the Folder Structure</a></span></dt><dt><span class="section"><a href="#sectionWriteTheModelCode">3. Step 2 - Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e955">3.1. Storing <code class="code">Book</code> objects in a database table
+      <code class="code">books</code></a></span></dt><dt><span class="section"><a href="#sectionCreateAndPersistInstance">3.2. Creating a new <code class="code">Book</code> instance and storing it</a></span></dt><dt><span class="section"><a href="#sectionLoadAllInstances">3.3. Retrieving all <code class="code">Book</code> instances</a></span></dt><dt><span class="section"><a href="#sectionUpdateObjectInstance">3.4. Updating a <code class="code">Book</code> instance</a></span></dt><dt><span class="section"><a href="#sectionDeleteObjectInstance">3.5. Deleting a <code class="code">Book</code> instance</a></span></dt><dt><span class="section"><a href="#d5e1058">3.6. Creating test data</a></span></dt><dt><span class="section"><a href="#d5e1066">3.7. Clearing all data</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1074">4. Step 3 - Configure the App</a></span></dt><dd><dl><dt><span class="section"><a href="#sectionJPAEmAndUtObjects">4.1. Create the EntityManager and UserTransaction objects</a></span></dt><dt><span class="section"><a href="#sectJpaDb">4.2. Configure the JPA database connection</a></span></dt><dt><span class="section"><a href="#d5e1192">4.3. Create the main template</a></span></dt><dt><span class="section"><a href="#sectionDefineManagedBeans">4.4. Define the managed beans needed in facelets</a></span></dt><dt><span class="section"><a href="#sectionBuildWarAndDeploy">4.5. Build the WAR file and deploy it to TomEE</a></span></dt></dl></dd><dt><span class="section"><a href="#sectionImplementCreateObjectTestCase">5. Step 4 - Implement the <span class="italic">Create</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="#d5e1408">6. Step 5 - Implement the <span class="italic">Retrieve/List
+    All</span> Use Case</a></span></dt><dt><span class="section"><a href="#d5e1472">7. Step 6 - Implement the <span class="italic">Update</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="#d5e1549">8. Step 7 - Implement the <span class="italic">Delete</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="#d5e1583">9. Style the User Interface with CSS</a></span></dt><dt><span class="section"><a href="#d5e1614">10. Run the App and Get the Code</a></span></dt><dt><span class="section"><a href="#d5e1622">11. Possible Variations and Extensions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1624">11.1. Using resource URLs</a></span></dt><dt><span class="section"><a href="#d5e1628">11.2. Using an alternative DBMS</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1647">12. Points of Attention</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1655">12.1. Boilerplate code</a></span></dt><dt><span class="section"><a href="#d5e1666">12.2. Offline availability</a></span></dt><dt><span class="section"><a href="#d5e1669">12.3. Architectural separation of concerns</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1682">13. Practice Project</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1686">13.1. Managing information about movies</a></span></dt></dl></dd></dl></dd><dt><span class="glossary"><a href="#d5e1750">Glossary</a></span></dt></dl></div><div class="list-of-figures"><p><b>List of Figures</b></p><dl><dt>3.1. <a href="#java_figBook">The object type <code class="code">Book</code>.</a></dt><dt>3.2. <a href="#figMovieMinApp-JavaJpaJsf">The object type <code class="code">Movie</code>.</a></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>2.1. <a href="#d5e551">Java Visibility Level</a></dt><dt>3.1. <a href="#tblBooksJava">Sample data about books</a></dt><dt>3.2. <a href="#d5e729">Java Visibility Level</a></dt><dt>3.3. <a href="#d5e1723">Sample data</a></dt></dl></div><div class="preface"><div class="titlepage"><div><div><h1 class="title"><a name="d5e51"></a>Foreword</h1></div></div></div><p>This tutorial is Part 1 of our series of <a class="link" href="../../JavaJpaJsfApp.html" target="_top">six tutorials</a> about model-based
+   development of back-end web applications with Java in combination with the <span class="italic">Java Persistence API</span> (JPA) and <span class="italic">Java Server
+    Faces</span> (JSF) as a back-end platform. It shows how to build a simple web app with
+   minimal functionality.</p><p>This tutorial provides example-based learning materials and supports <span class="bold"><strong><span class="italic">learning by doing it yourself</span></strong></span>.</p><p>A <span class="italic">distributed web app</span> is composed of at least two parts:
+   a front-end part, which, at least, renders the user interface (UI) pages, and a back-end part,
+   which, at least, takes care of  persistent data storage. A <span class="italic">back-end web
+    app</span> is a distributed web app where essentially all work is performed by the back-end
+   component, including data validation and UI page creation, while the front-end only consists of a
+   web browser's rendering of HTML-forms-based UI pages. Normally, a distributed web app can be
+   accessed by multiple users, possibly at the same time, over HTTP connections.</p><p>In the case of a Java/JPA/JSF back-end app, the back-end part of the app can be executed by
+   a server machine that runs a web server supporting the Java EE specifications <span class="italic">Java Servlets</span>, <span class="italic">Java Expression Language
+    (EL)</span>, <span class="italic">JPA</span> and <span class="italic">JSF</span>, such as the open source server <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">Tomcat/TomEE</a>.</p><p>The minimal version of a Java data management application discussed in this tutorial only
+			includes a minimum of the overall functionality required for a complete app. It takes
+			care of only one object type ("books") and supports the four standard data management
+			operations (<span class="bold"><strong>C</strong></span>reate/<span class="bold"><strong>R</strong></span>ead/<span class="bold"><strong>U</strong></span>pdate/<span class="bold"><strong>D</strong></span>elete), but it needs to be enhanced by styling the user interface with
+			CSS rules, and by adding further important parts of the app's overall
+			functionality:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><a class="link" href="validation-tutorial.html" target="_top">Part 2</a>: Handling 
+	    <span class="bold"><strong>constraint validation</strong></span>.</p></li><li class="listitem"><p><a class="link" href="enumeration-tutorial.html" target="_top">Part 3</a>: Dealing with 
+	    <span class="bold"><strong>enumerations</strong></span>.</p></li><li class="listitem"><p><a class="link" href="unidirectional-association-tutorial.html" target="_top">Part 4</a>: Managing 
+	    <span class="bold"><strong>unidirectional associations</strong></span> between books and publishers,
+	    assigning a publisher to a book, and between books and authors, assigning authors to a book.</p></li><li class="listitem"><p><a class="link" href="bidirectional-association-tutorial.html" target="_top">Part 5</a>: Managing 
+	    <span class="bold"><strong>bidirectional associations</strong></span> between books and publishers 
+	    and between books and authors, also assigning books to authors and to publishers.</p></li><li class="listitem"><p><a class="link" href="subtyping-tutorial.html" target="_top">Part 6</a>: Handling <span class="bold"><strong>subtype</strong></span> (inheritance) relationships between object types.</p></li></ul></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="d5e95"></a>Chapter&nbsp;1.&nbsp;A Quick Tour of the Foundations of Web Apps</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#d5e98">1. The World Wide Web (WWW)</a></span></dt><dt><span class="section"><a href="#d5e139">2. HTML and XML</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e147">2.1. XML documents</a></span></dt><dt><span class="section"><a href="#d5e169">2.2. Unicode and UTF-8</a></span></dt><dt><span class="section"><a href="#d5e185">2.3. XML namespaces</a></span></dt><dt><span class="section"><a href="#d5e208">2.4. Correct XML documents</a></span></dt><dt><span class="section"><a href="#d5e249">2.5. The evolution of HTML</a></span></dt><dt><span class="section"><a href="#d5e315">2.6. HTML forms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e384">3. Styling Web Documents and User Interfaces with CSS</a></span></dt><dt><span class="section"><a href="#d5e415">4. JavaScript - "the assembly language of the Web"</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e458">4.1. JavaScript as an object-oriented language</a></span></dt><dt><span class="section"><a href="#d5e468">4.2. Further reading about JavaScript</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e481">5. Accessibility for Web Apps</a></span></dt></dl></div><p>If you are already familiar with HTML, XML and JavaScript, you may skip this chapter and
+   immediately start developing a minimal web application by going to the next chapter.</p><div lang="" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e98"></a>1.&nbsp;The World Wide Web (WWW)</h2></div></div></div><p>After the Internet had been established in the 1980'ies, <a class="link" href="https://en.wikipedia.org/wiki/Tim_Berners-Lee" target="_top">Tim
+  Berners-Lee</a><a class="indexterm" name="d5e102"></a> developed the idea and the first implementation of the WWW in
+  1989 at the European research institution CERN in Geneva, Switzerland. The
+  WWW (or, simply, "the Web") is based on the Internet technologies TCP/IP
+  (the <span class="emphasis"><em>Internet Protocol</em></span>) and DNS (the <span class="emphasis"><em>Domain
+  Name System</em></span>). Initially, the Web consisted of</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the <a class="glossterm" href="#http"><em class="glossterm">Hypertext Transfer Protocol
+        (HTTP)</em></a>,</p></li><li class="listitem"><p>the <a class="glossterm" href="#html"><em class="glossterm">Hypertext Markup Language
+        (HTML)</em></a>, and</p></li><li class="listitem"><p>web server programs, acting as HTTP servers, as well as web
+        'user agents' (such as browsers), acting as HTTP clients.</p></li></ol></div><p>Later, further important technology components have been added to this
+  set of basic web technologies:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>the page/document style language <span class="italic"><span class="emphasis"><em><a class="glossterm" href="#css"><em class="glossterm">Cascading Style
+        Sheets (CSS)</em></a></em></span></span> in 1995,</p></li><li class="listitem"><p>the web programming language <span class="italic">JavaScript</span> in 1995,</p></li><li class="listitem"><p>the <a class="glossterm" href="#xml"><em class="glossterm">Extensible Markup Language
+        (XML)</em></a>, as the basis of web formats (like SVG and RDF/XML),
+        in 1998,</p></li><li class="listitem"><p>the XML-based <span class="emphasis"><em><span class="italic"><a class="glossterm" href="#SVG"><em class="glossterm">Scalable Vector Graphics
+        (SVG)</em></a></span></em></span> format in 2001,</p></li><li class="listitem"><p>the <span class="italic"><em class="glossterm"><span class="emphasis"><em>Resource</em></span> <span class="emphasis"><a class="emphasis" href="#RDF" title="Resource Description Framework"><em>Description Framework
+        (RDF)</em></a></span></em></span> for knowledge representation
+        on the Web in 2004.</p></li></ul></div></div><div lang="" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e139"></a>2.&nbsp;HTML and XML</h2></div></div></div><p>HTML<a class="indexterm" name="d5e142"></a> allows to mark up (or describe) the structure of a
+  human-readable web document or web user interface, while XML<a class="indexterm" name="d5e144"></a> allows to mark up the structure of all kinds of documents,
+  data files and messages, whether they are human-readable or not. XML can
+  also be used as the basis for defining a version of HTML that is called
+  <span class="emphasis"><em>XHTML</em></span>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e147"></a>2.1.&nbsp;XML documents</h3></div></div></div><p>XML provides a syntax for expressing structured information in the
+    form of an <span class="italic">XML document</span> with nested
+    <span class="italic">elements</span> and their <span class="italic">attributes</span>. The specific elements and attributes
+    used in an XML document can come from any vocabulary, such as public
+    standards or (private) user-defined XML formats. XML is used for
+    specifying </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><span class="bold"><strong>document formats</strong></span>, such as
+          <span class="italic">XHTML5</span>, the <span class="italic">Scalable Vector Graphics</span> (SVG) format or
+          the <span class="italic">DocBook</span> format,</p></li><li class="listitem"><p><span class="bold"><strong>data interchange file
+          formats</strong></span>, such as the <span class="italic">Mathematical
+          Markup Language</span> (MathML) or the <span class="italic">Universal Business Language</span> (UBL),</p></li><li class="listitem"><p><span class="bold"><strong>message formats</strong></span>, such as the
+          web service message format <a class="link" href="http://www.w3.org/TR/soap12-part0/" target="_top">SOAP</a></p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e169"></a>2.2.&nbsp;Unicode and UTF-8</h3></div></div></div><p>XML is based on Unicode<a class="indexterm" name="d5e172"></a>, which is a platform-independent character set that
+    includes almost all characters from most of the world's script languages
+    including Hindi, Burmese and Gaelic. Each character is assigned a unique
+    integer code in the range between 0 and 1,114,111. For example, the Greek
+    letter &#960; has the code 960, so it can be inserted in an XML document as
+    <code class="code">&amp;#960;</code> using the <span class="italic">XML
+    entity</span> syntax.</p><p>Unicode includes legacy character sets like ASCII and ISO-8859-1
+    (Latin-1) as subsets.</p><p>The default encoding of an XML document is UTF-8<a class="indexterm" name="d5e178"></a>, which uses only a single byte for ASCII characters, but
+    three bytes for less common characters.</p><p>Almost all Unicode characters are legal in a well-formed XML
+    document. Illegal characters are the control characters with code 0
+    through 31, except for the <span class="italic">carriage
+    return</span>, <span class="italic">line feed</span> and
+    <span class="italic">tab</span>. It is therefore dangerous to copy
+    text from another (non-XML) text to an XML document (often, the <span class="italic">form feed</span> character creates a problem).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e185"></a>2.3.&nbsp;XML namespaces</h3></div></div></div><p>Generally, namespaces help to avoid name conflicts. They allow to
+    reuse the same (local) name in different namespace contexts. Many
+    computational languages have some form of namespace concept, for instance,
+    Java and PHP.</p><p>XML namespaces<a class="indexterm" name="d5e189"></a> are identified with the help of a <span class="italic">namespace URI</span>, such as the SVG namespace URI
+    "http://www.w3.org/2000/svg", which is associated with a <span class="italic">namespace prefix</span>, such as <code class="code">svg</code>. Such
+    a namespace represents a collection of names, both for elements and
+    attributes, and allows namespace-qualified names of the form <span class="italic">prefix:name</span>, such as <code class="code">svg:circle</code> as a
+    namespace-qualified name for SVG circle elements.</p><p>A default namespace<a class="indexterm" name="d5e198"></a> is declared in the start tag of an element in the following
+    way:</p><pre class="programlisting">&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;</pre><p>This
+    example shows the start tag of the HTML root element, in which the XHTML
+    namespace is declared as the default namespace.</p><p>The following example shows an SVG namespace declaration for an
+    <code class="code">svg</code> element embedded in an HTML document:</p><pre class="programlisting">&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+   ...
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;figure&gt;
+      &lt;figcaption&gt;Figure 1: A blue circle&lt;/figcaption&gt;
+      &lt;<span class="bold"><strong>svg</strong></span>:svg xmlns:<span class="bold"><strong>svg</strong></span>="http://www.w3.org/2000/svg"&gt;
+        &lt;<span class="bold"><strong>svg</strong></span>:circle cx="100" cy="100" r="50" fill="blue"/&gt;
+      &lt;/svg:svg&gt;
+    &lt;/figure&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e208"></a>2.4.&nbsp;Correct XML documents</h3></div></div></div><p>XML<a class="indexterm" name="d5e211"></a> defines two syntactic correctness criteria. An XML document
+    must be <span class="italic">well-formed</span>, and if it is based
+    on a grammar (or schema), then it must also be <span class="italic">valid</span> with respect to that grammar, or, in other
+    words, satisfy all rules of the grammar.</p><p>An XML document is called <span class="italic"><span class="bold"><strong>well-formed</strong></span></span>,<a class="indexterm" name="d5e218"></a> if it satisfies the following syntactic conditions:
+    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>There must be exactly one root element.</p></li><li class="listitem"><p>Each element has a start tag and an end tag; however, empty
+          elements can be closed as <code class="code">&lt;phone/&gt;</code> instead of
+          <code class="code">&lt;phone&gt;&lt;/phone&gt;</code>.</p></li><li class="listitem"><p>Tags don't overlap. For instance, we cannot have</p><pre class="programlisting">&lt;author&gt;&lt;name&gt;Lee Hong&lt;/author&gt;&lt;/name&gt;</pre></li><li class="listitem"><p>Attribute names are unique within the scope of an element. For
+          instance, the following code is not correct:</p><pre class="programlisting">&lt;attachment file="lecture2.html" file="lecture3.html"/&gt;</pre></li></ol></div><p>An XML document is called <span class="italic"><span class="bold"><strong>valid</strong></span></span><a class="indexterm" name="d5e237"></a> against a particular grammar (such as a <span class="italic">DTD</span> or an <span class="italic">XML
+    Schema</span>), if </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>it is <span class="italic">well-formed</span>,</p></li><li class="listitem"><p>and it <span class="italic">respects the
+          grammar</span>.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e249"></a>2.5.&nbsp;The evolution of HTML</h3></div></div></div><p>The World-Wide Web Committee (W3C) has developed the following
+    important versions of HTML: </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>1997: <span class="bold"><strong>HTML 4</strong></span><a class="indexterm" name="d5e256"></a> as an SGML-based language,</p></li><li class="listitem"><p>2000: <span class="bold"><strong>XHTML 1</strong></span> as an XML-based
+          clean-up of HTML 4,</p></li><li class="listitem"><p>2014: <span class="italic">(X)<span class="bold"><strong>HTML
+          5</strong></span></span><a class="indexterm" name="d5e266"></a> in cooperation (and competition) with the <a class="link" href="https://en.wikipedia.org/wiki/WHATWG" target="_top">WHAT working
+          group</a> supported by browser vendors.</p></li></ul></div><div class="sidebar"><div class="titlepage"></div><p>As the inventor of the Web, Tim Berners-Lee<a class="indexterm" name="d5e272"></a> developed a <a class="link" href="http://www.w3.org/History/19921103-hypertext/hypertext/WWW/MarkUp/Tags.html" target="_top">first
+      version of HTML</a> in 1990. A few years later, in 1995, Tim
+      Berners-Lee and Dan Connolly wrote the <a class="link" href="http://www.ietf.org/rfc/rfc1866.txt" target="_top"><span class="emphasis"><em>HTML
+      2</em></span></a> standard, which captured the common use of HTML
+      elements at that time. In the following years, HTML has been used and
+      gradually extended by a growing community of early WWW adopters. This
+      evolution of HTML, which has led to a messy set of elements and
+      attributes (called "tag soup"), has been mainly controlled by browser
+      vendors and their competition with each other. The development of XHTML
+      in 2000 was an attempt by the W3C to clean up this mess, but it
+      neglected to advance HTML's functionality towards a richer user
+      interface, which was the focus of the <a class="link" href="https://en.wikipedia.org/wiki/WHATWG" target="_top">WHAT working
+      group</a> led by <a class="link" href="https://en.wikipedia.org/wiki/Ian_Hickson" target="_top">Ian Hickson</a>
+      who can be considered as the mastermind and main author of HTML 5 and
+      many of its accompanying JavaScript APIs that made HTML fit for mobile
+      apps.</p></div><p>HTML was originally designed as a <span class="italic">structure</span> description language, and not as a
+    <span class="italic">presentation</span> description language. But
+    HTML4 has a lot of purely presentational elements such as
+    <code class="code">font</code>. XHTML has been taking HTML back to its roots, dropping
+    presentational elements and defining a simple and clear syntax, in support
+    of the goals of </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>device independence,</p></li><li class="listitem"><p>accessibility, and</p></li><li class="listitem"><p>usability.</p></li></ul></div><p>We adopt the symbolic equation</p><div class="blockquote"><blockquote class="blockquote"><p><span class="italic"><span class="bold"><strong>HTML = HTML5 =
+      XHTML5</strong></span></span></p><p><span class="italic"><span class="emphasis"><em>stating that when we say "HTML"
+      or "HTML5", we actually mean </em></span>XHTML5</span></p></blockquote></div><p>because we prefer the clear syntax of XML documents over the liberal
+    and confusing HTML4-style syntax that is also allowed by HTML5.</p><p>The following simple example shows the basic code template to be
+    used for any HTML document:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"&gt;
+ &lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;XHTML5 Template Example&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;h1&gt;XHTML5 Template Example&lt;/h1&gt;
+  &lt;section&gt;&lt;h1&gt;First Section Title&lt;/h1&gt;
+   ...
+  &lt;/section&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre><p>Notice that in line 1, the HTML5 document type is declared, such
+    that browsers are instructed to use the HTML5 document object model (DOM).
+    In the <code class="code">html</code> start tag in line 2, using the default namespace
+    declaration attribute <code class="code">xmlns</code>, the XHTML namespace URI
+    <code class="code">http://www.w3.org/1999/xhtml</code> is declared as the default
+    namespace for making sure that browsers, and other tools, understand that
+    all non-qualified element names like <code class="code">html</code>, <code class="code">head</code>,
+    <code class="code">body</code>, etc. are from the XHTML namespace.</p><p>Also in the <code class="code">html</code> start tag, we set the (default)
+    language for the text content of all elements (here to "en" standing for
+    English) using both the <code class="code">xml:lang</code> attribute and the HTML
+    <code class="code">lang</code> attribute. This attribute duplication is a small price
+    to pay for having a hybrid document that can be processed both by HTML and
+    by XML tools.</p><p>Finally, in line 4, using an (empty) <code class="code">meta</code> element with
+    a <code class="code">charset</code> attribute, we set the HTML document's character
+    encoding to UTF-8, which is also the default for XML documents.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e315"></a>2.6.&nbsp;HTML forms</h3></div></div></div><p>For<a class="indexterm" name="d5e318"></a> user-interactive web applications, the web browser needs to
+    render a user interface (UI). The traditional metaphor for a software
+    application's UI is that of a <span class="emphasis"><em><span class="bold"><strong>form</strong></span></em></span>. The special elements for data
+    input, data output and user actions are called <span class="emphasis"><em><span class="bold"><strong>form controls</strong></span></em></span> or UI <span class="bold"><strong>widgets</strong></span>. In HTML, a <code class="code">form</code> element is a
+    section of a web page consisting of block elements that contain form
+    controls and <span class="italic">labels</span> on those
+    controls.</p><p>Users complete a form by entering text into <span class="italic">input fields</span> and by selecting items from
+    <span class="italic">choice controls</span>, including dropdown
+    <span class="emphasis"><em>selection lists</em></span>, <span class="emphasis"><em>radio button
+    groups</em></span> and <span class="emphasis"><em>checkbox groups</em></span>. A completed
+    form is submitted with the help of a <span class="italic">submit
+    button</span>. When a user submits a form, it is normally sent to a
+    web server either with the HTTP GET method or with the HTTP POST method.
+    The standard encoding for the submission is called <span class="italic">URL-encoded<a class="indexterm" name="d5e336"></a></span>. It is represented by the Internet media type
+    <code class="code">application/x-www-form-urlencoded</code>. In this encoding, spaces
+    become plus signs, and any other reserved characters become encoded as a
+    percent sign and hexadecimal digits, as defined in RFC 1738.</p><p>Each form control has both an initial value and a current value,
+    both of which are strings. The initial value is specified with the control
+    element's <code class="code">value</code> attribute, except for the initial value of a
+    <code class="code">textarea</code> element, which is given by its initial contents. The
+    control's current value is first set to the initial value. Thereafter, the
+    control's current value may be modified through user interaction or
+    scripts. When a form is submitted for processing, some controls have their
+    name paired with their current value and these pairs are submitted with
+    the form.</p><p>Labels are associated with a control by including the control as a
+    child element within a <code class="code">label</code> element
+    (<span class="emphasis"><em>implicit</em></span> labels), or by giving the control an
+    <code class="code">id</code> value and referencing this ID in the <code class="code">for</code>
+    attribute of the <code class="code">label</code> element (<span class="emphasis"><em>explicit</em></span>
+    labels).</p><p>In the simple user interfaces of our "Getting Started" applications,
+    we only need four types of form controls:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="italic">single line input fields</span>
+          created with an <code class="code">&lt;input name="..." /&gt;</code>
+          element,</p></li><li class="listitem"><p><span class="italic">single line output fields</span>
+          created with an <code class="code">&lt;output name="..." /&gt;</code>
+          element,</p></li><li class="listitem"><p><span class="italic">push buttons</span> created with a
+          <code class="code">&lt;button type="button"&gt;...&lt;/button&gt;</code> element,
+          and</p></li><li class="listitem"><p><span class="italic">dropdown selection lists</span>
+          created with a <code class="code">select</code> element of the following
+          form:</p><pre class="programlisting">&lt;select name="..."&gt;
+  &lt;option value="value1"&gt; option1 &lt;/option&gt;
+  &lt;option value="value2"&gt; option2 &lt;/option&gt;
+  ...
+&lt;/select&gt;</pre></li></ol></div><p>An example of an HTML form with implicit labels<a class="indexterm" name="d5e369"></a> for creating such a user interface is</p><pre class="programlisting">&lt;form id="Book"&gt;
+  &lt;p&gt;&lt;label&gt;ISBN: &lt;output name="isbn" /&gt;&lt;/label&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;label&gt;Title: &lt;input name="title" /&gt;&lt;/label&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;label&gt;Year: &lt;input name="year" /&gt;&lt;/label&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;button type="button"&gt;Save&lt;/button&gt;&lt;/p&gt;
+&lt;/form&gt;</pre><p>In an HTML-form-based data management user interface, we have a
+    correspondence between the different kinds of properties defined in the
+    model classes of an app and the form controls used for the input and
+    output of their values. We have to distinguish between various kinds of
+    <span class="bold"><strong>model class attributes</strong></span>, which are mapped
+    to various kinds of <span class="bold"><strong>form fields</strong></span>. This
+    mapping is also called <span class="bold"><strong>data
+    binding</strong></span>.</p><p>In general, an attribute of a model class can always be represented
+    in the user interface by a plain <code class="code">input</code> control (with the
+    default setting <code class="code">type="text"</code>), no matter which datatype has
+    been defined as the range of the attribute in the model class. However, in
+    special cases, other types of <code class="code">input</code> controls (for instance,
+    <code class="code">type="date"</code>), or other widgets, may be used. For instance, if
+    the attribute's range is an enumeration, a <code class="code">select</code> control or,
+    if the number of possible choices is small enough (say, less than 8), a
+    radio button group can be used.</p></div></div><div lang="" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e384"></a>3.&nbsp;Styling Web Documents and User Interfaces with CSS</h2></div></div></div><p>While HTML is used for defining the content structure of a web
+  document or a web user interface, the <span class="bold"><strong><span class="italic">Cascading Style Sheets (CSS<a class="indexterm" name="d5e389"></a>)</span></strong></span> language is used for defining the
+  <span class="italic"><span class="bold"><strong>presentation
+  style</strong></span></span> of web pages, which means that you use it for
+  telling the browser how you want your HTML (or XML) rendered: using which
+  layout of content elements, which fonts and text styles, which colors, which
+  backgrounds, and which animations. Normally, these settings are made in a
+  separate CSS file that is associated with an HTML file via a special
+  <code class="code">link</code> element in the HTML's <code class="code">head</code>.</p><div class="sidebar"><div class="titlepage"></div><p>A <a class="link" href="http://www.w3.org/People/howcome/p/cascade.html" target="_top">first sketch
+    of CSS</a> was proposed in October 1994 by <a class="link" href="https://en.wikipedia.org/wiki/Håkon_Wium_Lie" target="_top">H&aring;kon W.
+    Lie</a><a class="indexterm" name="d5e399"></a> who later became the CTO of the browser vendor Opera. While
+    the official <a class="link" href="http://www.w3.org/TR/REC-CSS1/" target="_top">CSS1</a>
+    standard dates back to December 1996, "most of it was hammered out on a
+    whiteboard in Sophia-Antipolis" by H&aring;kon W. Lie together with Bert Bos in
+    July 1995 (as he explains in an <a class="link" href="https://medium.com/net-magazine/interview-with-håkon-wium-lie-f3328aeca8ed" target="_top">interview</a>).</p></div><p>CSS is based on a form of rules that consist of <span class="italic">selectors</span>, which select the document element(s) to
+  which a rule applies, and a list of <span class="italic">property-value
+  pairs</span> that define the styling of the selected element(s) with the
+  help of CSS properties such as <code class="code">font-size</code> or <code class="code">color</code>.
+  There are two fundamental mechanisms for computing the CSS property values
+  for any page element as a result of applying the given set of CSS rules:
+  <span class="italic">inheritance</span> and <span class="italic">the cascade</span>.</p><p>The basic element of a <a class="link" href="http://learnlayout.com/" target="_top">CSS
+  layout</a> is a rectangle, also called "box", with an inner content area,
+  an optional border, an optional padding (between content and border) and an
+  optional margin around the border. This structure is defined by the CSS
+  <span class="italic">box model</span>.</p><p>We will not go deeper into CSS in this <span class="phrase">tutorial,</span>   since our focus
+  here is on the logic and functionality of an app, and not so much on its
+  beauty.</p></div><div lang="" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e415"></a>4.&nbsp;JavaScript - "the assembly language of the Web"</h2></div></div></div><div class="sidebar"><div class="titlepage"></div><p>JavaScript was developed in 10 days in May 1995 by <a class="link" href="https://en.wikipedia.org/wiki/Brendan_Eich" target="_top">Brendan
+    Eich</a>,<a class="indexterm" name="d5e420"></a> then working at <a class="link" href="https://en.wikipedia.org/wiki/Netscape" target="_top">Netscape</a>, as the
+    HTML scripting language for their browser <span class="italic">Navigator 2</span> (<a class="link" href="http://www.w3.org/community/webed/wiki/A_Short_History_of_JavaScript" target="_top">more
+    about history</a>). Brendan Eich said (at the O'Reilly Fluent
+    conference in San Francisco in April 2015): "I did JavaScript in such a
+    hurry, I never dreamed it would become the assembly language for the
+    Web".</p></div><p>JavaScript<a class="indexterm" name="d5e426"></a> is a dynamic functional object-oriented programming language
+  that can be used for </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Enriching a web page by</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>generating browser-specific HTML content or CSS
+            styling,</p></li><li class="listitem"><p>inserting dynamic HTML content,</p></li><li class="listitem"><p>producing special audio-visual effects (animations).</p></li></ul></div></li><li class="listitem"><p>Enriching a web user interface by</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>implementing advanced user interface components,</p></li><li class="listitem"><p>validating user input on the client side,</p></li><li class="listitem"><p>automatically pre-filling certain form fields.</p></li></ul></div></li><li class="listitem"><p>Implementing a front-end web application with local or remote
+        data storage, as described in the book <a class="link" href="../../JsFrontendApp-Book.html" target="_top">Building
+        Front-End Web Apps with Plain JavaScript</a>.</p></li><li class="listitem"><p>Implementing a front-end component for a distributed web
+        application with remote data storage managed by a back-end component,
+        which is a server-side program that is traditionally written in a
+        server-side language such as PHP, Java or C#, but can nowadays also be
+        written in JavaScript with NodeJS.</p></li><li class="listitem"><p>Implementing a complete distributed web application where both
+        the front-end and the back-end components are JavaScript
+        programs.</p></li></ol></div><p>The version of JavaScript that is currently fully supported by web
+  browsers is called "ECMAScript 5.1",<a class="indexterm" name="d5e455"></a> or simply "ES5", but the next two versions, called "ES6" and
+  "ES7" (or "ES 2015" and "ES 2016"), are already partially supported by
+  current browsers and back-end JS environments. In fact, in May 2017, ES6 is
+  fully supported in non-mobile browsers, except its important new
+  <code class="code">module</code> concept. </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e458"></a>4.1.&nbsp;JavaScript as an object-oriented language</h3></div></div></div><p>JavaScript is <span class="italic">object-oriented</span>,
+    but in a different way than classical OO programming languages such as
+    Java and C++. In JavaScript, classes, unlike objects and functions, are
+    not first-class citizens. Rather, classes have to be defined by following
+    some code pattern in the form of special JS objects: either as <span class="italic">constructor</span> functions (possibly using the
+    syntactic sugar of ES6 <code class="code">class</code> declarations) or as <span class="italic">factory</span> objects.</p><p>However, objects can also be created without instantiating a class,
+    in which case they are <span class="italic">untyped</span>, and
+    properties as well as methods can be defined for specific objects
+    independently of any class definition. At run time, properties and methods
+    can be added to, or removed from, any object and class. This dynamism of
+    JavaScript allows powerful forms of <span class="italic">meta-programming</span>, such as defining your own
+    concepts of classes and enumerations (and other special datatypes).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e468"></a>4.2.&nbsp;Further reading about JavaScript</h3></div></div></div><p>Good open access books about JavaScript are</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><a class="link" href="http://speakingjs.com/es5/index.html" target="_top">Speaking
+          JavaScript</a>, by Dr. Axel Rauschmayer.</p></li><li class="listitem"><p><a class="link" href="http://eloquentjavascript.net/" target="_top">Eloquent
+          JavaScript</a>, by Marijn Haverbeke.</p></li><li class="listitem"><p><a class="link" href="../../JsFrontendApp-Book.html" target="_top">Building
+          Front-End Web Apps with Plain JavaScript</a>, by Gerd
+          Wagner</p></li></ul></div></div></div><div lang="" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e481"></a>5.&nbsp;Accessibility for Web Apps</h2></div></div></div><p>The recommended approach to providing accessibility<a class="indexterm" name="d5e484"></a> for web apps is defined by the <span class="italic">Accessible Rich Internet Applications <span class="bold"><strong>(ARIA)</strong></span></span> standard. As summarized by <a class="link" href="http://www.linkedin.com/profile/view?id=26751364&amp;trk=groups-post-b-author" target="_top">Bryan
+  Garaventa</a> in his <a class="link" href="https://www.linkedin.com/grp/post/4512178-134539009" target="_top">article on
+  different forms of accessibility</a>, there are 3 main aspects of
+  accessibility for interactive web technologies: 1) keyboard accessibility,
+  2) screen reader accessibility, and 3) cognitive accessibility.</p><p>Further reading on ARIA:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><a class="link" href="http://lnkd.in/kue-Q8" target="_top">How browsers interact
+        with screen readers, and where ARIA fits in the mix</a> by Bryan
+        Garaventa</p></li><li class="listitem"><p><a class="link" href="http://whatsock.com/training" target="_top">The
+        Accessibility Tree Training Guide</a> by whatsock.com</p></li><li class="listitem"><p><a class="link" href="http://whatsock.com/training/matrices" target="_top">The
+        ARIA Role Conformance Matrices</a> by whatsock.com</p></li><li class="listitem"><p>Mozilla's <a class="link" href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA" target="_top">ARIA
+        overview article</a></p></li><li class="listitem"><p>W3C's <a class="link" href="http://www.w3.org/WAI/intro/aria.php" target="_top">ARIA overview
+        page</a></p></li></ol></div></div></div><div lang="" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="d5e507"></a>Chapter&nbsp;2.&nbsp;Java Summary</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#d5e509">1. Compared to JavaScript, what is different in Java?</a></span></dt><dt><span class="section"><a href="#d5e585">2. Java Bean Classes and Entity Classes</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e509"></a>1.&nbsp;Compared to JavaScript, what is different in Java?</h2></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong>No program without a class</strong></span>: Any
+        Java<a class="indexterm" name="d5e515"></a> program must include at least one class.</p></li><li class="listitem"><p><span class="bold"><strong>Java is strongly typed</strong></span>:
+        Properties, parameters and variables must be declared to be of some
+        type.</p></li><li class="listitem"><p><span class="bold"><strong>No global variables, no global
+        procedures</strong></span>: In Java, variables, procedures and functions
+        must be defined in the context of a class, which provides their name
+        space.</p></li><li class="listitem"><p><span class="bold"><strong>Arrays are static</strong></span>: Arrays have
+        a fixed size, which cannot be changed at run-time.</p></li><li class="listitem"><p><span class="bold"><strong>No object without a class</strong></span>: For
+        creating an object, a class has to be used (or defined) for
+        </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>defining the properties of the object's property
+              slots</p></li><li class="listitem"><p>defining the methods and functions that can be applied to
+              the object (and all other objects instantiating the
+              class)</p></li></ul></div></li><li class="listitem"><p>Classes, properties and methods are defined with a <span class="bold"><strong>visibility</strong></span> level (<code class="code">public</code>,
+        <code class="code">protected</code> or <code class="code">private</code>), which restricts their
+        accessibility.</p></li><li class="listitem"><p><span class="bold"><strong>Type parameters</strong></span>: Classes and
+        complex data structures (such as lists) can be defined with the help
+        of type parameters. See, for instance, the <a class="link" href="https://docs.oracle.com/javase/tutorial/java/generics/types.html" target="_top">generics
+        tutorial</a> by Oracle.</p></li><li class="listitem"><p><span class="bold"><strong>Java programs must be compiled</strong></span>
+        before they can be executed.</p></li><li class="listitem"><p><span class="bold"><strong>Speed</strong></span>: Java is about twice as
+        fast as optimized JavaScript.</p></li></ol></div><p>In Java, visibility levels are used to define the possible levels of
+    access: </p><div class="table"><a name="d5e551"></a><p class="title"><b>Table&nbsp;2.1.&nbsp;Java Visibility Level</b></p><div class="table-contents"><table><thead><tr>
+            <th></th>
+
+            <th>Class</th>
+
+            <th>Package</th>
+
+            <th>Subclass</th>
+
+            <th>World</th>
+          </tr></thead><tbody><tr>
+            <th>public</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+          </tr><tr>
+            <th>protected</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>n</th>
+          </tr><tr>
+            <th>no modifier</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>n</th>
+
+            <th>n</th>
+          </tr><tr>
+            <th>private</th>
+
+            <th>y</th>
+
+            <th>n</th>
+
+            <th>n</th>
+
+            <th>n</th>
+          </tr></tbody></table></div></div><p><br class="table-break">Normally, properties are defined as private, with public getters
+    and setters, so they are only directly accessible at the level of the
+    class defining them.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e585"></a>2.&nbsp;Java Bean Classes and Entity Classes</h2></div></div></div><p>A <span class="italic"><span class="bold"><strong>Java Bean class</strong></span></span> 
+	(or, simply, <span class="italic">bean
+    class</span>) is a Java class with a parameter-free constructor where
+    all properties are serializable and have a <code class="code">get</code> and
+    <code class="code">set</code> method (also called "getter" and "setter"). A Java bean
+    is an object created with the help of a bean class.</p><p>A <span class="italic"><span class="bold"><strong>JPA entity
+    class</strong></span></span> (or, simply, <span class="italic">entity
+    class</span>) is a Java bean class with an <code class="code">@Entity</code>
+    annotation, implying that a Java EE runtime environment (such as provided
+    by the <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">TomEE</a> web
+    server) will take care of the persistent storage of its instances.</p></div></div><div lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="chMinimalJava"></a>Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Java EE in Seven Steps</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#d5e686">1. Java Basics</a></span></dt><dt><span class="section"><a href="#d5e808">2. Step 1 - Set up the Folder Structure</a></span></dt><dt><span class="section"><a href="#sectionWriteTheModelCode">3. Step 2 - Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e955">3.1. Storing <code class="code">Book</code> objects in a database table
+      <code class="code">books</code></a></span></dt><dt><span class="section"><a href="#sectionCreateAndPersistInstance">3.2. Creating a new <code class="code">Book</code> instance and storing it</a></span></dt><dt><span class="section"><a href="#sectionLoadAllInstances">3.3. Retrieving all <code class="code">Book</code> instances</a></span></dt><dt><span class="section"><a href="#sectionUpdateObjectInstance">3.4. Updating a <code class="code">Book</code> instance</a></span></dt><dt><span class="section"><a href="#sectionDeleteObjectInstance">3.5. Deleting a <code class="code">Book</code> instance</a></span></dt><dt><span class="section"><a href="#d5e1058">3.6. Creating test data</a></span></dt><dt><span class="section"><a href="#d5e1066">3.7. Clearing all data</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1074">4. Step 3 - Configure the App</a></span></dt><dd><dl><dt><span class="section"><a href="#sectionJPAEmAndUtObjects">4.1. Create the EntityManager and UserTransaction objects</a></span></dt><dt><span class="section"><a href="#sectJpaDb">4.2. Configure the JPA database connection</a></span></dt><dt><span class="section"><a href="#d5e1192">4.3. Create the main template</a></span></dt><dt><span class="section"><a href="#sectionDefineManagedBeans">4.4. Define the managed beans needed in facelets</a></span></dt><dt><span class="section"><a href="#sectionBuildWarAndDeploy">4.5. Build the WAR file and deploy it to TomEE</a></span></dt></dl></dd><dt><span class="section"><a href="#sectionImplementCreateObjectTestCase">5. Step 4 - Implement the <span class="italic">Create</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="#d5e1408">6. Step 5 - Implement the <span class="italic">Retrieve/List
+    All</span> Use Case</a></span></dt><dt><span class="section"><a href="#d5e1472">7. Step 6 - Implement the <span class="italic">Update</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="#d5e1549">8. Step 7 - Implement the <span class="italic">Delete</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="#d5e1583">9. Style the User Interface with CSS</a></span></dt><dt><span class="section"><a href="#d5e1614">10. Run the App and Get the Code</a></span></dt><dt><span class="section"><a href="#d5e1622">11. Possible Variations and Extensions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1624">11.1. Using resource URLs</a></span></dt><dt><span class="section"><a href="#d5e1628">11.2. Using an alternative DBMS</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1647">12. Points of Attention</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1655">12.1. Boilerplate code</a></span></dt><dt><span class="section"><a href="#d5e1666">12.2. Offline availability</a></span></dt><dt><span class="section"><a href="#d5e1669">12.3. Architectural separation of concerns</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1682">13. Practice Project</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1686">13.1. Managing information about movies</a></span></dt></dl></dd></dl></div><p>In this   <span class="phrase">tutorial,</span> we show how to build a simple Java
+  EE<a class="indexterm" name="d5e604"></a> web application using the <span class="emphasis"><em>Java Persistence
+  API<a class="indexterm" name="d5e607"></a> (JPA<a class="indexterm" name="d5e610"></a>)</em></span> for object-to-storage mapping and <span class="emphasis"><em>Java
+  Server Faces<a class="indexterm" name="d5e614"></a> (JSF<a class="indexterm" name="d5e617"></a>)</em></span> as the user interface (or "view") technology.
+  Such an application requires a web server that supports the Java EE
+  specifications <span class="italic">Java Servlets</span>, <span class="italic">Java Expression Language (EL)</span>, JPA and JSF, such as
+  the open source web server <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">Tomcat/TomEE</a>
+  (pronounced "Tommy"). In addition to the Java code executed on the back-end
+  computer that runs the TomEE web server, a Java EE web app also consists of
+  HTML, CSS and possibly some auxiliary JavaScript code that is executed by a
+  web browser running on the user's front-end computer. Since essentially all
+  data processing is performed on the back-end, and the front-end only renders
+  the user interface, we classify Java EE web applications as <span class="italic">back-end web apps</span>.</p><p>We show how to develop, deploy and run a simple example app using the
+  <span class="bold"><strong><span class="italic">TomEE<a class="indexterm" name="d5e627"></a></span></strong></span> web server, which is Apache Tomcat
+  extended by adding basic Java EE features for providing an execution
+  environment for light-weight Java EE web apps. We assume that you have
+  already installed the <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">TomEE Plume</a>
+  server and <a class="link" href="http://www.mysql.com/" target="_top">MySQL</a>. Then
+  simply follow our <a class="link" href="../../JavaJpaJsfApp/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" target="_top">installation
+  and configuration instructions</a>.</p><p>The purpose of our minimal example app is to manage information about
+  books. For simplicity, we deal with a single object type <code class="code">Book</code>,
+  as depicted in <a class="xref" href="#java_figBook" title="Figure&nbsp;3.1.&nbsp;The object type Book.">Figure&nbsp;3.1</a>.</p><div class="figure"><a name="java_figBook"></a><p class="title"><b>Figure&nbsp;3.1.&nbsp;The object type <code class="code">Book</code>.</b></p><div class="figure-contents"><div class="mediaobject"><img src="../fig/Book.svg" alt="The object type Book."></div></div></div><br class="figure-break"><p>The following table shows a sample data population for the model class
+  <code class="code">Book</code>.</p><div class="table"><a name="tblBooksJava"></a><p class="title"><b>Table&nbsp;3.1.&nbsp;Sample data about books</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+        <th>ISBN</th>
+
+        <th>Title</th>
+
+        <th>Year</th>
+      </tr></thead><tbody><tr>
+        <td>006251587X</td>
+
+        <td>Weaving the Web</td>
+
+        <td>2000</td>
+      </tr><tr>
+        <td>0465026567</td>
+
+        <td>G&ouml;del, Escher, Bach</td>
+
+        <td>1999</td>
+      </tr><tr>
+        <td>0465030793</td>
+
+        <td>I Am A Strange Loop</td>
+
+        <td>2008</td>
+      </tr></tbody></table></div></div><br class="table-break"><p>What do we need for a data management app? There are four standard us
+  e cases, which have to be supported by the app: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong>Create</strong></span> a new book record by
+        allowing the user to enter the data of a book that is to be added to
+        the collection of stored book records.</p></li><li class="listitem"><p><span class="bold"><strong>Retrieve</strong></span> (or <span class="italic">read</span>) all books from the data store and show
+        them in the form of a list.</p></li><li class="listitem"><p><span class="bold"><strong>Update</strong></span> the data of a book
+        record.</p></li><li class="listitem"><p><span class="bold"><strong>Delete</strong></span> a book record.</p></li></ol></div><p>These four standard use cases, and the corresponding data management
+  operations, are often summarized with the acronym <span class="italic">CRUD</span>.</p><p>For entering data with the help of the keyboard and the screen of our
+  computer, we use <span class="italic"><span class="bold"><strong>HTML
+  forms</strong></span></span>, which provide the <span class="bold"><strong><span class="italic">user interface</span></strong></span>
+  technology for web applications.</p><p>For any data management app, we need a technology that allows to store
+  data in persistent records on a secondary storage device, such as a
+  hard-disk or a solid state disk. JPA allows using a great number of
+  different data storage technologies, including many SQL database management
+  systems (DBMS) such as Oracle, MySQL and PostgreSQL. We don't have to change
+  much in the application code for switching from one storage technology to
+  another. Adding the right driver implementation to our Java runtime
+  environment, properly setting up the DBMS and changing the database access
+  configuration is in general all we need to do. In our example application,
+  we explain how to set up the JPA configuration for MySQL.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e686"></a>1.&nbsp;Java Basics</h2></div></div></div><p>Compared to JavaScript, what is different in Java? We list a few
+    observations:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong>No program without a class</strong></span>: Any
+        Java<a class="indexterm" name="d5e693"></a> program must include at least one class.</p></li><li class="listitem"><p><span class="bold"><strong>Java is strongly typed</strong></span>:
+        Properties, parameters and variables must be declared to be of some
+        type.</p></li><li class="listitem"><p><span class="bold"><strong>No global variables, no global
+        procedures</strong></span>: In Java, variables, procedures and functions
+        must be defined in the context of a class, which provides their name
+        space.</p></li><li class="listitem"><p><span class="bold"><strong>Arrays are static</strong></span>: Arrays have
+        a fixed size, which cannot be changed at run-time.</p></li><li class="listitem"><p><span class="bold"><strong>No object without a class</strong></span>: For
+        creating an object, a class has to be used (or defined) for
+        </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>defining the properties of the object's property
+              slots</p></li><li class="listitem"><p>defining the methods and functions that can be applied to
+              the object (and all other objects instantiating the
+              class)</p></li></ul></div></li><li class="listitem"><p>Classes, properties and methods are defined with a <span class="bold"><strong>visibility</strong></span> level (<code class="code">public</code>,
+        <code class="code">protected</code> or <code class="code">private</code>), which restricts their
+        accessibility.</p></li><li class="listitem"><p><span class="bold"><strong>Type parameters</strong></span>: Classes and
+        complex data structures (such as lists) can be defined with the help
+        of type parameters. See, for instance, the <a class="link" href="https://docs.oracle.com/javase/tutorial/java/generics/types.html" target="_top">generics
+        tutorial</a> by Oracle.</p></li><li class="listitem"><p><span class="bold"><strong>Java programs must be compiled</strong></span>
+        before they can be executed.</p></li><li class="listitem"><p><span class="bold"><strong>Speed</strong></span>: Java is about twice as
+        fast as optimized JavaScript.</p></li></ol></div><p>In Java, visibility levels are used to define the possible levels of
+    access: </p><div class="table"><a name="d5e729"></a><p class="title"><b>Table&nbsp;3.2.&nbsp;Java Visibility Level</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+            <th></th>
+
+            <th>Class</th>
+
+            <th>Package</th>
+
+            <th>Subclass</th>
+
+            <th>World</th>
+          </tr></thead><tbody><tr>
+            <th>public</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+          </tr><tr>
+            <th>protected</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>n</th>
+          </tr><tr>
+            <th>no modifier</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>n</th>
+
+            <th>n</th>
+          </tr><tr>
+            <th>private</th>
+
+            <th>y</th>
+
+            <th>n</th>
+
+            <th>n</th>
+
+            <th>n</th>
+          </tr></tbody></table></div></div><p><br class="table-break">Normally, properties are defined as private, such that they can
+    only be assigned with a public setter, which allows to control, and
+    possibly log, any change of the property value. Unfortunately, Java does
+    not allow to protect only write, but not read access. Therefore, we always
+    have to define getters along with setters, even if they are not
+    needed.</p><p>A <span class="italic"><span class="bold"><strong>Java bean
+    class</strong></span></span> (or, simply, <span class="italic">bean
+    class<a class="indexterm" name="d5e767"></a></span>) is a Java class with a parameter-free
+    constructor where all properties are serializable and have a
+    <code class="code">get</code> and <code class="code">set</code> method (also called "getter" and
+    "setter"). A Java bean is an object created with the help of a bean
+    class.</p><p>A <span class="italic"><span class="bold"><strong>JPA entity
+    class</strong></span></span> (or, simply, <span class="italic">entity
+    class</span><span class="italic"><a class="indexterm" name="d5e777"></a></span>) is a Java bean class with an
+    <code class="code">@Entity</code> annotation, implying that a Java EE runtime
+    environment (such as provided by the <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">TomEE PLUS</a>
+    web server) will take care of the persistent storage of its
+    instances.</p><p><span class="bold"><strong><span class="italic">JPA</span></strong></span><a class="indexterm" name="d5e785"></a> is a Java API for the management of persistent data in Java
+    applications. It uses the <span class="italic">Java Persistence Query
+    Language<a class="indexterm" name="d5e789"></a> (JPQL)</span>, a platform-independent object-oriented
+    query language based on SQL. JPQL query expressions look very similar to
+    SQL query expressions, but they are executed in the context of JPA entity
+    objects.</p><p><span class="bold"><strong><span class="italic">JSF</span></strong></span><a class="indexterm" name="d5e796"></a> is a Java specification for building component-based user
+    interfaces for web applications. Its current version, JSF 2, by default,
+    uses <span class="bold"><strong><span class="italic">Facelets</span></strong></span> as its view technology. By
+    contrast, JSF 1 has used <span class="italic">JavaServer Pages
+    (JSP)</span> as its default view technology.</p><p>A <span class="emphasis"><em>JSF facelet</em></span><a class="indexterm" name="d5e804"></a> is an XML-based template that combines static UI content
+    items with data variables for generating an XHTML user interface
+    page.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e808"></a>2.&nbsp;Step 1 - Set up the Folder Structure</h2></div></div></div><p>In the first step, we set up our folder structure for the
+    application program code. The application name is "Public Library", so it
+    would be natural to use a corresponding name for the application folder,
+    like "PublicLibrary", but we prefer using <code class="filename">MinimalApp</code>.
+    Then we create the application structure. There are many ways to do this,
+    like for example to use the <a class="link" href="http://www.eclipse.org/eclipse/" target="_top">Eclipse</a> development
+    environment (and create and configure a <span class="italic">Dynamic
+    Web Project</span>). In this <span class="phrase">tutorial</span> we show how to do it manually, so
+    there is no need to use special tools. For your convenience, we also
+    provide an ANT script (see our <a class="link" href="../../JavaJpaJsfApp/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" target="_top">guide</a>
+    for a download link), allowing to automatically create the folder
+    structure of the web application, compile it to a <span class="bold"><strong>W</strong></span>eb application <span class="bold"><strong>Ar</strong></span>chive (WAR) file and then deploy it to a TomEE
+    server for execution. The application structure (which is compatible with
+    the <span class="italic">Dynamic Web Project</span> structure of
+    Eclipse, so it can be imported in Eclipse) is the following:
+    </p><pre class="programlisting">MinimalApp
+  src
+    pl
+      m
+      c
+    META-INF
+      persistence.xml
+  WebContent
+    resources
+      media
+        img
+    views
+      books
+    WEB-INF
+      templates
+      faces-config.xml
+      web.xml</pre><p>This folder structure has the following parts:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>The <code class="filename">src</code> folder contains the app code folder
+        <code class="filename">pl</code>, defining the Java package name for the app
+        (as a shortcut of 'public library'), and the folder
+        <code class="filename">META-INF</code> with configuration files:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>the app code folder <code class="filename">pl</code> contains the
+            model and controller code in its subfolders <code class="filename">m</code>
+            and <code class="filename">c</code>, while the view/UI related code is
+            contained in the <code class="filename">WebContent</code> folder;</p></li><li class="listitem"><p>the most important configuration file is the
+            <code class="filename">persistence.xml</code> file. It contains the
+            configuration for the database connection. The content of this
+            file is discussed in <a class="xref" href="#sectJpaDb" title="4.2.&nbsp;Configure the JPA database connection">Section&nbsp;4.2</a>.</p></li></ol></div></li><li class="listitem"><p>The <code class="filename">WebContent</code> folder contains various web
+        resources, including template files and custom view files:</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>the <code class="filename">resources</code> folder is used for any
+            storing all kind of resources, such as downloadable documents,
+            archives, but also media files, such as images, videos or
+            sounds.</p></li><li class="listitem"><p>the <code class="filename">views</code> folder stores our custom view
+            files for the application, so it represents the View part of the
+            MVC paradigm. Please note that it is not strictly required to name
+            it "views", but it makes a lot of sense to do it so, since this is
+            what this folder represents. We will discuss in details about its
+            content, later in this <span class="phrase">tutorial</span>.</p></li><li class="listitem"><p>the <code class="filename">WEB-INF</code> folder contains the extra
+            required project libraries (a set of <code class="code">jar</code> files, part
+            of the <code class="filename">lib</code> subfolder, but in our case we
+            don't need such libraries), the facelet files for the UI pages (as
+            part of the <code class="filename">templates</code> subfolder), the
+            <code class="filename">faces-config.xml</code> file, which stores the
+            facelet configuration and the <code class="filename">web.xml</code>
+            configuration file, specific to the TomEE environment server used
+            to run our application.</p></li></ol></div></li></ol></div><p>We create a "Main Menu" page for our application, thus we add an
+    <code class="filename">index.xhtml</code> file to our <code class="filename">views</code>
+    folder with the following content:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"&gt;
+&lt;h:head&gt;
+ &lt;meta charset="UTF-8" /&gt;
+ &lt;title&gt;Minimal App with Java and JPA/JSF&lt;/title&gt;
+&lt;/h:head&gt;
+&lt;body&gt;
+ &lt;header&gt;
+  &lt;h1&gt;Public Library&lt;/h1&gt;
+  &lt;h2&gt;Minimal App with Java and JPA/JSF&lt;/h2&gt;
+ &lt;/header&gt;
+ &lt;main&gt;
+  &lt;menu&gt;
+   &lt;li&gt;&lt;h:button value="Create" outcome="create" /&gt; a new book&lt;/li&gt;
+   &lt;li&gt;&lt;h:button value="Retrieve" outcome="retrieveAndListAll" /&gt; 
+    and list all books&lt;/li&gt;
+   &lt;li&gt;&lt;h:button value="Update" outcome="update" /&gt; a book&lt;/li&gt;
+   &lt;li&gt;&lt;h:button value="Delete" outcome="delete" /&gt; a book&lt;/li&gt;
+  &lt;/menu&gt;
+  &lt;hr /&gt;
+  &lt;h:form&gt;
+   &lt;menu&gt;
+    &lt;li&gt;&lt;h:commandButton value="Clear" 
+         action="#{bookCtrl.clearData()}" /&gt; database&lt;/li&gt;
+    &lt;li&gt;&lt;h:commandButton value="Generate" 
+         action="#{bookCtrl.generateTestData()}" /&gt; test data&lt;/li&gt;
+   &lt;/menu&gt;
+  &lt;/h:form&gt;
+ &lt;/main&gt;
+ &lt;footer&gt;
+  &lt;!-- copyright text --&gt;
+ &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre><p>The code consists of HTML elements and JSF elements, which are
+    discussed <span class="phrase">below.</span></p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectionWriteTheModelCode"></a>3.&nbsp;Step 2 - Write the Model Code</h2></div></div></div><p>In the second step, we create the model classes for our app, using a
+    separate Java source code file (with extension <code class="filename">.java</code>)
+    for each model class. In the information design model shown in <a class="xref" href="#java_figBook" title="Figure&nbsp;3.1.&nbsp;The object type Book.">Figure&nbsp;3.1</a> above, there is only
+    one class, representing the object type <code class="code">Book</code>. So, we create a
+    file <code class="filename">Book.java</code> in the folder
+    <code class="filename">src/pl/m</code> with the following code: </p><pre class="programlisting">package pl.m;<span class="bold"><strong>
+
+@Entity</strong></span> <span class="bold"><strong>@Table( name="books")</strong></span>
+public class <span class="bold"><strong>Book</strong></span> {
+  <span class="bold"><strong>@Id</strong></span> private String <span class="bold"><strong>isbn</strong></span>;
+  private String <span class="bold"><strong>title</strong></span>;
+  private int <span class="bold"><strong>year</strong></span>;
+  // default constructor (required for entity classes)
+  public Book() {}
+  // constructor
+  public <span class="bold"><strong>Book</strong></span>( String isbn, String title, int year) {
+    this.setIsbn( isbn);
+    this.setTitle( title);
+    this.setYear( year);
+  }
+  // getter and setter methods
+  ...
+}</pre><p>Notice that the model class <code class="code">Book</code> is coded as a
+    <span class="bold"><strong><span class="italic">JPA entity
+    class</span></strong></span>, which is a JavaBean class enriched with the
+    following JPA annotations: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>The annotation <code class="code">@Entity</code> designates a class as an
+          entity class implying that the instances of this class will be
+          stored persistently.</p></li><li class="listitem"><p>The annotation <code class="code">@Table( name="books")</code> specifies
+          the name of the database table to be used for storing the
+          <code class="code">Book</code> entities. This annotation is optional and defaults
+          to a table name being the same as the class name but in lower case
+          (that is, it would be <code class="code">book</code> in our case).</p></li><li class="listitem"><p>The <code class="code">@Id</code> annotation marks the standard identifier
+          attribute, implying that the corresponding column of the underlying
+          SQL database table is designated as the PRIMARY KEY. In our example,
+          <code class="code">isbn</code> is used as the standard identifier attribute, and
+          the corresponding <code class="code">isbn</code> column of the <code class="code">books</code>
+          table stores the primary key values.</p></li></ol></div><p>In the entity class <code class="code">Book</code>, we also define the following
+    <span class="italic">static</span> (class-level) methods:
+    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><code class="code">Book.create</code> for creating a new <code class="code">Book</code>
+          instance.</p></li><li class="listitem"><p><code class="code">Book.retrieveAll</code> for retrieving all
+          <code class="code">Book</code> instances from the persistent data store.</p></li><li class="listitem"><p><code class="code">Book.retrieve</code> for retrieving a specific
+          <code class="code">Book</code> instance from the persistent data store by means
+          of its standard identifier.</p></li><li class="listitem"><p><code class="code">Book.update</code> for updating an existing
+          <code class="code">Book</code> instance.</p></li><li class="listitem"><p><code class="code">Book.delete</code> for deleting a <code class="code">Book</code>
+          instance.</p></li><li class="listitem"><p><code class="code">Book.generateTestData</code> for creating a few example
+          book records to be used as test data.</p></li><li class="listitem"><p><code class="code">Book.clearData</code> for clearing the book database
+          table.</p></li></ol></div><p>The signatures of these methods, which are discussed in more detail
+    in the following subsections, are shown in the following program
+    listing:.</p><pre class="programlisting">  // getter and setter methods
+  public String <span class="bold"><strong>getIsbn</strong></span>() {return isbn;}
+  public void setIsbn( String isbn) {this.isbn = isbn;}
+  public String <span class="bold"><strong>getTitle</strong></span>() {return title;}
+  public void setTitle( String title) {this.title = title;}
+  public int <span class="bold"><strong>getYear</strong></span>() {return year;}
+  public void setYear( int year) {this.year = year;}
+  // CRUD data management methods
+  public static void <span class="bold"><strong>create</strong></span>(...) {...}
+  public static List&lt;Book&gt; <span class="bold"><strong>retrieveAll</strong></span>(...) {...}
+  public static Book <span class="bold"><strong>retrieve</strong></span>(...) {...}
+  public static void <span class="bold"><strong>update</strong></span>(...) {...}
+  public static void <span class="bold"><strong>delete</strong></span>(...) {...}
+  public static void clearData(...) {...}
+  public static void generateTestData(...) {...}</pre><p>The JPA architecture for data management and object-to-storage
+    mapping is based on the concept of an <span class="emphasis">entity
+    manager</span>,<a class="indexterm" name="d5e940"></a> which provides the data management methods
+    <code class="code">persist</code> for saving a newly created entity, <code class="code">find</code>
+    for retrieving an entity, and <code class="code">remove</code> for deleting an
+    entity.</p><p>Since the database access operations of an entity manager are
+    executed in the context of a <span class="bold"><strong><span class="italic">transaction</span></strong></span>, our data management
+    methods have a parameter <code class="code">ut</code> of type
+    <code class="code">UserTransaction</code>. Before the entity manager can invoke the
+    database write method <code class="code">persist</code>, a transaction needs to be
+    started with <code class="code">ut.begin()</code>. After all write (and state change)
+    operations have been performed, the transaction is completed (and all
+    changes are committed) with <code class="code">ut.commit()</code>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e955"></a>3.1.&nbsp;Storing <code class="code">Book</code> objects in a database table
+      <code class="code">books</code></h3></div></div></div><p>The instances of our entity class <code class="code">Book</code> are Java
+      objects representing "entities" (or <span class="italic">business
+      objects</span>), which can be <span class="italic">serialized</span>, or, in other words, converted to
+      <span class="italic">records</span> (or <span class="italic">rows</span>) of a database table, as shown in <a class="xref" href="#tblBooksJava" title="Table&nbsp;3.1.&nbsp;Sample data about books">Table&nbsp;3.1</a>.</p><div class="sidebar"><div class="titlepage"><div><div><p class="title"><b>SQL</b></p></div></div></div><p>The <span class="italic">Structured Query Language</span>
+        (SQL),<a class="indexterm" name="d5e970"></a> created in the early 1970s by Donald D. Chamberlin and
+        Raymond F. Boyce, is an ISO standard that is based on the
+        <span class="emphasis"><em>Relational Database</em></span> model of Edgar F. Codd and
+        defines</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>a <span class="emphasis"><em>Data Definition Language</em></span> (based on
+            CREATE TABLE statements) for creating databases consisting of
+            tables containing primitive data;</p></li><li class="listitem"><p>a <span class="emphasis"><em>Data Manipulation Language</em></span> (based on
+            INSERT, UPDATE and DELETE statements) for creating, updating and
+            deleting the contents of database tables;</p></li><li class="listitem"><p>a <span class="emphasis"><em>Query Language</em></span> (based on SELECT
+            statements) for retrieving the information stored in database
+            tables.</p></li></ol></div><p>SQL is widely used in <span class="emphasis"><em>Database Management
+        Systems</em></span> (DBMSs) and in programming languages for persistent
+        data storage. Despite the existence of the SQL standard, each SQL DBMS
+        has its own dialect of SQL. Consequently, SQL code is in practice not
+        completely portable among different DBMSs without adjustments.</p></div><p>The data storage technology used in our example app is <a class="link" href="http://www.mysql.com/" target="_top">MySQL</a>, and the SQL<a class="indexterm" name="d5e987"></a> code used to create the schema for the database table
+      <code class="code">books</code> is the following:</p><pre class="programlisting">CREATE TABLE IF NOT EXISTS <span class="bold"><strong>books</strong></span> (
+  <span class="bold"><strong>isbn</strong></span> VARCHAR(10) NOT NULL PRIMARY KEY,
+  <span class="bold"><strong>title</strong></span> VARCHAR(128),
+  <span class="bold"><strong>year</strong></span> SMALLINT
+);</pre><p>While it is also possible to create the database schema manually
+      (with the help of CREATE TABLE statements such as the one above), we
+      show below how the database schema can be automatically generated by
+      JPA. In both cases, the database setup, including a user account and the
+      associated rights (create, update, etc), must be done manually before
+      the JPA application can connect to it.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionCreateAndPersistInstance"></a>3.2.&nbsp;Creating a new <code class="code">Book</code> instance and storing it</h3></div></div></div><p>The <code class="code">Book.create</code> method takes care of creating a new
+      <code class="code">Book</code> instance and saving it to a database with the help of
+      an 'entity manager':</p><pre class="programlisting">public static void <span class="bold"><strong>create</strong></span>( EntityManager em, UserTransaction ut, 
+    String <span class="bold"><strong>isbn</strong></span>, String <span class="bold"><strong>title</strong></span>, int year) throws Exception {
+  ut.begin();
+  Book book = new Book( isbn, title, year);
+  em.persist( book);
+  ut.commit();
+}</pre><p>To store the new object, the <code class="code">persist</code> method of the
+      given 'entity manager' is invoked. It is responsible for creating the
+      corresponding SQL <code class="code">INSERT</code> statement and executing it.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionLoadAllInstances"></a>3.3.&nbsp;Retrieving all <code class="code">Book</code> instances</h3></div></div></div><p>The instances of an entity class, such as <code class="code">Book</code>, are
+      retrieved from the database with the help of a corresponding query
+      expressed in the <span class="emphasis"><em>Java Persistence Query Language<a class="indexterm" name="d5e1016"></a></em></span> (<a class="link" href="https://en.wikipedia.org/wiki/Java_Persistence_Query_Language" target="_top">JPQL</a><a class="indexterm" name="d5e1020"></a>). These queries are similar to SQL queries. They use
+      class names Instead of table names, property names instead of column
+      names, and object variables instead of row variables.</p><p>In the <code class="code">Book.retrieveAll</code> method, first a
+      <code class="code">query</code> asking for all <code class="code">Book</code> instances is
+      created, and then this query is executed with
+      <code class="code">query.getResultList()</code> assigning its answer set to the list
+      variable <code class="code">books</code>:</p><pre class="programlisting">public static List&lt;Book&gt; <span class="bold"><strong>retrieveAll</strong></span>( EntityManager em) {
+  Query query = em.createQuery( "SELECT b FROM Book b", Book.class);
+  List&lt;Book&gt; books = query.getResultList();
+  return books;
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionUpdateObjectInstance"></a>3.4.&nbsp;Updating a <code class="code">Book</code> instance</h3></div></div></div><p>To update an existing <code class="code">Book</code> instance, first we need to
+      retrieve it from the database, by using <code class="code">em.find</code>, and then
+      set those attributes the value of which has changed:</p><pre class="programlisting">public static void <span class="bold"><strong>update</strong></span>( EntityManager em, 
+    UserTransaction ut, String isbn, String title, 
+    int year) throws Exception {
+  ut.begin();
+  Book book = em.<span class="bold"><strong>find</strong></span>( Book.class, isbn);
+  if (!title.equals( book.getTitle())) book.setTitle( title);
+  if (year != book.getYear()) book.setYear( year);
+  ut.commit();
+}</pre><p>Notice that, when invoking the <code class="code">find</code> method for
+      retrieving an entity, the first argument must be a reference to the
+      entity class concerned (here: <code class="code">Book.class</code>), so the JPA
+      runtime environment can identify the database table from which to
+      retrieve the entity's data. The second argument must be the value of the
+      entity's primary key.</p><p>Notice that in the update case, we do not have to use
+      <code class="code">persist</code> for saving the changes. Saving is automatically
+      managed by the JPA runtime environment when we complete the transaction
+      with <code class="code">ut.commit()</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionDeleteObjectInstance"></a>3.5.&nbsp;Deleting a <code class="code">Book</code> instance</h3></div></div></div><p>A book entity can be deleted from the database as shown in the
+      following example code:</p><pre class="programlisting">public static void <span class="bold"><strong>delete</strong></span>( EntityManager em, 
+    UserTransaction ut, String isbn) throws Exception {
+  ut.begin();
+  Book book = em.<span class="bold"><strong>find</strong></span>( Book.class, isbn);
+  em.<span class="bold"><strong>remove</strong></span>( book);
+  ut.commit();
+}</pre><p>To delete an entity from the database, we first need to retrieve
+      it with the help of the <code class="code">find</code> method as in the update case.
+      Then, the <code class="code">remove</code> method has to be invoked by the 'entity
+      manager', and finally the transaction is completed with
+      <code class="code">ut.commit()</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1058"></a>3.6.&nbsp;Creating test data</h3></div></div></div><p>For being able to test our code, we may create some test data and
+      save it in our database. We can use the following procedure for
+      this:</p><pre class="programlisting">public static void <span class="bold"><strong>generateTestData</strong></span>( EntityManager em, 
+    UserTransaction ut) throws Exception {
+  Book book = null;
+  Book.clearData( em, ut);  // first clear the books table
+  ut.begin();
+  book = new Book("006251587X","Weaving the Web", 2000);
+  em.persist( book);
+  book = new Book("0465026567","G&ouml;del, Escher, Bach", 1999);
+  em.persist( book);
+  book = new Book("0465030793","I Am A Strange Loop", 2008);
+  em.persist( book);
+  ut.commit();
+}</pre><p>After clearing the database, we successively create 3 instances of
+      the <code class="code">Book</code> entity class and save them with the help of
+      <code class="code">persist</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1066"></a>3.7.&nbsp;Clearing all data</h3></div></div></div><p>The following procedure clears our database by deleting all
+      rows:</p><pre class="programlisting">public static void <span class="bold"><strong>clearData</strong></span>( EntityManager em, 
+    UserTransaction ut) throws Exception {
+  ut.begin();
+  Query deleteStatement = em.createQuery( "DELETE FROM Book");
+  deleteStatement.executeUpdate();
+  ut.commit();
+}</pre><p>JPA does not provide a direct method to drop the entire population
+      of a specific class from the database. However, this can be easily
+      obtained by using a JPQL statement as shown in the above code. The JPQL
+      code can be read as: <span class="italic">delete all rows from the
+      database table associated with the entity class
+      <code class="code">Book</code></span>.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1074"></a>4.&nbsp;Step 3 - Configure the App</h2></div></div></div><p>In this section we show how to </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>configure an app to connect with a database in a controller
+          class,</p></li><li class="listitem"><p>obtain the <code class="code">EntityManager</code> and
+          <code class="code">UserTransaction</code> instances required for performing
+          database operations,</p></li><li class="listitem"><p>wrap an app in a WAR file and deploy it to a web server for
+          execution.</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionJPAEmAndUtObjects"></a>4.1.&nbsp;Create the EntityManager and UserTransaction objects</h3></div></div></div><p>A controller class contains the code that glues the views to the
+      model, as well as all methods that do no neither belong to the model nor
+      to the view, like getting a connection with the database server. In our
+      example app, this class is <code class="code">pl.c.BookController</code> in the
+      <code class="code">src/pl/c</code> folder.</p><p>JPA requires an <code class="code">EntityManager</code><a class="indexterm" name="d5e1093"></a> object for executing JPQL queries (with
+      <code class="code">SELECT</code>) and data manipulation statements (with
+      <code class="code">INSERT</code>, <code class="code">UPDATE</code> and <code class="code">DELETE</code>). Also,
+      in order to perform database write operations, a
+      <code class="code">UserTransaction</code> object is required for starting and
+      completing transactions. In a standalone application, the programmer has
+      to create an entity manager and a transaction manually, using a factory
+      pattern as shown in the following code fragment:</p><pre class="programlisting">EntityManagerFactory emf = 
+    Persistence.<span class="bold"><strong>createEntityManagerFactory</strong></span>("MinimalApp");
+EntityManager em = emf.<span class="bold"><strong>createEntityManager</strong></span>();
+EntityTransaction et = em.<span class="bold"><strong>getTransaction</strong></span>();</pre><p>A JPA-enabled Java web application normally runs in an environment
+      called "container" (in our case this is TomEE), which takes care of
+      creating an <code class="code">EntityManager</code> and a
+      <code class="code">UserTransaction</code> object if the right annotations are used.
+      The code responsible for this is part of the controller class ( e.g.,
+      <code class="code">pl.c.BookController</code>) since the controller is responsible
+      for managing the database connections. </p><pre class="programlisting">public class <span class="bold"><strong>BookController</strong></span> {
+  @PersistenceContext( unitName="MinimalApp")
+  private EntityManager em;
+  @Resource() UserTransaction ut;
+
+  public List&lt;Book&gt; <span class="bold"><strong>getBooks</strong></span>() {...}
+  public void <span class="bold"><strong>refreshObject</strong></span>( Book book) {...}
+  public String <span class="bold"><strong>create</strong></span>( String isbn, String title, 
+      int year) {...}
+  public String <span class="bold"><strong>update</strong></span>( String isbn, 
+      String title, int year) {...}
+  public String <span class="bold"><strong>delete</strong></span>( String isbn) {...}
+}</pre><p>A closer look at this code shows that it is sufficient to use the
+      <code class="code">@PersistenceContext</code> annotation and provide a
+      <code class="code">unitName</code> (see the next section) for obtaining an
+      <code class="code">EntityManager</code> instance at runtime. Also, obtaining a
+      <code class="code">UserTransaction</code> instance at runtime is as simple as using
+      the <code class="code">@Resource</code> annotation for the user transaction reference
+      property <code class="code">ut</code>. Not only that the required code is short and
+      simple, but if the database type is changed (e.g. when we switch from
+      MySQL to an Oracle database), this code remains the same.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectJpaDb"></a>4.2.&nbsp;Configure the JPA database connection</h3></div></div></div><p>In the previous section, discussing the
+      <code class="code">BookController</code> class, we have shown how to obtain the
+      <code class="code">EntityManager</code> and <code class="code">UserTransaction</code> objects
+      required for performing database operations. The
+      <code class="code">@PersistenceContext</code> annotation of the
+      <code class="code">EntityManager</code> reference property requires a
+      <code class="code">unitName</code>, which is just a name used for identifying the
+      storage management configuration defined in the
+      <code class="filename">src/META-INF/persistence.xml</code> file. In our example
+      app this file has the following content:</p><pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="2.1" 
+  xmlns="http://java.sun.com/xml/ns/persistence" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+ &lt;persistence-unit <span class="bold"><strong>name="MinimalApp"</strong></span>&gt;
+  &lt;class&gt;<span class="bold"><strong>pl.m.Book</strong></span>&lt;/class&gt;
+  &lt;properties&gt;	
+   &lt;!-- Request auto-generation of the database schema --&gt;
+   &lt;property 
+     name="javax.persistence.schema-generation.database.action" 
+     value="<span class="bold"><strong>create</strong></span>"/&gt;
+   &lt;!-- Use the JPA annotations to create the database schema --&gt;
+   &lt;property 
+     name="javax.persistence.schema-generation.create-source" 
+     value="<span class="bold"><strong>metadata</strong></span>"/&gt;
+  &lt;/properties&gt;
+  &lt;jta-data-source&gt;<span class="bold"><strong>jdbc/MinimalApp</strong></span>&lt;/jta-data-source&gt;
+ &lt;/persistence-unit&gt;
+&lt;/persistence&gt;</pre><p>The configuration name ("MinimalApp") is defined by the
+      <code class="code">name</code> attribute of the <code class="code">persistence-unit</code>
+      element. This is the value we have to use for the <code class="code">unitName</code>
+      property of the <code class="code">@PersistenceContext</code> annotation.</p><p>The <code class="code">persistence-unit</code> element has three content parts:
+      </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>One or more <code class="code">class</code> elements, each one containing
+            the fully qualified name of an entity class of the app (like
+            <code class="code">pl.m.Book</code> in our example app).</p></li><li class="listitem"><p>A set of configuration <code class="code">property</code> elements used
+            for providing further configuration settings.</p></li><li class="listitem"><p>A <code class="code">jta-data-source</code> element for specifying the
+            configuration block in the <code class="filename">config/TomEE.xml</code>
+            web server configuration file in the web server installation
+            folder.</p></li></ol></div><p>In our <code class="code">persistence.xml</code> file, two configuration
+      properties have been set:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><code class="code">javax.persistence.schema-generation.database.action</code>,
+            with the possible values: <code class="code">none</code> (default),
+            <code class="code">create</code>, <code class="code">drop-and-create</code> and
+            <code class="code">drop</code>. It specifies if the database schema is to be
+            automatically created and additionally allows to drop the existing
+            tables before creating the new ones (with <code class="code">drop</code> or
+            <code class="code">drop-and-create</code>). .</p></li><li class="listitem"><p><code class="code">javax.persistence.schema-generation.create-source</code>,
+            with the possible values <code class="code">metadata</code> (default),
+            <code class="code">script</code>, <code class="code">metadata-then-script</code> and
+            <code class="code">script-then-metadata</code>. It specifies the source of
+            information used to create the database schema. The value
+            <code class="code">metadata</code> enforces using the JPA annotations while the
+            value <code class="code">script</code> allows using an external script for
+            defining the schema.</p></li></ul></div><p>The <code class="code">jta-data-source</code> element of our
+      <code class="filename">persistence.xml</code> file refers to the
+      <code class="code">Resource</code> element with <code class="code">id</code> value "MinimalApp" in
+      the <code class="filename">config/TomEE.xml</code> file, which has the following
+      content:</p><pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;TomEE&gt;
+  &lt;Resource <span class="bold"><strong>id="MinimalApp"</strong></span> type="DataSource"&gt; 
+    JdbcDriver com.mysql.jdbc.Driver 
+    JdbcUrl jdbc:mysql://localhost:3306/MinimalApp
+    UserName MinimalApp 
+    Password MinimalApp 
+    JtaManaged true 
+  &lt;/Resource&gt; 
+&lt;/TomEE&gt;</pre><p>The <code class="code">Resource</code> element contains the information
+      required to connect with the database (user name, password, access URL
+      and the Java class name of the connection driver). Notice that in order
+      to use a connection driver, one needs to download the jar file for that
+      specific technology and copy it into the <code class="filename">lib</code>
+      subfolder of the TomEE installation folder. Finally, TomEE needs to be
+      restarted in order to load the new driver. See also our <a class="link" href="../../JavaJpaJsfApp/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" target="_top">instructions
+      page</a>, for additional details related to JDBC drivers, and in
+      particular how to use the official MySQL JDBC driver
+      "Connector/J".</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1192"></a>4.3.&nbsp;Create the main template</h3></div></div></div><p>The main template, called <code class="filename">page.xhtml</code>, is
+      shown below. It has two sub-templates:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><code class="filename">header.xhtml</code> defines the general header
+            information items (such as the application name)</p></li><li class="listitem"><p><code class="filename">footer.xhtml</code> defines the general footer
+            information items (such as a copyrights notice)</p></li></ol></div><p>Both sub-templates are included in the main template
+      with the help of a <code class="code">ui:include</code> element. We add all three
+      template files to the <code class="filename">WebContent/WEB-INF/templates</code>
+      folder.</p><p>The content of our HTML5-compliant main template
+      <code class="code">page.xhtml</code> is the following:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"&gt;
+ &lt;h:head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;Public Library&lt;/title&gt;
+ &lt;/h:head&gt;
+ &lt;body&gt;
+  &lt;header&gt;
+   &lt;ui:insert name="headerTitle"/&gt;
+   &lt;ui:insert name="headerMenu"&gt;
+    &lt;ui:include src="/WEB-INF/templates/header.xhtml"/&gt;
+   &lt;/ui:insert&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+   &lt;ui:insert name="main"/&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;
+   &lt;ui:insert name="footer"&gt;
+    &lt;ui:include src="/WEB-INF/templates/footer.xhtml"/&gt;
+   &lt;/ui:insert&gt;
+  &lt;/footer&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre><p>In the code, one can see that some HTML elements are used (e.g.,
+      <code class="code">title</code>, <code class="code">header</code>, <code class="code">main</code> and
+      <code class="code">footer</code>) while others like <code class="code">h:head</code> and
+      <code class="code">ui:insert</code> are not HTML elements, but have been defined by
+      JSF. For instance, JSF defines its own head element <code class="code">h:head</code>
+      for injecting special HTML code such as <code class="code">script</code> elements
+      that load JavaScript code for HTTP messaging between the web browser and
+      the back-end Java program by invoking methods of the JavaScript API
+      <span class="emphasis"><em><em class="glossterm">XML HTTP Request<a class="indexterm" name="d5e1219"></a> (XHR<a class="indexterm" name="d5e1221"></a>)</em></em></span> .</p><p>Our main template defines three content regions: header, main and
+      footer. The header and footer regions are defined by sub-templates
+      included with the help of the <code class="code">ui:include</code> element.</p><p>The <code class="filename">header.xhtml</code> sub-template contains the
+      application menu, corresponding to the CRUD operations:</p><pre class="programlisting">&lt;nav xmlns:h="http://java.sun.com/jsf/html"&gt; 
+  &lt;ul&gt;
+    &lt;li&gt;&lt;h:link outcome="create"&gt;C&lt;/h:link&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;h:link outcome="retrieveAndListAll"&gt;R&lt;/h:link&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;h:link outcome="update"&gt;U&lt;/h:link&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;h:link outcome="delete"&gt;D&lt;/h:link&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</pre><p>The <code class="filename">footer.xhtml</code> sub-template contains the
+      "Back to main menu" link, which we like to show on each application
+      page, excepting the index page:</p><pre class="programlisting">&lt;h:link outcome="index" xmlns:h="http://java.sun.com/jsf/html"&gt;
+  Back to main menu
+&lt;/h:link&gt;</pre><p>Notice that the <code class="code">h</code> namespace must be defined once
+      again in <code class="code">footer.xhtml</code> even if it is used in the
+      <code class="code">page.xhtml</code> template file, where was already defined. In the
+      footer template component, we define the "Back to main menu" operation,
+      which is going to be injected into each page that uses this template.
+      The <span class="italic">main</span> region is dynamic, and will
+      be replaced with the content generated by a facelet template.</p><p>JSF is using the following namespaces:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><code class="code">xmlns:ui="http://java.sun.com/jsf/facelets"</code> for
+            the <span class="italic">JSF Facelets Tag Library</span>
+            providing templating elements (like <code class="code">ui:insert</code> for
+            specifying the region of a template where to inject the facelet
+            content).</p></li><li class="listitem"><p><code class="code">xmlns:h="http://java.sun.com/jsf/html"</code> for the
+            <span class="italic">JSF HTML Tag Library</span> providing
+            JSF versions of HTML elements, which are then mapped to HTML
+            elements. For example <code class="code">h:inputText</code>, which is mapped to
+            an HTML <code class="code">input</code> element.</p></li><li class="listitem"><p><code class="code">xmlns:f="http://java.sun.com/jsf/core"</code> for the
+            <span class="italic">JSF Core Tag Library</span> providing
+            custom actions or elements that are independent of any particular
+            render kit. For example, <code class="code">f:actionListener</code> can be used
+            to define a Java method which is executed when the user clicks a
+            button.</p></li><li class="listitem"><p><code class="code">xmlns:p="http://xmlns.jcp.org/jsf/passthrough"</code>
+            for using HTML attributes in JSF HTML elements and passing them
+            through to the generated HTML. For example, with
+            <code class="code">p:type</code> in, <code class="code">&lt;h:inputText
+            p:type="number"&gt;</code> an HTML5 <code class="code">input</code> type
+            attribute can be created in the generated HTML: <code class="code">&lt;input
+            type="number"&gt;</code>.</p></li><li class="listitem"><p><code class="code">xmlns:c="http://java.sun.com/jsp/jstl/core"</code> for
+            the <span class="italic">JSTL Core Tag Library</span>
+            providing all kinds of features, like dealing with loops and
+            defining variables. For example, we can use <code class="code">&lt;c:set
+            var="isbn" value="#{book.isbn}"/&gt;</code> to create a variable
+            named <code class="code">isbn</code> which can then be used in the view code
+            for conditional expressions.</p></li><li class="listitem"><p><code class="code">xmlns:fn="http://java.sun.com/jsp/jstl/functions"</code>
+            for the <span class="italic">JSTL Functions Tag
+            Library</span> providing various utility functions, such as
+            string converters. For example, we can use
+            <code class="code">fn:toUpperCase</code> to convert a string to its uppercase
+            representation.</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionDefineManagedBeans"></a>4.4.&nbsp;Define the managed beans needed in facelets</h3></div></div></div><p>JavaBean classes, including entity classes, can be used for
+      creating 'managed beans' with the help of the <code class="code">@ManagedBean</code>
+      annotation, which allows defining the name of a variable for accessing
+      the created bean in the view code, typically in an EL expression. In our
+      example app, we want to access a <code class="code">Book</code> bean as well as a
+      <code class="code">BookController</code> bean, therefore both classes have to be
+      annotated as follows:</p><pre class="programlisting">@Entity @Table( name="books")<span class="bold"><strong>
+@RequestScoped</strong></span> <span class="bold"><strong>@ManagedBean</strong></span>( name="book")
+public class <span class="bold"><strong>Book</strong></span> { ... }<span class="bold"><strong>
+
+@SessionScoped</strong></span> @ManagedBean( name="bookCtrl")
+public class <span class="bold"><strong>BookController</strong></span> { ... }</pre><p>Notice how a lifetime scope can be specified for a managed bean
+      with a scope annotation. In our example the <code class="code">book</code> bean is
+      <code class="code">@RequestScoped</code>, this means the instance exists as long as
+      the HTTP request and the associated response are being processed. The
+      <code class="code">bookCtrl</code> bean is <code class="code">@SessionScoped</code>, which means
+      it is created when the session starts, and destroyed when the session is
+      closed. Other scopes are available, but in our example we only need
+      these two.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="sectionBuildWarAndDeploy"></a>4.5.&nbsp;Build the WAR file and deploy it to TomEE</h3></div></div></div><p>There are multiple ways on which we could compile the source code,
+      create the war file and deploy it to TomEE server. For example one can
+      use <a class="link" href="http://www.eclipse.org/downloads/packages/" target="_top">Eclipse
+      IDE</a> or <a class="link" href="https://netbeans.org/" target="_top">Netbeans</a>,
+      but as well you can use ANT and create a script which takes care of all
+      these tasks.</p><p>For your convenience, we wrote an <a class="link" href="https://ant.apache.org/" target="_top">ANT</a> script that allows to
+      automatically create the structure of a Java web application, compile
+      the Java source code, build the WAR file and deploy it to a TomEE web
+      server. Our ANT script generates an <code class="code">Eclipse IDE</code> compatible
+      folder structure, so in case you want to use Eclipse, simply create a
+      project from the existing application code. The ANT installation
+      instructions, detailed description of the available tasks as well as
+      download links are available on our <a class="link" href="../../JavaJpaJsfApp/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" target="_top">instructions
+      page</a>.</p><p>For our "PublicLibrary" example application, we have used the ANT
+      script and the following steps were needed:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>create the application folder structure: <code class="code">ant create
+            app -Dappname=publicLibrary -Dpkgname=pl</code>.</p></li><li class="listitem"><p>compile the Java code and build the war file: <code class="code">ant war
+            -Dappname=publicLibrary</code>.</p></li><li class="listitem"><p>deploy the application to TomEE server: <code class="code">ant deploy
+            -Dappname=publicLibrary</code>. This operation also builds the war
+            file, if it was not already created using the <code class="code">war</code>
+            task, as shown before.</p></li></ul></div><p>Hint: we do not recommend using spaces in folder names, but if for
+      any reason, the application name needs to contain spaces, then it has to
+      be enclosed in double quotes, e.g. <code class="code">create app -Dpgkname=hw
+      -Dappname="Hellow World"</code>. In this case it was required to provide
+      the <code class="code">pkgname</code> parameter, while "Hello World" is not a valid
+      Java identifier, since it contains a white space.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectionImplementCreateObjectTestCase"></a>5.&nbsp;Step 4 - Implement the <span class="italic">Create</span>
+    Use Case</h2></div></div></div><p>The CRUD use case <span class="italic">Create</span> involves
+    creating a new object in main memory and then saving it to persistent
+    storage with the help of the <code class="code">create</code> method.</p><p>The corresponding <code class="code">create</code> action method code from the
+    <code class="code">src/pl/c/BookController.java</code> is shown below:</p><pre class="programlisting">public class <span class="bold"><strong>BookController</strong></span> {
+  ...
+  public String <span class="bold"><strong>create</strong></span>( String isbn, String title, int year) {
+    try {
+      <span class="bold"><strong>Book.create</strong></span>( em, ut, isbn, title, year);
+      // clear the form after saving the Book record
+      FacesContext fContext = FacesContext.getCurrentInstance();
+      fContext.getExternalContext().getRequestMap().remove("book");
+    } catch ( Exception e) {
+      e.printStackTrace();
+    } 
+    return "create";
+  }
+}</pre><p>The <code class="code">BookController::create</code> action method invokes the
+    <code class="code">Book.create</code> model class method for creating and saving a
+    <code class="code">Book</code> instance. It returns the name of the view file found in
+    the same folder as the view that triggered the action. This file
+    (<code class="code">create.xhtml</code> in our case) will be displayed after executing
+    the action. Using the <code class="code">FacesContext</code> object, the form is
+    cleared after creating a <code class="code">Book</code> instance. The code of the
+    <code class="code">create</code> method in <code class="filename">src/pl/m/Book.java</code> is
+    the following:</p><pre class="programlisting">public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  public static void <span class="bold"><strong>create</strong></span>( EntityManager em, UserTransaction ut,
+      String isbn, String title, int year) throws Exception {
+    ut.begin();
+    Book book = new Book( isbn, title, year);
+    em.persist( book);
+    ut.commit();
+  }
+}</pre><p>Now we need to create the facelet template for the view of the
+    <span class="italic">Create</span> use case,
+    <code class="filename">WebContent/views/books/create.xhtml</code>. Such a facelet
+    template essentially defines an HTML form with <span class="italic">data binding</span> and <span class="italic">action
+    binding</span>.</p><p><span class="bold"><strong><span class="italic">Data
+    binding</span></strong></span> refers to the binding of model class
+    properties to form (input or output) fields. For instance, in the
+    following facelet code fragment, the entity property
+    <code class="code">book.isbn</code> is bound to the form input field
+    "isbn":</p><pre class="programlisting">&lt;h:outputLabel for="isbn" value="ISBN: "&gt;
+  &lt;h:inputText id="isbn" value="#{<span class="bold"><strong>book.isbn</strong></span>}" /&gt;
+&lt;/h:outputLabel&gt;</pre><p>In JSF, for the <code class="code">inputText</code> elements of a form, the
+    <code class="code">id</code> attribute is used with a given value, e.g.,
+    <code class="code">id="isbn"</code>. The rendered HTML5 <code class="code">input</code> elements
+    have both, the <code class="code">id</code> and the <code class="code">name</code> attributes, and
+    their values are obtained by using the form id and element id values
+    separated by a colon, i.e., <code class="code">id="createBookForm:isbn"</code> and
+    <code class="code">name="createBookForm:isbn"</code>.</p><p>We can also see a first example of an expression in the Java EE
+    Expression Language (EL), where an expression starts with <code class="code">#</code>
+    and is encapsulated between curly brackets, like
+    <code class="code">#{expression}</code>. Such an expression allows reading the value of
+    a property of, or invoking a method on, a Java bean or a context object.
+    The value of the expression is assigned to the <code class="code">value</code>
+    attribute of the generated HTML <code class="code">input</code> element. The example in
+    our JSF code above is the expression <code class="code">#{book.isbn}</code>, which
+    retrieves the value of the <code class="code">isbn</code> property of the
+    <code class="code">book</code> bean.</p><p><span class="bold"><strong><span class="italic">Action
+    binding</span></strong></span> refers to the binding of method invocation
+    expressions to actionable UI elements, where the invoked methods typically
+    are controller action methods, and the actionable UI elements typically
+    are form buttons. For instance, in the following facelet code fragment,
+    the method invocation expression <code class="code">bookCtrl.create(...)</code> is
+    bound to the form's submit button:</p><pre class="programlisting">&lt;h:commandButton value="Create" 
+    action="#{<span class="bold"><strong>bookCtrl.create( book.isbn, book.title, book.year)</strong></span>}"/&gt;</pre><p>After discussing data binding and action binding, it's time to look
+    at the complete code of the facelet:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="..." xmlns:h="..." xmlns:p="..."&gt;
+ &lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="<span class="bold"><strong>headerTitle</strong></span>"&gt;
+   &lt;h1&gt;Create a new book record&lt;/h1&gt;
+  &lt;/ui:define&gt;
+  &lt;ui:define name="<span class="bold"><strong>main</strong></span>"&gt;
+   &lt;h:form id="createBookForm"&gt;
+    &lt;div&gt;&lt;h:<span class="bold"><strong>outputLabel</strong></span> for="isbn" value="ISBN: "&gt;
+      &lt;h:<span class="bold"><strong>inputText</strong></span> id="isbn" value="#{<span class="bold"><strong>book.isbn</strong></span>}" /&gt;
+     &lt;/h:outputLabel&gt;&lt;/div&gt;  
+    &lt;div&gt;&lt;h:outputLabel for="title" value="Title: "&gt;
+      &lt;h:inputText id="title" value="#{<span class="bold"><strong>book.title</strong></span>}" /&gt;
+     &lt;/h:outputLabel&gt;&lt;/div&gt;  
+    &lt;div&gt;&lt;h:outputLabel for="year" value="Year: "&gt;
+      &lt;h:inputText id="year" <span class="bold"><strong>p:type="number"</strong></span> 
+                   value="#{<span class="bold"><strong>book.year</strong></span>}" /&gt;
+     &lt;/h:outputLabel&gt;&lt;/div&gt;
+    &lt;div&gt;
+     &lt;h:<span class="bold"><strong>commandButton</strong></span> value="Save" 
+         action="#{<span class="bold"><strong>bookCtrl.create</strong></span>( 
+             book.isbn, book.title, book.year)}" /&gt;
+    &lt;/div&gt;
+   &lt;/h:form&gt;
+  &lt;/ui:define&gt;
+ &lt;/ui:composition&gt;
+&lt;/html&gt;</pre><p>This facelet replaces the <code class="code">main</code> region of the template
+    defined in <code class="filename">page.xhtml</code>, because the <code class="code">name</code>
+    attribute of the <code class="code">ui:define</code> element has been set to "main",
+    but it also replace the <code class="code">headerTitle</code> region of the template,
+    which is part of the <code class="code">header</code> and displays the current
+    operations allowed by the page.</p><p><code class="code">h:outputLabel</code> elements can be used for creating form
+    field labels, while <code class="code">h:inputText</code> elements are used for
+    creating HTML input elements. It is possible to specify a HTML5 type of an
+    <code class="code">input</code> element by using a special namespace prefix
+    (<code class="code">xmlns:p = "http://xmlns.jcp.org/jsf/passthrough"</code>) for the
+    <code class="code">type</code> attribute, enforcing it to be 'passed through'. In this
+    way the <code class="code">year</code> input field can be defined with type
+    <code class="code">number</code>, so it's rendered by the corresponding number widget
+    in the browser.</p><p>The <code class="code">h:commandButton</code> element allows creating submit
+    buttons rendered as a <code class="code">input</code> elements with
+    <code class="code">type="submit"</code>, and binding them to an action to be performed
+    when the button is clicked. The value of the <code class="code">action</code> attribute
+    is a method invocation expression. In our <span class="italic">Create</span> use case we want that, when the button is
+    clicked, a <code class="code">Book</code> instance with the property values provided by
+    corresponding form fields is created and saved.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1408"></a>6.&nbsp;Step 5 - Implement the <span class="italic">Retrieve/List
+    All</span> Use Case</h2></div></div></div><p>For the <span class="italic">Retrieve</span> use case we have
+    to add a method in the controller class
+    (<code class="filename">src/pl/c/BookController.java</code> file), which reads all
+    <code class="code">Book</code> records from the <code class="code">books</code> database table and
+    then delivers this information to the view. The controller action method
+    code is shown below:</p><pre class="programlisting">public class <span class="bold"><strong>BookController</strong></span> {
+  ...
+  public List&lt;Book&gt; <span class="bold"><strong>getBooks</strong></span>() {
+    return Book.retrieveAll( em);
+  }
+  ...
+}</pre><p>The <code class="code">getBooks</code> method returns a list of <code class="code">Book</code>
+    instances which are obtained by calling the static
+    <code class="code">retrieveAll</code> method of the <code class="code">Book</code> model class. The
+    code of the <code class="code">Book.retrieveAll</code> method is:</p><pre class="programlisting">public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  public static List&lt;Book&gt; <span class="bold"><strong>retrieveAll</strong></span>( EntityManager em) {
+    Query query = em.createQuery( "SELECT b FROM Book b");
+    List&lt;Book&gt; books = query.getResultList();
+    return books;
+  }
+  ...
+}</pre><p>The code is simple, and as already discussed in <a class="xref" href="#sectionLoadAllInstances" title="3.3.&nbsp;Retrieving all Book instances">Section&nbsp;3.3</a>, it uses a
+    JPQL<a class="indexterm" name="d5e1430"></a> statement to retrieve the <code class="code">Book</code> records from
+    the <code class="code">books</code> table and create the corresponding
+    <code class="code">Book</code> instances. The <code class="code">EntityManager</code> object
+    required for being able to perform the JPQL query is passed to
+    <code class="code">Book.retrieveAll</code> from the <code class="code">BookController</code> object
+    as discussed in <a class="xref" href="#sectionJPAEmAndUtObjects" title="4.1.&nbsp;Create the EntityManager and UserTransaction objects">Section&nbsp;4.1</a> section.</p><p>Now it is the time to define the facelet template for displaying a
+    table with all book records found in the database. The view template files
+    corresponding to the model classes of our app are located in model class
+    subfolders of the <code class="code">WebContent/views/</code> folder. For the <span class="italic">Retrieve/list all books</span> use case, we create a
+    file named <code class="filename">retrieveAndListAll.xhtml</code> in
+    <code class="filename">WebContent/views/books/</code> with the following
+    content:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="..." xmlns:h="..." xmlns:f="..."&gt;
+ &lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="headerTitle"&gt;
+   &lt;h1&gt;Retrieve and list all book records&lt;/h1&gt;
+  &lt;/ui:define&gt;
+  &lt;ui:define name="main"&gt;
+   <span class="bold"><strong>&lt;h:dataTable value="#{bookCtrl.books}" var="b"&gt;</strong></span>
+    &lt;h:column&gt;
+     <span class="bold"><strong>&lt;f:facet name="header"&gt;ISBN&lt;/f:facet&gt;
+      #{b.isbn}</strong></span>
+    &lt;/h:column&gt;
+    &lt;h:column&gt;
+     &lt;f:facet name="header"&gt;Title&lt;/f:facet&gt;
+      #{b.title}
+    &lt;/h:column&gt;
+    &lt;h:column&gt;
+     &lt;f:facet name="header"&gt;Year&lt;/f:facet&gt;
+      #{b.year}
+    &lt;/h:column&gt;
+   &lt;/h:dataTable&gt;
+  &lt;/ui:define&gt;
+ &lt;/ui:composition&gt;
+&lt;/html&gt;</pre><p>The <code class="code">ui:composition</code> element specifies which template is
+    applied (i.e. <code class="code">template="/WEB-INF/templates/page.xhtml"</code>) and
+    which view block (<code class="code">&lt;ui:define name="main"&gt;</code>) is replaced
+    by this facelet at render time.</p><p>The <code class="code">h:dataTable</code> element defines a table view for a set
+    of records, which is then rendered as an HTML table. Its
+    <code class="code">value</code> attribute defines a data binding to a record
+    collection, while the <code class="code">var</code> attribute defines a variable name
+    for iteratively accessing records from this collection. The expression
+    provided in the <code class="code">value</code> attribute normally specifies a
+    collection-valued property (here: <code class="code">books</code>) which is accessed
+    via a corresponding getter (here: <code class="code">getBooks</code>) as defined in the
+    controller class <code class="code">BookController</code>. In this particular case it
+    is just sufficient to define the <code class="code">getBooks</code> method since there
+    is no need of a <code class="code">books</code> property in the controller class. In
+    any case, <code class="code">value</code> does not allow to invoke a method, so we
+    cannot call <code class="code">getBooks</code> directly. Instead we have to use the
+    (possibly virtual) property <code class="code">books</code>, which internally evaluates
+    to a call of <code class="code">getBooks</code> without checking if a
+    <code class="code">books</code> property really exists.</p><p>The <code class="code">h:button</code> element allows to create redirect buttons.
+    The value of the <code class="code">outcome</code> attribute specifies a name of a
+    facelet file (omitting the <code class="filename">.xhtml</code> extension, such
+    that, in the example, the file name is
+    <code class="filename">index.xhtml</code>).</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1472"></a>7.&nbsp;Step 6 - Implement the <span class="italic">Update</span>
+    Use Case</h2></div></div></div><p>Like for <span class="italic">Create</span>, for the
+    <span class="italic">Update</span> use case also a controller
+    action method is defined in the <code class="code">BookController</code>
+    class:</p><pre class="programlisting">public class <span class="bold"><strong>BookController</strong></span> {
+  ...
+  public String <span class="bold"><strong>update</strong></span>( String isbn, String title, int year) {
+    try {
+      <span class="bold"><strong>Book.update</strong></span>( em, ut, isbn, title, year);
+    } catch ( Exception e) {
+      e.printStackTrace();
+    } 
+    return "update";
+  }
+  ...
+}</pre><p>The <code class="code">Book.update</code> takes care of saving property value
+    changes for a book object identified by its <code class="code">isbn</code> value as
+    shown below: </p><pre class="programlisting">public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  public static void <span class="bold"><strong>update</strong></span>( EntityManager em, UserTransaction ut,
+      String isbn, String title, int year) throws Exception {
+    ut.begin();
+    Book book = em.find( Book.class, isbn);
+    if (title != null &amp;&amp; !title.equals( book.title)) {
+      book.setTitle( title);
+    }
+    if (year != book.year) {
+      book.setYear( year);
+    }
+    ut.commit();
+  }
+  ...
+}</pre><p>Now, we create the view where a <code class="code">Book</code> can be selected so
+    the user can edit the <code class="code">title</code> and <code class="code">year</code> properties,
+    and then save the changes. The code for this view is stored in the
+    <code class="filename">WebContent/views/books/update.xhtml</code> file which has
+    the following content:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="..." xmlns:h="..." xmlns:f="..." xmlns:p="..."&gt;
+ &lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="headerTitle"&gt;
+   &lt;h1&gt;Update a book record&lt;/h1&gt;
+  &lt;/ui:define&gt;
+  &lt;ui:define name="main"&gt;
+   &lt;h:form id="updateBookForm"&gt;
+    &lt;div&gt;&lt;h:outputLabel for="selectBook" value="Select book: "&gt;
+      &lt;h:<span class="bold"><strong>selectOneMenu</strong></span> id="selectBook" value="#{<span class="bold"><strong>book.isbn</strong></span>}"&gt;
+       &lt;f:selectItem itemValue="" itemLabel="---"/&gt;
+       &lt;f:selectItems value="#{bookCtrl.books}" var="b"
+          itemValue="#{b.isbn}" itemLabel="#{b.title}"/&gt;
+       &lt;f:ajax listener="#{bookCtrl.refreshObject( book)}"
+          render="isbn title year" /&gt;
+      &lt;/h:selectOneMenu&gt;
+     &lt;/h:outputLabel&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;h:outputLabel for="isbn" value="ISBN: "&gt;
+      &lt;h:<span class="bold"><strong>outputText</strong></span> id="isbn" value="#{<span class="bold"><strong>book.isbn</strong></span>}"/&gt;
+     &lt;/h:outputLabel&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;h:outputLabel for="title" value="Title: "&gt;
+      &lt;h:<span class="bold"><strong>inputText</strong></span> id="title" value="#{<span class="bold"><strong>book.title</strong></span>}"/&gt;
+     &lt;/h:outputLabel&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;h:outputLabel for="year" value="Year: "&gt;
+      &lt;h:<span class="bold"><strong>inputText</strong></span> id="year" p:type="number" 
+                   value="#{<span class="bold"><strong>book.year</strong></span>}"/&gt;
+     &lt;/h:outputLabel&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;h:<span class="bold"><strong>commandButton</strong></span> value="Save Changes"
+            action="#{<span class="bold"><strong>bookCtrl.update</strong></span>( 
+              book.isbn, book.title, book.year)}"/&gt;
+    &lt;/div&gt;
+   &lt;/h:form&gt;
+  &lt;/ui:define&gt;
+ &lt;/ui:composition&gt;
+&lt;/html&gt;</pre><p>In this facelet template, a single selection list (that is, a
+    single-<code class="code">select</code> HTML element) is created with the help of the
+    JSF element <code class="code">h:selectOneMenu</code>, where the selection list items
+    (the HTML <code class="code">option</code> elements) are defined by the JSF elements
+    <code class="code">f:selectItem</code> or <code class="code">f:selectItems</code>. The
+    <code class="code">value</code> attribute of <code class="code">h:selectOneMenu</code> binds
+    <code class="code">book.isbn</code> to the value of the selected item (or
+    <code class="code">option</code> element). The selection list is populated with book
+    records with the help of a <code class="code">f:selectItems</code> element bound to
+    <code class="code">bookCtrl.books</code>. The attributes <code class="code">itemLabel</code> and
+    <code class="code">itemValue</code> define the <code class="code">option</code> elements' text and
+    value.</p><p>In the update view, when the user selects a book from the selection
+    list, the form fields are filled with the (ISBN, title and year) property
+    values of the selected book. While the ISBN is immediately available in
+    the view (on the front-end) as the value of the selected
+    <code class="code">option</code> element, the values of the <code class="code">title</code> and
+    <code class="code">year</code> properties have to be fetched from the back-end
+    database. This can be done with the help of the JSFelement
+    <code class="code">f:ajax</code>, which sends an HTTP request message for invoking a
+    remote method, <code class="code">bookCtrl.refreshObject</code>, on the back-end using
+    XHR.<a class="indexterm" name="d5e1526"></a> This method takes the managed <code class="code">book</code> bean, and
+    updates its <code class="code">title</code> and <code class="code">year</code> properties with the
+    current values retrieved from the database. Its code is the
+    following:</p><pre class="programlisting">public class <span class="bold"><strong>BookController</strong></span> {
+  ...
+  public void <span class="bold"><strong>refreshObject</strong></span>( Book book) {
+    Book foundBook = <span class="bold"><strong>Book.retrieve</strong></span>( em, book.getIsbn());
+    book.setTitle( foundBook.getTitle());
+    book.setYear( foundBook.getYear());
+  }
+  ...
+}</pre><p>To enforce a refresh of the HTML form after the user's selection,
+    such that it displays the values of <code class="code">isbn</code>, <code class="code">title</code>
+    and <code class="code">year</code>, the <code class="code">f:ajax</code> element allows specifying
+    form fields to be updated with the <code class="code">render</code> attribute like, in
+    our case, <code class="code">render="isbn title year"</code>.</p><p>Finally, the <code class="code">h:commandButton</code> element is used for
+    invoking the <code class="code">update</code> action method of the
+    <code class="code">BookController</code> with the parameters <code class="code">isbn</code>,
+    <code class="code">title</code> and <code class="code">year</code>, for making the changes
+    persistent.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1549"></a>8.&nbsp;Step 7 - Implement the <span class="italic">Delete</span>
+    Use Case</h2></div></div></div><p>For the <span class="italic">Delete</span> use case, the
+    <code class="code">delete</code> action method of the <code class="code">BookController</code>
+    invokes the <code class="code">Book.delete</code> method by providing the ISBN of the
+    <code class="code">Book</code> object to be deleted:</p><pre class="programlisting">public class <span class="bold"><strong>BookController</strong></span> {
+  ...
+  public String <span class="bold"><strong>delete</strong></span>( String isbn) {
+    try {
+      <span class="bold"><strong>Book.delete</strong></span>( em, ut, isbn);
+    } catch ( Exception e) {
+      e.printStackTrace();
+    } 
+    return "delete";
+  }
+  ...
+}</pre><p>The <code class="code">Book.delete</code> method first retrieves the
+    <code class="code">Book</code> object to be deleted, and then invokes the entity
+    manager's <code class="code">remove</code> method on it:</p><pre class="programlisting">public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  public static void <span class="bold"><strong>delete</strong></span>( EntityManager em, UserTransaction ut, String isbn) 
+      throws Exception, HeuristicRollbackException, RollbackException {
+    ut.begin();
+    Book book = em.find( Book.class, isbn);
+    em.remove( book);
+    ut.commit();
+  }
+  ...
+}</pre><p>The view for the <span class="italic">Delete</span> action
+    provides a selection list for selecting the book to be deleted. A "Delete"
+    button allows performing the deletion of the selected book. The code of
+    the view in <code class="filename">WebContent/views/books/delete.xhtml</code> is as
+    follows:</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="..." xmlns:h="..." xmlns:f="..."&gt;
+ &lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="headerTitle"&gt;
+   &lt;h1&gt;Delete a book record&lt;/h1&gt;
+  &lt;/ui:define&gt;
+  &lt;ui:define name="main"&gt;
+   &lt;h:form id="deleteBookForm"&gt;
+    &lt;div&gt;&lt;h:outputLabel for="selectBook" value="Select book: "&gt;
+      &lt;h:<span class="bold"><strong>selectOneMenu</strong></span> id="selectBook" value="#{<span class="bold"><strong>book.isbn</strong></span>}"&gt;
+       &lt;f:selectItems value="#{bookCtrl.books}" var="b"
+          itemValue="#{b.isbn}" itemLabel="#{b.title}"/&gt;
+      &lt;/h:selectOneMenu&gt;
+     &lt;/h:outputLabel&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;h:<span class="bold"><strong>commandButton</strong></span> value="Delete"
+            action="#{<span class="bold"><strong>bookCtrl.delete</strong></span>( book.isbn)}"/&gt;
+    &lt;/div&gt;
+   &lt;/h:form&gt;
+  &lt;/ui:define&gt;
+ &lt;/ui:composition&gt;
+&lt;/html&gt;</pre><p>As in the <span class="italic">Update</span> use case, a
+    <code class="code">h:selectOneMenu</code> element is used to create and populate a
+    selection list containing all the books to choose from. Clicking on the
+    "Delete" command button results in invoking the <code class="code">delete</code> action
+    method of the controller with the <code class="code">isbn</code> value of the selected
+    book, thus resulting in the deletion of the <code class="code">Book</code> object from
+    the database.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1583"></a>9.&nbsp;Style the User Interface with CSS</h2></div></div></div><p>We style the UI with the help of the <a class="link" href="https://html5boilerplate.com/" target="_top">HTML5 Boilerplate</a> CSS
+    and the browser style normalization file <a class="link" href="http://necolas.github.io/normalize.css/" target="_top">normalize.css</a>.
+    The two CSS files <code class="filename">main.css</code> and
+    <code class="filename">normalize.min.css</code> are located in the
+    <code class="filename">WebContent/resources/css</code> folder.</p><p>Adding the CSS to the HTML pages requires to edit the
+    <code class="filename">WebContent/WEB-INF/templates/page.xhtml</code> file and add
+    the <code class="code">style</code> elements referencing the CSS files:</p><pre class="programlisting">&lt;h:head&gt;
+  &lt;title&gt;Public Library&lt;/title&gt;
+  &lt;link rel="stylesheet" type="text/css" 
+    href="#{facesContext.externalContext.requestContextPath}/
+      resources/css/<span class="bold"><strong>normalize.min.css</strong></span>" /&gt;
+  &lt;link rel="stylesheet" type="text/css" 
+    href="#{facesContext.externalContext.requestContextPath}/
+      resources/css/<span class="bold"><strong>main.css</strong></span>" /&gt;
+&lt;/h:head&gt;</pre><p>Notice that we also need to add the CSS to the
+    <code class="filename">WebContent/views/books/index.xhtml</code> file, which is not
+    generated with the <code class="filename">page.xhtml</code> template. The
+    <code class="code">facesContext.externalContext.requestContextPath</code> expression
+    allows to get the path to <code class="filename">WebContent</code> folder. We then
+    need to append the rest of the path, including the CSS file name, for each
+    of the CSS files.</p><p>With JSF, there are two main ways to apply CSS styles to specific
+    elements. For the elements created with JSF, we need to use the
+    <code class="code">@styleClass</code> attribute, e.g.:</p><pre class="programlisting">&lt;h:form id="createBookForm" <span class="bold"><strong>styleClass="clearfix"</strong></span>&gt;
+  ...
+&lt;/hform&gt;</pre><p>For the HTML elements, we simply use the CSS
+    classes, as in any normal HTML document, e.g.: </p><pre class="programlisting">&lt;div <span class="bold"><strong>class="wrapper clearfix"</strong></span>&gt;
+  ...
+&lt;/div&gt;</pre><p>For creating advanced user interfaces, additional block elements
+    that act as containers are used for defining paddings, margins, various
+    background colors and other styles. Thus, in various HTML pages you may
+    find DOM structures as shown below, where the <code class="code">div</code> element
+    containing the <code class="code">@class</code> attribute is used as container for
+    styling purposes:</p><pre class="programlisting">&lt;header&gt;
+  <span class="bold"><strong>&lt;div class="wrapper clearfix"&gt;</strong></span>
+    &lt;div class="title"&gt;
+      &lt;ui:insert name="headerTitle"/&gt;
+    &lt;/div&gt;
+    &lt;ui:insert name="headerMenu"&gt;
+      &lt;ui:include src="/WEB-INF/templates/header.xhtml" /&gt;
+    &lt;/ui:insert&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1614"></a>10.&nbsp;Run the App and Get the Code</h2></div></div></div><p>You can <a class="link" href="../JavaJpaJsf/MinimalApp/index.html" target="_top">run
+    the minimal app</a> (or <a class="link" href="../JavaJpaJsf/MinimalAppWithCSS/index.html" target="_top">run
+    the minimal app with CSS</a>) on our server or <a class="link" href="../JavaJpaJsf/MinimalApp.zip" target="_top">download
+    the code</a> as a ZIP archive file.</p><p>Follow our <a class="link" href="../../JavaJpaJsfApp/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" target="_top">instructions</a>
+    to get your environment prepared for running back-end Java EE web apps
+    with JPA and JSF.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1622"></a>11.&nbsp;Possible Variations and Extensions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1624"></a>11.1.&nbsp;Using resource URLs</h3></div></div></div><p>Whenever an app provides public information about entities, such
+      as the books available in a public library, it is desirable to publish
+      this information with the help of self-descriptive resource URLs, such
+      as <code class="code">http://publiclibrary.norfolk.city/books/006251587X</code>,
+      which would be the resource URL for retrieving information about the
+      book "Weaving the Web" available in the public library of Norfolk.
+      However, resource URLs are not supported by JSF. In the Java world, we
+      would have to use JAX-RS, instead of JSF, for programming a web API with
+      resource URLs. But this would imply that we need to take care of the
+      front-end UI in a different way, since JAX-RS is a pure back-end API,
+      not providing any support for building user interfaces. A natural option
+      would be to use a JavaScript front-end framework, such as BackboneJS or
+      ReactJS, for rendering the UI.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1628"></a>11.2.&nbsp;Using an alternative DBMS</h3></div></div></div><p>Instead of <span class="italic">MySQL</span>, one can use
+      various other database management systems for persistent storage. The
+      following four steps are required to specify the used DBMS (only one
+      DBMS at a time is possible):</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Configure TomEE so it uses the corresponding resource for
+            your application. For a list of resource configuration examples
+            used for common DBMS's, check <a class="link" href="http://tomee.apache.org/common-datasource-configurations.html" target="_top">Common
+            DataSource Configurations</a>. For example, if <span class="italic">PostgreSQL</span> was chosen as DBMS, then edit
+            the <code class="filename">conf/tomee.xml</code> file and add the following
+            code:</p><pre class="programlisting">&lt;Resource id="application-persistence-unit-name" type="DataSource"&gt;
+  JdbcDriver   org.postgresql.Driver
+  JdbcUrl  jdbc:postgresql://host/database-name
+  UserName     dbms-username
+  Password     user-password
+&lt;/Resource&gt;</pre></li><li class="listitem"><p>Copy the <span class="italic">jar</span> file
+            corresponding to the DBMS driver implementation to the
+            <code class="filename">lib</code> folder. After this, the TomEE server
+            needs to be restarted.</p></li><li class="listitem"><p>Install the DBMS, if not already installed. Installation
+            instructions are usually available on the corresponding DBMS web
+            page.</p></li><li class="listitem"><p>Create the corresponding DBMS user and database to be used
+            for your application.</p></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1647"></a>12.&nbsp;Points of Attention</h2></div></div></div><p>The code of this app should be extended by adding <span class="bold"><strong><span class="italic">constraint
+    validation</span></strong></span>. We show how to do this in <span class="phrase">the follow-up
+    tutorial <a class="link" href="validation-tutorial.html" target="_top">Building Java Web
+    Apps Tutorial Part 2: Adding Constraint Validation</a></span>.</p><p>We briefly discuss three further issues.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1655"></a>12.1.&nbsp;Boilerplate code</h3></div></div></div><p>Another issue with the code of this Java example app is the
+      repetitious <span class="italic">boilerplate
+      code</span><a class="indexterm" name="d5e1659"></a> needed per entity class for the storage management
+      methods <code class="code">create</code>, <code class="code">retrieve</code>, <code class="code">update</code>
+      and <code class="code">delete</code>, and their wrappers in the corresponding
+      controller classes. While it may be instructive to write this code a few
+      times for learning app development, you don't want to write it again and
+      again later when you work on real projects.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1666"></a>12.2.&nbsp;Offline availability</h3></div></div></div><p>It is desirable that a web app can still be used when the user is
+      offline. However, this is not possible with a back-end web application
+      architecture as implied by Java EE. Offline availability can only be
+      obtained with a truly distributed architecture where essential
+      application components can be executed both on the back-end and on the
+      front-end.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1669"></a>12.3.&nbsp;Architectural separation of concerns</h3></div></div></div><p>From an architectural point of view, it is important to keep the
+      app's model classes independent of </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the user interface (UI) code because it should be possible
+            to re-use the same model classes with different UI
+            technologies;</p></li><li class="listitem"><p>the storage management code because it should be possible to
+            re-use the same model classes with different storage
+            technologies.</p></li></ol></div><p>We have kept the model class <code class="code">Book</code> independent of the
+      UI code, since it does not contain any references to UI elements, nor
+      does it invoke any view method. However, for simplicity, we didn't keep
+      it independent of storage management code. First, due to using JPA
+      annotations, the model class is bound to the JPA object-to-storage
+      mapping technology. Second, we have included the method definitions for
+      <code class="code">create</code>, <code class="code">update</code>, <code class="code">delete</code>, etc.,
+      which invoke the storage management methods of a JPA environment's
+      entity manager, in the model class. Therefore, the separation of
+      concerns is incomplete in our minimal app.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1682"></a>13.&nbsp;Practice Project</h2></div></div></div><p>If you have any questions about how to carry out the following
+    projects, you can ask them on our <a class="link" href="../../forum/JavaJpaJsfApp.html" target="_top">discussion
+    forum</a>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1686"></a>13.1.&nbsp;Managing information about movies</h3></div></div></div><p>The purpose of the app to be developed is managing information
+      about movies. The app deals with just one object type:
+      <code class="code">Movie</code>, as depicted in <a class="xref" href="#figMovieMinApp-JavaJpaJsf" title="Figure&nbsp;3.2.&nbsp;The object type Movie.">Figure&nbsp;3.2</a> below.
+      In the subsequent parts of the tutorial, you will extend this simple app
+      by adding integrity constraints, enumerations, further model classes for
+      actors and directors, and the associations between them.</p><p>Notice that in most parts of this project you can follow, or even
+      copy, the code of the book data management app, except that in the
+      <code class="code">Movie</code> class where an attribute with range <code class="code">Date</code>
+      is used, so you have to use the HTML <code class="code">&lt;time&gt;</code> element
+      in the <span class="italic">list objects</span> table.</p><div class="figure"><a name="figMovieMinApp-JavaJpaJsf"></a><p class="title"><b>Figure&nbsp;3.2.&nbsp;The object type <code class="code">Movie</code>.</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="200"><tr><td><img src="../fig/Movie_MinimalDesM.svg" width="200" alt="The object type Movie."></td></tr></table></div></div></div><br class="figure-break"><p>For developing the app, simply follow the sequence of seven steps
+      described above:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Step 1 - Set up the Folder Structure</p></li><li class="listitem"><p>Step 2 - Write the Model Code</p></li><li class="listitem"><p>Step 3 - Initialize the Application</p></li><li class="listitem"><p>Step 4 - Implement the <span class="italic">Retrieve/List
+            All</span> Use Case</p></li><li class="listitem"><p>Step 5 - Implement the <span class="italic">Create</span> Use Case</p></li><li class="listitem"><p>Step 6 - Implement the <span class="italic">Update</span> Use Case</p></li><li class="listitem"><p>Step 7 - Implement the <span class="italic">Delete</span> Use Case</p></li></ol></div><p>You can use the following sample data for testing: </p><div class="table"><a name="d5e1723"></a><p class="title"><b>Table&nbsp;3.3.&nbsp;Sample data</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+              <th>Movie ID</th>
+
+              <th>Title</th>
+
+              <th>Release date</th>
+            </tr></thead><tbody><tr>
+              <td>1</td>
+
+              <td>Pulp Fiction</td>
+
+              <td>1994-05-12</td>
+            </tr><tr>
+              <td>2</td>
+
+              <td>Star Wars</td>
+
+              <td>1977-05-25</td>
+            </tr><tr>
+              <td>3</td>
+
+              <td>Casablanca</td>
+
+              <td>1943-01-23</td>
+            </tr><tr>
+              <td>4</td>
+
+              <td>The Godfather</td>
+
+              <td>1972-03-15</td>
+            </tr></tbody></table></div></div><p><br class="table-break"></p><p>Make sure that international characters are supported by using
+      UTF-8 encoding for all HTML files.</p><p>If you have any questions about how to carry out the following
+      projects, you can ask them on our <a class="link" href="../../forum/JavaJpaJsfApp/index.html" target="_top">discussion
+      forum</a>.</p></div></div></div><div lang="" class="glossary"><div class="titlepage"><div><div><h1 class="title"><a name="d5e1750"></a>Glossary</h1></div></div></div><div class="glossdiv"><h3 class="title">C</h3><dl><dt><a name="CRUD"></a><span class="glossterm">CRUD</span></dt><dd class="glossdef"><p>CRUD is an acronym for <span class="italic"><span class="bold"><strong>C</strong></span>reate</span>, <span class="italic"><span class="bold"><strong>R</strong></span>ead/Retrieve</span>, <span class="italic"><span class="bold"><strong>U</strong></span>pdate</span>,
+        <span class="italic"><span class="bold"><strong>D</strong></span>elete</span>, which denote the four basic
+        data management operations to be performed by any software
+        application.</p></dd><dt><a name="css"></a><span class="glossterm">Cascading Style Sheets</span></dt><dd class="glossdef"><p>CSS is used for defining the presentation style of web pages by
+        telling the browser how to render their HTML (or XML) contents: using
+        which layout of content elements, which fonts and text styles, which
+        colors, which backgrounds, and which animations. Normally, these
+        settings are made in a separate CSS file that is associated with an
+        HTML file via a special link element in the HTML's head
+        element.</p></dd></dl></div><div class="glossdiv"><h3 class="title">D</h3><dl><dt><a name="DOM"></a><span class="glossterm">Document Object Model</span></dt><dd class="glossdef"><p>The DOM is an abstract API for retrieving and modifying nodes
+        and elements of HTML or XML documents. All web programming languages
+        have DOM bindings that realize the DOM.</p></dd><dt><a name="DNS"></a><span class="glossterm">Domain Name System</span></dt><dd class="glossdef"><p>The DNS translates user-friendly domain names to IP addresses
+        that allow to locate a host computer on the Internet.</p></dd></dl></div><div class="glossdiv"><h3 class="title">E</h3><dl><dt><a name="ECMAScript"></a><span class="glossterm">ECMAScript</span></dt><dd class="glossdef"><p>A standard for JavaScript defined by the industry organization
+        "Ecma International".</p></dd><dt><a name="xml"></a><span class="glossterm">Extensible Markup Language</span></dt><dd class="glossdef"><p>XML allows to mark up the structure of all kinds of documents,
+        data files and messages in a machine-readable way. XML may also be
+        human-readable, if the tag names used are self-explaining. XML is
+        based on Unicode. SVG and MathML are based on XML, and there is an
+        XML-based version of HTML.</p><p>XML provides a syntax for expressing structured information in
+        the form of an <span class="italic">XML document</span> with
+        <span class="italic">elements</span> and their <span class="italic">attributes</span>. The specific elements and
+        attributes used in an XML document can come from any vocabulary, such
+        as public standards or user-defined XML formats.</p></dd></dl></div><div class="glossdiv"><h3 class="title">H</h3><dl><dt><a name="html"></a><span class="glossterm">Hypertext Markup Language</span></dt><dd class="glossdef"><p>HTML allows marking up (or describing) the structure of a
+        human-readable web document or web user interface. The XML-based
+        version of HTML, which is called "XHTML5", provides a simpler and
+        cleaner syntax compared to traditional HTML.</p></dd><dt><a name="http"></a><span class="glossterm">Hypertext Transfer Protocol</span></dt><dd class="glossdef"><p>HTTP is a stateless request/response protocol based on the
+        Internet technologies TCP/IP and DNS, using human-readable text
+        messages for the communication between web clients and web servers.
+        The main purpose of HTTP has been to allow fetching web documents
+        identified by URLs from a web browser, and invoking the operations of
+        a back-end web application program from an HTML form executed by a web
+        browser. More recently, HTTP is increasingly used for providing web
+        APIs and web services.</p></dd></dl></div><div class="glossdiv"><h3 class="title">I</h3><dl><dt><a name="IANA"></a><span class="glossterm">IANA</span></dt><dd class="glossdef"><p>IANA stands for <span class="italic">Internet Assigned
+        Numbers Authority</span>, which is a subsidiary of ICANN
+        responsible for names and numbers used by Internet protocols.</p></dd><dt><a name="ICANN"></a><span class="glossterm">ICANN</span></dt><dd class="glossdef"><p>ICANN stands for <span class="italic">Internet Corporation of
+        Assigned Names and Numbers</span>, which is an international
+        nonprofit organization that maintains the domain name system.</p></dd><dt><a name="IndexedDB"></a><span class="glossterm">IndexedDB</span></dt><dd class="glossdef"><p>A JavaScript API for indexed data storage managed by browsers.
+        Indexing allows high-performance searching. Like many SQL DBMS,
+        IndexedDB supports database transactions.</p></dd><dt><a name="I18N"></a><span class="glossterm">I18N</span></dt><dd class="glossdef"><p>A set of best practices that help to adapt products to any
+        target language and culture. It deals with multiple character sets,
+        units of measure, keyboard layouts, time and date formats, and text
+        directions.</p></dd></dl></div><div class="glossdiv"><h3 class="title">J</h3><dl><dt><a name="JSON"></a><span class="glossterm">JSON</span></dt><dd class="glossdef"><p>JSON stands for <span class="italic">JavaScript Object
+        Notation</span>, which is a data-interchange format following the
+        JavaScript syntax for object literals. Many programming languages
+        support JSON as a light-weight alternative to XML.</p></dd></dl></div><div class="glossdiv"><h3 class="title">M</h3><dl><dt><a name="MathML"></a><span class="glossterm">MathML</span></dt><dd class="glossdef"><p>An open standard for representing mathematical expressions,
+        either in data interchange or for rendering them within
+        webpages.</p></dd><dt><a name="MIME"></a><span class="glossterm">MIME</span></dt><dd class="glossdef"><p>A MIME type (also called "media type" or "content type") is a
+        keyword string sent along with a file for indicating its content type.
+        For example, a sound file might be labeled <code class="code">audio/ogg</code>, or
+        an image file <code class="code">image/png</code>.</p></dd><dt><a name="MVC"></a><span class="glossterm"><span class="italic"><span class="bold"><strong>M</strong></span>odel-<span class="bold"><strong>V</strong></span>iew-<span class="bold"><strong>C</strong></span>ontroller</span></span></dt><dd class="glossdef"><p>MVC is a general architecture metaphor emphasizing the principle
+        of separation of concerns, mainly between the model and the view, and
+        considering the model as the most fundamental part of an app. In MVC
+        frameworks, "M", "V" and "C" are defined in different ways. Often the
+        term &#8220;model&#8221; refers to the app&#8217;s data sources, while the &#8220;view&#8221;
+        denotes the app&#8217;s code for the user interface, which is based on
+        CSS-styled HTML forms and DOM events, and the &#8220;controller&#8221; typically
+        denotes the (glue) code that is in charge of mediating between the
+        <span class="emphasis"><em>view</em></span> and the <span class="emphasis"><em>model</em></span>.</p></dd></dl></div><div class="glossdiv"><h3 class="title">O</h3><dl><dt><a name="OCL"></a><span class="glossterm"><span class="italic">Object Constraint
+      Language</span></span></dt><dd class="glossdef"><p>The OCL is a formal logic language for expressing integrity
+        constraints, mainly in UML class models. It also allows defining
+        derivation expressions for defining derived properties, and defining
+        preconditions and postconditions for operations, in a class
+        model..</p></dd><dt><a name="OOP"></a><span class="glossterm"><span class="italic">Object-Oriented
+      Programming</span></span></dt><dd class="glossdef"><p>OOP is a programming paradigm based on the concepts of
+        <span class="emphasis"><em>objects</em></span> and <span class="emphasis"><em>classes</em></span>
+        instantiated by objects. Classes are like blueprints for objects: they
+        define their <span class="emphasis"><em>properties</em></span> and the
+        <span class="emphasis"><em>methods</em></span>/<span class="emphasis"><em>functions</em></span> that can
+        be applied to them. A higher-level characteristic of OOP is
+        <span class="emphasis"><em>inheritance</em></span> in class hierarchies: a subclass
+        inherits the features (properties, methods and constraints) of its
+        superclass. </p></dd><dt><a name="OWL"></a><span class="glossterm"><span class="italic">Web Ontology
+      Language</span></span></dt><dd class="glossdef"><p>OWL is formal logic language for knowledge representation on the
+        Web. It allows defining vocabularies (mainly classes with properties)
+        and supports expressing many types of integrity constraints on them.
+        OWL is the basis for performing automated inferences, such as checking
+        the consistency of an OWL vocabulary. Vocabularies, or data models,
+        defined in the form of UML class models can be converted to OWL
+        vocabularies and then checked for consistency.</p></dd></dl></div><div class="glossdiv"><h3 class="title">P</h3><dl><dt><a name="PNG"></a><span class="glossterm"><span class="italic">Portable Network
+      Graphics</span></span></dt><dd class="glossdef"><p>PNG is an open (non-proprietary) graphics file format that
+        supports lossless data compression.</p></dd><dt><a name="Polyfill"></a><span class="glossterm">Polyfill</span></dt><dd class="glossdef"><p>A polyfill is a piece of JavaScript code for emulating a
+        standard JavaScript method in a browser, which does not support the
+        method.</p></dd></dl></div><div class="glossdiv"><h3 class="title">R</h3><dl><dt><a name="RDF"></a><span class="glossterm">Resource Description Framework</span></dt><dd class="glossdef"><p>RDF is a W3C language for representing machine-readable
+        propositional information on the Web.</p></dd></dl></div><div class="glossdiv"><h3 class="title">S</h3><dl><dt><a name="SGML"></a><span class="glossterm">Standard Generalized Markup Language</span></dt><dd class="glossdef"><p>SGML is an ISO specification for defining markup languages.
+        HTML4 has been defined with SGML. XML is a simplified successor of
+        SGML. HTML5 is no longer SGML-based and has its own parsing
+        rules.</p></dd><dt><a name="SVG"></a><span class="glossterm">Scalable Vector Graphics</span></dt><dd class="glossdef"><p>SVG is a 2D vector image format based on XML. SVG can be styled
+        with CSS and made interactive using JavaScript. HTML5 allows direct
+        embedding of SVG content in an HTML document.</p></dd><dt><a name="slot"></a><span class="glossterm">Slot</span></dt><dd class="glossdef"><p>A slot is a name-value pair. In an object of an object-oriented
+        program (for instance, in a Java object), a slot normally is a
+        property-value pair. But in a JavaScript object, a slot may also
+        consist of a method name and a method body or it may be a key-value
+        pair of a map.</p></dd></dl></div><div class="glossdiv"><h3 class="title">U</h3><dl><dt><a name="Unicode"></a><span class="glossterm">Unicode</span></dt><dd class="glossdef"><p>A platform-independent character set that includes almost all
+        characters from most of the world's script languages including Hindi,
+        Burmese and Gaelic. Each character is assigned a unique integer code
+        in the range between 0 and 1,114,111. For example, the Greek letter &#960;
+        has the code 960. Unicode includes legacy character sets like ASCII
+        and ISO-8859-1 (Latin-1) as subsets.</p><p>XML is based on Unicode. Consequently, the Greek letter &#960; (with
+        code 960) can be inserted in an XML document as &amp;#960; using the
+        XML entity syntax. The default encoding of Unicode characters in an
+        XML document is UTF-8, which uses only a single byte for ASCII
+        characters, but three bytes for less common characters.</p></dd><dt><a name="URI"></a><span class="glossterm">Uniform Resource Identifier</span></dt><dd class="glossdef"><p>A URI is either a <span class="emphasis"><em>Uniform Resource Locator
+        (URL)</em></span> or a <span class="emphasis"><em>Uniform Resource Name
+        (URN)</em></span>.</p></dd><dt><a name="URL"></a><span class="glossterm">Uniform Resource Locator</span></dt><dd class="glossdef"><p>A URL is a resource name that contains a web address for
+        locating the resource on the Web.</p></dd><dt><a name="UML"></a><span class="glossterm"><span class="italic">Unified Modeling
+      Language</span></span></dt><dd class="glossdef"><p>The UML is an industry standard that defines a set of modeling
+        languages for making various kinds of models and diagrams in support
+        of object-oriented problem analysis and software design. Its core
+        languages are <span class="italic">Class Diagrams</span> for
+        information/data modeling, and <span class="italic">Sequence
+        Diagrams</span>, <span class="italic">Activity
+        Diagrams</span> and <span class="italic">State
+        Diagrams</span> (or <span class="italic">State
+        Charts</span>) for process/behavior modeling..</p></dd><dt><a name="URN"></a><span class="glossterm"><span class="italic">Uniform Resource
+      Name</span></span></dt><dd class="glossdef"><p>A URN refers to a resource without specifying its
+        location.</p></dd><dt><a name="UserAgent"></a><span class="glossterm">User Agent</span></dt><dd class="glossdef"><p>A user agent is a front-end web client program such as a web
+        browser.</p></dd></dl></div><div class="glossdiv"><h3 class="title">W</h3><dl><dt><a name="WebM"></a><span class="glossterm">WebM</span></dt><dd class="glossdef"><p>WebM is an open (royalty-free) web video format supported by
+        Google Chrome and Mozilla Firefox, but not by Microsoft Internet
+        Explorer and Apple Safari.</p></dd><dt><a name="WHATWG"></a><span class="glossterm">Web Hypertext Application Technology Working
+      Group</span></dt><dd class="glossdef"><p>The <span class="italic">WHATWG</span> was established in
+        2004 by former employees of Apple, Mozilla, and Opera who have been
+        unhappy with the slow progress of web technology standardization due
+        to W3C's choice to focus on the standardization of XHTML2. Led by Ian
+        Hickson, they developed HTML5 and related JavaScript APIs in
+        competition and collaboration with the W3C.</p></dd><dt><a name="www"></a><span class="glossterm">World Wide Web</span></dt><dd class="glossdef"><p>The WWW (or, simply, "the Web") is a huge client-server network
+        based on HTTP, HTML and XML, where web browsers (and other 'user
+        agents'), acting as HTTP clients, access web server programs, acting
+        as HTTP servers.</p></dd><dt><a name="W3C"></a><span class="glossterm">World Wide Web Consortium</span></dt><dd class="glossdef"><p>The <span class="emphasis"><em>W3C</em></span> is an international organization in
+        charge of developing and maintaining web standards.</p></dd></dl></div><div class="glossdiv"><h3 class="title">X</h3><dl><dt><a name="XHR"></a><span class="glossterm">XML HTTP Request</span></dt><dd class="glossdef"><p>The XML HTTP Request (XHR) API allows a JavaScript program to
+        exchange HTTP messages with back-end programs. It can be used for
+        retrieveing/submitting information from/to a back-end program without
+        submitting HTML forms. XHR-based approaches have been subsumed under
+        the acronym "AJAX" in the past.</p></dd></dl></div></div><script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48105674-1', 'tu-cottbus.de');
+  ga('send', 'pageview');
+
+</script></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsfApp/minimal-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:47:59 GMT -->
+</html>

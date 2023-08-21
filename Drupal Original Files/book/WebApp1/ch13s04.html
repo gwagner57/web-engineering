@@ -1,0 +1,165 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch13s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.&nbsp;Calendar Dates and Times</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Special Datatypes"><link rel="prev" href="ch13s03.html" title="3.&nbsp;Special Numeric Data Types"><link rel="next" href="ch13s05.html" title="5.&nbsp;Quantities"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.&nbsp;Calendar Dates and Times</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;13.&nbsp;Special Datatypes</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s05.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8122"></a>4.&nbsp;Calendar Dates and Times</h2></div></div></div><p>Calendar dates, times of the day and timestamps (date-times) are
+    special data values, which are often only supported for the <span class="italic">Gregorian</span> calendar. We use the datatype names
+    <code class="code">Date</code>, <code class="code">TimeOfDay</code> and <code class="code">Timestamp</code> in
+    information design models.</p><p>Both JavaScript and Java have a built-in <code class="code">Date</code> class
+    that does actually not represent <span class="italic">calendar
+    date</span>s, but rather <span class="italic">timestamp</span>s
+    (or <span class="italic">date-time</span>s) in the specific form of
+    the number of milliseconds since 1 January, 1970 UTC.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8134"></a>4.1.&nbsp;Using JavaScript's <code class="code">Date</code> class</h3></div></div></div><p>JavaScript's <code class="code">Date</code> class allows to represent Gregorian
+      calendar timestamps in the interval of +/- 100 Million days or
+      approximately 285,000 years either forward or backward, from 01 January,
+      1970 UTC.</p><p>A JS data-time can be created in several ways: </p><pre class="programlisting">var firstDateManOnMoon = new Date( 1969, 7, 20);
+var firstDateManOnMoon = new Date("1969-07-20");
+var firstTimeManOnMoon = new Date ( 1969, 7, 20, 20, 18, 0) ;
+var firstTimeManOnMoon = new Date("1969-07-20T20:18:00");</pre><p>A timestamp with the current date and time can be created in the
+      following way: </p><pre class="programlisting">var currentDateTime  = new Date();</pre><p>Assume that the <code class="code">Book</code> model class defined above has an
+      additional attribute <code class="code">publicationDate</code>, the values of which
+      have to be included in HTML tables and forms. While date/time
+      information items have to be formatted as strings in a human-readable
+      form on web pages, preferably in localized form based on the settings of
+      the user's browser, it's not a good idea to store date/time values in
+      this form in a database. Rather we use instances of the predefined
+      JavaScript class <code class="code">Date</code> for representing date/time values
+      internally and for storing them. The predefined functions
+      <code class="code">toISOString()</code> and <code class="code">toLocaleDateString()</code> can be
+      used for turning <code class="code">Date</code> values into ISO standard date/time
+      strings of the form "2015-01-27", or to localized date/time strings like
+      "27.1.2015" (for simplicity, we have omitted the time part in these
+      strings).</p><p>In summary, date/time values may be expressed in three different
+      forms:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Internally, for storage and computations, as a
+            <code class="code">Date</code> value.</p></li><li class="listitem"><p>Internally, for annotating localized date/time strings, or
+            externally, for displaying a date/time value in a standard form,
+            as an ISO standard date/time string, e.g., with the help of
+            <code class="code">toISOString()</code>.</p></li><li class="listitem"><p>Externally, for displaying a date/time value in a localized
+            form, as a localized date/time string, e.g., with the help of
+            <code class="code">toLocaleDateString()</code>.</p></li></ol></div><p>Since the calendar arithmetic and calendar date manipulation
+      functionality of the built-in <code class="code">Date</code> class is limited, using
+      a library like <a class="link" href="https://date-fns.org/" target="_top">date-fns</a>
+      may be helpful for doing more advanced calendar computations.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8164"></a>4.2.&nbsp;Calendar dates and times in the user interface</h3></div></div></div><p>For showing a date/time value as an information item in a web
+      page, we can use the HTML <code class="code">&lt;time&gt;</code> element that allows
+      displaying a human-readable representation (typically a localized
+      date/time string) that is annotated with a standard (machine-readable)
+      form of the date/time value.</p><p>We illustrate the use of the <code class="code">&lt;time&gt;</code> element with the following
+    example of a web page that includes two <code class="code">&lt;time&gt;</code> elements: one for displaying a
+    fixed date, and another (initially empty) element for displaying the date of today, which is
+    computed with the help of a JavaScript function. In both cases we use the <code class="code">datetime</code>
+    attribute for annotating the displayed human-readable date with the corresponding
+    machine-readable representation.</p><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"&gt;
+&lt;head&gt;
+ &lt;meta charset="UTF-8" /&gt;
+ &lt;title&gt;Using the HTML5 Time Element&lt;/title&gt;
+ &lt;script src="assignDate.js"&gt;&lt;/script&gt;
+ &lt;script&gt;window.addEventListener("load", assignDate);&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ &lt;h1&gt;HTML5 Time Element&lt;/h1&gt;
+ &lt;p&gt;HTML 2.0 was published on 
+  &lt;time datetime="1995-11-24"&gt;November 24, 1995&lt;/time&gt;.&lt;/p&gt;
+ &lt;p&gt;Today is &lt;time id="today" datetime=""&gt;&lt;/time&gt;.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre><p>This web page loads and executes the following JS function for
+      computing today's date as a <code class="code">Date</code> value and assigning its
+      ISO standard representation and its localized representation to the
+       <code class="code">&lt;time&gt;</code> element:</p><pre class="programlisting">function assignDate() {
+  var dateEl = document.getElementById("today");
+  var today = new Date();
+  dateEl.textContent = today.toLocaleDateString();
+  dateEl.setAttribute("datetime", today.toISOString());
+}</pre><p>For providing better support concerning the user input of a calendar date value in an
+    HTML <code class="code">form</code>-based user interface, HTML5 has introduced the <code class="code">input</code> element
+    types "date" and "time", which are supposed to instruct browsers to render special UI widgets
+    for picking a date or time. For instance, the following HTML form is supposed to be rendered
+    with a <span class="italic">date picker</span> widget as shown in <a class="xref" href="ch13s04.html#figDatePicker" title="Figure&nbsp;13.2.&nbsp;The date picker widget rendered by the Google Chrome browser.">Figure&nbsp;13.2</a> below:</p><pre class="programlisting">&lt;form id="Person"&gt;
+ &lt;p&gt;&lt;label&gt;Name: &lt;input name="name" type="text"/&gt;&lt;/label&gt;&lt;/p&gt;
+ &lt;p&gt;&lt;label&gt;Date of birth:
+   &lt;input name="dateOfBirth" <span class="bold"><strong>type="date"</strong></span>/&gt;&lt;/label&gt;&lt;/p&gt;
+&lt;/form&gt;</pre><div class="figure-float" style="float: right;"><div class="figure"><a name="figDatePicker"></a><p class="title"><b>Figure&nbsp;13.2.&nbsp;The date picker widget rendered by the Google Chrome
+        browser.</b></p><div class="figure-contents"><div class="mediaobject"><img src="../fig/DatePicker.html" alt="The date picker widget rendered by the Google Chrome browser."></div></div></div><br class="figure-break"></div><p>Unfortunately, in April 2017, a date picker widget has still not
+      been implemented in the Firefox browser, so a progressive enhancement
+      approach is required, where a date picker widget is created with the
+      help of a JS library (like <a class="link" href="https://chmln.github.io/flatpickr/" target="_top">flatpickr</a>)
+      whenever the current browser does not provide one.</p><p>When the user has picked a date in a widget, the
+      <code class="code">input</code> element's <code class="code">value</code> attribute contains a
+      date string. A simple way to convert this string into a
+      <code class="code">Date</code> value is provided by using the DOM attribute
+      <code class="code">valueAsDate</code> like so:</p><pre class="programlisting">var formEl = document.forms["Person"];
+var dateOfBirth = formEl.dateOfBirth.<span class="bold"><strong>valueAsDate</strong></span>;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8198"></a>4.3.&nbsp;Using Java's <code class="code">Date</code> and <code class="code">Calendar</code>
+      classes</h3></div></div></div><p>In Java, we have two important built-in classes for dealing with
+      date-times:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><code class="code">java.util.Calendar</code> is an abstract class, which provides methods for
+       dealing with calendar <span class="italic"><span class="emphasis"><em>timestamp</em></span></span>s and
+       which has concrete subclasses for specific calendars like the <code class="code">GregorianCalendar</code>.
+       Notice that an instance of <code class="code">Calendar</code> is not a calendar, but a wrapped date-time
+       value. For getting a specific date or date-time, we can invoke the constructor of a suitable
+       calendar class with the desired values:</p><pre class="programlisting">Calendar birthDate = <span class="bold"><strong>new GregorianCalendar</strong></span>( 2017,3,26);
+Calendar birthDateTime = <span class="bold"><strong>new GregorianCalendar</strong></span>( 
+    2017,3,26, 20,18,32);</pre></li><li class="listitem"><p><code class="code">java.util.Date</code> is a class that represents timestamps (or date-times)
+       in the specific form of the number of milliseconds since 1 January, 1970 UTC. Most of the
+       methods and constructors of the <code class="code">Date</code> class have been depreciated (because they
+       do not support internationalization), but not the class itself. It is recommended to either
+       avoid using it and use a suitable <code class="code">Calendar</code> subclass instead of
+       <code class="code">Date</code>, or, if an instance of <code class="code">Date</code> is needed, create a
+        <code class="code">Date</code> object by first creating a <code class="code">Calendar</code> object and then
+       converting it to a <code class="code">Date</code> object with the help of the <code class="code">getTime</code>
+       method:</p><pre class="programlisting">Calendar calendarDateTime = <span class="bold"><strong>new GregorianCalendar</strong></span>( 
+    2017,3,26);
+Date dateTime = calendarDateTime.<span class="bold"><strong>getTime()</strong></span>;</pre><p>For getting a <code class="code">Date</code> object that holds the
+            current date-time, we can use the constructor without
+            parameters:</p><pre class="programlisting">Date currentDateTime = <span class="bold"><strong>new Date()</strong></span>;</pre></li></ul></div><p>It is important to notice that months are represented as integers
+      in the range [0, 11], where 0 denotes the month January and 11 the month
+      December. The days of the month are represented as integers in the range
+      [1, 31]. The hours of the day are integers in the range [0, 23] and the
+      minutes are integers in the range [0, 59].</p><p>In many cases, we need to deal directly with values for date-time
+      components like the month, day, hour and so on, instead of just having
+      these values wrapped in an object. The <code class="code">Calendar</code> class
+      defines the <code class="code">get</code> method, taking an integer parameter that
+      allows to specify the desired date-time component in the form of static
+      <code class="code">Calendar</code> properties. For example, if we need to extract the
+      current year, month, day, hour, minute and second, we use the following
+      code:</p><pre class="programlisting">Calendar calendar = new GregorianCalendar( 
+    2017,3,26, 20,18,32); // 26 March 2017, 20:18:32
+int year       = calendar<span class="bold"><strong>.get</strong></span>(<span class="bold"><strong> Calendar.YEAR</strong></span>); // 2017
+int month      = calendar.get( Calendar.MONTH); // 2 (=March)
+int dayOfMonth = calendar.get( Calendar.DAY_OF_MONTH); // 26
+int hourOfDay  = calendar.get( Calendar.HOUR_OF_DAY); // 20
+int minute     = calendar.get( Calendar.MINUTE); // 18
+int second     = calendar.get( Calendar.SECOND); // 32    </pre><p>For
+      more about date/time handling in Java see <a class="link" href="https://www3.ntu.edu.sg/home/ehchua/programming/java/DateTimeCalendar.html" target="_top">Chua
+      Hock-Chuan's Java Date webpage</a>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8243"></a>4.4.&nbsp;Using <code class="code">Date</code> and <code class="code">Calendar</code> with
+      JPA</h3></div></div></div><p>In an entity class with temporal attributes, having
+      <code class="code">Date</code> or <code class="code">Calendar</code> as their range, we use the
+      <code class="code">@Temporal</code> annotation:</p><pre class="programlisting">@Entity
+public class Person {
+  <span class="bold"><strong>@Temporal( TemporalType.DATE)</strong></span>
+  private java.util.Date dateOfBirth;
+
+  @Temporal( TemporalType.TIMESTAMP)
+  private java.util.Calendar firstDayOfSchool;
+}</pre><p>The <code class="code">TemporalType</code> enumeration has three possible
+      values: <code class="code">DATE</code>, <code class="code">TIME</code> and <code class="code">TIMESTAMP</code>,
+      which allow to specify the serialization format used when a
+      <code class="code">Date</code> or <code class="code">Calendar</code> object is persisted in a
+      database. These values correspond to the classes
+      <code class="code">java.sql.Date</code>, <code class="code">java.sql.Time</code> and
+      <code class="code">java.sql.Timestamp</code>, all being subclasses of
+      <code class="code">java.util.Date</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8264"></a>4.5.&nbsp;Rendering Date Attributes with JSF</h3></div></div></div><p>Rendering <code class="code">Date</code>-valued attributes requires using the JSF element
+     <code class="code">h:inputText</code> with the attribute <code class="code">p:type="date"</code>. This creates an HTML
+     <code class="code">input</code> element of type <code class="code">date</code>. For example, a person's
+     <code class="code">dateOfBirth</code> attribute can be rendered in a facelet like so:</p><pre class="programlisting">&lt;h:form id="createPersonForm"&gt;
+  ...
+  &lt;h:inputText id="dateOfBirth" <span class="bold"><strong>p:type="date"</strong></span>  
+    value="#{person.dateOfBirth}"&gt;
+    <span class="bold"><strong>&lt;f:convertDateTime pattern="yyyy-MM-dd" /&gt;</strong></span>
+  &lt;/h:inputText&gt;
+  ...
+&lt;/h:form&gt;</pre><p>The JSF converter <code class="code">f:convertDateTime</code> allows specifying an output format for
+    date values. In the above example, we specify four digits for the year, two digits for the month
+    and two digits for the day (e.g., 2015-07-23).</p><p>As a result, the following HTML code is generated:</p><pre class="programlisting">&lt;input id="createPersonForm:dateOfBirth" 
+  name="createPersonForm:dateOfBirth" <span class="bold"><strong>type="date"</strong></span>/&gt;</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;Special Numeric Data Types&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;5.&nbsp;Quantities</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch13s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:03 GMT -->
+</html>

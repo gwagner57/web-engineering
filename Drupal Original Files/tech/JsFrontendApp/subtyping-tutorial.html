@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" vocab="http://schema.org/" typeof="TechArticle WebPage">
+
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/subtyping-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:45:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8" />
+  <title>JS Front-End Web App with Subtype Relationships</title>
+  <meta property="learningResourceType" content="Tutorial">
+  <meta property="proficiencyLevel" content="Beginner">
+  <meta name="description" content="A tutorial about developing front-end web applications with inheritance in class hierarchies using plain JavaScript" />  
+  <meta name="keywords" content="JavaScript inheritance, subtyping, class hierarchies" />
+  <meta property="keywords" content="JavaScript inheritance, subtyping, class hierarchies">
+  <meta property="isPartOf" content="../../index.html">
+  <meta property="specialty" content="../../WebAppEngineering.html">
+  <link rel="stylesheet" type="text/css" href="../docbook.css">
+</head>
+<body property="articleBody">
+<aside>
+ <nav>
+  <ul>
+  <li><a href="6-SubtypingApp/index.html"><button type="button">Run the app</button></a></li>
+  <li><a href="6-SubtypingApp.zip"><button type="button">Get the code</button></a></li>
+  </ul>
+ </nav>
+ <div id="supportUs">
+  <p>Please support <em>web-engineering.info</em> and buy our e-book <a href="https://gumroad.com/l/YyWka">Building Front-End Web Apps with Plain JavaScript</a>.</p>
+  <a href="https://gumroad.com/l/YyWka"><img src="book-cover-new_169x270.jpg" width="169" height="270"/></a>
+ </div>
+</aside>
+   <div lang="en" class="book"><div class="titlepage"><div><div>
+   <h3 class="kicker" style="color:grey"><em>Understanding</em> and <code>Implementing</code> Information Management Concepts and Techniques</h3>
+   <h1 class="title"><a name="d5e1"></a>JavaScript Front-End Web App Tutorial Part 6: Inheritance in Class Hierarchies</h1></div><div>
+   <h2 class="subtitle"><img style="float:right" property="thumbnailUrl" src="6-SubtypingApp/favicon.svg" width="120" 
+   title="Icon made by Lorc under CC BY 3.0. Available on http://game-icons.net">Learn how to deal with inheritance in class hierarchies, such as
+    TextBook and Biography as subclasses of Book</h2></div>
+	<div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Gerd</span> <span class="surname">Wagner</span></h3><code class="email">&lt;<a class="email" href="../../cdn-cgi/l/email-protection.html#04432a5365636a617644662970712a6061"><span class="__cf_email__" data-cfemail="30771e6751575e554270521d44451e5455">[email&#160;protected]</span></a>&gt;</code></div></div></div><div><p class="releaseinfo">Warning: This tutorial manuscript may still contain errors and may still be
+      incomplete in certain respects. Please report any issue to Gerd Wagner at
+      <a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="de99f089bfb9b0bbac9ebcf3aaabf0babb">[email&#160;protected]</a>.</p></div><div><p class="releaseinfo">This tutorial is also available in the following formats: <a class="link" href="subtyping-tutorial.pdf" target="_top">PDF</a>.
+       You may <a class="link" href="6-SubtypingApp/index.html" target="_top">run the example app</a> from our server, or <a class="link" href="6-SubtypingApp.zip" target="_top">download it as a ZIP archive file</a>. See also our <a class="link" href="../../index.html" target="_top">Web Engineering project page</a>.</p></div><div><p class="copyright">Copyright &copy; 2014-2023 Gerd Wagner</p></div><div><div class="legalnotice"><a name="d5e28"></a><p>This tutorial article, along with any associated source code, is licensed under <a class="link" href="http://www.codeproject.com/info/cpol10.aspx" target="_top">The Code Project Open License
+          (CPOL)</a>, implying that the associated code is provided "as-is", can be modified to
+        create derivative works, can be redistributed, and can be used in commercial applications,
+        but the article must not be distributed or republished without the author's consent.</p></div></div><div><p class="pubdate">2023-06-01</p></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="preface"><a href="#d5e31">Foreword</a></span></dt><dt><span class="chapter"><a href="#chapSubtypes">1. Subtyping and Inheritance</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e90">1. Introducing Subtypes by Specialization</a></span></dt><dt><span class="section"><a href="#d5e116">2. Introducing Supertypes by Generalization</a></span></dt><dt><span class="section"><a href="#d5e186">3. Intension versus Extension</a></span></dt><dt><span class="section"><a href="#d5e213">4. Type Hierarchies</a></span></dt><dt><span class="section"><a href="#secClassHierarchyMerge">5. The <span class="italic">Class Hierarchy Merge</span> Design
+    Pattern</a></span></dt><dt><span class="section"><a href="#d5e346">6. Subtyping and Inheritance in Computational Languages</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e371">6.1. Subtyping and inheritance in OOP</a></span></dt><dt><span class="section"><a href="#d5e402">6.2. Subtyping and inheritance with XML Schema</a></span></dt><dt><span class="section"><a href="#d5e428">6.3. Subtyping and inheritance with OWL</a></span></dt><dt><span class="section"><a href="#secInheritTbl">6.4. Representing class hierarchies with SQL database tables</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e799">7. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e801">7.1. Question 1: Statements about a Class Hierarchy</a></span></dt><dt><span class="section"><a href="#d5e840">7.2. Question 2: Class Hierarchy Merge</a></span></dt><dt><span class="section"><a href="#d5e870">7.3. Question 3: Multiple Inheritance</a></span></dt><dt><span class="section"><a href="#d5e895">7.4. Question 4: Two ways of subtyping</a></span></dt><dt><span class="section"><a href="#d5e907">7.5. Question 5: Vehicle Class Hierarchy</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#chJsSubtyping">2. Subtyping with Plain JS</a></span></dt><dd><dl><dt><span class="section"><a href="#secConstructorBasedSubtyping">1. Subtyping with ES6 Classes</a></span></dt><dt><span class="section"><a href="#d5e1006">2. Case Study 1: Eliminating a Class Hierarchy</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1021">2.1. Make the JS class model</a></span></dt><dt><span class="section"><a href="#d5e1047">2.2. New issues</a></span></dt><dt><span class="section"><a href="#d5e1105">2.3. Code the model classes of the JS class model</a></span></dt><dt><span class="section"><a href="#d5e1184">2.4. Write the User Interface Code</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1241">3. Case Study 2: Implementing a Class Hierarchy</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1248">3.1. Make a JS class model</a></span></dt><dt><span class="section"><a href="#d5e1271">3.2. Make a JS entity table model</a></span></dt><dt><span class="section"><a href="#d5e1356">3.3. New issues</a></span></dt><dt><span class="section"><a href="#d5e1390">3.4. Code the model classes of the JS class model</a></span></dt><dt><span class="section"><a href="#d5e1458">3.5. Take care of subtypes in the UI</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1472">4. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1474">4.1. Question 1: Defining a Subclass</a></span></dt><dt><span class="section"><a href="#d5e1494">4.2. Question 2: Merging Subclasses</a></span></dt><dt><span class="section"><a href="#d5e1524">4.3. Question 3: Check Method for Segment Property</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1536">5. Practice Project</a></span></dt></dl></dd></dl></div><div class="list-of-figures"><p><b>List of Figures</b></p><dl><dt>1.1. <a href="#figBookClassHierarchy">The object type <code class="code">Book</code> with two subtypes:
+      <code class="code">TextBook</code> and <code class="code">Biography</code></a></dt><dt>1.2. <a href="#figEmpAuthGeneralization">The object types <code class="code">Employee</code> and <code class="code">Author</code>
+      share several attributes</a></dt><dt>1.3. <a href="#figSpecGen"><code class="code">Employee</code> and <code class="code">Author</code> are generalized by
+      <code class="code">Person</code></a></dt><dt>1.4. <a href="#figComplInhHierarchy1">An information model with two class hierarchies</a></dt><dt>1.5. <a href="#figSingleInheritanceHierarchy">A class hierarchy having the root class
+      <code class="code">Vehicle</code></a></dt><dt>1.6. <a href="#figMultiInheritHierarchy">A multiple inheritance hierarchy</a></dt><dt>1.7. <a href="#figBookClassHierarchyMergeModel1">The result of applying the Class Hierarchy Merge design
+        pattern</a></dt><dt>1.8. <a href="#figPersonRoles1">An information design model with a <code class="code">Person</code> roles
+        hierarchy</a></dt><dt>1.9. <a href="#figTextBookIsaBookSingleTableInheritSqlM">An SQL table model with a single table representing the
+          <code class="code">Book</code> class hierarchy</a></dt><dt>1.10. <a href="#figPersonRolesSingleTableInheritance">An STI table model representing the <code class="code">Person</code> roles
+          hierarchy</a></dt><dt>1.11. <a href="#figPersRoles_MTI_SQL">A TCI table model representing the <code class="code">Person</code> roles
+          hierarchy</a></dt><dt>1.12. <a href="#figPersonRolesSqlM">A JTI table model representing the <code class="code">Person</code> roles
+          hierarchy</a></dt><dt>2.1. <a href="#figBookClassHierarchyJsM">The JS class model of the merged <code class="code">Book</code> class
+          hierarchy</a></dt><dt>2.2. <a href="#figPersonRolesJsM">The JS class model of the <code class="code">Person</code> roles class
+          hierarchy</a></dt><dt>2.3. <a href="#figPersonRolesSingleTbl">An STI model of the <code class="code">Person</code> roles class
+          hierarchy</a></dt><dt>2.4. <a href="#figPersonRoles_TCI">A TCI model of the <code class="code">Person</code> roles class
+          hierarchy</a></dt></dl></div><div class="preface"><div class="titlepage"><div><div><h1 class="title"><a name="d5e31"></a>Foreword</h1></div></div></div><p>This tutorial is Part 6 of our series of <a class="link" href="../../JsFrontendApp.html" target="_top">six
+    tutorials</a> about model-based development of front-end web
+    applications with plain JavaScript. It shows how to build a web app that
+    manages subtype (inheritance) relationships between object types.</p><p>The app supports the four standard data management operations
+    (<span class="bold"><strong>C</strong></span>reate/<span class="bold"><strong>R</strong></span>etrieve/<span class="bold"><strong>U</strong></span>pdate/<span class="bold"><strong>D</strong></span>elete). It
+    is based on the example used in the other parts, with the object types
+    <code class="code">Book</code>, <code class="code">Person</code>, <code class="code">Author</code>,
+    <code class="code">Employee</code> and <code class="code">Manager</code>. The other parts
+    are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><a class="link" href="minimal-tutorial.html" target="_top">Part
+        1</a>: Building a <span class="bold"><strong>minimal</strong></span>
+        app.</p></li><li class="listitem"><p><a class="link" href="validation-tutorial.html" target="_top">Part
+        2</a>: Handling <span class="bold"><strong>constraint
+        validation</strong></span>.</p></li><li class="listitem"><p><a class="link" href="enumeration-tutorial.html" target="_top">Part
+        3</a>: Dealing with <span class="bold"><strong>enumerations</strong></span>.</p></li><li class="listitem"><p><a class="link" href="unidirectional-association-tutorial.html" target="_top">Part
+        4</a>: Managing <span class="bold"><strong>unidirectional
+        associations</strong></span>, such as the associations between books and
+        publishers, assigning a publisher to a book, and between books and
+        authors, assigning authors to a book.</p></li><li class="listitem"><p><a class="link" href="bidirectional-association-tutorial.html" target="_top">Part
+        5</a>: Managing <span class="bold"><strong>bidirectional
+        associations</strong></span>, such as the associations between books and
+        publishers and between books and authors, also assigning books to
+        authors and to publishers.</p></li></ul></div><p>You may also want to take a look at our open access book <a class="link" href="../../JsFrontendApp-Book.html" target="_top">Building
+    Front-End Web Apps with Plain JavaScript</a>, which includes all parts
+    of the tutorial in one document, dealing with multiple object types
+    ("books", "publishers" and "authors") and taking care of constraint
+    validation, associations and subtypes/inheritance.</p></div><div lang="" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="chapSubtypes"></a>Chapter&nbsp;1.&nbsp;Subtyping and Inheritance</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#d5e90">1. Introducing Subtypes by Specialization</a></span></dt><dt><span class="section"><a href="#d5e116">2. Introducing Supertypes by Generalization</a></span></dt><dt><span class="section"><a href="#d5e186">3. Intension versus Extension</a></span></dt><dt><span class="section"><a href="#d5e213">4. Type Hierarchies</a></span></dt><dt><span class="section"><a href="#secClassHierarchyMerge">5. The <span class="italic">Class Hierarchy Merge</span> Design
+    Pattern</a></span></dt><dt><span class="section"><a href="#d5e346">6. Subtyping and Inheritance in Computational Languages</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e371">6.1. Subtyping and inheritance in OOP</a></span></dt><dt><span class="section"><a href="#d5e402">6.2. Subtyping and inheritance with XML Schema</a></span></dt><dt><span class="section"><a href="#d5e428">6.3. Subtyping and inheritance with OWL</a></span></dt><dt><span class="section"><a href="#secInheritTbl">6.4. Representing class hierarchies with SQL database tables</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e799">7. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e801">7.1. Question 1: Statements about a Class Hierarchy</a></span></dt><dt><span class="section"><a href="#d5e840">7.2. Question 2: Class Hierarchy Merge</a></span></dt><dt><span class="section"><a href="#d5e870">7.3. Question 3: Multiple Inheritance</a></span></dt><dt><span class="section"><a href="#d5e895">7.4. Question 4: Two ways of subtyping</a></span></dt><dt><span class="section"><a href="#d5e907">7.5. Question 5: Vehicle Class Hierarchy</a></span></dt></dl></dd></dl></div><p>The concept of a <span class="italic">subtype</span>, or
+  <span class="italic">subclass</span>, is a fundamental concept in
+  natural language, mathematics, and informatics. For instance, in English, we
+  say that <span class="italic">a bird is an animal</span>, or the
+  class of all birds is a <span class="italic">subclass</span> of the
+  class of all animals. In linguistics, the noun "bird" is a <span class="italic">hyponym</span> of the noun "animal".</p><p>An object type may be specialized by subtypes (for instance, <span class="italic">Bird</span> is specialized by <span class="italic">Parrot</span>) or generalized by supertypes (for instance,
+  <span class="italic">Bird</span> and <span class="italic">Mammal</span> are generalized by <span class="italic">Animal</span>). Specialization and generalization are two
+  sides of the same coin.</p><p>A subtype <span class="bold"><strong><span class="italic">inherits</span></strong></span> all features from its
+  supertypes. When a subtype inherits attributes, associations and constraints
+  from a supertype, this means that these features need not be repeatedly
+  rendered for the subtype in the class diagram, but the reader of the diagram
+  has to understand that all features of a supertype also apply to its
+  subtypes.</p><p>When an object type has more than one direct supertype, we have a case
+  of <span class="bold"><strong><span class="italic">multiple
+  inheritance</span></strong></span>, which is common in conceptual modeling,
+  but prohibited in many object-oriented programming languages, such as Java
+  and C#, which only allow <span class="bold"><strong><span class="italic">class
+  hierarchies</span></strong></span> with a unique direct supertype for each
+  object type.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e90"></a>1.&nbsp;Introducing Subtypes by Specialization</h2></div></div></div><p>A new object type may be introduced by specialization<a class="indexterm" name="d5e93"></a> whenever it represents a special case of another object
+    type. We illustrate this for our example model where we want to capture
+    text books and biographies as special cases of books. This means that text
+    books and biographies also have an ISBN, a title and a publishing year,
+    but in addition they have further features such as the attribute
+    <code class="code">subjectArea</code> for text books and the attribute
+    <code class="code">about</code> for biographies. Consequently, in <a class="xref" href="#figBookClassHierarchy" title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a>, we introduce
+    the object types <code class="code">TextBook</code> and <code class="code">Biography</code> by
+    specializing the object type <code class="code">Book</code>, that is, as subtypes of
+    <code class="code">Book</code>.</p><div class="figure"><a name="figBookClassHierarchy"></a><p class="title"><b>Figure&nbsp;1.1.&nbsp;The object type <code class="code">Book</code> with two subtypes:
+      <code class="code">TextBook</code> and <code class="code">Biography</code></b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="240"><tr><td><img src="../fig/BookClassHierarchy.svg" width="240" alt="The object type Book with two subtypes: TextBook and Biography"></td></tr></table></div></div></div><br class="figure-break"><p>When specializing an object type, we define additional features for
+    the newly added subtype. In many cases, these additional features are more
+    specific properties. For instance, in the case of <code class="code">TextBook</code>
+    specializing <code class="code">Book</code>, we define the additional attribute
+    <code class="code">subjectArea</code>. In some programming languages, such as in Java,
+    it is therefore said that the subtype <span class="italic">extends</span> the supertype.</p><p>However, we can also specialize an object type without defining
+    additional properties or operations/methods, but by defining additional
+    constraints.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e116"></a>2.&nbsp;Introducing Supertypes by Generalization</h2></div></div></div><p>We illustrate generalization<a class="indexterm" name="d5e119"></a> with the example model shown in <a class="xref" href="#figEmpAuthGeneralization" title="Figure&nbsp;1.2.&nbsp;The object types Employee and Author share several attributes">Figure&nbsp;1.2</a>.</p><div class="figure"><a name="figEmpAuthGeneralization"></a><p class="title"><b>Figure&nbsp;1.2.&nbsp;The object types <code class="code">Employee</code> and <code class="code">Author</code>
+      share several attributes</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="600"><tr><td><img src="../fig/Emp-Publ-Book-Auth_DesM.svg" width="600" alt="The object types Employee and Author share several attributes"></td></tr></table></div></div></div><br class="figure-break"><p>After adding the object type <code class="code">Employee</code> we notice that
+    <code class="code">Employee</code> and <code class="code">Author</code> share a number of attributes
+    due to the fact that both employees and authors are people, and <span class="italic">being an employee</span> as well as <span class="italic">being an author</span> are <span class="bold"><strong><span class="italic">roles</span></strong></span> played by
+    people. So, we may generalize these two object types by adding a joint
+    supertype <code class="code">Person</code>, as shown in the diagram of <a class="xref" href="#figSpecGen" title="Figure&nbsp;1.3.&nbsp;Employee and Author are generalized by Person">Figure&nbsp;1.3</a>.</p><div class="figure"><a name="figSpecGen"></a><p class="title"><b>Figure&nbsp;1.3.&nbsp;<code class="code">Employee</code> and <code class="code">Author</code> are generalized by
+      <code class="code">Person</code></b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="550"><tr><td><img src="../fig/Generalizing-Emp-Auth-Pers.svg" width="550" alt="Employee and Author are generalized by Person"></td></tr></table></div></div></div><br class="figure-break"><p>When generalizing two or more object types, we move those features
+    that are shared by them to the newly added supertype where they are
+    centralized. In the case of <code class="code">Employee</code> and <code class="code">Author</code>,
+    this set of shared features consists of the attributes <code class="code">name</code>,
+    <code class="code">dateOfBirth</code> and <code class="code">dateOfDeath</code>. In general, shared
+    features may include attributes, associations and constraints.</p><p>Notice that since in an information design model, each top-level
+    class needs to have a standard identifier, in the new class
+    <code class="code">Person</code> we have declared the standard identifier attribute
+    <code class="code">personId</code>, which is inherited by all subclasses. Therefore, we
+    have to reconsider the attributes that had been declared to be standard
+    identifiers in the subclasses before the generalization. In the case of
+    <code class="code">Employee</code>, we had declared the attribute
+    <code class="code">employeeNo</code> as a standard identifier. Since the employee
+    number is an important business information item, we have to keep this
+    attribute, even if it is no longer the standard identifier. Because it is
+    still an alternative identifier (a "key"), we define a <span class="italic">uniqueness</span> constraint for it with the constraint
+    keyword <code class="code">key</code>.</p><p>In the case of <code class="code">Author</code>, we had declared the attribute
+    <code class="code">authorId</code> as a standard identifier. Assuming that this
+    attribute represents a purely technical, rather than business, information
+    item, we dropped it, since it's no longer needed as an identifier for
+    authors. Consequently, we end up with a model which allows to identify
+    employees either by their employee number or by their
+    <code class="code">personId</code> value, and to identify authors by their
+    <code class="code">personId</code> value.</p><p>We consider the following extension of our original example model,
+    shown in <a class="xref" href="#figComplInhHierarchy1" title="Figure&nbsp;1.4.&nbsp;An information model with two class hierarchies">Figure&nbsp;1.4</a>, where we have added two class
+    hierarchies:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the disjoint (but incomplete) segmentation<a class="indexterm" name="d5e170"></a> of <code class="code">Book</code> into <code class="code">TextBook</code> and
+          <code class="code">Biography</code>,</p></li><li class="listitem"><p>the overlapping and incomplete segmentation of
+          <code class="code">Person</code> into <code class="code">Author</code> and
+          <code class="code">Employee</code>, which is further specialized by
+          <code class="code">Manager</code>.</p></li></ol></div><div class="figure"><a name="figComplInhHierarchy1"></a><p class="title"><b>Figure&nbsp;1.4.&nbsp;An information model with two class hierarchies</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="600"><tr><td><img src="../fig/CompleteInheritanceHierarchy.svg" width="600" alt="An information model with two class hierarchies"></td></tr></table></div></div></div><br class="figure-break"></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e186"></a>3.&nbsp;Intension versus Extension</h2></div></div></div><p>The <span class="bold"><strong><span class="italic">intension</span></strong></span> of an object type is given
+    by the set of its features, including attributes, associations,
+    constraints and operations.</p><p>The <span class="bold"><strong><span class="italic">extension</span></strong></span> of an object type is the set
+    of all objects instantiating the object type. The extension of an object
+    type is also called its <span class="italic">population</span>.</p><p>We have the following duality: while all features of a supertype are
+    included in the intensions, or feature sets, of its subtypes (intensional
+    inclusion), all instances of a subtype are included in the extensions, or
+    instance sets, of its supertypes (extensional inclusion). This formal
+    structure has been investigated in <a class="link" href="https://en.wikipedia.org/wiki/Formal_concept_analysis" target="_top">formal
+    concept analysis</a>.</p><p>Due to the intension/extension duality we can specialize a given
+    type in two different ways:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>By <span class="bold"><strong><span class="italic">extending the
+          type's intension</span></strong></span> through adding features in
+          the new subtype (such as adding the attribute
+          <code class="code">subjectArea</code> in the subtype
+          <code class="code">TextBook</code>).</p></li><li class="listitem"><p>By <span class="bold"><strong><span class="italic">restricting
+          the type's extension</span></strong></span> through adding a
+          constraint (such as defining a subtype <code class="code">MathTextBook</code> as
+          a <code class="code">TextBook</code> where the attribute <code class="code">subjectArea</code>
+          has the specific value "Mathematics").</p></li></ol></div><p>Typical OO programming languages, such as Java and C#, only support
+    the first possibility (specializing a given type by extending its
+    intension), while XML Schema and SQL99 also support the second possibility
+    (specializing a given type by restricting its extension).</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e213"></a>4.&nbsp;Type Hierarchies</h2></div></div></div><p>A <span class="italic">type hierarchy</span><a class="indexterm" name="d5e217"></a> (or <span class="italic">class
+    hierarchy</span><a class="indexterm" name="d5e220"></a>) consists of two or more types, one of them being the
+    <span class="italic">root</span> (or <span class="italic">top-level</span>) type, and all others having at least
+    one direct supertype. When all non-root types have a unique direct
+    supertype, the type hierarchy is a <span class="bold"><strong><span class="italic">single-inheritance hierarchy</span></strong></span>,
+    otherwise it's a <span class="bold"><strong><span class="italic">multiple-inheritance
+    hierarchy</span></strong></span><a class="indexterm" name="d5e228"></a>. For instance, in <a class="xref" href="#figSingleInheritanceHierarchy" title="Figure&nbsp;1.5.&nbsp;A class hierarchy having the root class Vehicle">Figure&nbsp;1.5</a> below,
+    the class <code class="code">Vehicle</code> is the root of a single-inheritance
+    hierarchy, while <a class="xref" href="#figMultiInheritHierarchy" title="Figure&nbsp;1.6.&nbsp;A multiple inheritance hierarchy">Figure&nbsp;1.6</a> shows an example of a multiple-inheritance
+    hierarchy, due to the fact that <code class="code">AmphibianVehicle</code> has two
+    direct superclasses: <code class="code">LandVehicle</code> and
+    <code class="code">WaterVehicle</code>.</p><div class="figure"><a name="figSingleInheritanceHierarchy"></a><p class="title"><b>Figure&nbsp;1.5.&nbsp;A class hierarchy having the root class
+      <code class="code">Vehicle</code></b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="500"><tr><td><img src="../fig/SingleInheritanceHierarchy.svg" width="500" alt="A class hierarchy having the root class Vehicle"></td></tr></table></div></div></div><br class="figure-break"><p>The simplest case of a class hierarchy, which has only one level of
+    subtyping, is called a <span class="italic">generalization
+    set</span> in UML, but may be more naturally called <span class="bold"><strong><span class="italic">segmentation</span></strong></span><a class="indexterm" name="d5e246"></a>. A segmentation is <span class="bold"><strong><span class="italic">complete</span></strong></span>, if the union of all subclass
+    extensions is equal to the extension of the superclass (or, in other
+    words, if all instances of the superclass instantiate some subclass). A
+    segmentation is <span class="bold"><strong><span class="italic">disjoint</span></strong></span>, if all subclasses are
+    pairwise disjoint (or, in other words, if no instance of the superclass
+    instantiates more than one subclass). Otherwise, it is called <span class="italic">overlapping</span>. A complete and disjoint segmentation
+    is a <span class="bold"><strong><span class="italic">partition</span></strong></span><a class="indexterm" name="d5e255"></a>.</p><div class="figure"><a name="figMultiInheritHierarchy"></a><p class="title"><b>Figure&nbsp;1.6.&nbsp;A multiple inheritance hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="500"><tr><td><img src="../fig/MultipleInheritanceHierarchy.svg" width="500" alt="A multiple inheritance hierarchy"></td></tr></table></div></div></div><br class="figure-break"><p>In a class diagram, we can express these constraints by annotating
+    the shared generalization arrow with the keywords <span class="italic">complete</span> and <span class="italic">disjoint</span> enclosed in braces. For instance, the
+    annotation of a segmentation with {complete, disjoint} indicates that it
+    is a partition. By default, whenever a segmentation does not have any
+    annotation, like the segmentation of <code class="code">Vehicle</code> into
+    <code class="code">LandVehicle</code> and <code class="code">WaterVehicle</code> in <a class="xref" href="#figMultiInheritHierarchy" title="Figure&nbsp;1.6.&nbsp;A multiple inheritance hierarchy">Figure&nbsp;1.6</a> above, it
+    is {incomplete, overlapping}.</p><p>An information model may contain any number of class
+    hierarchies.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="secClassHierarchyMerge"></a>5.&nbsp;The <span class="italic">Class Hierarchy Merge</span> Design
+    Pattern</h2></div></div></div><p>Consider the simple class hierarchy of the design model in <a class="xref" href="#figBookClassHierarchy" title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a> above, showing
+    a disjoint segmentation of the class <code class="code">Book</code>. In such a case,
+    whenever there is only one level (or there are only a few levels) of
+    subtyping and each subtype has only one (or a few) additional properties,
+    it's an option to re-factor the class hierarchy by merging all the
+    additional properties of all subclasses into an expanded version of the
+    root class such that these subclasses can be dropped from the model,
+    leading to a simplified model.</p><p>This <span class="italic">Class Hierarchy
+    Merge</span><a class="indexterm" name="d5e278"></a> design pattern comes in two forms. In its simplest form,
+    the segmentations of the original class hierarchy are <span class="bold"><strong><span class="italic">disjoint</span></strong></span>, which
+    allows to use a <span class="bold"><strong><span class="italic">single-valued</span></strong></span> <code class="code">category</code>
+    attribute for representing the specific category of each instance of the
+    root class corresponding to the unique subclass instantiated by it. When
+    the segmentations of the original class hierarchy are not disjoint, that
+    is, when at least one of them is <span class="bold"><strong><span class="italic">overlapping</span></strong></span>, we need to use a
+    <span class="bold"><strong><span class="italic">multi-valued</span></strong></span> <code class="code">category</code>
+    attribute for representing the set of types instantiated by an object. We
+    only discuss the simpler case of <span class="italic">Class Hierarchy
+    Merge</span> re-factoring for disjoint segmentations, where we take
+    the following re-factoring steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Add an <span class="bold"><strong><span class="italic">enumeration datatype</span></strong></span> that
+          contains a corresponding enumeration literal for each segment
+          subclass. In our example, we add the enumeration datatype
+          <code class="code">BookCategoryEL</code>.</p></li><li class="listitem"><p>Add a <code class="code">category</code> attribute to the root class with
+          this enumeration as its range. The <code class="code">category</code> attribute
+          is mandatory [1], if the segmentation is complete, and optional
+          [0..1], otherwise. In our example, we add a <code class="code">category</code>
+          attribute with range <code class="code">BookCategoryEL</code> to the class
+          <code class="code">Book</code>. The <code class="code">category</code> attribute is optional
+          because the segmentation of <code class="code">Book</code> into
+          <code class="code">TextBook</code> and <code class="code">Biography</code> is
+          incomplete.</p></li><li class="listitem"><p>Whenever the segmentation is <span class="bold"><strong><span class="italic">rigid</span></strong></span>, we designate the
+          <code class="code">category</code> attribute as <span class="bold"><strong><span class="italic">frozen</span></strong></span>, which means that it can
+          only be assigned once by setting its value when creating a new
+          object, but it cannot be changed later.</p></li><li class="listitem"><p>Move the properties of the segment subclasses to the root
+          class, and make them <span class="bold"><strong><span class="italic">optional</span></strong></span>. We call these
+          properties, which are typically listed below the
+          <code class="code">category</code> attribute, <span class="bold"><strong><span class="italic">segment properties</span></strong></span>. In our
+          example, we move the attributes <code class="code">subjectArea</code> from
+          <code class="code">TextBook</code> and <code class="code">about</code> from
+          <code class="code">Biography</code> to <code class="code">Book</code>, making them <span class="italic">optional</span>, that is [0..1].</p></li><li class="listitem"><p>Add a constraint (in an invariant box attached to the expanded
+          root class rectangle) enforcing that the optional subclass
+          properties have a value if and only if the instance of the root
+          class instantiates the corresponding category. In our example, this
+          means that an instance of <code class="code">Book</code> is of category
+          "TextBook" if and only if its attribute <code class="code">subjectArea</code> has
+          a value, and it is of category "Biography" if and only if its
+          attribute <code class="code">about</code> has a value.</p></li><li class="listitem"><p>Drop the segment subclasses from the model.</p></li></ol></div><p>In the case of our example, the result of this design re-factoring
+    is shown in <a class="xref" href="#figBookClassHierarchyMergeModel1" title="Figure&nbsp;1.7.&nbsp;The result of applying the Class Hierarchy Merge design pattern">Figure&nbsp;1.7</a> below. Notice that the constraint (or
+    "invariant") represents a logical sentence where the logical operator
+    keyword "IFF" stands for the logical equivalence operator "if and only if"
+    and the property condition<code class="code"> prop=undefined </code>tests if the
+    property <code class="code">prop</code> does not have a value.</p><div class="figure"><a name="figBookClassHierarchyMergeModel1"></a><p class="title"><b>Figure&nbsp;1.7.&nbsp;The result of applying the Class Hierarchy Merge design
+        pattern</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="360"><tr><td><img src="../fig/BookClassHierarchyMerge.svg" width="360"></td></tr></table></div></div></div><br class="figure-break"><p></p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e346"></a>6.&nbsp;Subtyping and Inheritance in Computational Languages</h2></div></div></div><p>Subtyping and inheritance have been supported in <span class="italic">Object-Oriented Programming (OOP)</span>, in database
+    languages (such as <span class="italic">SQL99</span>), in the XML
+    schema definition language <span class="italic">XML Schema</span>,
+    and in other computational languages, in various ways and to different
+    degrees. At its core, subtyping in computational languages is about
+    defining type hierarchies and the inheritance of features: properties,
+    constraints and methods in OOP; table columns and constraints in SQL99;
+    elements, attributes and constraints in XML Schema.</p><p>In general, it is desirable to have support for <span class="italic">multiple classification</span> and <span class="italic">multiple inheritance</span> in type hierarchies. Both
+    language features are closely related and are considered to be advanced
+    features, which may not be needed in many applications or can be dealt
+    with by using workarounds.</p><p><span class="bold"><strong><span class="italic">Multiple
+    classification</span></strong></span><a class="indexterm" name="d5e358"></a> means that an object has more than one direct type. This is
+    mainly the case when an object plays multiple roles at the same time, and
+    therefore directly instantiates multiple classes defining these
+    roles.</p><p><span class="bold"><strong><span class="italic">Multiple
+    inheritance</span></strong></span><a class="indexterm" name="d5e363"></a> is typically also related to role classes. For instance, a
+    student assistant is a person playing both the role of a student and the
+    role of an academic staff member, so a corresponding OOP class
+    <code class="code">StudentAssistant</code> inherits from both role classes
+    <code class="code">Student</code> and <code class="code">AcademicStaffMember</code>. In a similar
+    way, in our example model above, an <code class="code">AmphibianVehicle</code> inherits
+    from both role classes <code class="code">LandVehicle</code> and
+    <code class="code">WaterVehicle</code>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e371"></a>6.1.&nbsp;Subtyping and inheritance in OOP</h3></div></div></div><p>The minimum level of support for subtyping in OOP, as provided,
+      for instance, by Java and C#, allows defining inheritance of properties
+      and methods in single-inheritance hierarchies, which can be inspected
+      with the help of an <span class="bold"><strong><span class="italic">is-instance-of</span></strong></span> predicate that allows
+      testing if a class is the direct or an indirect type of an object. In
+      addition, it is desirable to be able to inspect inheritance hierarchies
+      with the help of</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>a predefined instance-level property for retrieving
+            <span class="bold"><strong><span class="italic">the direct type of
+            an object</span></strong></span> (or its <span class="italic">direct types</span>, if multiple classification
+            is allowed);</p></li><li class="listitem"><p>a predefined type-level property for retrieving <span class="bold"><strong><span class="italic">the direct supertype of a
+            type</span></strong></span> (or its <span class="italic">direct
+            supertypes</span>, if multiple inheritance is allowed).</p></li></ol></div><p>A special case of an OOP language is JavaScript, which did
+      originally not have an explicit language element for defining classes,
+      but only for defining constructor functions. Due to its dynamic
+      programming features, JavaScript allows using various code patterns for
+      implementing classes, subtyping and inheritance. In modern JavaScript,
+      starting from ES2015, defining a superclass and a subclass is
+      straightforward. First, we define a base class, <code class="code">Person</code>,
+      with two properties, <code class="code">firstName</code> and
+      <code class="code">lastName</code>:</p><pre class="programlisting"><span class="bold"><strong>class</strong></span> Person {
+  <span class="bold"><strong>constructor</strong></span> (first, last) {
+    // assign base class properties
+    this.firstName = first; 
+    this.lastName = last; 
+  }
+}</pre><p>Then, we define a subclass, <code class="code">Student</code>, with one
+      additional property, <code class="code">studentNo</code>:</p><pre class="programlisting">
+class Student <span class="bold"><strong>extends</strong></span> Person {
+  constructor (first, last, studNo) {
+    // invoke constructor of superclass
+    <span class="bold"><strong>super</strong></span>( first, last);
+    // assign additional properties
+    this.studentNo = studNo;
+  }
+}</pre><p>Notice how the constructor of the superclass is invoked with
+      <code class="code">super( first, last)</code> for assigning the superclass
+      properties.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e402"></a>6.2.&nbsp;Subtyping and inheritance with XML Schema</h3></div></div></div><p>In XML Schema, a subtype can be defined by <span class="italic">extending</span> or by <span class="italic">restricting</span> an existing complex type. While
+      extending a complex type means <span class="bold"><strong><span class="italic">extending its intension</span></strong></span> by adding
+      elements or attributes, restricting a complex type means <span class="bold"><strong><span class="italic">restricting its
+      extension</span></strong></span> by adding constraints.</p><p>We can define a complex type <code class="code">Person</code> and a subtype
+      <code class="code">Student</code> by extending <code class="code">Person</code> in the following
+      way:</p><pre class="programlisting">&lt;xs:complexType name="<span class="bold"><strong>Person</strong></span>"&gt;
+  &lt;xs:attribute name="firstName" type="xs:string" /&gt;
+  &lt;xs:attribute name="lastName" type="xs:string" /&gt;
+  &lt;xs:attribute name="gender" type="GenderValue" /&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="<span class="bold"><strong>Student</strong></span>"&gt;
+  &lt;xs:<span class="bold"><strong>extension</strong></span> base="Person"&gt;
+    &lt;xs:attribute name="studentNo" type="xs:string" /&gt;
+  &lt;/xs:extension&gt;
+&lt;/xs:complexType&gt;</pre><p>We can define a subtype <code class="code">FemalePerson</code> by restricting
+      <code class="code">Person</code> in the following way:</p><pre class="programlisting">&lt;xs:complexType name="FemalePerson"&gt;
+  &lt;xs:<span class="bold"><strong>restriction</strong></span> base="Person"&gt;
+    &lt;xs:attribute name="firstName" type="xs:string" /&gt;
+    &lt;xs:attribute name="lastName" type="xs:string" /&gt;
+    &lt;xs:attribute name="gender" type="GenderValue" 
+        <span class="bold"><strong>use="fixed" value="f"</strong></span> /&gt;
+  &lt;/xs:restriction&gt;
+&lt;/xs:complexType&gt;</pre><p>Notice that by fixing the value of the <code class="code">gender</code>
+      attribute to "f", we define a constraint that is only satisfied by the
+      female instances of <code class="code">Person</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e428"></a>6.3.&nbsp;Subtyping and inheritance with OWL</h3></div></div></div><p>In the Web Ontology Language OWL, property definitions are
+      separated from class definitions and properties are not single-valued,
+      but multi-valued by default. Consequently, standard properties need to
+      be declared as <span class="italic">functional</span>. Thus, we
+      obtain the following code for expressing that <code class="code">Person</code> is a
+      class having the property <code class="code">name</code>:</p><pre class="programlisting">&lt;owl:<span class="bold"><strong>Class</strong></span> rdf:ID="<span class="bold"><strong>Person</strong></span>"/&gt;
+&lt;owl:<span class="bold"><strong>DatatypeProperty</strong></span> rdf:ID="<span class="bold"><strong>name</strong></span>"&gt;
+    &lt;rdfs:<span class="bold"><strong>domain</strong></span> rdf:resource="#Person"/&gt;
+    &lt;rdfs:<span class="bold"><strong>range</strong></span> rdf:resource="xsd:string"/&gt;
+    &lt;rdf:type rdf:resource="owl:FunctionalProperty"/&gt;
+&lt;/owl:DatatypeProperty&gt;</pre><p>OWL allows stating that a class is a subclass of another class in
+      the following way:</p><pre class="programlisting">&lt;owl:Class rdf:ID="<span class="bold"><strong>Student</strong></span>"&gt;
+    &lt;rdfs:<span class="bold"><strong>subClassOf</strong></span> rdf:resource="#<span class="bold"><strong>Person</strong></span>"/&gt;
+&lt;/owl:Class&gt;
+&lt;owl:DatatypeProperty rdf:ID="<span class="bold"><strong>studentNo</strong></span>"&gt;
+    &lt;rdfs:domain rdf:resource="#Student"/&gt;
+    &lt;rdfs:range rdf:resource="xsd:string"/&gt;
+    &lt;rdf:type rdf:resource="owl:FunctionalProperty"/&gt;
+&lt;/owl:DatatypeProperty&gt;</pre><p>For better usability, OWL should allow to define the properties of
+      a class within a class definition, using the case of functional
+      properties as the default case.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="secInheritTbl"></a>6.4.&nbsp;Representing class hierarchies with SQL database tables</h3></div></div></div><p>A standard DBMS stores information (objects) in the rows of
+      tables, which have been conceived as set-theoretic relations in
+      classical <span class="italic">relational</span> database
+      systems. The relational database language SQL is used for defining,
+      populating, updating and querying such databases. But there are also
+      simpler data storage techniques that allow to store data in the form of
+      table rows, but do not support SQL. In particular, key-value storage
+      systems, such as JavaScript's Local Storage API, allow storing a
+      serialization of a <span class="bold"><strong><span class="italic">JS
+      entity table</span></strong></span> (a map of entity records) as the
+      string value associated with the table name as a key.</p><p>While in the classical version of SQL (SQL92) there is no support
+      for subtyping and inheritance, this has been changed in SQL99. However,
+      the subtyping-related language elements of SQL99 have only been
+      implemented in some DBMS, for instance in the open source DBMS <span class="italic">PostgreSQL</span>. As a consequence, for making a
+      design model that can be implemented with various frameworks using
+      various SQL DBMSs (including weaker technologies such as <span class="italic">MySQL</span> and <span class="italic">SQLite</span>), we cannot use the SQL99 features for
+      subtyping, but have to model inheritance hierarchies in database design
+      models by means of plain tables and foreign key dependencies. This
+      mapping from class hierarchies to relational tables (and back) is the
+      business of <span class="italic"><span class="bold"><strong>Object-Relational-Mapping</strong></span></span><a class="indexterm" name="d5e460"></a> frameworks such as <a class="link" href="https://en.wikibooks.org/wiki/Java_Persistence/What_is_JPA%3F" target="_top">JPA</a>
+      Providers (like <a class="link" href="https://en.wikipedia.org/wiki/Hibernate_(Java)" target="_top">Hibernate</a>),
+      Microsoft's <a class="link" href="https://docs.microsoft.com/en-us/ef/" target="_top">Entity
+      Framework</a>, or the <a class="link" href="http://guides.rubyonrails.org/association_basics.html" target="_top">Active
+      Record</a> approach of the <a class="link" href="http://rubyonrails.org/" target="_top">Rails</a> framework.</p><p>There are essentially three alternative approaches how to
+      represent a class hierarchy with database tables:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="italic"><span class="bold"><strong> <a class="link" href="http://www.martinfowler.com/eaaCatalog/singleTableInheritance.html" target="_top">Single
+            Table Inheritance</a></strong></span> (STI)<a class="indexterm" name="d5e474"></a></span> is the simplest approach, where the
+            entire class hierarchy is represented by a single table,
+            containing columns for all attributes of the root class and of all
+            its subclasses, and named after the name of the root class.</p></li><li class="listitem"><p><span class="italic"><span class="bold"><strong>
+                  <a class="link" href="https://en.wikibooks.org/wiki/Java_Persistence/Inheritance#Table_Per_Class_Inheritance" target="_top">Table per Class Inheritance</a></strong></span> (TCI)</span><a class="indexterm" name="d5e482"></a> is an approach, where each class of the hierarchy is represented by a
+              corresponding table containing also columns for inherited properties, thus repeating
+              the columns of the tables that represent its superclasses.</p></li><li class="listitem"><p><span class="italic"><span class="bold"><strong><a class="link" href="https://en.wikibooks.org/wiki/Java_Persistence/Inheritance#Joined.2C_Multiple_Table_Inheritance" target="_top">Joined
+            Tables Inheritance</a></strong></span> (JTI)</span><a class="indexterm" name="d5e490"></a> is a more logical approach, where each segment
+            subclass is represented by a corresponding table (subtable)
+            connected to the table representing its superclass (supertable)
+            via its primary key referencing the primary key of the supertable,
+            such that the (inherited) properties of the superclass are not
+            represented as columns in subtables.</p></li></ol></div><p>Notice that the STI approach is closely related to the <span class="italic">Class Hierarchy Merge</span> design pattern discussed
+      in <a class="xref" href="#secClassHierarchyMerge" title="5.&nbsp;The Class Hierarchy Merge Design Pattern">Section&nbsp;5</a>
+      above. Whenever this design pattern has already been applied in the
+      design model, or the design model has already been re-factored according
+      to this design pattern, the class hierarchies concerned (their
+      subclasses) have been eliminated in the design, and consequently also in
+      the data model to be coded in the form of class definitions in the app's
+      model layer, so there is no need anymore to map class hierarchies to
+      single tables. Otherwise, the design model contains a class hierarchy
+      that is implemented with a corresponding class hierarchy in the app's
+      model layer, which would be mapped to database tables with the help of
+      the STI approach.</p><p>We illustrate the use of these approaches with the help of two
+      simple examples. The first example is the <code class="code">Book</code> class
+      hierarchy, which is shown in <a class="xref" href="#figBookClassHierarchy" title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a> above. The second example is the class
+      hierarchy of the <code class="code">Person</code> roles <code class="code">Employee</code>,
+      <code class="code">Manager</code> and <code class="code">Author</code>, shown in the class diagram
+      in <a class="xref" href="#figPersonRoles1" title="Figure&nbsp;1.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;1.8</a>
+      below.</p><div class="figure"><a name="figPersonRoles1"></a><p class="title"><b>Figure&nbsp;1.8.&nbsp;An information design model with a <code class="code">Person</code> roles
+        hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="320"><tr><td><img src="../fig/PersonRoleHierarchy.svg" width="320" alt="An information design model with a Person roles hierarchy"></td></tr></table></div></div></div><br class="figure-break"><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e510"></a>6.4.1.&nbsp;Single Table Inheritance</h4></div></div></div><p>Consider the single-level class hierarchy shown in <a class="xref" href="#figBookClassHierarchy" title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a> above,
+        which is an incomplete disjoint segmentation of the class
+        <code class="code">Book</code>, as the design for the model classes of an MVC app.
+        In such a case, whenever we have a model class hierarchy with only one
+        level (or only a few levels) of subtyping and each subtype has only a
+        few additional properties, it's preferable to use STI<a class="indexterm" name="d5e515"></a>, so we model a single table containing columns for all
+        attributes such that the columns representing additional attributes of
+        segment subclasses ("segment attributes") are optional, as shown in
+        the SQL table model in <a class="xref" href="#figTextBookIsaBookSingleTableInheritSqlM" title="Figure&nbsp;1.9.&nbsp;An SQL table model with a single table representing the Book class hierarchy">Figure&nbsp;1.9</a> below.</p><div class="figure"><a name="figTextBookIsaBookSingleTableInheritSqlM"></a><p class="title"><b>Figure&nbsp;1.9.&nbsp;An SQL table model with a single table representing the
+          <code class="code">Book</code> class hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../fig/BookClassHierarchy_SqlM.svg" width="400" alt="An SQL table model with a single table representing the Book class hierarchy"></td></tr></table></div></div></div><br class="figure-break"><p>It is a common approach to add a special <span class="italic">discriminator column</span><a class="indexterm" name="d5e527"></a> for representing the category of each row corresponding
+        to the subclass instantiated by the represented object. Such a column
+        would normally be string-valued, but constrained to one of the names
+        of the subclasses. If the DBMS supports enumerations, it could also be
+        enumeration-valued. We use the name <code class="code">category</code> for the
+        discriminator column, which, in the case of our <code class="code">Book</code>
+        class hierarchy example, has a frozen value constraint since the
+        textbook-biography segmentation is rigid.</p><p>Based on the <code class="code">category</code> of a book, we have to enforce
+        that if and only if it is "TextBook", its attribute
+        <code class="code">subjectArea</code> has a value, and if and only if it is
+        "Biography", its attribute <code class="code">about</code> has a value. This
+        implied constraint is expressed in the invariant box attached to the
+        <code class="code">Book</code> table class in the class diagram above, where the
+        logical operator keyword "IFF" represents the logical equivalence
+        operator "if and only if". It needs to be implemented in the database,
+        e.g., with an SQL table CHECK clause or with SQL triggers.</p><p>When the given segmentation is disjoint, a single-valued
+        enumeration attribute <code class="code">category</code> is used for representing
+        the information to which subclass an instance belongs. Otherwise, if
+        it is non-disjoint, a multi-valued enumeration attribute
+        <code class="code">categories</code> is used for representing the information to
+        which subclasses an instance belongs. Such an attribute can be
+        implemented in SQL by defining a string-valued column for representing
+        a set of enumeration codes or labels as corresponding string
+        concatenations.</p><p>Consider the class hierarchy shown in <a class="xref" href="#figPersonRoles1" title="Figure&nbsp;1.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;1.8</a> above. With only
+        three additional attributes defined in the subclasses
+        <code class="code">Employee</code>, <code class="code">Manager</code> and <code class="code">Author</code>,
+        this class hierarchy can again be mapped with the STI approach, as
+        shown in the SQL table model <a class="xref" href="#figPersonRolesSingleTableInheritance" title="Figure&nbsp;1.10.&nbsp;An STI table model representing the Person roles hierarchy">Figure&nbsp;1.10</a> below.</p><div class="figure"><a name="figPersonRolesSingleTableInheritance"></a><p class="title"><b>Figure&nbsp;1.10.&nbsp;An STI table model representing the <code class="code">Person</code> roles
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../fig/PersonRoles_SingleTblSqlM.svg" width="400" alt="An STI table model representing the Person roles hierarchy"></td></tr></table></div></div></div><br class="figure-break"><p>Notice that now the discriminator column <code class="code">categories</code>
+        is multi-valued, since the segmentation of <code class="code">Person</code> is not
+        disjoint, but overlapping, implying that a <code class="code">Person</code> object
+        may belong to several categories. Notice also that, since a role
+        segmentation (like <span class="italic">Employee</span>,
+        <span class="italic">Manager</span>, <span class="italic">Author</span>) is not rigid, the discriminator
+        column <code class="code">categories</code> does not have a frozen value
+        constraint.</p><p>An example of an admissible population for this model is the
+        following:</p><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="6">people</th>
+            </tr><tr>
+              <th>person_id</th>
+
+              <th>name</th>
+
+              <th>categories</th>
+
+              <th>biography</th>
+
+              <th>emp_no</th>
+
+              <th>department</th>
+            </tr></thead><tbody><tr>
+              <td>1001</td>
+
+              <td>Harry Wagner</td>
+
+              <td>Author, Employee</td>
+
+              <td>Born in Boston, MA, in 1956, ...</td>
+
+              <td>21035</td>
+
+              <td></td>
+            </tr><tr>
+              <td>1002</td>
+
+              <td>Peter Boss</td>
+
+              <td>Manager</td>
+
+              <td></td>
+
+              <td>23107</td>
+
+              <td>Sales</td>
+            </tr><tr>
+              <td>1003</td>
+
+              <td>Tom Daniels</td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+            </tr><tr>
+              <td>1077</td>
+
+              <td>Immanuel Kant</td>
+
+              <td>Author</td>
+
+              <td>Immanuel Kant (1724-1804) was a German philosopher ...</td>
+
+              <td></td>
+
+              <td></td>
+            </tr></tbody></table></div><p>Notice that the <code class="code">Person</code> table contains four
+        different types of people:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>A person, Harry Wagner, who is both an author (with a
+            biography) and an employee (with an employee number).</p></li><li class="listitem"><p>A person, Peter Boss, who is a manager (a special type of
+            employee), managing the Sales department.</p></li><li class="listitem"><p>A person, Tom Daniels, who is neither an author nor an
+            employee.</p></li><li class="listitem"><p>A person, Immanuel Kant, who is an author (with a
+            biography).</p></li></ol></div><p><span class="bold"><strong>Pros</strong></span> of the STI approach: It
+        leads to a faithful representation of the subtype relationships
+        expressed in the original class hierarchy; in particular, any row
+        representing a subclass instance (an employee, manager or author) also
+        represents a superclass instance (a person).</p><p><span class="bold"><strong>Cons</strong></span>: (1) In the case of a
+        multi-level class hierarchy where the subclasses have little in
+        common, the STI approach does not lead to a good representation. (2)
+        The structure of the given class hierarchy in terms of its elements
+        (classes) is only implicitly preserved.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e616"></a>6.4.2.&nbsp;Table per Class Inheritance</h4></div></div></div><p>In a more realistic model, the subclasses of <code class="code">Person</code>
+        shown in <a class="xref" href="#figPersonRoles1" title="Figure&nbsp;1.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;1.8</a>
+        above would have many more attributes, so the STI approach would be no
+        longer feasible. In the TCI<a class="indexterm" name="d5e621"></a> approach we get the SQL table model shown in <a class="xref" href="#figPersRoles_MTI_SQL" title="Figure&nbsp;1.11.&nbsp;A TCI table model representing the Person roles hierarchy">Figure&nbsp;1.11</a> below. A
+        TCI model represents each concrete class of the class hierarchy as a
+        table, such that each segment subclass is represented by a table that
+        also contains columns for inherited properties, thus repeating the
+        columns of the table that represents the superclass.</p><div class="figure"><a name="figPersRoles_MTI_SQL"></a><p class="title"><b>Figure&nbsp;1.11.&nbsp;A TCI table model representing the <code class="code">Person</code> roles
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="360"><tr><td><img src="../fig/PersonRoles_TCI.svg" width="360" alt="A TCI table model representing the Person roles hierarchy"></td></tr></table></div></div></div><br class="figure-break"><p>A TCI table model can be derived from the information design
+        model by performing the following steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Replacing the standard ID property modifier {id} in all
+            classes with {pkey} for indicating that the standard ID property
+            is a <span class="italic">primary key</span>.</p></li><li class="listitem"><p>Replacing the singular (capitalized) class names (<span class="italic">Person</span>, <span class="italic">Author</span>, etc.) with pluralized lowercase
+            table names (<span class="italic">people</span>, <span class="italic">authors</span>, etc.), and replacing camel case
+            property names (<span class="italic">personId</span> and
+            <span class="italic">empNo</span>) with lowercase
+            underscore-separated names for columns (<span class="italic">person_id</span> and <span class="italic">emp_no</span>).</p></li><li class="listitem"><p>Adding a &laquo;table&raquo; stereotype to all class rectangles.</p></li><li class="listitem"><p>Replacing the platform-independent datatype names with SQL
+            datatype names.</p></li><li class="listitem"><p>Dropping all generalization/inheritance arrows and adding
+            all columns of supertables (such as <code class="code">person_id</code> and
+            <code class="code">name</code> from <code class="code">people</code>) to their subtables
+            (<code class="code">authors</code> and <code class="code">employees</code>).</p></li></ol></div><p>Each table would only be populated with rows corresponding to
+        the direct instances of the represented class. An example of an
+        admissible population for this model is the following:</p><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="2">people</th>
+            </tr><tr>
+              <th>personId</th>
+
+              <th>name</th>
+            </tr></thead><tbody><tr>
+              <td>1003</td>
+
+              <td>Tom Daniels</td>
+            </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="3">authors</th>
+            </tr><tr>
+              <th>person_id</th>
+
+              <th>name</th>
+
+              <th>biography</th>
+            </tr></thead><tbody><tr>
+              <td>1001</td>
+
+              <td>Harry Wagner</td>
+
+              <td>Born in Boston, MA, in 1956, ...</td>
+            </tr><tr>
+              <td>1077</td>
+
+              <td>Immanuel Kant</td>
+
+              <td>Immanuel Kant (1724-1804) was a German philosopher ...</td>
+            </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="3">employees</th>
+            </tr><tr>
+              <th>person_id</th>
+
+              <th>name</th>
+
+              <th>emp_no</th>
+            </tr></thead><tbody><tr>
+              <td>1001</td>
+
+              <td>Harry Wagner</td>
+
+              <td>21035</td>
+            </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="4">managers</th>
+            </tr><tr>
+              <th>person_id</th>
+
+              <th>name</th>
+
+              <th>emp_no</th>
+
+              <th>department</th>
+            </tr></thead><tbody><tr>
+              <td>1002</td>
+
+              <td>Peter Boss</td>
+
+              <td>23107</td>
+
+              <td>Sales</td>
+            </tr></tbody></table></div><p><span class="bold"><strong>Pros</strong></span> of the TCI approach: (1)
+        The structure of the given class hierarchy in terms of its elements
+        (classes) is explicitly preserved. (2) When the segmentations of the
+        given class hierarchy are disjoint, TCI leads to memory-efficient
+        non-redundant storage.</p><p><span class="bold"><strong>Cons</strong></span>: (1) The TCI approach does
+        not yield a faithful representation of the subtype relationships
+        expressed in the original class hierarchy. In particular, for any row
+        representing a subclass instance (an employee, manager or author)
+        there is no information that it represents a superclass instance (a
+        person). Thus, the TCI database schema does not inform about the
+        represented subtype relationships; rather, this meta-information,
+        which is kept in the app's class model, is de-coupled from the
+        database. (2) The TCI approach requires repeating column definitions,
+        which is a form of schema redundancy. (3) The TCI approach may imply
+        data redundancy whenever the segment subclasses overlap. In our
+        example, authors can also be employees, so for any person in the
+        overlap, we would need to duplicate the data storage for all columns
+        representing properties of the superclass (in our example, this only
+        concerns the property <code class="code">name</code>).</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e719"></a>6.4.3.&nbsp;Joined Tables Inheritance</h4></div></div></div><p>For avoiding the data redundancy problem of TCI in the case of
+        overlapping segmentations, we could take the JTI<a class="indexterm" name="d5e722"></a> approach as exemplified in the SQL table model shown in
+        <a class="xref" href="#figPersonRolesSqlM" title="Figure&nbsp;1.12.&nbsp;A JTI table model representing the Person roles hierarchy">Figure&nbsp;1.12</a> below.
+        This model connects tables representing subclasses (<span class="italic">subtables</span>) to tables representing their
+        superclasses (<span class="italic">supertables</span>) by
+        defining their primary key column(s) to be at the same time a foreign
+        key referencing their supertable's primary key. Notice that foreign
+        keys are visualized in the form of UML dependency arrows stereotyped
+        with &laquo;fkey&raquo; and annotated at their source table side with the name of
+        the foreign key column.</p><div class="figure"><a name="figPersonRolesSqlM"></a><p class="title"><b>Figure&nbsp;1.12.&nbsp;A JTI table model representing the <code class="code">Person</code> roles
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="550"><tr><td><img src="../fig/PersonRoles_JoinTablesInheritSqlM.svg" width="550" alt="A JTI table model representing the Person roles hierarchy"></td></tr></table></div></div></div><br class="figure-break"><p>An example of an admissible population for this model is the
+        following:</p><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="2">people</th>
+            </tr><tr>
+              <th>person_id</th>
+
+              <th>name</th>
+            </tr></thead><tbody><tr>
+              <td>1001</td>
+
+              <td>Harry Wagner</td>
+            </tr><tr>
+              <td>1002</td>
+
+              <td>Peter Boss</td>
+            </tr><tr>
+              <td>1003</td>
+
+              <td>Tom Daniels</td>
+            </tr><tr>
+              <td>1077</td>
+
+              <td>Immanuel Kant</td>
+            </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="2">authors</th>
+            </tr><tr>
+              <th>person_id</th>
+
+              <th>biography</th>
+            </tr></thead><tbody><tr>
+              <td>1001</td>
+
+              <td>Born in Boston, MA, in 1956, ...</td>
+            </tr><tr>
+              <td>1077</td>
+
+              <td>Immanuel Kant (1724-1804) was a German philosopher ...</td>
+            </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="4">employees</th>
+            </tr><tr>
+              <th>person_id</th>
+
+              <th>emp_no</th>
+            </tr></thead><tbody><tr>
+              <td>1001</td>
+
+              <td>21035</td>
+            </tr><tr>
+              <td>1002</td>
+
+              <td>23107</td>
+            </tr></tbody></table></div><div class="informaltable"><table frame="box" rules="all"><thead><tr>
+              <th colspan="4">managers</th>
+            </tr><tr>
+              <th>person_id</th>
+
+              <th>department</th>
+            </tr></thead><tbody><tr>
+              <td>1002</td>
+
+              <td>Sales</td>
+            </tr></tbody></table></div><p><span class="bold"><strong>Pros</strong></span> of the JTI approach: (1)
+        Subtyping relationships and the structure of class hierarchies are
+        explicitly preserved. (2) Data redundancy in the case of overlapping
+        segmentations is avoided.</p><p><span class="bold"><strong>Cons</strong></span>: (1) The main disadvantage
+        of the JTI approach is that for querying a subclass, <span class="italic">join queries</span> (for joining the segregated
+        entity data) are required, which may create performance issues.</p></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e799"></a>7.&nbsp;Quiz Questions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e801"></a>7.1.&nbsp;Question 1: Statements about a Class Hierarchy</h3></div></div></div><p>Consider the following class model:</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="350"><tr><td><img src="../fig/quiz/Abc-Bcd-Cde.svg" width="350"></td></tr></table></div><p>Which of the following statements are true? Select one or
+      more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; All instances of <code class="code">Cde</code> have a value for attribute
+          <code class="code">a1</code>.</p></li><li class="listitem"><p>&#9744; The standard identifier of <code class="code">Cde</code> is
+          <code class="code">a1</code>.</p></li><li class="listitem"><p>&#9744; All instances of <code class="code">Cde</code> may have an object
+          reference <code class="code">ab</code> referencing an object of type
+          <code class="code">Bcd</code>.</p></li><li class="listitem"><p>&#9744; Direct instances of <code class="code">Abc</code> may have a value for
+          <code class="code">c</code>.</p></li><li class="listitem"><p>&#9744; For any object of type <code class="code">Abc</code> the value of
+          <code class="code">a3</code> must be greater than the value of
+          <code class="code">a2</code>.</p></li><li class="listitem"><p>&#9744; For any object of type <code class="code">Cde</code> the value of
+          <code class="code">a3</code> must be greater than the value of
+          <code class="code">a2</code>.</p></li><li class="listitem"><p>&#9744; The standard identifier of <code class="code">Cde</code> is
+          <code class="code">c</code>.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e840"></a>7.2.&nbsp;Question 2: Class Hierarchy Merge</h3></div></div></div><p>Consider the following class model:</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../fig/quiz/ClassHierarchyMerge/q.svg" width="300"></td></tr></table></div><p>In the case of such a simple class hierarchy, we can use the
+      <span class="italic">Class Hierarchy Merge</span> design pattern
+      where the entire class hierarchy is merged into a single class. Which of
+      the following models describes the correct implementation of the
+      <span class="italic">Class Hierarchy Merge</span> design pattern
+      for the given Abc class hierarchy? Select one:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>O</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="250"><tr><td><img src="../fig/quiz/ClassHierarchyMerge/f1.svg" width="250"></td></tr></table></div></li><li class="listitem"><p>O</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="250"><tr><td><img src="../fig/quiz/ClassHierarchyMerge/f2.svg" width="250"></td></tr></table></div></li><li class="listitem"><p>O</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="250"><tr><td><img src="../fig/quiz/ClassHierarchyMerge/c.svg" width="250"></td></tr></table></div></li><li class="listitem"><p>O</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="180"><tr><td><img src="../fig/quiz/ClassHierarchyMerge/f3.svg" width="180"></td></tr></table></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e870"></a>7.3.&nbsp;Question 3: Multiple Inheritance</h3></div></div></div><p>Which of the following class models include cases of
+      <span class="emphasis"><em>multiple inheritance</em></span>? Select one or more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="103"><tr style="height: 119px"><td><img src="../fig/quiz/Subtyping/q-1-3-ao-1.png" width="103"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="98"><tr style="height: 113px"><td><img src="../fig/quiz/Subtyping/q-1-3-ao-2.png" width="98"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="134"><tr style="height: 117px"><td><img src="../fig/quiz/Subtyping/q-1-3-ao-3.png" width="134"></td></tr></table></div></li><li class="listitem"><p>&#9744;</p><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="170"><tr style="height: 116px"><td><img src="../fig/quiz/Subtyping/q-1-3-ao-4.png" width="170"></td></tr></table></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e895"></a>7.4.&nbsp;Question 4: Two ways of subtyping</h3></div></div></div><p>How can a given object type be specialized to a subtype? Select
+      one or more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; By extending the object type's intension through adding
+          attributes or associations in the subtype.</p></li><li class="listitem"><p>&#9744; By extending the object type's extension through dropping a
+          constraint.</p></li><li class="listitem"><p>&#9744; By restricting the object type's extension through adding a
+          constraint.</p></li><li class="listitem"><p>&#9744; By restricting the object type's intension through dropping
+          attributes or associations in the subtype..</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e907"></a>7.5.&nbsp;Question 5: Vehicle Class Hierarchy</h3></div></div></div><p>Consider the following class model. There are 7 object classes:
+      Vehicle, Car, Bike, Trailer, Truck, Motorcar and Van. Car, Bike and
+      Trailer are disjoint subclasses of Vehicle; Truck and Motorcar are
+      disjoint subclasses of Car. Van is a subclass of Motorcar. In addition,
+      there is the association <span class="emphasis"><em>Vehicle has Person as
+      owner</em></span>, for which the following statements hold:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Each Vehicle has exactly one Person as owner.</p></li><li class="listitem"><p>It is possible that some Person is not owner of any
+          Vehicle.</p></li><li class="listitem"><p>It is possible that the same Person is owner of more than one
+          Vehicle.</p></li></ul></div><p>Which of the following sentences are correct on the basis of this
+      extended model? Select one or more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744; It is possible that some Bike has more than one Person as
+          owner.</p></li><li class="listitem"><p>&#9744; Each Van has at most one Person as owner.</p></li><li class="listitem"><p>&#9744; Each Person is owner of at most one Car.</p></li><li class="listitem"><p>&#9744; Each Person is owner of at least one Truck.</p></li></ol></div></div></div></div><div lang="" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="chJsSubtyping"></a>Chapter&nbsp;2.&nbsp;Subtyping with Plain JS</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#secConstructorBasedSubtyping">1. Subtyping with ES6 Classes</a></span></dt><dt><span class="section"><a href="#d5e1006">2. Case Study 1: Eliminating a Class Hierarchy</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1021">2.1. Make the JS class model</a></span></dt><dt><span class="section"><a href="#d5e1047">2.2. New issues</a></span></dt><dt><span class="section"><a href="#d5e1105">2.3. Code the model classes of the JS class model</a></span></dt><dt><span class="section"><a href="#d5e1184">2.4. Write the User Interface Code</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1241">3. Case Study 2: Implementing a Class Hierarchy</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1248">3.1. Make a JS class model</a></span></dt><dt><span class="section"><a href="#d5e1271">3.2. Make a JS entity table model</a></span></dt><dt><span class="section"><a href="#d5e1356">3.3. New issues</a></span></dt><dt><span class="section"><a href="#d5e1390">3.4. Code the model classes of the JS class model</a></span></dt><dt><span class="section"><a href="#d5e1458">3.5. Take care of subtypes in the UI</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1472">4. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1474">4.1. Question 1: Defining a Subclass</a></span></dt><dt><span class="section"><a href="#d5e1494">4.2. Question 2: Merging Subclasses</a></span></dt><dt><span class="section"><a href="#d5e1524">4.3. Question 3: Check Method for Segment Property</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1536">5. Practice Project</a></span></dt></dl></div><p>Whenever an app has to manage the data of a
+  larger number of object types, there may be various <span class="bold"><strong><span class="italic">subtype</span></strong></span>
+  (inheritance) relationships between some of the object types. Handling
+  subtype relationships is an advanced issue in software application
+  engineering, which is often not well supported by application development
+  frameworks.</p><p>In this chapter, we first explain the general approach to
+  constructor-based subtyping in JavaScript before presenting two case studies
+  based on fragments of the information model of our running example, the
+  <span class="italic">Public Library</span> app, shown above.</p><p>In the first case study, we consider the single-level class hierarchy
+  with root <code class="code">Book</code> shown in <a class="xref" href="#figBookClassHierarchy" title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a>, which is an incomplete disjoint rigid
+  segmentation. We use the <span class="italic">Class Hierarchy
+  Merge</span><a class="indexterm" name="d5e939"></a> design pattern for re-factoring this simple class hierarchy
+  to a single class that can be mapped to a persistent database table.</p><p>In the second case study, we consider the multi-level class hierarchy
+  consisting of the <code class="code">Person</code> roles <code class="code">Employee</code>,
+  <code class="code">Manager</code> and <code class="code">Author</code>, shown in <a class="xref" href="#figPersonRoles1" title="Figure&nbsp;1.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;1.8</a>. The segmentation of
+  <code class="code">Person</code> into <code class="code">Employee</code> and <code class="code">Author</code> does
+  not have any constraints, which means that it is incomplete, overlapping
+  (non-disjoint) and non-rigid.</p><p>We use the <span class="italic">Class Hierarchy Merge</span>
+  design pattern for re-factoring the simple
+  <code class="code">Manager</code>-is-<code class="code">Employee</code> sub-hierarchy, and the
+  <span class="italic">Joined Tables Inheritance</span> approach for
+  mapping the
+  <code class="code">Employee</code>-and-<code class="code">Author</code>-is-a-<code class="code">Person</code> class
+  hierarchy to a set of three database tables that are related with each other
+  via foreign key dependencies.</p><p>In both case studies we show </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>how to derive a <span class="italic">JS class
+        model</span>, and a corresponding <span class="italic">entity
+        table model</span>, from the <span class="italic">information
+        design model</span>,</p></li><li class="listitem"><p>how to code the JS class model in the form of <span class="italic">JS model classes</span>,</p></li><li class="listitem"><p>how to write the view and controller code based on the model
+        code.</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="secConstructorBasedSubtyping"></a>1.&nbsp;Subtyping with ES6 Classes</h2></div></div></div><p>Before the version ES6 (or ES2015), JavaScript did not have an
+    explicit class concept and subtyping was not directly supported, so it had
+    to be implemented with the help of certain code patterns providing two
+    inheritance mechanisms: (1) inheritance of properties and (2) inheritance
+    of methods.</p><p>As we have explained in  <a class="link" href="minimal-tutorial.html" target="_top">Part
+    1 of this tutorial</a>, classes can be defined in two alternative ways:
+    <span class="bold"><strong><span class="italic">constructor-based</span></strong></span> and <span class="bold"><strong><span class="italic">factory-based</span></strong></span>.
+    Both approaches have their own way of implementing inheritance. <span class="phrase">In this tutorial, we only discuss subtyping and
+    inheritance for (constructor-based) ES6 classes.</span></p><p>We summarize the ES6 code pattern for defining a superclass and a
+    subclass in a constructor-based single-inheritance class hierarchy with
+    the help of the following example:</p><div class="informalfigure"><a name="figStudent-isa-Person"></a><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="120"><tr><td><img src="../fig/Student-isa-Person.svg" width="120"></td></tr></table></div></div><p>First, we define a base class, <code class="code">Person</code>, with two
+    properties, <code class="code">firstName</code> and <code class="code">lastName</code>, defined with
+    getters and setters:</p><pre class="programlisting">class <span class="bold"><strong>Person</strong></span> {
+  constructor ({first, last}) {
+    // assign properties by invoking their setters
+    this.<span class="bold"><strong>firstName</strong></span> = first; 
+    this.<span class="bold"><strong>lastName</strong></span> = last; 
+  }
+  get firstName() {return this._firstName;}
+  set firstName( f) {
+    ... // check constraints
+    this._firstName = f;
+  }
+  get lastName() {return this._lastName;}
+  set lastName( l) {
+    ... // check constraints
+    this._lastName = l;
+  }
+}</pre><p>Then, we define a subclass, <code class="code">Student</code>, with one
+    additional property, <code class="code">studNo</code>, using the ES6 keywords <span class="bold"><strong>extends</strong></span> and <span class="bold"><strong>super</strong></span>:</p><pre class="programlisting">class <span class="bold"><strong>Student</strong></span> <span class="bold"><strong>extends</strong></span> Person {
+  constructor ({first, last, studNo}) {
+    // invoke constructor of superclass
+    <span class="bold"><strong>super</strong></span>({first, last});
+    // assign additional properties
+    this.<span class="bold"><strong>studNo</strong></span> = studNo;
+  }
+  get studNo() {return this._studNo;}
+  set studNo( sn) {
+    ... // check constraints
+    this._studNo = sn;
+  }
+}</pre><p>Notice how the constructor of the superclass <code class="code">Person</code> is
+    invoked: with <code class="code">super({first, last})</code>.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1006"></a>2.&nbsp;Case Study 1: Eliminating a Class Hierarchy</h2></div></div></div><p>Simple class hierarchies can be eliminated by applying the <span class="italic">Class Hierarchy Merge</span> design pattern. The
+    starting point for our case study is the simple class hierarchy shown in
+    the information design model of <a class="xref" href="#figBookClassHierarchy" title="Figure&nbsp;1.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;1.1</a> above, representing a disjoint (but
+    incomplete) rigid segmentation of <code class="code">Book</code> into
+    <code class="code">TextBook</code> and <code class="code">Biography</code>. This model is first
+    simplified by applying the <span class="italic">Class Hierarchy
+    Merge</span> design pattern, resulting in the following model:</p><div class="informalfigure"><a name="figBookClassHierarchyMergeModel2"></a><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="370"><tr><td><img src="../fig/BookClassHierarchyMerge.svg" width="370"></td></tr></table></div></div><p>We can now derive a <span class="italic">JS class
+    model</span> from this design model.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1021"></a>2.1.&nbsp;Make the JS class model</h3></div></div></div><p>We make the JS class model<a class="indexterm" name="d5e1024"></a> in 3 steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Replace the platform-independent datatypes (used as the
+            ranges of attributes and parameters) with JS datatypes. This
+            includes the case of enumeration-valued attributes, such as
+            <code class="code">category</code>, which are turned into number-valued
+            attributes restricted to the enumeration integers of the
+            underlying enumeration type.</p></li><li class="listitem"><p>Decorate all properties with a &laquo;get/set&raquo; stereotype for
+            indicating that they have implicit getters and setters.</p></li><li class="listitem"><p>Add property <span class="italic">check</span>
+            functions, as described in <span class="phrase">Part 2 of
+            this tutorial</span>. The <code class="code">checkCategory</code>
+            function, as well as the checks of the segment properties need
+            special consideration according to their implied semantics. In
+            particular, a segment property's check function must ensure that
+            the property can only be assigned if the <code class="code">category</code>
+            attribute has a value representing the corresponding segment. We
+            explain this implied validation semantics in more detail below
+            when we discuss how the JS class model is coded.</p></li></ol></div><p>This leads to the JS class model shown in <a class="xref" href="#figBookClassHierarchyJsM" title="Figure&nbsp;2.1.&nbsp;The JS class model of the merged Book class hierarchy">Figure&nbsp;2.1</a>, where
+      the class-level ('static') methods are underlined:</p><div class="figure"><a name="figBookClassHierarchyJsM"></a><p class="title"><b>Figure&nbsp;2.1.&nbsp;The JS class model of the merged <code class="code">Book</code> class
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="500"><tr><td><img src="../fig/BookClassHierarchy_JsM.svg" width="500"></td></tr></table></div></div></div><br class="figure-break"></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1047"></a>2.2.&nbsp;New issues</h3></div></div></div><p>Compared to the <a class="link" href="3-EnumerationApp/index.html" target="_top">enumeration
+      app</a> discussed in <span class="phrase">Part 3 of this
+      tutorial</span>, we have to deal with a number of new
+      issues:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the <span class="italic">model code</span> we have
+          to take care of</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Adding the constraint violation class <span class="italic">FrozenValueConstraintViolation</span> to
+                <code class="code">errorTypes.js</code>.</p></li><li class="listitem"><p>Coding the enumeration type (<code class="code">BookCategoryEL</code>
+                in our example) to be used as the range of the
+                <code class="code">category</code> attribute .</p></li><li class="listitem"><p>Coding the <code class="code">checkCategory</code> function for the
+                <code class="code">category</code> attribute. In our example this attribute
+                is <span class="italic">optional</span>, due to the
+                fact that the <code class="code">Book</code> segmentation is <span class="italic">incomplete</span>. If the segmentation, to
+                which the <span class="italic">Class Hierarchy
+                Merge</span> pattern is applied, is complete, then the
+                <code class="code">category</code> attribute is <span class="italic">mandatory</span>.</p></li><li class="listitem"><p>Coding the <span class="italic">check</span>
+                functions for all segment properties such that they take the
+                category as a second parameter for being able to test if the
+                segment property concerned applies to a given instance.</p></li><li class="listitem"><p>Refining the serialization function
+                <code class="code">toString()</code> by adding a <code class="code">category</code> case
+                distinction (<code class="code">switch</code>) statement for serializing
+                only the segment properties that apply to the given
+                category.</p></li><li class="listitem"><p>Implementing the <span class="italic">Frozen Value
+                Constraint</span> for the <code class="code">category</code> attribute
+                in <code class="code">Book.update</code> by updating the
+                <code class="code">category</code> of a book only if it has not yet been
+                defined. This means it cannot be updated anymore as soon as it
+                has been defined.</p></li></ol></div></li><li class="listitem"><p>In the <span class="italic">UI code</span> we have to
+          take care of</p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>Adding a "Category" column to the display table of the
+              "Retrieve/list all books" use case in
+              <code class="filename">books.html</code>. A book without a special
+              category will have an empty table cell, while for all other
+              books their category will be shown in this cell, along with
+              other segment-specific attribute values. This requires a
+              corresponding switch statement in the
+              <code class="filename">books.js</code> view code file.</p></li><li class="listitem"><p>Adding a "Category" choice widget (typically, a selection
+              list), and corresponding form fields for all segment properties,
+              in the forms of the "Create book" and "Update book" use cases in
+              <code class="filename">books.html</code>. Segment property form fields
+              are only displayed when a corresponding book category has been
+              selected. Such an approach of rendering specific form fields
+              only on certain conditions is sometimes called <span class="italic">dynamic forms</span>.</p></li><li class="listitem"><p>Disabling the "Category" selection field in the "Update
+              book" use case, after selecting a book to be updated, if the
+              selected book has a <code class="code">category</code> value (in order to
+              prevent any changes of the <code class="code">category</code> attribute's
+              value).</p></li></ol></div></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1105"></a>2.3.&nbsp;Code the model classes of the JS class model</h3></div></div></div><p>The JS class model can be directly coded for getting the code of
+      the model classes of our JS front-end app.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1108"></a>2.3.1.&nbsp;Summary</h4></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Code the enumeration type <code class="code">BookCategoryEL</code> to be
+            used as the range of the <code class="code">category</code> attribute with the
+            help of the meta-class <code class="code">Enumeration</code>, as explained in
+            <span class="phrase">Part 3 of this tutorial</span>
+             .</p></li><li class="listitem"><p>Code the model class <code class="code">Book</code> in the form of a ES6
+            <code class="code">class</code> definition with <code class="code">get</code> and
+            <code class="code">set</code> methods as well as static <span class="italic">check</span> functions.</p></li></ol></div><p>These steps are discussed in more detail in the following
+        sections.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1125"></a>2.3.2.&nbsp;Code the enumeration type <code class="code">BookCategoryEL</code></h4></div></div></div><p>The enumeration type <code class="code">BookCategoryEL</code> is coded with
+        the help of our library meta-class <code class="code">Enumeration</code> at the
+        beginning of the <code class="filename">Book.js</code> model class file in the
+        following way:</p><pre class="programlisting"><span class="bold"><strong>BookCategoryEL</strong></span> = new Enumeration([ "Textbook", "Biography"]);</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1134"></a>2.3.3.&nbsp;Code the model class <code class="code">Book</code></h4></div></div></div><p>We code the model class <code class="code">Book</code> in the form of an ES6
+        class definition where the <code class="code">category</code> attribute as well as
+        the segment attributes <code class="code">subjectArea</code> and <code class="code">about</code>
+        are optional, with getters, setters and static check functions for all
+        properties:</p><pre class="programlisting">class <span class="bold"><strong>Book</strong></span> {
+  constructor ({isbn, title, year, category, subjectArea, about}) {
+    this.isbn = isbn;
+    this.title = title;
+    this.year = year;
+    // optional properties
+    if (category) this.category = category;
+    if (subjectArea) this.subjectArea = subjectArea;
+    if (about) this.about = about;
+  }
+  get <span class="bold"><strong>isbn</strong></span>() {...}
+  static checkIsbn( isbn) {...}
+  static checkIsbnAsId( isbn) {...}
+  set isbn( isbn) {...}
+  get <span class="bold"><strong>title</strong></span>() {...}
+  static checkTitle( t) {...}
+  set title( t) {...}
+  get <span class="bold"><strong>year</strong></span>() {...}
+  static checkYear( y) {...}
+  set year( y) {...}
+  get <span class="bold"><strong>category</strong></span>() {...}
+  static checkCategory( c) {...}
+  set category( c) {...}
+  get <span class="bold"><strong>subjectArea</strong></span>() {...}
+  static checkSubjectArea( sA, cat) {...}
+  set subjectArea( s) {...}
+  get <span class="bold"><strong>about</strong></span>() {...}
+  static checkAbout( a, cat) {...}
+  set about( a) {...}
+}</pre><p>Notice that the constructor function is defined with a single
+        record parameter using the ES6 syntax for <a class="link" href="https://www.jstips.co/en/javascript/use-destructuring-in-function-parameters/" target="_top">function
+        parameter destructuring</a>.</p><p>We code the <code class="code">checkCategory</code> and
+        <code class="code">setCategory</code> methods for the <code class="code">category</code>
+        attribute in the following way:</p><pre class="programlisting">static <span class="bold"><strong>checkCategory</strong></span>( c) {
+  if (c === undefined || c === "") {
+    return new NoConstraintViolation();  // category is optional
+  } else if (!isIntegerOrIntegerString(c) || parseInt(c) &lt; 1 ||
+      parseInt(c) &gt; BookCategoryEL.MAX) {
+    return new RangeConstraintViolation(
+        "Invalid value for category: "+ c);
+  } else {
+    return new NoConstraintViolation();
+  }
+};</pre><pre class="programlisting">set <span class="bold"><strong>category</strong></span>( c) {
+  var validationResult = null;
+  if (this.category) {  // already set/assigned
+    validationResult = new FrozenValueConstraintViolation(
+        "The category cannot be changed!");
+  } else {
+    validationResult = Book.<span class="bold"><strong>checkCategory</strong></span>( c);
+  }
+  if (validationResult instanceof NoConstraintViolation) {
+    this._category = parseInt( c);
+  } else {
+    throw validationResult;
+  }
+}</pre><p>While the getters for segment properties (in this example:
+        <code class="code">subjectArea</code> and <code class="code">about</code>) follow the standard
+        pattern, their checks and setters have to make sure that the property
+        applies to the category of the instance being checked. This is
+        achieved by checking a combination of a property value and a category,
+        as in the following example:</p><pre class="programlisting">static <span class="bold"><strong>checkSubjectArea</strong></span>( sA, c) {
+  if (c === BookCategoryEL.TEXTBOOK &amp;&amp; !sA) {
+    return new MandatoryValueConstraintViolation(
+        "A subject area must be provided for a textbook!");
+  } else if (c !== BookCategoryEL.TEXTBOOK &amp;&amp; sA) {
+    return new ConstraintViolation("A subject area must not " +
+        "be provided if the book is not a textbook!");
+  } else if (sA &amp;&amp; (typeof(sA) !== "string" || sA.trim() === "")) {
+    return new RangeConstraintViolation(
+        "The subject area must be a non-empty string!");
+  } else {
+    return new NoConstraintViolation();
+  }
+} </pre><p>In the serialization function <code class="code">toString</code>, we
+        serialize the category attribute and the segment properties in a
+        <code class="code">switch</code> statement:</p><pre class="programlisting"><span class="bold"><strong>toString</strong></span>() {
+  var bookStr = `Book{ ISBN: ${this.isbn}, title: ${this.title}, year: ${this.year}`;
+  <span class="bold"><strong>switch</strong></span> (this.category) {
+    case BookCategoryEL.TEXTBOOK:
+      bookStr += `, textbook subject area: ${this.subjectArea}`;
+      break;
+    case BookCategoryEL.BIOGRAPHY:
+      bookStr += `, biography about: ${this.about}`;
+      break;
+  }
+  return bookStr + "}";
+};</pre><p>In the update method of a model class, we only set a property if
+        it is to be updated, that is, if there is a corresponding argument
+        slot with a value that is different from the old property value. In
+        the special case of a <code class="code">category</code> attribute with a <span class="italic">Frozen Value Constraint</span>, we need to make sure
+        that it can only be updated, along with an accompanying set of segment
+        properties, if it has not yet been assigned. Thus, in the
+        <code class="code">Book.update</code> method, we perform the special test if
+        <code class="code">book.category === undefined</code> for handling the special case
+        of an initial assignment, while we handle updates of the segment
+        properties <code class="code">subjectArea</code> and <code class="code">about</code> in a more
+        standard way:</p><pre class="programlisting">Book.<span class="bold"><strong>update</strong></span> = function ({isbn, title, year, 
+    category, subjectArea, about}) {
+  const book = Book.instances[isbn],
+        objectBeforeUpdate = cloneObject( book);
+  var noConstraintViolated=true, updatedProperties=[];
+  try {
+    ...
+    if (<span class="bold"><strong>category</strong></span>) {
+      if (book.category === undefined) {
+        book.category = category;
+        updatedProperties.push("category");
+      } else if (category !== book.category) {
+        throw new FrozenValueConstraintViolation(
+            "The book category must not be changed!");
+      }
+    } else if (category === "" &amp;&amp; "category" in book) {
+      throw new FrozenValueConstraintViolation(
+          "The book category must not be unset!");
+    }
+    if (<span class="bold"><strong>subjectArea</strong></span> &amp;&amp; book.subjectArea !== subjectArea) {
+      book.subjectArea = subjectArea;
+      updatedProperties.push("subjectArea");
+    }
+    if (<span class="bold"><strong>about</strong></span> &amp;&amp; book.about !== about) {
+      book.about = about;
+      updatedProperties.push("about");
+    }
+  } catch (e) {
+    ...
+  }
+  ...
+};</pre></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1184"></a>2.4.&nbsp;Write the User Interface Code</h3></div></div></div><p>The app's user interface (UI) consists of a start page that allows
+      navigating to data management pages (in our example, to
+      <code class="filename">books.html</code>). Such a data management page contains 5
+      sections: <span class="italic">manage books</span>, <span class="italic">list and retrieve all books</span>, <span class="italic">create book</span>, <span class="italic">update
+      book</span> and <span class="italic">delete book</span>, such
+      that only one of them is displayed at any time (by setting the CSS
+      property <code class="code">display:none</code> for all others).</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1194"></a>2.4.1.&nbsp;Summary</h4></div></div></div><p>We have to take care of handling the <code class="code">category</code>
+        attribute and the segment properties <code class="code">subjectArea</code> and
+        <code class="code">about</code> both in the "Retrieve and list all books" use case
+        as well as in the "Create book" and "Update book" use cases
+        by</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Adding a segment information column (with heading
+              "Category") to the display table of the "Retrieve and list all
+              books" use case in <code class="filename">books.html</code>.</p></li><li class="listitem"><p>Adding a "Category" selection field, and input fields for
+              all segment properties, in the user interfaces of the "Create
+              book" and "Update book" use cases in
+              <code class="filename">books.html</code>. The form fields for segment
+              properties are only displayed, when a corresponding book
+              category has been selected.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1207"></a>2.4.2.&nbsp;Add a segment information column in <span class="emphasis"><em>Retrieve/List
+        All</em></span></h4></div></div></div><p>We add a "Category" column to the view table of the
+        "Retrieve/list all books" use case in
+        <code class="filename">books.html</code>:</p><pre class="programlisting">&lt;table id="books"&gt;
+  &lt;thead&gt;&lt;tr&gt;
+   &lt;th&gt;ISBN&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Year&lt;/th&gt;<span class="bold"><strong>&lt;th&gt;Category&lt;/th&gt;</strong></span>
+  &lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;&lt;/tbody&gt;
+&lt;/table&gt;</pre><p>A book without a special category will have an empty table cell
+        in this column, while for all other books their category will be shown
+        in this column, along with other category-specific information. This
+        requires a corresponding switch statement in the
+        <code class="filename">v/books.js</code> file:</p><pre class="programlisting">if (book.category) {
+  switch (book.category) {
+  case BookCategoryEL.TEXTBOOK:
+    row.insertCell().textContent = book.subjectArea + " textbook";
+    break;
+  case BookCategoryEL.BIOGRAPHY: 
+    row.insertCell().textContent = "Biography about "+ book.about;
+    break;
+  }
+}</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1217"></a>2.4.3.&nbsp;Add a <span class="emphasis"><em>category</em></span> selection field in
+        <span class="emphasis"><em>Create</em></span> and <span class="emphasis"><em>Update</em></span></h4></div></div></div><p>In both use cases, we need to allow selecting a special category
+        of book ('textbook' or 'biography') with the help of a selection
+        field, as shown in the following HTML fragment:</p><pre class="programlisting">&lt;div class="field"&gt;
+ &lt;label&gt;Category: &lt;select name="category"&gt;&lt;/select&gt;&lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="field <span class="bold"><strong>Textbook</strong></span>"&gt;&lt;!-- conditional field --&gt;
+ &lt;label&gt;Subject area: &lt;input type="text" name="<span class="bold"><strong>subjectArea</strong></span>" /&gt;&lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="field <span class="bold"><strong>Biography</strong></span>"&gt;&lt;!-- conditional field --&gt;
+ &lt;label&gt;About: &lt;input type="text" name="<span class="bold"><strong>about</strong></span>" /&gt;&lt;/label&gt;
+&lt;/div&gt;</pre><p>Notice that we have added "Textbook" and "Biography" as
+        additional values of the <code class="code">class</code> attribute of the segment
+        field container elements. This supports the rendering and un-rendering
+        of "Textbook" and "Biography" form fields, depending on the value of
+        the <code class="code">category</code> attribute.</p><p>In the <code class="code">handleCategorySelectChangeEvent</code> handler,
+        segment property form fields are only displayed, with
+        <code class="code">displaySegmentFields</code>, when a corresponding book category
+        has been selected:</p><pre class="programlisting"><span class="bold"><strong>handleCategorySelectChangeEvent</strong></span> = function (e) {
+  const formEl = e.currentTarget.form,
+        // the array index of BookCategoryEL.labels
+        categoryIndexStr = formEl.category.value;
+  if (categoryIndexStr) {
+    <span class="bold"><strong>displaySegmentFields</strong></span>( formEl, BookCategoryEL.labels,
+        parseInt( categoryIndexStr) + 1);
+  } else {
+    <span class="bold"><strong>undisplayAllSegmentFields</strong></span>( formEl, BookCategoryEL.labels);
+  }
+};</pre><p>Recall that the category selection list contains a no-selection
+        option "---" with the empty string as its return value, and a list of
+        options formed by the enumeration labels of
+        <code class="code">BookCategoryEL.labels</code> such that their value is the
+        corresponding array index (starting with 0) as a string. Consequently,
+        the variable <code class="code">categoryIndexStr</code> has either the value ""
+        (empty string) or one of "0", "1", "2", etc.</p></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1241"></a>3.&nbsp;Case Study 2: Implementing a Class Hierarchy</h2></div></div></div><p>Whenever a class hierarchy is more complex, we cannot simply
+    eliminate it, but have to implement it (1) in the app's model code, (2) in
+    the underlying database and (3) in its user interface.</p><p>The starting point for case study 2 is the design model shown in
+    <a class="xref" href="#figPersonRoles1" title="Figure&nbsp;1.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;1.8</a> above. In the
+    following sections, we derive a <span class="italic">JS class
+    model</span> and a <span class="italic">JS entity table
+    model</span> from the design model. The entity table model is used as
+    a design for the object-to-storage mapping that we need for storing the
+    objects of our app with the browsers' Local Storage technology.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1248"></a>3.1.&nbsp;Make a JS class model</h3></div></div></div><p>We design the <span class="italic">model classes</span> of
+      our example app with the help of a <span class="italic">JS class
+      model</span> that we derive from the <span class="italic">design
+      model</span> by essentially leaving the generalization arrows as
+      they are and just adding <span class="italic">get/set</span>
+      methods and static <span class="italic">check</span> functions to
+      each class. However, in the case of our example app, it is natural to
+      apply the <span class="italic">Class Hierarchy Merge</span>
+      design pattern (discussed in <a class="xref" href="#secClassHierarchyMerge" title="5.&nbsp;The Class Hierarchy Merge Design Pattern">Section&nbsp;5</a>) to the single-subclass-segmentation of
+      <code class="code">Employee</code> for simplifying the class model by eliminating the
+      <code class="code">Manager</code> subclass. This leads to the model shown in <a class="xref" href="#figPersonRolesJsM" title="Figure&nbsp;2.2.&nbsp;The JS class model of the Person roles class hierarchy">Figure&nbsp;2.2</a> below. Notice
+      that a <code class="code">Person</code> may be an <code class="code">Employee</code> or an
+      <code class="code">Author</code> or both.</p><div class="figure"><a name="figPersonRolesJsM"></a><p class="title"><b>Figure&nbsp;2.2.&nbsp;The JS class model of the <code class="code">Person</code> roles class
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="600"><tr><td><img src="../fig/PersonRoleHierarchy_JsM.svg" width="600"></td></tr></table></div></div></div><br class="figure-break"></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1271"></a>3.2.&nbsp;Make a JS entity table model</h3></div></div></div><p>Since we use the browsers' <span class="italic">Local
+      Storage</span> as the persistent storage technology for our example
+      app, we have to deal with simple key-value storage. For each design
+      model class with a singular (capitalized) name <code class="code">Entity</code>, we
+      use its pluralized lowercase name <code class="code">entities</code> as the
+      corresponding table name.</p><p>We design a set of suitable JS entity tables in the form of a
+      <span class="italic">JS entity table model</span> that we derive
+      from the information design model. We have to make certain choices how
+      to organize our data store and how to derive a corresponding entity
+      table model.</p><p>The first choice to make concerns using either the <span class="italic">Single Table Inheritance (STI)</span>, the <span class="italic">Table per Class Inheritance (TCI)</span> or the
+      <span class="italic">Joined Tables Inheritance (JTI)</span>
+      approach, which are introduced in <a class="xref" href="#secInheritTbl" title="6.4.&nbsp;Representing class hierarchies with SQL database tables">Section&nbsp;6.4</a>. In the STI approach, a segmentation (or an
+      entire class hierarchy) is represented with a single table, containing
+      columns for all attributes of all classes involved, as shown in the
+      example model of <a class="xref" href="#figPersonRolesSingleTbl" title="Figure&nbsp;2.3.&nbsp;An STI model of the Person roles class hierarchy">Figure&nbsp;2.3</a>.</p><div class="figure"><a name="figPersonRolesSingleTbl"></a><p class="title"><b>Figure&nbsp;2.3.&nbsp;An STI model of the <code class="code">Person</code> roles class
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../fig/PersonRoles_STI_JS.svg" width="400"></td></tr></table></div></div></div><br class="figure-break"><p>Since the given segmentation is non-disjoint, a multi-valued
+      enumeration attribute <code class="code">categories</code> is used for representing
+      the information to which subclasses an instance belongs.</p><p>Using the STI approach is feasible for the given example, since
+      the role hierarchy does not have many levels and the segment subclasses
+      do not add many attributes. But, in a more realistic example, we would
+      have a lot more attributes in the segment subclasses of the given role
+      hierarchy. The STI approach is not really an option for representing a
+      multi-level role hierarchy. However, we may choose it for representing
+      the single-segment class hierarchy
+      <code class="code">Manager</code>-is-subclass-of-<code class="code">Employee</code>.</p><p>For simplicity, and because the browsers' <span class="italic">Local Storage</span> does not support foreign keys as
+      required by JTI, we choose the TCI approach, where we obtain a separate
+      table for each class of the <code class="code">Person</code> segmentation, but
+      without foreign keys. Our choices result in the model shown in <a class="xref" href="#figPersonRoles_TCI" title="Figure&nbsp;2.4.&nbsp;A TCI model of the Person roles class hierarchy">Figure&nbsp;2.4</a> below, which
+      has been derived from the design model shown in Figure <a class="xref" href="#figPersonRoles1" title="Figure&nbsp;1.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;1.8</a> by</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Merging the <code class="code">Manager</code> subclass into its superclass
+          <code class="code">Employee</code>, according to the <span class="italic">Class Hierarchy Merge</span> design pattern
+          described in <a class="xref" href="#secClassHierarchyMerge" title="5.&nbsp;The Class Hierarchy Merge Design Pattern">Section&nbsp;5</a>.</p></li><li class="listitem"><p>Replacing the standard ID property modifier {id} of the
+          <code class="code">personId</code> attribute of <code class="code">Person</code>,
+          <code class="code">Author</code> and <code class="code">Employee</code> with {pkey} for
+          indicating that the attribute is a <span class="italic">primary
+          key</span>.</p></li><li class="listitem"><p>Replacing the singular (capitalized) class names (<span class="italic">Person</span>, <span class="italic">Author</span> and <span class="italic">Employee</span>) with pluralized lowercase table
+          names (<span class="italic">people</span>, <span class="italic">authors</span> and <span class="italic">employees</span>).</p></li><li class="listitem"><p>Adding the &laquo;JS entity table&raquo; stereotype to all class
+          rectangles (<code class="code">people</code>, <code class="code">authors</code> and
+          <code class="code">employees</code>).</p></li><li class="listitem"><p>Replacing the platform-independent datatype names with JS
+          datatype names.</p></li><li class="listitem"><p>Dropping all generalization/inheritance arrows and adding all
+          attributes of supertables (<code class="code">personId</code> and
+          <code class="code">name</code>) to their subtables (<code class="code">authors</code> and
+          <code class="code">employees</code>).</p></li></ol></div><div class="figure"><a name="figPersonRoles_TCI"></a><p class="title"><b>Figure&nbsp;2.4.&nbsp;A TCI model of the <code class="code">Person</code> roles class
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../fig/PersonRoles_TCI-STI.svg" width="300"></td></tr></table></div></div></div><br class="figure-break"><p>In the case of using the JTI approach, we would also take the
+      steps 1-5 above, but instead of step 6, we would</p><div class="orderedlist"><ol class="orderedlist" start="6" type="1"><li class="listitem"><p>Copy the primary key column (<code class="code">personId</code>) of the
+          root table (<code class="code">people</code>) to all subtables
+          (<code class="code">authors</code> and <code class="code">employees</code>).</p></li><li class="listitem"><p>Replace the generalization arrows with &laquo;fkey&raquo;-stereotyped
+          dependency arrows (representing <span class="italic">foreign key
+          dependencies</span>) that are annotated at their source end with
+          the name of the subtable's primary key (here:
+          <code class="code">personId</code>).</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1356"></a>3.3.&nbsp;New issues</h3></div></div></div><p>Compared to the model of our first case study, shown in <a class="xref" href="#figBookClassHierarchyJsM" title="Figure&nbsp;2.1.&nbsp;The JS class model of the merged Book class hierarchy">Figure&nbsp;2.1</a> above, we
+      have to deal with a number of new issues in the <span class="italic">model code</span>: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Defining the subclass relationships between
+            <code class="code">Employee</code> and <code class="code">Person</code>, as well as between
+            <code class="code">Author</code> and <code class="code">Person</code>, using the JS keyword
+            <code class="code">extends</code> discussed in <a class="xref" href="#secConstructorBasedSubtyping" title="1.&nbsp;Subtyping with ES6 Classes">Section&nbsp;1</a>.</p></li><li class="listitem"><p>When loading the instances of the root class
+            (<code class="code">Person.instances</code>) from persistent storage (in
+            <code class="code">Person.retrieveAll</code>), we load (1) the records of the
+            table representing the root class (<code class="code">people</code>) for
+            creating its direct instances and (2) also the records of all
+            other tables representing its subclasses (<code class="code">authors</code> and
+            <code class="code">employees</code>) for creating their direct instances, while
+            also adding their object references to the root class population
+            (to <code class="code">Person.instances</code>). In this way, the root class
+            population does not only contain direct instances, but all
+            instances.</p></li><li class="listitem"><p>When saving the instances of <code class="code">Employee</code> and
+            <code class="code">Author</code> as records of the JS entity tables
+            <code class="code">employees</code> and <code class="code">authors</code> to persistent
+            storage in <code class="code">Employee.saveAll</code> and
+            <code class="code">Author.saveAll</code> (invoked in
+            <code class="filename">employees.js</code> and
+            <code class="filename">authors.js</code>), we also save the direct
+            instances of <code class="code">Person</code> as records of the
+            <code class="code">people</code> table.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1390"></a>3.4.&nbsp;Code the model classes of the JS class model</h3></div></div></div><p>The JS class model shown in <a class="xref" href="#figPersonRolesJsM" title="Figure&nbsp;2.2.&nbsp;The JS class model of the Person roles class hierarchy">Figure&nbsp;2.2</a> above can be directly coded for getting the
+      code of the model classes <code class="code">Person</code>, <code class="code">Employee</code> and
+      <code class="code">Author</code> as well as for the enumeration type
+      <code class="code">EmployeeCategoryEL</code>.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1398"></a>3.4.1.&nbsp;Defining subtype relationships</h4></div></div></div><p>In the case of a superclass like <code class="code">Person</code>, we define
+        a class-level property <code class="code">subtypes</code> for having a mechanism to
+        loop over all subtypes of a superclass.</p><pre class="programlisting">class <span class="bold"><strong>Person</strong></span> {...}
+Person.<span class="bold"><strong>subtypes</strong></span> = [];</pre><p>The property <code class="code">subtypes</code> holds a list of all subtypes
+        of the given class. This list is initially empty.</p><p>The subtype relationships between the classes
+        <code class="code">Employee</code> and <code class="code">Person</code>, as well as between
+        <code class="code">Author</code> and <code class="code">Person</code>, are defined with the help
+        of the ES6 keywords <code class="code">extends</code> and <code class="code">super</code>. For
+        instance, in <code class="code">m/Author.js</code> we define:</p><pre class="programlisting">class <span class="bold"><strong>Author</strong></span> <span class="bold"><strong>extends</strong></span> Person {
+  constructor ({personId, name, biography}) {
+    <span class="bold"><strong>super</strong></span>({personId, name});  // invoke Person constructor
+    // assign additional properties
+    this.biography = biography;
+  }
+  get biography() {return this._biography;}
+  set biography( b) {this._biography = b;}  /***SIMPLIFIED CODE: no validation ***/
+  toString() {...}
+}
+// add Author to the list of Person subtypes
+<span class="bold"><strong>Person.subtypes.push( Author)</strong></span>;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1421"></a>3.4.2.&nbsp;Loading the instances of a root class</h4></div></div></div><p>When retrieving the instances of a class hierarchy's root class
+        (in our example, <code class="code">Person</code>) from a persistent data store
+        organized according to the TCI approach, we have to retrieve not only
+        its direct instances from the table representing the root class
+        (<code class="code">people</code>), but also all indirect instances from all tables
+        representing its subclasses (<code class="code">employees</code> and
+        <code class="code">authors</code>), as shown in the following code:</p><pre class="programlisting">Person.<span class="bold"><strong>retrieveAll</strong></span> = function () {
+  var people = {};
+  if (!localStorage["people"]) localStorage["people"] = "{}";
+  try {
+    people = JSON.parse( localStorage["people"]);
+  } catch (e) {
+    console.log("Error when reading from Local Storage\n" + e);
+  }
+  for (const key of Object.keys( <span class="bold"><strong>people</strong></span>)) {
+    try {  // convert record to (typed) object
+      Person.instances[key] = new Person( people[key]);
+    } catch (e) {
+      console.log(`${e.constructor.name} ...`);
+    }
+  }
+  // add all instances of all subtypes to Person.instances
+  for (const Subtype of <span class="bold"><strong>Person.subtypes</strong></span>) {
+    Subtype.retrieveAll();
+    for (const key of Object.keys( <span class="bold"><strong>Subtype.instances</strong></span>)) {
+      Person.instances[key] = Subtype.instances[key];
+    }
+  }
+  console.log(`${Object.keys( Person.instances).length} records loaded`);
+}</pre><p>For any subtype (here, <code class="code">Author</code> and
+        <code class="code">Employee</code>), each record is retrieved and a corresponding
+        entry is created in the map <code class="code">Subtype.instances</code> and copied
+        to <code class="code">Person.instances</code>.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e1438"></a>3.4.3.&nbsp;Saving the subtables when saving a supertable</h4></div></div></div><p>Since the app's data is kept in main memory as long as the app
+        is running (which is as long as the app's webpage is kept open in the
+        browser), the data has to be saved to persistent storage when the app
+        is terminated (e.g., by closing its browser tab). When saving the
+        instances of <code class="code">Person</code> (as records of the
+        <code class="code">people</code> table) to persistent storage in
+        <code class="filename">v/people.js</code>, we also save the direct instances of
+        its subtypes <code class="code">Employee</code> and <code class="code">Author</code> (as records
+        of the JS entity tables <code class="code">employees</code> and
+        <code class="code">authors</code> in <code class="filename">v/employees.js</code> and
+        <code class="filename">v/authors.js</code>). This is necessary because changes
+        to <code class="code">Person</code> instances may imply changes of
+        <code class="code">Employee</code> or <code class="code">Author</code> instances.</p><p>We do this in <code class="filename">v/people.js</code>:</p><pre class="programlisting">// save data when leaving the page
+window.addEventListener("<span class="bold"><strong>beforeunload</strong></span>", function () {
+  Person.saveAll();
+  // save all subtypes for persisting changes of supertype attributes
+  for (const Subtype of <span class="bold"><strong>Person.subtypes</strong></span>) {
+    Subtype.saveAll();
+  }
+});</pre></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1458"></a>3.5.&nbsp;Take care of subtypes in the UI</h3></div></div></div><p>The view table created in the use case "Retrieve/list all people"
+      is to show the roles "author" or "employee" of each person in a special
+      column "Role(s)".</p><pre class="programlisting">document.getElementById("RetrieveAndListAll")
+    .addEventListener("click", function () {
+  ...
+  for (const key of Object.keys(Person.instances)) {
+    const person = Person.instances[key];
+    const row = tableBodyEl.insertRow();
+    const <span class="bold"><strong>roles</strong></span> = [];
+    row.insertCell().textContent = person.personId;
+    row.insertCell().textContent = person.name;
+    for (const Subtype of <span class="bold"><strong>Person.subtypes</strong></span>) {
+      if (person.personId in Subtype.instances) <span class="bold"><strong>roles</strong></span>.push( Subtype.name);
+    }
+    row.insertCell().textContent = <span class="bold"><strong>roles</strong></span>.toString();
+  }
+});</pre><p>Notice that since the class <span class="italic">Employee</span> has the subtype <span class="italic">Manager</span>, it would be desirable to see the role
+      "manager" for any person being an instance of <code class="code">Employee</code> with a <code class="code">category</code> value of
+      <code class="code">EmployeeCategoryEL.MANAGER</code>. However, for simplicity, this
+      is not implemented in the model app.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1472"></a>4.&nbsp;Quiz Questions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1474"></a>4.1.&nbsp;Question 1: Defining a Subclass</h3></div></div></div><p>Which of the following JavaScript code snippets correctly defines
+      two classes <code class="code">A</code> and <code class="code">B</code>, such that <code class="code">B</code>
+      is a subclass of <code class="code">A</code>? Select one:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>O</p><pre class="programlisting">class A {
+  constructor (a) {
+    this.propA = a;
+  }
+}
+class B extends A {
+  constructor (b) {
+    this.propB = b;
+  }
+}</pre></li><li class="listitem"><p>O</p><pre class="programlisting">class A {
+  constructor (a) {
+    this.propA = a;
+  }
+}
+class B extends A {
+  constructor (b) {
+    super( b)
+    this.propB = b;
+  }
+}</pre></li><li class="listitem"><p>O</p><pre class="programlisting">class A {
+  constructor (a) {
+    this.propA = a;
+  }
+}
+class B extends A {
+  constructor (a,b) {
+    super( a)
+    this.propB = b;
+  }
+}</pre></li><li class="listitem"><p>O</p><pre class="programlisting">class A extends B {
+  constructor (a) {
+    this.propA = a;
+  }
+}
+class B {
+  constructor (a,b) {
+    super( a)
+    this.propB = b;
+  }
+}</pre></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1494"></a>4.2.&nbsp;Question 2: Merging Subclasses</h3></div></div></div><p>Consider the three classes <code class="code">A</code> with a property
+      <code class="code">propA</code>, <code class="code">B</code> with a property <code class="code">propB</code>
+      and <code class="code">C</code> with a property <code class="code">propC</code>, such that
+      <code class="code">B</code> and <code class="code">C</code> are subclasses of <code class="code">A</code>.
+      Which of the following class definitions is the correct result of
+      merging all three classes according to the <span class="italic">Class
+      Hierarchy Merge</span> design pattern? Select one:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>O</p><pre class="programlisting">ACategoryEL = new Enumeration(["B","C"]);
+class <span class="bold"><strong>Abc</strong></span> {
+  constructor (a,b,c) {
+    this.propA = a;
+    if (b) this.propB = b;
+    if (c) this.propC = c;
+  }
+}</pre></li><li class="listitem"><p>O</p><pre class="programlisting">ACategoryEL = new Enumeration(["B","C"]);
+class <span class="bold"><strong>Abc</strong></span> {
+  constructor (a,cat,b,c) {
+    this.propA = a;
+    this.category = cat;  // from ACategoryEL
+    if (b) this.propB = b;
+    if (c) this.propC = c;
+  }
+}</pre></li><li class="listitem"><p>O</p><pre class="programlisting">ACategoryEL = new Enumeration(["B","C"]);
+class <span class="bold"><strong>Abc</strong></span> {
+  constructor (a,cat,b,c) {
+    this.propA = a;
+    this.category = cat;  // from ACategoryEL
+    this.propB = b;
+    this.propC = c;
+  }
+}</pre></li><li class="listitem"><p>O</p><pre class="programlisting">ACategoryEL = new Enumeration(["B","C"]);
+class <span class="bold"><strong>Abc</strong></span> {
+  constructor (a,cat) {
+    this.propA = a;
+    this.category = cat;  // from ACategoryEL
+  }
+}</pre></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1524"></a>4.3.&nbsp;Question 3: Check Method for Segment Property</h3></div></div></div><p>Recall that in a class resulting from applying the <span class="italic">Class Hierarchy Merge</span> design pattern, we have
+      segment properties corresponding to the specific properties of the
+      merged segment classes (subclasses).</p><p>How many parameters does the check method for a segment property
+      have? Select one:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>O one</p></li><li class="listitem"><p>O two</p></li><li class="listitem"><p>O three</p></li></ol></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1536"></a>5.&nbsp;Practice Project</h2></div></div></div><p>The purpose of the app to be built in this project is managing
+    information about movies as well as their directors and actors where two
+    types of movies are distinguished: biographies and episodes of TV series,
+    as shown in the following model:</p><div class="informalfigure"><a name="figMovieSubtypingApp"></a><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="500"><tr><td><img src="../fig/Movie-withSubtyping_DesM.svg" width="500"></td></tr></table></div></div><p>Notice that <code class="code">Movie</code> has two rigid (and, hence, disjoint)
+    subtypes, <code class="code">Biography</code> and <code class="code">TvSeriesEpisode</code>, forming
+    an incomplete disjoint segmentation of <code class="code">Movie</code>, while
+    <code class="code">Person</code> has two non-disjoint subtypes, <code class="code">Director</code>
+    and <code class="code">Actor</code>, forming an incomplete overlapping segmentation of
+    <code class="code">Person</code>.</p><p>Code the app by following the guidance provided in the
+    tutorial.</p><p>Make sure that your pages comply with the XML syntax of HTML5, and
+    that your JS code complies with our <a class="link" href="http://oxygen.informatik.tu-cottbus.de/webeng/Coding-Guidelines.html" target="_top">Coding
+    Guidelines</a> (and is checked with <a class="link" href="http://www.jshint.com/" target="_top">JSHint</a>).</p></div></div></div><script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/subtyping-tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:45:44 GMT -->
+</html>

@@ -1,0 +1,38 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch06s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.&nbsp;MVC Web Applications</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Application Architecture"><link rel="prev" href="ch06s03.html" title="3.&nbsp;&#34;Logical&#34; versus &#34;Physical&#34; User Interface"><link rel="next" href="ch06s05.html" title="5.&nbsp;Deployment Architectures"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.&nbsp;MVC Web Applications</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;6.&nbsp;Application Architecture</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s05.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4271"></a>4.&nbsp;MVC Web Applications</h2></div></div></div><p>The MVC<a class="indexterm" name="d5e4274"></a> terminology is still widely used today, especially by web application frameworks,
+   but with different meanings ascribed to "M", "V" and "C". In some approaches it is extended by
+   adding <span class="italic">view models (VM)</span> as another layer.</p><p>In the original MVC proposal, the "model" consists of <span class="italic">model classes</span> implementing the app's data model,
+    while today many MV(VM)(C) frameworks do not include any concept of model
+    classes, but rather refer to data objects (or records) as "models". Also
+    the term "controller" is ambiguous today. In the original MVC proposal,
+    the term "controller" referred to the handling of UI events including user
+    inputs. Today, it typically refers to all the glue code needed for
+    mediating between the model and the view, including the code for
+    routing.</p><p>In summary, in today's frameworks, the term "model" vaguely refers to the data sources of
+   an app, while the "view" denotes the app's code for the user interface, which is based on
+   CSS-styled HTML forms and DOM event listeners, and the "controller" typically denotes the (glue)
+   code that is in charge of mediating between the <span class="italic">view</span> and the
+    <span class="italic">model</span>. There is widespread agreement that</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>the model should be independent of the view and the controller,
+        implying that the model must neither invoke the view nor the
+        controller (in the model code, there should be no calls of any view or
+        controller procedures);</p></li><li class="listitem"><p>the controller may invoke both the model and the view;</p></li><li class="listitem"><p>the view may invoke the controller.</p></li></ol></div><p>However, as shown in the following diagram, it is not clear if the <span class="italic">view</span> may also invoke the <span class="italic">model</span>, or if it needs to route any calls of model
+    procedures via the <span class="italic">controller</span>. Both
+    approaches are being used in practice. The first approach, where model
+    procedures can be called from the <span class="italic">view</span>,
+    is simpler and leads to a leaner <span class="italic">controller</span>.</p><div class="informalfigure"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="200"><tr><td><img src="../fig/Architecture-Plain-MVC.svg" width="200"></td></tr></table></div></div><p>The second approach, where the <span class="italic">view</span> is decoupled from the <span class="italic">model</span> by routing all calls to it via the
+    <span class="italic">controller</span>, is called the <span class="italic">mediating-controller</span> MVC<a class="indexterm" name="d5e4304"></a> pattern, shown in <a class="xref" href="ch06s04.html#figMediatingControllerMVC" title="Figure&nbsp;6.2.&nbsp;The mediating-controller MVC pattern">Figure&nbsp;6.2</a>. It has the advantage of fewer dependencies and
+    providing better support for model-view synchronization based on
+    data-bindings.</p><div class="figure"><a name="figMediatingControllerMVC"></a><p class="title"><b>Figure&nbsp;6.2.&nbsp;The mediating-controller MVC pattern</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="200"><tr><td><img src="../fig/Architecture-Mediating-Controller-MVC.svg" width="200" alt="The mediating-controller MVC pattern"></td></tr></table></div></div></div><br class="figure-break"><p>In many MVC web application frameworks, the <span class="italic">model</span> is tightly coupled with the underlying data
+    storage technology, often via an <span class="italic">object-relational
+    mapping (ORM)</span> approach mapping classes to tables and objects to
+    table rows. This tight coupling makes model classes dependent on a
+    specific database technology or even on corresponding database tables. It
+    therefore violates the onion principle, since the model is the most
+    fundamental part of an app, so it must not depend on any other
+    part.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;"Logical" versus "Physical" User Interface&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;5.&nbsp;Deployment Architectures</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch06s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:51 GMT -->
+</html>

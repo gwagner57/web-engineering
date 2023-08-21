@@ -1,0 +1,48 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch02s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.&nbsp;Quiz Questions</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;More on JavaScript"><link rel="prev" href="ch02s03.html" title="3.&nbsp;New JavaScript Elements"><link rel="next" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Plain JS in Seven Steps"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.&nbsp;Quiz Questions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;More on JavaScript</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03.html">Next</a></td></tr></table><hr></div><div lang="" class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e1799"></a>4.&nbsp;Quiz Questions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1801"></a>4.1.&nbsp;Question 1: Data values and objects</h3></div></div></div><p>Which of the following statements about data values and objects in
+    JS are true? Select one or more:</p><p>&#9744; <code class="code">true</code> is an object. &#9744; A JS array is a JS object. &#9744;
+    <code class="code">false</code> is a data value.</p><p>&#9744; A JS function is a JS object. &#9744; <code class="code">1</code> is a data value. &#9744;
+    <code class="code">Infinity</code> is an object.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1810"></a>4.2.&nbsp;Question 2: Evaluating a Boolean expression</h3></div></div></div><p>What is the value of the Boolean expression <code class="code">null || !0</code>
+    ? Select one:</p><p>O true O false</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1815"></a>4.3.&nbsp;Question 3: JavaScript datatypes</h3></div></div></div><p>Which of the following denote primitive datatypes in JavaScript?
+    Select one or more:</p><p>&#9744; double &#9744; string &#9744; float &#9744; int &#9744; boolean &#9744; byte &#9744; number</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1819"></a>4.4.&nbsp;Question 4: Constructor-based class definition</h3></div></div></div><div class="informalfigure-float" style="float: right;"><div class="informalfigure"><div class="mediaobject"><img src="../../fig/City.png"></div></div></div><p>Which of the following JavaScript fragments correctly defines the
+    constructor-based class <code class="code">City</code> shown in the class diagram
+    (either using a constructor function definition or an ES6 class
+    definition)? Hint: notice that <code class="code">setName</code> is an instance-level
+    method while <code class="code">checkName</code> is a class-level ("static") method.
+    Select one or more:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>&#9744;</p><pre class="programlisting">function City( n) {
+  this.name = n;
+  this.setName = function (n) {this.name = n;};
+  checkName = function (n) {...}; // returns true or false
+}</pre></li><li class="listitem"><p>&#9744;</p><pre class="programlisting">class City {
+  constructor (n) {
+    setName(n);
+  }
+  setName(n) {if (City.checkName( n)) this.name = n;}
+  static checkName(n) {...}  // returns true or false
+}</pre></li><li class="listitem"><p>&#9744;</p><pre class="programlisting">function City( n) {
+  this.setName( n);
+  function checkName( n) {...} // returns true or false
+} 
+City.prototype.setName = function (n) {this.name = n;};</pre></li><li class="listitem"><p>&#9744;</p><pre class="programlisting">function City( n) {
+  this.setName( n);
+}
+City.prototype.setName = function (n) {
+  if (City.checkName( n)) this.name = n;
+};
+City.checkName = function (n) {...};  // returns true or false</pre></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1842"></a>4.5.&nbsp;Question 5: Type coercion</h3></div></div></div><p>Consider the following JavaScript code:</p><pre class="programlisting">var a = 5;
+var b = "7";
+var c = a + b;</pre><p>What is the value of the variable <code class="code">c</code>? Select one:</p><p>O The string "57" O The number 12 O <code class="code">undefined</code></p><p>O The code will result in an error since you can't use the +
+    operator between two operands of different types.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e1851"></a>4.6.&nbsp;Question 6: Variable scope</h3></div></div></div><p>What is the output of the following program?</p><pre class="programlisting">function foo() {
+  var i=7;
+  for (var i=0; i &lt; 10; i++) {
+    ...  // do something
+  }
+  console.log( i);
+};
+foo();</pre><p>Answer: _____</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;New JavaScript Elements&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;3.&nbsp;Building a Minimal Web App with Plain JS in Seven Steps</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch02s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+</html>

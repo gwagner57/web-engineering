@@ -1,0 +1,52 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch13s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;String Patterns</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Special Datatypes"><link rel="prev" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Special Datatypes"><link rel="next" href="ch13s03.html" title="3.&nbsp;Special Numeric Data Types"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;String Patterns</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;13.&nbsp;Special Datatypes</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8007"></a>2.&nbsp;String Patterns</h2></div></div></div><p>Email addresses, URLs and telephone numbers are examples of strings that have to match a
+   certain pattern, typically defined by a regular expression. It's quite common to have attributes
+   with such values. For readability, it's preferable to use predefined datatypes, like
+    <code class="code">Email</code>, <code class="code">URL</code> and <code class="code">PhoneNumber</code>, in an information design
+   model, instead of defining them as string-valued attributes with a pattern constraint.</p><p>In a (JavaScript or Java) model class definition, these attributes
+    have to be implemented as string-valued attributes with a pattern
+    constraint. It is, however, desirable to have built-in support for them,
+    like in the data/document format definition language <span class="italic">XML Schema</span>.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8015"></a>2.1.&nbsp;Telephone numbers</h3></div></div></div><p>There is much variation in the format of phone numbers across
+      different countries. Consequently, it doesn't make sense trying to
+      capture all these different formatting options with one pattern. The
+      HTML5 specification doesn't define any syntax rules for phone numbers in
+      the context of <code class="code">input</code> elements of type "tel", except that
+      they can't include line breaks. The precise formatting assumptions and
+      corresponding validation is left to the application developer who may
+      employ a specific pattern for enforcing a particular national or
+      international phone number format.</p><p>A simple international phone number format has been defined by the
+      <span class="italic">International Telecommunication
+      Union</span>'s ITU-T E123 standard. It requires that phone numbers
+      include a leading plus sign and allows only spaces to separate groups of
+      digits. ITU has also limited the length of phone numbers to at most 15
+      digits. Since the shortest international phone numbers in use contain
+      seven digits, we can use these two constraints in the following
+      JavaScript definition of a regular expression for international phone
+      numbers:</p><pre class="programlisting">var ituPhoneNumberPattern = /^\+(?:[0-9] ?){6,14}[0-9]$/;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8022"></a>2.2.&nbsp;Email addresses</h3></div></div></div><p>The format of email addresses has originally been defined by the
+      <span class="italic">International Engineering Task Force
+      (IETF)</span>, but due to several weaknesses it has been redefined
+      in the HTML5 specification in the context of introducing
+      <code class="code">input</code> elements of type "email". The HTML5 specification
+      provides a <a class="link" href="https://developers.whatwg.org/states-of-the-type-attribute.html#e-mail-state-(type=email)" target="_top">regular
+      expression for email addresses</a>, which can be used for validating
+      strings that are supposed to be email addresses.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e8028"></a>2.3.&nbsp;URLs</h3></div></div></div><p>The format of URLs has originally been defined by the <span class="italic">International Engineering Task Force (IETF)</span>,
+      but due to several weaknesses and the historical confusion about URLs
+      versus URIs versus IRIs, it has been redefined in the <a class="link" href="https://url.spec.whatwg.org/" target="_top">URL specification</a> of the
+      <span class="italic">WHAT Working Group</span>. The syntax rules
+      defined in this specification also define the validity of URL strings in
+      <code class="code">input</code> elements of type "url" introduced by HTML5.</p><p>There are <a class="link" href="https://mathiasbynens.be/demo/url-regex" target="_top">many
+      proposals</a> how to capture the complex URL parsing rules with a
+      regular expression, but most of them are either too strict or too lax.
+      The <a class="link" href="https://gist.github.com/729294" target="_top">solution by Diego
+      Perini</a> stands out and seems to be a pretty good approximation. As
+      soon as the new built-in JavaScript object type <code class="code">URL</code> is
+      supported by all browsers, a precise validation check will be possible
+      by trying to create a <code class="code">URL</code> object with a given URL string,
+      and then catch any DOMException of type
+      <code class="code">SYNTAX_ERROR</code>.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;13.&nbsp;Special Datatypes&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Special Numeric Data Types</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch13s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:02 GMT -->
+</html>

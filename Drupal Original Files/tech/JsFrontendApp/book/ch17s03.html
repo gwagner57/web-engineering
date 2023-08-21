@@ -1,0 +1,192 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch17s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;Case Study 2: Implementing a Class Hierarchy</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="ch17.html" title="Chapter&nbsp;17.&nbsp;Subtyping with Plain JS"><link rel="prev" href="ch17s02.html" title="2.&nbsp;Case Study 1: Eliminating a Class Hierarchy"><link rel="next" href="ch17s04.html" title="4.&nbsp;Quiz Questions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;Case Study 2: Implementing a Class Hierarchy</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch17s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;17.&nbsp;Subtyping with Plain JS</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch17s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e9666"></a>3.&nbsp;Case Study 2: Implementing a Class Hierarchy</h2></div></div></div><p>Whenever a class hierarchy is more complex, we cannot simply
+    eliminate it, but have to implement it (1) in the app's model code, (2) in
+    the underlying database and (3) in its user interface.</p><p>The starting point for case study 2 is the design model shown in
+    <a class="xref" href="ch16s06.html#figPersonRoles1" title="Figure&nbsp;16.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;16.8</a> above. In the
+    following sections, we derive a <span class="italic">JS class
+    model</span> and a <span class="italic">JS entity table
+    model</span> from the design model. The entity table model is used as
+    a design for the object-to-storage mapping that we need for storing the
+    objects of our app with the browsers' Local Storage technology.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e9673"></a>3.1.&nbsp;Make a JS class model</h3></div></div></div><p>We design the <span class="italic">model classes</span> of
+      our example app with the help of a <span class="italic">JS class
+      model</span> that we derive from the <span class="italic">design
+      model</span> by essentially leaving the generalization arrows as
+      they are and just adding <span class="italic">get/set</span>
+      methods and static <span class="italic">check</span> functions to
+      each class. However, in the case of our example app, it is natural to
+      apply the <span class="italic">Class Hierarchy Merge</span>
+      design pattern (discussed in <a class="xref" href="ch16s05.html" title="5.&nbsp;The Class Hierarchy Merge Design Pattern">Section&nbsp;5</a>) to the single-subclass-segmentation of
+      <code class="code">Employee</code> for simplifying the class model by eliminating the
+      <code class="code">Manager</code> subclass. This leads to the model shown in <a class="xref" href="ch17s03.html#figPersonRolesJsM" title="Figure&nbsp;17.2.&nbsp;The JS class model of the Person roles class hierarchy">Figure&nbsp;17.2</a> below. Notice
+      that a <code class="code">Person</code> may be an <code class="code">Employee</code> or an
+      <code class="code">Author</code> or both.</p><div class="figure"><a name="figPersonRolesJsM"></a><p class="title"><b>Figure&nbsp;17.2.&nbsp;The JS class model of the <code class="code">Person</code> roles class
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="600"><tr><td><img src="../../fig/PersonRoleHierarchy_JsM.svg" width="600"></td></tr></table></div></div></div><br class="figure-break"></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e9696"></a>3.2.&nbsp;Make a JS entity table model</h3></div></div></div><p>Since we use the browsers' <span class="italic">Local
+      Storage</span> as the persistent storage technology for our example
+      app, we have to deal with simple key-value storage. For each design
+      model class with a singular (capitalized) name <code class="code">Entity</code>, we
+      use its pluralized lowercase name <code class="code">entities</code> as the
+      corresponding table name.</p><p>We design a set of suitable JS entity tables in the form of a
+      <span class="italic">JS entity table model</span> that we derive
+      from the information design model. We have to make certain choices how
+      to organize our data store and how to derive a corresponding entity
+      table model.</p><p>The first choice to make concerns using either the <span class="italic">Single Table Inheritance (STI)</span>, the <span class="italic">Table per Class Inheritance (TCI)</span> or the
+      <span class="italic">Joined Tables Inheritance (JTI)</span>
+      approach, which are introduced in <a class="xref" href="ch16s06.html#secInheritTbl" title="6.4.&nbsp;Representing class hierarchies with SQL database tables">Section&nbsp;6.4</a>. In the STI approach, a segmentation (or an
+      entire class hierarchy) is represented with a single table, containing
+      columns for all attributes of all classes involved, as shown in the
+      example model of <a class="xref" href="ch17s03.html#figPersonRolesSingleTbl" title="Figure&nbsp;17.3.&nbsp;An STI model of the Person roles class hierarchy">Figure&nbsp;17.3</a>.</p><div class="figure"><a name="figPersonRolesSingleTbl"></a><p class="title"><b>Figure&nbsp;17.3.&nbsp;An STI model of the <code class="code">Person</code> roles class
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../../fig/PersonRoles_STI_JS.svg" width="400"></td></tr></table></div></div></div><br class="figure-break"><p>Since the given segmentation is non-disjoint, a multi-valued
+      enumeration attribute <code class="code">categories</code> is used for representing
+      the information to which subclasses an instance belongs.</p><p>Using the STI approach is feasible for the given example, since
+      the role hierarchy does not have many levels and the segment subclasses
+      do not add many attributes. But, in a more realistic example, we would
+      have a lot more attributes in the segment subclasses of the given role
+      hierarchy. The STI approach is not really an option for representing a
+      multi-level role hierarchy. However, we may choose it for representing
+      the single-segment class hierarchy
+      <code class="code">Manager</code>-is-subclass-of-<code class="code">Employee</code>.</p><p>For simplicity, and because the browsers' <span class="italic">Local Storage</span> does not support foreign keys as
+      required by JTI, we choose the TCI approach, where we obtain a separate
+      table for each class of the <code class="code">Person</code> segmentation, but
+      without foreign keys. Our choices result in the model shown in <a class="xref" href="ch17s03.html#figPersonRoles_TCI" title="Figure&nbsp;17.4.&nbsp;A TCI model of the Person roles class hierarchy">Figure&nbsp;17.4</a> below, which
+      has been derived from the design model shown in Figure <a class="xref" href="ch16s06.html#figPersonRoles1" title="Figure&nbsp;16.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;16.8</a> by</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Merging the <code class="code">Manager</code> subclass into its superclass
+          <code class="code">Employee</code>, according to the <span class="italic">Class Hierarchy Merge</span> design pattern
+          described in <a class="xref" href="ch16s05.html" title="5.&nbsp;The Class Hierarchy Merge Design Pattern">Section&nbsp;5</a>.</p></li><li class="listitem"><p>Replacing the standard ID property modifier {id} of the
+          <code class="code">personId</code> attribute of <code class="code">Person</code>,
+          <code class="code">Author</code> and <code class="code">Employee</code> with {pkey} for
+          indicating that the attribute is a <span class="italic">primary
+          key</span>.</p></li><li class="listitem"><p>Replacing the singular (capitalized) class names (<span class="italic">Person</span>, <span class="italic">Author</span> and <span class="italic">Employee</span>) with pluralized lowercase table
+          names (<span class="italic">people</span>, <span class="italic">authors</span> and <span class="italic">employees</span>).</p></li><li class="listitem"><p>Adding the &laquo;JS entity table&raquo; stereotype to all class
+          rectangles (<code class="code">people</code>, <code class="code">authors</code> and
+          <code class="code">employees</code>).</p></li><li class="listitem"><p>Replacing the platform-independent datatype names with JS
+          datatype names.</p></li><li class="listitem"><p>Dropping all generalization/inheritance arrows and adding all
+          attributes of supertables (<code class="code">personId</code> and
+          <code class="code">name</code>) to their subtables (<code class="code">authors</code> and
+          <code class="code">employees</code>).</p></li></ol></div><div class="figure"><a name="figPersonRoles_TCI"></a><p class="title"><b>Figure&nbsp;17.4.&nbsp;A TCI model of the <code class="code">Person</code> roles class
+          hierarchy</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="300"><tr><td><img src="../../fig/PersonRoles_TCI-STI.svg" width="300"></td></tr></table></div></div></div><br class="figure-break"><p>In the case of using the JTI approach, we would also take the
+      steps 1-5 above, but instead of step 6, we would</p><div class="orderedlist"><ol class="orderedlist" start="6" type="1"><li class="listitem"><p>Copy the primary key column (<code class="code">personId</code>) of the
+          root table (<code class="code">people</code>) to all subtables
+          (<code class="code">authors</code> and <code class="code">employees</code>).</p></li><li class="listitem"><p>Replace the generalization arrows with &laquo;fkey&raquo;-stereotyped
+          dependency arrows (representing <span class="italic">foreign key
+          dependencies</span>) that are annotated at their source end with
+          the name of the subtable's primary key (here:
+          <code class="code">personId</code>).</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e9781"></a>3.3.&nbsp;New issues</h3></div></div></div><p>Compared to the model of our first case study, shown in <a class="xref" href="ch17s02.html#figBookClassHierarchyJsM" title="Figure&nbsp;17.1.&nbsp;The JS class model of the merged Book class hierarchy">Figure&nbsp;17.1</a> above, we
+      have to deal with a number of new issues in the <span class="italic">model code</span>: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Defining the subclass relationships between
+            <code class="code">Employee</code> and <code class="code">Person</code>, as well as between
+            <code class="code">Author</code> and <code class="code">Person</code>, using the JS keyword
+            <code class="code">extends</code> discussed in <a class="xref" href="ch17.html#secConstructorBasedSubtyping" title="1.&nbsp;Subtyping with ES6 Classes">Section&nbsp;1</a>.</p></li><li class="listitem"><p>When loading the instances of the root class
+            (<code class="code">Person.instances</code>) from persistent storage (in
+            <code class="code">Person.retrieveAll</code>), we load (1) the records of the
+            table representing the root class (<code class="code">people</code>) for
+            creating its direct instances and (2) also the records of all
+            other tables representing its subclasses (<code class="code">authors</code> and
+            <code class="code">employees</code>) for creating their direct instances, while
+            also adding their object references to the root class population
+            (to <code class="code">Person.instances</code>). In this way, the root class
+            population does not only contain direct instances, but all
+            instances.</p></li><li class="listitem"><p>When saving the instances of <code class="code">Employee</code> and
+            <code class="code">Author</code> as records of the JS entity tables
+            <code class="code">employees</code> and <code class="code">authors</code> to persistent
+            storage in <code class="code">Employee.saveAll</code> and
+            <code class="code">Author.saveAll</code> (invoked in
+            <code class="filename">employees.js</code> and
+            <code class="filename">authors.js</code>), we also save the direct
+            instances of <code class="code">Person</code> as records of the
+            <code class="code">people</code> table.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e9815"></a>3.4.&nbsp;Code the model classes of the JS class model</h3></div></div></div><p>The JS class model shown in <a class="xref" href="ch17s03.html#figPersonRolesJsM" title="Figure&nbsp;17.2.&nbsp;The JS class model of the Person roles class hierarchy">Figure&nbsp;17.2</a> above can be directly coded for getting the
+      code of the model classes <code class="code">Person</code>, <code class="code">Employee</code> and
+      <code class="code">Author</code> as well as for the enumeration type
+      <code class="code">EmployeeCategoryEL</code>.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e9823"></a>3.4.1.&nbsp;Defining subtype relationships</h4></div></div></div><p>In the case of a superclass like <code class="code">Person</code>, we define
+        a class-level property <code class="code">subtypes</code> for having a mechanism to
+        loop over all subtypes of a superclass.</p><pre class="programlisting">class <span class="bold"><strong>Person</strong></span> {...}
+Person.<span class="bold"><strong>subtypes</strong></span> = [];</pre><p>The property <code class="code">subtypes</code> holds a list of all subtypes
+        of the given class. This list is initially empty.</p><p>The subtype relationships between the classes
+        <code class="code">Employee</code> and <code class="code">Person</code>, as well as between
+        <code class="code">Author</code> and <code class="code">Person</code>, are defined with the help
+        of the ES6 keywords <code class="code">extends</code> and <code class="code">super</code>. For
+        instance, in <code class="code">m/Author.js</code> we define:</p><pre class="programlisting">class <span class="bold"><strong>Author</strong></span> <span class="bold"><strong>extends</strong></span> Person {
+  constructor ({personId, name, biography}) {
+    <span class="bold"><strong>super</strong></span>({personId, name});  // invoke Person constructor
+    // assign additional properties
+    this.biography = biography;
+  }
+  get biography() {return this._biography;}
+  set biography( b) {this._biography = b;}  /***SIMPLIFIED CODE: no validation ***/
+  toString() {...}
+}
+// add Author to the list of Person subtypes
+<span class="bold"><strong>Person.subtypes.push( Author)</strong></span>;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e9846"></a>3.4.2.&nbsp;Loading the instances of a root class</h4></div></div></div><p>When retrieving the instances of a class hierarchy's root class
+        (in our example, <code class="code">Person</code>) from a persistent data store
+        organized according to the TCI approach, we have to retrieve not only
+        its direct instances from the table representing the root class
+        (<code class="code">people</code>), but also all indirect instances from all tables
+        representing its subclasses (<code class="code">employees</code> and
+        <code class="code">authors</code>), as shown in the following code:</p><pre class="programlisting">Person.<span class="bold"><strong>retrieveAll</strong></span> = function () {
+  var people = {};
+  if (!localStorage["people"]) localStorage["people"] = "{}";
+  try {
+    people = JSON.parse( localStorage["people"]);
+  } catch (e) {
+    console.log("Error when reading from Local Storage\n" + e);
+  }
+  for (const key of Object.keys( <span class="bold"><strong>people</strong></span>)) {
+    try {  // convert record to (typed) object
+      Person.instances[key] = new Person( people[key]);
+    } catch (e) {
+      console.log(`${e.constructor.name} ...`);
+    }
+  }
+  // add all instances of all subtypes to Person.instances
+  for (const Subtype of <span class="bold"><strong>Person.subtypes</strong></span>) {
+    Subtype.retrieveAll();
+    for (const key of Object.keys( <span class="bold"><strong>Subtype.instances</strong></span>)) {
+      Person.instances[key] = Subtype.instances[key];
+    }
+  }
+  console.log(`${Object.keys( Person.instances).length} records loaded`);
+}</pre><p>For any subtype (here, <code class="code">Author</code> and
+        <code class="code">Employee</code>), each record is retrieved and a corresponding
+        entry is created in the map <code class="code">Subtype.instances</code> and copied
+        to <code class="code">Person.instances</code>.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="d5e9863"></a>3.4.3.&nbsp;Saving the subtables when saving a supertable</h4></div></div></div><p>Since the app's data is kept in main memory as long as the app
+        is running (which is as long as the app's webpage is kept open in the
+        browser), the data has to be saved to persistent storage when the app
+        is terminated (e.g., by closing its browser tab). When saving the
+        instances of <code class="code">Person</code> (as records of the
+        <code class="code">people</code> table) to persistent storage in
+        <code class="filename">v/people.js</code>, we also save the direct instances of
+        ist subtypes <code class="code">Employee</code> and <code class="code">Author</code> (as records
+        of the JS entity tables <code class="code">employees</code> and
+        <code class="code">authors</code> in <code class="filename">v/employees.js</code> and
+        <code class="filename">v/authors.js</code>). This is necessary because changes
+        to <code class="code">Person</code> instances may imply changes of
+        <code class="code">Employee</code> or <code class="code">Author</code> instances.</p><p>We do this in <code class="filename">v/people.js</code>:</p><pre class="programlisting">// save data when leaving the page
+window.addEventListener("<span class="bold"><strong>beforeunload</strong></span>", function () {
+  Person.saveAll();
+  // save all subtypes for persisting changes of supertype attributes
+  for (const Subtype of <span class="bold"><strong>Person.subtypes</strong></span>) {
+    Subtype.saveAll();
+  }
+});</pre></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e9883"></a>3.5.&nbsp;Take care of subtypes in the UI</h3></div></div></div><p>The view table created in the use case "Retrieve/list all people"
+      is to show the roles "author" or "employee" of each person in a special
+      column "Role(s)".</p><pre class="programlisting">document.getElementById("RetrieveAndListAll")
+    .addEventListener("click", function () {
+  ...
+  for (const key of Object.keys(Person.instances)) {
+    const person = Person.instances[key];
+    const row = tableBodyEl.insertRow();
+    const <span class="bold"><strong>roles</strong></span> = [];
+    row.insertCell().textContent = person.personId;
+    row.insertCell().textContent = person.name;
+    for (const Subtype of <span class="bold"><strong>Person.subtypes</strong></span>) {
+      if (person.personId in Subtype.instances) <span class="bold"><strong>roles</strong></span>.push( Subtype.name);
+    }
+    row.insertCell().textContent = <span class="bold"><strong>roles</strong></span>.toString();
+  }
+});</pre><p>Notice that since the class <span class="italic">Employee</span> has the subtype <span class="italic">Manager</span>, it would be desirable to see the role
+      "manager" for any person being an instance of <code class="code">Employee</code> with a <code class="code">category</code> value of
+      <code class="code">EmployeeCategoryEL.MANAGER</code>. However, for simplicity, this
+      is not implemented in the model app.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch17s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch17.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch17s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Case Study 1: Eliminating a Class Hierarchy&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;Quiz Questions</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch17s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:34 GMT -->
+</html>

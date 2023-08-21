@@ -1,0 +1,148 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06s09.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>9.&nbsp;Possible Variations and Extensions</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App"><link rel="prev" href="ch06s08.html" title="8.&nbsp;Run the App and Get the Code"><link rel="next" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Practice Projects"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.&nbsp;Possible Variations and Extensions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s08.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e2745"></a>9.&nbsp;Possible Variations and Extensions</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2747"></a>9.1.&nbsp;Object-level constraint validation</h3></div></div></div><p>As an example of a constraint that is not bound to a specific property, but must be checked
+    by inspecting several properties of an object, we consider the validation of the attribute
+     <code class="code">Author::dateOfDeath</code>. First, any value for this attribute must be in the past,
+    which can be specified with the <code class="code">@Past</code> Bean Validation annotation, and second, any
+    value of <code class="code">dateOfDeath</code> must be after the <code class="code">dateOfBirth</code> value of the object
+    concerned. This object-level constraint cannot be expressed with a pre-defined Bean Validation
+    annotation. We can express it with the help of a custom class-level annotation, like the
+    following <code class="code">AuthorValidator</code> annotation interface:
+    </p><pre class="programlisting"><span class="bold"><strong>@Target( ElementType.TYPE)</strong></span>
+@Retention( RetentionPolicy.RUNTIME)
+@Constraint( validatedBy=AuthorValidatorImpl.class)
+<span class="bold"><strong>public @interface AuthorValidator</strong></span> {
+  String message() default "Author data is invalid!";
+  Class&lt;?&gt;[] groups() default {};
+  Class&lt;? extends Payload&gt;[] payload() default {};
+}</pre><p>Comparing with a property level custom constraint validation definition, there is only one
+    difference, the parameter of <code class="code">@Target</code> annotation. While in the case of a property
+    and method level custom constraint validation the values are <code class="code">ElementType.FIELD</code> and
+     <code class="code">ElementType.METHOD</code>, for the case of a class it must be
+     <code class="code">ElementType.TYPE</code>. For a better understanding of the rest of the parameter, please
+    read Part 2 (<a class="link" href="validation-tutorial.html" target="_top">Validation Tutorial</a>).</p><p>The corresponding implementation class, i.e., <code class="code">AuthorValidatorImpl</code>, has the
+    same structure as for the property validation case, but now, we can get access to the class
+    instance and access all the properties and their corresponding values, so we can compare two or
+    many properties when required. In our case, we have to compare the values of
+     <code class="code">dateOfBirth</code> and <code class="code">dateOfDeath</code> values, as shown below, by using the
+    required <code class="code">isValid</code>
+    method:</p><pre class="programlisting">public class AuthorValidatorImpl implements 
+    ConstraintValidator&lt;AuthorValidator, Author&gt; {
+  @Override
+  public void initialize( AuthorValidator arg0) {}
+  
+  @Override
+  public boolean isValid( Author author, 
+   ConstraintValidatorContext context) {
+    if (author.getDateOfDeath() != null &amp;&amp; 
+        author.getDateOfBirth().after( author.getDateOfDeath())) {
+      return false;
+    }
+    return true;
+  }
+}</pre><p>Using thie class level validator with JSF requires a bit of tweaking, this feature not
+    being directly supported by JSF (as in the case of property and method validators). For this, in
+    the JSF view, for the specific form element to be validated, we have to specify who is doing the
+    validation, by using the <code class="code">@validator</code> attribute and a JSF expression which points out
+    to the controller method invoked to perform the
+    validation:</p><pre class="programlisting">&lt;ui:composition template="/WEB-INF/templates/page.xhtml"&gt;
+  &lt;ui:define name="content"&gt;
+    &lt;h:form id="createAuthorForm"&gt;
+      &lt;h:panelGrid columns="3"&gt;
+        &lt;h:outputLabel for="dateOfDeath" value="Date of death: " /&gt;
+        &lt;h:inputText id="dateOfDeath" p:type="date" value="#{author.dateOfDeath}" 
+            <span class="bold"><strong>validator="#{authorController.checkDateOfDeath}"</strong></span>&gt;
+          &lt;f:convertDateTime pattern="yyyy-MM-dd" /&gt;
+        &lt;/h:inputText&gt;
+        &lt;h:message for="dateOfDeath" errorClass="error" /&gt;
+      &lt;/h:panelGrid&gt;
+      &lt;h:commandButton value="Create" 
+          action="#{authorController.add( author.personId, author.name, 
+              author.dateOfBirth, author.dateOfDeath)}"/&gt;  
+    &lt;/h:form&gt;
+    &lt;h:button value="Back" outcome="index" /&gt;
+  &lt;/ui:define&gt;
+&lt;/ui:composition&gt;</pre><p>The corresponding <code class="code">checkDateOfDeath</code> method is responsible for manually invoking
+    the Java Validation API validator, capture the corresponding validation exceptions and translate
+    them to <code class="code">javax.faces.validator.ValidatorException</code> exceptions which are then managed
+    by JSF and displayed in the view. The method code is shown
+    below:</p><pre class="programlisting"> public void checkDateOfDeath( FacesContext context, UIComponent component,
+      Object value) {
+    boolean isCreateForm = (UIForm) context.getViewRoot().
+        findComponent( "createAuthorForm") != null;
+    String formName = isCreateForm ? "createAuthorForm:" : "updateAuthorForm:";
+    <span class="bold"><strong>UIInput personIdInput = isCreateForm ? (UIInput) context.getViewRoot().
+        findComponent( formName + "personId") : null;</strong></span>
+    UIOutput personIdOutput = isCreateForm ? null : 
+        (UIOutput) context.getViewRoot().findComponent( formName + "personId");
+    UIInput nameInput = (UIInput) context.getViewRoot().findComponent( formName + "name");
+    UIInput dateOfBirthInput = (UIInput) context.getViewRoot().
+        findComponent( formName + "dateOfBirth");
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    <span class="bold"><strong>Validator validator = factory.getValidator();</strong></span>
+    Author author = new Author();
+    if ( isCreateForm) {
+      author.setPersonId( (Integer) personIdInput.getValue());
+    } else {
+      author.setPersonId( (Integer) personIdOutput.getValue());
+    }
+    author.setName( (String) nameInput.getValue());
+    author.setDateOfBirth( (Date) dateOfBirthInput.getValue());
+    author.setDateOfDeath( (Date) value);
+    <span class="bold"><strong>Set&lt;ConstraintViolation&lt;Author&gt;&gt; constraintViolations = validator.validate(author);</strong></span>
+    for ( ConstraintViolation&lt;Author&gt; cv : constraintViolations) {
+      <span class="bold"><strong>if ( cv.getMessage().contains("date of death")) {
+        throw new ValidatorException( new FacesMessage( FacesMessage.SEVERITY_ERROR, 
+        cv.getMessage(), cv.getMessage()));
+      }</strong></span>
+    }
+  }</pre><p>While the method looks complicated, it is responsible for the following simple tasks:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>get access to form data and extract the user input values, by using
+        <code class="code">context.getViewRoot().findComponent( componentName)</code> method. Notice that the
+       component name has the pattern: <code class="code">formName:formElementName</code>.</p></li><li class="listitem"><p>create the Author instance and set the corresponding data as extracted from the form, by
+       using the <code class="code">FacesContext</code> instance provided by the JSF specific validator
+       method</p></li><li class="listitem"><p>manually invoke the Java Validation API validator by using the
+       javax.validation.Validator class.</p></li><li class="listitem"><p>loop trough the validator exception, select the ones which corresponds to the custom
+       validated field and map them to <code class="code">javax.faces.validator.ValidatorException</code>
+       exceptions. The slection can be made by looking for specific data in the exception
+       message.</p></li></ul></div><p>As a result, the custom Java Validation API class validator is not used, and the JSF view
+    is able to render the corresponding error messages when the validation fails, in the same way as
+    is possible for single property validation situations.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2797"></a>9.2.&nbsp;Alternative class level custom constraint validation</h3></div></div></div><p>An alternative method for class level custom validation is to use JSF custom class
+    validators. The advantage of this is that they are directly supported in the JSF views, and the
+    dissadvantage is that if another UI engine has to be used outside JSF one, then the validation
+    will be of no use. Also, using the Java Validation API, the validation is mainly provided at the
+    model level, which is the desired method in most of the case, this way avoiding the duplicate
+    logic for validations (i.e., the code duplication for the view related code and the one related
+    to the model).</p><p>For our example, the validator for the Author class which is responsible for the validation
+    of <code class="code">dateOfDeath</code> property by comparing it with the <code class="code">dateOfBirth</code> is shown
+    below:</p><pre class="programlisting"><span class="bold"><strong>@FacesValidator( "AuthorValidator")</strong></span> 
+public class AuthorValidator implements Validator  {
+  @Override
+  public void <span class="bold"><strong>validate</strong></span>( FacesContext context, UIComponent component, 
+      Object value) throws ValidatorException  {
+    Date dateOfDeath  = (Date)value;
+    boolean isCreateForm = (UIForm) context.getViewRoot().
+        findComponent( "createAuthorForm") != null;
+    String formName = isCreateForm ? "createAuthorForm:" : "updateAuthorForm:";
+    UIInput dateOfBirthInput = (UIInput) context.getViewRoot().
+        findComponent( formName + "dateOfBirth");
+    Date dateOfBirth = (Date)dateOfBirth.getValue();  
+    if (dateOfBirth.after( dateOfDeath)) {
+      throw new ValidatorException ( new FacesMessage( 
+          "The date of death should be after the date of birth!"));
+    }
+  }
+}</pre><p>Then, in the JSF view, for the corresponding field, the validator has to be
+    specified:</p><pre class="programlisting">&lt;h:outputLabel for="dateOfDeath" value="Date of death: " /&gt;
+&lt;h:inputText id="dateOfDeath" p:type="date" value="#{author.dateOfDeath}"&gt;
+  <span class="bold"><strong>&lt;f:validator validatorId = "AuthorValidator" /&gt;</strong></span>
+  &lt;f:convertDateTime pattern="yyyy-MM-dd" /&gt;
+&lt;/h:inputText&gt;
+&lt;h:message for="dateOfDeath" errorClass="error" /&gt;</pre><p>As discussed before, this method only works with the JSF framework, so it must be used only
+    if the application is not supposed to be updated in the future to other UI frameworks. Even in
+    such case, the Java Validation API custom validation can still be used in addition, and he helps
+    to prevent model level validation failures.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s08.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">8.&nbsp;Run the App and Get the Code&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;7.&nbsp;Practice Projects</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06s09.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:39 GMT -->
+</html>

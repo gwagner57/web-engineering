@@ -1,0 +1,37 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch06s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;"Logical" versus "Physical" User Interface</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Application Architecture"><link rel="prev" href="ch06s02.html" title="2.&nbsp;The Onion Architecture Metaphor"><link rel="next" href="ch06s04.html" title="4.&nbsp;MVC Web Applications"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;"Logical" versus "Physical" User Interface</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;6.&nbsp;Application Architecture</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4245"></a>3.&nbsp;"Logical" versus "Physical" User Interface</h2></div></div></div><p>The idea of a logical UI model, also called <span class="bold"><strong><span class="italic">view model</span></strong></span>, was first proposed (under a different name) by Martin Fowler
+   in his post on the <a class="link" href="http://martinfowler.com/eaaDev/PresentationModel.html" target="_top">Presentation Model</a> in 2004, where he stated that the view model "pulls the state and
+   behavior of the view out" into a <span class="italic">view model class</span>. This means
+   that the logical content of a UI is abstracted out from a concrete "physical" UI, which has
+   specific renderings of the logical UI fields and "commands" (user actions). Logical UI fields are
+   rendered in the form of UI widgets that have their own state, while logical UI commands are
+   rendered in the form of UI event listeners.</p><p>Later, in 2005, the view model concept was adopted by John Gossman
+    (from Microsoft) in his blog post <a class="link" href="http://blogs.msdn.com/johngossman/archive/2005/10/08/478683.aspx" target="_top">Introduction
+    to Model/View/ViewModel pattern for building WPF Apps</a> and
+    popularized under the architecture pattern acronym "MVVM".<a class="indexterm" name="d5e4254"></a></p><p>In a user interface for a Create/Retrieve/Update/Delete (CRUD) data
+    management operation, a <span class="italic"><span class="bold"><strong>view
+    model class</strong></span></span> would be bound to exactly one model
+    class, but could support more than one view (class). A view model class
+    would have properties that are bound to the widgets of the supported
+    view(s), using either one-way or two-way <span class="italic"><span class="bold"><strong>data binding</strong></span></span>,<a class="indexterm" name="d5e4261"></a> and methods that are bound to corresponding commands
+    (<span class="italic"><span class="bold"><strong>command
+    binding</strong></span></span>).<a class="indexterm" name="d5e4265"></a></p><p>Typically, most view fields directly correspond to properties of the underlying model
+   class, although they may have a different name. For these fields (or view model properties), a
+   data binding to the corresponding model class properties is needed. But a view model class may
+   also have additional properties, some of them may represent view fields that are not bound to a
+   model class property, while others may represent auxiliary fields that are not rendered in the
+   UI.</p><p>The methods of a view model class are invoked when a corresponding command has been issued
+   by the user through creating a UI event that triggers an event listener, to which the command has
+   been bound.</p><p>Dividing up the overall UI code into a view model part and a view
+    part creates a certain overhead that may not be justified in certain
+    cases. While the use of a view model is justified for all apps with CRUD
+    data management operations, it may, for instance, not be justified for
+    visualization user interfaces.</p><p>The main benefits of view models are that they facilitate: (1) UI
+    design, (2) the testing of the UI logic, and (3) the maintenance of the
+    UI.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;The Onion Architecture Metaphor&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;MVC Web Applications</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch06s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:50 GMT -->
+</html>

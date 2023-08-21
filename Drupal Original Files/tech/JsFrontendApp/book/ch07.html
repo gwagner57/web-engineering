@@ -1,0 +1,63 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch07.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web App</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="pt03.html" title="Part&nbsp;III.&nbsp;Enumerations"><link rel="prev" href="ch06s05.html" title="5.&nbsp;Quiz Questions"><link rel="next" href="ch07s02.html" title="2.&nbsp;Make a JavaScript Class Model"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web
+  App</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;III.&nbsp;Enumerations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="chEnumJS"></a>Chapter&nbsp;7.&nbsp;Implementing Enumeration Attributes in a Plain JS Web
+  App</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch07.html#d5e4596">1. New Issues</a></span></dt><dt><span class="section"><a href="ch07s02.html">2. Make a JavaScript Class Model</a></span></dt><dt><span class="section"><a href="ch07s03.html">3. Add Two Library Files</a></span></dt><dt><span class="section"><a href="ch07s04.html">4. The Meta-Class <code class="code">Enumeration</code></a></span></dt><dt><span class="section"><a href="ch07s05.html">5. Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="ch07s05.html#d5e4761">5.1. Code the enumerations</a></span></dt><dt><span class="section"><a href="ch07s05.html#d5e4771">5.2. Code the model class as a JS class</a></span></dt><dt><span class="section"><a href="ch07s05.html#d5e4792">5.3. Code the implicit getters and setters</a></span></dt><dt><span class="section"><a href="ch07s05.html#d5e4807">5.4. Code the enumeration attribute checks</a></span></dt><dt><span class="section"><a href="ch07s05.html#d5e4823">5.5. Write a serialization function</a></span></dt><dt><span class="section"><a href="ch07s05.html#d5e4834">5.6. Data management operations</a></span></dt><dt><span class="section"><a href="ch07s05.html#d5e4853">5.7. Creating test data</a></span></dt></dl></dd><dt><span class="section"><a href="ch07s06.html">6. Write the View Code</a></span></dt><dd><dl><dt><span class="section"><a href="ch07s06.html#d5e4892">6.1. Selection lists</a></span></dt><dt><span class="section"><a href="ch07s06.html#d5e4925">6.2. Radio button and checkbox groups</a></span></dt><dt><span class="section"><a href="ch07s06.html#d5e4960">6.3. Responsive validation for choice widgets</a></span></dt></dl></dd><dt><span class="section"><a href="ch07s07.html">7. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch07s07.html#d5e5004">7.1. Question 1: Invocation of constructor</a></span></dt><dt><span class="section"><a href="ch07s07.html#d5e5023">7.2. Question 2: Implicit getters and setters</a></span></dt><dt><span class="section"><a href="ch07s07.html#d5e5039">7.3. Question 3: Retrieving the options selected by the user</a></span></dt></dl></dd><dt><span class="section"><a href="ch07s08.html">8. Practice Projects</a></span></dt><dd><dl><dt><span class="section"><a href="ch07s08.html#d5e5079">8.1. Project 1 - Adding ratings and genres as enumeration
+      attributes</a></span></dt><dt><span class="section"><a href="ch07s08.html#d5e5161">8.2. Project 2 - Adding country codes and religions as enumeration
+      attributes</a></span></dt></dl></dd></dl></div><p>In this chapter, we show how to build a front-end web application with
+  <span class="bold"><strong><span class="italic">enumeration
+  attributes</span></strong></span>, using plain JavaScript. We also show how
+  to deal with <span class="italic"><span class="bold"><strong>multi-valued
+  attributes</strong></span></span> because in many cases, enumeration
+  attributes are multi-valued.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4596"></a>1.&nbsp;New Issues</h2></div></div></div><p>Compared to the <a class="link" href="../2-ValidationApp/index.html" target="_top">Validation
+    App</a> discussed in <a class="xref" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Implementing Constraint Validation in a Plain JS Web App">Chapter&nbsp;5</a>, we now deal with the
+    following new issues:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>We replace the ES5 constructor-function-based class definition
+        of our model class <code class="code">Book</code> with a corresponding ES6
+        <code class="code">class</code> definition, which provides a more convenient syntax
+        while preserving the prototype-based semantics of JS constructor
+        functions.</p></li><li class="listitem"><p>Instead of defining explicit setters we now make use of implicit
+        <code class="code">get</code>/<code class="code">set</code> methods for properties because they
+        can be conveniently defined within a <code class="code">class</code>
+        definition.</p></li><li class="listitem"><p><span class="italic">Enumeration datatypes</span> have to
+        be defined in a suitable way as part of the model code.</p></li><li class="listitem"><p><span class="italic">Enumeration attributes</span> have
+        to be defined in model classes and handled in the user interface with
+        the help of suitable <span class="italic">choice
+        widgets</span>.</p></li></ol></div><p>In terms of coding, the new issues are: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>In the <span class="italic">model</span> code we now
+          have to take care of </p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>defining an ES6 <code class="code">class</code> for
+                <code class="code">Book</code>;</p></li><li class="listitem"><p>replacing the constructor parameter <code class="code">slots</code>
+                with a single record parameter using the ES6 syntax for <a class="link" href="https://www.jstips.co/en/javascript/use-destructuring-in-function-parameters/" target="_top">function
+                parameter destructuring</a>.</p></li><li class="listitem"><p>defining <code class="code">get</code>/<code class="code">set</code> methods for
+                all properties of the <code class="code">Book</code> class
+                definition;</p></li><li class="listitem"><p>defining the <span class="bold"><strong><span class="italic">enumerations</span></strong></span> with the help
+                of a utility class <code class="code">Enumeration</code>, which is
+                discussed below;</p></li><li class="listitem"><p>defining the <span class="bold"><strong><span class="italic">single-valued enumeration
+                attributes</span></strong></span> <code class="code">originalLanguage</code>
+                and <code class="code">category</code> together with their check functions
+                <code class="code">checkOriginalLanguage</code> and
+                <code class="code">checkCategory</code>;</p></li><li class="listitem"><p>defining the <span class="bold"><strong><span class="italic">multi-valued enumeration
+                attributes</span></strong></span>
+                <code class="code">otherAvailableLanguages</code> and
+                <code class="code">publicationForms</code> together with their check
+                functions <code class="code">checkOtherAvailableLanguages</code> and
+                <code class="code">checkPublicationForms</code>;</p></li><li class="listitem"><p>extending the methods <code class="code">Book.update</code> and
+                <code class="code">Book</code>::<code class="code">toString</code> such that they take
+                care of the added enumeration attributes;</p></li><li class="listitem"><p>defining a <code class="code">Book</code>::<code class="code">toJSON</code>
+                function for facilitating the conversion from a
+                <code class="code">Book</code> object to a corresponding JSON
+                record;</p></li><li class="listitem"><p>defining extensions of the built-in JS object
+                <code class="code">Array</code> by adding two class-level functions
+                (<code class="code">max</code> and <code class="code">min</code>) and two instance-level
+                functions (<code class="code">clone</code> and <code class="code">isEqualTo</code>) in
+                <code class="filename">browserShims.js</code>.</p></li></ol></div></li><li class="listitem"><p>In the <span class="italic">user interface</span>
+          ("view") code we have to take care of </p><div class="orderedlist"><ol class="orderedlist" type="a"><li class="listitem"><p>adding new table columns in
+                <code class="filename">retrieveAndListAllBooks.html</code> and suitable
+                choice widgets in <code class="filename">createBook.html</code> and
+                <code class="filename">upateBook.html</code>;</p></li><li class="listitem"><p>creating output for the new attributes in
+                <code class="filename">v/retrieveAndListAllBooks.mjs</code>;</p></li><li class="listitem"><p>allowing input for the new attributes in
+                <code class="filename">v/createBook.mjs</code> and
+                <code class="filename">v/updateBook.mjs</code>.</p></li></ol></div></li></ol></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt03.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">5.&nbsp;Quiz Questions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Make a JavaScript Class Model</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch07.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:30 GMT -->
+</html>

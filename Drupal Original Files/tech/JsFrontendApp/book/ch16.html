@@ -1,0 +1,44 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch16.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;16.&nbsp;Subtyping and Inheritance</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="pt05.html" title="Part&nbsp;V.&nbsp;Inheritance in Class Hierarchies"><link rel="prev" href="pt05.html" title="Part&nbsp;V.&nbsp;Inheritance in Class Hierarchies"><link rel="next" href="ch16s02.html" title="2.&nbsp;Introducing Supertypes by Generalization"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;16.&nbsp;Subtyping and Inheritance</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="pt05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;V.&nbsp;Inheritance in Class Hierarchies</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch16s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="chapSubtypes"></a>Chapter&nbsp;16.&nbsp;Subtyping and Inheritance</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch16.html#d5e8516">1. Introducing Subtypes by Specialization</a></span></dt><dt><span class="section"><a href="ch16s02.html">2. Introducing Supertypes by Generalization</a></span></dt><dt><span class="section"><a href="ch16s03.html">3. Intension versus Extension</a></span></dt><dt><span class="section"><a href="ch16s04.html">4. Type Hierarchies</a></span></dt><dt><span class="section"><a href="ch16s05.html">5. The <span class="italic">Class Hierarchy Merge</span> Design
+    Pattern</a></span></dt><dt><span class="section"><a href="ch16s06.html">6. Subtyping and Inheritance in Computational Languages</a></span></dt><dd><dl><dt><span class="section"><a href="ch16s06.html#d5e8797">6.1. Subtyping and inheritance in OOP</a></span></dt><dt><span class="section"><a href="ch16s06.html#d5e8828">6.2. Subtyping and inheritance with XML Schema</a></span></dt><dt><span class="section"><a href="ch16s06.html#d5e8854">6.3. Subtyping and inheritance with OWL</a></span></dt><dt><span class="section"><a href="ch16s06.html#secInheritTbl">6.4. Representing class hierarchies with SQL database tables</a></span></dt></dl></dd><dt><span class="section"><a href="ch16s07.html">7. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch16s07.html#d5e9227">7.1. Question 1: Statements about a Class Hierarchy</a></span></dt><dt><span class="section"><a href="ch16s07.html#d5e9266">7.2. Question 2: Class Hierarchy Merge</a></span></dt><dt><span class="section"><a href="ch16s07.html#d5e9296">7.3. Question 3: Multiple Inheritance</a></span></dt><dt><span class="section"><a href="ch16s07.html#d5e9321">7.4. Question 4: Two ways of subtyping</a></span></dt><dt><span class="section"><a href="ch16s07.html#d5e9333">7.5. Question 5: Vehicle Class Hierarchy</a></span></dt></dl></dd></dl></div><p>The concept of a <span class="italic">subtype</span>, or
+  <span class="italic">subclass</span>, is a fundamental concept in
+  natural language, mathematics, and informatics. For instance, in English, we
+  say that <span class="italic">a bird is an animal</span>, or the
+  class of all birds is a <span class="italic">subclass</span> of the
+  class of all animals. In linguistics, the noun "bird" is a <span class="italic">hyponym</span> of the noun "animal".</p><p>An object type may be specialized by subtypes (for instance, <span class="italic">Bird</span> is specialized by <span class="italic">Parrot</span>) or generalized by supertypes (for instance,
+  <span class="italic">Bird</span> and <span class="italic">Mammal</span> are generalized by <span class="italic">Animal</span>). Specialization and generalization are two
+  sides of the same coin.</p><p>A subtype <span class="bold"><strong><span class="italic">inherits</span></strong></span> all features from its
+  supertypes. When a subtype inherits attributes, associations and constraints
+  from a supertype, this means that these features need not be repeatedly
+  rendered for the subtype in the class diagram, but the reader of the diagram
+  has to understand that all features of a supertype also apply to its
+  subtypes.</p><p>When an object type has more than one direct supertype, we have a case
+  of <span class="bold"><strong><span class="italic">multiple
+  inheritance</span></strong></span>, which is common in conceptual modeling,
+  but prohibited in many object-oriented programming languages, such as Java
+  and C#, which only allow <span class="bold"><strong><span class="italic">class
+  hierarchies</span></strong></span> with a unique direct supertype for each
+  object type.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8516"></a>1.&nbsp;Introducing Subtypes by Specialization</h2></div></div></div><p>A new object type may be introduced by specialization<a class="indexterm" name="d5e8519"></a> whenever it represents a special case of another object
+    type. We illustrate this for our example model where we want to capture
+    text books and biographies as special cases of books. This means that text
+    books and biographies also have an ISBN, a title and a publishing year,
+    but in addition they have further features such as the attribute
+    <code class="code">subjectArea</code> for text books and the attribute
+    <code class="code">about</code> for biographies. Consequently, in <a class="xref" href="ch16.html#figBookClassHierarchy" title="Figure&nbsp;16.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;16.1</a>, we introduce
+    the object types <code class="code">TextBook</code> and <code class="code">Biography</code> by
+    specializing the object type <code class="code">Book</code>, that is, as subtypes of
+    <code class="code">Book</code>.</p><div class="figure"><a name="figBookClassHierarchy"></a><p class="title"><b>Figure&nbsp;16.1.&nbsp;The object type <code class="code">Book</code> with two subtypes:
+      <code class="code">TextBook</code> and <code class="code">Biography</code></b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="240"><tr><td><img src="../../fig/BookClassHierarchy.svg" width="240" alt="The object type Book with two subtypes: TextBook and Biography"></td></tr></table></div></div></div><br class="figure-break"><p>When specializing an object type, we define additional features for
+    the newly added subtype. In many cases, these additional features are more
+    specific properties. For instance, in the case of <code class="code">TextBook</code>
+    specializing <code class="code">Book</code>, we define the additional attribute
+    <code class="code">subjectArea</code>. In some programming languages, such as in Java,
+    it is therefore said that the subtype <span class="italic">extends</span> the supertype.</p><p>However, we can also specialize an object type without defining
+    additional properties or operations/methods, but by defining additional
+    constraints.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="pt05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt05.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch16s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Part&nbsp;V.&nbsp;Inheritance in Class Hierarchies&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Introducing Supertypes by Generalization</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch16.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:34 GMT -->
+</html>

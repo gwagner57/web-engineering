@@ -1,0 +1,76 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch17.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;17.&nbsp;Subtyping with Plain JS</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="pt05.html" title="Part&nbsp;V.&nbsp;Inheritance in Class Hierarchies"><link rel="prev" href="ch16s07.html" title="7.&nbsp;Quiz Questions"><link rel="next" href="ch17s02.html" title="2.&nbsp;Case Study 1: Eliminating a Class Hierarchy"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;17.&nbsp;Subtyping with Plain JS</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16s07.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;V.&nbsp;Inheritance in Class Hierarchies</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch17s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="chJsSubtyping"></a>Chapter&nbsp;17.&nbsp;Subtyping with Plain JS</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch17.html#secConstructorBasedSubtyping">1. Subtyping with ES6 Classes</a></span></dt><dt><span class="section"><a href="ch17s02.html">2. Case Study 1: Eliminating a Class Hierarchy</a></span></dt><dd><dl><dt><span class="section"><a href="ch17s02.html#d5e9446">2.1. Make the JS class model</a></span></dt><dt><span class="section"><a href="ch17s02.html#d5e9472">2.2. New issues</a></span></dt><dt><span class="section"><a href="ch17s02.html#d5e9530">2.3. Code the model classes of the JS class model</a></span></dt><dt><span class="section"><a href="ch17s02.html#d5e9609">2.4. Write the User Interface Code</a></span></dt></dl></dd><dt><span class="section"><a href="ch17s03.html">3. Case Study 2: Implementing a Class Hierarchy</a></span></dt><dd><dl><dt><span class="section"><a href="ch17s03.html#d5e9673">3.1. Make a JS class model</a></span></dt><dt><span class="section"><a href="ch17s03.html#d5e9696">3.2. Make a JS entity table model</a></span></dt><dt><span class="section"><a href="ch17s03.html#d5e9781">3.3. New issues</a></span></dt><dt><span class="section"><a href="ch17s03.html#d5e9815">3.4. Code the model classes of the JS class model</a></span></dt><dt><span class="section"><a href="ch17s03.html#d5e9883">3.5. Take care of subtypes in the UI</a></span></dt></dl></dd><dt><span class="section"><a href="ch17s04.html">4. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch17s04.html#d5e9899">4.1. Question 1: Defining a Subclass</a></span></dt><dt><span class="section"><a href="ch17s04.html#d5e9919">4.2. Question 2: Merging Subclasses</a></span></dt><dt><span class="section"><a href="ch17s04.html#d5e9949">4.3. Question 3: Check Method for Segment Property</a></span></dt></dl></dd></dl></div><p>Whenever an app has to manage the data of a
+  larger number of object types, there may be various <span class="bold"><strong><span class="italic">subtype</span></strong></span>
+  (inheritance) relationships between some of the object types. Handling
+  subtype relationships is an advanced issue in software application
+  engineering, which is often not well supported by application development
+  frameworks.</p><p>In this chapter, we first explain the general approach to
+  constructor-based subtyping in JavaScript before presenting two case studies
+  based on fragments of the information model of our running example, the
+  <span class="italic">Public Library</span> app, shown above.</p><p>In the first case study, we consider the single-level class hierarchy
+  with root <code class="code">Book</code> shown in <a class="xref" href="ch16.html#figBookClassHierarchy" title="Figure&nbsp;16.1.&nbsp;The object type Book with two subtypes: TextBook and Biography">Figure&nbsp;16.1</a>, which is an incomplete disjoint rigid
+  segmentation. We use the <span class="italic">Class Hierarchy
+  Merge</span><a class="indexterm" name="d5e9365"></a> design pattern for re-factoring this simple class hierarchy
+  to a single class that can be mapped to a persistent database table.</p><p>In the second case study, we consider the multi-level class hierarchy
+  consisting of the <code class="code">Person</code> roles <code class="code">Employee</code>,
+  <code class="code">Manager</code> and <code class="code">Author</code>, shown in <a class="xref" href="ch16s06.html#figPersonRoles1" title="Figure&nbsp;16.8.&nbsp;An information design model with a Person roles hierarchy">Figure&nbsp;16.8</a>. The segmentation of
+  <code class="code">Person</code> into <code class="code">Employee</code> and <code class="code">Author</code> does
+  not have any constraints, which means that it is incomplete, overlapping
+  (non-disjoint) and non-rigid.</p><p>We use the <span class="italic">Class Hierarchy Merge</span>
+  design pattern for re-factoring the simple
+  <code class="code">Manager</code>-is-<code class="code">Employee</code> sub-hierarchy, and the
+  <span class="italic">Joined Tables Inheritance</span> approach for
+  mapping the
+  <code class="code">Employee</code>-and-<code class="code">Author</code>-is-a-<code class="code">Person</code> class
+  hierarchy to a set of three database tables that are related with each other
+  via foreign key dependencies.</p><p>In both case studies we show </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>how to derive a <span class="italic">JS class
+        model</span>, and a corresponding <span class="italic">entity
+        table model</span>, from the <span class="italic">information
+        design model</span>,</p></li><li class="listitem"><p>how to code the JS class model in the form of <span class="italic">JS model classes</span>,</p></li><li class="listitem"><p>how to write the view and controller code based on the model
+        code.</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="secConstructorBasedSubtyping"></a>1.&nbsp;Subtyping with ES6 Classes</h2></div></div></div><p>Before the version ES6 (or ES2015), JavaScript did not have an
+    explicit class concept and subtyping was not directly supported, so it had
+    to be implemented with the help of certain code patterns providing two
+    inheritance mechanisms: (1) inheritance of properties and (2) inheritance
+    of methods.</p><p>As we have explained in <a class="xref" href="ch02.html#sectClasses" title="1.10.&nbsp;Defining and using classes">Section&nbsp;1.10</a> , classes can be defined in two alternative ways:
+    <span class="bold"><strong><span class="italic">constructor-based</span></strong></span> and <span class="bold"><strong><span class="italic">factory-based</span></strong></span>.
+    Both approaches have their own way of implementing inheritance. </p><p>We summarize the ES6 code pattern for defining a superclass and a
+    subclass in a constructor-based single-inheritance class hierarchy with
+    the help of the following example:</p><div class="informalfigure"><a name="figStudent-isa-Person"></a><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="120"><tr><td><img src="../../fig/Student-isa-Person.svg" width="120"></td></tr></table></div></div><p>First, we define a base class, <code class="code">Person</code>, with two
+    properties, <code class="code">firstName</code> and <code class="code">lastName</code>, defined with
+    getters and setters:</p><pre class="programlisting">class <span class="bold"><strong>Person</strong></span> {
+  constructor ({first, last}) {
+    // assign properties by invoking their setters
+    this.<span class="bold"><strong>firstName</strong></span> = first; 
+    this.<span class="bold"><strong>lastName</strong></span> = last; 
+  }
+  get firstName() {return this._firstName;}
+  set firstName( f) {
+    ... // check constraints
+    this._firstName = f;
+  }
+  get lastName() {return this._lastName;}
+  set lastName( l) {
+    ... // check constraints
+    this._lastName = l;
+  }
+}</pre><p>Then, we define a subclass, <code class="code">Student</code>, with one
+    additional property, <code class="code">studNo</code>, using the ES6 keywords <span class="bold"><strong>extends</strong></span> and <span class="bold"><strong>super</strong></span>:</p><pre class="programlisting">class <span class="bold"><strong>Student</strong></span> <span class="bold"><strong>extends</strong></span> Person {
+  constructor ({first, last, studNo}) {
+    // invoke constructor of superclass
+    <span class="bold"><strong>super</strong></span>({first, last});
+    // assign additional properties
+    this.<span class="bold"><strong>studNo</strong></span> = studNo;
+  }
+  get studNo() {return this._studNo;}
+  set studNo( sn) {
+    ... // check constraints
+    this._studNo = sn;
+  }
+}</pre><p>Notice how the constructor of the superclass <code class="code">Person</code> is
+    invoked: with <code class="code">super({first, last})</code>.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16s07.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt05.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch17s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">7.&nbsp;Quiz Questions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Case Study 1: Eliminating a Class Hierarchy</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch17.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:34 GMT -->
+</html>

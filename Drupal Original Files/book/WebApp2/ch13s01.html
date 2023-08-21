@@ -1,0 +1,36 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp2/ch13s01.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>1.&nbsp;Subtyping with Constructor-Based Classes</title><link rel="stylesheet" type="text/css" href="html.css"><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Subtyping with Plain JS"><link rel="prev" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Subtyping with Plain JS"><link rel="next" href="ch13s02.html" title="2.&nbsp;Case Study 1: Eliminating a Class Hierarchy"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1.&nbsp;Subtyping with Constructor-Based Classes</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;13.&nbsp;Subtyping with Plain JS</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s02.html"><img src="images/next.svg" alt="Next"></a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="secConstructorBasedSubtyping"></a>1.&nbsp;Subtyping with Constructor-Based Classes</h2></div></div></div><p>Before the version ES2015, JavaScript did not have an explicit class concept and subtyping was not directly supported, so it had to be implemented with the help of certain code patterns providing two inheritance mechanisms: (1) inheritance of properties and (2) inheritance of methods.</p><p>As we have explained in <span class="phrase">Chapter 1 of Volume 1</span> , classes can be defined in two alternative ways: <span class="bold"><strong><span class="italic">constructor-based</span></strong></span> and <span class="bold"><strong><span class="italic">factory-based</span></strong></span>. Both approaches have their own way of implementing inheritance. </p><p>We summarize the ES2015 code pattern for defining a superclass and a subclass in a constructor-based single-inheritance class hierarchy with the help of the following example:</p><div class="informalfigure"><a name="figStudent-isa-Person"></a><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="150"><tr><td><img src="resources/Student-isa-Person.png" width="150"></td></tr></table></div></div><p>First, we define a base class, <code class="code">Person</code>, with two properties, <code class="code">firstName</code> and <code class="code">lastName</code>, defined with getters and setters:</p><pre class="programlisting">class <span class="bold"><strong>Person</strong></span> {
+  constructor ({first, last}) {
+    // assign properties by invoking their setters
+    this.<span class="bold"><strong>firstName</strong></span> = first; 
+    this.<span class="bold"><strong>lastName</strong></span> = last; 
+  }
+  get firstName() {return this._firstName;}
+  set firstName( f) {
+    ... // check constraints
+    this._firstName = f;
+  }
+  get lastName() {return this._lastName;}
+  set lastName( l) {
+    ... // check constraints
+    this._lastName = l;
+  }
+}</pre><p>Then, we define a subclass, <code class="code">Student</code>, with one additional property, <code class="code">studNo</code>:</p><pre class="programlisting">class <span class="bold"><strong>Student</strong></span> extends Person {
+  constructor ({first, last, studNo}) {
+    // invoke constructor of superclass
+    <span class="bold"><strong>super</strong></span>({first, last});
+    // assign additional properties
+    this.<span class="bold"><strong>studNo</strong></span> = studNo;
+  }
+  get studNo() {return this._studNo;}
+  set studNo( sn) {
+    ... // check constraints
+    this._studNo = sn;
+  }
+}</pre><p>Notice how the constructor of the superclass is invoked: with <code class="code">super({first, last})</code>.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html"><img src="images/up.svg" alt="Up"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s02.html"><img src="images/next.svg" alt="Next"></a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;13.&nbsp;Subtyping with Plain JS&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html"><img src="images/home.svg" alt="Home"></a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Case Study 1: Eliminating a Class Hierarchy</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp2/ch13s01.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:21 GMT -->
+</html>

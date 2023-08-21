@@ -1,0 +1,154 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="pt02.html" title="Part&nbsp;II.&nbsp;Integrity Constraints"><link rel="prev" href="ch05s06.html" title="6.&nbsp;Quiz Questions"><link rel="next" href="ch06s02.html" title="2.&nbsp;New Issues"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s06.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;II.&nbsp;Integrity Constraints</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="d5e2156"></a>Chapter&nbsp;6.&nbsp;Implementing Constraint Validation in a Java Web App</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch06.html#sectionHTML5FormValidation">1. Java Annotations for Persistent Data Management and Constraint Validation</a></span></dt><dd><dl><dt><span class="section"><a href="ch06.html#d5e2255">1.1. JPA database constraint annotations</a></span></dt><dt><span class="section"><a href="ch06.html#d5e2305">1.2. Bean validation annotations</a></span></dt></dl></dd><dt><span class="section"><a href="ch06s02.html">2. New Issues</a></span></dt><dt><span class="section"><a href="ch06s03.html">3. Make a JPA Entity Class Model</a></span></dt><dt><span class="section"><a href="ch06s04.html">4.  Style the User Interface with CSS </a></span></dt><dt><span class="section"><a href="ch06s05.html">5. Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="ch06s05.html#d5e2468">5.1. Type mapping</a></span></dt><dt><span class="section"><a href="ch06s05.html#d5e2518">5.2. Encode the constraints as annotations </a></span></dt><dt><span class="section"><a href="ch06s05.html#d5e2558">5.3. Checking uniqueness constraints </a></span></dt><dt><span class="section"><a href="ch06s05.html#d5e2575">5.4. Dealing with model related exceptions </a></span></dt><dt><span class="section"><a href="ch06s05.html#reqNonEmptyStrings">5.5. Requiring non-empty strings</a></span></dt></dl></dd><dt><span class="section"><a href="ch06s06.html">6. Validation in the View Layer </a></span></dt><dd><dl><dt><span class="section"><a href="ch06s06.html#d5e2620">6.1. Form validation for the <span class="italic">Create Object</span> use case</a></span></dt><dt><span class="section"><a href="ch06s06.html#d5e2654">6.2. Form validation for the <span class="italic">Update Object</span> use case</a></span></dt></dl></dd><dt><span class="section"><a href="ch06s07.html">7. Defining a Custom Validation Annotation</a></span></dt><dt><span class="section"><a href="ch06s08.html">8. Run the App and Get the Code</a></span></dt><dt><span class="section"><a href="ch06s09.html">9. Possible Variations and Extensions</a></span></dt><dd><dl><dt><span class="section"><a href="ch06s09.html#d5e2747">9.1. Object-level constraint validation</a></span></dt><dt><span class="section"><a href="ch06s09.html#d5e2797">9.2. Alternative class level custom constraint validation</a></span></dt></dl></dd></dl></div><p>The <span class="italic">minimal</span> web app that we have discussed in Part 1 has
+		been limited to support the minimum functionality of a data management app only. For instance,
+		it did not take care of preventing the user from entering invalid data into the app's database.
+		In this second part of the tutorial we show how to express integrity constraints in a Java
+			<span class="italic">model class</span>, and how to have constraints validated
+		transparently on critical lifecycle events of bean objects (such as <span class="italic">persist</span>) with JPA, and on form submission with JSF. </p><p>We again consider the single-class data management problem that was considered in Part 1 of
+		this tutorial. So, again, the purpose of our app is to manage information about books. But now
+		we also consider the <span class="bold"><strong><span class="italic">data integrity
+			rules</span></strong></span> (also called 'business rules') that govern the management of
+		book data. These integrity rules, or <span class="bold"><strong><span class="italic">constraints</span></strong></span>, can be expressed in a UML class diagram as as shown in
+		<a class="xref" href="ch06.html#figBookMinimalJavaAppModel" title="Figure&nbsp;6.1.&nbsp;A platform-independent design model with the class Book and two invariants">Figure&nbsp;6.1</a> below.</p><div class="figure"><a name="figBookMinimalJavaAppModel"></a><p class="title"><b>Figure&nbsp;6.1.&nbsp;A platform-independent design model with the class <code class="code">Book</code> and two
+			invariants</b></p><div class="figure-contents"><div class="mediaobject"><img src="../../fig/Book_SimpleAppDesM.svg" alt="A platform-independent design model with the class Book and two invariants"></div></div></div><br class="figure-break"><p>In this simple model, the following constraints have been expressed:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Due to the fact that the <code class="code">isbn</code> attribute is declared to be the <span class="italic">standard identifier</span> of <code class="code">Book</code>, it is <span class="bold"><strong><span class="italic">mandatory</span></strong></span> and <span class="bold"><strong><span class="italic">unique</span></strong></span>.</p></li><li class="listitem"><p>The <code class="code">isbn</code> attribute has a <span class="bold"><strong><span class="italic">pattern constraint</span></strong></span> requiring its values to match the ISBN-10
+				format that admits only 10-digit strings or 9-digit strings followed by "X".</p></li><li class="listitem"><p>The <code class="code">title</code> attribute is <span class="bold"><strong><span class="italic">mandatory</span></strong></span>.</p></li><li class="listitem"><p>The <code class="code">year</code> attribute is <span class="bold"><strong><span class="italic">mandatory</span></strong></span> and has an <span class="bold"><strong><span class="italic">interval constraint</span></strong></span>, however, of a special form
+				since the maximum is not fixed, but provided by the calendaric function
+				<code class="code">nextYear()</code>.</p></li></ol></div><p>Notice that the <code class="code">edition</code> attribute is not mandatory, but <span class="italic">optional</span>, as indicated by its multiplicity expression [0..1]. In addition to the
+  constraints described in this list, there are the implicit range constraints defined by assigning
+  the datatype <code class="code">NonEmptyString</code> as range to <code class="code">isbn</code> and <code class="code">title</code>,
+   <code class="code">Integer</code> to <code class="code">year</code>, and <code class="code">PositiveInteger</code> to
+   <code class="code">edition</code>. </p><p>The meaning of the design model can be illustrated by a sample data population for the model
+  class <code class="code">Book</code>:</p><div class="table"><a name="d5e2215"></a><p class="title"><b>Table&nbsp;6.1.&nbsp;Sample data for <code class="code">Book</code></b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+    <th>ISBN</th>
+    <th>Title</th>
+    <th>Year</th>
+    <th>Edition</th>
+   </tr></thead><tbody><tr>
+    <td>006251587X</td>
+    <td>Weaving the Web</td>
+    <td>2000</td>
+    <td>3</td>
+   </tr><tr>
+    <td>0465026567</td>
+    <td>G&ouml;del, Escher, Bach</td>
+    <td>1999</td>
+    <td>2</td>
+   </tr><tr>
+    <td>0465030793</td>
+    <td>I Am A Strange Loop</td>
+    <td>2008</td>
+    <td></td>
+   </tr></tbody></table></div></div><br class="table-break"><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectionHTML5FormValidation"></a>1.&nbsp;Java Annotations for Persistent Data Management and Constraint Validation</h2></div></div></div><p>The integrity constraints of a distributed app have to be checked both in model classes and
+   in the underlying database, and possibly also in the UI. However this requirement for three-fold
+   validation should not imply having to define the same constraints three times in three different
+   languages: in Java, in SQL and in HTML5/JavaScript. Rather, the preferred approach is to define
+   the constraints only once, in the model classes, and then reuse these constraint definitions also
+   in the underlying database and in the UI. Java/JPA/JSF apps support this goal to some degree.
+   There are two types of constraint annotations:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong><span class="italic">Database constraint
+       annotations</span></strong></span>, which are part of JPA, specify constraints to be used for
+      generating the database schema (with CREATE TABLE statements) such that they are then checked
+      by the DBMS, and not by the Java runtime environment;</p></li><li class="listitem"><p><span class="bold"><strong><span class="italic">Bean validation
+       annotations</span></strong></span> specify constraints to be checked by the Java runtime
+      environment</p></li></ol></div><p>In this section we discuss how to use some of the predefined constraint annotations and
+			how to define a custom constraint annotation for the <code class="code">year</code> property of the
+				<code class="code">Book</code> class, since its value has an upper bound defined by an expression ('next
+			year').</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2255"></a>1.1.&nbsp;JPA database constraint annotations</h3></div></div></div><p>The JPA database constraint annotations specify constraints to be used by the underlying
+    database system after generating the database schema, but not for Java validation. Consider the
+     <code class="code">@Id</code> annotation in the following definition of an entity class
+    <code class="code">Item</code>:</p><pre class="programlisting">@Entity @Table( name="items")
+public class <span class="bold"><strong>Item</strong></span> {
+  <span class="bold"><strong>@Id</strong></span> private String <span class="bold"><strong>itemCode</strong></span>;
+  private int quantity;
+  ...  // define constructors, setters and getters
+}</pre><p>The
+     <code class="code">@Id</code> annotation of the <code class="code">itemCode</code> attribute is mapped to a SQL primary
+    key declaration for this attribute in the corresponding database table schema. As a consequence,
+    the values of the <code class="code">itemCode</code> column allowed in the generated <code class="code">items</code> table
+    are mandatory and have to be <span class="italic">unique</span>. However, these
+    conditions are not checked in the Java runtime environment. JPA generates the following CREATE
+    TABLE
+    statement:</p><pre class="programlisting">CREATE TABLE IF NOT EXISTS <span class="bold"><strong>items</strong></span> (
+  <span class="bold"><strong>itemCode</strong></span> varchar(255) NOT NULL <span class="bold"><strong>PRIMARY KEY</strong></span>,
+  quantity int(11) DEFAULT NULL
+)</pre><p>Since
+    nothing has been specified about the length of <code class="code">itemCode</code> strings, the length is set
+    to 255 by default. However, in our case we know that <code class="code">itemCode</code> has a fixed length of
+    10, which can be enforced by using the <code class="code">@Column</code> annotation, which has the following parameters:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><code class="code">name</code> allows to specify a name for the column to be used when the table is
+       created (by default, the attribute name of the entity class is used);</p></li><li class="listitem"><p><code class="code">nullable</code> is a boolean parameter that defines if the column allows
+        <code class="code">NULL</code> values (by default, it is <code class="code">true</code>);</p></li><li class="listitem"><p><code class="code">length</code> is a positive integer, specifying the maximum number of characters
+       allowed for string values of that column (by default, this is 255);</p></li><li class="listitem"><p><code class="code">unique</code> is a boolean parameter that defines if the values of the column must
+       be unique (by default, it is <code class="code">false</code>).</p></li></ul></div><p>Using the <code class="code">@Column</code> annotation, the improved Java/JPA code of the model class
+    is:</p><pre class="programlisting">@Entity @Table( name="items")
+public class <span class="bold"><strong>Item</strong></span> {
+  @Id <span class="bold"><strong>@Column( length=10)</strong></span>
+  private String <span class="bold"><strong>itemCode</strong></span>;
+  <span class="bold"><strong>@Column( nullable=false)</strong></span>
+  private int quantity;
+  ...  // define constructors, setters and getters
+}</pre><p>As a result, the generated CREATE TABLE statement now contains the additional constraints
+    expressed for the columns <code class="code">itemCode</code> and
+    <code class="code">quantity</code>:</p><pre class="programlisting">CREATE TABLE IF NOT EXISTS items (
+  itemCode <span class="bold"><strong>varchar(10)</strong></span> NOT NULL PRIMARY KEY,
+  quantity int(11) <span class="bold"><strong>NOT NULL</strong></span>
+)</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2305"></a>1.2.&nbsp;Bean validation annotations</h3></div></div></div><p>In Java's <a class="link" href="http://docs.oracle.com/javaee/7/tutorial/doc/bean-validation001.htm#GIRCZ" target="_top">Bean Validation</a> approach, Java runtime validation can be defined in the form of
+					<span class="italic">bean validation annotations</span> placed on a property,
+				method, or class. </p><div class="table"><a name="d5e2310"></a><p class="title"><b>Table&nbsp;6.2.&nbsp;JavaBean validation annotations for properties</b></p><div class="table-contents"><table frame="border"><thead><tr>
+						<th>Constraint Type</th>
+						<th>Annotations</th>
+						<th>Examples</th>
+					</tr></thead><tbody><tr>
+						<td>String Length Constraints</td>
+						<td><code class="code">@Size</code></td>
+						<td><code class="code">@Size( min=8, max=80) String message;</code>
+						</td>
+					</tr><tr>
+						<td>Cardinality Constraints (for arrays, collections and maps)</td>
+						<td><code class="code">@Size</code></td>
+						<td><code class="code">@Size( min=2, max=3) List&lt;Member&gt; coChairs;</code>
+						</td>
+					</tr><tr>
+						<td>Mandatory Value Constraints</td>
+						<td><code class="code">@NotNull</code></td>
+						<td><code class="code">@NotNull String name</code></td>
+					</tr><tr>
+						<td>Range Constraints for numeric attributes</td>
+						<td><code class="code">@Digits</code></td>
+						<td><code class="code">@Digits( integer=6, fraction=2) BigDecimal price;</code>
+						</td>
+					</tr><tr>
+						<td>Interval Constraints for integer-valued attributes</td>
+						<td><code class="code">@Min</code> and <code class="code">@Max</code></td>
+						<td><code class="code">@Min(5) int teamSize</code></td>
+					</tr><tr>
+						<td>Interval Constraints for decimal-valued attributes</td>
+						<td><code class="code">@DecimalMin</code> and <code class="code">@DecimalMax</code></td>
+						<td><code class="code">@DecimalMax("30.00") double voltage</code></td>
+					</tr><tr>
+						<td>Pattern Constraints</td>
+						<td><code class="code">@Pattern</code></td>
+						<td><code class="code">@Pattern( regexp="\\b\\d{10}\\b") String isbn;</code></td>
+					</tr></tbody></table></div></div><br class="table-break"><p>In addition, there are annotations that require a date value to be in the future
+					(<code class="code">@Future</code> ) or n the past (<code class="code">@Past</code>). </p><p>All bean validation annotations have an optional <code class="code">message</code> attribute for
+    defining a specific error message. In the following example, we add two <code class="code">@NotNull</code>
+    annotations with messages, a <code class="code">@Size</code> and a <code class="code">@Min</code> annotation to the
+    database constraint annotations. The <code class="code">@NotNull</code> annotations constrain the
+     <code class="code">itemCode</code> and the <code class="code">quantity</code> attributes to be mandatory, while the
+     <code class="code">@Min</code> annotation constrains the <code class="code">quantity</code> attribute to have a minimum
+    value of
+    0:</p><pre class="programlisting">@Entity @Table( name="items")
+public class <span class="bold"><strong>Item</strong></span> {
+  @Id @Column( length=8)
+  @NotNull( message="An item code is required!")
+  @Size( min=8, max=8)
+   private String <span class="bold"><strong>itemCode</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A quantity is required!")
+  @Min(0)
+   private int <span class="bold"><strong>quantity</strong></span>;
+}</pre></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s06.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.&nbsp;Quiz Questions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;New Issues</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch06.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:38 GMT -->
+</html>

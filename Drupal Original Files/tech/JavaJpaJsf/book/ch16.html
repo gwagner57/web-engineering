@@ -1,0 +1,21 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch16.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;16.&nbsp;Part-Whole Associations</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="pt04.html" title="Part&nbsp;IV.&nbsp;Associations"><link rel="prev" href="ch15s04.html" title="4.&nbsp;Run the App and Get the Code"><link rel="next" href="ch16s02.html" title="2.&nbsp;Composition"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;16.&nbsp;Part-Whole Associations</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15s04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;IV.&nbsp;Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch16s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="d5e5947"></a>Chapter&nbsp;16.&nbsp;Part-Whole Associations</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch16.html#d5e5950">1. Aggregation</a></span></dt><dt><span class="section"><a href="ch16s02.html">2. Composition</a></span></dt></dl></div><p>A part-whole association is an association that represents a relationship between a part type
+  and a whole type. Its instances are part-whole relationships between two objects where one of them
+  is a part of the other. </p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e5950"></a>1.&nbsp;Aggregation</h2></div></div></div><p>An aggregation is a special form of a part-whole association, where the parts of a whole can
+   be shared with other wholes. For instance, we can model an aggregation between the classes
+    <code class="code">DegreeProgram</code> and <code class="code">Course</code>, as shown in the following diagram, since a
+   course is part of a degree program and a course can be shared among two or more degree programs
+   (e.g. an engineering degree could share a C programming course with a computer science
+   degree).</p><div class="mediaobject"><img src="../../fig/DegreeProgram-Course-Aggregation.svg"></div><p>However, the concept of an aggregation with <span class="bold"><strong><span class="italic">shareable parts</span></strong></span> doesn't mean much, really, so it does not have any
+   implications on the implementation and many developers therefore prefer not to use the white
+   diamond in their class diagrams, but just model a plain association instead. The UML spec says:
+   "Precise semantics of shared aggregation varies by application area and modeler".</p><p>The <span class="bold"><strong><span class="italic">multiplicity</span></strong></span> of an
+   aggregation's association end at the whole side may be any number (*) because a part may belong
+   to, or <span class="bold"><strong><span class="italic">shared</span></strong></span> among, any
+   number of wholes.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15s04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch16s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.&nbsp;Run the App and Get the Code&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Composition</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch16.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:44 GMT -->
+</html>

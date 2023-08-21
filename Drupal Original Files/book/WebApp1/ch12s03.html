@@ -1,0 +1,228 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch12s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;Write the Model Code</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Implementing Enumeration Attributes in a Java EE Web App"><link rel="prev" href="ch12s02.html" title="2.&nbsp;Make an Entity Class Model"><link rel="next" href="ch12s04.html" title="4.&nbsp;Write the View Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;Write the Model Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Implementing Enumeration Attributes in a Java EE Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e7595"></a>3.&nbsp;Write the Model Code</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7597"></a>3.1.&nbsp;Code the enumerations</h3></div></div></div><p>Simple enumerations, like <code class="code">BookCategoryEL</code> and
+      <code class="code">PublicationFormEL</code>, are coded in the following way with the
+      help of Java's <code class="code">enum</code> construct:</p><pre class="programlisting">public <span class="bold"><strong>enum</strong></span> <span class="bold"><strong>BookCategoryEL</strong></span> {
+  NOVEL, 
+  BIOGRAPHY, 
+  TEXTBOOK, 
+  OTHER;
+}</pre><p>Notice how the enumeration literals are defined with capitalized
+      names in a comma-separated list.</p><p>For a code list, like <code class="code">LanguageEL</code>, where each enumeration instance consists
+    of a code and a label, we use the codes as enumeration literals and define an attribute
+     <code class="code">label</code> for storing the labels, as well as a private constructor that allows
+    creating enumeration instances consisting of a code and a label. This is possible because in
+    Java, an <code class="code">enum</code> is a special kind of class. Each entry in the list of enumeration
+    literals, auch as <code class="code">EN("English")</code>, represents an invocation of the
+    <code class="code">enum</code>'s constructor:</p><pre class="programlisting">public enum <span class="bold"><strong>LanguageEL</strong></span> {
+  EN( "English"),
+  DE( "German"),
+  FR( "French"),
+  ES( "Spanish");
+
+  private final String <span class="bold"><strong>label</strong></span>;
+  private LanguageEL( String label) {this.label = label;}
+  public String getLabel() {return this.label;}
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7616"></a>3.2.&nbsp;Code the JPA entity class</h3></div></div></div><p>The entity class <code class="code">Book</code> is coded with the help of JPA
+      annotations for class attributes, as well as the setter and getter
+      methods of every class attribute.</p><pre class="programlisting">@Entity @Table( name="books")
+@ViewScoped @ManagedBean( name="book")
+public class <span class="bold"><strong>Book</strong></span> {
+  @Id @Column( length=10)
+  @NotNull( message="An ISBN value is required!")
+  @Pattern( regexp="\\b\\d{9}(\\d|X)\\b", message = "...")
+  private String isbn;
+  
+  @Column( nullable=false)
+  @NotNull( message="A title is required!")
+  private String title;
+
+  @Column( nullable=false)
+  @NotNull( message="An original language is required!")
+  <span class="bold"><strong>@Enumerated( EnumType.STRING)</strong></span>
+  private LanguageEL <span class="bold"><strong>originalLanguage</strong></span>;
+
+  @Column( nullable=false)
+  @NotNull( message="A category is required!")
+  <span class="bold"><strong>@Enumerated( EnumType.STRING)</strong></span>
+  private BookCategoryEL <span class="bold"><strong>category</strong></span>;
+
+  <span class="bold"><strong>@Convert</strong></span>( converter = 
+      pl.m.converter.OtherAvailableLanguagesConverter.class)
+  private Set&lt;LanguageEL&gt; <span class="bold"><strong>otherAvailableLanguages</strong></span>;
+ 
+  @Column( nullable=false)
+  @Size( min=1, message="At least one publication form is required!")
+  @<span class="bold"><strong>Convert</strong></span>( converter=pl.m.converter.PublicationFormsConverter.class)
+  private Set&lt;PublicationFormEL&gt; <span class="bold"><strong>publicationForms</strong></span>;
+
+  ...
+}</pre><p>For the case of single-valued enumeration attributes (like
+      <code class="code">originalLanguage</code> and <code class="code">category</code>), the JPA
+      annotation <code class="code">@Enumerated</code> is used for specifying the storage
+      serialization. It takes one of the following two parameter values:
+      </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><code class="code">EnumType.STRING</code> means that enumeration literals
+            are converted to strings when they are serialized ( e.g., in the
+            case of the <code class="code">originalLanguage</code> attribute of the
+            <code class="code">Book</code> class, the values saved in the database are one
+            of "EN", "DE", "FR" or "ES") ;</p></li><li class="listitem"><p><code class="code">EnumType.ORDINAL</code> means that enumeration
+            literals are converted to their index integer when they are
+            serialized (i.e.,the values saved in the database are 1, 2 ,3
+            etc.).</p></li></ul></div><p>We store the collection values of a multi-valued
+      enumeration attribute (like <code class="code">otherAvailableLanguages</code> and
+      <code class="code">publicationForms</code>) in a database table column as serialized
+      arrays in the form of <code class="code">["value1", "value2", ...]</code>. In the
+      case of the <code class="code">originalLanguage</code> attribute, an example of a
+      saved value would be <code class="code">["EN", "FR", "DE"]</code>. Achieving this
+      behavior is possible with JPA by using custom converters to map database
+      table column values to Java types and vice versa. The
+      <code class="code">@Convert</code> annotation allows specifying a Java converter that
+      is responsible for the mappings.</p><p>Also, in the case of a multi-valued enumeration attribute, we use
+      the <code class="code">@Size</code> annotation to specify the minimum, and if
+      required also the maximum, number of elements stored by this attribute.
+      For example, in the case of <code class="code">publicationForms</code>, we use
+      <code class="code">@Size( min=1, message = "At least one publication form is
+      required!")</code>, which enforces to have at least one value for this
+      attribute, otherwise the error message is displayed.</p><pre class="programlisting">@Entity @Table( name="books")
+@ViewScoped @ManagedBean( name="book")
+public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  public Book( String isbn, String title, Integer year, 
+      LanguageEL originalLanguage, 
+      Set&lt;LanguageEL&gt; otherAvailableLanguages, 
+      BookCategoryEL category, 
+      Set&lt;PublicationFormEL&gt; publicationForms) { ...}
+  public LanguageEL getOriginalLanguage() {...}
+  public void setOriginalLanguage( 
+      LanguageEL originalLanguage) {...}  
+  public Set&lt;LanguageEL&gt; getOtherAvailableLanguages() {...}
+  public void setOtherAvailableLanguages( 
+      Set&lt;LanguageEL&gt; otherAvailableLanguages) {...}
+  public BookCategoryEL getCategory() {...}
+  public void setCategory( BookCategoryEL category) {...}  
+  public Set&lt;PublicationFormEL&gt; getPublicationForms() {...}
+  public void setPublicationForms( 
+      Set&lt;PublicationFormEL&gt; publicationForms) {...}
+
+  public static Book retrieve(...) {...}
+  public static List&lt;Book&gt; retrieveAll(...) {...}
+  public static void create(...) throws Exception {...}
+  public static void update(...) throws Exception {...}
+  public static void delete(...) throws Exception {...}
+
+  public String getOtherAvailableLanguagesValues() {...}
+  public SelectItem[] getLanguageItems() {...}
+  public SelectItem[] getCategoryItems() {...}
+  public String getPublicationFormsValues() {...}
+  public SelectItem[] getPublicationFormsItems() {...}
+}</pre><p>Notice the new methods in the last code block, like
+     <code class="code">getPublicationFormsValues</code> and <code class="code">getPublicationFormsItems</code>, which are
+    used for handling the enumeration attributes in the UI. We discuss each of them in the following
+    subsections.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7658"></a>3.3.&nbsp;Define a converter for serializing enumeration attribute
+      values</h3></div></div></div><p>A JPA attribute converter is a special Java class that implements the
+     <code class="code">AttributeConverter</code> interface with the methods <code class="code">convertToDatabaseColumn</code>
+    and <code class="code">convertToEntityAttribute</code>. For the <code class="code">otherAvailableLanguages</code>
+    attribute, we define the following converter
+    class:</p><pre class="programlisting"><span class="bold"><strong>@Converter</strong></span>
+public class OtherAvailableLanguagesConverter implements 
+    <span class="bold"><strong>AttributeConverter</strong></span>&lt; Set&lt;LanguageEL&gt;, String&gt; {
+  @Override
+  public String <span class="bold"><strong>convertToDatabaseColumn</strong></span>( Set&lt;LanguageEL&gt; attrValue) {
+    JSONArray jsonArr = new JSONArray( attrValue);
+    return jsonArr.toString();
+  }
+  @Override
+  public Set&lt;LanguageEL&gt; <span class="bold"><strong>convertToEntityAttribute</strong></span>( String colValue) {
+    Set&lt;LanguageEL&gt; result = new HashSet&lt;LanguageEL&gt;();
+    try {
+      JSONArray jsonArr = new JSONArray( colValue);
+        for (int i = 0, length = jsonArr.length(); i &lt; length; i++) {
+          result.add( LanguageEL.valueOf( jsonArr.getString( i)));
+        }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    return result;
+  }
+}</pre><p>An attribute converter class needs to be annotated with
+      <code class="code">@Converter</code>. In our example, the
+      <code class="code">convertToDatabaseColumn</code> method is responsible to convert
+      the entity attribute value (e.g., <code class="code">otherAvailableLanguages</code>)
+      to a JSON array which is stored in the database as a
+      <code class="code">String</code>.</p><p>The <code class="code">convertToEntityAttribute</code> method is responsible for de-serializing a
+    table column's value to the corresponding entity attribute value. In our example, this means to
+    map the JSON array string to a Java <code class="code">Set</code> of enumeration literals of type
+     <code class="code">LanguageEL</code>.</p><p>The code above shows the custom attribute converter class for the
+      <code class="code">otherAvailableLanguages</code> attribute. The attribute converter
+      class for the <code class="code">publicationForms</code> attribute is defined in the
+      same way.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7682"></a>3.4.&nbsp;Code the enumeration attribute setters</h3></div></div></div><p>Both for single-valued and for multi-valued enumeration attributes
+      an ordinary setter is defined. In the case of a multi-valued enumeration
+      attribute, this setter assigns an entire set of values (in the form of a
+      Java <code class="code">Set</code>) to the attribute.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7686"></a>3.5.&nbsp;Write a serialization function</h3></div></div></div><p>The object serialization function now needs to include the values
+      of enumeration attributes:</p><pre class="programlisting">public String <span class="bold"><strong>toString</strong></span>() {
+  int i = 0, n = this.publicationForms.size();
+  String result = "{ isbn: '" + this.isbn + "', title:'" + this.title
+    + "', year: " + this.year + ", originalLanguage: '" 
+    + this.originalLanguage.getLabel();
+  result += "', otherAvailableLanguages: [";
+  for (LanguageEL oal : this.otherAvailableLanguages) {
+    result += "'" + oal.getLabel() + "'";
+    if (i &lt; n-1) result += ", ";
+    i++;
+  }
+  result += "]";
+  result += ", category: '" + this.category.name().toLowerCase();
+  result += "', publicationForms: [";
+  i = 0;
+  for (PublicationFormEL pf : this.publicationForms) {
+    result += "'" + pf.name().toLowerCase() + "'";
+    if (i &lt; n-1) result += ", ";
+    i++;
+  }
+  result += "]}";
+  return result;
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7691"></a>3.6.&nbsp;Database schema</h3></div></div></div><p>As explained in <a class="xref" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps">Chapter&nbsp;4</a>, the database schema can be automatically generated by a Java EE
+    server like TomEE. The generated schema for our <code class="code">Book</code> entity class is like so:
+    </p><pre class="programlisting">CREATE TABLE IF NOT EXISTS `books` (
+  `ISBN` varchar(10) NOT NULL,
+  `CATEGORY` varchar(255) NOT NULL,
+  `ORIGINALLANGUAGE` varchar(255) NOT NULL,
+  `OTHERAVAILABLELANGUAGES` varchar(255) DEFAULT NULL,
+  `PUBLICATIONFORMS` varchar(255) NOT NULL,
+  `TITLE` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;</pre><p>For every attribute (like <code class="code">category</code>), a column with
+      the same name but using upper case is created, (e.g.,
+      <code class="code">CATEGORY</code>). This is the default naming, which is fine for
+      our example application, but it can be changed, if required, by using
+      the <code class="code">@Column( name="...")</code> annotation, as in <code class="code">@Column(
+      name="book_category")</code>.</p><p>The single-valued and multi-valued enumeration attributes are by
+      default created as <code class="code">varchar</code> columns with the default maximum
+      length of <code class="code">255</code> characters. However, if a longer (or shorter)
+      length is desirable, this can be enforced by using the <code class="code">@Column(
+      length=...)</code> annotation.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e7706"></a>3.7.&nbsp;Creating test data</h3></div></div></div><p>In the test data objects that are created by <code class="code">Book.createTestData</code>, we now
+    have to provide values for single- and multi-valued enumeration
+    attributes:</p><pre class="programlisting">public static void <span class="bold"><strong>createTestData</strong></span>( 
+    EntityManager em, UserTransaction ut)
+    throws NotSupportedException, ..., RollbackException {
+  Book book = null;
+  // first clear existing data
+  Book.clearData( em, ut);
+  ut.begin();
+  Book book = new Book( "006251587X", "Weaving the Web", 2000, 
+      LanguageEL.EN,
+      new HashSet&lt;LanguageEL&gt;() {
+        { add( LanguageEL.DE); add( LanguageEL.FR);}
+      }, 
+      BookCategoryEL.TEXTBOOK, 
+      new HashSet&lt;PublicationFormEL&gt;() {
+        { add( PublicationFormEL.HARDCOVER);
+          add( PublicationFormEL.PDF);}
+      }
+  );
+  em.persist( book);
+}</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Make an Entity Class Model&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;Write the View Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch12s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:01 GMT -->
+</html>

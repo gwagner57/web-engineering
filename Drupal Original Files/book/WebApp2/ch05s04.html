@@ -1,0 +1,80 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp2/ch05s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.&nbsp;Write the Model Code</title><link rel="stylesheet" type="text/css" href="html.css"><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Unidirectional Non-Functional Associations with Java EE"><link rel="prev" href="ch05s03.html" title="3.&nbsp;New issues"><link rel="next" href="ch05s05.html" title="5.&nbsp;Write the User Interface Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.&nbsp;Write the Model Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s03.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;5.&nbsp;Unidirectional Non-Functional Associations with Java EE</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05s05.html"><img src="images/next.svg" alt="Next"></a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e2202"></a>4.&nbsp;Write the Model Code</h2></div></div></div><p>The Java Entity class model can be directly coded for implementing the model layer of our Java back-end app.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2205"></a>4.1.&nbsp;Summary</h3></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Code each class of the Java Entity class model as a corresponding entity class.</p></li><li class="listitem"><p>Code any {id} property modifier with the JPA property annotation <code class="code">@Id</code>.</p></li><li class="listitem"><p>Code any property modifier denoting the functionality type of a reference property, such as {manyToOne}, with the corresponding JPA annotation, such as <code class="code">@ManyToOne</code>.</p></li><li class="listitem"><p>Code the integrity constraints specified in the model with the help of Java Bean Validation annotations (or custom validation annotations).</p></li><li class="listitem"><p>Code the getters and setters as well as the <span class="italic">add</span> and <span class="italic">remove</span> methods for multi-valued properties.</p></li><li class="listitem"><p>Code the <code class="code">create</code>, <code class="code">retrieve</code>, <code class="code">update</code> and <code class="code">delete</code> storage management operations as class-level methods.</p></li></ol></div><p>These steps are discussed in more detail in the following sections.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2229"></a>4.2.&nbsp;Code each class of the Java Entity class model</h3></div></div></div><p>For the multi-valued reference property <code class="code">Book::authors</code>, we use a parametrized <code class="code">Set</code> type:</p><pre class="programlisting">@Entity @Table( name="books")
+@ViewScoped @ManagedBean( name="book")
+public class <span class="bold"><strong>Book</strong></span> {
+  ...
+  @<span class="bold"><strong>ManyToMany</strong></span>( fetch=FetchType.EAGER)
+  private Set&lt;Author&gt; <span class="bold"><strong>authors</strong></span>;
+ 
+  public Book() {}
+  public Book( String isbn, String title, Integer year, 
+      Publisher publisher, <span class="bold"><strong>Set&lt;Author&gt; authors</strong></span>) {...}
+  ...
+  public Set&lt;Author&gt; getAuthors() { return this.authors;}
+  public void setAuthors( Set&lt;Author&gt; authors) { this.authors=authors;}
+  ...
+}</pre><p> The JPA annotation <code class="code">@ManyToMany</code> allows to specify the <span class="bold"><strong>Many-To-Many</strong></span> relation between the <code class="code">Book</code> and <code class="code">Author</code>. The annotation parameter<code class="code"> FetchType.EAGER</code> is used, so when a <code class="code">Book</code> instance is created, the list of authors is populated with the corresponding <code class="code">Author</code> instances. As a result of this annotation, a relation table between <code class="code">Book</code> and <code class="code">Author</code> is created, and the resulting SQL code is shown below:</p><pre class="programlisting">CREATE TABLE IF NOT EXISTS `books_author` (
+  `Book_ISBN` varchar(10) NOT NULL,
+  `authors_PERSONID` int(11) NOT NULL
+);</pre><p>The resulting class name is the underscore-separated concatenation of the corresponding table names (e.g., <code class="code">books_author</code>). The primary key columns from each of the two tables are used to implement the relation. The corresponding column names are created as follows:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>for the table (e.g., <code class="code">books</code>) which correspond to the class with the <code class="code">@ManyToMany</code> annotation (e.g., <code class="code">Book</code>), the class name is used as well as the primary key column name, (e.g., <code class="code">Book_ISBN</code>).</p></li><li class="listitem"><p>for the other table (e.g., <code class="code">authors</code>), the table name is concatenated with the primary key column name, (e.g., authors_PERSONID).</p></li></ul></div><p>It is possible to control these parameters, i.e., table name and relation column names, by using the <code class="code">@JoinTable</code> annotation. To obtain a custom named relation table, e.g., <code class="code">books_authors</code> and the corresponding custom named columns, e.g., <code class="code">book_isbn</code> and <code class="code">author_personid</code>, one can use: </p><pre class="programlisting">@JoinTable( name="books_authors", 
+    joinColumns = {@JoinColumn( name="book_isbn", referencedColumnName="ISBN")},
+    inverseJoinColumns = {@JoinColumn( name="author_personid", 
+                                       referencedColumnName="PERSONID")}</pre><p>In our application, we keep the default, so a <code class="code">@JoinTable</code> annotation is not used.</p><p>The corresponding <code class="code">Author</code> class is coded as a Java Entity class with suitable annotations:</p><pre class="programlisting">@Entity @Table( name="author")
+@ManagedBean( name="author") @ViewScoped
+public class <span class="bold"><strong>Author</strong></span> {
+  // Properties
+  @Id @PositiveInteger
+  private Integer <span class="bold"><strong>personId</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A name is required!")
+  private String <span class="bold"><strong>name</strong></span>;
+  @Column( nullable=false)
+  @NotNull( message="A date of birth is required!")
+  @Past private Date <span class="bold"><strong>dateOfBirth</strong></span>;
+  @Past private Date <span class="bold"><strong>dateOfDeath</strong></span>;
+  // Constructors
+  ...
+  // Setters/getters
+  ...
+  // Data management operations
+  ...
+}</pre><p>In addition to defining properties, the entity class needs to define constructors, setters/getters and data management operations:</p><pre class="programlisting">@Entity @Table( name="author")
+@ManagedBean( name="author") @ViewScoped
+public class <span class="bold"><strong>Author</strong></span> {
+  // Properties
+  ...
+  // Constructors
+  public Author() {}
+  public Author( Integer personId, String name, 
+      Date dateOfBirth, Date dateOfDeath) {...}
+  // Setters/getters
+  ...
+  // Data management operations
+  public static void create( EntityManager em, UserTransaction ut, 
+      Integer personId, String name, Date dateOfBirth, 
+      Date dateOfDeath) {...}
+  public static void update(...) {...}
+  public static void delete(...) {...}
+}</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2278"></a>4.3.&nbsp;Implement a deletion policy</h3></div></div></div><p>For the reference property <code class="code">Book::authors</code>, we have to implement a deletion policy in the <code class="code">delete</code> method of the <code class="code">Author</code> class. If we just try to delete an author, and the author is referenced by any of the book records, then an integrity constraint violation exception is raised, and the author cannot be deleted. We have two possiblitities for dealing with this situation:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>delete all books (co-)authored by the deleted author;</p></li><li class="listitem"><p>drop from all books (co-)authored by the deleted author the reference to the deleted author.</p></li></ol></div><p>We go for the second option. This is shown in the following code of the <code class="code">Author.delete</code> method:</p><pre class="programlisting">public static void <span class="bold"><strong>delete</strong></span>( EntityManager em, UserTransaction ut, 
+    Integer personId) throws Exception {
+  ut.begin();
+  Author author = em.find( Author.class, personId);
+  // Find all books of this author
+  <span class="bold"><strong>Query query = em.createQuery( "SELECT DISTINCT b FROM Book b "+
+      "INNER JOIN b.authors a WHERE a.personId = :personId");</strong></span>
+  query.setParameter( "personId", personId);
+  List&lt;Book&gt; books = query.getResultList();
+  // Remove the author reference from the books' authors list
+  for (Book b : books) {
+    <span class="bold"><strong>b.getAuthors().remove( author)</strong></span>;
+  }
+  // Delete the author record (table row)
+  <span class="bold"><strong>em.remove( author)</strong></span>;
+  ut.commit();
+}</pre><p>Essentially, the delete operation consists of three steps:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Create a JPQL query which selects all books of this author (since this is a unidirectional association from books to authors, the books of an author are not directly accessible from an author).</p></li><li class="listitem"><p>For every found book referencing this author, we have to remove the author reference from its <code class="code">authors</code> list.</p></li><li class="listitem"><p>Finally, delete the author record.</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e2305"></a>4.4.&nbsp;Serialization and De-Serialization</h3></div></div></div><p>In Java EE, the serialization from objects to corresponding database records as well as the de-serialization from database records to objects are performed automatically by the Java EE execution environment based on JPA annotations and converter classes for custom conversions.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s03.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch05.html"><img src="images/up.svg" alt="Up"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05s05.html"><img src="images/next.svg" alt="Next"></a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;New issues&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html"><img src="images/home.svg" alt="Home"></a></td><td width="40%" align="right" valign="top">&nbsp;5.&nbsp;Write the User Interface Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp2/ch05s04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 11:00:12 GMT -->
+</html>

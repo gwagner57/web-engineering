@@ -1,0 +1,280 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch08s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>5.&nbsp;Write the Model Code</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Implementing Constraint Validation in a Plain JS Web App"><link rel="prev" href="ch08s04.html" title="4.&nbsp;Set up the Folder Structure Adding Some Library Files"><link rel="next" href="ch08s06.html" title="6.&nbsp;Write the View Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.&nbsp;Write the Model Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;8.&nbsp;Implementing Constraint Validation in a Plain JS Web App</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s06.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sectSimpleAppModel"></a>5.&nbsp;Write the Model Code</h2></div></div></div><p>The JavaScript class model shown on the right hand side in <a class="xref" href="ch08s03.html#figIDM2JsDM" title="Figure&nbsp;8.1.&nbsp;From an information design model to a JS class model">Figure&nbsp;8.1</a> can be coded step by
+    step for getting the code of the model layer of our JavaScript front-end
+    app. These steps are summarized in the following section.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5217"></a>5.1.&nbsp;Summary</h3></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Code the model class as a JavaScript constructor
+          function.</p></li><li class="listitem"><p><span class="italic"><span class="bold"><strong>Code the check
+          functions</strong></span></span>, such as <code class="code">checkIsbn</code> or
+          <code class="code">checkTitle</code>, in the form of class-level ('static')
+          methods. Take care that all constraints, as specified in the
+          JavaScript class model, are properly coded in the check
+          functions.</p></li><li class="listitem"><p><span class="italic"><span class="bold"><strong>Code the setter
+          operations</strong></span></span>, such as <code class="code">setIsbn</code> or
+          <code class="code">setTitle</code>, as (instance-level) methods. In the setter,
+          the corresponding check operation is invoked and the property is
+          only set, if the check does not detect any constraint
+          violation.</p></li><li class="listitem"><p>Code the add and remove operations, if there are any, as
+          instance-level methods.</p></li></ol></div><p>These steps are discussed in more detail in the following
+      sections.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5237"></a>5.2.&nbsp;Code the model class as a constructor function</h3></div></div></div><p>The class <code class="code">Book</code> is coded as a corresponding <span class="italic">constructor function</span> with the same name
+      <code class="code">Book</code> such that all its (non-derived) properties are
+      supplied with values from corresponding key-value slots of a
+      <code class="code">slots</code> parameter.</p><pre class="programlisting">function <span class="bold"><strong>Book</strong></span>( slots) {
+  // assign default values
+  this.isbn = "";   // string
+  this.title = "";  // string
+  this.year = 0;    // number (int)
+  // assign properties only if the constructor is invoked with an argument
+  if (arguments.length &gt; 0) {
+    this.setIsbn( slots.isbn); 
+    this.setTitle( slots.title); 
+    this.setYear( slots.year);
+    // optional property
+    if (slots.edition) this.setEdition( slots.edition);
+  }
+};</pre><p>In the constructor body, we first assign default values to the
+      class properties. These values will be used when the constructor is
+      invoked as a default constructor (without arguments), or when it is
+      invoked with only some arguments. It is helpful to indicate the range of
+      a property in a comment. This requires to map the platform-independent
+      datatypes of the information design model to the corresponding implicit
+      JavaScript datatypes<a class="indexterm" name="d5e5247"></a> according to the following table.</p><div class="table"><a name="d5e5250"></a><p class="title"><b>Table&nbsp;8.1.&nbsp;Datatype mapping</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+            <th>Platform-independent datatype</th>
+
+            <th>JavaScript datatype</th>
+
+            <th>SQL</th>
+          </tr></thead><tbody><tr>
+            <td>String</td>
+
+            <td>string</td>
+
+            <td>CHAR(<span class="italic">n</span>) or
+            VARCHAR(<span class="italic">n</span>)</td>
+          </tr><tr>
+            <td>Integer</td>
+
+            <td>number (int)</td>
+
+            <td>INTEGER</td>
+          </tr><tr>
+            <td>Decimal</td>
+
+            <td>number (float)</td>
+
+            <td>REAL, DOUBLE PRECISION or DECIMAL(<span class="italic">p</span>,<span class="italic">s</span>)</td>
+          </tr><tr>
+            <td>Boolean</td>
+
+            <td>boolean</td>
+
+            <td>BOOLEAN</td>
+          </tr><tr>
+            <td>Date</td>
+
+            <td>Date</td>
+
+            <td>DATE</td>
+          </tr></tbody></table></div></div><br class="table-break"><p>Since the setters may throw constraint violation errors, the
+      constructor function, and any setter, should be called in a try-catch
+      block where the catch clause takes care of processing errors (at least
+      logging suitable error messages).</p><p>As in the minimal app, we add a class-level property
+      <code class="code">Book.instances</code> representing the collection of all
+      <code class="code">Book</code> instances managed by the app in the form of an entity
+      table: </p><pre class="programlisting">Book.instances = {};</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5287"></a>5.3.&nbsp;Code the property checks</h3></div></div></div><p>Code the property check functions in the form of class-level
+      ('static') methods. In JavaScript, this means to define them as method
+      slots of the constructor, as in <code class="code">Book.checkIsbn</code> (recall that
+      a constructor is a JS object, since in JavaScript, functions are
+      objects, and as an object, it can have slots).</p><p>Take care that all constraints of a property as specified in the
+      class model are properly coded in its check function. This concerns, in
+      particular, the <span class="italic">mandatory value</span> and
+      <span class="italic">uniqueness</span> constraints implied by the
+      <span class="italic">standard identifier</span> declaration (with
+      <code class="code">{id}</code>), and the <span class="italic">mandatory
+      value</span> constraints for all properties with multiplicity 1,
+      which is the default when no multiplicity is shown. If any constraint is
+      violated, an error object instantiating one of the error classes listed
+      above in <a class="xref" href="ch08s04.html#sectSimpleAppLibFiles" title="4.1.&nbsp;Provide general utility functions and JavaScript fixes in library files">Section&nbsp;4.1</a> and defined in the file
+      <code class="code">errorTypes.js</code> is returned.</p><p>For instance, for the <code class="code">checkIsbn</code> operation we obtain
+      the following code:</p><pre class="programlisting">Book.<span class="bold"><strong>checkIsbn</strong></span> = function (id) {
+  if (!id) {
+    return new NoConstraintViolation();
+  } else if (typeof id !== "string" || id.trim() === "") {
+    return new <span class="bold"><strong>RangeConstraintViolation</strong></span>(
+        "The ISBN must be a non-empty string!");
+  } else if (!/\b\d{9}(\d|X)\b/.test( id)) {
+    return new <span class="bold"><strong>PatternConstraintViolation</strong></span>(
+        "The ISBN must be a 10-digit string or "+
+        " a 9-digit string followed by 'X'!");
+  } else {
+    return new NoConstraintViolation();
+  }
+};</pre><p>Notice that, since <code class="code">isbn</code> is the standard identifier
+      attribute of <code class="code">Book</code>, we only check the syntactic constraints
+      in <code class="code">checkIsbn</code>, but we check the <span class="italic">mandatory value</span> and <span class="italic">uniqueness</span> constraints in
+      <code class="code">checkIsbnAsId</code>, which itself first invokes
+      <code class="code">checkIsbn</code>:</p><pre class="programlisting">Book.<span class="bold"><strong>checkIsbnAsId</strong></span> = function (id) {
+  var constraintViolation = Book.checkIsbn( id);
+  if ((constraintViolation instanceof NoConstraintViolation)) {
+    if (!id) {
+      constraintViolation = new <span class="bold"><strong>MandatoryValueConstraintViolation</strong></span>(
+          "A value for the ISBN must be provided!");
+    } else if (Book.instances[id]) {  
+      constraintViolation = new <span class="bold"><strong>UniquenessConstraintViolation</strong></span>(
+          "There is already a book record with this ISBN!");
+    } else {
+      constraintViolation = new NoConstraintViolation();
+    } 
+  }
+  return constraintViolation;
+};</pre><p>We assume that all check functions and setters can deal both with
+      proper data values (that are of the attribute's range type) and also
+      with string values that are supposed to represent proper data values,
+      but have not yet been converted to the attribute's range type. We take
+      this approach for avoiding datatype conversions in the user interface
+      ("view") code. Notice that all data entered by a user in an HTML form
+      field is of type String and must be converted (or de-serialized) before
+      its validity can be checked and it can be assigned to the corresponding
+      property. It is preferable to perform these type conversions in the
+      model code, and not in the user interface code..</p><p>For instance, in our example app, we have the integer-valued
+      attribute <code class="code">year</code>. When the user has entered a value for this
+      attribute in a corresponding form field, in the <span class="italic">Create</span> or <span class="italic">Update</span> user interface, the form field holds a
+      string value. This value is passed to the <code class="code">Book.add</code> or
+      <code class="code">Book.update</code> method, which invokes the <code class="code">setYear</code>
+      and <code class="code">checkYear</code> methods. Only after being validated, this
+      string value is converted to an integer and assigned to the
+      <code class="code">year</code> attribute.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5327"></a>5.4.&nbsp;Code the property setters</h3></div></div></div><p>Code the setter operations as (instance-level) methods. In the
+      setter, the corresponding check function is invoked and the property is
+      only set, if the check does not detect any constraint violation.
+      Otherwise, the <span class="italic">constraint violation</span>
+      error object returned by the check function is thrown. For instance, the
+      <code class="code">setIsbn</code> operation is coded in the following way:
+      </p><pre class="programlisting">Book.prototype.<span class="bold"><strong>setIsbn</strong></span> = function (id) {
+  var validationResult = Book.checkIsbnAsId( id);
+  if (validationResult instanceof NoConstraintViolation) {
+    this.isbn = id;
+  } else {
+    throw validationResult;
+  }
+};</pre><p>There are similar setters for the other properties
+      (<code class="code">title</code>, <code class="code">year</code> and <code class="code">edition</code>).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5338"></a>5.5.&nbsp;Add a serialization function</h3></div></div></div><p>It is helpful to have an object serialization function tailored to
+      the structure of an object (as defined by its class) such that the
+      result of serializing an object is a human-readable string
+      representation of the object showing all relevant information items of
+      it. By convention, these functions are called <code class="code">toString()</code>.
+      In the case of the <code class="code">Book</code> class, we use the following code:
+      </p><pre class="programlisting">Book.prototype.<span class="bold"><strong>toString</strong></span> = function () {
+  return "Book{ ISBN:" + this.isbn + ", title:" + this.title +
+      ", year:" + this.year + (this.edition || "") +"}"; 
+};</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="d5e5345"></a>5.6.&nbsp;Data management operations</h3></div></div></div><p>In addition to defining the model class in the form of a
+      constructor function with property definitions, checks and setters, as
+      well as a <code class="code">toString()</code> serialization function, we also need
+      to define the following data management operations as class-level
+      methods of the model class: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><code class="code">Book.convertRec2Obj</code> and
+            <code class="code">Book.retrieveAll</code> for loading all managed Book
+            instances from the persistent data store.</p></li><li class="listitem"><p><code class="code">Book.saveAll</code> for saving all managed Book
+            instances to the persistent data store.</p></li><li class="listitem"><p><code class="code">Book.add</code> for creating a new Book instance and
+            adding it to the collection of all Book instances.</p></li><li class="listitem"><p><code class="code">Book.update</code> for updating an existing Book
+            instance.</p></li><li class="listitem"><p><code class="code">Book.destroy</code> for deleting a Book
+            instance.</p></li><li class="listitem"><p><code class="code">Book.createTestData</code> for creating a few sample
+            book records to be used as test data.</p></li><li class="listitem"><p><code class="code">Book.clearData</code> for clearing the book data
+            store.</p></li></ol></div><p>All of these methods essentially have the same code as in our
+      <span class="italic">minimal app</span> discussed in Part 1,
+      except that now </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>we may have to catch constraint violations in suitable
+            try-catch blocks in the procedures
+            <code class="code">Book.convertRec2Obj</code>, <code class="code">Book.add</code>,
+            <code class="code">Book.update</code> and
+            <code class="code">Book.createTestData</code>;</p></li><li class="listitem"><p>we create more informative status and error log messages for
+            better observing what's going on; and</p></li><li class="listitem"><p>we can use the <code class="code">toString()</code> function for
+            serializing an object in status and error messages.</p></li></ol></div><p>Notice that for the change operations <code class="code">add</code> (create)
+      and <code class="code">update</code>, we need to implement an all-or-nothing policy:
+      whenever there is a constraint violation for a property, no new object
+      must be created and no (partial) update of the affected object must be
+      performed.</p><p>When a constraint violation is detected in one of the setters
+      called when <code class="code">new Book(...)</code> is invoked in
+      <code class="code">Book.add</code>, the object creation attempt fails, and instead a
+      constraint violation error message is created. Otherwise, the new book
+      object is added to <code class="code">Book.instances</code> and a status message is
+      created, as shown in the following program listing: </p><pre class="programlisting">Book.<span class="bold"><strong>add</strong></span> = function (slots) {
+  var book = null;
+  try {
+    book = new Book( slots);
+  } catch (e) {
+    console.log( e.constructor.name +": "+ e.message);
+    book = null;
+  }
+  if (book) {
+    Book.instances[book.isbn] = book;
+    console.log( book.toString() + " created!");
+  }
+};</pre><p>When an object of a model class is to be updated, we first create
+      a clone of it for being able to restore it if the update attempt fails.
+      In the object update attempt, we only assign those properties of the
+      object the value of which has changed, and we report this in a status
+      log.</p><p>Normally, all properties defined by a model class, except the
+      standard identifier attribute, can be updated. It is, however, possible
+      to also allow updating the standard identifier attribute. This requires
+      special care for making sure that all references to the given object via
+      its old standard identifier are updated as well.</p><p>When a constraint violation is detected in one of the setters
+      invoked in <code class="code">Book.update</code>, the object update attempt fails,
+      and instead the error message of the constraint violation object thrown
+      by the setter and caught in the <code class="code">update</code> method is shown, and
+      the previous state of the object is restored. Otherwise, a status
+      message is created, as shown in the following program listing:</p><pre class="programlisting">Book.<span class="bold"><strong>update</strong></span> = function (slots) {
+  var book = Book.instances[slots.isbn],
+      noConstraintViolated = true,
+      updatedProperties = [],
+      objectBeforeUpdate = <span class="bold"><strong>util.cloneObject</strong></span>( book);
+  try {
+    if (book.title !== slots.title) {
+      book.setTitle( slots.title);
+      updatedProperties.push("title");
+    }
+    if (book.year !== parseInt( slots.year)) {
+      book.setYear( slots.year);
+      updatedProperties.push("year");
+    }
+    if (slots.edition &amp;&amp; slots.edition !== book.edition) {
+      // slots.edition has a non-empty value that is new
+      book.setEdition( slots.edition);
+      updatedProperties.push("edition");
+    } else if (!slots.edition &amp;&amp; book.edition !== undefined) {
+      // slots.edition has an empty value that is new
+      delete book.edition;
+      updatedProperties.push("edition");
+    }
+  } catch (e) {...}
+  ...
+};</pre><p>Notice that optional properties, like <code class="code">edition</code>, need
+      to be treated in a special way. If the user doesn't enter any value for
+      them in a <span class="italic">Create</span> or <span class="italic">Update</span> user interface, the form field's value
+      is the empty string <code class="code">""</code>. In the case of an optional
+      property, this means that the property is not assigned a value in the
+      <span class="italic">add</span> use case, or that it is <span class="italic">unset</span> if it has had a value in the <span class="italic">update</span> use case. This is different from the
+      case of a mandatory property, where the empty string value obtained from
+      an empty form field may or may not be an admissible value.</p><p>If there is a constraint violation exception, an error message is
+      written to the log and the object concerned is reset to its previous
+      state:</p><pre class="programlisting">Book.<span class="bold"><strong>update</strong></span> = function (slots) {
+  ...
+  try {
+    ...
+  } catch (e) {
+    console.log( e.constructor.name +": "+ e.message);
+    noConstraintViolated = false;
+    // restore object to its state before updating
+    <span class="bold"><strong>Book.instances[slots.isbn] = objectBeforeUpdate</strong></span>;
+  }
+  if (noConstraintViolated) {
+    if (updatedProperties.length &gt; 0) {
+      console.log("Properties " + updatedProperties.toString() +
+          " modified for book " + slots.isbn);
+    } else {
+      console.log("No property value changed for book " + 
+          slots.isbn + " !");
+    }
+  }
+};</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.&nbsp;Set up the Folder Structure Adding Some Library Files&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;6.&nbsp;Write the View Code</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch08s05.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:56 GMT -->
+</html>

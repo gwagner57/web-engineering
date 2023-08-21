@@ -1,0 +1,60 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch05s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;From a Conceptual Model via a Design Model to Class Models</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Information Modeling"><link rel="prev" href="ch05s02.html" title="2.&nbsp;Connecting Classes with Associations"><link rel="next" href="ch05s04.html" title="4.&nbsp;Excursion: Formalizing Information Models with RDF and OWL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;From a Conceptual Model via a Design Model to Class Models</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;5.&nbsp;Information Modeling</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e3740"></a>3.&nbsp;From a Conceptual Model via a Design Model to Class Models</h2></div></div></div><p>In a new development project, we start our analysis and modeling
+    effort with making a <span class="italic">conceptual</span>
+    information model. This type of model is also called <span class="italic">domain</span> model since it describes the entities of a
+    given (real-world) problem domain, and does not model software
+    entities.</p><p>Recall the <span class="italic">conceptual information
+    model</span> for books obtained as the result of the
+    <span class="emphasis"><em>inception phase</em></span>:</p><div class="informalfigure"><div class="mediaobject"><img src="../fig/Class-books-with-2-compartments-no-details.svg"></div></div><p>Taking this conceptual model as a starting point, we have to make a
+    number of design decisions for obtaining an <span class="italic">information design model</span>:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>What are the ranges of the properties <code class="code">isbn</code>,
+        <code class="code">title</code> and <code class="code">year</code>?</p></li><li class="listitem"><p>Which property is the <span class="italic">standard
+        identifier (ID)</span> attribute?</p></li><li class="listitem"><p>Which constraints should be defined?</p></li><li class="listitem"><p>Which methods/functions should be part of the design?</p></li></ol></div><p>The result of this <span class="italic">design phase</span>
+    is a design model like the following:</p><div class="informalfigure"><div class="mediaobject"><img src="../fig/Class-Book-with-3-compartments.svg"></div></div><p>It is important to understand that such a design model provides an
+    implementation-agnostic (platform-independent) computational design, that
+    is, it does not use any concept or syntax of any specific programming
+    language or technology. Therefore, the same design model can be used for
+    deriving different <span class="italic">platform-specific
+    implementation models</span> for different programming languages or
+    technologies, such as for a Java- or PHP-based framework, or for a plain
+    JavaScript approach.</p><p>Based on the design model, by replacing the platform-independent
+    datatype names with JavaScript-specific datatype names, and by adding
+    "setter" methods, we obtain the following JavaScript implementation model,
+    which we prefer to call a <span class="italic">JavaScript class
+    model</span>:</p><div class="informalfigure"><div class="mediaobject"><img src="../fig/Book-simplified_JsM.svg"></div></div><p>Notice that in this model, we have used the JavaScript datatypes
+    <code class="code">string</code> and <code class="code">number</code>, and we have added the methods
+    <code class="code">setISBN</code>, <code class="code">setTitle</code> and <code class="code">setYear</code>.
+    These &#8220;setter&#8221; methods are supposed to be used for setting a property to a
+    new value, instead of directly assigning the value to the property.</p><p>Having a setter method for each property is a best-practice approach
+    that allows more control over property value assignments. For instance, we
+    could check the validity of values before they are assigned, or we could
+    notify other modules of the app about the assignment event.</p><p>The <span class="italic">implementation phase</span> consists
+    of making an implementation model for a specific technology platform, and
+    then coding this model and testing the resulting program code. In this
+    book, we make both JavaScript class models and Java class models, which
+    are subsequently coded in plain JavaScript and in Java EE,
+    respectively.</p><p>The entire transformation chain, from a conceptual model via a
+    design model to a JavaScript class model (as a special type of
+    implementation model), is summarized in the following figure.</p><div class="figure"><a name="figBookCM2DM2IM"></a><p class="title"><b>Figure&nbsp;5.1.&nbsp;From a conceptual model via a design model to a JavaScript class
+      model</b></p><div class="figure-contents"><div class="informaltable"><table frame="void"><tbody><tr>
+            <td><div class="mediaobject"><img src="../fig/Class-books-with-2-compartments-no-details.svg" alt="From a conceptual model via a design model to a JavaScript class model"></div></td>
+
+            <td><div class="mediaobject"><img src="../fig/Rightarrow.png" alt="From a conceptual model via a design model to a JavaScript class model"></div></td>
+
+            <td><div class="mediaobject"><img src="../fig/Class-Book-with-3-compartments.svg" alt="From a conceptual model via a design model to a JavaScript class model"></div></td>
+
+            <td><div class="mediaobject"><img src="../fig/Rightarrow.png" alt="From a conceptual model via a design model to a JavaScript class model"></div></td>
+
+            <td><div class="mediaobject"><img src="../fig/Book-simplified_JsM.svg" alt="From a conceptual model via a design model to a JavaScript class model"></div></td>
+          </tr></tbody></table></div></div></div><br class="figure-break"><p>In summary, the process of model-based development takes a <span class="italic">conceptual model</span> as the starting point for making
+    a general (platform-independent) <span class="italic">design
+    model</span>, from which one or more <span class="italic">implementation models</span> for a (set of) specific
+    target technologies can be derived. Typically, they include a <span class="italic">class model</span> for an object-oriented programming
+    language and a database model for an SQL DBMS. This process is illustrated
+    by the following diagram:</p><div class="figure"><a name="figCM2DM2IM"></a><p class="title"><b>Figure&nbsp;5.2.&nbsp;From a conceptual model via design models to implementation
+      models</b></p><div class="figure-contents"><div class="mediaobject"><img src="../fig/MDD-Tranformations.svg" width="648" alt="From a conceptual model via design models to implementation models"></div></div></div><br class="figure-break"></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Connecting Classes with Associations&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;Excursion: Formalizing Information Models with RDF and OWL</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch05s03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:50 GMT -->
+</html>

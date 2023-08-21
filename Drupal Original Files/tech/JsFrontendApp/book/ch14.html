@@ -1,0 +1,146 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch14.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;14.&nbsp;Bidirectional Associations Practice Projects</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="pt04.html" title="Part&nbsp;IV.&nbsp;Associations"><link rel="prev" href="ch13s04.html" title="4.&nbsp;Quiz Questions"><link rel="next" href="ch14s02.html" title="2.&nbsp;Assign cities to a country and members to an organization, and vice versa"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;14.&nbsp;Bidirectional Associations Practice Projects</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13s04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;IV.&nbsp;Associations</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">Next</a></td></tr></table><hr></div><div lang="" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="d5e8211"></a>Chapter&nbsp;14.&nbsp;Bidirectional Associations Practice Projects</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch14.html#d5e8230">1. Assign directors/actors to movies and movies to
+    directors/actors</a></span></dt><dt><span class="section"><a href="ch14s02.html">2. Assign cities to a country and members to an organization, and vice
+    versa</a></span></dt></dl></div><p>All projects include the following tasks:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Make an <span class="italic">
+           
+
+          <span class="bold"><strong>OO class model</strong></span>
+
+           
+        </span> derived from the given information design model. Hint:
+      replace associations with corresponding reference properties.</p></li><li class="listitem"><p>Make a <span class="italic">
+           
+
+          <span class="bold"><strong>JavaScript class model</strong></span>
+
+           
+        </span> or a <span class="italic">
+           
+
+          <span class="bold"><strong>Java Entity class model</strong></span>
+
+           
+        </span> derived from the OO class model. Hint: add check and
+      setter methods.</p></li><li class="listitem"><p>Code your JavaScript class model or Java Entity class model,
+      following the provided guidelines.</p></li></ol></div><p>Make sure that your pages comply with the XML syntax of HTML5, and
+  that your JavaScript code complies with our <a class="link" href="http://oxygen.informatik.tu-cottbus.de/webeng/Coding-Guidelines.html" target="_top">Coding
+  Guidelines</a> and is checked with JSHint (<a class="link" href="http://www.jshint.com/" target="_top">http://www.jshint.com</a>).</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e8230"></a>1.&nbsp;Assign directors/actors to movies and movies to
+    directors/actors</h2></div></div></div><p>This project is based on the information design model below. The app
+    from the previous assignment is to be extended by adding <span class="bold"><strong>
+         
+
+        <span class="italic">derived inverse reference
+        properties</span>
+
+         
+      </strong></span> for implementing the bidirectional associations. This is
+    achieved by adding the multi-valued reference properties
+    <code class="code">directedMovies</code> and <code class="code">playedMovies</code> to the model
+    class <code class="code">Person</code>, both with range <code class="code">Movie</code>.</p><div class="informalfigure"><a name="figMovieBidirAssAppPP"></a><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="400"><tr><td><img src="../../fig/Movie-Person-bidirAssoc_DesM.svg" width="400"></td></tr></table></div></div><p>You can use the following sample data for testing your app:</p><div class="informaltable"><table frame="void"><thead><tr>
+          <th colspan="5">Movies</th>
+        </tr><tr>
+          <th>Movie ID</th>
+
+          <th>Title</th>
+
+          <th>Release date</th>
+
+          <th>Director</th>
+
+          <th>Actors</th>
+        </tr></thead><tbody><tr>
+          <td>1</td>
+
+          <td>Pulp Fiction</td>
+
+          <td>1994-05-12</td>
+
+          <td>1</td>
+
+          <td>5, 6</td>
+        </tr><tr>
+          <td>2</td>
+
+          <td>Dangerous Liaisons</td>
+
+          <td>1988-12-16</td>
+
+          <td>2</td>
+
+          <td>7, 5</td>
+        </tr><tr>
+          <td>3</td>
+
+          <td>Inglourious Basterds</td>
+
+          <td>2009-05-20</td>
+
+          <td>1</td>
+
+          <td>9, 1</td>
+        </tr></tbody></table></div><div class="informaltable"><table frame="void"><thead><tr>
+          <th colspan="4">People</th>
+        </tr><tr>
+          <th>Person ID</th>
+
+          <th>Name</th>
+
+          <th>Directed movies</th>
+
+          <th>Played movies</th>
+        </tr></thead><tbody><tr>
+          <td>1</td>
+
+          <td>Quentin Tarantino</td>
+
+          <td>1, 3</td>
+
+          <td>3</td>
+        </tr><tr>
+          <td>2</td>
+
+          <td>Stephen Frears</td>
+
+          <td>2</td>
+
+          <td></td>
+        </tr><tr>
+          <td>5</td>
+
+          <td>Uma Thurman</td>
+
+          <td></td>
+
+          <td>1, 2</td>
+        </tr><tr>
+          <td>6</td>
+
+          <td>John Travolta</td>
+
+          <td></td>
+
+          <td>1</td>
+        </tr><tr>
+          <td>7</td>
+
+          <td>Keanu Reeves</td>
+
+          <td></td>
+
+          <td>2</td>
+        </tr><tr>
+          <td>9</td>
+
+          <td>Brad Pitt</td>
+
+          <td></td>
+
+          <td>3</td>
+        </tr></tbody></table></div><p>More movie data can be found at the <a class="link" href="https://www.imdb.com/" target="_top">IMDb website</a>.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13s04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.&nbsp;Quiz Questions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Assign cities to a country and members to an organization, and vice
+    versa</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch14.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:33 GMT -->
+</html>

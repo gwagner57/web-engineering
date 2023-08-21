@@ -1,0 +1,176 @@
+<html>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps</title><link rel="stylesheet" type="text/css" href="../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Web Applications with JavaScript or Java"><link rel="up" href="pt01.html" title="Part&nbsp;I.&nbsp;Getting Started"><link rel="prev" href="ch03s11.html" title="11.&nbsp;Practice Projects"><link rel="next" href="ch04s02.html" title="2.&nbsp;Step 1 - Set up the Folder Structure"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s11.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;I.&nbsp;Getting Started</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s02.html">Next</a></td></tr></table><hr></div><div lang="en" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="chMinimalJava"></a>Chapter&nbsp;4.&nbsp;Building a Minimal Web App with Java EE in Seven Steps</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch04.html#d5e2484">1. Java Basics</a></span></dt><dt><span class="section"><a href="ch04s02.html">2. Step 1 - Set up the Folder Structure</a></span></dt><dt><span class="section"><a href="ch04s03.html">3. Step 2 - Write the Model Code</a></span></dt><dd><dl><dt><span class="section"><a href="ch04s03.html#d5e2754">3.1. Storing <code class="code">Book</code> objects in a database table
+      <code class="code">books</code></a></span></dt><dt><span class="section"><a href="ch04s03.html#sectionCreateAndPersistInstance">3.2. Creating a new <code class="code">Book</code> instance and storing it</a></span></dt><dt><span class="section"><a href="ch04s03.html#sectionLoadAllInstances">3.3. Retrieving all <code class="code">Book</code> instances</a></span></dt><dt><span class="section"><a href="ch04s03.html#sectionUpdateObjectInstance">3.4. Updating a <code class="code">Book</code> instance</a></span></dt><dt><span class="section"><a href="ch04s03.html#sectionDeleteObjectInstance">3.5. Deleting a <code class="code">Book</code> instance</a></span></dt><dt><span class="section"><a href="ch04s03.html#d5e2857">3.6. Creating test data</a></span></dt><dt><span class="section"><a href="ch04s03.html#d5e2865">3.7. Clearing all data</a></span></dt></dl></dd><dt><span class="section"><a href="ch04s04.html">4. Step 3 - Configure the App</a></span></dt><dd><dl><dt><span class="section"><a href="ch04s04.html#sectionJPAEmAndUtObjects">4.1. Create the EntityManager and UserTransaction objects</a></span></dt><dt><span class="section"><a href="ch04s04.html#sectJpaDb">4.2. Configure the JPA database connection</a></span></dt><dt><span class="section"><a href="ch04s04.html#d5e2991">4.3. Create the main template</a></span></dt><dt><span class="section"><a href="ch04s04.html#sectionDefineManagedBeans">4.4. Define the managed beans needed in facelets</a></span></dt><dt><span class="section"><a href="ch04s04.html#sectionBuildWarAndDeploy">4.5. Build the WAR file and deploy it to TomEE</a></span></dt></dl></dd><dt><span class="section"><a href="ch04s05.html">5. Step 4 - Implement the <span class="italic">Create</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="ch04s06.html">6. Step 5 - Implement the <span class="italic">Retrieve/List
+    All</span> Use Case</a></span></dt><dt><span class="section"><a href="ch04s07.html">7. Step 6 - Implement the <span class="italic">Update</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="ch04s08.html">8. Step 7 - Implement the <span class="italic">Delete</span>
+    Use Case</a></span></dt><dt><span class="section"><a href="ch04s09.html">9. Style the User Interface with CSS</a></span></dt><dt><span class="section"><a href="ch04s10.html">10. Run the App and Get the Code</a></span></dt><dt><span class="section"><a href="ch04s11.html">11. Possible Variations and Extensions</a></span></dt><dd><dl><dt><span class="section"><a href="ch04s11.html#d5e3423">11.1. Using resource URLs</a></span></dt><dt><span class="section"><a href="ch04s11.html#d5e3427">11.2. Using an alternative DBMS</a></span></dt></dl></dd><dt><span class="section"><a href="ch04s12.html">12. Points of Attention</a></span></dt><dd><dl><dt><span class="section"><a href="ch04s12.html#d5e3453">12.1. Boilerplate code</a></span></dt><dt><span class="section"><a href="ch04s12.html#d5e3464">12.2. Offline availability</a></span></dt><dt><span class="section"><a href="ch04s12.html#d5e3467">12.3. Architectural separation of concerns</a></span></dt></dl></dd><dt><span class="section"><a href="ch04s13.html">13. Practice Projects</a></span></dt><dd><dl><dt><span class="section"><a href="ch04s13.html#d5e3504">13.1. Project 1 - Managing information about movies</a></span></dt><dt><span class="section"><a href="ch04s13.html#d5e3517">13.2. Project 2 - Managing information about countries</a></span></dt></dl></dd><dt><span class="section"><a href="ch04s14.html">14. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch04s14.html#d5e3531">14.1. Question 1: Casting types in Java</a></span></dt><dt><span class="section"><a href="ch04s14.html#d5e3547">14.2. Question 2: JPA standard identifier property</a></span></dt><dt><span class="section"><a href="ch04s14.html#d5e3555">14.3. Question 3: Valid Java Bean classes</a></span></dt><dt><span class="section"><a href="ch04s14.html#d5e3571">14.4. Question 4: HTML5 attributes with JSF forms</a></span></dt><dt><span class="section"><a href="ch04s14.html#d5e3578">14.5. Question 5: JPQL query</a></span></dt></dl></dd></dl></div><p>In this <span class="phrase">chapter,</span>   we show how to build a simple Java
+  EE<a class="indexterm" name="d5e2402"></a> web application using the <span class="emphasis"><em>Java Persistence
+  API<a class="indexterm" name="d5e2405"></a> (JPA<a class="indexterm" name="d5e2408"></a>)</em></span> for object-to-storage mapping and <span class="emphasis"><em>Java
+  Server Faces<a class="indexterm" name="d5e2412"></a> (JSF<a class="indexterm" name="d5e2415"></a>)</em></span> as the user interface (or "view") technology.
+  Such an application requires a web server that supports the Java EE
+  specifications <span class="italic">Java Servlets</span>, <span class="italic">Java Expression Language (EL)</span>, JPA and JSF, such as
+  the open source web server <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">Tomcat/TomEE</a>
+  (pronounced "Tommy"). In addition to the Java code executed on the back-end
+  computer that runs the TomEE web server, a Java EE web app also consists of
+  HTML, CSS and possibly some auxiliary JavaScript code that is executed by a
+  web browser running on the user's front-end computer. Since essentially all
+  data processing is performed on the back-end, and the front-end only renders
+  the user interface, we classify Java EE web applications as <span class="italic">back-end web apps</span>.</p><p>We show how to develop, deploy and run a simple example app using the
+  <span class="bold"><strong><span class="italic">TomEE<a class="indexterm" name="d5e2425"></a></span></strong></span> web server, which is Apache Tomcat
+  extended by adding basic Java EE features for providing an execution
+  environment for light-weight Java EE web apps. We assume that you have
+  already installed the <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">TomEE Plume</a>
+  server and <a class="link" href="http://www.mysql.com/" target="_top">MySQL</a>. Then
+  simply follow our <a class="link" href="../../JavaJpaJsfApp/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" target="_top">installation
+  and configuration instructions</a>.</p><p>The purpose of our minimal example app is to manage information about
+  books. For simplicity, we deal with a single object type <code class="code">Book</code>,
+  as depicted in <a class="xref" href="ch04.html#java_figBook" title="Figure&nbsp;4.1.&nbsp;The object type Book.">Figure&nbsp;4.1</a>.</p><div class="figure"><a name="java_figBook"></a><p class="title"><b>Figure&nbsp;4.1.&nbsp;The object type <code class="code">Book</code>.</b></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="170"><tr><td><img src="../fig/Book.svg" width="170" alt="The object type Book."></td></tr></table></div></div></div><br class="figure-break"><p>The following table shows a sample data population for the model class
+  <code class="code">Book</code>.</p><div class="table"><a name="tblBooksJava"></a><p class="title"><b>Table&nbsp;4.1.&nbsp;Sample data about books</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+        <th>ISBN</th>
+
+        <th>Title</th>
+
+        <th>Year</th>
+      </tr></thead><tbody><tr>
+        <td>006251587X</td>
+
+        <td>Weaving the Web</td>
+
+        <td>2000</td>
+      </tr><tr>
+        <td>0465026567</td>
+
+        <td>G&ouml;del, Escher, Bach</td>
+
+        <td>1999</td>
+      </tr><tr>
+        <td>0465030793</td>
+
+        <td>I Am A Strange Loop</td>
+
+        <td>2008</td>
+      </tr></tbody></table></div></div><br class="table-break"><p>What do we need for a data management app? There are four standard us
+  e cases, which have to be supported by the app: </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong>Create</strong></span> a new book record by
+        allowing the user to enter the data of a book that is to be added to
+        the collection of stored book records.</p></li><li class="listitem"><p><span class="bold"><strong>Retrieve</strong></span> (or <span class="italic">read</span>) all books from the data store and show
+        them in the form of a list.</p></li><li class="listitem"><p><span class="bold"><strong>Update</strong></span> the data of a book
+        record.</p></li><li class="listitem"><p><span class="bold"><strong>Delete</strong></span> a book record.</p></li></ol></div><p>These four standard use cases, and the corresponding data management
+  operations, are often summarized with the acronym <span class="italic">CRUD</span>.</p><p>For entering data with the help of the keyboard and the screen of our
+  computer, we use <span class="italic"><span class="bold"><strong>HTML
+  forms</strong></span></span>, which provide the <span class="bold"><strong><span class="italic">user interface</span></strong></span>
+  technology for web applications.</p><p>For any data management app, we need a technology that allows to store
+  data in persistent records on a secondary storage device, such as a
+  hard-disk or a solid state disk. JPA allows using a great number of
+  different data storage technologies, including many SQL database management
+  systems (DBMS) such as Oracle, MySQL and PostgreSQL. We don't have to change
+  much in the application code for switching from one storage technology to
+  another. Adding the right driver implementation to our Java runtime
+  environment, properly setting up the DBMS and changing the database access
+  configuration is in general all we need to do. In our example application,
+  we explain how to set up the JPA configuration for MySQL.</p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e2484"></a>1.&nbsp;Java Basics</h2></div></div></div><p>Compared to JavaScript, what is different in Java? We list a few
+    observations:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p><span class="bold"><strong>No program without a class</strong></span>: Any
+        Java<a class="indexterm" name="d5e2491"></a> program must include at least one class.</p></li><li class="listitem"><p><span class="bold"><strong>Java is strongly typed</strong></span>:
+        Properties, parameters and variables must be declared to be of some
+        type.</p></li><li class="listitem"><p><span class="bold"><strong>No global variables, no global
+        procedures</strong></span>: In Java, variables, procedures and functions
+        must be defined in the context of a class, which provides their name
+        space.</p></li><li class="listitem"><p><span class="bold"><strong>Arrays are static</strong></span>: Arrays have
+        a fixed size, which cannot be changed at run-time.</p></li><li class="listitem"><p><span class="bold"><strong>No object without a class</strong></span>: For
+        creating an object, a class has to be used (or defined) for
+        </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>defining the properties of the object's property
+              slots</p></li><li class="listitem"><p>defining the methods and functions that can be applied to
+              the object (and all other objects instantiating the
+              class)</p></li></ul></div></li><li class="listitem"><p>Classes, properties and methods are defined with a <span class="bold"><strong>visibility</strong></span> level (<code class="code">public</code>,
+        <code class="code">protected</code> or <code class="code">private</code>), which restricts their
+        accessibility.</p></li><li class="listitem"><p><span class="bold"><strong>Type parameters</strong></span>: Classes and
+        complex data structures (such as lists) can be defined with the help
+        of type parameters. See, for instance, the <a class="link" href="https://docs.oracle.com/javase/tutorial/java/generics/types.html" target="_top">generics
+        tutorial</a> by Oracle.</p></li><li class="listitem"><p><span class="bold"><strong>Java programs must be compiled</strong></span>
+        before they can be executed.</p></li><li class="listitem"><p><span class="bold"><strong>Speed</strong></span>: Java is about twice as
+        fast as optimized JavaScript.</p></li></ol></div><p>In Java, visibility levels are used to define the possible levels of
+    access: </p><div class="table"><a name="d5e2527"></a><p class="title"><b>Table&nbsp;4.2.&nbsp;Java Visibility Level</b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+            <th></th>
+
+            <th>Class</th>
+
+            <th>Package</th>
+
+            <th>Subclass</th>
+
+            <th>World</th>
+          </tr></thead><tbody><tr>
+            <th>public</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+          </tr><tr>
+            <th>protected</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>n</th>
+          </tr><tr>
+            <th>no modifier</th>
+
+            <th>y</th>
+
+            <th>y</th>
+
+            <th>n</th>
+
+            <th>n</th>
+          </tr><tr>
+            <th>private</th>
+
+            <th>y</th>
+
+            <th>n</th>
+
+            <th>n</th>
+
+            <th>n</th>
+          </tr></tbody></table></div></div><p><br class="table-break">Normally, properties are defined as private, such that they can
+    only be assigned with a public setter, which allows to control, and
+    possibly log, any change of the property value. Unfortunately, Java does
+    not allow to protect only write, but not read access. Therefore, we always
+    have to define getters along with setters, even if they are not
+    needed.</p><p>A <span class="italic"><span class="bold"><strong>Java bean
+    class</strong></span></span> (or, simply, <span class="italic">bean
+    class<a class="indexterm" name="d5e2565"></a></span>) is a Java class with a parameter-free
+    constructor where all properties are serializable and have a
+    <code class="code">get</code> and <code class="code">set</code> method (also called "getter" and
+    "setter"). A Java bean is an object created with the help of a bean
+    class.</p><p>A <span class="italic"><span class="bold"><strong>JPA entity
+    class</strong></span></span> (or, simply, <span class="italic">entity
+    class</span><span class="italic"><a class="indexterm" name="d5e2575"></a></span>) is a Java bean class with an
+    <code class="code">@Entity</code> annotation, implying that a Java EE runtime
+    environment (such as provided by the <a class="link" href="http://tomee.apache.org/apache-tomee.html" target="_top">TomEE PLUS</a>
+    web server) will take care of the persistent storage of its
+    instances.</p><p><span class="bold"><strong><span class="italic">JPA</span></strong></span><a class="indexterm" name="d5e2583"></a> is a Java API for the management of persistent data in Java
+    applications. It uses the <span class="italic">Java Persistence Query
+    Language<a class="indexterm" name="d5e2587"></a> (JPQL)</span>, a platform-independent object-oriented
+    query language based on SQL. JPQL query expressions look very similar to
+    SQL query expressions, but they are executed in the context of JPA entity
+    objects.</p><p><span class="bold"><strong><span class="italic">JSF</span></strong></span><a class="indexterm" name="d5e2594"></a> is a Java specification for building component-based user
+    interfaces for web applications. Its current version, JSF 2, by default,
+    uses <span class="bold"><strong><span class="italic">Facelets</span></strong></span> as its view technology. By
+    contrast, JSF 1 has used <span class="italic">JavaServer Pages
+    (JSP)</span> as its default view technology.</p><p>A <span class="emphasis"><em>JSF facelet</em></span><a class="indexterm" name="d5e2602"></a> is an XML-based template that combines static UI content
+    items with data variables for generating an XHTML user interface
+    page.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s11.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt01.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">11.&nbsp;Practice Projects&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Step 1 - Set up the Folder Structure</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/book/WebApp1/ch04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:48 GMT -->
+</html>

@@ -1,0 +1,45 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;4.&nbsp;Integrity Constraints and Data Validation</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Front-End Web Apps with Plain JavaScript"><link rel="up" href="pt02.html" title="Part&nbsp;II.&nbsp;Integrity Constraints"><link rel="prev" href="pt02.html" title="Part&nbsp;II.&nbsp;Integrity Constraints"><link rel="next" href="ch04s02.html" title="2.&nbsp;Integrity Constraints"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;4.&nbsp;Integrity Constraints and Data Validation</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="pt02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;II.&nbsp;Integrity Constraints</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s02.html">Next</a></td></tr></table><hr></div><div lang="en-US" class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="chapConstrVal"></a>Chapter&nbsp;4.&nbsp;Integrity Constraints and Data Validation</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch04.html#d5e2635">1. Introduction</a></span></dt><dt><span class="section"><a href="ch04s02.html">2. Integrity Constraints</a></span></dt><dd><dl><dt><span class="section"><a href="ch04s02.html#d5e2726">2.1. String Length Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2743">2.2. Mandatory Value Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2774">2.3. Range Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2803">2.4. Interval Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2832">2.5. Pattern Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2864">2.6. Cardinality Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2891">2.7. Uniqueness Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2915">2.8. Standard Identifiers (Primary Keys)</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2938">2.9. Referential Integrity Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2942">2.10. Frozen and Read-Only Value Constraints</a></span></dt><dt><span class="section"><a href="ch04s02.html#d5e2967">2.11. Beyond property constraints</a></span></dt></dl></dd><dt><span class="section"><a href="ch04s03.html">3. Responsive Validation</a></span></dt><dt><span class="section"><a href="ch04s04.html">4. Constraint Validation in MVC Applications</a></span></dt><dt><span class="section"><a href="ch04s05.html">5. Adding Constraints to a Design Model</a></span></dt><dt><span class="section"><a href="ch04s06.html">6. Summary</a></span></dt><dt><span class="section"><a href="ch04s07.html">7. Quiz Questions</a></span></dt><dd><dl><dt><span class="section"><a href="ch04s07.html#d5e3178">7.1. Question 1: Where to check constraints</a></span></dt><dt><span class="section"><a href="ch04s07.html#d5e3187">7.2. Question 2: Where to define constraints</a></span></dt><dt><span class="section"><a href="ch04s07.html#d5e3198">7.3. Question 3: Counting constraints</a></span></dt><dt><span class="section"><a href="ch04s07.html#d5e3206">7.4. Question 4: Constraint names</a></span></dt><dt><span class="section"><a href="ch04s07.html#d5e3230">7.5. Question 5: Compliant objects</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e2635"></a>1.&nbsp;Introduction</h2></div></div></div><p>For detecting non-admissible and inconsistent data and for
+    preventing such data to be added to an application's database, we need to
+    define suitable <span class="bold"><strong><span class="italic">integrity
+    constraints</span></strong></span><a class="indexterm" name="d5e2640"></a> that can be used by the application's <span class="bold"><strong><span class="italic">data validation</span></strong></span>
+    mechanisms for catching these cases of flawed data. Integrity constraints
+    are logical conditions that must be satisfied by the data entered by a
+    user and stored in the application's database.</p><p>For instance, if an application is managing data about persons
+    including their birth dates and their death dates, then we must make sure
+    that for any person record with a death date, this date is not before that
+    person's birth date.</p><p>Since <span class="italic">integrity maintenance</span> is
+    fundamental in database management, the <span class="italic">data
+    definition language</span> part of the <span class="italic">relational database language SQL</span><a class="indexterm" name="d5e2649"></a> supports the definition of integrity constraints in various
+    forms. On the other hand, however, there is hardly any support for
+    integrity constraints and data validation in common programming languages
+    such as PHP, Java, C# or JavaScript. It is therefore important to take a
+    systematic approach to constraint validation in web application
+    engineering, like choosing an application development framework that
+    provides sufficient support for it.</p><p>Unfortunately, many web application development frameworks do not
+    provide sufficient support for defining integrity constraints and
+    performing data validation. Integrity constraints should be defined in one
+    (central) place in an app, and then be used for configuring the user
+    interface and for validating data in different parts of the app, such as
+    in the user interface and in the database. In terms of usability, the
+    goals should be:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>To prevent the user from entering invalid data in the user
+          interface (UI) by limiting the input options, if possible.</p></li><li class="listitem"><p>To detect and reject invalid user input as early as possible
+          by performing constraint validation in the UI for those UI widgets
+          where invalid user input cannot be prevented by limiting the input
+          options.</p></li><li class="listitem"><p>To prevent that invalid data pollutes the app's main memory
+          state and persistent database state by performing constraint
+          validation also in the model layer and in the database.</p></li></ol></div><p>HTML5 provides support for validating user input in an
+    HTML-forms-based user interface (UI). Here, the goal is to provide
+    immediate feedback to the user whenever invalid data has been entered into
+    a form field. This UI mechanism of <span class="italic"><span class="bold"><strong>responsive validation</strong></span></span><a class="indexterm" name="d5e2662"></a> is an important feature of modern web applications. In
+    traditional web applications, the back-end component validates the data
+    and returns the validation results in the form of a set of error messages
+    to the front-end. Only then, often several seconds later, and in the
+    hard-to-digest form of a bulk message, does the user get the validation
+    feedback.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="pt02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Part&nbsp;II.&nbsp;Integrity Constraints&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;Integrity Constraints</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JsFrontendApp/book/ch04.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:29 GMT -->
+</html>

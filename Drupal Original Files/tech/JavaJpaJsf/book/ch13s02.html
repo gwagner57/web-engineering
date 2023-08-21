@@ -1,0 +1,76 @@
+<html>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch13s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.&nbsp;Make a JPA Entity Class Model</title><link rel="stylesheet" type="text/css" href="../../docbook.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index-2.html" title="Building Back-End Web Apps with Java, JPA and JSF"><link rel="up" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Implementing Unidirectional Non-Functional Associations with Java, JPA and JSF"><link rel="prev" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Implementing Unidirectional Non-Functional Associations with Java, JPA and JSF"><link rel="next" href="ch13s03.html" title="3.&nbsp;New issues"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.&nbsp;Make a JPA Entity Class Model</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;13.&nbsp;Implementing Unidirectional Non-Functional Associations with Java, JPA and JSF</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e4723"></a>2.&nbsp;Make a JPA Entity Class Model</h2></div></div></div><p>The starting point for making a JavaScript data model is an association-free information
+   design model where reference properties represent associations. The following model for our
+   example app contains the multi-valued reference property <code class="code">Book::authors</code>, which
+   represents the unidirectional many-to-many association <span class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span class="italic">Author</span>:</p><div class="mediaobject"><img src="../../fig/Publisher-Book-Author_Unidir_AFM.svg"></div><p>This model contains, in addition to the unidirectional many-to-one association <span class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span class="italic">Publisher</span>, the unidirectional many-to-many association <span class="italic">Book</span>-<span class="bold"><strong>has</strong></span>-<span class="italic">Author</span>,
+   which corresponds to the multi-valued reference property <code class="code">Book::authors</code>. </p><p>The meaning of the design model and its reference properties <code class="code">publisher</code> and
+    <code class="code">authors</code> can be illustrated by a sample data population for the three model
+   classes:</p><div class="table"><a name="d5e4744"></a><p class="title"><b>Table&nbsp;13.1.&nbsp;Sample data for <code class="code">Publisher</code></b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+     <th>Name</th>
+     <th>Address</th>
+    </tr></thead><tbody><tr>
+     <td>Bantam Books</td>
+     <td>New York, USA</td>
+    </tr><tr>
+     <td>Basic Books</td>
+     <td>New York, USA</td>
+    </tr></tbody></table></div></div><br class="table-break"><div class="table"><a name="d5e4758"></a><p class="title"><b>Table&nbsp;13.2.&nbsp;Sample data for <code class="code">Book</code></b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+     <th>ISBN</th>
+     <th>Title</th>
+     <th>Year</th>
+     <th>Authors</th>
+     <th>Publisher</th>
+    </tr></thead><tbody><tr>
+     <td>0553345842</td>
+     <td>The Mind's I</td>
+     <td>1982</td>
+     <td>1, 2</td>
+     <td>Bantam Books</td>
+    </tr><tr>
+     <td>1463794762</td>
+     <td>The Critique of Pure Reason</td>
+     <td>2011</td>
+     <td>3</td>
+     <td></td>
+    </tr><tr>
+     <td>1928565379</td>
+     <td>The Critique of Practical Reason</td>
+     <td>2009</td>
+     <td>3</td>
+     <td></td>
+    </tr><tr>
+     <td>0465030793</td>
+     <td>I Am A Strange Loop</td>
+     <td>2000</td>
+     <td>2</td>
+     <td>Basic Books</td>
+    </tr></tbody></table></div></div><br class="table-break"><div class="table"><a name="d5e4793"></a><p class="title"><b>Table&nbsp;13.3.&nbsp;Sample data for <code class="code">Author</code></b></p><div class="table-contents"><table frame="box" rules="all"><thead><tr>
+     <th>Author ID</th>
+     <th>Name</th>
+    </tr></thead><tbody><tr>
+     <td>1</td>
+     <td>Daniel Dennett</td>
+    </tr><tr>
+     <td>2</td>
+     <td>Douglas Hofstadter</td>
+    </tr><tr>
+     <td>3</td>
+     <td>Immanuel Kant</td>
+    </tr></tbody></table></div></div><br class="table-break"><p>We obtain the JPA entity class <code class="code">Author</code> from the corresponding information design
+   class, as explained in the previous parts of this tutorial, by (1) replacing the stereotype
+   &laquo;stdid&raquo; with the property modifier {id}, (2) making all properties private, (3) using Java
+   datatypes, (4) adding public getters and setters, (5) adding a <code class="code">toString</code> function,
+   (6) adding the data storage methods <code class="code">add</code>, <code class="code">retrieve</code>, <code class="code">update</code>
+   and <code class="code">destroy</code>, as well as the helper methods <code class="code">clearData</code> and
+    <code class="code">createTestData</code>:</p><div class="mediaobject"><img src="../../fig/Author_JavaEE.svg"></div><p>In the JPA entity class model, for any dot on a non-functional association end in the design
+   model, such as the dot on the <code class="code">Author</code> association end in the class diagram above, we
+   show the reference property representing the association end and annotate it with the
+   functionality type of the unidirectional association represented by it. In our example, we add a
+   reference property <code class="code">authors</code> in the entity class <code class="code">Book</code> and annotate it
+   with the association's functionality type <code class="code">manyToMany</code>:</p><div class="mediaobject"><img src="../../fig/Book-with-authors_JavaEE.svg"></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;13.&nbsp;Implementing Unidirectional Non-Functional Associations with Java, JPA and JSF&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index-2.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;New issues</td></tr></table></div></body>
+<!-- Mirrored from web-engineering.info/tech/JavaJpaJsf/book/ch13s02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jul 2023 10:59:41 GMT -->
+</html>
