@@ -223,7 +223,26 @@
                                         <div class="field-item even" property="content:encoded">
                                           <h2>Test the Drag &amp; Drop Mechanism</h2>
 
-                                          
+                                          <script>
+                                              function handleDragStart(evt) {
+                                                evt.dataTransfer.dropEffect = 'copy';
+                                                evt.dataTransfer.setData("text/plain", evt.target.id);
+                                              }
+                                            function handleDragOver(evt) {
+                                              // allow dropping by preventing the default behavior
+                                              evt.preventDefault();
+                                            }
+                                            function handleDrop(evt) {
+                                              var elId = evt.dataTransfer.getData("text/plain"),
+                                                el = document.getElementById(elId),
+                                                x = evt.clientX, y = evt.clientY;
+                                              el.style.position = "absolute";
+                                              el.style.left = x + "px";
+                                              el.style.top = y + "px";
+                                              el.textContent = "Moved to " + x + "/" + y;
+                                              evt.preventDefault();
+                                            }
+                                          </script>
                                           <div id="dropZone" ondragover="handleDragOver(event)"
                                             ondrop="handleDrop(event)"
                                             style="width: 800px; height: 300px; background-color: pink; margin-bottom:1em">
