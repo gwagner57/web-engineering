@@ -3,6 +3,8 @@
 <html lang="en" dir="ltr"
   prefix="fb: http://ogp.me/ns/fb# content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
 
+
+
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
 <head>
@@ -14,13 +16,14 @@
     content="Prerequisites Preparing the environment to run a Java EE web application (with JPA and JSF) requires a set of tools and APIs that are described below. The order of installing and testing the components is relevant in some cases, therefore we recommend to do it in the order described below. The Java Development Kit Java JDK 8, known as Java Development Kit, is required to" />
   <meta name="HandheldFriendly" content="true" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <link rel="canonical" href="../Setup-JPA-and-JSF/Setup-Backend-for-JPA-and-JSF-Web-Applications.html" />
-  <link rel="shortlink" href="66.html" />
+  <link rel="canonical" href="Setup-Backend-for-JPA-and-JSF-Web-Applications.html" />
+  <link rel="shortlink" href="../node/66.html" />
   <title>Getting ready to run Java EE Web Applications | web-engineering.info</title>
   <link rel="stylesheet" href="../../_includes/modules/system/system.base5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/modules/system/system.theme5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/modules/system/system.menus5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/modules/system/system.messages5056.css" type="text/css" media="all">
-  <link rel="stylesheet" href="../../_includes/modules/system/system.theme5056.css" type="text/css" media="all">
+  
   <link rel="stylesheet" href="../../_includes/modules/comment/comment5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/modules/field/theme/field5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/modules/node/node5056.css" type="text/css" media="all">
@@ -28,60 +31,39 @@
   <link rel="stylesheet" href="../../_includes/modules/user/user5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/modules/forum/forum5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/sites/all/modules/views/css/views5056.css" type="text/css" media="all">
-  <link rel="stylesheet" href="../../_includes/sites/all/modules/ckeditor/css/ckeditor5056.css" type="text/css"
-    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/ckeditor/css/ckeditor5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/sites/all/modules/ctools/css/ctools5056.css" type="text/css" media="all">
-  <link rel="stylesheet"
-    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css" type="text/css"
-    media="screen">
-  <link rel="stylesheet"
-    href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css" type="text/css"
-    media="screen">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css"
-    type="text/css" media="screen">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/webeng.custom5056.css" type="text/css"
-    media="all">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/html-elements5056.css" type="text/css"
-    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/advanced_forum/styles/naked/advanced-forum.naked.structure5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/advanced_forum/styles/silver_bells/advanced-forum.silver_bells.style5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/advanced_forum/styles/naked/advanced-forum.naked.images5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/modules/advanced_forum/styles/silver_bells/advanced-forum.silver_bells.images5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.headings5056.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.settings.style.image5056.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/adaptivetheme/at_core/css/at.layout5056.css" type="text/css" media="screen">
+  
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/webeng.custom5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/html-elements5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/forms5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/tables5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/page5056.css" type="text/css" media="all">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/articles5056.css" type="text/css"
-    media="all">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/comments5056.css" type="text/css"
-    media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/articles5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/comments5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/fields5056.css" type="text/css" media="all">
   <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/blocks5056.css" type="text/css" media="all">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/navigation5056.css" type="text/css"
-    media="all">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/corolla.settings.style5056.css"
-    type="text/css" media="all">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/color/colors5056.css" type="text/css"
-    media="all">
-  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/print5056.css" type="text/css"
-    media="print">
-  <link type="text/css" rel="stylesheet"
-    href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css"
-    media="only screen" />
-  <link rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css"
-    type="text/css" media="screen">
-  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.custom5056.css"
-    media="only screen" />
-  <link type="text/css" rel="stylesheet"
-    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css"
-    media="only screen and (max-width:320px)" />
-  <link type="text/css" rel="stylesheet"
-    href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css"
-    media="only screen and (min-width:321px) and (max-width:480px)" />
-  <link type="text/css" rel="stylesheet"
-    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.portrait5056.css"
-    media="only screen and (min-width:481px) and (max-width:768px)" />
-  <link type="text/css" rel="stylesheet"
-    href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.landscape5056.css"
-    media="only screen and (min-width:769px) and (max-width:1024px)" />
-  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.desktop5056.css"
-    media="only screen and (min-width:1025px)" />
-
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/navigation5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/corolla.settings.style5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/color/colors5056.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/print5056.css" type="text/css" media="print">
+  
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.responsive.layout5056.css" media="only screen" />
+  <link rel="stylesheet" href="../../_includes/sites/default/files/adaptivetheme/corolla_files/corolla.fonts5056.css" type="text/css" media="screen">
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.custom5056.css" media="only screen" />
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.portrait5056.css" media="only screen and (max-width:320px)" />
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.smartphone.landscape5056.css" media="only screen and (min-width:321px) and (max-width:480px)" />
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.portrait5056.css" media="only screen and (min-width:481px) and (max-width:768px)" />
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.tablet.landscape5056.css" media="only screen and (min-width:769px) and (max-width:1024px)" />
+  <link type="text/css" rel="stylesheet" href="../../_includes/sites/all/themes/corolla/css/responsive.desktop5056.css" media="only screen and (min-width:1025px)" />
+      
 </head>
 
 <body
@@ -541,14 +523,12 @@ Caused by: java.lang.NullPointerException
                               title="A WoT system is a communication network consisting of sensor nodes, actuator nodes and service nodes connected to the Internet and built with web technologies.">Web
                               of Things (WoT)</a></li>
                           <li class="leaf menu-depth-1 menu-item-613"><a href="../../forum/index.html"
-                              title="">Discussion
-                              Forums</a>
+                              title="">Discussion Forums</a>
                           </li>
                           <li class="leaf menu-depth-1 menu-item-720"><a href="../../team/index.html"
                               title="Team members list.">Team</a></li>
                           <li class="last leaf menu-depth-1 menu-item-554"><a
-                              href="../../contribute/index.html">Contribute
-                              / Support Us</a>
+                              href="../../contribute/index.html">Contribute / Support Us</a>
                           </li>
                         </ul>
                       </div>
